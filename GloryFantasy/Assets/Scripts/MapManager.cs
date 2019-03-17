@@ -1,22 +1,13 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using MapManager;
 using Random = UnityEngine.Random;
+using LitJson;
+using System.IO;
 
 namespace MapManager
 
 {
-    public enum Area{
-        A=1,
-        B,
-        C,
-        D,
-        E,
-        normal,
-        other
-    }
-
     public class MapManager : MonoBehaviour {
 
         private static MapManager instance = new MapManager();
@@ -25,7 +16,7 @@ namespace MapManager
 
         private MapManager() {
             // TODO : 添加初始化地图的方法
-            for_demo_init();
+            //for_demo_init();
             InitMapBlocks();
             InstantiateTiles();
         }
@@ -46,57 +37,46 @@ namespace MapManager
 
         public GameObject[] enemys;             // 存储敌方单位素材的数组
 
-        private GameObject[][] all_tiles;
-
         private Transform tilesHolder;          // 存储所有地图单位引用的变量
-
-        private Area[,] map;
         
-        // 记录怪物出现的坐标
-        private List <Vector3> gridPositions = new List <Vector3> ();
+        // 记录json中token不为空的坐标，待后续处理
+        private List <Vector3> specialPositions = new List <Vector3> ();
 
-        // 地图区域标注--为demo准备的
-        private void for_demo_init()
+        private void InitMapBlocks()
         {
-            map = new Area[,]
-            {
-                {Area.A,      Area.A,       Area.A,     Area.normal, Area.normal, Area.C, Area.C, Area.C},
-                {Area.A,      Area.A,       Area.A,     Area.normal, Area.normal, Area.C, Area.C, Area.C},
-                {Area.A,      Area.A,       Area.B,     Area.B,      Area.B,      Area.C, Area.C, Area.C},
-                {Area.A,      Area.A,       Area.B,     Area.B,      Area.B,      Area.C, Area.C, Area.C},
-                {Area.normal, Area.normal,  Area.other, Area.B,      Area.B,      Area.C, Area.C, Area.C},
-                {Area.normal, Area.normal,  Area.other, Area.other,  Area.E,      Area.E, Area.E, Area.E},
-                {Area.D,      Area.D,       Area.D,     Area.other,  Area.E,      Area.E, Area.E, Area.E},
-                {Area.D,      Area.D,       Area.D,     Area.normal, Area.E,      Area.E, Area.E, Area.E}
-            };
-        }
+            // 更改地图数据位置则需修改此处路径
+            JsonData mapData = JsonMapper.ToObject(File.ReadAllText("测试地图.json"));
 
-        private void InitMapBlocks() {
-            this.mapBlocks = new MapBlock[columns,rows];
-            for(int i = columns-1; i > 0; i--) {
-                for(int j = 0; j < rows; j++) {
-                    this.mapBlocks[i, j] = new MapBlock(Terrain.TERRAIN_GRASS, map[i, j]);
+            mapBlocks = new MapBlock[columns, rows];
+            for( int i =0; i< mapData.Count;i++)
+            {
+                int x = (int)mapData[i]["x"];
+                int y = (int)mapData[i]["y"];
+                mapBlocks[x, y] = new MapBlock((int)mapData[i]["area"]);
+
+                int tokenCount = mapData[i]["token"].Count;
+                if (tokenCount > 0)
+                {
+                    specialPositions.Add(new Vector3(x, y, 0f));
+                    mapBlocks[x, y].data = new string[tokenCount];
+                    for ( int j =0; j < tokenCount; j++)
+                    {
+                        mapBlocks[x, y].data[j] = mapData[i]["token"][j].ToString();
+                    }
                 }
             }
         }
 
         private void InstantiateTiles()
         {
-            all_tiles = new GameObject[][] {
-                A_tiles,
-                B_tiles,
-                C_tiles,
-                D_tiles,
-                E_tiles,
-                normal_tiles,
-                other_tiles
-            };
-
+            // TODO : 根据规则（暂时不明）进行地图实例化
+            /*
             for(int i = columns - 1; i > 0; i--)
             {
                 for(int j = 0; j < rows; j++)
                 {
-                    GameObject[] target_tile = all_tiles[(int)map[i, j]];
+                    //GameObject[] target_tile = all_tiles[(int)map[i, j]];
+                    
                     GameObject toInstantiate = target_tile[Random.Range(0, target_tile.Length)];
                     GameObject instance =
                         Instantiate(toInstantiate, new Vector3(i, j, 0f), Quaternion.identity) as GameObject;
@@ -104,6 +84,7 @@ namespace MapManager
                     instance.transform.SetParent(tilesHolder);
                 }
             }
+            */
         }
 
         public MapBlock GetSpecificMapBlock(int x, int y)

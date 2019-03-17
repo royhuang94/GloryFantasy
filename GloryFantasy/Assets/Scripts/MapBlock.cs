@@ -6,37 +6,27 @@ using Unit = GameUnit.GameUnit;
 namespace MapManager
 
 {
-    public enum Terrain{
-        TERRAIN_GRASS,
-        TERRAIN_HILL,
-        TERRAIN_RIVER
-        //TODO: 以上地形枚举只是随便写的，请依据需求改写
-    }
     public class MapBlock : MonoBehaviour {
-        public Terrain terrain;
-        public Area area;
+        public int area { get; set; }
+        public string[] data { get; set; }
         public List <Unit> units_on_me = new List <Unit> ();
 
-        public MapBlock(Terrain terrain, Area area) {
-            this.terrain = terrain;
+        public MapBlock(int area)
+        {
             this.area = area;
+            this.data = null;
+        }
+
+        public MapBlock(int area, string[] data) {
+            this.area = area;
+            this.data = data;
         }
 
         public MapBlock() {
-            this.terrain = Terrain.TERRAIN_GRASS;
-            this.area = Area.normal;
+            this.area = 0;
+            this.data = null;
         }
-
-        public void setTerrain(Terrain terrain) {
-            this.terrain = terrain;
-        }
-
-        public void setArea(Area area) {
-            this.area = area;
-        }
-
-        public Terrain GetTerrain() { return this.terrain; }
-        public Area GetAreaNum() { return this.area; }
+        
         public List<Unit> GetGameUnits() { return this.units_on_me; }
 
         public void addUnit(Unit unit) {
