@@ -20,7 +20,8 @@ enum TriggerType
     Kill,
     BeKilled,
     Dead,
-    ToBeKilled
+    ToBeKilled,
+    Move
 };
 
 public class Info
@@ -44,6 +45,11 @@ public class Info
     public GameUnit.GameUnit Killer; //击杀者
     public GameUnit.GameUnit KilledUnit; //被杀者
     public GameUnit.GameUnit Dead; //死者
+
+    /// <summary>
+    /// 被UI选定的Unit单位
+    /// </summary>
+    public GameUnit.GameUnit SelectingUnit;
 }
 
 public class Damage
@@ -51,8 +57,11 @@ public class Damage
 
 }
 
+public class DamageRequest { }
+
 public class Gameplay
 {
+    public static Info Info;
     public RoundProcessController roundProcessController;
 
     public void HandleInput() { }
