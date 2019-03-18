@@ -99,7 +99,7 @@ namespace IMessage
                 if ((MonoBehaviour)handler.receiver != null)
                 {
 
-                    //单点广播
+                    //单播
                     if (targetReceiver != null)
                     {
                         if (targetReceiver == handler.receiver)
