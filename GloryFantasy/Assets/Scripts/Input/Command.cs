@@ -6,7 +6,7 @@ using GameUnit;
 
 public class Command
 {
-    virtual public void excute() { }
+    virtual public void Excute() { }
 
     protected void SetAttacker(GameUnit.GameUnit unit)
     {
@@ -26,7 +26,26 @@ public class Command
         return Gameplay.Info.AttackedUnit;
     }
 
-    GameUnit.GameUnit GetSelectingUnit()
+    protected void SetInjurer(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.Injurer = unit;
+    }
+    protected void SetInjuredUnit(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.InjuredUnit = unit;
+    }
+
+    protected void SetKiller(GameUnit.GameUnit killer)
+    {
+        Gameplay.Info.Killer = killer;
+    }
+    protected void SetKilledAndDeadUnit(GameUnit.GameUnit killedUnit)
+    {
+        Gameplay.Info.KilledUnit = killedUnit;
+        Gameplay.Info.Dead = killedUnit;
+    }
+
+    protected GameUnit.GameUnit GetSelectingUnit()
     {
         return Gameplay.Info.SelectingUnit;
     }
@@ -34,7 +53,7 @@ public class Command
 
 public class SelectUnitCommand : Command
 {
-    public override void excute()
+    public override void Excute()
     {
         Gameplay.Info.SelectingUnit = _unit;
     }
@@ -49,7 +68,7 @@ public class UnitMoveCommand :Command
         _unit = unit;
     }
 
-    public override void excute()
+    public override void Excute()
     {
     }
 
@@ -64,13 +83,19 @@ public class UnitAttackCommand :Command
         _AttackedUnit = AttackedUnit; SetAttackedUnit(AttackedUnit);
     }
 
-    public override void excute()
+    public override void Excute()
     {
-
         MsgDispatcher.SendMsg((int)TriggerType.AnnounceAttack);
+
+        DamageRequest.CaculateDamageRequestList(DamageRequestList, _Attacker, _AttackedUnit);
+
+        for (int i = 0; i < DamageRequestList.Count; i++)
+        {
+
+        }
     }
 
-    //private DamageRequestList
+    private List<DamageRequest> DamageRequestList;
     private GameUnit.GameUnit _Attacker; //宣言攻击者
     private GameUnit.GameUnit _AttackedUnit; //被攻击者
 }

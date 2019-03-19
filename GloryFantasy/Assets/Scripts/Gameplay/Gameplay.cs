@@ -26,6 +26,7 @@ enum TriggerType
 
 public class Info
 {
+
     public Player RoundOwned; //回合所属
     public Player Caster; //施放者
     public Player CastingCard; //施放的牌
@@ -50,14 +51,33 @@ public class Info
     /// 被UI选定的Unit单位
     /// </summary>
     public GameUnit.GameUnit SelectingUnit;
+
+    public Info Clone()
+    {
+        Info other = new Info();
+        other.RoundOwned = this.RoundOwned;
+        other.Caster = this.Caster;
+        other.CastingCard = this.CastingCard;
+        other.SummonersController = this.SummonersController;
+        other.SummonUnit = this.SummonUnit;
+        other.Drawer = this.Drawer;
+        other.CaughtCard = this.CaughtCard;
+        other.HandAdder = this.HandAdder;
+        other.AddingCard = this.AddingCard;
+        other.Attacker = this.Attacker;
+        other.AttackedUnit = this.AttackedUnit;
+        other.AbilitySpeller = this.AbilitySpeller;
+        other.SpellingAbility = this.SpellingAbility;
+        other.Injurer = this.Injurer;
+        other.InjuredUnit = this.InjuredUnit;
+        other.damage = this.damage;
+        other.Killer = this.Killer;
+        other.KilledUnit = this.KilledUnit;
+        other.Dead = this.Dead;
+
+        return other;
+    }
 }
-
-public class Damage
-{
-
-}
-
-public class DamageRequest { }
 
 public class Gameplay
 {
