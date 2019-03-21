@@ -5,6 +5,13 @@
 [Bb]uilds/
 [Ll]ogs/
 
+GloryFantasy/[Ll]ibrary/
+GloryFantasy/[Tt]emp/
+GloryFantasy/[Oo]bj/
+GloryFantasy/[Bb]uild/
+GloryFantasy/[Bb]uilds/
+GloryFantasy/[Ll]ogs/
+
 # Never ignore Asset meta data
 ![Aa]ssets/**/*.meta
 
