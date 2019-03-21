@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using LitJson;
 using System.IO;
+using Unit = GameUnit.GameUnit;
 
 namespace MapManager
 
@@ -14,7 +15,17 @@ namespace MapManager
 
         public static MapManager getInstance() { return instance; }
 
-        private MapManager() {
+        private MapManager()
+        {
+            
+        }
+
+        private void Awake()
+        {
+            InitMap();
+        }
+
+        public void InitMap() {
             // TODO : 添加初始化地图的方法
             //for_demo_init();
             InitMapBlocks();
@@ -25,7 +36,7 @@ namespace MapManager
         public int columns = 8;                 // 地图方块每行的数量
         public int rows = 8;                    // 地图方块每列的数量
 
-        private MapBlock[,] mapBlocks;
+        private MapBlock[,] _mapBlocks;
         public GameObject[] A_tiles;            // 区域 A prefabs的数组
         public GameObject[] B_tiles;            // 区域 B prefabs的数组
         public GameObject[] C_tiles;            // 区域 C prefabs的数组
@@ -37,7 +48,7 @@ namespace MapManager
 
         public GameObject[] enemys;             // 存储敌方单位素材的数组
 
-        private Transform tilesHolder;          // 存储所有地图单位引用的变量
+        private Transform _tilesHolder;          // 存储所有地图单位引用的变量
         
         // 记录json中token不为空的坐标，待后续处理
         private List <Vector3> specialPositions = new List <Vector3> ();
@@ -45,23 +56,21 @@ namespace MapManager
         private void InitMapBlocks()
         {
             // 更改地图数据位置则需修改此处路径
-            JsonData mapData = JsonMapper.ToObject(File.ReadAllText("测试地图.json"));
+            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Map/测试地图.json"));
 
-            mapBlocks = new MapBlock[columns, rows];
+            _mapBlocks = new MapBlock[columns, rows];
             for( int i =0; i< mapData.Count;i++)
             {
                 int x = (int)mapData[i]["x"];
                 int y = (int)mapData[i]["y"];
-                mapBlocks[x, y] = new MapBlock((int)mapData[i]["area"]);
+                _mapBlocks[x, y] = new MapBlock((int)mapData[i]["area"]);
 
                 int tokenCount = mapData[i]["token"].Count;
                 if (tokenCount > 0)
                 {
                     specialPositions.Add(new Vector3(x, y, 0f));
-                    mapBlocks[x, y].data = new string[tokenCount];
+                    //_mapBlocks[x, y].data = new string[tokenCount];
                     for ( int j =0; j < tokenCount; j++)
-<<<<<<< HEAD
-=======
                         _mapBlocks[x, y].addUnit(InitGameUnit(mapData[i]["token"][j]));
                 }
             }
@@ -69,7 +78,17 @@ namespace MapManager
 
         private Unit InitGameUnit(JsonData unit)
         {
-            
+            Unit newUnit = gameObject.AddComponent<Unit>();
+            newUnit.Name = unit["name"].ToString();
+            newUnit.id = unit["id"].ToString();
+            newUnit.cost = (int) unit["cost"];
+            newUnit.atk = (int) unit["atk"];
+            newUnit.def = (int) unit["def"];
+            newUnit.mov = (int) unit["mov"];
+            newUnit.rng = (int) unit["rng"];
+            newUnit.owner = unit["owner"].ToString();
+            newUnit.ralatedCardID = (int)unit["ralatedCardID"];
+            /*
             Unit newUnit = new Unit(
                 unit["name"].ToString(),
                 unit["id"].ToString(),
@@ -80,7 +99,7 @@ namespace MapManager
                 (int) unit["rng"],
                 unit["owner"].ToString(),
                 (int) unit["ralatedCardID"]
-            );
+            );*/
             string[] labes = {"tag", "triggered", "active"};
             for (int i = 0; i < labes.Length; i++)
             {
@@ -94,37 +113,82 @@ namespace MapManager
                     }
 
                     switch (i)
->>>>>>> parent of d8bfa79... 细节微调MapManager，添加测试scene，能看到生成地图了
                     {
-                        mapBlocks[x, y].data[j] = mapData[i]["token"][j].ToString();
+                        case 0:
+                            newUnit.tag = data;
+                            break;
+                        case 1:
+                            newUnit.triggered = data;
+                            break;
+                        case 2:
+                            newUnit.active = data;
+                            break;
+                        default:
+                            Debug.Log("detected wrong index");
+                            break;
                     }
                 }
+
             }
+
+            return newUnit;
         }
 
         private void InstantiateTiles()
         {
-            // TODO : 根据规则（暂时不明）进行地图实例化
-            /*
+            // TODO : 根据规则（暂时不明）,下面是我编的,进行地图实例化
             for(int i = columns - 1; i > 0; i--)
             {
                 for(int j = 0; j < rows; j++)
                 {
-                    //GameObject[] target_tile = all_tiles[(int)map[i, j]];
+                    GameObject[] target_tile = null;
+                    switch (_mapBlocks[i, j].area)
+                    {
+                        case -1:
+                            target_tile = other_tiles;
+                            break;
+                        case 1:
+                            target_tile = normal_tiles;
+                            break;
+                        case 2:
+                            target_tile = A_tiles;
+                            break;
+                        case 3:
+                        case 4:
+                            target_tile = B_tiles;
+                            break;
+                        case 5:
+                        case 6:
+                            target_tile = C_tiles;
+                            break;
+                        case 7:
+                        case 8:
+                            target_tile = D_tiles;
+                            break;
+                        case 9:
+                        case 10:
+                            target_tile = E_tiles;
+                            break;
+                        default:
+                            Debug.Log("Unknown area type.");
+                            break;
+                    }
+
+                    if (target_tile == null)
+                        return;
                     
                     GameObject toInstantiate = target_tile[Random.Range(0, target_tile.Length)];
-                    GameObject instance =
+                    GameObject _instance =
                         Instantiate(toInstantiate, new Vector3(i, j, 0f), Quaternion.identity) as GameObject;
 
-                    instance.transform.SetParent(tilesHolder);
+                    _instance.transform.SetParent(_tilesHolder);
                 }
             }
-            */
         }
 
         public MapBlock GetSpecificMapBlock(int x, int y)
         {
-            return this.mapBlocks[x, y];
+            return this._mapBlocks[x, y];
         }
 
         public Vector2 GetCoordinate(MapBlock mapBlock)
@@ -133,7 +197,7 @@ namespace MapManager
             {
                 for(int j = 0; j< rows; j++)
                 {
-                    if(mapBlocks[i,j] == mapBlock)
+                    if(_mapBlocks[i,j] == mapBlock)
                     {
                         return new Vector2(i, j);
                     }
