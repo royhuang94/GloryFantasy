@@ -74,20 +74,7 @@
     {
         "area": 8,
         "token": [
-            {
-                "name":"超级生物",
-                "id":"superCreature_01",
-                "tag":["super","archer","beast"],
-                "cost":1,
-                "atk":1,
-                "def":2,
-                "mov":2,
-                "rng":2,
-                "owner":"player",
-                "triggered":[],
-                "active":[],
-                "ralatedCardID":-1
-            }
+            "\u4f0a\u62c9\u83ab\u65af"
         ],
         "x": 1,
         "y": 4
@@ -173,21 +160,7 @@
     {
         "area": 5,
         "token": [
-            {
-                "name":"超级战士",
-                "id":"superCreature_02",
-                "tag":["super","archer","beast"],
-                "cost":3,
-                "atk":2,
-                "def":6,
-                "mov":2,
-                "rng":1,
-                "owner":"CPU",
-                "triggered":[],
-                "active":[],
-                "ralatedCardID":-1
-            }
-
+            "\u4ece\u9a91\u58eb"
         ],
         "x": 3,
         "y": 2
@@ -254,7 +227,9 @@
     },
     {
         "area": 10,
-        "token": [],
+        "token": [
+            "\u4ece\u9a91\u58eb 1"
+        ],
         "x": 4,
         "y": 5
     },
@@ -338,7 +313,9 @@
     },
     {
         "area": 7,
-        "token": [],
+        "token": [
+            "\u5a01\u8bfa\u6069"
+        ],
         "x": 6,
         "y": 3
     },
