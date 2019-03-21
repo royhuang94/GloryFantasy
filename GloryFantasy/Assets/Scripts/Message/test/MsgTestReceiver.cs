@@ -33,7 +33,7 @@ public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
 //TODO:扩充这个ITrigger
 namespace ITrigger
 {
-    class Trigger : Command
+    class Trigger : GameplayTool
     {
         public int msgName;
         public IMessage.Condition condition;

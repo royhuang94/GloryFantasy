@@ -26,10 +26,9 @@ enum TriggerType
 
 public class Info
 {
-
     public Player RoundOwned; //回合所属
     public Player Caster; //施放者
-    public Player CastingCard; //施放的牌
+    public Card CastingCard; //施放的牌
     public Player SummonersController; //召唤单位的控制者
     public List<GameUnit.GameUnit> SummonUnit; //召唤的单位
     public Player Drawer; //抓牌者
@@ -77,6 +76,153 @@ public class Info
 
         return other;
     }
+}
+
+/// <summary>
+///查询环境变量的方法类
+/// </summary>
+public class GameplayTool
+{
+    public GameplayTool()
+    {
+        Info = Gameplay.Info;
+    }
+
+    protected void SetRoundOwned(Player player)
+    {
+        Gameplay.Info.RoundOwned = player;
+    }
+    protected Player GetRoundOwned()
+    {
+        return Gameplay.Info.RoundOwned;
+    }
+
+    protected void SetCaster(Player player)
+    {
+        Gameplay.Info.Caster = player;
+    }
+    protected Player GetCaster()
+    {
+        return Gameplay.Info.Caster;
+    }
+
+    protected void SetCastingCard(Card card)
+    {
+        Info.CastingCard = card;
+    }
+    protected Card GetCastingCard()
+    {
+        return Info.CastingCard;
+    }
+
+    protected void SetSummonersController(Player player)
+    {
+        Info.SummonersController = player;
+    }
+    protected Player GetSummonersController()
+    {
+        return Info.SummonersController;
+    }
+
+    protected void SetSummonUnit(List<GameUnit.GameUnit> units)
+    {
+        Info.SummonUnit = units;
+    }
+    protected List<GameUnit.GameUnit> GetSummonUnit()
+    {
+        return Info.SummonUnit;
+    }
+
+    protected void SetDrawer(Player player)
+    {
+        Info.Drawer = player;
+    }
+    protected Player GetDrawer()
+    {
+        return Info.Drawer;
+    }
+
+    protected void SetCaughtCard(List<Card> cards)
+    {
+        Info.CaughtCard = cards;
+    }
+    protected List<Card> GetCaughtCard()
+    {
+        return Info.CaughtCard;
+    }
+
+    protected void SetHandAdder(Player player)
+    {
+        Info.HandAdder = player;
+    }
+    protected Player GetHandAdder()
+    {
+        return Info.HandAdder;
+    }
+
+    protected void SetAddingCard(List<Card> cards)
+    {
+        Info.AddingCard = cards;
+    }
+    protected List<Card> GetAddingCard()
+    {
+        return Info.AddingCard;
+    }
+
+    protected void SetAttacker(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.Attacker = unit;
+    }
+    protected GameUnit.GameUnit GetAttacker()
+    {
+        return Gameplay.Info.Attacker;
+    }
+
+    protected void SetAttackedUnit(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.AttackedUnit = unit;
+    }
+    protected GameUnit.GameUnit GetAttackedUnit()
+    {
+        return Gameplay.Info.AttackedUnit;
+    }
+
+    protected void SetAbilitySpeller(GameUnit.GameUnit speller)
+    {
+        Info.AbilitySpeller = speller;
+    }
+    protected GameUnit.GameUnit GetAbilitySpeller()
+    {
+        return Info.AbilitySpeller;
+    }
+
+    
+
+    protected void SetInjurer(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.Injurer = unit;
+    }
+    protected void SetInjuredUnit(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.InjuredUnit = unit;
+    }
+
+    protected void SetKiller(GameUnit.GameUnit killer)
+    {
+        Gameplay.Info.Killer = killer;
+    }
+    protected void SetKilledAndDeadUnit(GameUnit.GameUnit killedUnit)
+    {
+        Gameplay.Info.KilledUnit = killedUnit;
+        Gameplay.Info.Dead = killedUnit;
+    }
+
+    protected GameUnit.GameUnit GetSelectingUnit()
+    {
+        return Gameplay.Info.SelectingUnit;
+    }
+
+    private Info Info;
 }
 
 public class Gameplay
