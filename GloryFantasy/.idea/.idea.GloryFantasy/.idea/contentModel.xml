@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\MAIBENBEN\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\MAIBENBEN\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_GloryFantasy.292704720.00" t="ExcludeRecursive" />
+    <e p="E:\GloryFantasy\GloryFantasy" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Scripts" t="Include">
+          <e p="Ability.cs" t="Include" />
+          <e p="Card.cs" t="Include" />
+          <e p="Gameplay" t="Include">
+            <e p="Damage.cs" t="Include" />
+            <e p="Gameplay.cs" t="Include" />
+            <e p="RoundProcessController.cs" t="Include" />
+          </e>
+          <e p="GameUnit.cs" t="Include" />
+          <e p="Input" t="Include">
+            <e p="Command.cs" t="Include" />
+          </e>
+          <e p="Map" t="Include">
+            <e p="MapBlock.cs" t="Include" />
+            <e p="MapManager.cs" t="Include" />
+          </e>
+          <e p="Message" t="Include">
+            <e p="MsgDispatcher.cs" t="Include" />
+            <e p="test" t="Include">
+              <e p="MsgTestButton.cs" t="Include" />
+              <e p="MsgTestReceiver.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Player.cs" t="Include" />
+        </e>
+      </e>
+      <e p="GloryFantasy.sln" t="IncludeFlat" />
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>
