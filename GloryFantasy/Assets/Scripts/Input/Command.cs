@@ -4,9 +4,51 @@ using UnityEngine;
 using IMessage;
 using GameUnit;
 
-public class Command : GameplayTool
+public class Command
 {
     virtual public void Excute() { }
+
+    protected void SetAttacker(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.Attacker = unit;
+    }
+    protected GameUnit.GameUnit GetAttacker()
+    {
+        return Gameplay.Info.Attacker;
+    }
+
+    protected void SetAttackedUnit(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.AttackedUnit = unit;
+    }
+    protected GameUnit.GameUnit GetAttackedUnit()
+    {
+        return Gameplay.Info.AttackedUnit;
+    }
+
+    protected void SetInjurer(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.Injurer = unit;
+    }
+    protected void SetInjuredUnit(GameUnit.GameUnit unit)
+    {
+        Gameplay.Info.InjuredUnit = unit;
+    }
+
+    protected void SetKiller(GameUnit.GameUnit killer)
+    {
+        Gameplay.Info.Killer = killer;
+    }
+    protected void SetKilledAndDeadUnit(GameUnit.GameUnit killedUnit)
+    {
+        Gameplay.Info.KilledUnit = killedUnit;
+        Gameplay.Info.Dead = killedUnit;
+    }
+
+    protected GameUnit.GameUnit GetSelectingUnit()
+    {
+        return Gameplay.Info.SelectingUnit;
+    }
 }
 
 public class SelectUnitCommand : Command
