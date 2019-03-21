@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using LitJson;
 using System.IO;
+using Unit = GameUnit.GameUnit;
 
 namespace MapManager
 
@@ -25,7 +26,7 @@ namespace MapManager
         public int columns = 8;                 // 地图方块每行的数量
         public int rows = 8;                    // 地图方块每列的数量
 
-        private MapBlock[,] mapBlocks;
+        private MapBlock[,] _mapBlocks;
         public GameObject[] A_tiles;            // 区域 A prefabs的数组
         public GameObject[] B_tiles;            // 区域 B prefabs的数组
         public GameObject[] C_tiles;            // 区域 C prefabs的数组
@@ -37,7 +38,7 @@ namespace MapManager
 
         public GameObject[] enemys;             // 存储敌方单位素材的数组
 
-        private Transform tilesHolder;          // 存储所有地图单位引用的变量
+        private Transform _tilesHolder;          // 存储所有地图单位引用的变量
         
         // 记录json中token不为空的坐标，待后续处理
         private List <Vector3> specialPositions = new List <Vector3> ();
@@ -47,24 +48,70 @@ namespace MapManager
             // 更改地图数据位置则需修改此处路径
             JsonData mapData = JsonMapper.ToObject(File.ReadAllText("测试地图.json"));
 
-            mapBlocks = new MapBlock[columns, rows];
+            _mapBlocks = new MapBlock[columns, rows];
             for( int i =0; i< mapData.Count;i++)
             {
                 int x = (int)mapData[i]["x"];
                 int y = (int)mapData[i]["y"];
-                mapBlocks[x, y] = new MapBlock((int)mapData[i]["area"]);
+                _mapBlocks[x, y] = new MapBlock((int)mapData[i]["area"]);
 
                 int tokenCount = mapData[i]["token"].Count;
                 if (tokenCount > 0)
                 {
                     specialPositions.Add(new Vector3(x, y, 0f));
-                    mapBlocks[x, y].data = new string[tokenCount];
+                    //_mapBlocks[x, y].data = new string[tokenCount];
                     for ( int j =0; j < tokenCount; j++)
-                    {
-                        mapBlocks[x, y].data[j] = mapData[i]["token"][j].ToString();
-                    }
+                        _mapBlocks[x, y].addUnit(InitGameUnit(mapData[i]["token"][j]));
                 }
             }
+        }
+
+        private Unit InitGameUnit(JsonData unit)
+        {
+            
+            Unit newUnit = new Unit(
+                unit["name"].ToString(),
+                unit["id"].ToString(),
+                (int) unit["cost"],
+                (int) unit["atk"],
+                (int) unit["def"],
+                (int) unit["mov"],
+                (int) unit["rng"],
+                unit["owner"].ToString(),
+                (int) unit["ralatedCardID"]
+            );
+            string[] labes = {"tag", "triggered", "active"};
+            for (int i = 0; i < labes.Length; i++)
+            {
+                int count = unit[labes[i]].Count;
+                if (count > 0)
+                {
+                    string[] data = new string[count];
+                    for (int j = 0; j < count; j++)
+                    {
+                        data[j] = unit[labes[i]][j].ToString();
+                    }
+
+                    switch (i)
+                    {
+                        case 0:
+                            newUnit.tag = data;
+                            break;
+                        case 1:
+                            newUnit.triggered = data;
+                            break;
+                        case 2:
+                            newUnit.active = data;
+                            break;
+                        default:
+                            Debug.Log("detected wrong index");
+                            break;
+                    }
+                }
+
+            }
+
+            return newUnit;
         }
 
         private void InstantiateTiles()
@@ -89,7 +136,7 @@ namespace MapManager
 
         public MapBlock GetSpecificMapBlock(int x, int y)
         {
-            return this.mapBlocks[x, y];
+            return this._mapBlocks[x, y];
         }
 
         public Vector2 GetCoordinate(MapBlock mapBlock)
@@ -98,7 +145,7 @@ namespace MapManager
             {
                 for(int j = 0; j< rows; j++)
                 {
-                    if(mapBlocks[i,j] == mapBlock)
+                    if(_mapBlocks[i,j] == mapBlock)
                     {
                         return new Vector2(i, j);
                     }
