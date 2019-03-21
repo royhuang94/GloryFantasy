@@ -5,12 +5,12 @@
 [Bb]uilds/
 [Ll]ogs/
 
-GloryFantasy/[Ll]ibrary/
-GloryFantasy/[Tt]emp/
-GloryFantasy/[Oo]bj/
-GloryFantasy/[Bb]uild/
-GloryFantasy/[Bb]uilds/
-GloryFantasy/[Ll]ogs/
+#GloryFantasy/[Ll]ibrary/
+#GloryFantasy/[Tt]emp/
+#GloryFantasy/[Oo]bj/
+#GloryFantasy/[Bb]uild/
+#GloryFantasy/[Bb]uilds/
+#GloryFantasy/[Ll]ogs/
 
 # Never ignore Asset meta data
 ![Aa]ssets/**/*.meta
@@ -20,6 +20,9 @@ GloryFantasy/[Ll]ogs/
 
 # TextMesh Pro files
 [Aa]ssets/TextMesh*Pro/
+
+#Idea cache directory
+.idea/
 
 # Visual Studio cache directory
 .vs/
@@ -59,6 +62,3 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
-GloryFantasy/Library/metadata/07/072450ffed31fe545a60f71f33f53916
-GloryFantasy/Library/metadata/0d/0d3bb855445e36e479c85976fc88383a
-GloryFantasy/Library/metadata/12/12fd8a0055b84bb59e84c9835a37e333
