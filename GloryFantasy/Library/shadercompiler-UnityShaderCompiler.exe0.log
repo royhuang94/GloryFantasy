@@ -1,8 +1,11 @@
 Base path: C:/Program Files/Unity/Editor/Data
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 Cmd: initializeCompiler
 >>>>>>> parent of c7e164d... Merge branch 'master' of https://github.com/royhuang94/GloryFantasy
+=======
+>>>>>>> parent of d8bfa79... 细节微调MapManager，添加测试scene，能看到生成地图了
 Cmd: initializeCompiler
 Cmd: initializeCompiler
 Cmd: initializeCompiler

@@ -60,6 +60,41 @@ namespace MapManager
                     specialPositions.Add(new Vector3(x, y, 0f));
                     mapBlocks[x, y].data = new string[tokenCount];
                     for ( int j =0; j < tokenCount; j++)
+<<<<<<< HEAD
+=======
+                        _mapBlocks[x, y].addUnit(InitGameUnit(mapData[i]["token"][j]));
+                }
+            }
+        }
+
+        private Unit InitGameUnit(JsonData unit)
+        {
+            
+            Unit newUnit = new Unit(
+                unit["name"].ToString(),
+                unit["id"].ToString(),
+                (int) unit["cost"],
+                (int) unit["atk"],
+                (int) unit["def"],
+                (int) unit["mov"],
+                (int) unit["rng"],
+                unit["owner"].ToString(),
+                (int) unit["ralatedCardID"]
+            );
+            string[] labes = {"tag", "triggered", "active"};
+            for (int i = 0; i < labes.Length; i++)
+            {
+                int count = unit[labes[i]].Count;
+                if (count > 0)
+                {
+                    string[] data = new string[count];
+                    for (int j = 0; j < count; j++)
+                    {
+                        data[j] = unit[labes[i]][j].ToString();
+                    }
+
+                    switch (i)
+>>>>>>> parent of d8bfa79... 细节微调MapManager，添加测试scene，能看到生成地图了
                     {
                         mapBlocks[x, y].data[j] = mapData[i]["token"][j].ToString();
                     }
