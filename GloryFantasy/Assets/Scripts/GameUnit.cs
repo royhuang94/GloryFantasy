@@ -3,7 +3,7 @@ using System;
 
 namespace GameUnit
 {
-    public abstract class GameUnit : MonoBehaviour
+    public class GameUnit : MonoBehaviour
     {
         public string Name { get; set; }
         public string id { get; set; }
@@ -34,6 +34,25 @@ namespace GameUnit
             this.triggered = triggered;
             this.active = active;
             this.ralatedCardID = ralatedCardID;
+        }
+
+        public GameUnit(string name, string id,
+                        int cost, int atk, int def, int mov, int rng,
+                        string owner, int ralatedCardId)
+        {
+            this.Name = name;
+            this.id = id;
+            this.cost = cost;
+            this.atk = atk;
+            this.def = def;
+            this.mov = mov;
+            this.rng = rng;
+            this.owner = owner;
+            this.ralatedCardID = ralatedCardId;
+
+            this.triggered = null;
+            this.active = null;
+            this.tag = null;
         }
         // TODO: 这是地图上单位的基类，请继承此类进行行为描述
     }
