@@ -48,3 +48,6 @@ TagManager:
   - name: Units
     uniqueID: 161731665
     locked: 0
+  - name: Cursor
+    uniqueID: 1377072975
+    locked: 0

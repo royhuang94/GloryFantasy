@@ -144,7 +144,7 @@ namespace MapManager
         private void InstantiateTiles()
         {
             // TODO : 根据规则（暂时不明）,下面是我编的,进行地图实例化
-            for(int i = rows - 1; i > 0; i--)
+            for(int i = rows - 1; i >= 0; i--)
             {
                 for(int j = 0; j < columns; j++)
                 {
@@ -259,7 +259,7 @@ namespace MapManager
         public Boolean CheckIfHasUnits(Vector3 vector)
         {
             if (!_CheckVector(vector)) return false;
-            return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me == null;
+            return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me != null;
         }
 
         // 返回给定坐标上单位list，坐标不合法会返回null, 其他依据实际情况返回值
