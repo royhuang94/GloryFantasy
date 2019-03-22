@@ -11,9 +11,12 @@ namespace MapManager
 {
     public class MapManager : MonoBehaviour {
 
-        private static MapManager instance = new MapManager();
+        private static MapManager instance = null;
 
-        public static MapManager getInstance() { return instance; }
+        public static MapManager getInstance()
+        {
+            return instance;
+        }
 
         private MapManager()
         {
@@ -22,6 +25,7 @@ namespace MapManager
 
         private void Awake()
         {
+            instance = this;
             InitMap();
         }
 
