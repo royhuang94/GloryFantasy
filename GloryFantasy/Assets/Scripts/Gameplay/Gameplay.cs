@@ -268,11 +268,27 @@ public class GameplayTool
 }
 
 
-public class Gameplay
+public class Gameplay : MonoBehaviour
 {
+    private Gameplay() { }
+    private static Gameplay instance = null;
+
+    public static Gameplay GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = GameObject.FindObjectOfType(typeof(Gameplay)) as Gameplay;
+        }
+        return instance;
+    }
+
+    public void Awake()
+    {
+        roundProcessController = new RoundProcessController();
+        gamePlayInput = new GameplayInput();
+    }
+
     public static Info Info;
     public RoundProcessController roundProcessController;
     public GameplayInput gamePlayInput;
-
-    public void HandleInput() { }
 }
