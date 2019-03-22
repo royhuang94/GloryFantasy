@@ -21,9 +21,10 @@ public class SelectUnitCommand : Command
 
 public class UnitMoveCommand :Command
 {
-    UnitMoveCommand(GameUnit.GameUnit unit)
+    public UnitMoveCommand(GameUnit.GameUnit unit, Vector2 destination)
     {
         _unit = unit;
+        _destination = destination;
     }
 
     public override void Excute()
@@ -31,11 +32,12 @@ public class UnitMoveCommand :Command
     }
 
     private GameUnit.GameUnit _unit;
+    private Vector2 _destination;
 }
 
 public class UnitAttackCommand :Command
 {
-    UnitAttackCommand(GameUnit.GameUnit Attacker, GameUnit.GameUnit AttackedUnit)
+    public UnitAttackCommand(GameUnit.GameUnit Attacker, GameUnit.GameUnit AttackedUnit)
     {
         _Attacker = Attacker; SetAttacker(Attacker);
         _AttackedUnit = AttackedUnit; SetAttackedUnit(AttackedUnit);

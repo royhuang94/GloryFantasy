@@ -196,27 +196,69 @@ public class GameplayTool
         return Info.AbilitySpeller;
     }
 
-
+    protected void SetSpellingAbility(Ability ability)
+    {
+        Info.SpellingAbility = ability;
+    }
+    protected Ability GetSpellingAbility()
+    {
+        return Info.SpellingAbility;
+    }
 
     protected void SetInjurer(GameUnit.GameUnit unit)
     {
         Gameplay.Info.Injurer = unit;
     }
+    protected GameUnit.GameUnit GetInjurer()
+    {
+        return Info.Injurer;
+    }
+
     protected void SetInjuredUnit(GameUnit.GameUnit unit)
     {
         Gameplay.Info.InjuredUnit = unit;
+    }
+    protected GameUnit.GameUnit GetInjuredUnit()
+    {
+        return Info.InjuredUnit;
+    }
+
+    protected void SetDamage(Damage damage)
+    {
+        Info.damage = damage;
+    }
+    protected Damage GetDamage()
+    {
+        return Info.damage;
     }
 
     protected void SetKiller(GameUnit.GameUnit killer)
     {
         Gameplay.Info.Killer = killer;
     }
+    protected GameUnit.GameUnit GetKiller()
+    {
+        return Info.Killer;
+    }
+
     protected void SetKilledAndDeadUnit(GameUnit.GameUnit killedUnit)
     {
         Gameplay.Info.KilledUnit = killedUnit;
         Gameplay.Info.Dead = killedUnit;
     }
+    protected GameUnit.GameUnit GetKilledUnit()
+    {
+        return Info.KilledUnit;
+    }
+    protected GameUnit.GameUnit GetDead()
+    {
+        return Info.Dead;
+    }
 
+    protected void SetSelectingUnit(GameUnit.GameUnit unit)
+    {
+        Info.SelectingUnit = unit;
+    }
     protected GameUnit.GameUnit GetSelectingUnit()
     {
         return Gameplay.Info.SelectingUnit;
@@ -230,6 +272,8 @@ public class Gameplay
 {
     public static Info Info;
     public RoundProcessController roundProcessController;
+
+
 
     public void HandleInput() { }
 }
