@@ -8,7 +8,7 @@ namespace GameUnit
     {
         public string Name { get; set; }
         public string id { get; set; }
-        public string[] tag { get; set; }
+        new public string[] tag { get; set; }
         public int cost { get; set; }
         public int atk { get; set; }
         public int def { get; set; }
