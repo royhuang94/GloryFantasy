@@ -33,8 +33,8 @@ namespace MapManager
         }
 
 
-        public int columns = 8;                 // 地图方块每行的数量
-        public int rows = 8;                    // 地图方块每列的数量
+        public int columns = 8;                 // 地图方块每列的数量
+        public int rows = 8;                    // 地图方块每行的数量
 
         private MapBlock[,] _mapBlocks;
         public GameObject[] A_tiles;            // 区域 A prefabs的数组
@@ -137,9 +137,9 @@ namespace MapManager
         private void InstantiateTiles()
         {
             // TODO : 根据规则（暂时不明）,下面是我编的,进行地图实例化
-            for(int i = columns - 1; i > 0; i--)
+            for(int i = rows - 1; i > 0; i--)
             {
-                for(int j = 0; j < rows; j++)
+                for(int j = 0; j < columns; j++)
                 {
                     GameObject[] target_tile = null;
                     switch (_mapBlocks[i, j].area)
@@ -206,5 +206,36 @@ namespace MapManager
             return new Vector2(-1, -1);
         }
 
+        private Boolean _CheckVector(Vector2 vector)
+        {
+            if ((int) vector.x > rows || (int) vector.y > columns)
+            {
+                Debug.Log(string.Format("Invalid coordinate: {0}, {1} !", (int)vector.x, (int)vector.y));
+                return false;
+            }
+
+            if ((int) vector.x < 0 || (int) vector.y < 0)
+            {
+                Debug.Log(string.Format("Error ! Outranged coordinate: {0}, {1} !", (int)vector.x, (int)vector.y));
+                return false;
+            }
+
+            return true;
+        }
+        
+        // 确定给定坐标上是否含有单位，坐标不合法会返回false，其他依据实际情况返回值
+        public Boolean CheckIfHasUnits(Vector2 vector)
+        {
+            if (!_CheckVector(vector)) return false;
+            return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me == null;
+        }
+
+        // 返回给定坐标上单位list，坐标不合法会返回null, 其他依据实际情况返回值
+        public List<Unit> GetUnitsOnMapBlock(Vector2 vector)
+        {
+            if (_CheckVector(vector))
+                return _mapBlocks[(int) vector.x, (int) vector.y].units_on_me;
+            return null;
+        }
     }
 }
