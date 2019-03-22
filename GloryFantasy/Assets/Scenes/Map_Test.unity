@@ -276,7 +276,12 @@ MonoBehaviour:
   - {fileID: 1324289422416798, guid: c34cd3a361bec8a4e825bf67669d8f61, type: 2}
   - {fileID: 1322833991526506, guid: 9ca23f6b8f18f8b41a0e2a711e72abe3, type: 2}
   - {fileID: 1860929375716968, guid: 5cf4ca7717816094b94e2cf73d919098, type: 2}
-  enemys: []
+  enemys:
+  - {fileID: 1375562176997380, guid: 5c2f07f996b89044d8fc10c1e82198b1, type: 2}
+  - {fileID: 1906459744534810, guid: 2d31ded1e3cef2440841bafb8ca68f76, type: 2}
+  enemy_sets: []
+  player: {fileID: 1091324478144638, guid: 55d4b0b35c251ae429d4d1ef2d87f45c, type: 2}
+  _tilesHolder: {fileID: 0}
 --- !u!1 &1493665574
 GameObject:
   m_ObjectHideFlags: 0

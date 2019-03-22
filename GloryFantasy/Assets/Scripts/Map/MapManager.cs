@@ -30,6 +30,7 @@ namespace MapManager
             //for_demo_init();
             InitMapBlocks();
             InstantiateTiles();
+            InstantiateUnits();
         }
 
 
@@ -47,8 +48,10 @@ namespace MapManager
         public GameObject[] other_tiles;        // 黑色区域 prefabs的数组
 
         public GameObject[] enemys;             // 存储敌方单位素材的数组
+        public GameObject[] enemy_sets;        //存储敌方群体单位素材的数组
+        public GameObject player;               // 存放玩家单位的引用
 
-        private Transform _tilesHolder;          // 存储所有地图单位引用的变量
+        public Transform _tilesHolder;          // 存储所有地图单位引用的变量
         
         // 记录json中token不为空的坐标，待后续处理
         private List <Vector3> specialPositions = new List <Vector3> ();
@@ -147,6 +150,7 @@ namespace MapManager
                         case -1:
                             target_tile = other_tiles;
                             break;
+                        case 0:
                         case 1:
                             target_tile = normal_tiles;
                             break;
@@ -186,12 +190,36 @@ namespace MapManager
             }
         }
 
+        private void InstantiateUnits()
+        {
+            foreach (Vector3 specialPosition in specialPositions)
+            {
+                if (_mapBlocks[(int) specialPosition.x, (int) specialPosition.y].units_on_me.Count > 0)
+                {
+                    List<Unit> units = _mapBlocks[(int) specialPosition.x, (int) specialPosition.y].units_on_me;
+                    GameObject[] target_assets = null;
+                    if (units[0].owner.Equals("player"))
+                    {
+                        GameObject player = Instantiate(this.player, specialPosition, Quaternion.identity);
+                        continue;
+                    }
+                    
+                    if (units.Count > 1)
+                        target_assets = enemy_sets;
+                    else target_assets = enemys;
+                    GameObject toInstantiate = target_assets[Random.Range(0, target_assets.Length)];
+                    GameObject _instance =
+                        Instantiate(toInstantiate, specialPosition, Quaternion.identity) as GameObject;
+                }
+            }
+        }
+
         public MapBlock GetSpecificMapBlock(int x, int y)
         {
             return this._mapBlocks[x, y];
         }
 
-        public Vector2 GetCoordinate(MapBlock mapBlock)
+        public Vector3 GetCoordinate(MapBlock mapBlock)
         {
             for(int i = columns - 1; i > 0; i--)
             {
@@ -199,14 +227,14 @@ namespace MapManager
                 {
                     if(_mapBlocks[i,j] == mapBlock)
                     {
-                        return new Vector2(i, j);
+                        return new Vector3(i, j, 0f);
                     }
                 }
             }
-            return new Vector2(-1, -1);
+            return new Vector3(-1, -1, 0f);
         }
 
-        private Boolean _CheckVector(Vector2 vector)
+        private Boolean _CheckVector(Vector3 vector)
         {
             if ((int) vector.x > rows || (int) vector.y > columns)
             {
@@ -224,18 +252,46 @@ namespace MapManager
         }
         
         // 确定给定坐标上是否含有单位，坐标不合法会返回false，其他依据实际情况返回值
-        public Boolean CheckIfHasUnits(Vector2 vector)
+        public Boolean CheckIfHasUnits(Vector3 vector)
         {
             if (!_CheckVector(vector)) return false;
             return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me == null;
         }
 
         // 返回给定坐标上单位list，坐标不合法会返回null, 其他依据实际情况返回值
-        public List<Unit> GetUnitsOnMapBlock(Vector2 vector)
+        public List<Unit> GetUnitsOnMapBlock(Vector3 vector)
         {
             if (_CheckVector(vector))
                 return _mapBlocks[(int) vector.x, (int) vector.y].units_on_me;
             return null;
+        }
+
+        // 根据给定unit寻找其所处坐标，若找不到则会返回不合法坐标
+        public Vector3 GetUnitCoordinate(Unit unit)
+        {
+            foreach (var vector in specialPositions)
+            {
+                if(_mapBlocks[(int)vector.x, (int)vector.y].units_on_me.Contains(unit))
+                    return new Vector3(vector.x, vector.y, 0f);
+            }
+
+            return new Vector3(-1, -1, -1);
+        }
+
+        public bool MoveUnitToCoordinate(Unit unit, Vector3 destination)
+        {
+            foreach (Vector3 position in specialPositions)
+            {
+                if (_mapBlocks[(int) position.x, (int) position.y].units_on_me.Contains(unit))
+                {
+                    _mapBlocks[(int) position.x, (int) position.y].removeUnit(unit);
+                    _mapBlocks[(int) destination.x, (int) destination.y].addUnit(unit);
+                    player.transform.position = destination;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
