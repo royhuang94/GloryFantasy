@@ -21,9 +21,10 @@ public class SelectUnitCommand : Command
 
 public class UnitMoveCommand :Command
 {
-    UnitMoveCommand(GameUnit.GameUnit unit)
+    public UnitMoveCommand(GameUnit.GameUnit unit, Vector2 destination)
     {
         _unit = unit;
+        _destination = destination;
     }
 
     public override void Excute()
@@ -31,25 +32,40 @@ public class UnitMoveCommand :Command
     }
 
     private GameUnit.GameUnit _unit;
+    private Vector2 _destination;
 }
 
 public class UnitAttackCommand :Command
 {
-    UnitAttackCommand(GameUnit.GameUnit Attacker, GameUnit.GameUnit AttackedUnit)
+    public UnitAttackCommand(GameUnit.GameUnit Attacker, GameUnit.GameUnit AttackedUnit)
     {
         _Attacker = Attacker; SetAttacker(Attacker);
         _AttackedUnit = AttackedUnit; SetAttackedUnit(AttackedUnit);
+    }
+
+    public bool Judge()
+    {
+        //manhadun
+
+        return false;
     }
 
     public override void Excute()
     {
         MsgDispatcher.SendMsg((int)TriggerType.AnnounceAttack);
 
-        DamageRequest.CaculateDamageRequestList(DamageRequestList, _Attacker, _AttackedUnit);
+        DamageRequestList = DamageRequest.CaculateDamageRequestList(_Attacker, _AttackedUnit);
 
         for (int i = 0; i < DamageRequestList.Count; i++)
         {
-
+            if (i != DamageRequestList.Count - 1 && DamageRequestList[i].priority == DamageRequestList[i+1].priority 
+                && DamageRequestList[i]._attacker == DamageRequestList[i + 1]._attackedUnit
+                && DamageRequestList[i]._attackedUnit == DamageRequestList[i + 1]._attacker)
+            {
+                DamageRequestList[i].ExcuteSameTime();
+                i++;
+            }
+            DamageRequestList[i].Excute();
         }
     }
 
