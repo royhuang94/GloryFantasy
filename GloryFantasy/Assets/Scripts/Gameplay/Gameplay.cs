@@ -272,8 +272,7 @@ public class Gameplay
 {
     public static Info Info;
     public RoundProcessController roundProcessController;
-
-
+    public GameplayInput gamePlayInput;
 
     public void HandleInput() { }
 }

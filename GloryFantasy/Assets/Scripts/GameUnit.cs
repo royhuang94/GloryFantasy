@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace GameUnit
 {
@@ -17,7 +18,9 @@ namespace GameUnit
         public string[] triggered { get; set; }
         public string[] active { get; set; }
         public int ralatedCardID { get; set; }
-        
+        //TODO:对priority进行初始化
+        public List<int> priority { get; set; }
+
         public GameUnit(string name, string id, string[] tag, 
                         int cost, int atk, int def, int mov, int rng,
                         string owner, string[] triggered, string[] active, int ralatedCardID)
@@ -34,6 +37,8 @@ namespace GameUnit
             this.triggered = triggered;
             this.active = active;
             this.ralatedCardID = ralatedCardID;
+            //TODO:临时对priority初始化，需要根据策划要求修改
+            priority = new List<int>(); priority.Add(1);
         }
 
         public GameUnit(string name, string id,
@@ -55,5 +60,11 @@ namespace GameUnit
             this.tag = null;
         }
         // TODO: 这是地图上单位的基类，请继承此类进行行为描述
+
+        //判断单位有无死亡
+        public bool IsDead()
+        {
+            return !(def > 0);
+        }
     }
 }

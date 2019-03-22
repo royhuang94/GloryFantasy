@@ -13,7 +13,7 @@ public class GameplayInput
         MapManager.MapManager mapManager = MapManager.MapManager.getInstance();
        if (TargetList.Count == 0)
         {
-            if (target ==  Vector2.zero)
+            if (mapManager.CheckIfHasUnits(target))
             {
                 TargetList.Add(target);
             }
@@ -21,17 +21,19 @@ public class GameplayInput
        else
        if (TargetList.Count == 1)
         {
-            if (target == Vector2.zero)
+            if (mapManager.CheckIfHasUnits(target))
             {
-                GameUnit.GameUnit unit1 = null, unit2 = null;
+                TargetList.Add(target);
+                GameUnit.GameUnit unit1 = mapManager.GetUnitsOnMapBlock(TargetList[0])[0];
+                GameUnit.GameUnit unit2 = mapManager.GetUnitsOnMapBlock(TargetList[1])[0];
                 UnitAttackCommand attackCommand = new UnitAttackCommand(unit1, unit2);
                 attackCommand.Excute();
             }
             else
-            if (target == Vector2.one)
             {
-                GameUnit.GameUnit unit1 = null;
-                Vector2 unit2 = Vector2.zero;
+                TargetList.Add(target);
+                GameUnit.GameUnit unit1 = mapManager.GetUnitsOnMapBlock(TargetList[0])[0];
+                Vector2 unit2 = target;
                 UnitMoveCommand moveCommand = new UnitMoveCommand(unit1, unit2);
                 moveCommand.Excute();
             }
