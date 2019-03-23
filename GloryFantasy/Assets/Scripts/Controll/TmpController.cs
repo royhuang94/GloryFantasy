@@ -12,7 +12,6 @@ namespace GameControl
         public MapManager.MapManager MapManager;
         private Vector3 coordinate;
         private Vector3 position;
-        public GameObject DamagePops;
 
         private int _MovLen = 1;
         
@@ -101,8 +100,6 @@ namespace GameControl
             {
                 Unit unit = MapManager.GetUnitsOnMapBlock(this.coordinate)[0];
                 Debug.Log("This unit belongs to :" + unit.owner);
-                GameObject mObject=(GameObject)Instantiate(DamagePops,unit.transform.position,Quaternion.identity);
-                mObject.GetComponent<DamagePopup>().Value = Random.Range(10,100);
             }
 
             Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);

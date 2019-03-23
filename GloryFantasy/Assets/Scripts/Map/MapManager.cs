@@ -20,7 +20,7 @@ namespace MapManager
 
         private MapManager()
         {
-            
+            _unitsList = new List<Unit>();
         }
 
         private void Awake()
@@ -56,9 +56,11 @@ namespace MapManager
         public GameObject player { get; set; }
         
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
+
+        private List<Unit> _unitsList;
         
         // 记录json中token不为空的坐标，待后续处理
-        private List <Vector3> specialPositions = new List <Vector3> ();
+        //private List <Vector3> specialPositions = new List <Vector3> ();
 
         private void InitAndInstantiateMapBlocks()
         {
@@ -88,11 +90,23 @@ namespace MapManager
                 
                 if (tokenCount > 0)
                 {
-                    specialPositions.Add(new Vector3(x, y, 0f));
                     if (tokenCount == 1)
-                        _mapBlocks[x, y].addUnit(InitAndInstantiateGameUnit(mapData[i]["token"][0], x, y));
-                    else 
-                        _mapBlocks[x, y].addUnits(InitAndInstantiateGameUnits(mapData[i]["token"], tokenCount, x, y));
+                    {
+                        Unit unit = InitAndInstantiateGameUnit(mapData[i]["token"][0], x, y);
+                        unit.mapBlockBelow = _mapBlocks[x, y];
+                        _unitsList.Add(unit);
+                        _mapBlocks[x, y].AddUnit(unit);
+                    }
+                    else
+                    {
+                        Unit[] units = InitAndInstantiateGameUnits(mapData[i]["token"], tokenCount, x, y);
+                        for (int j = 0; j < units.Length; j++)
+                        {
+                            units[j].mapBlockBelow = _mapBlocks[x, y];
+                            _unitsList.Add(units[j]);
+                        }
+                        _mapBlocks[x, y].AddUnits(units);
+                    }
                 }
             }
         }
@@ -275,10 +289,13 @@ namespace MapManager
         // 根据给定unit寻找其所处坐标，若找不到则会返回不合法坐标
         public Vector3 GetUnitCoordinate(Unit unit)
         {
-            foreach (var vector in specialPositions)
+
+            foreach (Unit gameUnit in _unitsList)
             {
-                if(_mapBlocks[(int)vector.x, (int)vector.y].units_on_me.Contains(unit))
-                    return new Vector3(vector.x, vector.y, 0f);
+                if (gameUnit == unit)
+                {
+                    return gameUnit.mapBlockBelow.GetCoordinate();
+                }
             }
 
             return new Vector3(-1, -1, -1);
@@ -286,13 +303,14 @@ namespace MapManager
 
         public bool MoveUnitToCoordinate(Unit unit, Vector3 destination)
         {
-            foreach (Vector3 position in specialPositions)
+            foreach (Unit gameUnit in _unitsList)
             {
-                if (_mapBlocks[(int) position.x, (int) position.y].units_on_me.Contains(unit))
+                if (gameUnit == unit)
                 {
-                    _mapBlocks[(int) position.x, (int) position.y].removeUnit(unit);
-                    _mapBlocks[(int) destination.x, (int) destination.y].addUnit(unit);
-                    player.transform.position = destination;
+                    unit.mapBlockBelow.RemoveUnit(unit);
+                    unit.mapBlockBelow = _mapBlocks[(int)destination.x, (int)destination.y];
+                    unit.mapBlockBelow.AddUnit(unit);
+                    unit.transform.position = destination;
                     return true;
                 }
             }

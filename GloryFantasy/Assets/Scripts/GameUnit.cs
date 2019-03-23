@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using MapManager;
 
 namespace GameUnit
 {
@@ -17,6 +18,8 @@ namespace GameUnit
         public string owner { get; set; }
         public string[] triggered { get; set; }
         public string[] active { get; set; }
+
+        public MapBlock mapBlockBelow;
         public int ralatedCardID { get; set; }
         //TODO:对priority进行初始化
         public List<int> priority { get; set; }

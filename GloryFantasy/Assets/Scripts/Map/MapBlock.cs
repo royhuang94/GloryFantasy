@@ -8,6 +8,8 @@ namespace MapManager
 {
     public class MapBlock: MonoBehaviour{
         public int area { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
         public string[] data { get; set; }
         public List <Unit> units_on_me = new List <Unit> ();
 
@@ -29,12 +31,12 @@ namespace MapManager
         
         public List<Unit> GetGameUnits() { return this.units_on_me; }
 
-        public void addUnit(Unit unit) {
+        public void AddUnit(Unit unit) {
             Debug.Log("MapBlocks--Added unit:" + unit.ToString());
             units_on_me.Add(unit);
         }
 
-        public void addUnits(Unit[] units)
+        public void AddUnits(Unit[] units)
         {
             Debug.Log("MapBlocks--Adding Units");
             foreach (Unit gameUnit in units)
@@ -43,9 +45,14 @@ namespace MapManager
             }
         }
 
-        public void removeUnit(Unit unit) {
+        public void RemoveUnit(Unit unit) {
             Debug.Log("MapBlocks--Removed unit:" + unit.ToString());
             units_on_me.Remove(unit);
+        }
+
+        public Vector3 GetCoordinate()
+        {
+            return new Vector3(this.x, this.y, 0f);
         }
     }
 }
