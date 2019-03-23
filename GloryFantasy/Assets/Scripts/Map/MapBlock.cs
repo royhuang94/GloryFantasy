@@ -6,7 +6,7 @@ using Unit = GameUnit.GameUnit;
 namespace MapManager
 
 {
-    public class MapBlock : MonoBehaviour {
+    public class MapBlock{
         public int area { get; set; }
         public string[] data { get; set; }
         public List <Unit> units_on_me = new List <Unit> ();

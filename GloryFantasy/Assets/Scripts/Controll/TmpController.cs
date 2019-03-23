@@ -1,7 +1,8 @@
 using UnityEngine;
 using System;
 using MapManager;
-
+using Random = UnityEngine.Random;
+using Unit =GameUnit.GameUnit;
 
 namespace GameControl
 {
@@ -11,6 +12,7 @@ namespace GameControl
         public MapManager.MapManager MapManager;
         private Vector3 coordinate;
         private Vector3 position;
+        public GameObject DamagePops;
 
         private int _MovLen = 1;
         
@@ -95,9 +97,14 @@ namespace GameControl
         {
             // TODO :添加点击确定按钮事件
             Debug.Log("Ok Cliked!");
-            if(MapManager.CheckIfHasUnits(this.coordinate))
-                Debug.Log("This unit belongs to :" + MapManager.GetUnitsOnMapBlock(this.coordinate)[0].owner);
-            
+            if (MapManager.CheckIfHasUnits(this.coordinate))
+            {
+                Unit unit = MapManager.GetUnitsOnMapBlock(this.coordinate)[0];
+                Debug.Log("This unit belongs to :" + unit.owner);
+                GameObject mObject=(GameObject)Instantiate(DamagePops,new Vector3(coordinate.x, coordinate.y, -2),Quaternion.identity);
+                mObject.GetComponent<DamagePopup>().Value = Random.Range(10,100);
+            }
+
         }
 
         public void onClickCancle()
