@@ -11,7 +11,12 @@ public class DisplayData: MonoBehaviour {
 	private string name = "0.0";
 
 	public Unit unit;
- 
+
+	private void Awake()
+	{
+		unit = gameObject.GetComponent<Unit>();
+	}
+
 	void Start ()
 	{
 		//得到摄像机对象

@@ -86,6 +86,8 @@ namespace MapManager
                 
                 _mapBlocks[x, y] = _instance.gameObject.GetComponent<MapBlock>();
                 _mapBlocks[x, y].area = area;
+                _mapBlocks[x, y].x = x;
+                _mapBlocks[x, y].y = y;
                 int tokenCount = mapData[i]["token"].Count;
                 
                 if (tokenCount > 0)
@@ -180,8 +182,10 @@ namespace MapManager
         {
             Unit newUnit;
             GameObject _object;
+            bool isPlayer = false;
             if (data["owner"].ToString().Equals("player"))
             {
+                isPlayer = true;
                 this.player = _object =
                     Instantiate(player_assete, new Vector3(x, y, 0f), Quaternion.identity);
             }
@@ -192,12 +196,20 @@ namespace MapManager
                                 Quaternion.identity);
                 
             }
-            
+            // 在单位上挂载unit 脚本
             _object.AddComponent<Unit>();
+            
+            // 获取该脚本对象并传入解析json函数赋值
             newUnit = _object.GetComponent<Unit>();
             ReadUnitDataInJason(data, newUnit);
+            
+            // 在单位上挂载展示数值显示脚本
             _object.AddComponent<DisplayData>();
-            _object.GetComponent<DisplayData>().unit = newUnit;
+            
+            // 在player单位上挂载展示范围脚本
+            if (isPlayer)
+                _object.AddComponent<ShowRange>();
+            
             return newUnit;
         }
 
@@ -314,6 +326,15 @@ namespace MapManager
             }
 
             return false;
+        }
+
+        // 地图方块染色接口
+        public void ColorMapBlocks(List<Vector2> positions, Color color)
+        {
+            foreach (Vector2 position in positions)
+            {
+                _mapBlocks[(int) position.x, (int) position.y].gameObject.GetComponent<SpriteRenderer>().color = color;
+            }
         }
     }
 }
