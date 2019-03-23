@@ -31,7 +31,7 @@ public class UnitMoveCommand :Command
     {
         Vector2 unit1 = MapManager.MapManager.getInstance().GetUnitCoordinate(_unit);
         Vector2 unit2 = _destination;
-        int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit1.x) + Mathf.Abs((int)unit1.y - (int)unit1.y);
+        int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
         if (MAN_HA_DUN <= _unit.mov)
             return true;
 
@@ -40,6 +40,7 @@ public class UnitMoveCommand :Command
 
     public override void Excute()
     {
+        Debug.Log("Moving Command excusing");
         MapManager.MapManager.getInstance().MoveUnitToCoordinate(_unit, _destination);
     }
 
@@ -60,7 +61,7 @@ public class UnitAttackCommand :Command
     {
         Vector2 unit1 = MapManager.MapManager.getInstance().GetUnitCoordinate(_Attacker);
         Vector2 unit2 = MapManager.MapManager.getInstance().GetUnitCoordinate(_AttackedUnit);
-        int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit1.x) + Mathf.Abs((int)unit1.y - (int)unit1.y);
+        int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
         if (MAN_HA_DUN <= _Attacker.rng)
             return true;
 

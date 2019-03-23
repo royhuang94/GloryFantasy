@@ -35,7 +35,7 @@ namespace GameControl
 
         private void commitChange()
         {
-            Debug.Log(string.Format("Change to {0},{1}", (int)coordinate.x, (int)coordinate.y));
+            //Debug.Log(string.Format("Change to {0},{1}", (int)coordinate.x, (int)coordinate.y));
             this.cursor.transform.position = this.position;
         }
 
@@ -96,7 +96,7 @@ namespace GameControl
         public void onClickOk()
         {
             // TODO :添加点击确定按钮事件
-            Debug.Log("Ok Cliked!");
+            //Debug.Log("Ok Cliked!");
             if (MapManager.CheckIfHasUnits(this.coordinate))
             {
                 Unit unit = MapManager.GetUnitsOnMapBlock(this.coordinate)[0];
