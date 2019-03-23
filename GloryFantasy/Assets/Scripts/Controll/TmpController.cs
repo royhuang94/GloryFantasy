@@ -97,13 +97,18 @@ namespace GameControl
             Debug.Log("Ok Cliked!");
             if(MapManager.CheckIfHasUnits(this.coordinate))
                 Debug.Log("This unit belongs to :" + MapManager.GetUnitsOnMapBlock(this.coordinate)[0].owner);
-            
+
+            //下面是与指令脚本交互,输入确定
+            Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);
         }
 
         public void onClickCancle()
         {
             // TODO: 添加点击取消按钮事件
             Debug.Log("Cancle clicked!");
+
+            //下面是与指令脚本交互,输入返回
+            Gameplay.GetInstance().gamePlayInput.HandleCancle();
         }
     }
 }

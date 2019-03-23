@@ -6,7 +6,7 @@ using MapManager;
 
 public class GameplayInput
 {
-    List<Vector2> TargetList;
+    List<Vector2> TargetList = new List<Vector2>();
 
     public void HandleInput()
     {
