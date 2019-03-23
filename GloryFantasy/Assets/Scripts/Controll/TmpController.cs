@@ -100,6 +100,8 @@ namespace GameControl
             {
                 Unit unit = MapManager.GetUnitsOnMapBlock(this.coordinate)[0];
                 Debug.Log("This unit belongs to :" + unit.owner);
+                unit.def = Random.Range(100, 200);
+                
             }
 
             Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);

@@ -178,28 +178,26 @@ namespace MapManager
 
         private Unit InitAndInstantiateGameUnit(JsonData data, int x, int y)
         {
-            //TODO:这里写错了……这里的gameObject指的是this.gameObject，也就是MapManager这个脚本所依靠的gameObject
-            //你需要自己先生成一个GameObject然后挂Unit上去
-
             Unit newUnit;
+            GameObject _object;
             if (data["owner"].ToString().Equals("player"))
             {
-                this.player =
+                this.player = _object =
                     Instantiate(player_assete, new Vector3(x, y, 0f), Quaternion.identity);
-                this.player.AddComponent<Unit>();
-                newUnit = this.player.GetComponent<Unit>();
             }
             else
             {
-                GameObject enemy =
+                _object =
                     Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(x, y, 0f),
                                 Quaternion.identity);
-                enemy.AddComponent<Unit>();
-                newUnit = enemy.GetComponent<Unit>();
+                
             }
             
+            _object.AddComponent<Unit>();
+            newUnit = _object.GetComponent<Unit>();
             ReadUnitDataInJason(data, newUnit);
-
+            _object.AddComponent<DisplayData>();
+            _object.GetComponent<DisplayData>().unit = newUnit;
             return newUnit;
         }
 
