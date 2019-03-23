@@ -6,7 +6,7 @@ using Unit = GameUnit.GameUnit;
 namespace MapManager
 
 {
-    public class MapBlock{
+    public class MapBlock: MonoBehaviour{
         public int area { get; set; }
         public string[] data { get; set; }
         public List <Unit> units_on_me = new List <Unit> ();
@@ -32,6 +32,15 @@ namespace MapManager
         public void addUnit(Unit unit) {
             Debug.Log("MapBlocks--Added unit:" + unit.ToString());
             units_on_me.Add(unit);
+        }
+
+        public void addUnits(Unit[] units)
+        {
+            Debug.Log("MapBlocks--Adding Units");
+            foreach (Unit gameUnit in units)
+            {
+                units_on_me.Add(gameUnit);
+            }
         }
 
         public void removeUnit(Unit unit) {

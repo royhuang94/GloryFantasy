@@ -32,9 +32,7 @@ namespace MapManager
         public void InitMap() {
             // TODO : 添加初始化地图的方法
             //for_demo_init();
-            InitMapBlocks();
-            InstantiateTiles();
-            InstantiateUnits();
+            InitAndInstantiateMapBlocks();
         }
 
 
@@ -52,86 +50,86 @@ namespace MapManager
         public GameObject[] other_tiles;        // 黑色区域 prefabs的数组
 
         public GameObject[] enemys;             // 存储敌方单位素材的数组
-        public GameObject[] enemy_sets;        //存储敌方群体单位素材的数组
-        public GameObject player;               // 存放玩家单位的引用
+        public GameObject[] enemy_sets;         //存储敌方群体单位素材的数组
+        public GameObject player_assete;       // 存放玩家单位素材的引用
 
+        public GameObject player { get; set; }
+        
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
         
         // 记录json中token不为空的坐标，待后续处理
         private List <Vector3> specialPositions = new List <Vector3> ();
 
-        private void InitMapBlocks()
+        private void InitAndInstantiateMapBlocks()
         {
             // 更改地图数据位置则需修改此处路径
             JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Map/测试地图.json"));
 
             _mapBlocks = new MapBlock[columns, rows];
+            
             for( int i =0; i< mapData.Count;i++)
             {
                 int x = (int)mapData[i]["x"];
                 int y = (int)mapData[i]["y"];
-                //TODO:这里也要改掉new。MonoBehaviour不能和new混用，当然初始化也不能用构造函数
-                _mapBlocks[x, y] = new MapBlock((int)mapData[i]["area"]);
+                int area = (int) mapData[i]["area"];
 
+                GameObject[] target_tiles = InstantiateTilesRuler(area);
+
+                GameObject toInstantiate = target_tiles[Random.Range(0, target_tiles.Length)];
+                GameObject _instance =
+                    Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
+                _instance.transform.SetParent(_tilesHolder);
+                
+                _instance.gameObject.AddComponent<MapBlock>();
+                
+                _mapBlocks[x, y] = _instance.gameObject.GetComponent<MapBlock>();
+                _mapBlocks[x, y].area = area;
                 int tokenCount = mapData[i]["token"].Count;
+                
                 if (tokenCount > 0)
                 {
                     specialPositions.Add(new Vector3(x, y, 0f));
-                    //_mapBlocks[x, y].data = new string[tokenCount];
-                    for ( int j =0; j < tokenCount; j++)
-                        _mapBlocks[x, y].addUnit(InitGameUnit(mapData[i]["token"][j]));
+                    if (tokenCount == 1)
+                        _mapBlocks[x, y].addUnit(InitAndInstantiateGameUnit(mapData[i]["token"][0], x, y));
+                    else 
+                        _mapBlocks[x, y].addUnits(InitAndInstantiateGameUnits(mapData[i]["token"], tokenCount, x, y));
                 }
             }
         }
 
-        private Unit InitGameUnit(JsonData unit)
+        private void ReadUnitDataInJason(JsonData data, Unit unit)
         {
-            //TODO:这里写错了……这里的gameObject指的是this.gameObject，也就是MapManager这个脚本所依靠的gameObject
-            //你需要自己先生成一个GameObject然后挂Unit上去
-            Unit newUnit = gameObject.AddComponent<Unit>();
-            newUnit.Name = unit["name"].ToString();
-            newUnit.id = unit["id"].ToString();
-            newUnit.cost = (int) unit["cost"];
-            newUnit.atk = (int) unit["atk"];
-            newUnit.def = (int) unit["def"];
-            newUnit.mov = (int) unit["mov"];
-            newUnit.rng = (int) unit["rng"];
-            newUnit.owner = unit["owner"].ToString();
-            newUnit.ralatedCardID = (int)unit["ralatedCardID"];
-            /*
-            Unit newUnit = new Unit(
-                unit["name"].ToString(),
-                unit["id"].ToString(),
-                (int) unit["cost"],
-                (int) unit["atk"],
-                (int) unit["def"],
-                (int) unit["mov"],
-                (int) unit["rng"],
-                unit["owner"].ToString(),
-                (int) unit["ralatedCardID"]
-            );*/
+            unit.Name = data["name"].ToString();
+            unit.id = data["id"].ToString();
+            unit.cost = (int) data["cost"];
+            unit.atk = (int) data["atk"];
+            unit.def = (int) data["def"];
+            unit.mov = (int) data["mov"];
+            unit.rng = (int) data["rng"];
+            unit.owner = data["owner"].ToString();
+            unit.ralatedCardID = (int)data["ralatedCardID"];
             string[] labes = {"tag", "triggered", "active"};
             for (int i = 0; i < labes.Length; i++)
             {
-                int count = unit[labes[i]].Count;
+                int count = data[labes[i]].Count;
                 if (count > 0)
                 {
-                    string[] data = new string[count];
+                    string[] tag = new string[count];
                     for (int j = 0; j < count; j++)
                     {
-                        data[j] = unit[labes[i]][j].ToString();
+                        tag[j] = data[labes[i]][j].ToString();
                     }
 
                     switch (i)
                     {
                         case 0:
-                            newUnit.tag = data;
+                            unit.tag = tag;
                             break;
                         case 1:
-                            newUnit.triggered = data;
+                            unit.triggered = tag;
                             break;
                         case 2:
-                            newUnit.active = data;
+                            unit.active = tag;
                             break;
                         default:
                             Debug.Log("detected wrong index");
@@ -140,84 +138,84 @@ namespace MapManager
                 }
 
             }
+        }
+
+        private Unit[] InitAndInstantiateGameUnits(JsonData units, int count, int x, int y)
+        {
+            Unit[] res = new Unit[count];
+            
+            for (int i = 0; i < count; i++)
+            {
+                Vector2 position = new Vector2(x, y);
+                position += Random.insideUnitCircle * 0.5f;
+                
+                GameObject enemy =
+                    Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(position.x, position.y, 0f),
+                                Quaternion.identity);
+
+                enemy.AddComponent<Unit>();
+                res[i] = enemy.GetComponent<Unit>();
+                
+                ReadUnitDataInJason(units[i], res[i]);
+            }
+            
+            return res;
+        }
+
+        private Unit InitAndInstantiateGameUnit(JsonData data, int x, int y)
+        {
+            //TODO:这里写错了……这里的gameObject指的是this.gameObject，也就是MapManager这个脚本所依靠的gameObject
+            //你需要自己先生成一个GameObject然后挂Unit上去
+
+            Unit newUnit;
+            if (data["owner"].ToString().Equals("player"))
+            {
+                this.player =
+                    Instantiate(player_assete, new Vector3(x, y, 0f), Quaternion.identity);
+                this.player.AddComponent<Unit>();
+                newUnit = this.player.GetComponent<Unit>();
+            }
+            else
+            {
+                GameObject enemy =
+                    Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(x, y, 0f),
+                                Quaternion.identity);
+                enemy.AddComponent<Unit>();
+                newUnit = enemy.GetComponent<Unit>();
+            }
+            
+            ReadUnitDataInJason(data, newUnit);
 
             return newUnit;
         }
 
-        private void InstantiateTiles()
+        private GameObject[] InstantiateTilesRuler(int area)
         {
             // TODO : 根据规则（暂时不明）,下面是我编的,进行地图实例化
-            for(int i = rows - 1; i >= 0; i--)
+            switch (area)
             {
-                for(int j = 0; j < columns; j++)
-                {
-                    GameObject[] target_tile = null;
-                    switch (_mapBlocks[i, j].area)
-                    {
-                        case -1:
-                            target_tile = other_tiles;
-                            break;
-                        case 0:
-                        case 1:
-                            target_tile = normal_tiles;
-                            break;
-                        case 2:
-                            target_tile = A_tiles;
-                            break;
-                        case 3:
-                        case 4:
-                            target_tile = B_tiles;
-                            break;
-                        case 5:
-                        case 6:
-                            target_tile = C_tiles;
-                            break;
-                        case 7:
-                        case 8:
-                            target_tile = D_tiles;
-                            break;
-                        case 9:
-                        case 10:
-                            target_tile = E_tiles;
-                            break;
-                        default:
-                            Debug.Log("Unknown area type.");
-                            break;
-                    }
-
-                    if (target_tile == null)
-                        return;
-                    
-                    GameObject toInstantiate = target_tile[Random.Range(0, target_tile.Length)];
-                    GameObject _instance =
-                        Instantiate(toInstantiate, new Vector3(i, j, 0f), Quaternion.identity) as GameObject;
-
-                    _instance.transform.SetParent(_tilesHolder);
-                }
-            }
-        }
-
-        private void InstantiateUnits()
-        {
-            foreach (Vector3 specialPosition in specialPositions)
-            {
-                if (_mapBlocks[(int) specialPosition.x, (int) specialPosition.y].units_on_me.Count > 0)
-                {
-                    List<Unit> units = _mapBlocks[(int) specialPosition.x, (int) specialPosition.y].units_on_me;
-                    GameObject[] target_assets = null;
-                    if (units[0].owner.Equals("player"))
-                    {
-                        GameObject player = Instantiate(this.player, specialPosition, Quaternion.identity);
-                        continue;
-                    }
-                    
-                    if (units.Count > 1)
-                        target_assets = enemy_sets;
-                    else target_assets = enemys;
-                    GameObject toInstantiate = target_assets[Random.Range(0, target_assets.Length)];
-                    GameObject _instance =
-                        Instantiate(toInstantiate, specialPosition, Quaternion.identity) as GameObject;
-                }
+                case -1:
+                    return other_tiles;
+                case 0:
+                case 1:
+                    return normal_tiles;
+                case 2:
+                    return A_tiles;
+                case 3:
+                case 4:
+                    return B_tiles;
+                case 5:
+                case 6:
+                    return C_tiles;
+                case 7:
+                case 8:
+                    return D_tiles;
+                case 9:
+                case 10:
+                    return E_tiles;
+                default:
+                    Debug.Log("Unknown area type.");
+                    return other_tiles;
             }
         }
 
