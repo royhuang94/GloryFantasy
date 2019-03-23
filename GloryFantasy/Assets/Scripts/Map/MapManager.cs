@@ -70,6 +70,7 @@ namespace MapManager
             {
                 int x = (int)mapData[i]["x"];
                 int y = (int)mapData[i]["y"];
+                //TODO:这里也要改掉new。MonoBehaviour不能和new混用，当然初始化也不能用构造函数
                 _mapBlocks[x, y] = new MapBlock((int)mapData[i]["area"]);
 
                 int tokenCount = mapData[i]["token"].Count;
@@ -85,6 +86,8 @@ namespace MapManager
 
         private Unit InitGameUnit(JsonData unit)
         {
+            //TODO:这里写错了……这里的gameObject指的是this.gameObject，也就是MapManager这个脚本所依靠的gameObject
+            //你需要自己先生成一个GameObject然后挂Unit上去
             Unit newUnit = gameObject.AddComponent<Unit>();
             newUnit.Name = unit["name"].ToString();
             newUnit.id = unit["id"].ToString();
@@ -259,7 +262,8 @@ namespace MapManager
         public Boolean CheckIfHasUnits(Vector3 vector)
         {
             if (!_CheckVector(vector)) return false;
-            return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me != null;
+            //return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me != null;
+            return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me.Count != 0;
         }
 
         // 返回给定坐标上单位list，坐标不合法会返回null, 其他依据实际情况返回值

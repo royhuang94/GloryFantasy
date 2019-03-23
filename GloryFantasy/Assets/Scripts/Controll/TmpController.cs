@@ -105,12 +105,16 @@ namespace GameControl
                 mObject.GetComponent<DamagePopup>().Value = Random.Range(10,100);
             }
 
+            Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);
         }
 
         public void onClickCancle()
         {
             // TODO: 添加点击取消按钮事件
             Debug.Log("Cancle clicked!");
+
+            //下面是与指令脚本交互,输入返回
+            Gameplay.GetInstance().gamePlayInput.HandleCancle();
         }
     }
 }
