@@ -41,7 +41,7 @@ public class ShowRange : MonoBehaviour
     public void MarkAttackRange()
     {
         MapManager.MapManager.getInstance().ColorMapBlocks(
-            GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.def), Color.red);
+            GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.rng), Color.red);
     }
 
     public void CancleMoveRangeMark()
@@ -53,6 +53,6 @@ public class ShowRange : MonoBehaviour
     public void CancleAttackRangeMark()
     {
         MapManager.MapManager.getInstance().ColorMapBlocks(
-            GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.def), Color.white);
+            GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.rng), Color.white);
     }
 }
