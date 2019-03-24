@@ -17,6 +17,9 @@ public class GameplayInput
     {
         if (TargetList.Count == 1)
         {
+            GameUnit.GameUnit unit = MapManager.MapManager.getInstance().GetUnitsOnMapBlock(TargetList[0])[0];
+            unit.GetComponent<ShowRange>().CancleAttackRangeMark();
+            unit.GetComponent<ShowRange>().CancleMoveRangeMark();
             TargetList.Clear();
         }
     }
@@ -29,6 +32,9 @@ public class GameplayInput
             if (mapManager.CheckIfHasUnits(target))
             {
                 TargetList.Add(target);
+                GameUnit.GameUnit unit = MapManager.MapManager.getInstance().GetUnitsOnMapBlock(TargetList[0])[0];
+                unit.GetComponent<ShowRange>().MarkMoveRange();
+                unit.GetComponent<ShowRange>().MarkAttackRange();
             }
         }
        else
@@ -43,6 +49,10 @@ public class GameplayInput
                 UnitAttackCommand attackCommand = new UnitAttackCommand(unit1, unit2);
                 if (attackCommand.Judge())
                 {
+                    //关闭染色
+                    unit1.GetComponent<ShowRange>().CancleAttackRangeMark();
+                    unit1.GetComponent<ShowRange>().CancleMoveRangeMark();
+
                     attackCommand.Excute();
                     TargetList.Clear();
                 }
@@ -55,6 +65,10 @@ public class GameplayInput
                 UnitMoveCommand moveCommand = new UnitMoveCommand(unit1, unit2);
                 if (moveCommand.Judge())
                 {
+                    //关闭染色
+                    unit1.GetComponent<ShowRange>().CancleAttackRangeMark();
+                    unit1.GetComponent<ShowRange>().CancleMoveRangeMark();
+
                     moveCommand.Excute();
                     TargetList.Clear();
                 }

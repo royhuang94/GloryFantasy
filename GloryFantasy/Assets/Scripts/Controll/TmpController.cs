@@ -101,10 +101,10 @@ namespace GameControl
                 Unit unit = MapManager.GetUnitsOnMapBlock(this.coordinate)[0];
                 Debug.Log("This unit belongs to :" + unit.owner);
                 Debug.Log(string.Format(" {0} {1} ", unit.mapBlockBelow.x, unit.mapBlockBelow.y));
-                if (unit.owner.Equals("player"))
-                {
-                    unit.GetComponent<ShowRange>().MarkMoveRange();
-                }
+                //if (unit.owner.Equals("player"))
+                //{
+                //    unit.GetComponent<ShowRange>().MarkMoveRange();
+                //}
             }
 
             Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);
@@ -115,7 +115,6 @@ namespace GameControl
             // TODO: 添加点击取消按钮事件
             Debug.Log("Cancle clicked!");
 
-            //下面是与指令脚本交互,输入返回
             Gameplay.GetInstance().gamePlayInput.HandleCancle();
         }
     }
