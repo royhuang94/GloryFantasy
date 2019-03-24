@@ -117,5 +117,10 @@ namespace GameControl
 
             Gameplay.GetInstance().gamePlayInput.HandleCancle();
         }
+
+        public void onClickEndRound()
+        {
+            //TODO: 添加点击结束回合按钮
+        }
     }
 }

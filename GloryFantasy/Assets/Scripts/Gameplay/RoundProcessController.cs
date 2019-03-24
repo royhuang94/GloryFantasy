@@ -14,6 +14,41 @@ public class RoundProcessController
         _state = RoundState.crystalPhase;
     }
 
+    public bool IsPlayerRound()
+    {
+        return this.isPlayerRound;
+    }
+
+    public bool IsCpuRound()
+    {
+        return !this.isPlayerRound;
+    }
+    
+    public void EnterPlayerRound()
+    {
+        this.isPlayerRound = true; 
+        // TODO : 进入玩家回合的操作
+    }
+
+    public void QuitPlayerRound()
+    {
+        this.isPlayerRound = false;
+        // TODO : 退出玩家回合的操作
+    }
+
+    public void EnterCpuRound()
+    {
+        this.isPlayerRound = false;
+        // TODO : 进入AI回合的操作
+    }
+
+    public void QuitCpuRound()
+    {
+        // TODO : 退出CPU回合的操作
+    }
+
+    private bool isPlayerRound = false;
+
     public RoundState _state;
 }
 
