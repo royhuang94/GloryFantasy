@@ -173,6 +173,10 @@ namespace MapManager
                 res[i] = enemy.GetComponent<Unit>();
                 
                 ReadUnitDataInJason(units[i], res[i]);
+
+                enemy.AddComponent<DisplayData>();
+                enemy.AddComponent<ShowRange>();
+                
             }
             
             return res;
@@ -206,9 +210,8 @@ namespace MapManager
             // 在单位上挂载展示数值显示脚本
             _object.AddComponent<DisplayData>();
             
-            // 在player单位上挂载展示范围脚本
-            if (isPlayer)
-                _object.AddComponent<ShowRange>();
+            // 不管是不是player单位都挂载展示范围脚本
+            _object.AddComponent<ShowRange>();
             
             return newUnit;
         }
