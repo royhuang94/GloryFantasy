@@ -6,6 +6,7 @@ using LitJson;
 using System.IO;
 using Unit = GameUnit.GameUnit;
 
+
 namespace MapManager
 
 {
@@ -32,6 +33,7 @@ namespace MapManager
         public void InitMap() {
             // TODO : 添加初始化地图的方法
             //for_demo_init();
+            InitGameUnitsTemplateDictionary();
             InitAndInstantiateMapBlocks();
         }
 
@@ -58,18 +60,40 @@ namespace MapManager
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
 
         private List<Unit> _unitsList;
+
+        private Dictionary<string, JsonData> _unitsData;    //存储所有单位类型的模板Json数据
         
         // 记录json中token不为空的坐标，待后续处理
         //private List <Vector3> specialPositions = new List <Vector3> ();
 
+        
+        // 初始化存储所有单元模板信息数据的字典，方便后续使用
+        private void InitGameUnitsTemplateDictionary()
+        {
+            this._unitsData = new Dictionary<string, JsonData>();
+
+            JsonData unitsTemplate =
+                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/textToken.json"));
+
+            int dataAmount = unitsTemplate.Count;
+            for (int i = 0; i < dataAmount; i++)
+            {
+                _unitsData.Add(unitsTemplate[i]["id"].ToString(), unitsTemplate[i]);
+            }
+        }
+
         private void InitAndInstantiateMapBlocks()
         {
             // 更改地图数据位置则需修改此处路径
-            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Map/测试地图.json"));
+            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Map/Beginning.json"));
 
-            _mapBlocks = new MapBlock[columns, rows];
+            int mapDataCount = mapData.Count;
+            this.columns = (int) mapData[mapDataCount - 1]["y"] + 1;
+            this.rows = (int) mapData[mapDataCount - 1]["x"] + 1;
             
-            for( int i =0; i< mapData.Count;i++)
+            _mapBlocks = new MapBlock[rows, columns];
+            
+            for( int i =0; i< mapDataCount;i++)
             {
                 int x = (int)mapData[i]["x"];
                 int y = (int)mapData[i]["y"];
@@ -113,47 +137,27 @@ namespace MapManager
             }
         }
 
-        private void ReadUnitDataInJason(JsonData data, Unit unit)
+        private void ReadUnitDataInJason(JsonData data, string owner, int damaged, Unit unit)
         {
             unit.Name = data["name"].ToString();
             unit.id = data["id"].ToString();
-            unit.cost = (int) data["cost"];
             unit.atk = (int) data["atk"];
-            unit.def = (int) data["def"];
+            unit.hp = (int) data["hp"];
             unit.mov = (int) data["mov"];
             unit.rng = (int) data["rng"];
-            unit.owner = data["owner"].ToString();
-            unit.ralatedCardID = (int)data["ralatedCardID"];
-            string[] labes = {"tag", "triggered", "active"};
-            for (int i = 0; i < labes.Length; i++)
+            unit.owner = owner;
+            unit.priority = new List<int>();
+            unit.priority.Add((int)data["priority"]);
+            int tagCount = data["tag"].Count;
+            if (tagCount > 0)
             {
-                int count = data[labes[i]].Count;
-                if (count > 0)
+                unit.tag = new string[tagCount];
+                for (int i = 0; i < tagCount; i++)
                 {
-                    string[] tag = new string[count];
-                    for (int j = 0; j < count; j++)
-                    {
-                        tag[j] = data[labes[i]][j].ToString();
-                    }
-
-                    switch (i)
-                    {
-                        case 0:
-                            unit.tag = tag;
-                            break;
-                        case 1:
-                            unit.triggered = tag;
-                            break;
-                        case 2:
-                            unit.active = tag;
-                            break;
-                        default:
-                            Debug.Log("detected wrong index");
-                            break;
-                    }
+                    unit.tag[i] = data["tag"][i].ToString();
                 }
-
-            }
+                
+            } 
         }
 
         private Unit[] InitAndInstantiateGameUnits(JsonData units, int count, int x, int y)
@@ -172,7 +176,10 @@ namespace MapManager
                 enemy.AddComponent<Unit>();
                 res[i] = enemy.GetComponent<Unit>();
                 
-                ReadUnitDataInJason(units[i], res[i]);
+                ReadUnitDataInJason(this._unitsData[units[i]["name"].ToString()],
+                                    units[i]["Controler - Enemy, Friendly or Self"].ToString(),
+                                    (int)units[i]["Damaged"],
+                                    res[i]);
 
                 enemy.AddComponent<DisplayData>();
                 enemy.AddComponent<ShowRange>();
@@ -186,10 +193,8 @@ namespace MapManager
         {
             Unit newUnit;
             GameObject _object;
-            bool isPlayer = false;
-            if (data["owner"].ToString().Equals("player"))
+            if (data["Controler - Enemy, Friendly or Self"].ToString().Equals("Self"))
             {
-                isPlayer = true;
                 this.player = _object =
                     Instantiate(player_assete, new Vector3(x, y, 0f), Quaternion.identity);
             }
@@ -205,7 +210,10 @@ namespace MapManager
             
             // 获取该脚本对象并传入解析json函数赋值
             newUnit = _object.GetComponent<Unit>();
-            ReadUnitDataInJason(data, newUnit);
+            ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
+                                data["Controler - Enemy, Friendly or Self"].ToString(), 
+                                (int)data["Damaged"],
+                                newUnit);
             
             // 在单位上挂载展示数值显示脚本
             _object.AddComponent<DisplayData>();

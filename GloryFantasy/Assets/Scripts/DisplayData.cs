@@ -31,7 +31,7 @@ public class DisplayData: MonoBehaviour {
  
 	void Update ()
 	{
-		name = string.Format("{0}  {1}", unit.def, unit.atk);
+		name = string.Format("{0}  {1}", unit.hp, unit.atk);
 	}
  
 	void OnGUI()

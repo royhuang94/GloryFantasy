@@ -21,7 +21,7 @@ public class Damage
 
     public static void TakeDamage(GameUnit.GameUnit unit, Damage damage)
     {
-        unit.def -= damage.damageValue;
+        unit.hp -= damage.damageValue;
     }
 }
 
