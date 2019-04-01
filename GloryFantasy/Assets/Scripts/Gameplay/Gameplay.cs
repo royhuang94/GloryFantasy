@@ -288,7 +288,7 @@ public class Gameplay : MonoBehaviour
         gamePlayInput = new GameplayInput();
     }
 
-    public static Info Info;
+    public static Info Info = new Info();
     public RoundProcessController roundProcessController;
     public GameplayInput gamePlayInput;
 }

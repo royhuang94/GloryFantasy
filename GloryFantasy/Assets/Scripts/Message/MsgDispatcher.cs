@@ -87,6 +87,7 @@ namespace IMessage
             if (!MsgHandlerDict.ContainsKey(msgName))
             {
                 Debug.Log("SendMsg: " + msgName + "had not been regeisted");
+                return;
             }
 
             var handlers = MsgHandlerDict[msgName];

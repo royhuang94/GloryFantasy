@@ -77,14 +77,17 @@ public class UnitAttackCommand :Command
         for (int i = 0; i < DamageRequestList.Count; i++)
         {
             //优先级相同并且两方互打的伤害请求作为同时处理
-            if (i != DamageRequestList.Count - 1 && DamageRequestList[i].priority == DamageRequestList[i+1].priority 
+            if (i != DamageRequestList.Count - 1 && DamageRequestList[i].priority == DamageRequestList[i + 1].priority
                 && DamageRequestList[i]._attacker == DamageRequestList[i + 1]._attackedUnit
                 && DamageRequestList[i]._attackedUnit == DamageRequestList[i + 1]._attacker)
             {
                 DamageRequestList[i].ExcuteSameTime();
                 i++;
             }
-            DamageRequestList[i].Excute();
+            else
+            {
+                DamageRequestList[i].Excute();
+            }
         }
     }
 
