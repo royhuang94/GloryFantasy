@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 //using IMessage;
 
+//测试中的消息中心使用样例
+
 enum MsgTestType
 {
     A,
@@ -33,18 +35,22 @@ public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
 //TODO:扩充这个ITrigger
 namespace ITrigger
 {
-    class Trigger : Command
+    //继承TOOL让策划有限定的读取方法使用
+    class Trigger : GameplayTool
     {
         public int msgName;
         public IMessage.Condition condition;
         public IMessage.Action action;
     }
 
+    //一个Trigger的样例
     class Trigger1 : Trigger
     {
-        Trigger1()
+        public Trigger1()
         {
+            //消息类型
             msgName = (int)TriggerType.ActiveAbility;
+            //Condition和Action的初始化
             condition = Condition;
             action = Action;
         }
@@ -60,6 +66,17 @@ namespace ITrigger
         private void Action()
         {
             
+        }
+    }
+
+    public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
+    {
+        private void Awake()
+        {
+            //实例化对应的trigger
+            Trigger trigger = new Trigger1();
+            //进行注册
+            IMessage.MsgDispatcher.RegisterMsg(this, trigger.msgName, trigger.condition, trigger.action);
         }
     }
 }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using IMessage;
 
-
+//伤害实例
+//同时负责伤害公式的计算
 public class Damage
 {
     public int damageValue { get; set; }
@@ -27,7 +28,7 @@ public class Damage
 
 //继承Command的基类是为了能够使用Command里的方法
 //其实如果把command的方法写成 功能类会更靠谱，因为实际上和Command没有逻辑上的继承关系啊我日
-//所以我把Command的方法提了出来写成了GameplayTool，Command继承GamePlay,依然是采用继承的方式才能调用，因为真的不想增加太多的全局量
+//所以我把Command的方法提了出来写成了GameplayTool，Command继承GamePlayTool,依然是采用继承的方式才能调用，因为真的不想增加太多的全局量
 public class DamageRequest : GameplayTool
 {
     public DamageRequest(GameUnit.GameUnit attacker, GameUnit.GameUnit attackedUnit, int priority)

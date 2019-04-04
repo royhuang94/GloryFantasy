@@ -13,6 +13,7 @@ namespace IMessage
     public delegate bool Condition();
     public delegate void Action();
 
+    //消息中心
     public static class MsgDispatcher
     {
         /// <summary>
@@ -47,6 +48,7 @@ namespace IMessage
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
         
+        //注册接收者
         public static void RegisterMsg(this MsgReceiver self, int msgName, Condition condition, Action action, string TriggerName = "NoDefine")
         {
             if (msgName < 0)

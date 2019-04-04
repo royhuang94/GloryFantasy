@@ -4,6 +4,7 @@ using UnityEngine;
 using IMessage;
 using GameUnit;
 
+//指令操作的基类
 public class Command : GameplayTool
 {
     virtual public void Excute() { }
