@@ -10,6 +10,8 @@ public class ShowRange : MonoBehaviour
     private void Awake()
     {
         this.unit = gameObject.GetComponent<Unit>();
+        this.rows = MapManager.MapManager.GetInstance().rows;
+        this.columns = MapManager.MapManager.GetInstance().columns;
     }
 
     public List<Vector2> GetPositionsWithinCertainMd(Vector2 position, int ManhattanDistance)
@@ -21,7 +23,7 @@ public class ShowRange : MonoBehaviour
 
     public void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
     {
-        if (x < 0 || y < 0 || x > rows || y > columns) return;
+        if (x < 0 || y < 0 || x >= rows || y >= columns) return;
         reslist.Add(new Vector2(x, y));
         if (leftManhattanDistance == 0)
             return;
@@ -34,25 +36,25 @@ public class ShowRange : MonoBehaviour
     
     public void MarkMoveRange()
     {
-        MapManager.MapManager.getInstance().ColorMapBlocks(
+        MapManager.MapManager.GetInstance().ColorMapBlocks(
             GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.mov), Color.green);
     }
 
     public void MarkAttackRange()
     {
-        MapManager.MapManager.getInstance().ColorMapBlocks(
+        MapManager.MapManager.GetInstance().ColorMapBlocks(
             GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.rng), Color.red);
     }
 
     public void CancleMoveRangeMark()
     {
-        MapManager.MapManager.getInstance().ColorMapBlocks(
+        MapManager.MapManager.GetInstance().ColorMapBlocks(
             GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.mov), Color.white);
     }
 
     public void CancleAttackRangeMark()
     {
-        MapManager.MapManager.getInstance().ColorMapBlocks(
+        MapManager.MapManager.GetInstance().ColorMapBlocks(
             GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.rng), Color.white);
     }
 }

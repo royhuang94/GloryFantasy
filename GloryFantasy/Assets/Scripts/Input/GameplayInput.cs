@@ -17,7 +17,7 @@ public class GameplayInput
     {
         if (TargetList.Count == 1)
         {
-            GameUnit.GameUnit unit = MapManager.MapManager.getInstance().GetUnitsOnMapBlock(TargetList[0])[0];
+            GameUnit.GameUnit unit = MapManager.MapManager.GetInstance().GetUnitsOnMapBlock(TargetList[0])[0];
             unit.GetComponent<ShowRange>().CancleAttackRangeMark();
             unit.GetComponent<ShowRange>().CancleMoveRangeMark();
             TargetList.Clear();
@@ -26,13 +26,13 @@ public class GameplayInput
 
     public void HandleConfirm(Vector2 target)
     {
-        MapManager.MapManager mapManager = MapManager.MapManager.getInstance();
+        MapManager.MapManager mapManager = MapManager.MapManager.GetInstance();
        if (TargetList.Count == 0)
         {
             if (mapManager.CheckIfHasUnits(target))
             {
                 TargetList.Add(target);
-                GameUnit.GameUnit unit = MapManager.MapManager.getInstance().GetUnitsOnMapBlock(TargetList[0])[0];
+                GameUnit.GameUnit unit = MapManager.MapManager.GetInstance().GetUnitsOnMapBlock(TargetList[0])[0];
                 unit.GetComponent<ShowRange>().MarkMoveRange();
                 unit.GetComponent<ShowRange>().MarkAttackRange();
             }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using LitJson;
 using System.IO;
+using GameUnit;
 using Unit = GameUnit.GameUnit;
 
 
@@ -14,7 +15,7 @@ namespace MapManager
 
         private static MapManager instance = null;
 
-        public static MapManager getInstance()
+        public static MapManager GetInstance()
         {
             return instance;
         }
@@ -276,7 +277,7 @@ namespace MapManager
 
         private Boolean _CheckVector(Vector3 vector)
         {
-            if ((int) vector.x > rows || (int) vector.y > columns)
+            if ((int) vector.x >= rows || (int) vector.y >= columns)
             {
                 Debug.Log(string.Format("Invalid coordinate: {0}, {1} !", (int)vector.x, (int)vector.y));
                 return false;
@@ -339,6 +340,13 @@ namespace MapManager
             return false;
         }
 
+        public void RemoveUnit(Unit unit)
+        {
+            unit.mapBlockBelow.RemoveUnit(unit);
+            this._unitsList.Remove(unit);
+            Destroy(unit.gameObject);
+        }
+
         // 地图方块染色接口
         public void ColorMapBlocks(List<Vector2> positions, Color color)
         {
@@ -346,6 +354,32 @@ namespace MapManager
             {
                 _mapBlocks[(int) position.x, (int) position.y].gameObject.GetComponent<SpriteRenderer>().color = color;
             }
+        }
+
+        // 实例化卡牌单位的接口
+        public void InstantiateCardUnit(UnitCard card, Vector3 pos)
+        {
+            if (!_CheckVector(pos))
+            {
+                Debug.Log(string.Format("Invalid position ({0}, {1})! Instantiate from card failed.",
+                            (int) pos.x, (int) pos.y));
+                
+                return;
+            }
+            
+            Unit unit;
+            GameObject newInstance = Instantiate(player_assete, pos, Quaternion.identity);
+            
+            newInstance.AddComponent<Unit>();
+            unit = newInstance.GetComponent<Unit>();
+            card.InitGameUnit(unit);
+            
+            this._unitsList.Add(unit);
+            unit.mapBlockBelow = _mapBlocks[(int) pos.x, (int) pos.y];
+            unit.mapBlockBelow.units_on_me.Add(unit);
+            
+            newInstance.AddComponent<DisplayData>();
+            newInstance.AddComponent<ShowRange>();
         }
     }
 }
