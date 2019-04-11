@@ -86,7 +86,7 @@ namespace BattleMapManager
         private void InitAndInstantiateMapBlocks()
         {
             // 更改地图数据位置则需修改此处路径
-            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Map/Beginning.json"));
+            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/BattleMap/Beginning.json"));
 
             int mapDataCount = mapData.Count;
             this.columns = (int) mapData[mapDataCount - 1]["y"] + 1;
