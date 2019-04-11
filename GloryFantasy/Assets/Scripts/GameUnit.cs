@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using MapManager;
+using BattleMapManager;
 
 namespace GameUnit
 {
@@ -23,7 +23,7 @@ namespace GameUnit
         
         public string damaged { get; set; }        // TODO: 待确定数值后进行修改
 
-        public MapBlock mapBlockBelow;
+        public BattleMapBlock mapBlockBelow;
         
 
         public GameUnit(string name, string id, string[] tag, 

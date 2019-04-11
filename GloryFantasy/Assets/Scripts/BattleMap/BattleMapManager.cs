@@ -8,19 +8,19 @@ using GameUnit;
 using Unit = GameUnit.GameUnit;
 
 
-namespace MapManager
+namespace BattleMapManager
 
 {
-    public class MapManager : MonoBehaviour {
+    public class BattleMapManager : MonoBehaviour {
 
-        private static MapManager instance = null;
+        private static BattleMapManager instance = null;
 
-        public static MapManager GetInstance()
+        public static BattleMapManager GetInstance()
         {
             return instance;
         }
 
-        private MapManager()
+        private BattleMapManager()
         {
             _unitsList = new List<Unit>();
         }
@@ -42,7 +42,7 @@ namespace MapManager
         public int columns = 8;                 // 地图方块每列的数量
         public int rows = 8;                    // 地图方块每行的数量
 
-        private MapBlock[,] _mapBlocks;
+        private BattleMapBlock[,] _mapBlocks;
         public GameObject[] A_tiles;            // 区域 A prefabs的数组
         public GameObject[] B_tiles;            // 区域 B prefabs的数组
         public GameObject[] C_tiles;            // 区域 C prefabs的数组
@@ -92,7 +92,7 @@ namespace MapManager
             this.columns = (int) mapData[mapDataCount - 1]["y"] + 1;
             this.rows = (int) mapData[mapDataCount - 1]["x"] + 1;
             
-            _mapBlocks = new MapBlock[rows, columns];
+            _mapBlocks = new BattleMapBlock[rows, columns];
             
             for( int i =0; i< mapDataCount;i++)
             {
@@ -107,9 +107,9 @@ namespace MapManager
                     Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
                 _instance.transform.SetParent(_tilesHolder);
                 
-                _instance.gameObject.AddComponent<MapBlock>();
+                _instance.gameObject.AddComponent<BattleMapBlock>();
                 
-                _mapBlocks[x, y] = _instance.gameObject.GetComponent<MapBlock>();
+                _mapBlocks[x, y] = _instance.gameObject.GetComponent<BattleMapBlock>();
                 _mapBlocks[x, y].area = area;
                 _mapBlocks[x, y].x = x;
                 _mapBlocks[x, y].y = y;
@@ -255,18 +255,18 @@ namespace MapManager
             }
         }
 
-        public MapBlock GetSpecificMapBlock(int x, int y)
+        public BattleMapBlock GetSpecificMapBlock(int x, int y)
         {
             return this._mapBlocks[x, y];
         }
 
-        public Vector3 GetCoordinate(MapBlock mapBlock)
+        public Vector3 GetCoordinate(BattleMapBlock battleMapBlock)
         {
             for(int i = columns - 1; i > 0; i--)
             {
                 for(int j = 0; j< rows; j++)
                 {
-                    if(_mapBlocks[i,j] == mapBlock)
+                    if(_mapBlocks[i,j] == battleMapBlock)
                     {
                         return new Vector3(i, j, 0f);
                     }

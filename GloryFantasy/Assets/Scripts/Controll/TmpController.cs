@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using GameUnit;
-using MapManager;
 using Random = UnityEngine.Random;
 using Unit =GameUnit.GameUnit;
 
@@ -10,7 +9,7 @@ namespace GameControl
     public class TmpController: MonoBehaviour
     {
         public GameObject cursor;//存放标记的变量
-        public MapManager.MapManager MapManager;
+        public BattleMapManager.BattleMapManager MapManager;
         public CardManager CardManager;
         private Vector3 coordinate;
         private Vector3 position;

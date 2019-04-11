@@ -3,28 +3,28 @@ using System;
 using System.Collections.Generic;
 using Unit = GameUnit.GameUnit;
 
-namespace MapManager
+namespace BattleMapManager
 
 {
-    public class MapBlock: MonoBehaviour{
+    public class BattleMapBlock: MonoBehaviour{
         public int area { get; set; }
         public int x { get; set; }
         public int y { get; set; }
         public string[] data { get; set; }
         public List <Unit> units_on_me = new List <Unit> ();
 
-        public MapBlock(int area)
+        public BattleMapBlock(int area)
         {
             this.area = area;
             this.data = null;
         }
 
-        public MapBlock(int area, string[] data) {
+        public BattleMapBlock(int area, string[] data) {
             this.area = area;
             this.data = data;
         }
 
-        public MapBlock() {
+        public BattleMapBlock() {
             this.area = 0;
             this.data = null;
         }
