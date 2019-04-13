@@ -18,11 +18,15 @@ namespace BattleMapManager
         isCloseList
     }
 
+
     public enum EMapBlockType
     {
-        Normal,
-        aStarPath,
+        normal,   //ÆÕÍ¨µØÍ¼¿é¶ù
+        burnning, //×ÆÉÕ¿é¶ù
+        Retire,   //ÖÍÁô¿é¶ù
+        aStarPath   //AĞÇÂ·¾¶
     }
+
 
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
