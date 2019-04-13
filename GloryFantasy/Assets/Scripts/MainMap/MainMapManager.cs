@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GFCharactor;
 /// <summary>定义六边形坐标的结构体，并处理坐标转换
 /// 
 /// </summary>
@@ -242,7 +243,19 @@ public class Post : MapUnit
             Debug.Log("进入驿站");
             ReadyToTrans = true;
             Debug.Log("准备传送");
+            foreach (MapUnit unit in mapManager.AroundList.Values)
+            {
 
+                if (unit != null)
+                {
+                    unit.gameObject.GetComponent<Button>().onClick.AddListener(CancelTrans);
+                   
+                }
+                else
+                {
+                    
+                }
+            }
         }
         else if (ReadyToTrans == true)
         {
@@ -268,6 +281,10 @@ public class Post : MapUnit
     {
         mapManager.charactor.Move(GetComponent<Transform>().position, -2);
         mapManager.setaround(GameObject.Find("test" + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.x.ToString() + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.z.ToString()));
+        ReadyToTrans = false;
+    }
+    public void CancelTrans()
+    {
         ReadyToTrans = false;
     }
 }

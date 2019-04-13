@@ -3,6 +3,8 @@ using System;
 
 
 //2019.4.12版
+namespace GFCharactor
+{ 
 
 public class Charactor : MonoBehaviour
 {
@@ -127,4 +129,5 @@ public class Charactor : MonoBehaviour
 
         mapManager = GameObject.Find("Map").GetComponent<MainMapManager>();
     }
+}
 }
