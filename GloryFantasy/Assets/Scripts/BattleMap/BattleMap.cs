@@ -7,18 +7,18 @@ using System.IO;
 using Unit = GameUnit.GameUnit;
 using UnityEngine.UI;
 
-namespace BattleMapManager
+namespace BattleMap
 
 {
-    public class BattleMapManager : MonoBehaviour {
-        private static BattleMapManager instance = null;
+    public class BattleMap : MonoBehaviour {
+        private static BattleMap instance = null;
 
-        public static BattleMapManager getInstance()
+        public static BattleMap getInstance()
         {
             return instance;
         }
 
-        private BattleMapManager()
+        private BattleMap()
         {
             _unitsList = new List<Unit>();
         }
@@ -354,15 +354,13 @@ namespace BattleMapManager
             }
             if (data["Controler - Enemy, Friendly or Self"].ToString().Equals("Obstacle"))
             {
-                _object = Instantiate(obstacle);
-                _object.transform.SetParent(_mapBlocks[x, y].transform);
+                _object = Instantiate(obstacle, _mapBlocks[x, y].transform, true);
                 _object.transform.position = new Vector3(x, y, 0f);
             }
             else
             {
                 //_object =Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(x, y, 0f),Quaternion.identity);
-                _object = Instantiate(enemys[Random.Range(0, enemys.Length)]);
-                _object.transform.SetParent(_mapBlocks[x, y].transform);
+                _object = Instantiate(enemys[Random.Range(0, enemys.Length)], _mapBlocks[x, y].transform, true);
                 _object.transform.position = new Vector3(x, y, 0f);
 
             }
@@ -597,14 +595,15 @@ namespace BattleMapManager
                 Debug.Log(x + ":" + y);
                 if (_mapBlocks[x, y].transform.childCount != 0)
                 {
-                    if (_mapBlocks[x, y].GetComponentInChildren<Unit>() != null)
+                    Unit unit = _mapBlocks[x, y].GetComponentInChildren<Unit>();
+                    if (unit != null)
                     {
-                        if (_mapBlocks[x, y].GetComponentInChildren<Unit>().owner.Equals("Enemy"))
+                        if (unit.owner.Equals("Enemy"))
                         {
                             Debug.Log("This WarZone has Enemy,you can`t summon");
                             return false;
                         }
-                        if (_mapBlocks[x, y].GetComponentInChildren<Unit>().owner.Equals("Self"))
+                        if (unit.owner.Equals("Self"))
                         {
                             unit = _mapBlocks[x, y].GetComponentInChildren<Unit>();
                             units.Add(unit);

@@ -29,7 +29,7 @@ public class UnitMoveCommand :Command
 
     public bool Judge()
     {
-        Vector2 unit1 = BattleMapManager.BattleMapManager.getInstance().GetUnitCoordinate(_unit);
+        Vector2 unit1 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_unit);
         Vector2 unit2 = _destination;
         int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
         if (MAN_HA_DUN <= _unit.mov)
@@ -41,7 +41,7 @@ public class UnitMoveCommand :Command
     public override void Excute()
     {
         Debug.Log("Moving Command excusing");
-        BattleMapManager.BattleMapManager.getInstance().MoveUnitToCoordinate(_unit, _destination);
+        BattleMap.BattleMap.getInstance().MoveUnitToCoordinate(_unit, _destination);
     }
 
     private GameUnit.GameUnit _unit;
@@ -59,8 +59,8 @@ public class UnitAttackCommand :Command
     //计算攻击距离是否大于曼哈顿
     public bool Judge()
     {
-        Vector2 unit1 = BattleMapManager.BattleMapManager.getInstance().GetUnitCoordinate(_Attacker);
-        Vector2 unit2 = BattleMapManager.BattleMapManager.getInstance().GetUnitCoordinate(_AttackedUnit);
+        Vector2 unit1 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_Attacker);
+        Vector2 unit2 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_AttackedUnit);
         int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
         if (MAN_HA_DUN <= _Attacker.rng)
             return true;
