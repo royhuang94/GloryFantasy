@@ -74,7 +74,6 @@ namespace BattleMapManager
 
         public Vector3 curMapPos;
         private BattleMapBlock[,] _mapBlocks;         //普通的地图方块
-        private BattleMapBlock mapBlock;
         private BattleMapBlock[,] _mapBlocksBurning;//灼烧的地图方块
         public GameObject normalMapBlocks;
         private Dictionary<Vector2, BattleMapBlock> mapBlockDict = new Dictionary<Vector2, BattleMapBlock>();//寻路字典
@@ -91,24 +90,24 @@ namespace BattleMapManager
         #endregion
 
         #region 战区块
-        private List<BattleMapBlock> battleArea_1;
-        private List<BattleMapBlock> battleArea0;
-        private List<BattleMapBlock> battleArea1;
-        private List<BattleMapBlock> battleArea2;
-        private List<BattleMapBlock> battleArea3;
-        private List<BattleMapBlock> battleArea4;
-        private List<BattleMapBlock> battleArea5;
-        private List<BattleMapBlock> battleArea6;
-        private List<BattleMapBlock> battleArea7;
-        public List<BattleMapBlock> BattleArea_1 { get { return battleArea_1; } }
-        public List<BattleMapBlock> BattleArea0 { get { return battleArea0; } }
-        public List<BattleMapBlock> BattleArea1 { get { return battleArea1; } }
-        public List<BattleMapBlock> BattleArea2 { get { return battleArea2; } }
-        public List<BattleMapBlock> BattleArea3 { get { return battleArea3; } }
-        public List<BattleMapBlock> BattleArea4 { get { return battleArea4; } }
-        public List<BattleMapBlock> BattleArea5 { get { return battleArea5; } }
-        public List<BattleMapBlock> BattleArea6 { get { return battleArea6; } }
-        public List<BattleMapBlock> BattleArea7 { get { return battleArea7; } }
+        private List<Vector2> battleArea_1;
+        private List<Vector2> battleArea0;
+        private List<Vector2> battleArea1;
+        private List<Vector2> battleArea2;
+        private List<Vector2> battleArea3;
+        private List<Vector2> battleArea4;
+        private List<Vector2> battleArea5;
+        private List<Vector2> battleArea6;
+        private List<Vector2> battleArea7;
+        public List<Vector2> BattleArea_1 { get { return battleArea_1; } }
+        public List<Vector2> BattleArea0 { get { return battleArea0; } }
+        public List<Vector2> BattleArea1 { get { return battleArea1; } }
+        public List<Vector2> BattleArea2 { get { return battleArea2; } }
+        public List<Vector2> BattleArea3 { get { return battleArea3; } }
+        public List<Vector2> BattleArea4 { get { return battleArea4; } }
+        public List<Vector2> BattleArea5 { get { return battleArea5; } }
+        public List<Vector2> BattleArea6 { get { return battleArea6; } }
+        public List<Vector2> BattleArea7 { get { return battleArea7; } }
         #endregion
 
         public GameObject[] enemys;             // 存储敌方单位素材的数组
@@ -165,15 +164,15 @@ namespace BattleMapManager
             _mapBlocks = new BattleMapBlock[rows, columns];
             GameObject _instance = new GameObject();
 
-            battleArea_1 = new List<BattleMapBlock>();
-            battleArea0 = new List<BattleMapBlock>();
-            battleArea1 = new List<BattleMapBlock>();
-            battleArea2 = new List<BattleMapBlock>();
-            battleArea3 = new List<BattleMapBlock>();
-            battleArea4 = new List<BattleMapBlock>();
-            battleArea5 = new List<BattleMapBlock>();
-            battleArea6 = new List<BattleMapBlock>();
-            battleArea7 = new List<BattleMapBlock>();
+            battleArea_1 = new List<Vector2>();
+            battleArea0 = new List<Vector2>();
+            battleArea1 = new List<Vector2>();
+            battleArea2 = new List<Vector2>();
+            battleArea3 = new List<Vector2>();
+            battleArea4 = new List<Vector2>();
+            battleArea5 = new List<Vector2>();
+            battleArea6 = new List<Vector2>();
+            battleArea7 = new List<Vector2>();
 
             int x = 0;
             int y = 0;
@@ -185,39 +184,37 @@ namespace BattleMapManager
                 x = (int)mapData[i]["x"];
                 y = (int)mapData[i]["y"];
                 area = (int)mapData[i]["area"];
-                mapBlock = new BattleMapBlock(x, y);
-
-
+                Vector2 mapPos = new Vector2(x, y);
 
                 #region 存储同一战区的地图块
                 switch (area)
                 {
                     case -1:
-                        battleArea_1.Add(mapBlock);
+                        battleArea_1.Add(mapPos);
                         break;
                     case 0:
-                        battleArea0.Add(mapBlock);
+                        battleArea0.Add(mapPos);
                         break;
                     case 1:
-                        battleArea1.Add(mapBlock);
+                        battleArea1.Add(mapPos);
                         break;
                     case 2:
-                        battleArea2.Add(mapBlock);
+                        battleArea2.Add(mapPos);
                         break;
                     case 3:
-                        battleArea3.Add(mapBlock);
+                        battleArea3.Add(mapPos);
                         break;
                     case 4:
-                        battleArea4.Add(mapBlock);
+                        battleArea4.Add(mapPos);
                         break;
                     case 5:
-                        battleArea5.Add(mapBlock);
+                        battleArea5.Add(mapPos);
                         break;
                     case 6:
-                        battleArea6.Add(mapBlock);
+                        battleArea6.Add(mapPos);
                         break;
                     case 7:
-                        battleArea7.Add(mapBlock);
+                        battleArea7.Add(mapPos);
                         break;
                     default:
                         break;
@@ -513,8 +510,7 @@ namespace BattleMapManager
 
 
         
-        private List<BattleMapBlock> emptyMapBlocks = new List<BattleMapBlock>();//保存战区空的格子
-        private BattleMapBlock emptyMbpBlock;
+        private List<Vector2> emptyMapBlocksPositions = new List<Vector2>();//保存战区空的格子
         private List<Unit> units = new List<Unit>();//获取战区上我方所有单位
         private Unit unit;
         #region 战区相关
@@ -524,12 +520,12 @@ namespace BattleMapManager
             //TODO增加一点资源点上限
 
             //立即部署一个临时友方单位
-            if (emptyMapBlocks.Count != 0)
+            if (emptyMapBlocksPositions.Count != 0)
             {
-                foreach (BattleMapBlock map in emptyMapBlocks)
+                foreach (Vector2 pos in emptyMapBlocksPositions)
                 {
                     GameObject go = GameObject.Instantiate(player);
-                    go.transform.SetParent(_mapBlocks[map.x, map.y].transform);
+                    go.transform.SetParent(_mapBlocks[(int)pos.x, (int)pos.y].transform);
                     go.transform.localPosition = Vector3.zero;
                 }
             }
@@ -558,7 +554,7 @@ namespace BattleMapManager
             //units.Clear();
             //emptyMapBlocks.Clear();
 
-            List<BattleMapBlock> battleArea = null;
+            List<Vector2> battleArea = null;
             
             switch (area)
             {
@@ -594,30 +590,31 @@ namespace BattleMapManager
                     return false;
             }
             
-            foreach (BattleMapBlock map in battleArea)
+            foreach (Vector2 pos in battleArea)
             {
-                Debug.Log(map.x + ":" + map.y);
-                if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                int x = (int) pos.x;
+                int y = (int) pos.y;
+                Debug.Log(x + ":" + y);
+                if (_mapBlocks[x, y].transform.childCount != 0)
                 {
-                    if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                    if (_mapBlocks[x, y].GetComponentInChildren<Unit>() != null)
                     {
-                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner.Equals("Enemy"))
+                        if (_mapBlocks[x, y].GetComponentInChildren<Unit>().owner.Equals("Enemy"))
                         {
                             Debug.Log("This WarZone has Enemy,you can`t summon");
                             return false;
                         }
-                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner.Equals("Self"))
+                        if (_mapBlocks[x, y].GetComponentInChildren<Unit>().owner.Equals("Self"))
                         {
-                            unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                            unit = _mapBlocks[x, y].GetComponentInChildren<Unit>();
                             units.Add(unit);
                         }
                     }
                 }
                 else
                 {
-                    emptyMbpBlock = new BattleMapBlock(map.x, map.y);
-                    Debug.Log(emptyMbpBlock);
-                    emptyMapBlocks.Add(emptyMbpBlock);
+                    Debug.Log(x + ":" + y);
+                    emptyMapBlocksPositions.Add(new Vector2(x, y));
 
                 }
             }
@@ -902,7 +899,7 @@ namespace BattleMapManager
         {
             int area = _mapBlocks[(int)position.x, (int)position.y].area;
             
-            List<BattleMapBlock> battleArea = null;
+            List<Vector2> battleArea = null;
             
             switch (area)
             {
@@ -938,9 +935,9 @@ namespace BattleMapManager
                     return;
             }
             
-            foreach (BattleMapBlock map in battleArea)
+            foreach (Vector2 pos in battleArea)
             {
-                _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                _mapBlocks[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.yellow;
             }
             #region 弃用
             /*
@@ -1015,7 +1012,7 @@ namespace BattleMapManager
         {
             int area  = _mapBlocks[(int)position.x, (int)position.y].area;
             
-            List<BattleMapBlock> battleArea = null;
+            List<Vector2> battleArea = null;
             
             switch (area)
             {
@@ -1051,9 +1048,9 @@ namespace BattleMapManager
                     return;
             }
             
-            foreach (BattleMapBlock map in battleArea)
+            foreach (Vector2 pos in battleArea)
             {
-                _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
+                _mapBlocks[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.white;
             }
             
             #region 弃用
