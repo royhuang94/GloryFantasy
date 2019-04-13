@@ -8,14 +8,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42b401cbb39e55140b52fbbd1f816b20, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a60b7f758a84c39867a42fd38ccabc9, type: 3}
   m_Name: player
   m_EditorClassIdentifier: 
-  uID: superCreature_02
-  tag: "\u6218\u58EB"
-  uName: "\u8D85\u7EA7\u6218\u58EB"
-  hp: 4
-  maxHp: 4
+  uID: 
+  tag: 
+  uName: 
+  hp: 0
+  maxHp: 0
   priority: 0
   mov: 2
   atk: 1
