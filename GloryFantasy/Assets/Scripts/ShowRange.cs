@@ -4,14 +4,18 @@ using Unit = GameUnit.GameUnit;
 
 public class ShowRange : MonoBehaviour
 {
-    public int rows = 8;
-    public int columns = 8;
-    public Unit unit;
+    private int rows;
+    private int columns;
+    private Unit unit;
     private void Awake()
     {
         this.unit = gameObject.GetComponent<Unit>();
-        this.rows = BattleMapManager.BattleMapManager.GetInstance().rows;
-        this.columns = BattleMapManager.BattleMapManager.GetInstance().columns;
+    }
+
+    private void Start()
+    {
+        rows = BattleMapManager.BattleMapManager.getInstance().Rows;
+        columns = BattleMapManager.BattleMapManager.getInstance().Columns;
     }
 
     public List<Vector2> GetPositionsWithinCertainMd(Vector2 position, int ManhattanDistance)
@@ -23,7 +27,7 @@ public class ShowRange : MonoBehaviour
 
     public void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
     {
-        if (x < 0 || y < 0 || x >= rows || y >= columns) return;
+        if (x < 0 || y < 0 || x > rows || y > columns) return;
         reslist.Add(new Vector2(x, y));
         if (leftManhattanDistance == 0)
             return;
@@ -36,25 +40,25 @@ public class ShowRange : MonoBehaviour
     
     public void MarkMoveRange()
     {
-        BattleMapManager.BattleMapManager.GetInstance().ColorMapBlocks(
-            GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.mov), Color.green);
+        BattleMapManager.BattleMapManager.getInstance().ColorMapBlocks(
+            GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.mov), Color.green);
     }
 
     public void MarkAttackRange()
     {
-        BattleMapManager.BattleMapManager.GetInstance().ColorMapBlocks(
-            GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.rng), Color.red);
+        BattleMapManager.BattleMapManager.getInstance().ColorMapBlocks(
+             GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.atk), Color.red);
     }
 
     public void CancleMoveRangeMark()
     {
-        BattleMapManager.BattleMapManager.GetInstance().ColorMapBlocks(
-            GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.mov), Color.white);
+        BattleMapManager.BattleMapManager.getInstance().ColorMapBlocks(
+             GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.mov), Color.white);
     }
 
     public void CancleAttackRangeMark()
     {
-        BattleMapManager.BattleMapManager.GetInstance().ColorMapBlocks(
-            GetPositionsWithinCertainMd(unit.mapBlockBelow.GetCoordinate(), unit.rng), Color.white);
+        BattleMapManager.BattleMapManager.getInstance().ColorMapBlocks(
+             GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.atk), Color.white);
     }
 }

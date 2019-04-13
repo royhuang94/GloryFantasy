@@ -3,23 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 //using IMessage;
 
-//测试中的消息中心使用样例
-
 enum MsgTestType
 {
     A,
     B,
     C,
-    D
+    D,
+    UnitMoving
 };
 
 public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
 {
+    public BattleMapManager.BattleMapManager MapManager;
+    private Vector3 coordinate;
+
     private void Awake()
     {
-        IMessage.MsgDispatcher.RegisterMsg(this, (int)MsgTestType.A, Condition, Action);
-        gameObject.SetActive(false);
+        //IMessage.MsgDispatcher.RegisterMsg(this, (int)MsgTestType.A, Condition, Action);
+        //gameObject.SetActive(false);
+
+        IMessage.MsgDispatcher.RegisterMsg(this, (int)MsgTestType.UnitMoving, Condition, Action);
+        //IMessage.MsgDispatcher.RegisterMsg(this, (int)TriggerType.UpdateSource, Condition, UpdateSource);//初始or更新资源
+        //IMessage.MsgDispatcher.RegisterMsg(this, (int)TriggerType.BP, Condition, BattlePresent);//战斗回合开始
     }
+
 
     private bool Condition()
     {
@@ -28,29 +35,47 @@ public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
 
     private void Action()
     {
-        gameObject.SetActive(true);
+        Debug.Log("action 激活");
+        //gameObject.SetActive(true);
+        //Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);
+        // TODO :添加点击确定按钮事件
+        //Debug.Log("Ok Cliked!");
+        //Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);
     }
+
+    private void UpdateSource()
+    {
+        Debug.Log("初始or更新资源");
+        //TODO处理更新资源事件
+        MsgTestButton.Instance.IsUpdateResourceOver = true;
+        Debug.Log("初始or更新资源完毕");
+        MsgTestButton.Instance.UnityEventUpdateResource.RemoveListener(UpdateSource);
+    }
+
+    private void BattlePresent()
+    {
+        Debug.Log("战斗开始，我的回合开始");
+        MsgTestButton.Instance.IsBattlePresentOver = true;
+        Debug.Log("回合开始阶准备阶段结束");
+    }
+
 }
 
 //TODO:扩充这个ITrigger
 namespace ITrigger
 {
-    //继承TOOL让策划有限定的读取方法使用
-    class Trigger : GameplayTool
+    class Trigger : Command
     {
         public int msgName;
         public IMessage.Condition condition;
         public IMessage.Action action;
     }
 
-    //一个Trigger的样例
     class Trigger1 : Trigger
     {
-        public Trigger1()
+        Trigger1()
         {
-            //消息类型
             msgName = (int)TriggerType.ActiveAbility;
-            //Condition和Action的初始化
             condition = Condition;
             action = Action;
         }
@@ -66,17 +91,6 @@ namespace ITrigger
         private void Action()
         {
             
-        }
-    }
-
-    public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
-    {
-        private void Awake()
-        {
-            //实例化对应的trigger
-            Trigger trigger = new Trigger1();
-            //进行注册
-            IMessage.MsgDispatcher.RegisterMsg(this, trigger.msgName, trigger.condition, trigger.action);
         }
     }
 }

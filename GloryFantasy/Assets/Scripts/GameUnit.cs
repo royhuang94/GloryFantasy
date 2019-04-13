@@ -7,6 +7,9 @@ namespace GameUnit
 {
     public class GameUnit : MonoBehaviour
     {
+        public NBearUnit.UnitAttribute unitAttribute;
+
+        //TODO 考虑属性应该通过ScriptableObject还是通过下面方法
         public int atk { get; set; }
         public int hp { get; set; }
         public string id { get; set; }
@@ -26,36 +29,6 @@ namespace GameUnit
         public BattleMapBlock mapBlockBelow;
         
 
-        public GameUnit(string name, string id, string[] tag, 
-                        int atk, int hp, int mov, int rng,
-                        string owner, int priority)
-        {
-            this.Name = name;
-            this.id = id;
-            this.tag = tag;
-            this.atk = atk;
-            this.hp = hp;
-            this.mov = mov;
-            this.rng = rng;
-            this.owner = owner;
-            //TODO:临时对priority初始化，需要根据策划要求修改
-            this.priority = new List<int>();
-            this.priority.Add(priority);
-        }
-
-        public GameUnit(string name, string id,
-                        int atk, int hp, int mov, int rng,
-                        string owner)
-        {
-            this.Name = name;
-            this.id = id;
-            this.atk = atk;
-            this.hp = hp;
-            this.mov = mov;
-            this.rng = rng;
-            this.owner = owner;
-            this.priority = new List<int>();
-        }
         // TODO: 这是地图上单位的基类，请继承此类进行行为描述
 
         //判断单位有无死亡

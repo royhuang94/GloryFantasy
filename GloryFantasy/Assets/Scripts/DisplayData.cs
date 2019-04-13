@@ -22,16 +22,16 @@ public class DisplayData: MonoBehaviour {
 		//得到摄像机对象
 		camera = Camera.main;
  
-		float size_y = GetComponent<Collider2D>().bounds.size.y;
+		//float size_y = GetComponent<Collider2D>().bounds.size.y;
 		//得到模型缩放比例
-		float scal_y = transform.localScale.y;
+		//float scal_y = transform.localScale.y;
 		//它们的乘积就是高度
-		unitHeight = (size_y *scal_y)/ 2.0f ;
+		//unitHeight = (size_y *scal_y)/ 2.0f ;
 	}
  
 	void Update ()
 	{
-		name = string.Format("{0}  {1}", unit.hp, unit.atk);
+		//name = string.Format("{0}  {1}", unit.hp, unit.atk);
 	}
  
 	void OnGUI()

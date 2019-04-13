@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using BattleMapManager;
+
 public class GameplayInput
 {
     List<Vector2> TargetList = new List<Vector2>();
@@ -15,7 +17,7 @@ public class GameplayInput
     {
         if (TargetList.Count == 1)
         {
-            GameUnit.GameUnit unit = BattleMapManager.BattleMapManager.GetInstance().GetUnitsOnMapBlock(TargetList[0])[0];
+            GameUnit.GameUnit unit = BattleMapManager.BattleMapManager.getInstance().GetUnitsOnMapBlock(TargetList[0]);
             unit.GetComponent<ShowRange>().CancleAttackRangeMark();
             unit.GetComponent<ShowRange>().CancleMoveRangeMark();
             TargetList.Clear();
@@ -24,13 +26,13 @@ public class GameplayInput
 
     public void HandleConfirm(Vector2 target)
     {
-        BattleMapManager.BattleMapManager mapManager = BattleMapManager.BattleMapManager.GetInstance();
+        BattleMapManager.BattleMapManager mapManager = BattleMapManager.BattleMapManager.getInstance();
        if (TargetList.Count == 0)
         {
             if (mapManager.CheckIfHasUnits(target))
             {
                 TargetList.Add(target);
-                GameUnit.GameUnit unit = BattleMapManager.BattleMapManager.GetInstance().GetUnitsOnMapBlock(TargetList[0])[0];
+                GameUnit.GameUnit unit = BattleMapManager.BattleMapManager.getInstance().GetUnitsOnMapBlock(TargetList[0]);
                 unit.GetComponent<ShowRange>().MarkMoveRange();
                 unit.GetComponent<ShowRange>().MarkAttackRange();
             }
@@ -41,9 +43,9 @@ public class GameplayInput
             if (mapManager.CheckIfHasUnits(target))
             {
                 //TargetList.Add(target);
-                GameUnit.GameUnit unit1 = mapManager.GetUnitsOnMapBlock(TargetList[0])[0];
+                GameUnit.GameUnit unit1 = mapManager.GetUnitsOnMapBlock(TargetList[0]);
                 //GameUnit.GameUnit unit2 = mapManager.GetUnitsOnMapBlock(TargetList[1])[0];
-                GameUnit.GameUnit unit2 = mapManager.GetUnitsOnMapBlock(target)[0];
+                GameUnit.GameUnit unit2 = mapManager.GetUnitsOnMapBlock(target);
                 UnitAttackCommand attackCommand = new UnitAttackCommand(unit1, unit2);
                 if (attackCommand.Judge())
                 {
@@ -58,7 +60,7 @@ public class GameplayInput
             else
             {
                 //TargetList.Add(target);
-                GameUnit.GameUnit unit1 = mapManager.GetUnitsOnMapBlock(TargetList[0])[0];
+                GameUnit.GameUnit unit1 = mapManager.GetUnitsOnMapBlock(TargetList[0]);
                 Vector2 unit2 = target;
                 UnitMoveCommand moveCommand = new UnitMoveCommand(unit1, unit2);
                 if (moveCommand.Judge())

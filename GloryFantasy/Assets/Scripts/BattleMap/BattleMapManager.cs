@@ -4,18 +4,16 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using LitJson;
 using System.IO;
-using GameUnit;
 using Unit = GameUnit.GameUnit;
-
+using UnityEngine.UI;
 
 namespace BattleMapManager
 
 {
     public class BattleMapManager : MonoBehaviour {
-
         private static BattleMapManager instance = null;
 
-        public static BattleMapManager GetInstance()
+        public static BattleMapManager getInstance()
         {
             return instance;
         }
@@ -25,56 +23,127 @@ namespace BattleMapManager
             _unitsList = new List<Unit>();
         }
 
+        //获取地图块上的单位
+        public List<Unit> UnitsList
+        {
+            get
+            {
+                return _unitsList;
+            }
+        }
+
+
         private void Awake()
         {
             instance = this;
             InitMap();
         }
 
-        public void InitMap() {
+        public void InitMap()
+        {
             // TODO : 添加初始化地图的方法
             //for_demo_init();
             InitGameUnitsTemplateDictionary();
             InitAndInstantiateMapBlocks();
         }
 
+        #region 变量
+        private int columns;                 // 地图方块每列的数量
+        private int rows;                    // 地图方块每行的数量
+        public int Columns
+        {
+            get
+            {
+                return columns;
+            }
+        }
+        public int Rows
+        {
+            get
+            {
+                return rows;
+            }
+        }                    // 地图方块每行的数量
+        public int BlockCount
+        {
+            get
+            {
+                return columns * rows;
+            }
+        }
 
-        public int columns = 8;                 // 地图方块每列的数量
-        public int rows = 8;                    // 地图方块每行的数量
+        public Vector3 curMapPos;
+        private BattleMapBlock[,] _mapBlocks;         //普通的地图方块
+        private BattleMapBlock mapBlock;
+        private BattleMapBlock[,] _mapBlocksBurning;//灼烧的地图方块
+        public GameObject normalMapBlocks;
+        private Dictionary<Vector2, BattleMapBlock> mapBlockDict = new Dictionary<Vector2, BattleMapBlock>();//寻路字典
 
-        private BattleMapBlock[,] _mapBlocks;
-        public GameObject[] A_tiles;            // 区域 A prefabs的数组
-        public GameObject[] B_tiles;            // 区域 B prefabs的数组
-        public GameObject[] C_tiles;            // 区域 C prefabs的数组
-        public GameObject[] D_tiles;            // 区域 D prefabs的数组
-        public GameObject[] E_tiles;            // 区域 E prefabs的数组
+        #region 弃用
+        //public GameObject[] A_tiles;            // 区域 A prefabs的数组
+        //public GameObject[] B_tiles;            // 区域 B prefabs的数组
+        //public GameObject[] C_tiles;            // 区域 C prefabs的数组
+        //public GameObject[] D_tiles;            // 区域 D prefabs的数组
+        //public GameObject[] E_tiles;            // 区域 E prefabs的数组
 
-        public GameObject[] normal_tiles;       // 白色区域 prefabs的数组
-        public GameObject[] other_tiles;        // 黑色区域 prefabs的数组
+        //public GameObject[] normal_tiles;       // 白色区域 prefabs的数组
+        //public GameObject[] other_tiles;        // 黑色区域 prefabs的数组
+        #endregion
+
+        #region 战区块
+        private List<BattleMapBlock> battleArea_1;
+        private List<BattleMapBlock> battleArea0;
+        private List<BattleMapBlock> battleArea1;
+        private List<BattleMapBlock> battleArea2;
+        private List<BattleMapBlock> battleArea3;
+        private List<BattleMapBlock> battleArea4;
+        private List<BattleMapBlock> battleArea5;
+        private List<BattleMapBlock> battleArea6;
+        private List<BattleMapBlock> battleArea7;
+        public List<BattleMapBlock> BattleArea_1 { get { return battleArea_1; } }
+        public List<BattleMapBlock> BattleArea0 { get { return battleArea0; } }
+        public List<BattleMapBlock> BattleArea1 { get { return battleArea1; } }
+        public List<BattleMapBlock> BattleArea2 { get { return battleArea2; } }
+        public List<BattleMapBlock> BattleArea3 { get { return battleArea3; } }
+        public List<BattleMapBlock> BattleArea4 { get { return battleArea4; } }
+        public List<BattleMapBlock> BattleArea5 { get { return battleArea5; } }
+        public List<BattleMapBlock> BattleArea6 { get { return battleArea6; } }
+        public List<BattleMapBlock> BattleArea7 { get { return battleArea7; } }
+        #endregion
 
         public GameObject[] enemys;             // 存储敌方单位素材的数组
         public GameObject[] enemy_sets;         //存储敌方群体单位素材的数组
         public GameObject player_assete;       // 存放玩家单位素材的引用
+        public GameObject obstacle;
+
 
         public GameObject player { get; set; }
-        
+
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
 
         private List<Unit> _unitsList;
 
         private Dictionary<string, JsonData> _unitsData;    //存储所有单位类型的模板Json数据
-        
+        public Dictionary<string, JsonData> UnitData
+        {
+            get
+            {
+                return _unitsData;
+            }
+        }
+#endregion
+
         // 记录json中token不为空的坐标，待后续处理
         //private List <Vector3> specialPositions = new List <Vector3> ();
 
-        
+
         // 初始化存储所有单元模板信息数据的字典，方便后续使用
         private void InitGameUnitsTemplateDictionary()
         {
             this._unitsData = new Dictionary<string, JsonData>();
 
             JsonData unitsTemplate =
-                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/textToken.json"));
+                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/textToken2.json"));
 
             int dataAmount = unitsTemplate.Count;
             for (int i = 0; i < dataAmount; i++)
@@ -83,69 +152,180 @@ namespace BattleMapManager
             }
         }
 
+        #region  初始地图相关
         private void InitAndInstantiateMapBlocks()
         {
             // 更改地图数据位置则需修改此处路径
-            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/BattleMap/Beginning.json"));
+            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/BattleMap/eg.json"));
 
             int mapDataCount = mapData.Count;
-            this.columns = (int) mapData[mapDataCount - 1]["y"] + 1;
-            this.rows = (int) mapData[mapDataCount - 1]["x"] + 1;
-            
+            this.columns = (int)mapData[mapDataCount - 1]["y"] + 1;
+            this.rows = (int)mapData[mapDataCount - 1]["x"] + 1;
+
             _mapBlocks = new BattleMapBlock[rows, columns];
+            GameObject _instance = new GameObject();
+
+            battleArea_1 = new List<BattleMapBlock>();
+            battleArea0 = new List<BattleMapBlock>();
+            battleArea1 = new List<BattleMapBlock>();
+            battleArea2 = new List<BattleMapBlock>();
+            battleArea3 = new List<BattleMapBlock>();
+            battleArea4 = new List<BattleMapBlock>();
+            battleArea5 = new List<BattleMapBlock>();
+            battleArea6 = new List<BattleMapBlock>();
+            battleArea7 = new List<BattleMapBlock>();
+
+            int x = 0;
+            int y = 0;
+            int area = 0;
             
-            for( int i =0; i< mapDataCount;i++)
+            
+            for (int i = 0; i < mapDataCount; i++)
             {
-                int x = (int)mapData[i]["x"];
-                int y = (int)mapData[i]["y"];
-                int area = (int) mapData[i]["area"];
+                x = (int)mapData[i]["x"];
+                y = (int)mapData[i]["y"];
+                area = (int)mapData[i]["area"];
+                mapBlock = new BattleMapBlock(x, y);
 
-                GameObject[] target_tiles = InstantiateTilesRuler(area);
 
-                GameObject toInstantiate = target_tiles[Random.Range(0, target_tiles.Length)];
-                GameObject _instance =
-                    Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
+
+                #region 存储同一战区的地图块
+                switch (area)
+                {
+                    case -1:
+                        battleArea_1.Add(mapBlock);
+                        break;
+                    case 0:
+                        battleArea0.Add(mapBlock);
+                        break;
+                    case 1:
+                        battleArea1.Add(mapBlock);
+                        break;
+                    case 2:
+                        battleArea2.Add(mapBlock);
+                        break;
+                    case 3:
+                        battleArea3.Add(mapBlock);
+                        break;
+                    case 4:
+                        battleArea4.Add(mapBlock);
+                        break;
+                    case 5:
+                        battleArea5.Add(mapBlock);
+                        break;
+                    case 6:
+                        battleArea6.Add(mapBlock);
+                        break;
+                    case 7:
+                        battleArea7.Add(mapBlock);
+                        break;
+                    default:
+                        break;
+                }
+                #endregion
+               
+
+                //实例化地图块
+                _instance = GameObject.Instantiate(normalMapBlocks, new Vector3(x, y, 0f), Quaternion.identity);
                 _instance.transform.SetParent(_tilesHolder);
-                
-                _instance.gameObject.AddComponent<BattleMapBlock>();
-                
-                _mapBlocks[x, y] = _instance.gameObject.GetComponent<BattleMapBlock>();
-                _mapBlocks[x, y].area = area;
-                _mapBlocks[x, y].x = x;
-                _mapBlocks[x, y].y = y;
+
+
+                if (x == 0 && y == 0)
+                {
+                    Debug.Log(string.Format("固定的灼烧块{0},{0}", x, y));
+                    _instance.gameObject.AddComponent<BattleMapBlockBurning>();
+
+                    _instance.gameObject.AddComponent<BattleMapBlock>();
+                    _mapBlocks[x, y] = _instance.gameObject.GetComponent<BattleMapBlock>();
+                    _mapBlocks[x, y].area = area;
+                    _mapBlocks[x, y].x = x;
+                    _mapBlocks[x, y].y = y;
+                    _mapBlocks[x, y].aStarState = AStarState.free;
+                    _mapBlocks[x, y].blockType = EMapBlockType.Normal;
+                    mapBlockDict.Add(new Vector2(x, y), _mapBlocks[x, y]);//寻路字典
+
+                }
+                else
+                {
+                    _instance.gameObject.AddComponent<BattleMapBlock>();
+                    _mapBlocks[x, y] = _instance.gameObject.GetComponent<BattleMapBlock>();
+                    _mapBlocks[x, y].area = area;
+                    _mapBlocks[x, y].x = x;
+                    _mapBlocks[x, y].y = y;
+                    _mapBlocks[x, y].aStarState = AStarState.free;
+                    _mapBlocks[x, y].blockType = EMapBlockType.Normal;
+                    mapBlockDict.Add(new Vector2(x, y), _mapBlocks[x, y]);//寻路字典
+                }
+
                 int tokenCount = mapData[i]["token"].Count;
-                
                 if (tokenCount > 0)
                 {
                     if (tokenCount == 1)
                     {
                         Unit unit = InitAndInstantiateGameUnit(mapData[i]["token"][0], x, y);
                         unit.mapBlockBelow = _mapBlocks[x, y];
+
                         _unitsList.Add(unit);
                         _mapBlocks[x, y].AddUnit(unit);
                     }
-                    else
+                    //else
+                    //{
+                    //    Unit[] units = InitAndInstantiateGameUnits(mapData[i]["token"], tokenCount, x, y);
+                    //    for (int j = 0; j < units.Length; j++)
+                    //    {
+                    //        //units[j].mapBlockBelow = _mapBlocks[x, y];
+                    //        _unitsList.Add(units[j]);
+                    //    }
+                    //    _mapBlocks[x, y].AddUnits(units);
+                    //}
+                }
+            }
+
+            #region 得到每块地图块周围的地图块
+            
+            BattleMapBlock[] neighbourBlock = new BattleMapBlock[4];
+            
+            
+            for(int i = 0;i < rows; i++)
+            {
+                for(int j = 0;j< columns; j++)
+                {
+                    Vector2 t = new Vector2(j, i - 1);
+                    Vector2 b = new Vector2(j, i + 1);
+                    Vector2 r = new Vector2(j + 1, i);
+                    Vector2 l = new Vector2(j - 1, i);
+
+                    if (t.x >= 0 && t.y >= 0 && t.x < columns && t.y < rows && _mapBlocks[(int)t.x, (int)t.y].transform.childCount == 0)
                     {
-                        Unit[] units = InitAndInstantiateGameUnits(mapData[i]["token"], tokenCount, x, y);
-                        for (int j = 0; j < units.Length; j++)
-                        {
-                            units[j].mapBlockBelow = _mapBlocks[x, y];
-                            _unitsList.Add(units[j]);
-                        }
-                        _mapBlocks[x, y].AddUnits(units);
+                        neighbourBlock[0] = mapBlockDict[t];
+                        Debug.Log(neighbourBlock[0].x);
+                    }
+                    if (b.x >= 0 && b.y >= 0 && b.x < columns && b.y < rows && _mapBlocks[(int)b.x, (int)b.y].transform.childCount == 0)
+                    {
+                        neighbourBlock[1] = mapBlockDict[b];
+                    }
+                    if (r.x >= 0 && r.y >= 0 && r.x < columns && r.y < rows && _mapBlocks[(int)r.x, (int)r.y].transform.childCount == 0)
+                    {
+                        neighbourBlock[2] = mapBlockDict[r];
+                    }
+                    if (l.x >= 0 && l.y >= 0 && l.x < columns && l.y < rows && _mapBlocks[(int)l.x, (int)l.y].transform.childCount == 0)
+                    {
+                        neighbourBlock[3] = mapBlockDict[l];
                     }
                 }
             }
+            #endregion
         }
+        #endregion
 
         private void ReadUnitDataInJason(JsonData data, string owner, int damaged, Unit unit)
         {
             unit.Name = data["name"].ToString();
             unit.id = data["id"].ToString();
-            unit.atk = (int) data["atk"];
-            unit.hp = (int) data["hp"];
-            unit.mov = (int) data["mov"];
-            unit.rng = (int) data["rng"];
+            unit.atk = (int)data["atk"];
+            unit.hp = (int)data["hp"];
+            unit.mov = (int)data["mov"];
+            unit.rng = (int)data["rng"];
             unit.owner = owner;
             unit.priority = new List<int>();
             unit.priority.Add((int)data["priority"]);
@@ -157,116 +337,133 @@ namespace BattleMapManager
                 {
                     unit.tag[i] = data["tag"][i].ToString();
                 }
-                
-            } 
-        }
 
-        private Unit[] InitAndInstantiateGameUnits(JsonData units, int count, int x, int y)
-        {
-            Unit[] res = new Unit[count];
-            
-            for (int i = 0; i < count; i++)
-            {
-                Vector2 position = new Vector2(x, y);
-                position += Random.insideUnitCircle * 0.5f;
-                
-                GameObject enemy =
-                    Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(position.x, position.y, 0f),
-                                Quaternion.identity);
-
-                enemy.AddComponent<Unit>();
-                res[i] = enemy.GetComponent<Unit>();
-                
-                ReadUnitDataInJason(this._unitsData[units[i]["name"].ToString()],
-                                    units[i]["Controler - Enemy, Friendly or Self"].ToString(),
-                                    (int)units[i]["Damaged"],
-                                    res[i]);
-
-                enemy.AddComponent<DisplayData>();
-                enemy.AddComponent<ShowRange>();
-                
             }
-            
-            return res;
         }
 
+        #region 弃用
+        //private Unit[] InitAndInstantiateGameUnits(JsonData units, int count, int x, int y)
+        //{
+        //    Unit[] res = new Unit[count];
+
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        Vector2 position = new Vector2(x, y);
+        //        position += Random.insideUnitCircle * 0.5f;
+
+        //        GameObject enemy =
+        //            Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(position.x, position.y, 0f),
+        //                        Quaternion.identity);
+
+        //        enemy.AddComponent<Unit>();
+        //        res[i] = enemy.GetComponent<Unit>();
+
+        //        ReadUnitDataInJason(this._unitsData[units[i]["name"].ToString()],
+        //                            units[i]["Controler - Enemy, Friendly or Self"].ToString(),
+        //                            (int)units[i]["Damaged"],
+        //                            res[i]);
+
+        //        enemy.AddComponent<DisplayData>();
+        //        enemy.AddComponent<ShowRange>();
+
+        //    }
+
+        //    return res;
+        //}
+        #endregion
+        
+        //初始地图单位
         private Unit InitAndInstantiateGameUnit(JsonData data, int x, int y)
         {
             Unit newUnit;
             GameObject _object;
             if (data["Controler - Enemy, Friendly or Self"].ToString().Equals("Self"))
             {
-                this.player = _object =
-                    Instantiate(player_assete, new Vector3(x, y, 0f), Quaternion.identity);
+                Debug.Log("instantiateUnit");
+                //this.player = _object = Instantiate(player_assete, new Vector3(x, y, 0f), Quaternion.identity);
+                this.player = _object = Instantiate(player_assete);
+                player.transform.SetParent(_mapBlocks[x, y].transform);
+                player.transform.position = new Vector3(x, y, 0f);
+
+            }
+            if (data["Controler - Enemy, Friendly or Self"].ToString().Equals("Obstacle"))
+            {
+                _object = Instantiate(obstacle);
+                _object.transform.SetParent(_mapBlocks[x, y].transform);
+                _object.transform.position = new Vector3(x, y, 0f);
             }
             else
             {
-                _object =
-                    Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(x, y, 0f),
-                                Quaternion.identity);
-                
+                //_object =Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(x, y, 0f),Quaternion.identity);
+                _object = Instantiate(enemys[Random.Range(0, enemys.Length)]);
+                _object.transform.SetParent(_mapBlocks[x, y].transform);
+                _object.transform.position = new Vector3(x, y, 0f);
+
             }
             // 在单位上挂载unit 脚本
-            _object.AddComponent<Unit>();
-            
+            //_object.AddComponent<Unit>();
+
             // 获取该脚本对象并传入解析json函数赋值
             newUnit = _object.GetComponent<Unit>();
+            Debug.Log(this._unitsData[data["name"].ToString()]);
             ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
-                                data["Controler - Enemy, Friendly or Self"].ToString(), 
+                                data["Controler - Enemy, Friendly or Self"].ToString(),
                                 (int)data["Damaged"],
                                 newUnit);
-            
+
             // 在单位上挂载展示数值显示脚本
-            _object.AddComponent<DisplayData>();
-            
+            //_object.AddComponent<DisplayData>();
+
             // 不管是不是player单位都挂载展示范围脚本
-            _object.AddComponent<ShowRange>();
-            
+            //_object.AddComponent<ShowRange>();
+
             return newUnit;
         }
 
-        private GameObject[] InstantiateTilesRuler(int area)
-        {
-            // TODO : 根据规则（暂时不明）,下面是我编的,进行地图实例化
-            switch (area)
-            {
-                case -1:
-                    return other_tiles;
-                case 0:
-                case 1:
-                    return normal_tiles;
-                case 2:
-                    return A_tiles;
-                case 3:
-                case 4:
-                    return B_tiles;
-                case 5:
-                case 6:
-                    return C_tiles;
-                case 7:
-                case 8:
-                    return D_tiles;
-                case 9:
-                case 10:
-                    return E_tiles;
-                default:
-                    Debug.Log("Unknown area type.");
-                    return other_tiles;
-            }
-        }
+        #region 弃用
+        //private GameObject[] InstantiateTilesRuler(int area)
+        //{
+        //    // TODO : 根据规则（暂时不明）,下面是我编的,进行地图实例化
+        //    switch (area)
+        //    {
+        //        case -1:
+        //            return other_tiles;
+        //        case 0:
+        //        case 1:
+        //            return normal_tiles;
+        //        case 2:
+        //            return A_tiles;
+        //        case 3:
+        //        case 4:
+        //            return B_tiles;
+        //        case 5:
+        //        case 6:
+        //            return C_tiles;
+        //        case 7:
+        //        case 8:
+        //            return D_tiles;
+        //        case 9:
+        //        case 10:
+        //            return E_tiles;
+        //        default:
+        //            Debug.Log("Unknown area type.");
+        //            return other_tiles;
+        //    }
+        //}
+        #endregion
 
         public BattleMapBlock GetSpecificMapBlock(int x, int y)
         {
             return this._mapBlocks[x, y];
         }
 
-        public Vector3 GetCoordinate(BattleMapBlock battleMapBlock)
+        public Vector3 GetCoordinate(BattleMapBlock mapBlock)
         {
-            for(int i = columns - 1; i > 0; i--)
+            for (int i = columns - 1; i > 0; i--)
             {
-                for(int j = 0; j< rows; j++)
+                for (int j = 0; j < rows; j++)
                 {
-                    if(_mapBlocks[i,j] == battleMapBlock)
+                    if (_mapBlocks[i, j] == mapBlock)
                     {
                         return new Vector3(i, j, 0f);
                     }
@@ -275,36 +472,50 @@ namespace BattleMapManager
             return new Vector3(-1, -1, 0f);
         }
 
-        private Boolean _CheckVector(Vector3 vector)
-        {
-            if ((int) vector.x >= rows || (int) vector.y >= columns)
-            {
-                Debug.Log(string.Format("Invalid coordinate: {0}, {1} !", (int)vector.x, (int)vector.y));
-                return false;
-            }
+        //实现点击地图块后弃用
+        //private Boolean _CheckVector(Vector3 vector)
+        //{
+        //    if ((int)vector.x > rows*62.5 || (int)vector.y > columns*62.5)
+        //    {
+        //        Debug.Log(string.Format("Invalid coordinate: {0}, {1} !", (int)vector.x, (int)vector.y));
+        //        return false;
+        //    }
 
-            if ((int) vector.x < 0 || (int) vector.y < 0)
-            {
-                Debug.Log(string.Format("Error ! Outranged coordinate: {0}, {1} !", (int)vector.x, (int)vector.y));
-                return false;
-            }
+        //    if ((int)vector.x < 0 || (int)vector.y < 0)
+        //    {
+        //        Debug.Log(string.Format("Error ! Outranged coordinate: {0}, {1} !", (int)vector.x, (int)vector.y));
+        //        return false;
+        //    }
 
-            return true;
-        }
-        
+        //    return true;
+        //}
+
+
+
         // 确定给定坐标上是否含有单位，坐标不合法会返回false，其他依据实际情况返回值
         public Boolean CheckIfHasUnits(Vector3 vector)
         {
-            if (!_CheckVector(vector)) return false;
+            //if (!_CheckVector(vector)) return false;
             //return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me != null;
-            return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me.Count != 0;
+            if (this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0
+                && this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>() != null &&
+                this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>().owner != "Obstacle"/*units_on_me.Count != 0*/)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         // 返回给定坐标上单位list，坐标不合法会返回null, 其他依据实际情况返回值
-        public List<Unit> GetUnitsOnMapBlock(Vector3 vector)
+        public Unit GetUnitsOnMapBlock(Vector3 vector)
         {
-            if (_CheckVector(vector))
-                return _mapBlocks[(int) vector.x, (int) vector.y].units_on_me;
+            if (this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0)
+            {
+                return _mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>();
+            }
             return null;
         }
 
@@ -330,7 +541,14 @@ namespace BattleMapManager
                 if (gameUnit == unit)
                 {
                     unit.mapBlockBelow.RemoveUnit(unit);
-                    unit.mapBlockBelow = _mapBlocks[(int)destination.x, (int)destination.y];
+                    if (_mapBlocks[(int)destination.x, (int)destination.y] != null)
+                    {
+                        unit.mapBlockBelow = _mapBlocks[(int)destination.x, (int)destination.y];
+                    }
+                    if (_mapBlocksBurning[(int)destination.x, (int)destination.y] != null)
+                    {
+                        unit.mapBlockBelow = _mapBlocksBurning[(int)destination.x, (int)destination.y];
+                    }
                     unit.mapBlockBelow.AddUnit(unit);
                     unit.transform.position = destination;
                     return true;
@@ -340,46 +558,485 @@ namespace BattleMapManager
             return false;
         }
 
-        public void RemoveUnit(Unit unit)
-        {
-            unit.mapBlockBelow.RemoveUnit(unit);
-            this._unitsList.Remove(unit);
-            Destroy(unit.gameObject);
-        }
-
         // 地图方块染色接口
         public void ColorMapBlocks(List<Vector2> positions, Color color)
         {
-            foreach (Vector2 position in positions)
+            foreach (Vector3 position in positions)
             {
-                _mapBlocks[(int) position.x, (int) position.y].gameObject.GetComponent<SpriteRenderer>().color = color;
+                if (/*_mapBlocks[(int)position.x, (int)position.y] != null &&*/position.x < columns && position.y < rows
+                    && position.x >= 0 && position.y >= 0)
+                {
+                    _mapBlocks[(int)position.x, (int)position.y].gameObject.GetComponent<Image>().color = color;
+                }
+                else
+                {
+                }
             }
         }
 
-        // 实例化卡牌单位的接口
-        public void InstantiateCardUnit(UnitCard card, Vector3 pos)
+
+        
+        private List<BattleMapBlock> emptyMapBlocks = new List<BattleMapBlock>();//保存战区空的格子
+        private BattleMapBlock emptyMbpBlock;
+        private List<Unit> units = new List<Unit>();//获取战区上我方所有单位
+        private Unit unit;
+        #region 战区相关
+        //战区增益
+        public void WarZooeBuff()
         {
-            if (!_CheckVector(pos))
+            //TODO增加一点资源点上限
+
+            //立即部署一个临时友方单位
+            if (emptyMapBlocks.Count != 0)
             {
-                Debug.Log(string.Format("Invalid position ({0}, {1})! Instantiate from card failed.",
-                            (int) pos.x, (int) pos.y));
-                
-                return;
+                foreach (BattleMapBlock map in emptyMapBlocks)
+                {
+                    GameObject go = GameObject.Instantiate(player);
+                    go.transform.SetParent(_mapBlocks[map.x, map.y].transform);
+                    go.transform.localPosition = Vector3.zero;
+                }
             }
-            
-            Unit unit;
-            GameObject newInstance = Instantiate(player_assete, pos, Quaternion.identity);
-            
-            newInstance.AddComponent<Unit>();
-            unit = newInstance.GetComponent<Unit>();
-            card.InitGameUnit(unit);
-            
-            this._unitsList.Add(unit);
-            unit.mapBlockBelow = _mapBlocks[(int) pos.x, (int) pos.y];
-            unit.mapBlockBelow.units_on_me.Add(unit);
-            
-            newInstance.AddComponent<DisplayData>();
-            newInstance.AddComponent<ShowRange>();
+            //额外的行动力
+            foreach (Unit unit in units)
+            {
+                unit.mov += 1;
+            }
         }
+
+        //移除战区增益
+        public void RemoveWarZooeBuff()
+        {
+            //移除额外行动力
+            foreach (Unit unit in units)
+            {
+                unit.mov -= 1;
+            }
+        }
+
+        //判断该战区能不能召唤（所属权）
+        public bool WarZoneBelong(Vector3 position)
+        {
+            int area;
+            area = _mapBlocks[(int)position.x, (int)position.y].area;
+            //units.Clear();
+            //emptyMapBlocks.Clear();
+            if (area == -1)
+            {
+                foreach (BattleMapBlock map in battleArea_1)
+                {
+                    Debug.Log(map.x + ":" + map.y);
+                    if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                        {
+                            if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Enemy")
+                            {
+                                Debug.Log("This WarZone has Enemy,you can`t summon");
+                                return false;
+                            }
+                            else if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Self")
+                            {
+                                unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                                units.Add(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                        Debug.Log(emptyMbpBlock);
+                        emptyMapBlocks.Add(emptyMbpBlock);
+
+                    }
+                }
+            }
+            if (area == 0)
+            {
+                foreach (BattleMapBlock map in battleArea0)
+                {
+                    Debug.Log(map.x + ":" + map.y);
+                    if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                        {
+                            if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Enemy")
+                            {
+                                Debug.Log("This WarZone has Enemy,you can`t summon");
+                                return false;
+                            }
+                            else if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Self")
+                            {
+                                unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                                units.Add(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                        Debug.Log(emptyMbpBlock);
+                        emptyMapBlocks.Add(emptyMbpBlock);
+
+                    }
+                }
+            }
+            if (area == 1)
+            {
+                foreach (BattleMapBlock map in battleArea1)
+                {
+                    Debug.Log(map.x + ":" + map.y);
+                    if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                        {
+                            if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Enemy")
+                            {
+                                Debug.Log("This WarZone has Enemy,you can`t summon");
+                                return false;
+                            }
+                            else if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Self")
+                            {
+                                unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                                units.Add(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                        Debug.Log(emptyMbpBlock);
+                        emptyMapBlocks.Add(emptyMbpBlock);
+
+                    }
+                }
+            }
+            if (area == 2)
+            {
+                foreach (BattleMapBlock map in battleArea2)
+                {
+                    Debug.Log(map.x + ":" + map.y);
+                    if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                        {
+                            if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Enemy")
+                            {
+                                Debug.Log("This WarZone has Enemy,you can`t summon");
+                                return false;
+                            }
+                            else if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Self")
+                            {
+                                unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                                units.Add(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                        Debug.Log(emptyMbpBlock);
+                        emptyMapBlocks.Add(emptyMbpBlock);
+
+                    }
+                }
+            }
+            if (area == 3)
+            {
+                foreach (BattleMapBlock map in battleArea3)
+                {
+                    Debug.Log(map.x + ":" + map.y);
+                    if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                        {
+                            if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Enemy")
+                            {
+                                Debug.Log("This WarZone has Enemy,you can`t summon");
+                                return false;
+                            }
+                            else if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Self")
+                            {
+                                unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                                units.Add(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                        Debug.Log(emptyMbpBlock);
+                        emptyMapBlocks.Add(emptyMbpBlock);
+
+                    }
+                }
+            }
+            if (area == 4)
+            {
+                foreach (BattleMapBlock map in battleArea4)
+                {
+                    Debug.Log(map.x + ":" + map.y);
+                    if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                        {
+                            if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Enemy")
+                            {
+                                Debug.Log("This WarZone has Enemy,you can`t summon");
+                                return false;
+                            }
+                            else if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Self")
+                            {
+                                unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                                units.Add(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                        Debug.Log(emptyMbpBlock);
+                        emptyMapBlocks.Add(emptyMbpBlock);
+
+                    }
+                }
+            }
+            if (area == 5)
+            {
+                foreach (BattleMapBlock map in battleArea5)
+                {
+                    Debug.Log(map.x + ":" + map.y);
+                    if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                        {
+                            if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Enemy")
+                            {
+                                Debug.Log("This WarZone has Enemy,you can`t summon");
+                                return false;
+                            }
+                            else if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Self")
+                            {
+                                unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                                units.Add(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                        Debug.Log(emptyMbpBlock);
+                        emptyMapBlocks.Add(emptyMbpBlock);
+
+                    }
+                }
+            }
+            if (area == 6)
+            {
+                foreach (BattleMapBlock map in battleArea6)
+                {
+                    Debug.Log(map.x + ":" + map.y);
+                    if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                        {
+                            if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Enemy")
+                            {
+                                Debug.Log("This WarZone has Enemy,you can`t summon");
+                                return false;
+                            }
+                            else if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Self")
+                            {
+                                unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                                units.Add(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                        Debug.Log(emptyMbpBlock);
+                        emptyMapBlocks.Add(emptyMbpBlock);
+
+                    }
+                }
+            }
+            if (area == 7)
+            {
+                foreach (BattleMapBlock map in battleArea7)
+                {
+                    Debug.Log(map.x + ":" + map.y);
+                    if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                        {
+                            if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Enemy")
+                            {
+                                Debug.Log("This WarZone has Enemy,you can`t summon");
+                                return false;
+                            }
+                            else if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner == "Self")
+                            {
+                                unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                                units.Add(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                        Debug.Log(emptyMbpBlock);
+                        emptyMapBlocks.Add(emptyMbpBlock);
+
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        //显示战区
+        public void ShowBattleZooe(Vector3 position)
+        {
+            int area;
+            area = _mapBlocks[(int)position.x, (int)position.y].area;
+            if (area == -1)
+            {
+                foreach (BattleMapBlock map in battleArea_1)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 0)
+            {
+                foreach (BattleMapBlock map in battleArea0)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 1)
+            {
+                foreach (BattleMapBlock map in battleArea1)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 2)
+            {
+                foreach (BattleMapBlock map in battleArea2)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 3)
+            {
+                foreach (BattleMapBlock map in battleArea3)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 4)
+            {
+                foreach (BattleMapBlock map in battleArea4)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 5)
+            {
+                foreach (BattleMapBlock map in battleArea5)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 6)
+            {
+                foreach (BattleMapBlock map in battleArea6)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 7)
+            {
+                foreach (BattleMapBlock map in battleArea7)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+
+        }
+        //隐藏战区
+        public void HideBattleZooe(Vector3 position)
+        {
+            int area;
+            Color tempColor;
+            area = _mapBlocks[(int)position.x, (int)position.y].area;
+            if (area == -1)
+            {
+                foreach (BattleMapBlock map in battleArea_1)
+                {
+
+                    tempColor = _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color;
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
+                }
+            }
+            if (area == 0)
+            {
+                foreach (BattleMapBlock map in battleArea0)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
+                }
+            }
+            if (area == 1)
+            {
+                foreach (BattleMapBlock map in battleArea1)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
+                }
+            }
+            if (area == 2)
+            {
+                foreach (BattleMapBlock map in battleArea2)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
+                }
+            }
+            if (area == 3)
+            {
+                foreach (BattleMapBlock map in battleArea3)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
+                }
+            }
+            if (area == 4)
+            {
+                foreach (BattleMapBlock map in battleArea4)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 5)
+            {
+                foreach (BattleMapBlock map in battleArea5)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
+                }
+            }
+            if (area == 6)
+            {
+                foreach (BattleMapBlock map in battleArea6)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+            }
+            if (area == 7)
+            {
+                foreach (BattleMapBlock map in battleArea7)
+                {
+                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
+                }
+            }
+
+        }
+        #endregion
     }
 }

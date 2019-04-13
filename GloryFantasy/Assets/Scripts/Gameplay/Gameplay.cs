@@ -4,6 +4,7 @@ using UnityEngine;
 
 enum TriggerType
 {
+    UpdateSource,
     BP,
     MPBegin,
     MPEnd,
@@ -21,7 +22,8 @@ enum TriggerType
     BeKilled,
     Dead,
     ToBeKilled,
-    Move
+    Move,
+    UnitMoving
 };
 
 public class Info
@@ -267,7 +269,7 @@ public class GameplayTool
     private Info Info;
 }
 
-//游戏功能的类定位器，持有所有模块的引用，包含他们的初始化工作
+
 public class Gameplay : MonoBehaviour
 {
     private Gameplay() { }
@@ -288,7 +290,6 @@ public class Gameplay : MonoBehaviour
         gamePlayInput = new GameplayInput();
     }
 
-    //记录全局游戏状态（环境变量），配合消息中心使用
     public static Info Info = new Info();
     public RoundProcessController roundProcessController;
     public GameplayInput gamePlayInput;

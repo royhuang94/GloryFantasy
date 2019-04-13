@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b401cbb39e55140b52fbbd1f816b20, type: 3}
+  m_Name: player
+  m_EditorClassIdentifier: 
+  uID: superCreature_02
+  tag: "\u6218\u58EB"
+  uName: "\u8D85\u7EA7\u6218\u58EB"
+  hp: 4
+  maxHp: 4
+  priority: 0
+  mov: 2
+  atk: 1
+  rng: 2

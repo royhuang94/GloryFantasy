@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using GameUnit;
 using Random = UnityEngine.Random;
 using Unit =GameUnit.GameUnit;
 
@@ -10,7 +9,6 @@ namespace GameControl
     {
         public GameObject cursor;//存放标记的变量
         public BattleMapManager.BattleMapManager MapManager;
-        public CardManager CardManager;
         private Vector3 coordinate;
         private Vector3 position;
 
@@ -99,22 +97,13 @@ namespace GameControl
             //Debug.Log("Ok Cliked!");
             if (MapManager.CheckIfHasUnits(this.coordinate))
             {
-                Unit unit = MapManager.GetUnitsOnMapBlock(this.coordinate)[0];
-                Debug.Log("This unit belongs to :" + unit.owner);
-                Debug.Log(string.Format(" {0} {1} ", unit.mapBlockBelow.x, unit.mapBlockBelow.y));
+                //Unit unit = MapManager.GetUnitsOnMapBlock(this.coordinate)[0];
+                //Debug.Log("This unit belongs to :" + unit.owner);
+                //Debug.Log(string.Format(" {0} {1} ", unit.mapBlockBelow.x, unit.mapBlockBelow.y));
                 //if (unit.owner.Equals("player"))
                 //{
                 //    unit.GetComponent<ShowRange>().MarkMoveRange();
                 //}
-            }
-
-            if (CardManager.CheckIfHasCard(this.coordinate))
-            {
-                GameObject cardInstance = CardManager.GetSpecificCard(this.coordinate);
-                UnitCard unitCard = cardInstance.GetComponent<UnitCard>();
-                MapManager.InstantiateCardUnit(unitCard, new Vector3(0f,0f,0f));
-                CardManager.RemoveCard(cardInstance);
-                return;
             }
 
             Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);
@@ -131,11 +120,6 @@ namespace GameControl
         public void onClickEndRound()
         {
             //TODO: 添加点击结束回合按钮
-        }
-
-        public void onClickExtractCards()
-        {
-            CardManager.ExtractCards();
         }
     }
 }
