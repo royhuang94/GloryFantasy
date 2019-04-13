@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BattleMapBlock = BattleMapManager.BattleMapBlock;
+using BattleMapBlock = BattleMap.BattleMapBlock;
 using Unit = GameUnit.GameUnit;
 
 /// <summary>
@@ -25,7 +25,7 @@ public class BattleMapBlockBurning : BattleMapBlock
     private void Update()
     {
         //检测地图块上是否存在单位
-        if (BattleMapManager.BattleMapManager.getInstance().CheckIfHasUnits(vector))
+        if (BattleMap.BattleMap.getInstance().CheckIfHasUnits(vector))
         {
             hasUnit = true;
             //units = MapManager.MapManager.getInstance().GetUnitsOnMapBlock(vector);

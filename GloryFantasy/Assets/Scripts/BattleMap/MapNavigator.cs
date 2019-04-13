@@ -1,4 +1,4 @@
-﻿using BattleMapManager;
+﻿using BattleMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -107,7 +107,7 @@ namespace MapManager
                 int mobility = -1,
                 int stopDistance = 0)
             {
-                if (BattleMapManager.BattleMapManager.getInstance() == null)
+                if (BattleMap.BattleMap.getInstance() == null)
                     return false;
 
                 if (path != null)
@@ -124,7 +124,7 @@ namespace MapManager
                 if (from.Distance(to) <= stopDistance)
                     return true;
 
-                int tryTimes = BattleMapManager.BattleMapManager.getInstance().BlockCount;
+                int tryTimes = BattleMap.BattleMap.getInstance().BlockCount;
 
                 //添加一个openPath 到list中
                 List<NavigationData> opening = new List<NavigationData>();

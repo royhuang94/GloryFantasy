@@ -20,11 +20,11 @@ namespace NBearUnit
     public class UnitMove : MonoBehaviour, IPointerDownHandler
     {
         private IMessage.MsgReceiver targetReceiver;
-        private BattleMapManager.BattleMapBlock mapBlockParent;
+        private BattleMap.BattleMapBlock mapBlockParent;
 
         private void Awake()
         {
-            mapBlockParent = GetComponentInParent<BattleMapManager.BattleMapBlock>();
+            mapBlockParent = GetComponentInParent<BattleMap.BattleMapBlock>();
             targetReceiver = GameObject.Find("ReceiverTest").GetComponent<MsgTestReceiver>();
             m_MyEvent.AddListener(() =>
             {
@@ -37,7 +37,7 @@ namespace NBearUnit
             if (eventData.button != PointerEventData.InputButton.Left && UnitManager.Instance.IsInstantiation)
                 return;
 
-            UnitManager.Instance.CurUnit = transform.GetComponentInParent<BattleMapManager.BattleMapBlock>().GetCoordinate();
+            UnitManager.Instance.CurUnit = transform.GetComponentInParent<BattleMap.BattleMapBlock>().GetCoordinate();
             Debug.Log("左键击下Unit" + UnitManager.Instance.CurUnit);
             Gameplay.GetInstance().gamePlayInput.HandleConfirm(UnitManager.Instance.CurUnit);
 

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 //using IMessage;
 
 enum MsgTestType
@@ -14,7 +16,7 @@ enum MsgTestType
 
 public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
 {
-    public BattleMapManager.BattleMapManager MapManager;
+    [FormerlySerializedAs("MapManager")] public BattleMap.BattleMap map;
     private Vector3 coordinate;
 
     private void Awake()

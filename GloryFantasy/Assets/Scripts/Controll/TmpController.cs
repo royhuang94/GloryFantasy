@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Unit =GameUnit.GameUnit;
 
@@ -8,7 +9,7 @@ namespace GameControl
     public class TmpController: MonoBehaviour
     {
         public GameObject cursor;//存放标记的变量
-        public BattleMapManager.BattleMapManager MapManager;
+        [FormerlySerializedAs("MapManager")] public BattleMap.BattleMap map;
         private Vector3 coordinate;
         private Vector3 position;
 
@@ -95,7 +96,7 @@ namespace GameControl
         {
             // TODO :添加点击确定按钮事件
             //Debug.Log("Ok Cliked!");
-            if (MapManager.CheckIfHasUnits(this.coordinate))
+            if (map.CheckIfHasUnits(this.coordinate))
             {
                 //Unit unit = MapManager.GetUnitsOnMapBlock(this.coordinate)[0];
                 //Debug.Log("This unit belongs to :" + unit.owner);

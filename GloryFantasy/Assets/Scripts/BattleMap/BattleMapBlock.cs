@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 
 //TODO 通过 自身 this.transform.position与第一块儿地图块儿坐标(298.8)的差，的几倍关系得到具体为(0, 0) -> (7, 7)得物体坐标
 
-namespace BattleMapManager
+namespace BattleMap
 {
     public enum AStarState
     {
@@ -99,7 +99,7 @@ namespace BattleMapManager
             if (UnitManager.Instance.IsPickedUnit)
             {
                 //检测到地图，可实例化棋子
-                if (!BattleMapManager.getInstance().WarZoneBelong(GetSelfPosition())) return;
+                if (!BattleMap.getInstance().WarZoneBelong(GetSelfPosition())) return;
                 UnitManager.Instance.CouldInstantiation(true,this.transform);
 
             }
@@ -110,7 +110,7 @@ namespace BattleMapManager
             //go.transform.localScale = GetCoordinate();
             //go.transform.localPosition = Vector3.zero;
 
-            BattleMapManager.getInstance().curMapPos = GetSelfPosition();
+            BattleMap.getInstance().curMapPos = GetSelfPosition();
             Debug.Log(GetSelfPosition());
         }
 
@@ -141,12 +141,12 @@ namespace BattleMapManager
         //显示战区
         public void OnPointerEnter(PointerEventData eventData)
         {
-            BattleMapManager.getInstance().ShowBattleZooe(GetSelfPosition());
+            BattleMap.getInstance().ShowBattleZooe(GetSelfPosition());
         }
         //隐藏战区
         public void OnPointerExit(PointerEventData eventData)
         {
-            BattleMapManager.getInstance().HideBattleZooe(GetSelfPosition());
+            BattleMap.getInstance().HideBattleZooe(GetSelfPosition());
         }
 
 

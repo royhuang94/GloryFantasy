@@ -14,8 +14,8 @@ public class ShowRange : MonoBehaviour
 
     private void Start()
     {
-        rows = BattleMapManager.BattleMapManager.getInstance().Rows;
-        columns = BattleMapManager.BattleMapManager.getInstance().Columns;
+        rows = BattleMap.BattleMap.getInstance().Rows;
+        columns = BattleMap.BattleMap.getInstance().Columns;
     }
 
     public List<Vector2> GetPositionsWithinCertainMd(Vector2 position, int ManhattanDistance)
@@ -40,27 +40,27 @@ public class ShowRange : MonoBehaviour
     
     public void MarkMoveRange()
     {
-        BattleMapManager.BattleMapManager.getInstance().ColorMapBlocks(
+        BattleMap.BattleMap.getInstance().ColorMapBlocks(
 
             GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.mov), Color.green);
     }
 
     public void MarkAttackRange()
     {
-        BattleMapManager.BattleMapManager.getInstance().ColorMapBlocks(
+        BattleMap.BattleMap.getInstance().ColorMapBlocks(
 
         GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, 1), Color.red);
     }
 
     public void CancleMoveRangeMark()
     {
-        BattleMapManager.BattleMapManager.getInstance().ColorMapBlocks(
+        BattleMap.BattleMap.getInstance().ColorMapBlocks(
              GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.mov), Color.white);
     }
 
     public void CancleAttackRangeMark()
     {
-        BattleMapManager.BattleMapManager.getInstance().ColorMapBlocks(
+        BattleMap.BattleMap.getInstance().ColorMapBlocks(
              GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.atk), Color.white);
     }
 }

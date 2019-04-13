@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unit = GameUnit.GameUnit;
-using BattleMapBlock = BattleMapManager.BattleMapBlock;
+using BattleMapBlock = BattleMap.BattleMapBlock;
 /// <summary>
 /// 粘滞地图块
 /// </summary>
@@ -28,7 +28,7 @@ public class MapBlockRetard : BattleMapBlock
     // Update is called once per frame
     void Update()
     {
-        if (BattleMapManager.BattleMapManager.getInstance().CheckIfHasUnits(vector) && hasRetard == false)
+        if (BattleMap.BattleMap.getInstance().CheckIfHasUnits(vector) && hasRetard == false)
         {
             hasUnit = true;
             //units = MapManager.MapManager.getInstance().GetUnitsOnMapBlock(vector);
