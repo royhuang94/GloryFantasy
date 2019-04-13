@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+namespace MapManager
+{
 /// <summary>定义六边形坐标的结构体，并处理坐标转换
 /// 
 /// </summary>
@@ -100,4 +103,5 @@ public class MapUnit:MonoBehaviour
     }
 
 
+}
 }
