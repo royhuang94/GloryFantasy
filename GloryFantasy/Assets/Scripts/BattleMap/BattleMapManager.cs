@@ -340,37 +340,6 @@ namespace BattleMapManager
 
             }
         }
-
-        #region 弃用
-        //private Unit[] InitAndInstantiateGameUnits(JsonData units, int count, int x, int y)
-        //{
-        //    Unit[] res = new Unit[count];
-
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        Vector2 position = new Vector2(x, y);
-        //        position += Random.insideUnitCircle * 0.5f;
-
-        //        GameObject enemy =
-        //            Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(position.x, position.y, 0f),
-        //                        Quaternion.identity);
-
-        //        enemy.AddComponent<Unit>();
-        //        res[i] = enemy.GetComponent<Unit>();
-
-        //        ReadUnitDataInJason(this._unitsData[units[i]["name"].ToString()],
-        //                            units[i]["Controler - Enemy, Friendly or Self"].ToString(),
-        //                            (int)units[i]["Damaged"],
-        //                            res[i]);
-
-        //        enemy.AddComponent<DisplayData>();
-        //        enemy.AddComponent<ShowRange>();
-
-        //    }
-
-        //    return res;
-        //}
-        #endregion
         
         //初始地图单位
         private Unit InitAndInstantiateGameUnit(JsonData data, int x, int y)
@@ -419,38 +388,6 @@ namespace BattleMapManager
 
             return newUnit;
         }
-
-        #region 弃用
-        //private GameObject[] InstantiateTilesRuler(int area)
-        //{
-        //    // TODO : 根据规则（暂时不明）,下面是我编的,进行地图实例化
-        //    switch (area)
-        //    {
-        //        case -1:
-        //            return other_tiles;
-        //        case 0:
-        //        case 1:
-        //            return normal_tiles;
-        //        case 2:
-        //            return A_tiles;
-        //        case 3:
-        //        case 4:
-        //            return B_tiles;
-        //        case 5:
-        //        case 6:
-        //            return C_tiles;
-        //        case 7:
-        //        case 8:
-        //            return D_tiles;
-        //        case 9:
-        //        case 10:
-        //            return E_tiles;
-        //        default:
-        //            Debug.Log("Unknown area type.");
-        //            return other_tiles;
-        //    }
-        //}
-        #endregion
 
         public BattleMapBlock GetSpecificMapBlock(int x, int y)
         {
@@ -620,6 +557,72 @@ namespace BattleMapManager
             area = _mapBlocks[(int)position.x, (int)position.y].area;
             //units.Clear();
             //emptyMapBlocks.Clear();
+
+            List<BattleMapBlock> battleArea = null;
+            
+            switch (area)
+            {
+                case -1:
+                    battleArea = battleArea_1;
+                    break;
+                case 0:
+                    battleArea = battleArea0;
+                    break;
+                case 1:
+                    battleArea = battleArea1;
+                    break;
+                case 2:
+                    battleArea = battleArea2;
+                    break;
+                case 3:
+                    battleArea = battleArea3;
+                    break;
+                case 4:
+                    battleArea = battleArea4;
+                    break;
+                case 5:
+                    battleArea = battleArea5;
+                    break;
+                case 6:
+                    battleArea = battleArea6;
+                    break;
+                case 7:
+                    battleArea = battleArea7;
+                    break;
+                default:
+                    Debug.Log(string.Format("Invalid area value {0}", area));
+                    return false;
+            }
+            
+            foreach (BattleMapBlock map in battleArea)
+            {
+                Debug.Log(map.x + ":" + map.y);
+                if (_mapBlocks[map.x, map.y].transform.childCount != 0)
+                {
+                    if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>() != null)
+                    {
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner.Equals("Enemy"))
+                        {
+                            Debug.Log("This WarZone has Enemy,you can`t summon");
+                            return false;
+                        }
+                        if (_mapBlocks[map.x, map.y].GetComponentInChildren<Unit>().owner.Equals("Self"))
+                        {
+                            unit = _mapBlocks[map.x, map.y].GetComponentInChildren<Unit>();
+                            units.Add(unit);
+                        }
+                    }
+                }
+                else
+                {
+                    emptyMbpBlock = new BattleMapBlock(map.x, map.y);
+                    Debug.Log(emptyMbpBlock);
+                    emptyMapBlocks.Add(emptyMbpBlock);
+
+                }
+            }
+            #region 弃用
+            /*
             if (area == -1)
             {
                 foreach (BattleMapBlock map in battleArea_1)
@@ -889,16 +892,58 @@ namespace BattleMapManager
 
                     }
                 }
-            }
-
+            }*/
+            #endregion
             return true;
         }
 
         //显示战区
         public void ShowBattleZooe(Vector3 position)
         {
-            int area;
-            area = _mapBlocks[(int)position.x, (int)position.y].area;
+            int area = _mapBlocks[(int)position.x, (int)position.y].area;
+            
+            List<BattleMapBlock> battleArea = null;
+            
+            switch (area)
+            {
+                case -1:
+                    battleArea = battleArea_1;
+                    break;
+                case 0:
+                    battleArea = battleArea0;
+                    break;
+                case 1:
+                    battleArea = battleArea1;
+                    break;
+                case 2:
+                    battleArea = battleArea2;
+                    break;
+                case 3:
+                    battleArea = battleArea3;
+                    break;
+                case 4:
+                    battleArea = battleArea4;
+                    break;
+                case 5:
+                    battleArea = battleArea5;
+                    break;
+                case 6:
+                    battleArea = battleArea6;
+                    break;
+                case 7:
+                    battleArea = battleArea7;
+                    break;
+                default:
+                    Debug.Log(string.Format("Invalid area value {0}", area));
+                    return;
+            }
+            
+            foreach (BattleMapBlock map in battleArea)
+            {
+                _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
+            }
+            #region 弃用
+            /*
             if (area == -1)
             {
                 foreach (BattleMapBlock map in battleArea_1)
@@ -961,21 +1006,62 @@ namespace BattleMapManager
                 {
                     _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
                 }
-            }
-
+            }*/
+            #endregion
         }
+        
         //隐藏战区
         public void HideBattleZooe(Vector3 position)
         {
-            int area;
-            Color tempColor;
-            area = _mapBlocks[(int)position.x, (int)position.y].area;
+            int area  = _mapBlocks[(int)position.x, (int)position.y].area;
+            
+            List<BattleMapBlock> battleArea = null;
+            
+            switch (area)
+            {
+                case -1:
+                    battleArea = battleArea_1;
+                    break;
+                case 0:
+                    battleArea = battleArea0;
+                    break;
+                case 1:
+                    battleArea = battleArea1;
+                    break;
+                case 2:
+                    battleArea = battleArea2;
+                    break;
+                case 3:
+                    battleArea = battleArea3;
+                    break;
+                case 4:
+                    battleArea = battleArea4;
+                    break;
+                case 5:
+                    battleArea = battleArea5;
+                    break;
+                case 6:
+                    battleArea = battleArea6;
+                    break;
+                case 7:
+                    battleArea = battleArea7;
+                    break;
+                default:
+                    Debug.Log(string.Format("Invalid area value {0}", area));
+                    return;
+            }
+            
+            foreach (BattleMapBlock map in battleArea)
+            {
+                _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
+            }
+            
+            #region 弃用
+            /*
             if (area == -1)
             {
                 foreach (BattleMapBlock map in battleArea_1)
                 {
-
-                    tempColor = _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color;
                     _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
                 }
             }
@@ -1035,7 +1121,8 @@ namespace BattleMapManager
                     _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.white;
                 }
             }
-
+            */
+            #endregion
         }
         #endregion
     }
