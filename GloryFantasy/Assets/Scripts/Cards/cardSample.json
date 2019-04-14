@@ -1,0 +1,396 @@
+[
+    {
+        "cd": "3",
+        "color": "RG",
+        "cost": "3",
+        "effect": "",
+        "id": "HElf_1",
+        "isCore": "0",
+        "name": "王翠花",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "弓手"
+        ],
+        "tokenID": "HElf_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "3",
+        "color": "RP",
+        "cost": "3",
+        "effect": "迅捷，迅击",
+        "id": "HKnight_1",
+        "isCore": "0",
+        "name": "李壮实",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "骑士"
+        ],
+        "tokenID": "HKnight_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "3",
+        "color": "UR",
+        "cost": "3",
+        "effect": "此单位使用的效果牌CD减1（最小为1）。",
+        "id": "HLunamage_1",
+        "isCore": "0",
+        "name": "月小丫",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "施法者"
+        ],
+        "tokenID": "HLunamage_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "2",
+        "color": "W",
+        "cost": "2",
+        "effect": "",
+        "id": "WSoldier_1",
+        "isCore": "0",
+        "name": "征召战士",
+        "slot": "0",
+        "tag": [
+            ""
+        ],
+        "tokenID": "WSoldier_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "2",
+        "color": "W",
+        "cost": "2",
+        "effect": "滞击",
+        "id": "WArcher_1",
+        "isCore": "0",
+        "name": "密林卫士",
+        "slot": "0",
+        "tag": [
+            "弓兵"
+        ],
+        "tokenID": "WArcher_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "4",
+        "color": "W",
+        "cost": "2",
+        "effect": "护甲1",
+        "id": "WArmour_1",
+        "isCore": "0",
+        "name": "红眼MK-I",
+        "slot": "0",
+        "tag": [
+            "机甲"
+        ],
+        "tokenID": "WArmour_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "4",
+        "color": "R",
+        "cost": "3",
+        "effect": "迅捷，迅击。",
+        "id": "RKnight_1",
+        "isCore": "0",
+        "name": "流浪骑士",
+        "slot": "0",
+        "tag": [
+            "骑兵"
+        ],
+        "tokenID": "RKnight_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "4",
+        "color": "R",
+        "cost": "3",
+        "effect": "迅捷。飞行。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。",
+        "id": "RPhoenix_1",
+        "isCore": "0",
+        "name": "赤火之翼",
+        "slot": "0",
+        "tag": [
+            "元素",
+            "野兽"
+        ],
+        "tokenID": "RPhoenix_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "3",
+        "color": "G",
+        "cost": "2",
+        "effect": "迅击。可以部署在友方英雄一格内。",
+        "id": "GWoodfolk_1",
+        "isCore": "0",
+        "name": "翠林旅伴",
+        "slot": "0",
+        "tag": [
+            "叶族"
+        ],
+        "tokenID": "GWoodfolk_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "2",
+        "color": "G",
+        "cost": "2",
+        "effect": "先制攻击。迅捷。",
+        "id": "GWinterwolf_1",
+        "isCore": "0",
+        "name": "霜狼",
+        "slot": "0",
+        "tag": [
+            "野兽"
+        ],
+        "tokenID": "GWinterwolf_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "4",
+        "color": "R",
+        "cost": "4",
+        "effect": "迅击",
+        "id": "RFiresuli_1",
+        "isCore": "0",
+        "name": "闷燃火灵",
+        "slot": "0",
+        "tag": [
+            "元素"
+        ],
+        "tokenID": "RFiresuli_1",
+        "type": "Unit"
+    },
+    {
+        "cd": "3",
+        "color": "W",
+        "cost": "0",
+        "effect": "使用者：友方单位。创建其携带战技的临时复制置入你的手中。（临时复制使用后销毁。）",
+        "id": "WInstant_1",
+        "isCore": "0",
+        "name": "瞬发创想",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "2",
+        "color": "W",
+        "cost": "1",
+        "effect": "抓2张牌，随后选择1张手牌冷却两回合。",
+        "id": "WBrainstorm_1",
+        "isCore": "0",
+        "name": "谋定而动",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "2",
+        "color": "W",
+        "cost": "1",
+        "effect": "使用者：友方单位。使用者所在区域的敌方单位获得雾视。",
+        "id": "WMist_1",
+        "isCore": "0",
+        "name": "隐雾术",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "2",
+        "color": "R",
+        "cost": "2",
+        "effect": "使用者：友方单位。将其一格内的一个敌方单位投掷到4格内的一格中，并对其造成2点伤害。",
+        "id": "RThrow_1",
+        "isCore": "0",
+        "name": "野蛮投掷",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "1",
+        "color": "R",
+        "cost": "1",
+        "effect": "使用者：友方单位。使用者获得+2/0直到回合结束。",
+        "id": "REncourage_1",
+        "isCore": "0",
+        "name": "战嚎",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "2",
+        "color": "G",
+        "cost": "2",
+        "effect": "使用者：友方单位。使用者及两格以内的友方单位获得MOV+1，持续两个回合。",
+        "id": "RCourage_1",
+        "isCore": "0",
+        "name": "热血律动",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "3",
+        "color": "G",
+        "cost": "2",
+        "effect": "创建三面拥有6点生命值的墙体，2回合后消解。",
+        "id": "GWall_1",
+        "isCore": "0",
+        "name": "城墙术",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "4",
+        "color": "G",
+        "cost": "1",
+        "effect": "使用者：友方单位。使用者跳跃到四格内的一格。",
+        "id": "GJump_1",
+        "isCore": "0",
+        "name": "轻身飞跃",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "3",
+        "color": "G",
+        "cost": "2",
+        "effect": "所有友方单位获得2点生命。",
+        "id": "GCuringwind_1",
+        "isCore": "0",
+        "name": "治愈之风",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "-1",
+        "color": "G",
+        "cost": "3",
+        "effect": "在指定区域部署两个霜狼。",
+        "id": "GSummonwilf_1",
+        "isCore": "0",
+        "name": "唤狼之笛",
+        "slot": "",
+        "tag": [
+            ""
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "3",
+        "color": "P",
+        "cost": "2",
+        "effect": "要求携带者：紫色单位。使用者：携带者。使用者获得“两格以内的其他友方单位获得+1/+1”和MOV-1，持续2回合。",
+        "id": "PAnthem_1",
+        "isCore": "0",
+        "name": "号令之声",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "4",
+        "color": "UR",
+        "cost": "2",
+        "effect": "要求携带者：红色或蓝色单位。使用者：携带者。使用者对目标格子上的单位造成3点伤害。",
+        "id": "URLunastrike_1",
+        "isCore": "0",
+        "name": "月之裁决",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "3",
+        "color": "G",
+        "cost": "2",
+        "effect": "要求携带者：弓兵。使用者：携带者。消耗一次攻击。选择四格以内的格子。使用者对其及周围1格的单位造成3点伤害。",
+        "id": "GArrowrain_1",
+        "isCore": "0",
+        "name": "箭雨",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "2",
+        "color": "RG",
+        "cost": "1",
+        "effect": "要求携带者：红色或绿色单位。使用者：携带者。消耗一次攻击。选择3格以内的格子。使用者对其该格子上的单位造成2点伤害并将其绊足。",
+        "id": "RGFootflat_1",
+        "isCore": "0",
+        "name": "绊足包",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "cd": "1",
+        "color": "UR",
+        "cost": "1",
+        "effect": "要求携带者：蓝色或红色单位。使用者：携带者。消耗一次攻击。选择4格以内的格子。使用者对其该格子上的单位造成3点伤害。",
+        "id": "URLightingbolt_1",
+        "isCore": "0",
+        "name": "闪电击",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    }
+]

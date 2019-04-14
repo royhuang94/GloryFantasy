@@ -16,6 +16,8 @@ namespace BattleMap
         {
             _instance = this;
             InitDictionary();
+            //GameObject prefabInstance = Instantiate(prefabs);
+            //prefabInstance.transform.SetParent(GameObject.Find("UnitUI/Panel").gameObject.transform);
         }
         
         public static BmuScriptsHandler GetInstance()

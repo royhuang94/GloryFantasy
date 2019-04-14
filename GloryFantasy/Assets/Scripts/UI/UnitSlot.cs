@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameUnit;
+using LitJson;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,6 +10,10 @@ namespace NBearUnit
     public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
         public GameObject unitPrefab;
+
+        private bool canShowMsg = false;
+        
+        
         /// <summary>
         /// 存储Unit到slot下
         /// </summary>
@@ -33,6 +39,7 @@ namespace NBearUnit
         {
             //TODO 显示Unit属性
             Debug.Log("鼠标进入");
+            canShowMsg = true;
         }
 
         /// <summary>
@@ -42,8 +49,59 @@ namespace NBearUnit
         public void OnPointerExit(PointerEventData eventData)
         {
             Debug.Log("鼠标退出");
+            canShowMsg = false;
         }
 
+        private void OnGUI()
+        {
+            if (canShowMsg)
+            {
+                /*
+                GUIStyle style1= new GUIStyle();
+                style1.fontSize = 30;
+                style1.normal.textColor = Color.red;
+                GUI.Label(
+                    new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, 400, 50),
+                    "Cube",
+                    style1);*/
+                UnitUI currentItemUI = gameObject.GetComponentInChildren<UnitUI>();
+                if (currentItemUI == null)
+                {
+                    return;
+                }
+                
+                UnitCard card = gameObject.GetComponent<UnitCard>();
+                JsonData jsonData = CardManager.GetInstance().GetCardJsonData(card.id);
+                int tagCount = jsonData["tag"].Count;
+                string tagInToal = "";
+                for (int i = 0; i < tagCount; i++)
+                {
+                    tagInToal += jsonData["tag"][i].ToString();
+                }
+                
+                //GUILayout.BeginArea(new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, 300, 350));
+                GUILayout.BeginArea(new Rect(0, 0, 300, 500));
+                GUILayout.BeginHorizontal("Box");
+                GUILayout.BeginVertical(GUILayout.Width(40));
+                GUILayout.Label("name:");
+                GUILayout.Label("effect:");
+                GUILayout.Label("cd:");
+                GUILayout.Label("tag:");
+                GUILayout.Label("type:");
+                GUILayout.EndVertical();
+                
+                GUILayout.BeginVertical("Box", GUILayout.Width(500));
+                GUILayout.TextField(jsonData["name"].ToString());
+                GUILayout.TextField(jsonData["effect"].ToString());
+                GUILayout.TextField(jsonData["cd"].ToString());
+                GUILayout.TextField(tagInToal);
+                GUILayout.TextField(jsonData["type"].ToString());
+                
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
+                GUILayout.EndArea();
+            }
+        }
 
 
         /// <summary>

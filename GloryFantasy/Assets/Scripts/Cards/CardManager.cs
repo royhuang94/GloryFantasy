@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using LitJson;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -29,6 +31,8 @@ namespace GameUnit
         
         // 是否取消抽卡检查
         public bool cancelCheck { get; set; }
+
+        private Dictionary<string, JsonData> _cardsData;
         
         private CardManager()
         {
@@ -59,6 +63,42 @@ namespace GameUnit
 
             cardsUpperLimit = 10;
             extractCardsUpperLimit = 3;
+            
+            InitCardsData();
+        }
+
+        /// <summary>
+        /// 初始化存储所有卡牌的数据字典
+        /// id -> json
+        /// </summary>
+        private void InitCardsData()
+        {
+            _cardsData = new Dictionary<string, JsonData>();
+
+            JsonData cardsJsonData =
+                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Cards/cardSample.json"));
+
+            int dataAmount = cardsJsonData.Count;
+            for (int i = 0; i < dataAmount; i++)
+            {
+                _cardsData.Add(cardsJsonData[i]["id"].ToString(), cardsJsonData[i]);
+            }
+        }
+
+
+        /// <summary>
+        /// 返回给定的ID对应的Json数据
+        /// </summary>
+        /// <param name="cardID">卡牌预制件保存的UnitCard内存储的ID</param>
+        /// <returns>若存在此ID则返回对应的Json数据，若不存在则返回null</returns>
+        public JsonData GetCardJsonData(string cardID)
+        {
+            if (_cardsData.ContainsKey(cardID))
+            {
+                return _cardsData[cardID];
+            }
+
+            return null;
         }
 
         private void LoadCardsIntoSets()
@@ -83,8 +123,7 @@ namespace GameUnit
                     ? this.extractCardsUpperLimit
                     : (this.cardsUpperLimit - this.cardsInstancesInHand.Count > extractCardsUpperLimit
                         ? extractCardsUpperLimit
-                        : this.cardsUpperLimit - this.cardsInstancesInHand.Count)
-                ;
+                        : this.cardsUpperLimit - this.cardsInstancesInHand.Count);
             
             
             Debug.Log(String.Format("Extracting {0} card", extractAmount));
