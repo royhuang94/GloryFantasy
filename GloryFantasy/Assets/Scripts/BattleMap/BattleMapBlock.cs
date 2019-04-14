@@ -138,15 +138,22 @@ namespace BattleMap
             return 0;
         }
 
+
         //显示战区
         public void OnPointerEnter(PointerEventData eventData)
         {
-            BattleMap.getInstance().ShowBattleZooe(GetSelfPosition());
+            if(BattleMap.getInstance().IsColor == true)
+            {
+                BattleMap.getInstance().ShowBattleZooe(GetSelfPosition());
+            }                       
         }
         //隐藏战区
         public void OnPointerExit(PointerEventData eventData)
         {
-            BattleMap.getInstance().HideBattleZooe(GetSelfPosition());
+            if(BattleMap.getInstance().IsColor == true)
+            {
+                BattleMap.getInstance().HideBattleZooe(GetSelfPosition());
+            }            
         }
 
 

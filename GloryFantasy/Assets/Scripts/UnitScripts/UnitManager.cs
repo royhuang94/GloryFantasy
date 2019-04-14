@@ -97,8 +97,20 @@ public class UnitManager : MonoBehaviour {
 
     #endregion
 
-
+    private bool isClicked;
+    public bool IsClicked
+    {
+        get
+        {
+            return isClicked;
+        }
+        set
+        {
+            isClicked = value;
+        }
+    }
     private Canvas canvas;
+    
 
     private void Start()
     {
@@ -106,6 +118,7 @@ public class UnitManager : MonoBehaviour {
         pickedUnit = GameObject.Find("PickedUnit").GetComponent<NBearUnit.UnitUI>();
         pickedUnit.Hide();
         IsInstantiation = false;
+        isClicked = false;
     }
 
     private void LateUpdate()
