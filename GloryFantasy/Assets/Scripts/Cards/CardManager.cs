@@ -12,8 +12,6 @@ namespace GameUnit
     {
         private static CardManager _instance = null;
         
-        private Vector2 startPos;
-        
         // 存放暂用预制卡牌引用的数组
         public GameObject[] tmpCardPrefabs;
         // 手牌数量上限
@@ -141,20 +139,10 @@ namespace GameUnit
                 int extractPos = Random.Range(0, cardsSets.Count);
                 GameObject toInstantiate = this.cardsSets[extractPos];
                 this.cardsSets.RemoveAt(extractPos);
-                Vector2 pos = this.startPos + new Vector2(this.cardsInstancesInHand.Count, 0);
                 GameObject newCard = Instantiate(toInstantiate);
                 newCard.transform.SetParent(panel.transform);
                 newCard.GetComponent<UnitCard>().cardPrefabs = toInstantiate;
                 this.cardsInstancesInHand.Add(newCard);
-            }
-        }
-
-        // 重设所有手牌的位置
-        public void ResetPosition()
-        {
-            for (int i = 0; i < this.cardsInstancesInHand.Count; i++)
-            {
-                this.cardsInstancesInHand[i].transform.position = startPos + new Vector2(i, 0);
             }
         }
 
@@ -164,7 +152,6 @@ namespace GameUnit
             GameObject cardPrefab = cardInstance.GetComponent<UnitCard>().cardPrefabs;
             this.removedCards.Add(cardPrefab);
             Destroy(cardInstance);
-            ResetPosition();
         }
 
         // 将给定手牌实例销毁，并将预存的预制件放入冷却列表中
@@ -175,7 +162,6 @@ namespace GameUnit
             cardPrefab.GetComponent<UnitCard>().cooldownRounds = roundAmount;
             this.cooldownCards.Add(cardPrefab);
             Destroy(cardInstance);
-            ResetPosition();
         }
 
 
@@ -224,30 +210,6 @@ namespace GameUnit
             
         }
 
-        public bool CheckIfHasCard(Vector3 pos)
-        {
-            if ((int) pos.y != (int) this.startPos.y)
-            {
-                return false;
-            }
-
-            if ((int) pos.x >= this.cardsInstancesInHand.Count)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public GameObject GetSpecificCard(Vector3 coordinate)
-        {
-            if (CheckIfHasCard(coordinate))
-            {
-                return this.cardsInstancesInHand[(int) coordinate.x];
-            }
-
-            return null;
-        }
         
     }
 }
