@@ -27,7 +27,7 @@ public class ShowRange : MonoBehaviour
 
     public void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
     {
-        if (x < 0 || y < 0 || x > rows || y > columns) return;
+        if (x < 0 || y < 0 || x >= rows || y >= columns) return;
         reslist.Add(new Vector2(x, y));
         if (leftManhattanDistance == 0)
             return;

@@ -33,6 +33,8 @@ namespace GameUnit
         public bool cancelCheck { get; set; }
 
         private Dictionary<string, JsonData> _cardsData;
+
+        private GameObject panel;
         
         private CardManager()
         {
@@ -50,7 +52,11 @@ namespace GameUnit
             Init();
             LoadCardsIntoSets();
             cancelCheck = false;
-            startPos = new Vector2(0, 7);
+        }
+
+        private void Start()
+        {
+            panel = GameObject.Find("UnitUI/Panel").gameObject;
             ExtractCards();
         }
 
@@ -136,7 +142,8 @@ namespace GameUnit
                 GameObject toInstantiate = this.cardsSets[extractPos];
                 this.cardsSets.RemoveAt(extractPos);
                 Vector2 pos = this.startPos + new Vector2(this.cardsInstancesInHand.Count, 0);
-                GameObject newCard = Instantiate(toInstantiate, pos, Quaternion.identity);
+                GameObject newCard = Instantiate(toInstantiate);
+                newCard.transform.SetParent(panel.transform);
                 newCard.GetComponent<UnitCard>().cardPrefabs = toInstantiate;
                 this.cardsInstancesInHand.Add(newCard);
             }
