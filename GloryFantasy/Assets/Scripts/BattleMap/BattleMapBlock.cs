@@ -96,6 +96,11 @@ namespace BattleMap
         //处理地图块点击事件
         public void OnPointerDown(PointerEventData eventData)
         {
+            if(UnitManager.Instance.canMoving)
+            {
+                UnitManager.Instance.isMoving = true;
+            }
+
             if (UnitManager.Instance.IsPickedUnit)
             {
                 //检测到地图，可实例化棋子
@@ -142,6 +147,8 @@ namespace BattleMap
         //显示战区
         public void OnPointerEnter(PointerEventData eventData)
         {
+            
+
             if(BattleMap.getInstance().IsColor == true)
             {
                 BattleMap.getInstance().ShowBattleZooe(GetSelfPosition());
