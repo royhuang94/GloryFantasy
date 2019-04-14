@@ -11,7 +11,7 @@ namespace NBearUnit
 
 
    //TODO 解决方案
-        //1. 贪心算法
+        //1. A*算法
 
    //以上只考虑 行动力情况，暂时不考虑攻击范围等问题
 
@@ -54,8 +54,7 @@ namespace NBearUnit
             Gameplay.GetInstance().gamePlayInput.HandleConfirm(UnitManager.Instance.CurUnit);
 
             m_MyEvent.Invoke();
-            //UnitMoving();
-
+            UnitMoving();
         }
 
         public void UnitMoving()
@@ -63,7 +62,9 @@ namespace NBearUnit
             if(mapBlockParent != null)
             {
                 Debug.Log("行动力展示");
-                
+
+
+                BattleMap.MapNavigator._Instantce.PathSearch(UnitManager.Instance.CurUnit, new Vector3(8.0f, 7.0f, 0.0f) );
                 Gameplay.GetInstance().gamePlayInput.HandleConfirm(mapBlockParent.GetCoordinate());
             }
 

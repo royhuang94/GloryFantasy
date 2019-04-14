@@ -87,7 +87,8 @@ namespace BattleMap
         private BattleMapBlock[,] _mapBlocks;         //普通的地图方块
         private BattleMapBlock[,] _mapBlocksBurning;//灼烧的地图方块
         public GameObject normalMapBlocks;
-        private Dictionary<Vector2, BattleMapBlock> mapBlockDict = new Dictionary<Vector2, BattleMapBlock>();//寻路字典
+        public Dictionary<Vector2, BattleMapBlock> mapBlockDict = new Dictionary<Vector2, BattleMapBlock>();//寻路字典
+        public List<BattleMapBlock> aStarPath = new List<BattleMapBlock>();  //最优路径
 
         #region 弃用
         //public GameObject[] A_tiles;            // 区域 A prefabs的数组
@@ -281,20 +282,19 @@ namespace BattleMap
 
                     if (t.x >= 0 && t.y >= 0 && t.x < columns && t.y < rows && _mapBlocks[(int)t.x, (int)t.y].transform.childCount == 0)
                     {
-                        neighbourBlock[0] = mapBlockDict[t];
-                        Debug.Log(neighbourBlock[0].x);
+                        mapBlockDict[new Vector2(j, i)].neighbourBlock[0] = mapBlockDict[t];
                     }
                     if (b.x >= 0 && b.y >= 0 && b.x < columns && b.y < rows && _mapBlocks[(int)b.x, (int)b.y].transform.childCount == 0)
                     {
-                        neighbourBlock[1] = mapBlockDict[b];
-                    }
-                    if (r.x >= 0 && r.y >= 0 && r.x < columns && r.y < rows && _mapBlocks[(int)r.x, (int)r.y].transform.childCount == 0)
-                    {
-                        neighbourBlock[2] = mapBlockDict[r];
+                        mapBlockDict[new Vector2(j, i)].neighbourBlock[1] = mapBlockDict[b];
                     }
                     if (l.x >= 0 && l.y >= 0 && l.x < columns && l.y < rows && _mapBlocks[(int)l.x, (int)l.y].transform.childCount == 0)
                     {
-                        neighbourBlock[3] = mapBlockDict[l];
+                        mapBlockDict[new Vector2(j, i)].neighbourBlock[2] = mapBlockDict[l];
+                    }
+                    if (r.x >= 0 && r.y >= 0 && r.x < columns && r.y < rows && _mapBlocks[(int)r.x, (int)r.y].transform.childCount == 0)
+                    {
+                        mapBlockDict[new Vector2(j, i)].neighbourBlock[3] = mapBlockDict[r];
                     }
                 }
             }

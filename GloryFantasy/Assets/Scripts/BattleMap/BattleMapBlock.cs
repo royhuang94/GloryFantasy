@@ -14,8 +14,8 @@ namespace BattleMap
     public enum AStarState
     {
         free,
-        isOpenList,
-        isCloseList
+        isInOpenList,
+        isInCloseList
     }
 
 
@@ -168,12 +168,16 @@ namespace BattleMap
         public string type { get; set; }
         public int tokenCount;
         public List<Unit> units_on_me = new List<Unit>();
-        public BattleMapBlock[] neighbourBlocke { get; set; }
+        public BattleMapBlock[] neighbourBlock = new BattleMapBlock[4];
+        public BattleMapBlock parentBlock = null;
         public AStarState aStarState { get; set; }
         public EMapBlockType blockType { get; set; }
 
-        //指向obj类型的通用临时使用的指针
-        public System.Object tempRef;
+        //最优路径计算
+        public float F = 0;
+        public float G = 0;
+        public float H = 0;
+
     }
 }
 
