@@ -22,7 +22,7 @@ namespace NBearUnit
         {
             GameObject itemGameObject = Instantiate(unitPrefab) as GameObject;
             itemGameObject.transform.SetParent(transform);
-            itemGameObject.transform.localPosition = new Vector3(0.0f, -21.0f, 0.0f);
+            itemGameObject.transform.localPosition = new Vector3(-28.125f, -28.125f, 0.0f);
             
             itemGameObject.GetComponent<UnitUI>().SetUnit(/*unit*/); //设置Item
             Debug.Log("StoreItem");
@@ -144,6 +144,7 @@ namespace NBearUnit
                 {
                     StoreItem(UnitManager.Instance.PickedUnit);
                     UnitManager.Instance.RemoveAllItem();
+
                 }
 
             }
