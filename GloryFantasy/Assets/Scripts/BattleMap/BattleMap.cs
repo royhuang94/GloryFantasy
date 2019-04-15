@@ -340,6 +340,16 @@ namespace BattleMap
                 _object = Instantiate(enemys[Random.Range(0, enemys.Length)], _mapBlocks[x, y].transform, true);
                 _object.transform.position = new Vector3(x, y, 0f);
 
+                //TODO 血量显示 test版本, 此后用slider显示
+                var TextHp = _object.transform.GetComponentInChildren<Text>();
+                var gameUnit = _object.GetComponent<GameUnit.GameUnit>();
+                float hp = gameUnit.unitAttribute.HP/* - Random.Range(2, 6)*/;
+                float maxHp = gameUnit.unitAttribute.MaxHp;
+                float hpDivMaxHp = hp / maxHp * 100;
+
+                TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
+                //TextHp.text = string.Format("HP: {0} / {1}", _object.GetComponent<GameUnit.GameUnit>().unitAttribute.HP.ToString(), _object.GetComponent<GameUnit.GameUnit>().unitAttribute.MaxHp.ToString());
+
             }
             // 在单位上挂载unit 脚本
             //_object.AddComponent<Unit>();

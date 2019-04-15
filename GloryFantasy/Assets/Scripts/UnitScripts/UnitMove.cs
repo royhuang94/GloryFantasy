@@ -53,7 +53,10 @@ namespace NBearUnit
             Gameplay.GetInstance().gamePlayInput.HandleConfirm(UnitManager.Instance.CurUnit);
 
             m_MyEvent.Invoke();
+
+            //TODO 待解决Bug，canMoving应当在染色区关闭时设置为false
             UnitManager.Instance.canMoving = true;
+            GFGame.UtilityHelper.Log(UnitManager.Instance.canMoving, GFGame.LogColor.RED);
             //UnitMoving();
         }
 

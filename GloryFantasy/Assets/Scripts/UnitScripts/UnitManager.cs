@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 //TODO 实现简单的点击事件，处理单位实例化
 
-public class UnitManager : MonoBehaviour {
+public class UnitManager : MonoBehaviour
+{
 
     #region 单列模式
     private static UnitManager _instance;
@@ -55,7 +56,7 @@ public class UnitManager : MonoBehaviour {
 
 
     private Transform goTransform;
-    public void CouldInstantiation(bool coudInstantiation,Transform parent )
+    public void CouldInstantiation(bool coudInstantiation, Transform parent)
     {
         IsInstantiation = coudInstantiation;
         goTransform = parent;
@@ -87,8 +88,19 @@ public class UnitManager : MonoBehaviour {
         //脚本到实例化Unit上
         //AddComponent
         temp.gameObject.AddComponent<NBearUnit.UnitMove>();
+        var hpTest = temp.transform.GetChild(0);
 
+        //GFGame.UtilityHelper.Log("HP: " + temp.GetComponent<GameUnit.GameUnit>().unitAttribute.HP);
         pickedUnit.Hide();
+        
+        //TODO 暂时用Text标识血量，以后改为slider
+        hpTest.gameObject.SetActive(true);
+        float hp = temp.GetComponent<GameUnit.GameUnit>().unitAttribute.HP;
+        float hpDivMaxHp = hp / temp.GetComponent<GameUnit.GameUnit>().unitAttribute.MaxHp * 100;
+
+        hpTest.GetComponent<Text>().text = string.Format("HP: {0}%", hpDivMaxHp);
+
+
         //Debug.Log(goTransform.position);
     }
 
@@ -109,7 +121,7 @@ public class UnitManager : MonoBehaviour {
     private Canvas canvas;
     public bool isMoving = false;
     public bool canMoving = false;
-   
+
 
     private void Start()
     {
@@ -130,13 +142,15 @@ public class UnitManager : MonoBehaviour {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, null, out position);
             pickedUnit.SetLocalPosition(position + offsetPosition);
         }
-        if(isMoving)
+        //Debug.Log("isMoving: " + isMoving);
+        //Debug.Log("canMoving: " + canMoving);
+        if (isMoving)
         {
             GFGame.UtilityHelper.Log("高亮地图显示", GFGame.LogColor.RED);
             //Debug.Log("高亮移动路径");
             UnitMoving();
         }
-        
+
         //TODO 丢弃BUG 
         //if(isPickedUnit && Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject(-1) == false)
         //{
@@ -157,19 +171,22 @@ public class UnitManager : MonoBehaviour {
     /// </summary>
     public void UnitMoving()
     {
-        BattleMap.MapNavigator._Instantce.PathSearch(UnitManager.Instance.CurUnit, BattleMap.BattleMap.getInstance().curMapPos);
+        //Debug.Log(UnitManager.Instance.CurUnit);
+        Debug.Log(BattleMap.BattleMap.getInstance().curMapPos);
+        if (BattleMap.MapNavigator._Instantce.PathSearch(UnitManager.Instance.CurUnit, BattleMap.BattleMap.getInstance().curMapPos))
+        {
+
+            BattleMap.BattleMapBlock startBlock = BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y);
+            BattleMap.BattleMapBlock destBlock = BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)BattleMap.BattleMap.getInstance().curMapPos.x, (int)BattleMap.BattleMap.getInstance().curMapPos.y);
+
+            startBlock.transform.GetChild(0).SetParent(destBlock.transform);
+            destBlock.transform.GetChild(0).localPosition = new Vector3(6.0f, 4.0f, 0.0f);
+
+            canMoving = false;
+        }
         //Debug.Log(BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y).name);
-
-        BattleMap.BattleMapBlock startBlock = BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y);
-        BattleMap.BattleMapBlock destBlock = BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)BattleMap.BattleMap.getInstance().curMapPos.x, (int)BattleMap.BattleMap.getInstance().curMapPos.y);
-
-        startBlock.transform.GetChild(0).SetParent(destBlock.transform);
-        destBlock.transform.GetChild(0).localPosition = new Vector3(6.0f, 4.0f, 0.0f);
-
-       isMoving = false;
-        canMoving = false;
+        isMoving = false;
         //Gameplay.GetInstance().gamePlayInput.HandleConfirm(mapBlockParent.GetCoordinate());
-
     }
 
 

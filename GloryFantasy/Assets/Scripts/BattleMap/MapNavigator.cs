@@ -44,6 +44,8 @@ namespace BattleMap
         public List<BattleMapBlock> CloseList; //不会再被考虑的地图块儿
         public Vector2 globalEndPos;
 
+        //TODO 用于保存最优路径
+        public List<BattleMapBlock> paths = new List<BattleMapBlock>();
 
         //寻路入口
         public bool PathSearch(Vector2 startPos, Vector2 endPos)
@@ -70,6 +72,7 @@ namespace BattleMap
             //此时起点A已经设置完毕，可以不用再考虑此地图块儿了
             CloseList.Add(A);
             A.aStarState = AStarState.isInCloseList;
+
             do
             {
                 //遍历OpenList，寻找F值最小的节点，设为A
@@ -82,6 +85,7 @@ namespace BattleMap
                         A = OpenList[i];
                 }
 
+
                 BattleMapBlock path = AStarSearch(A);
                 if (path != null)
                 {
@@ -91,6 +95,7 @@ namespace BattleMap
                         //设置为AStarPath
                         //TODO 会不会出现问题，此处修改了EMapBlockType，后面遍历时，会不会出问题
                         path.blockType = EMapBlockType.aStarPath;
+                        //path.aStarState = AStarState.free;
                         BattleMap.getInstance().aStarPath.Add(path);
                         //Debug.Log("aStarPath " + path.GetSelfPosition());
                         path.GetComponent<Image>().color = Color.blue;
@@ -100,6 +105,7 @@ namespace BattleMap
                             path = path.parentBlock;
                     } while (path != null);
 
+                    //path.GetComponent<Image>().color = Color.white;
                     return true;
                 }
                 OpenList.Remove(A);
@@ -109,6 +115,7 @@ namespace BattleMap
             } while (OpenList.Count > 0);
 
             Debug.Log("Path Not Found");
+            RestMapBlock();
             return false;
         }
 
@@ -165,6 +172,15 @@ namespace BattleMap
         public void InstantiateMapBeta(BattleMapBlock[,] mapBlocks)
         {
 
+        }
+
+        //Rest
+        void RestMapBlock()
+        {
+            foreach (var block in CloseList)
+            {
+                block.aStarState = AStarState.free;
+            }
         }
     }
 
