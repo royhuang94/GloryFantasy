@@ -130,7 +130,7 @@ namespace GameUnit
                         : this.cardsUpperLimit - this.cardsInstancesInHand.Count);
             
             
-            Debug.Log(String.Format("Extracting {0} card", extractAmount));
+            //Debug.Log(String.Format("Extracting {0} card", extractAmount));
             if (extractAmount > this.cardsSets.Count)
                 extractAmount = this.cardsSets.Count;
             

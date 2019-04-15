@@ -217,7 +217,7 @@ namespace BattleMap
 
                 if (x == 0 && y == 0)
                 {
-                    Debug.Log(string.Format("固定的灼烧块{0},{0}", x, y));
+                    //Debug.Log(string.Format("固定的灼烧块{0},{0}", x, y));
                     _instance.gameObject.AddComponent<BattleMapBlockBurning>();
 
                     _instance.gameObject.AddComponent<BattleMapBlock>();
@@ -584,7 +584,7 @@ namespace BattleMap
             {
                 int x = (int) pos.x;
                 int y = (int) pos.y;
-                Debug.Log(x + ":" + y);
+                //Debug.Log(x + ":" + y);
                 if (_mapBlocks[x, y].transform.childCount != 0)
                 {
                     Unit unit = _mapBlocks[x, y].GetComponentInChildren<Unit>();
@@ -604,7 +604,7 @@ namespace BattleMap
                 }
                 else
                 {
-                    Debug.Log(x + ":" + y);
+                    //Debug.Log(x + ":" + y);
                     emptyMapBlocksPositions.Add(new Vector2(x, y));
 
                 }

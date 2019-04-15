@@ -37,7 +37,7 @@ public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
 
     private void Action()
     {
-        Debug.Log("action 激活");
+        //Debug.Log("action 激活");
         //gameObject.SetActive(true);
         //Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);
         // TODO :添加点击确定按钮事件

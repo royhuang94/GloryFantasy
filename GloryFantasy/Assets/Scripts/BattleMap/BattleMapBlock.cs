@@ -61,13 +61,13 @@ namespace BattleMap
 
         public void AddUnit(Unit unit)
         {
-            Debug.Log("MapBlocks--Added unit:" + unit.ToString());
+            //Debug.Log("MapBlocks--Added unit:" + unit.ToString());
             units_on_me.Add(unit);
         }
 
         public void AddUnits(Unit[] units)
         {
-            Debug.Log("MapBlocks--Adding Units");
+            //Debug.Log("MapBlocks--Adding Units");
             foreach (Unit gameUnit in units)
             {
                 units_on_me.Add(gameUnit);
@@ -76,7 +76,7 @@ namespace BattleMap
 
         public void RemoveUnit(Unit unit)
         {
-            Debug.Log("MapBlocks--Removed unit:" + unit.ToString());
+            //Debug.Log("MapBlocks--Removed unit:" + unit.ToString());
             units_on_me.Remove(unit);
         }
 

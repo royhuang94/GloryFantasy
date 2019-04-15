@@ -37,7 +37,7 @@ namespace NBearUnit
                 return;
 
             UnitManager.Instance.CurUnit = transform.GetComponentInParent<BattleMap.BattleMapBlock>().GetCoordinate();
-            Debug.Log("左键击下Unit" + UnitManager.Instance.CurUnit);
+            //Debug.Log("左键击下Unit" + UnitManager.Instance.CurUnit);
             //染色相关
             if (!UnitManager.Instance.IsClicked)
             {

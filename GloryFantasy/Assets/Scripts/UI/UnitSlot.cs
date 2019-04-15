@@ -38,7 +38,7 @@ namespace NBearUnit
         public void OnPointerEnter(PointerEventData eventData)
         {
             //TODO 显示Unit属性
-            Debug.Log("鼠标进入");
+            //Debug.Log("鼠标进入");
             canShowMsg = true;
         }
 
@@ -48,7 +48,7 @@ namespace NBearUnit
         /// </summary>
         public void OnPointerExit(PointerEventData eventData)
         {
-            Debug.Log("鼠标退出");
+            //Debug.Log("鼠标退出");
             canShowMsg = false;
         }
 
@@ -117,10 +117,10 @@ namespace NBearUnit
         /// </summary>
         public void OnPointerDown(PointerEventData eventData)
         {
-            Debug.Log("鼠标");
+            //Debug.Log("鼠标");
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
-            Debug.Log("鼠标左键");
+            //Debug.Log("鼠标左键");
             if (transform.childCount > 0)
             {
                 //TODO 自身不为空

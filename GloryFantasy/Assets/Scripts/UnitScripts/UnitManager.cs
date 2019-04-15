@@ -53,12 +53,11 @@ public class UnitManager : MonoBehaviour {
         private set;
     }
 
-    private string goName;
+
     private Transform goTransform;
-    public void CouldInstantiation(bool coudInstantiation,Transform parent ,string goName="")
+    public void CouldInstantiation(bool coudInstantiation,Transform parent )
     {
         IsInstantiation = coudInstantiation;
-        this.goName = goName;
         goTransform = parent;
 
         //当 IsInstantiation 为true时，isPickedUnit 必定为false
@@ -77,8 +76,6 @@ public class UnitManager : MonoBehaviour {
     {
         //TODO 需要修改，，，代码框架不变
         //TODO 遇到问题，此处应该放在Unit单位下，而不是直接加在panel下
-        Debug.Log(goName);
-        //var Panel = GameObject.Find("UnitUI/MainPanel_88/" + goName).transform;
         GameObject temp = GameObject.Instantiate(pickedUnit.gameObject, goTransform) as GameObject;
         //temp.transform.parent = Panel;
         //Debug.Log(temp.name);
@@ -135,7 +132,8 @@ public class UnitManager : MonoBehaviour {
         }
         if(isMoving)
         {
-            Debug.Log("高亮移动路径");
+            GFGame.UtilityHelper.Log("高亮地图显示", GFGame.LogColor.RED);
+            //Debug.Log("高亮移动路径");
             UnitMoving();
         }
         
@@ -160,7 +158,7 @@ public class UnitManager : MonoBehaviour {
     public void UnitMoving()
     {
         BattleMap.MapNavigator._Instantce.PathSearch(UnitManager.Instance.CurUnit, BattleMap.BattleMap.getInstance().curMapPos);
-        Debug.Log(BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y).name);
+        //Debug.Log(BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y).name);
 
         BattleMap.BattleMapBlock startBlock = BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y);
         BattleMap.BattleMapBlock destBlock = BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)BattleMap.BattleMap.getInstance().curMapPos.x, (int)BattleMap.BattleMap.getInstance().curMapPos.y);

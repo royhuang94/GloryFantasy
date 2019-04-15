@@ -85,14 +85,14 @@ namespace BattleMap
                 BattleMapBlock path = AStarSearch(A);
                 if (path != null)
                 {
-                    Debug.Log("Path Found");
+                    //Debug.Log("Path Found");
                     do
                     {
                         //设置为AStarPath
                         //TODO 会不会出现问题，此处修改了EMapBlockType，后面遍历时，会不会出问题
                         path.blockType = EMapBlockType.aStarPath;
                         BattleMap.getInstance().aStarPath.Add(path);
-                        Debug.Log("aStarPath " + path.GetSelfPosition());
+                        //Debug.Log("aStarPath " + path.GetSelfPosition());
                         path.GetComponent<Image>().color = Color.blue;
                         if (path.parentBlock == null)
                             path = null;
