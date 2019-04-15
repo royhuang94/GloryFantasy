@@ -7,7 +7,6 @@ namespace IMessage
 
     public interface MsgReceiver
     {
-
     }
 
     public delegate bool Condition();
@@ -47,6 +46,14 @@ namespace IMessage
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
         
+        /// <summary>
+        /// 给msgReciver增加注册MSG的函数
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="msgName"></param>
+        /// <param name="condition"></param>
+        /// <param name="action"></param>
+        /// <param name="TriggerName"></param>
         public static void RegisterMsg(this MsgReceiver self, int msgName, Condition condition, Action action, string TriggerName = "NoDefine")
         {
             if (msgName < 0)
@@ -71,6 +78,15 @@ namespace IMessage
 
             handlers.Add(new MsgHandler(self, msgName, condition, action));
 
+        }
+        /// <summary>
+        /// 返回MsgReceiver
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static MsgReceiver GetMsgReceiver(this MsgReceiver self)
+        {
+            return self;
         }
 
         /// <summary>
@@ -124,4 +140,23 @@ namespace IMessage
         }
     }
 
+    public class Trigger : Command
+    {
+        /// <summary>
+        /// 注册这个Trigger的游戏物体
+        /// </summary>
+        public MsgReceiver speller;
+        /// <summary>
+        /// Trigger会被触发的消息
+        /// </summary>
+        public int msgName;
+        /// <summary>
+        /// Trigger的成立限定条件函数
+        /// </summary>
+        public IMessage.Condition condition;
+        /// <summary>
+        /// Trigger的执行函数
+        /// </summary>
+        public IMessage.Action action;
+    }
 }

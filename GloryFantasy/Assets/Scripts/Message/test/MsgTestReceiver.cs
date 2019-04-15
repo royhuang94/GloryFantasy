@@ -63,15 +63,9 @@ public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
 
 }
 
-//TODO:扩充这个ITrigger
-namespace ITrigger
+//TODO:扩充这个Trigger
+namespace IMessage
 {
-    class Trigger : Command
-    {
-        public int msgName;
-        public IMessage.Condition condition;
-        public IMessage.Action action;
-    }
 
     class Trigger1 : Trigger
     {

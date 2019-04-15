@@ -5,7 +5,7 @@ using BattleMap;
 
 namespace GameUnit
 {
-    public class GameUnit : MonoBehaviour
+    public class GameUnit : MonoBehaviour, IMessage.MsgReceiver
     {
         public NBearUnit.UnitAttribute unitAttribute;
 
