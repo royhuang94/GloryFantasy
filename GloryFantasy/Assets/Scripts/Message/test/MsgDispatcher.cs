@@ -46,6 +46,10 @@ namespace IMessage
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
         
+        public static void RegisterMsg(Trigger trigger, string TriggerName = "NoDefine")
+        {
+            RegisterMsg(trigger.register, trigger.msgName, trigger.condition, trigger.action, TriggerName);
+        }
         /// <summary>
         /// 给msgReciver增加注册MSG的函数
         /// </summary>
@@ -77,6 +81,8 @@ namespace IMessage
             var handlers = MsgHandlerDict[msgName];
 
             handlers.Add(new MsgHandler(self, msgName, condition, action));
+
+            Debug.Log("RegisterMsg: " + TriggerName + "successfully register");
 
         }
         /// <summary>
@@ -140,12 +146,12 @@ namespace IMessage
         }
     }
 
-    public class Trigger : Command
+    public class Trigger : GameplayTool
     {
         /// <summary>
         /// 注册这个Trigger的游戏物体
         /// </summary>
-        public MsgReceiver speller;
+        public MsgReceiver register;
         /// <summary>
         /// Trigger会被触发的消息
         /// </summary>

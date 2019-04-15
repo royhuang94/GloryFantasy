@@ -7,7 +7,6 @@ namespace GameUnit
 {
     public class GameUnit : MonoBehaviour, IMessage.MsgReceiver
     {
-        //数据都是从这里提取
         public NBearUnit.UnitAttribute unitAttribute;
 
         //TODO 考虑属性应该通过ScriptableObject还是通过下面方法
@@ -27,6 +26,15 @@ namespace GameUnit
         
         public string damaged { get; set; }        // TODO: 待确定数值后进行修改
 
+        /// <summary>
+        /// 不能攻击
+        /// </summary>
+        public bool disarm { get; set; }
+        /// <summary>
+        /// 不能移动
+        /// </summary>
+        public bool restrain { get; set; }
+
         public BattleMapBlock mapBlockBelow;
         
 
@@ -36,14 +44,6 @@ namespace GameUnit
         public bool IsDead()
         {
             return !(hp > 0);
-        }
-
-        public virtual string GetItemInfoToToolTip()
-        {
-
-            //用于显示人物属性
-            string content = "test";
-            return content;
         }
     }
 }

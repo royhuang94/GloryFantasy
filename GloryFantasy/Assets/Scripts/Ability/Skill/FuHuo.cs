@@ -4,30 +4,36 @@ using UnityEngine;
 
 using IMessage;
 
-public class FuHuo : MonoBehaviour
+public class FuHuo : Ability
 {
-    string TriggerName;
+    Trigger trigger;
 
     private void Start()
     {
-        
+        //创建Trigger实例，传入技能的发动者
+        trigger = new TFuHuo(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+        //注册Trigger进消息中心
+        MsgDispatcher.RegisterMsg(trigger, "FuHuo");
     }
 
 }
 
 public class TFuHuo : Trigger
 {
-    TFuHuo(MsgReceiver _speller)
+    public TFuHuo(MsgReceiver speller)
     {
-        speller = _speller;
+        register = speller;
+        //初始化响应时点
         msgName = (int)TriggerType.Dead;
+        //初始化条件函数和行为函数
         condition = Condition;
         action = Action;
     }
 
     private bool Condition()
     {
-        if (GetDead().GetMsgReceiver() == speller)
+        //判断死掉的怪是不是这个复活技能的注册者
+        if (GetDead().GetMsgReceiver() == register)
             return true;
         else
             return false;
@@ -35,6 +41,13 @@ public class TFuHuo : Trigger
 
     private void Action()
     {
-
+        //保存死掉的怪
+        GameUnit.GameUnit deadUnit = GetDead();
+        //复活死掉的怪并保存
+        GameUnit.GameUnit newUnit = Regenerate(deadUnit.Name, GetUnitPosition(deadUnit));
+        //修改这只怪的血量
+        newUnit.hp -= newUnit.hp / 2;
+        //删除这只怪的复活技能
+        DeleteUnitAbility(newUnit, "FuHuo");
     }
 }

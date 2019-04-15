@@ -81,7 +81,7 @@ public class Info
 }
 
 /// <summary>
-///查询环境变量的方法类
+///查询环境变量和控制游戏的方法类
 /// </summary>
 public class GameplayTool
 {
@@ -264,6 +264,35 @@ public class GameplayTool
     protected GameUnit.GameUnit GetSelectingUnit()
     {
         return Gameplay.Info.SelectingUnit;
+    }
+
+    /// <summary>
+    /// 复活某个单位
+    /// </summary>
+    /// <param name="name"></param>被复活单位的名字
+    /// <param name="position"></param>单位被复活在哪个地形上
+    /// <returns></returns>
+    protected GameUnit.GameUnit Regenerate(string name, Vector2 position)
+    {
+        //TODO:没写完的复活功能
+        return null;
+    }
+    /// <summary>
+    /// 获取某个单位的坐标
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    protected Vector2 GetUnitPosition(GameUnit.GameUnit unit)
+    {
+        return BattleMap.BattleMap.getInstance().GetUnitCoordinate(unit);
+    }/// <summary>
+    /// 删除某个单位的某个技能
+    /// </summary>
+    /// <param name="unit"></param>被删除技能的单位
+    /// <param name="ability"></param>被删除的技能
+    protected void DeleteUnitAbility(GameUnit.GameUnit unit, string ability)
+    {
+        GameObject.Destroy(unit.GetComponent(ability));
     }
 
     private Info Info;
