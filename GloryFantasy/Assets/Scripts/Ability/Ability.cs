@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ability : MonoBehaviour {
+public class Ability : MonoBehaviour , GameplayTool{
 
 	// Use this for initialization
 	void Start () {

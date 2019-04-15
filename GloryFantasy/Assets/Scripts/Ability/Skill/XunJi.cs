@@ -10,7 +10,9 @@ public class XunJi : Ability
 
     private void Start()
     {
+        //创建Trigger实例，传入技能的发动者
         trigger = new TXunJi(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+        //注册Trigger进消息中心
         MsgDispatcher.RegisterMsg(trigger, "XunJi");
     }
 

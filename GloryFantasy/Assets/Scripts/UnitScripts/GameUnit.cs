@@ -34,11 +34,28 @@ namespace GameUnit
         /// 不能移动
         /// </summary>
         public bool restrain { get; set; }
+        /// <summary>
+        /// 护甲回复值，每个回合开始给护甲值补回这个值
+        /// </summary>
+        public int armorRestore
+        {
+            get { return armorRestore; }
+            set { if (value > armorRestore) armorRestore = value; }
+        }
+        /// <summary>
+        /// 护甲值
+        /// </summary>
+        public int armor { get; set; }
 
         public BattleMapBlock mapBlockBelow;
         
 
         // TODO: 这是地图上单位的基类，请继承此类进行行为描述
+
+        public GameUnit GetGameUnit()
+        {
+            return this;
+        }
 
         //判断单位有无死亡
         public bool IsDead()

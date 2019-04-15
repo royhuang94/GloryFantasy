@@ -83,185 +83,187 @@ public class Info
 /// <summary>
 ///查询环境变量和控制游戏的方法类
 /// </summary>
-public class GameplayTool
+public interface GameplayTool
 {
-    public GameplayTool()
-    {
-        Info = Gameplay.Info;
-    }
 
-    protected void SetRoundOwned(Player player)
+}
+public static class GameplayToolExtend
+{
+    private static Info Info = Gameplay.Info;
+    
+
+    public static void SetRoundOwned(this GameplayTool self, Player player)
     {
         Gameplay.Info.RoundOwned = player;
     }
-    protected Player GetRoundOwned()
+    public static Player GetRoundOwned(this GameplayTool self)
     {
         return Gameplay.Info.RoundOwned;
     }
 
-    protected void SetCaster(Player player)
+    public static void SetCaster(this GameplayTool self, Player player)
     {
         Gameplay.Info.Caster = player;
     }
-    protected Player GetCaster()
+    public static Player GetCaster(this GameplayTool self)
     {
         return Gameplay.Info.Caster;
     }
 
-    protected void SetCastingCard(Card card)
+    public static void SetCastingCard(this GameplayTool self, Card card)
     {
         Info.CastingCard = card;
     }
-    protected Card GetCastingCard()
+    public static Card GetCastingCard(this GameplayTool self)
     {
         return Info.CastingCard;
     }
 
-    protected void SetSummonersController(Player player)
+    public static void SetSummonersController(this GameplayTool self, Player player)
     {
         Info.SummonersController = player;
     }
-    protected Player GetSummonersController()
+    public static Player GetSummonersController(this GameplayTool self)
     {
         return Info.SummonersController;
     }
 
-    protected void SetSummonUnit(List<GameUnit.GameUnit> units)
+    public static void SetSummonUnit(this GameplayTool self, List<GameUnit.GameUnit> units)
     {
         Info.SummonUnit = units;
     }
-    protected List<GameUnit.GameUnit> GetSummonUnit()
+    public static List<GameUnit.GameUnit> GetSummonUnit(this GameplayTool self)
     {
         return Info.SummonUnit;
     }
 
-    protected void SetDrawer(Player player)
+    public static void SetDrawer(this GameplayTool self, Player player)
     {
         Info.Drawer = player;
     }
-    protected Player GetDrawer()
+    public static Player GetDrawer(this GameplayTool self)
     {
         return Info.Drawer;
     }
 
-    protected void SetCaughtCard(List<Card> cards)
+    public static void SetCaughtCard(this GameplayTool self, List<Card> cards)
     {
         Info.CaughtCard = cards;
     }
-    protected List<Card> GetCaughtCard()
+    public static List<Card> GetCaughtCard(this GameplayTool self)
     {
         return Info.CaughtCard;
     }
 
-    protected void SetHandAdder(Player player)
+    public static void SetHandAdder(this GameplayTool self, Player player)
     {
         Info.HandAdder = player;
     }
-    protected Player GetHandAdder()
+    public static Player GetHandAdder(this GameplayTool self)
     {
         return Info.HandAdder;
     }
 
-    protected void SetAddingCard(List<Card> cards)
+    public static void SetAddingCard(this GameplayTool self, List<Card> cards)
     {
         Info.AddingCard = cards;
     }
-    protected List<Card> GetAddingCard()
+    public static List<Card> GetAddingCard(this GameplayTool self)
     {
         return Info.AddingCard;
     }
 
-    protected void SetAttacker(GameUnit.GameUnit unit)
+    public static void SetAttacker(this GameplayTool self, GameUnit.GameUnit unit)
     {
         Gameplay.Info.Attacker = unit;
     }
-    protected GameUnit.GameUnit GetAttacker()
+    public static GameUnit.GameUnit GetAttacker(this GameplayTool self)
     {
         return Gameplay.Info.Attacker;
     }
 
-    protected void SetAttackedUnit(GameUnit.GameUnit unit)
+    public static void SetAttackedUnit(this GameplayTool self, GameUnit.GameUnit unit)
     {
         Gameplay.Info.AttackedUnit = unit;
     }
-    protected GameUnit.GameUnit GetAttackedUnit()
+    public static GameUnit.GameUnit GetAttackedUnit(this GameplayTool self)
     {
         return Gameplay.Info.AttackedUnit;
     }
 
-    protected void SetAbilitySpeller(GameUnit.GameUnit speller)
+    public static void SetAbilitySpeller(this GameplayTool self, GameUnit.GameUnit speller)
     {
         Info.AbilitySpeller = speller;
     }
-    protected GameUnit.GameUnit GetAbilitySpeller()
+    public static GameUnit.GameUnit GetAbilitySpeller(this GameplayTool self)
     {
         return Info.AbilitySpeller;
     }
 
-    protected void SetSpellingAbility(Ability ability)
+    public static void SetSpellingAbility(this GameplayTool self, Ability ability)
     {
         Info.SpellingAbility = ability;
     }
-    protected Ability GetSpellingAbility()
+    public static Ability GetSpellingAbility(this GameplayTool self)
     {
         return Info.SpellingAbility;
     }
 
-    protected void SetInjurer(GameUnit.GameUnit unit)
+    public static void SetInjurer(this GameplayTool self, GameUnit.GameUnit unit)
     {
         Gameplay.Info.Injurer = unit;
     }
-    protected GameUnit.GameUnit GetInjurer()
+    public static GameUnit.GameUnit GetInjurer(this GameplayTool self)
     {
         return Info.Injurer;
     }
 
-    protected void SetInjuredUnit(GameUnit.GameUnit unit)
+    public static void SetInjuredUnit(this GameplayTool self, GameUnit.GameUnit unit)
     {
         Gameplay.Info.InjuredUnit = unit;
     }
-    protected GameUnit.GameUnit GetInjuredUnit()
+    public static GameUnit.GameUnit GetInjuredUnit(this GameplayTool self)
     {
         return Info.InjuredUnit;
     }
 
-    protected void SetDamage(Damage damage)
+    public static void SetDamage(this GameplayTool self, Damage damage)
     {
         Info.damage = damage;
     }
-    protected Damage GetDamage()
+    public static Damage GetDamage(this GameplayTool self)
     {
         return Info.damage;
     }
 
-    protected void SetKiller(GameUnit.GameUnit killer)
+    public static void SetKiller(this GameplayTool self, GameUnit.GameUnit killer)
     {
         Gameplay.Info.Killer = killer;
     }
-    protected GameUnit.GameUnit GetKiller()
+    public static GameUnit.GameUnit GetKiller(this GameplayTool self)
     {
         return Info.Killer;
     }
 
-    protected void SetKilledAndDeadUnit(GameUnit.GameUnit killedUnit)
+    public static void SetKilledAndDeadUnit(this GameplayTool self, GameUnit.GameUnit killedUnit)
     {
         Gameplay.Info.KilledUnit = killedUnit;
         Gameplay.Info.Dead = killedUnit;
     }
-    protected GameUnit.GameUnit GetKilledUnit()
+    public static GameUnit.GameUnit GetKilledUnit(this GameplayTool self)
     {
         return Info.KilledUnit;
     }
-    protected GameUnit.GameUnit GetDead()
+    public static GameUnit.GameUnit GetDead(this GameplayTool self)
     {
         return Info.Dead;
     }
 
-    protected void SetSelectingUnit(GameUnit.GameUnit unit)
+    public static void SetSelectingUnit(this GameplayTool self, GameUnit.GameUnit unit)
     {
         Info.SelectingUnit = unit;
     }
-    protected GameUnit.GameUnit GetSelectingUnit()
+    public static GameUnit.GameUnit GetSelectingUnit(this GameplayTool self)
     {
         return Gameplay.Info.SelectingUnit;
     }
@@ -272,7 +274,7 @@ public class GameplayTool
     /// <param name="name"></param>被复活单位的名字
     /// <param name="position"></param>单位被复活在哪个地形上
     /// <returns></returns>
-    protected GameUnit.GameUnit Regenerate(string name, Vector2 position)
+    public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, Vector2 position)
     {
         //TODO:没写完的复活功能
         return null;
@@ -282,7 +284,7 @@ public class GameplayTool
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    protected Vector2 GetUnitPosition(GameUnit.GameUnit unit)
+    public static Vector2 GetUnitPosition(this GameplayTool self, GameUnit.GameUnit unit)
     {
         return BattleMap.BattleMap.getInstance().GetUnitCoordinate(unit);
     }/// <summary>
@@ -290,12 +292,10 @@ public class GameplayTool
     /// </summary>
     /// <param name="unit"></param>被删除技能的单位
     /// <param name="ability"></param>被删除的技能
-    protected void DeleteUnitAbility(GameUnit.GameUnit unit, string ability)
+    public static void DeleteUnitAbility(this GameplayTool self, GameUnit.GameUnit unit, string ability)
     {
         GameObject.Destroy(unit.GetComponent(ability));
     }
-
-    private Info Info;
 }
 
 

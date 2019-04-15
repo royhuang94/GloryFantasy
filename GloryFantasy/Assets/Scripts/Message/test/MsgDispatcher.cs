@@ -7,6 +7,11 @@ namespace IMessage
 
     public interface MsgReceiver
     {
+        /// <summary>
+        /// 返回接收者接口所依附的GameUnit
+        /// </summary>
+        /// <returns></returns>
+        GameUnit.GameUnit GetGameUnit();
     }
 
     public delegate bool Condition();
