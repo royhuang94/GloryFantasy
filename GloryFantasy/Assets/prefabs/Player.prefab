@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114748666129687060}
   - component: {fileID: 114507754299481290}
   - component: {fileID: 114545493504671936}
-  - component: {fileID: 114073217456228196}
+  - component: {fileID: 114419956606071680}
   m_Layer: 5
   m_Name: Player
   m_TagString: Untagged
@@ -32,7 +32,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114073217456228196
+--- !u!114 &114419956606071680
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,10 +40,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1858321573231356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
+  m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114507754299481290
 MonoBehaviour:

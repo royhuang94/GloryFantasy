@@ -7,6 +7,7 @@ namespace GameUnit
 {
     public class GameUnit : MonoBehaviour
     {
+        //数据都是从这里提取
         public NBearUnit.UnitAttribute unitAttribute;
 
         //TODO 考虑属性应该通过ScriptableObject还是通过下面方法
@@ -35,6 +36,14 @@ namespace GameUnit
         public bool IsDead()
         {
             return !(hp > 0);
+        }
+
+        public virtual string GetItemInfoToToolTip()
+        {
+
+            //用于显示人物属性
+            string content = "test";
+            return content;
         }
     }
 }

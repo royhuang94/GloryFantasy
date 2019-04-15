@@ -82,11 +82,11 @@ namespace IMessage
         {
             if (msgName < 0)
             {
-                Debug.Log("SendMsg: " + msgName + "is not define");
+                //Debug.Log("SendMsg: " + msgName + "is not define");
             }
             if (!MsgHandlerDict.ContainsKey(msgName))
             {
-                Debug.Log("SendMsg: " + msgName + "had not been regeisted");
+                //Debug.Log("SendMsg: " + msgName + "had not been regeisted");
                 return;
             }
 

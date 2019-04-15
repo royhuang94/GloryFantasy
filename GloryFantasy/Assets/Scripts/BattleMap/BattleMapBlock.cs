@@ -96,9 +96,11 @@ namespace BattleMap
         //处理地图块点击事件
         public void OnPointerDown(PointerEventData eventData)
         {
+            Debug.Log(1);
             if(UnitManager.Instance.canMoving)
             {
                 UnitManager.Instance.isMoving = true;
+                Debug.Log(2);
             }
 
             if (UnitManager.Instance.IsPickedUnit)

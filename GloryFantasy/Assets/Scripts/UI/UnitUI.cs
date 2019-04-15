@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 //using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace NBearUnit
 {
-    public class UnitUI : MonoBehaviour/*, IPointerDownHandler*/
+    public class UnitUI : MonoBehaviour, IPointerDownHandler
     {
         #region UI Component
         private Image m_itemImage;
@@ -56,6 +57,13 @@ namespace NBearUnit
             //TODO 获取当前Unit信息与image
             //当前为测试代码。。我这边根据resources函数处理的
             ItemImage.sprite = Resources.Load<Sprite>("test");
+
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            //TODO 显示单位属性
+
 
         }
 
