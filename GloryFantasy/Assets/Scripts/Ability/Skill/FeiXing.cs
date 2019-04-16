@@ -1,0 +1,23 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+using IMessage;
+
+public class FeiXing : Ability
+{
+    Trigger trigger;
+
+    private void Start()
+    {
+        //让这个技能的单位获得飞行
+        this.GetAbilitysUnit(this).fly = true;      
+    }
+
+    //这个技能被删除时要做反向操作
+    private void OnDestroy()
+    {
+        this.GetAbilitysUnit(this).fly = false;
+    }
+
+}

@@ -4,23 +4,36 @@ using UnityEngine;
 
 using IMessage;
 
-public class XunJie : Ability
+public class LianJi : Ability
 {
     Trigger trigger;
+    bool isActive = false;
 
     private void Start()
     {
-        trigger = new TXunJie(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
-        MsgDispatcher.RegisterMsg(trigger, "XunJie");
+        //创建Trigger实例，传入技能的发动者
+        trigger = new TLianJi (GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+        //注册Trigger进消息中心
+        MsgDispatcher.RegisterMsg(trigger, "LianJi");
+    }
+
+    //这个技能被删除时要做反向操作
+    //准确来说，应该是trigger启动即召唤之后删除技能才需要反向操作
+    //不过也没差
+    private void OnDestroy()
+    {
+        if (GetComponent<GameUnit.GameUnit>().priority.Count == 2)
+            GetComponent<GameUnit.GameUnit>().priority.RemoveAt(2);
     }
 
 }
 
-public class TXunJie : Trigger
+public class TLianJi : Trigger
 {
-    public TXunJie(MsgReceiver _speller)
+    public TLianJi(MsgReceiver _speller)
     {
         register = _speller;
+        //响应时点是被召唤时
         msgName = (int)TriggerType.Summon;
         condition = Condition;
         action = Action;
@@ -49,10 +62,9 @@ public class TXunJie : Trigger
             if (SummonUnits[i].GetMsgReceiver() == register)
                 unit = SummonUnits[i];
 
-            //让这只怪部署后可以移动
-            unit.restrain = false;
-            //让这只怪部署后可以攻击
-            unit.disarm = false;
+            //让这只怪的priority队尾里增加一个-2的数值
+            if (unit.priority.Count == 1)
+                unit.priority.Add(unit.priority[unit.priority.Count - 1] - 2);
         }
     }
 }

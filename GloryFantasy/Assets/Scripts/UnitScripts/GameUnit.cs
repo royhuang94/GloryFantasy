@@ -18,6 +18,14 @@ namespace GameUnit
         
         //TODO:对priority进行初始化
         public List<int> priority { get; set; }
+        //SPD修正值，迅击和滞击
+        public int priSPD { get; set; }
+        //DS修正值，连击
+        public int priDS { get; set; }
+
+        //是否为飞行单位
+        public bool fly { get; set; }
+
         public int rng { get; set; }
         
         new public string[] tag { get; set; }

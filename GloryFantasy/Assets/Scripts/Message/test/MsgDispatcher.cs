@@ -50,7 +50,7 @@ namespace IMessage
         }
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
-        
+
         public static void RegisterMsg(Trigger trigger, string TriggerName = "NoDefine")
         {
             RegisterMsg(trigger.register, trigger.msgName, trigger.condition, trigger.action, TriggerName);

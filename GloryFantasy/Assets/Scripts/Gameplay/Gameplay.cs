@@ -196,15 +196,29 @@ public static class GameplayToolExtend
     {
         Info.AbilitySpeller = speller;
     }
+    /// <summary>
+    /// 获得当前技能的发动者
+    /// </summary>
+    /// <param name="self"></param>
+    /// <returns></returns>
     public static GameUnit.GameUnit GetAbilitySpeller(this GameplayTool self)
     {
         return Info.AbilitySpeller;
     }
-
+    /// <summary>
+    /// 设置当前发动的技能
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="ability"></param>
     public static void SetSpellingAbility(this GameplayTool self, Ability ability)
     {
         Info.SpellingAbility = ability;
     }
+    /// <summary>
+    /// 获得当前发动的技能
+    /// </summary>
+    /// <param name="self"></param>
+    /// <returns></returns>
     public static Ability GetSpellingAbility(this GameplayTool self)
     {
         return Info.SpellingAbility;
@@ -296,6 +310,16 @@ public static class GameplayToolExtend
     public static void DeleteUnitAbility(this GameplayTool self, GameUnit.GameUnit unit, string ability)
     {
         GameObject.Destroy(unit.GetComponent(ability));
+    }
+    /// <summary>
+    /// 传入Ability，返回该技能所在的GameUnit
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="ability"></param>
+    /// <returns></returns>
+    public static GameUnit.GameUnit GetAbilitysUnit(this GameplayTool self, Ability ability)
+    {
+        return ability.GetComponent<GameUnit.GameUnit>();
     }
 }
 

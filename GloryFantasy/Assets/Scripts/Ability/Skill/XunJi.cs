@@ -7,6 +7,7 @@ using IMessage;
 public class XunJi : Ability
 {
     Trigger trigger;
+    bool isActive = false;
 
     private void Start()
     {
@@ -16,6 +17,14 @@ public class XunJi : Ability
         MsgDispatcher.RegisterMsg(trigger, "XunJi");
     }
 
+    //这个技能被删除时要做反向操作
+    //准确来说，应该是trigger启动即召唤之后删除技能才需要反向操作
+    //不过因为怪被summon之后才能被玩家看见，所以技能被删除时直接反向也没差
+    private void OnDestroy()
+    {
+        GetComponent<GameUnit.GameUnit>().priSPD -= 2;
+    }
+
 }
 
 public class TXunJi : Trigger
@@ -23,6 +32,7 @@ public class TXunJi : Trigger
     public TXunJi(MsgReceiver _speller)
     {
         register = _speller;
+        //响应时点是被召唤时
         msgName = (int)TriggerType.Summon;
         condition = Condition;
         action = Action;
@@ -51,8 +61,8 @@ public class TXunJi : Trigger
             if (SummonUnits[i].GetMsgReceiver() == register)
                 unit = SummonUnits[i];
 
-            //让这只怪部署后可以攻击
-            unit.disarm = false;
+            //让这只怪的SPD修正值+2
+            unit.priSPD += 2;
         }
     }
 }
