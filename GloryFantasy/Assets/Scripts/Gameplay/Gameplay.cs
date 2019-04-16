@@ -32,13 +32,13 @@ public class Info
 {
     public Player RoundOwned; //回合所属
     public Player Caster; //施放者
-    public Card CastingCard; //施放的牌
+    public UnitCard CastingCard; //施放的牌
     public Player SummonersController; //召唤单位的控制者
     public List<GameUnit.GameUnit> SummonUnit; //召唤的单位
     public Player Drawer; //抓牌者
-    public List<Card> CaughtCard; //抓的牌
+    public List<UnitCard> CaughtCard; //抓的牌
     public Player HandAdder; //加手者
-    public List<Card> AddingCard; //加手的牌
+    public List<UnitCard> AddingCard; //加手的牌
     public GameUnit.GameUnit Attacker; //宣言攻击者
     public GameUnit.GameUnit AttackedUnit; //被攻击者
     public GameUnit.GameUnit AbilitySpeller; //发动异能者
@@ -113,11 +113,11 @@ public static class GameplayToolExtend
         return Gameplay.Info.Caster;
     }
 
-    public static void SetCastingCard(this GameplayTool self, Card card)
+    public static void SetCastingCard(this GameplayTool self, UnitCard card)
     {
         Info.CastingCard = card;
     }
-    public static Card GetCastingCard(this GameplayTool self)
+    public static UnitCard GetCastingCard(this GameplayTool self)
     {
         return Info.CastingCard;
     }
@@ -149,11 +149,11 @@ public static class GameplayToolExtend
         return Info.Drawer;
     }
 
-    public static void SetCaughtCard(this GameplayTool self, List<Card> cards)
+    public static void SetCaughtCard(this GameplayTool self, List<UnitCard> cards)
     {
         Info.CaughtCard = cards;
     }
-    public static List<Card> GetCaughtCard(this GameplayTool self)
+    public static List<UnitCard> GetCaughtCard(this GameplayTool self)
     {
         return Info.CaughtCard;
     }
@@ -167,11 +167,11 @@ public static class GameplayToolExtend
         return Info.HandAdder;
     }
 
-    public static void SetAddingCard(this GameplayTool self, List<Card> cards)
+    public static void SetAddingCard(this GameplayTool self, List<UnitCard> cards)
     {
         Info.AddingCard = cards;
     }
-    public static List<Card> GetAddingCard(this GameplayTool self)
+    public static List<UnitCard> GetAddingCard(this GameplayTool self)
     {
         return Info.AddingCard;
     }
