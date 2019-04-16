@@ -52,10 +52,10 @@ public class ShowRange : MonoBehaviour
         GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, 1), Color.red);
     }
 
-    public void CancleMoveRangeMark()
+    public void CancleMoveRangeMark(Vector2 target)
     {
         BattleMap.BattleMap.getInstance().ColorMapBlocks(
-             GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.Mov), Color.white);
+             GetPositionsWithinCertainMd(target, unit.unitAttribute.Mov), Color.white);
     }
 
     public void CancleAttackRangeMark()

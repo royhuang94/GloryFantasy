@@ -100,6 +100,9 @@ namespace BattleMap
             if(UnitManager.Instance.canMoving)
             {
                 UnitManager.Instance.isMoving = true;
+                Gameplay.GetInstance().gamePlayInput.HandleMovCancel(UnitManager.Instance.TargetList[0]);
+                //BattleMap.getInstance().selectAction.SetActive(true);
+                //BattleMap.getInstance().selectAction.transform.position = GetSelfPosition();
                 Debug.Log(2);
             }
 
@@ -108,6 +111,8 @@ namespace BattleMap
                 //检测到地图，可实例化棋子
                 if (!BattleMap.getInstance().WarZoneBelong(GetSelfPosition())) return;
                 UnitManager.Instance.CouldInstantiation(true,this.transform);
+                BattleMap.getInstance().IsColor = false;
+                BattleMap.getInstance().HideBattleZooe(GetSelfPosition());
 
             }
 

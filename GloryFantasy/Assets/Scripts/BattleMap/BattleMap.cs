@@ -35,7 +35,7 @@ namespace BattleMap
         private void Awake()
         {
             instance = this;
-            isColor = true;
+            IsColor = false;
             InitMap();
         }
 
@@ -71,18 +71,8 @@ namespace BattleMap
             }
         }
 
-        private bool isColor;//控制是否高亮战区
-        public bool IsColor
-        {
-            get
-            {
-                return isColor;
-            }
-            set
-            {
-                isColor = value; 
-            }
-        }
+        public GameObject selectAction;
+        public bool IsColor { get; set; }//控制是否高亮战区
         public Vector3 curMapPos;
         private BattleMapBlock[,] _mapBlocks;         //普通的地图方块
         private BattleMapBlock[,] _mapBlocksBurning;//灼烧的地图方块

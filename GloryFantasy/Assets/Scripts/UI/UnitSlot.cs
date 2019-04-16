@@ -23,7 +23,8 @@ namespace NBearUnit
             GameObject itemGameObject = Instantiate(unitPrefab) as GameObject;
             itemGameObject.transform.SetParent(transform);
             itemGameObject.transform.localPosition = new Vector3(-28.125f, -28.125f, 0.0f);
-            
+            BattleMap.BattleMap.getInstance().IsColor = false;
+
             itemGameObject.GetComponent<UnitUI>().SetUnit(/*unit*/); //设置Item
             Debug.Log("StoreItem");
         }
@@ -129,6 +130,7 @@ namespace NBearUnit
                 if (UnitManager.Instance.IsPickedUnit == false)
                 {
                     UnitManager.Instance.PickedUpUnit(currentItemUI); //调用此函数用于鼠标"捡起"当前slot下的unit
+                    BattleMap.BattleMap.getInstance().IsColor = true;
                     Destroy(currentItemUI.gameObject); //摧毁slot下已经被鼠标"捡起"的unit
                 }
                 else

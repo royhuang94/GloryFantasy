@@ -107,7 +107,7 @@ namespace GameControl
                 //}
             }
 
-            Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);
+            //Gameplay.GetInstance().gamePlayInput.HandleConfirm(this.coordinate);
         }
 
         public void onClickCancle()
@@ -115,7 +115,7 @@ namespace GameControl
             // TODO: 添加点击取消按钮事件
             Debug.Log("Cancle clicked!");
 
-            Gameplay.GetInstance().gamePlayInput.HandleCancle();
+            //Gameplay.GetInstance().gamePlayInput.HandleCancle();
         }
 
         public void onClickEndRound()

@@ -115,7 +115,7 @@ namespace BattleMap
             } while (OpenList.Count > 0);
 
             Debug.Log("Path Not Found");
-            RestMapBlock();
+            //RestMapBlock();
             return false;
         }
 
@@ -175,7 +175,7 @@ namespace BattleMap
         }
 
         //Rest
-        void RestMapBlock()
+        public void RestMapBlock()
         {
             foreach (var block in CloseList)
             {

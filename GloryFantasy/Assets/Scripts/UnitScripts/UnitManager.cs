@@ -106,18 +106,9 @@ public class UnitManager : MonoBehaviour
 
     #endregion
 
-    private bool isClicked;
-    public bool IsClicked
-    {
-        get
-        {
-            return isClicked;
-        }
-        set
-        {
-            isClicked = value;
-        }
-    }
+
+    public bool IsClicked { get; set; }
+    public List<Vector2> TargetList { get; set; }
     private Canvas canvas;
     public bool isMoving = false;
     public bool canMoving = false;
@@ -125,12 +116,13 @@ public class UnitManager : MonoBehaviour
 
     private void Start()
     {
+        TargetList = new List<Vector2>();
         mapBlockParent = GetComponentInParent<BattleMap.BattleMapBlock>();
         canvas = GameObject.Find("UnitUI").GetComponent<Canvas>();
         pickedUnit = GameObject.Find("PickedUnit").GetComponent<NBearUnit.UnitUI>();
         pickedUnit.Hide();
         IsInstantiation = false;
-        isClicked = false;
+        IsClicked = false;
     }
 
     private void LateUpdate()
@@ -172,7 +164,7 @@ public class UnitManager : MonoBehaviour
     public void UnitMoving()
     {
         //Debug.Log(UnitManager.Instance.CurUnit);
-        Debug.Log(BattleMap.BattleMap.getInstance().curMapPos);
+        //Debug.Log(BattleMap.BattleMap.getInstance().curMapPos);
         if (BattleMap.MapNavigator._Instantce.PathSearch(UnitManager.Instance.CurUnit, BattleMap.BattleMap.getInstance().curMapPos))
         {
 
@@ -187,6 +179,7 @@ public class UnitManager : MonoBehaviour
         //Debug.Log(BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y).name);
         isMoving = false;
         //Gameplay.GetInstance().gamePlayInput.HandleConfirm(mapBlockParent.GetCoordinate());
+        BattleMap.MapNavigator._Instantce.RestMapBlock();
     }
 
 
