@@ -87,10 +87,11 @@ public interface GameplayTool
 {
 
 }
+
 public static class GameplayToolExtend
 {
     private static Info Info = Gameplay.Info;
-    
+
 
     public static void SetRoundOwned(this GameplayTool self, Player player)
     {
@@ -288,16 +289,23 @@ public static class GameplayToolExtend
     {
         return BattleMap.BattleMap.getInstance().GetUnitCoordinate(unit);
     }/// <summary>
-    /// 删除某个单位的某个技能
-    /// </summary>
-    /// <param name="unit"></param>被删除技能的单位
-    /// <param name="ability"></param>被删除的技能
+     /// 删除某个单位的某个技能
+     /// </summary>
+     /// <param name="unit"></param>被删除技能的单位
+     /// <param name="ability"></param>被删除的技能
     public static void DeleteUnitAbility(this GameplayTool self, GameUnit.GameUnit unit, string ability)
     {
         GameObject.Destroy(unit.GetComponent(ability));
     }
 }
 
+public static class testClassExtend
+{
+    public static void testFunction(this string self)
+    {
+
+    }
+}
 
 public class Gameplay : MonoBehaviour
 {

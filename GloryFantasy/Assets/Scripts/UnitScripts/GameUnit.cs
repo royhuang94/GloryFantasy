@@ -48,7 +48,6 @@ namespace GameUnit
         public int armor { get; set; }
 
         public BattleMapBlock mapBlockBelow;
-        
 
         // TODO: 这是地图上单位的基类，请继承此类进行行为描述
 

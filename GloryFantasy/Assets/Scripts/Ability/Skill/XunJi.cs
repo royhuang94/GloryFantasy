@@ -31,7 +31,7 @@ public class TXunJi : Trigger
     private bool Condition()
     {
         //获取召唤列表
-        List<GameUnit.GameUnit> SummonUnits = GetSummonUnit();
+        List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
         //循环查询有没有召唤的怪是这个技能的发动者
         for (int i = 0; i < SummonUnits.Count; i++)
         {
@@ -44,7 +44,7 @@ public class TXunJi : Trigger
     private void Action()
     {
         //获取发动这个技能的怪
-        List<GameUnit.GameUnit> SummonUnits = GetSummonUnit();
+        List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
         GameUnit.GameUnit unit = null;
         for (int i = 0; i < SummonUnits.Count; i++)
         {

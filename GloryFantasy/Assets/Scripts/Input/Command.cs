@@ -52,8 +52,8 @@ public class UnitAttackCommand :Command
 {
     public UnitAttackCommand(GameUnit.GameUnit Attacker, GameUnit.GameUnit AttackedUnit)
     {
-        _Attacker = Attacker; SetAttacker(Attacker);
-        _AttackedUnit = AttackedUnit; SetAttackedUnit(AttackedUnit);
+        _Attacker = Attacker; this.SetAttacker(Attacker);
+        _AttackedUnit = AttackedUnit; this.SetAttackedUnit(AttackedUnit);
     }
 
     //计算攻击距离是否大于曼哈顿

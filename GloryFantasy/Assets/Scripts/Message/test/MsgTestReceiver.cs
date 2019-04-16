@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-//using IMessage;
+using IMessage;
 
 enum MsgTestType
 {
@@ -19,16 +19,20 @@ public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
     [FormerlySerializedAs("MapManager")] public BattleMap.BattleMap map;
     private Vector3 coordinate;
 
+    public GameUnit.GameUnit GetGameUnit()
+    {
+        return null;
+    }
+
     private void Awake()
     {
         //IMessage.MsgDispatcher.RegisterMsg(this, (int)MsgTestType.A, Condition, Action);
         //gameObject.SetActive(false);
 
-        IMessage.MsgDispatcher.RegisterMsg(this, (int)MsgTestType.UnitMoving, Condition, Action);
+        IMessage.MsgDispatcher.RegisterMsg(GetComponent<GameUnit.GameUnit>().GetMsgReceiver(), (int)MsgTestType.UnitMoving, Condition, Action);
         //IMessage.MsgDispatcher.RegisterMsg(this, (int)TriggerType.UpdateSource, Condition, UpdateSource);//初始or更新资源
         //IMessage.MsgDispatcher.RegisterMsg(this, (int)TriggerType.BP, Condition, BattlePresent);//战斗回合开始
     }
-
 
     private bool Condition()
     {
@@ -78,7 +82,7 @@ namespace IMessage
 
         private bool Condition()
         {
-            if (GetAttacker().name == "fsaf")
+            if (this.GetAttacker().name == "fsaf")
                 return false;
             else
                 return true;

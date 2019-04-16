@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using IMessage;
 
+using IMessage;
 
 public class Damage
 {
+
     public int damageValue { get; set; }
 
     public Damage(int damageValue)
@@ -72,13 +73,13 @@ public class DamageRequest : GameplayTool
     public void Excute()
     {
         Damage.TakeDamage(_attackedUnit, Damage.GetDamage(_attacker));
-        SetInjurer(_attacker); SetInjuredUnit(_attackedUnit);
+        this.SetInjurer(_attacker); this.SetInjuredUnit(_attackedUnit);
         MsgDispatcher.SendMsg((int)TriggerType.Damage);
         MsgDispatcher.SendMsg((int)TriggerType.BeDamaged);
 
         if (_attackedUnit.IsDead())
         {
-            SetKiller(_attacker); SetKilledAndDeadUnit(_attackedUnit);
+            this.SetKiller(_attacker); this.SetKilledAndDeadUnit(_attackedUnit);
             MsgDispatcher.SendMsg((int)TriggerType.Kill);
             MsgDispatcher.SendMsg((int)TriggerType.Dead);
         }
@@ -92,25 +93,25 @@ public class DamageRequest : GameplayTool
         //CheckWhosTurn(_attacker, _attackedUnit);
 
         Damage.TakeDamage(_attackedUnit, Damage.GetDamage(_attacker));
-        SetInjurer(_attackedUnit); SetInjuredUnit(_attacker);
+        this.SetInjurer(_attackedUnit); this.SetInjuredUnit(_attacker);
         MsgDispatcher.SendMsg((int)TriggerType.Damage);
         MsgDispatcher.SendMsg((int)TriggerType.BeDamaged);
 
         Damage.TakeDamage(_attacker, Damage.GetDamage(_attackedUnit));
-        SetInjurer(_attacker); SetInjuredUnit(_attackedUnit);
+        this.SetInjurer(_attacker); this.SetInjuredUnit(_attackedUnit);
         MsgDispatcher.SendMsg((int)TriggerType.Damage);
         MsgDispatcher.SendMsg((int)TriggerType.BeDamaged);
 
         if (_attacker.IsDead())
         {
-            SetKiller(_attackedUnit); SetKilledAndDeadUnit(_attacker);
+            this.SetKiller(_attackedUnit); this.SetKilledAndDeadUnit(_attacker);
             MsgDispatcher.SendMsg((int)TriggerType.Kill);
             MsgDispatcher.SendMsg((int)TriggerType.Dead);
         }
 
         if (_attackedUnit.IsDead())
         {
-            SetKiller(_attacker); SetKilledAndDeadUnit(_attackedUnit);
+            this.SetKiller(_attacker); this.SetKilledAndDeadUnit(_attackedUnit);
             MsgDispatcher.SendMsg((int)TriggerType.Kill);
             MsgDispatcher.SendMsg((int)TriggerType.Dead);
         }
