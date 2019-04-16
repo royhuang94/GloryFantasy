@@ -30,6 +30,8 @@ public class SelectAction : MonoBehaviour {
     //攻击接口
     public void Attack()
     {
+        Vector2 tempPosition = BattleMap.BattleMap.getInstance().curMapPos;
+        Gameplay.GetInstance().gamePlayInput.HandleAtkConfirm(tempPosition);
         Hide();
     }
 

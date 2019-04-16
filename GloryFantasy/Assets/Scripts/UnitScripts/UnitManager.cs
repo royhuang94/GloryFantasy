@@ -207,4 +207,5 @@ public class UnitManager : MonoBehaviour
     }
 
     public Vector3 CurUnit { get; set; }
+    public Vector3 EnemyCurUnit { get; set; }
 }

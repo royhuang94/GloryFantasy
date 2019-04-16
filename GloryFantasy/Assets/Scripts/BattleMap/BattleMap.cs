@@ -295,6 +295,34 @@ namespace BattleMap
         }
         #endregion
 
+        //更新寻路字典,避免再次遍历整个地图
+        public void upDateNeighbourBlock(Vector2 position)
+        {
+            int j = (int)position.x;
+            int i = (int)position.y;
+            Vector2 t = new Vector2(j, i - 1);
+            Vector2 b = new Vector2(j, i + 1);
+            Vector2 r = new Vector2(j + 1, i);
+            Vector2 l = new Vector2(j - 1, i);
+
+            if (t.x >= 0 && t.y >= 0 && t.x < columns && t.y < rows)
+            {
+                mapBlockDict[new Vector2(t.x,t.y)].neighbourBlock[1] = mapBlockDict[position];
+            }
+            if (b.x >= 0 && b.y >= 0 && b.x < columns && b.y < rows)
+            {
+                mapBlockDict[new Vector2(b.x, b.x)].neighbourBlock[0] = mapBlockDict[position];
+            }
+            if (l.x >= 0 && l.y >= 0 && l.x < columns && l.y < rows)
+            {
+                mapBlockDict[new Vector2(l.x, l.y)].neighbourBlock[3] = mapBlockDict[position];
+            }
+            if (r.x >= 0 && r.y >= 0 && r.x < columns && r.y < rows)
+            {
+                mapBlockDict[new Vector2(r.x, r.y)].neighbourBlock[2] = mapBlockDict[position];
+            }
+        }
+
         /// <summary>
         /// 初始化GameUnit脚本函数，会根据id设定GameUnit脚本内数值
         /// </summary>

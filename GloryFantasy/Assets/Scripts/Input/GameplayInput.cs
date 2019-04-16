@@ -24,6 +24,7 @@ public class GameplayInput
     //    }
     //}
 
+    //移动范围染色
     public void HandleMovConfirm(Vector2 target)
     {
         BattleMap.BattleMap map = BattleMap.BattleMap.getInstance();
@@ -41,6 +42,24 @@ public class GameplayInput
         unit.GetComponent<ShowRange>().CancleMoveRangeMark(target);
     }
 
+    //攻击范围染色
+    public void HandleAtkConfirm(Vector2 target)
+    {
+        BattleMap.BattleMap map = BattleMap.BattleMap.getInstance();
+        if (map.CheckIfHasUnits(target))
+        {
+            //TargetList.Add(target);
+            GameUnit.GameUnit unit = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target);
+            unit.GetComponent<ShowRange>().MarkAttackRange(target);
+        }
+    }
+
+    public void HandleAtkCancel()
+    {
+        GameUnit.GameUnit unit = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(TargetList[0]);
+        unit.GetComponent<ShowRange>().CancleAttackRangeMark();
+        TargetList.Clear();
+    }
     //public void HandleConfirm(Vector2 target)
     //{
     //    BattleMap.BattleMap map = BattleMap.BattleMap.getInstance();

@@ -100,8 +100,8 @@ namespace BattleMap
             {
                 UnitManager.Instance.isMoving = true;
                 Gameplay.GetInstance().gamePlayInput.HandleMovCancel(UnitManager.Instance.TargetList[0]);
-                //BattleMap.getInstance().selectAction.SetActive(true);
-                //BattleMap.getInstance().selectAction.transform.position = GetSelfPosition();
+                BattleMap.getInstance().selectAction.SetActive(true);
+                BattleMap.getInstance().selectAction.transform.position = Input.mousePosition;
                 //Debug.Log(2);
             }
 

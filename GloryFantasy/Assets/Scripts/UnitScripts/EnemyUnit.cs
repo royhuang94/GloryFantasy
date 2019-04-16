@@ -20,6 +20,7 @@ namespace GameUnit
         public void OnPointerDown(PointerEventData eventData)
         {
             hp -= 3;
+            UnitManager.Instance.EnemyCurUnit = transform.GetComponentInParent<BattleMap.BattleMapBlock>().GetCoordinate();
             if (!IsDead())
             {
                 Debug.Log(hp);
@@ -29,7 +30,8 @@ namespace GameUnit
             }
             else
             {
-                Destroy(this.gameObject);
+                Destroy(this.gameObject);            
+                BattleMap.BattleMap.getInstance().upDateNeighbourBlock(UnitManager.Instance.EnemyCurUnit);
             }
 
         }
