@@ -8,10 +8,10 @@ namespace IMessage
     public interface MsgReceiver
     {
         /// <summary>
-        /// 返回接收者接口所依附的GameUnit
+        /// 返回接收者接口所依附的基类,注意一定要保证请求的基类是正确的
         /// </summary>
         /// <returns></returns>
-        GameUnit.GameUnit GetGameUnit();
+        T GetUnit<T>() where T : MonoBehaviour;
     }
 
     public delegate bool Condition();
@@ -51,6 +51,11 @@ namespace IMessage
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
 
+        /// <summary>
+        /// 给msgReciver增加注册MSG的函数
+        /// </summary>
+        /// <param name="trigger"></param>
+        /// <param name="TriggerName"></param>
         public static void RegisterMsg(Trigger trigger, string TriggerName = "NoDefine")
         {
             RegisterMsg(trigger.register, trigger.msgName, trigger.condition, trigger.action, TriggerName);

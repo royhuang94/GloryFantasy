@@ -41,7 +41,7 @@ public class THuJia : Trigger
     private void Action()
     {
         //获取发动这个技能的怪
-        GameUnit.GameUnit unit= register.GetGameUnit();
+        GameUnit.GameUnit unit= register.GetUnit<GameUnit.GameUnit>();
         //用护甲恢复值去修正护甲值
         if (unit.armor < unit.armorRestore)
             unit.armor = unit.armorRestore;

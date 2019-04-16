@@ -19,11 +19,6 @@ public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
     [FormerlySerializedAs("MapManager")] public BattleMap.BattleMap map;
     private Vector3 coordinate;
 
-    public GameUnit.GameUnit GetGameUnit()
-    {
-        return null;
-    }
-
     private void Awake()
     {
         //IMessage.MsgDispatcher.RegisterMsg(this, (int)MsgTestType.A, Condition, Action);
@@ -65,6 +60,10 @@ public class MsgTestReceiver : MonoBehaviour, IMessage.MsgReceiver
         Debug.Log("回合开始阶准备阶段结束");
     }
 
+    T IMessage.MsgReceiver.GetUnit<T>()
+    {
+        return this as T;
+    }
 }
 
 //TODO:扩充这个Trigger

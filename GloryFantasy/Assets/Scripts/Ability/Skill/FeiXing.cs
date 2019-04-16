@@ -11,13 +11,13 @@ public class FeiXing : Ability
     private void Start()
     {
         //让这个技能的单位获得飞行
-        this.GetAbilitysUnit(this).fly = true;      
+        this.GetUnit(this).fly = true;      
     }
 
     //这个技能被删除时要做反向操作
     private void OnDestroy()
     {
-        this.GetAbilitysUnit(this).fly = false;
+        this.GetUnit(this).fly = false;
     }
 
 }

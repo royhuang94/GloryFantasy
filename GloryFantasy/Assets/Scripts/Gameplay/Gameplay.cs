@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using IMessage;
+
 enum TriggerType
 {
     UpdateSource,
@@ -312,14 +314,24 @@ public static class GameplayToolExtend
         GameObject.Destroy(unit.GetComponent(ability));
     }
     /// <summary>
-    /// 传入Ability，返回该技能所在的GameUnit
+    /// 传入Monobehaviour脚本，返回该脚本所依附的GameUnit
     /// </summary>
     /// <param name="self"></param>
     /// <param name="ability"></param>
     /// <returns></returns>
-    public static GameUnit.GameUnit GetAbilitysUnit(this GameplayTool self, Ability ability)
+    public static GameUnit.GameUnit GetUnit(this GameplayTool self, MonoBehaviour script)
     {
-        return ability.GetComponent<GameUnit.GameUnit>();
+        return script.GetComponent<GameUnit.GameUnit>();
+    }
+    /// <summary>
+    /// 传入Monobehaviour脚本，返回该脚本所依附的GameUnit的MsgReceiver
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="script"></param>
+    /// <returns></returns>
+    public static IMessage.MsgReceiver GetUnitReceiver(this GameplayTool self, MonoBehaviour script)
+    {
+        return script.GetComponent<GameUnit.GameUnit>().GetMsgReceiver();
     }
 }
 

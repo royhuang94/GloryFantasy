@@ -59,9 +59,9 @@ namespace GameUnit
 
         // TODO: 这是地图上单位的基类，请继承此类进行行为描述
 
-        public GameUnit GetGameUnit()
+        T IMessage.MsgReceiver.GetUnit<T>()
         {
-            return this;
+            return this as T;
         }
 
         //判断单位有无死亡

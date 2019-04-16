@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card : MonoBehaviour {
+public class Card : MonoBehaviour , IMessage.MsgReceiver{
+
+    public string id { get; set; }
+
+    T IMessage.MsgReceiver.GetUnit<T>()
+    {
+        return this as T;
+    }
 
 	// Use this for initialization
 	void Start () {
