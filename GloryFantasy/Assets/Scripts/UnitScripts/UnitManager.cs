@@ -179,7 +179,9 @@ public class UnitManager : MonoBehaviour
         //Debug.Log(BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y).name);
         isMoving = false;
         //Gameplay.GetInstance().gamePlayInput.HandleConfirm(mapBlockParent.GetCoordinate());
-        BattleMap.MapNavigator._Instantce.RestMapBlock();
+
+        //TODO 待优化
+        BattleMap.MapNavigator._Instantce.RestIsInCloseListBlock();
     }
 
 

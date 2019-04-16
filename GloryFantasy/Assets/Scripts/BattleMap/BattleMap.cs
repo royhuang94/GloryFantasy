@@ -44,6 +44,9 @@ namespace BattleMap
             // TODO : 添加初始化地图的方法
             //for_demo_init();
             InitAndInstantiateMapBlocks();
+
+            //池子初始化
+            PoolManager.Instance.Init();
         }
 
         #region 变量

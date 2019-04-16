@@ -104,8 +104,9 @@ namespace BattleMap
                         else
                             path = path.parentBlock;
                     } while (path != null);
-
                     //path.GetComponent<Image>().color = Color.white;
+
+                    RestIsInOpenListBlock();
                     return true;
                 }
                 OpenList.Remove(A);
@@ -114,8 +115,7 @@ namespace BattleMap
                 //OpenList是否还有节点
             } while (OpenList.Count > 0);
 
-            Debug.Log("Path Not Found");
-            //RestMapBlock();
+            RestIsInCloseListBlock();
             return false;
         }
 
@@ -174,12 +174,32 @@ namespace BattleMap
 
         }
 
-        //Rest
-        public void RestMapBlock()
+
+
+        //TODO 待优化
+        //重置Block的aStarState
+        public void RestIsInCloseListBlock()
         {
-            foreach (var block in CloseList)
+            if(CloseList != null)
             {
-                block.aStarState = AStarState.free;
+                foreach (var block in CloseList)
+                {
+                    block.aStarState = AStarState.free;
+                    //Debug.Log(block.aStarState);
+                }
+
+            }
+
+        }
+
+        public void RestIsInOpenListBlock()
+        {
+            if (OpenList != null)
+            {
+                foreach (var block in OpenList)
+                {
+                    block.aStarState = AStarState.free;
+                }
             }
         }
     }

@@ -30,8 +30,8 @@ namespace BattleMap
 
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        
-        
+
+
         //public MapBlock(int area, string[] data)
         //{
         //    this.area = area;
@@ -45,7 +45,7 @@ namespace BattleMap
         //}
 
         public BattleMapBlock() { }
-        public BattleMapBlock(int x,int y)
+        public BattleMapBlock(int x, int y)
         {
             this.x = x;
             this.y = y;
@@ -90,31 +90,43 @@ namespace BattleMap
         {
             //return this.transform.position;
             return coordinate;
-        }       
+        }
 
 
         //处理地图块点击事件
         public void OnPointerDown(PointerEventData eventData)
         {
-            Debug.Log(1);
-            if(UnitManager.Instance.canMoving)
+            if (UnitManager.Instance.canMoving)
             {
                 UnitManager.Instance.isMoving = true;
                 Gameplay.GetInstance().gamePlayInput.HandleMovCancel(UnitManager.Instance.TargetList[0]);
                 //BattleMap.getInstance().selectAction.SetActive(true);
                 //BattleMap.getInstance().selectAction.transform.position = GetSelfPosition();
-                Debug.Log(2);
+                //Debug.Log(2);
             }
 
             if (UnitManager.Instance.IsPickedUnit)
             {
                 //检测到地图，可实例化棋子
                 if (!BattleMap.getInstance().WarZoneBelong(GetSelfPosition())) return;
-                UnitManager.Instance.CouldInstantiation(true,this.transform);
+                UnitManager.Instance.CouldInstantiation(true, this.transform);
                 BattleMap.getInstance().IsColor = false;
                 BattleMap.getInstance().HideBattleZooe(GetSelfPosition());
 
             }
+
+            //TODO 对象池测试
+            //else if(!UnitManager.Instance.canMoving)
+            //{
+
+            //    //测试手段，点击地图块儿，从池子中添加到地图块儿上
+            //    GameObject temp = PoolManager.Instance.GetInst("ShadowSoldier_1");
+            //    temp.transform.parent = this.transform;
+            //    //TODO 写一个UI的localposition函数出来调整位置
+            //    temp.transform.localPosition = Vector3.zero;
+
+            //    Debug.Log(temp.name);
+            //}
 
             /*GameObject go = */
             //MapManager.getInstance().OnClickInstantiateUnit();
@@ -123,7 +135,7 @@ namespace BattleMap
             //go.transform.localPosition = Vector3.zero;
 
             BattleMap.getInstance().curMapPos = GetSelfPosition();
-            Debug.Log(GetSelfPosition());
+            Debug.Log(this.aStarState + " / " + GetSelfPosition());
         }
 
         private void Awake()
@@ -146,7 +158,7 @@ namespace BattleMap
         {
             //TODO 计算两点间的距离
 
-           
+
             return 0;
         }
 
@@ -154,20 +166,20 @@ namespace BattleMap
         //显示战区
         public void OnPointerEnter(PointerEventData eventData)
         {
-            
 
-            if(BattleMap.getInstance().IsColor == true)
+
+            if (BattleMap.getInstance().IsColor == true)
             {
                 BattleMap.getInstance().ShowBattleZooe(GetSelfPosition());
-            }                       
+            }
         }
         //隐藏战区
         public void OnPointerExit(PointerEventData eventData)
         {
-            if(BattleMap.getInstance().IsColor == true)
+            if (BattleMap.getInstance().IsColor == true)
             {
                 BattleMap.getInstance().HideBattleZooe(GetSelfPosition());
-            }            
+            }
         }
 
 
