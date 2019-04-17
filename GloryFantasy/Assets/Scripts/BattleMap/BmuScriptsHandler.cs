@@ -40,17 +40,19 @@ namespace BattleMap
         {
             this._unitsData = new Dictionary<string, JsonData>();
             this._unitsDataIDs = new List<string>();
-            
+
             // 从制定路劲加载json文件并映射成字典
             JsonData unitsTemplate =
-                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/textToken2.json"));
+                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/UnitScripts/textToken.json"));
+            //JsonData unitsTemplate =
+            //    JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/textToken2.json"));
 
             // 获取总模板数量
             int dataAmount = unitsTemplate.Count;
             // 依次添加数据到相应数据集中
             for (int i = 0; i < dataAmount; i++)
             {
-                string id = unitsTemplate[i]["id"].ToString();
+                string id = unitsTemplate[i]["ID"].ToString();
                 _unitsData.Add(id, unitsTemplate[i]);
                 _unitsDataIDs.Add(id);
             }
@@ -79,23 +81,48 @@ namespace BattleMap
         /// 给已有GameUnit脚本的GameObject，初始化其他属性
         /// </summary>
         /// <param name="unit">需要其中id和owner字段都已初始化</param>
-        public void InitGameUnit(Unit unit)
+        //public void InitGameUnit(Unit unit)
+        //{
+        //    JsonData data = _unitsData[unit.id];
+        //    unit.Name = data["name"].ToString();
+        //    unit.atk = (int)data["atk"];
+        //    unit.hp = (int)data["hp"];
+        //    unit.mov = (int)data["mov"];
+        //    unit.rng = (int)data["rng"];
+        //    unit.priority = new List<int>();
+        //    unit.priority.Add((int)data["priority"]);
+        //    int tagCount = data["tag"].Count;
+        //    if (tagCount > 0)
+        //    {
+        //        unit.tag = new string[tagCount];
+        //        for (int i = 0; i < tagCount; i++)
+        //        {
+        //            unit.tag[i] = data["tag"][i].ToString();
+        //        }
+        //    }
+        //}
+
+        public void InitGameUnit(Unit unit,string id)
         {
-            JsonData data = _unitsData[unit.id];
-            unit.Name = data["name"].ToString();
-            unit.atk = (int)data["atk"];
-            unit.hp = (int) data["hp"];
-            unit.mov = (int) data["mov"];
-            unit.rng = (int) data["rng"];
-            unit.priority = new List<int>();
-            unit.priority.Add((int) data["priority"]);
-            int tagCount = data["tag"].Count;
-            if (tagCount > 0)
+            JsonData data = _unitsData[id];
+            unit.unitAttribute.atk = int.Parse(data["Atk"].ToString());
+            unit.unitAttribute.CardID = data["CardID"].ToString();
+            unit.unitAttribute.Color = data["Color"].ToString();
+            unit.unitAttribute.Effort = data["Effort"].ToString();
+            unit.unitAttribute.HasCD = int.Parse(data["HasCD"].ToString());
+            unit.unitAttribute.HP = int.Parse(data["Hp"].ToString());
+            unit.unitAttribute.ID = data["ID"].ToString();
+            unit.unitAttribute.Mov = int.Parse(data["Mov"].ToString());
+            unit.unitAttribute.name = data["Name"].ToString();
+            unit.unitAttribute.Prt = int.Parse(data["Prt"].ToString());
+            unit.unitAttribute.rng = int.Parse(data["Rng"].ToString());
+            int tagCount = data["Tag"].Count;
+            if(tagCount > 0)
             {
-                unit.tag = new string[tagCount];
+                unit.unitAttribute.tag = new List<string>();
                 for (int i = 0; i < tagCount; i++)
                 {
-                    unit.tag[i] = data["tag"][i].ToString();
+                    unit.unitAttribute.tag.Add(data["Tag"][i].ToString());
                 }
             }
         }
@@ -104,13 +131,13 @@ namespace BattleMap
         /// 随机设定GameUnit脚本中的数值，仅能生成玩家方单位
         /// </summary>
         /// <param name="unit">无要求</param>
-        public void InitGameUnitRandomly(Unit unit)
-        {
-            string randomID = this._unitsDataIDs[Random.Range(0, _unitsDataIDs.Count)];
-            unit.id = randomID;
-            unit.owner = "self";
-            InitGameUnit(unit);
-        }
+        //public void InitGameUnitRandomly(Unit unit)
+        //{
+        //    string randomID = this._unitsDataIDs[Random.Range(0, _unitsDataIDs.Count)];
+        //    unit.id = randomID;
+        //    unit.owner = "self";
+        //    InitGameUnit(unit);
+        //}
         
     }
 }

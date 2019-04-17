@@ -32,7 +32,7 @@ public class UnitMoveCommand :Command
         Vector2 unit1 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_unit);
         Vector2 unit2 = _destination;
         int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
-        if (MAN_HA_DUN <= _unit.mov)
+        if (MAN_HA_DUN <= _unit.unitAttribute.Mov)
             return true;
 
         return false;
@@ -62,7 +62,7 @@ public class UnitAttackCommand :Command
         Vector2 unit1 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_Attacker);
         Vector2 unit2 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_AttackedUnit);
         int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
-        if (MAN_HA_DUN <= _Attacker.rng)
+        if (MAN_HA_DUN <= _Attacker.unitAttribute.rng)
             return true;
 
         return false;

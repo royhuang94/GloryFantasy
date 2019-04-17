@@ -11,17 +11,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a60b7f758a84c39867a42fd38ccabc9, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  CardID: ShadowSoldier_1
-  ID: ShadowSoldier_1
-  Color: 
-  Effort: "\u6EDE\u51FB"
+  CardID: HElf_1
+  ID: HElf_1
+  Color: RG
+  Effort: 
   uName: "\u9ED1\u5F71\u6218\u58EB"
-  HasCD: -1
-  HP: 3
+  HasCD: 1
+  HP: 8
   MaxHp: 3
-  Prt: 0
-  Mov: 2
-  atk: 1
-  rng: 1
+  Prt: 2
+  Mov: 3
+  atk: 2
+  rng: 2
   tag:
-  - "\u6742\u5175"
+  - "\u82F1\u96C4"
+  - "\u5F13\u624B"
