@@ -32,9 +32,9 @@ public class BattleMapBlockBurning : BattleMapBlock
             if (transform.GetComponentInChildren<Unit>() != null)
             {
                 unit = transform.GetComponentInChildren<Unit>();
-                Debug.Log(unit.hp);
+                //Debug.Log(unit.hp);
                 Burning(unit);
-                Debug.Log(unit.hp);
+                //Debug.Log(unit.hp);
             }
         }
         else
