@@ -19,21 +19,27 @@ namespace GameUnit
         /// <param name="eventData"></param>
         public void OnPointerDown(PointerEventData eventData)
         {
-            hp -= 3;
-            UnitManager.Instance.EnemyCurUnit = transform.GetComponentInParent<BattleMap.BattleMapBlock>().GetCoordinate();
-            if (!IsDead())
+            if(UnitManager.Instance.canAttack)
             {
-                Debug.Log(hp);
-                float hpDivMaxHp = (float)hp / unitAttribute.MaxHp * 100;
-                var textHp = transform.GetComponentInChildren<Text>();
-                textHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
-            }
-            else
-            {
-                Destroy(this.gameObject);            
-                BattleMap.BattleMap.getInstance().upDateNeighbourBlock(UnitManager.Instance.EnemyCurUnit);
-            }
+                GFGame.UtilityHelper.Log("触发攻击", GFGame.LogColor.RED);
+                hp -= 3;
+                UnitManager.Instance.EnemyCurUnit = transform.GetComponentInParent<BattleMap.BattleMapBlock>().GetCoordinate();
+                if (!IsDead())
+                {
+                    Debug.Log(hp);
+                    float hpDivMaxHp = (float)hp / unitAttribute.MaxHp * 100;
+                    var textHp = transform.GetComponentInChildren<Text>();
+                    textHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
+                }
+                else
+                {
+                    Destroy(this.gameObject);
+                    BattleMap.BattleMap.getInstance().upDateNeighbourBlock(UnitManager.Instance.EnemyCurUnit);
 
+                }
+
+                UnitManager.Instance.canAttack = false;
+            }
         }
     }
 }

@@ -110,9 +110,12 @@ public class UnitManager : MonoBehaviour
     public bool IsClicked { get; set; }
     public List<Vector2> TargetList { get; set; }
     private Canvas canvas;
+
+    #region 单位行为
     public bool isMoving = false;
     public bool canMoving = false;
-
+    public bool canAttack = false;
+    #endregion
 
     private void Start()
     {
