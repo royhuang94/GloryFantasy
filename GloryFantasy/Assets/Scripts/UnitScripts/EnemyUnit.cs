@@ -37,7 +37,7 @@ namespace GameUnit
                 else
                 {
                     Destroy(this.gameObject);
-                    BattleMap.BattleMap.getInstance().upDateNeighbourBlock(UnitManager.Instance.EnemyCurUnit);
+                    BattleMap.BattleMap.getInstance().UpDateNeighbourBlock(UnitManager.Instance.EnemyCurUnit);
                 }
                 UnitManager.Instance.canAttack = false;
             }

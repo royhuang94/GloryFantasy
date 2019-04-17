@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 222107028102659488}
   - component: {fileID: 114552024524066832}
   - component: {fileID: 114461634683683078}
-  - component: {fileID: 114605784284293736}
+  - component: {fileID: 114933392518552902}
   m_Layer: 5
   m_Name: RFiresuli_1
   m_TagString: Untagged
@@ -158,18 +158,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114605784284293736
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678421529260342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0862c5274ce6410592d7f222395f600a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: RFiresuli_1
 --- !u!114 &114724351621228172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 0}
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114815456504399134
 MonoBehaviour:
@@ -205,6 +193,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114933392518552902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1678421529260342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e801334048304f818f0228c2ad458397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: RFiresuli_1
 --- !u!222 &222107028102659488
 CanvasRenderer:
   m_ObjectHideFlags: 1

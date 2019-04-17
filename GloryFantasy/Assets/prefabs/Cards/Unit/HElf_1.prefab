@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222888091772279438}
   - component: {fileID: 114389428106004114}
   - component: {fileID: 114446290655077050}
-  - component: {fileID: 114916522649982226}
+  - component: {fileID: 114511427352051242}
   m_Layer: 5
   m_Name: HElf_1
   m_TagString: Untagged
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 0}
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114328477661689580
 MonoBehaviour:
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitPrefab: {fileID: 1858321573231356, guid: b913e9ab8dbafba4287e3fee527293ea, type: 2}
---- !u!114 &114916522649982226
+--- !u!114 &114511427352051242
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1758088078211018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0862c5274ce6410592d7f222395f600a, type: 3}
+  m_Script: {fileID: 11500000, guid: e801334048304f818f0228c2ad458397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: HElf_1

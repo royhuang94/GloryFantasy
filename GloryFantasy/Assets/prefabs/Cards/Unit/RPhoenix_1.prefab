@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 222715444889312038}
   - component: {fileID: 114311873948368090}
   - component: {fileID: 114531475399056942}
-  - component: {fileID: 114908928226294430}
+  - component: {fileID: 114645459351339076}
   m_Layer: 5
   m_Name: RPhoenix_1
   m_TagString: Untagged
@@ -180,8 +180,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 0}
   mapBlockBelow: {fileID: 0}
+--- !u!114 &114645459351339076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453970865812730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e801334048304f818f0228c2ad458397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: RPhoenix_1
 --- !u!114 &114907953938160564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,18 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114908928226294430
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1453970865812730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0862c5274ce6410592d7f222395f600a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: RPhoenix_1
 --- !u!222 &222715444889312038
 CanvasRenderer:
   m_ObjectHideFlags: 1

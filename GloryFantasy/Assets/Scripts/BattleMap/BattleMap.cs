@@ -11,11 +11,11 @@ namespace BattleMap
 {
     public class BattleMap : MonoBehaviour
     {
-        private static BattleMap instance = null;
+        private static BattleMap _instance = null;
 
         public static BattleMap getInstance()
         {
-            return instance;
+            return _instance;
         }
 
         private BattleMap()
@@ -35,7 +35,7 @@ namespace BattleMap
 
         private void Awake()
         {
-            instance = this;
+            _instance = this;
             IsColor = false;
             InitMap();
         }
@@ -84,17 +84,6 @@ namespace BattleMap
         public Dictionary<Vector2, BattleMapBlock> mapBlockDict = new Dictionary<Vector2, BattleMapBlock>();//寻路字典
         public List<BattleMapBlock> aStarPath = new List<BattleMapBlock>();  //最优路径
 
-        #region 弃用
-        //public GameObject[] A_tiles;            // 区域 A prefabs的数组
-        //public GameObject[] B_tiles;            // 区域 B prefabs的数组
-        //public GameObject[] C_tiles;            // 区域 C prefabs的数组
-        //public GameObject[] D_tiles;            // 区域 D prefabs的数组
-        //public GameObject[] E_tiles;            // 区域 E prefabs的数组
-
-        //public GameObject[] normal_tiles;       // 白色区域 prefabs的数组
-        //public GameObject[] other_tiles;        // 黑色区域 prefabs的数组
-        #endregion
-
         #region 战区块
         private List<Vector2> battleArea_1;
         private List<Vector2> battleArea0;
@@ -130,9 +119,6 @@ namespace BattleMap
 
         #endregion
 
-        // 记录json中token不为空的坐标，待后续处理
-        //private List <Vector3> specialPositions = new List <Vector3> ();
-
         #region  初始地图相关
         private void InitAndInstantiateMapBlocks()
         {
@@ -144,7 +130,7 @@ namespace BattleMap
             this.rows = (int)mapData[mapDataCount - 1]["x"] + 1;
 
             _mapBlocks = new BattleMapBlock[rows, columns];
-            GameObject _instance = new GameObject();
+            GameObject instance = new GameObject();
 
             battleArea_1 = new List<Vector2>();
             battleArea0 = new List<Vector2>();
@@ -198,24 +184,22 @@ namespace BattleMap
                     case 7:
                         battleArea7.Add(mapPos);
                         break;
-                    default:
-                        break;
                 }
                 #endregion
 
 
                 //实例化地图块
-                _instance = GameObject.Instantiate(normalMapBlocks, new Vector3(x, y, 0f), Quaternion.identity);
-                _instance.transform.SetParent(_tilesHolder);
+                instance = GameObject.Instantiate(normalMapBlocks, new Vector3(x, y, 0f), Quaternion.identity);
+                instance.transform.SetParent(_tilesHolder);
 
 
                 if (x == 0 && y == 0)
                 {
                     //Debug.Log(string.Format("固定的灼烧块{0},{0}", x, y));
-                    _instance.gameObject.AddComponent<BattleMapBlockBurning>();
+                    instance.gameObject.AddComponent<BattleMapBlockBurning>();
 
-                    _instance.gameObject.AddComponent<BattleMapBlock>();
-                    _mapBlocks[x, y] = _instance.gameObject.GetComponent<BattleMapBlock>();
+                    instance.gameObject.AddComponent<BattleMapBlock>();
+                    _mapBlocks[x, y] = instance.gameObject.GetComponent<BattleMapBlock>();
                     _mapBlocks[x, y].area = area;
                     _mapBlocks[x, y].x = x;
                     _mapBlocks[x, y].y = y;
@@ -226,8 +210,8 @@ namespace BattleMap
                 }
                 else
                 {
-                    _instance.gameObject.AddComponent<BattleMapBlock>();
-                    _mapBlocks[x, y] = _instance.gameObject.GetComponent<BattleMapBlock>();
+                    instance.gameObject.AddComponent<BattleMapBlock>();
+                    _mapBlocks[x, y] = instance.gameObject.GetComponent<BattleMapBlock>();
                     _mapBlocks[x, y].area = area;
                     _mapBlocks[x, y].x = x;
                     _mapBlocks[x, y].y = y;
@@ -247,16 +231,6 @@ namespace BattleMap
                         _unitsList.Add(unit);
                         _mapBlocks[x, y].AddUnit(unit);
                     }
-                    //else
-                    //{
-                    //    Unit[] units = InitAndInstantiateGameUnits(mapData[i]["token"], tokenCount, x, y);
-                    //    for (int j = 0; j < units.Length; j++)
-                    //    {
-                    //        //units[j].mapBlockBelow = _mapBlocks[x, y];
-                    //        _unitsList.Add(units[j]);
-                    //    }
-                    //    _mapBlocks[x, y].AddUnits(units);
-                    //}
                 }
             }
 
@@ -293,7 +267,7 @@ namespace BattleMap
         #endregion
 
         //更新寻路字典,避免再次遍历整个地图
-        public void upDateNeighbourBlock(Vector2 position)
+        public void UpDateNeighbourBlock(Vector2 position)
         {
             int j = (int)position.x;
             int i = (int)position.y;
@@ -318,18 +292,6 @@ namespace BattleMap
             {
                 mapBlockDict[new Vector2(r.x, r.y)].neighbourBlock[2] = mapBlockDict[position];
             }
-        }
-
-        /// <summary>
-        /// 初始化GameUnit脚本函数，会根据id设定GameUnit脚本内数值
-        /// </summary>
-        /// <param name="id">地图单位中相应的id</param>
-        /// <param name="owner">地图单位中相应的所属方</param>
-        /// <param name="unit">GameUnit脚本类的引用</param>
-        private void InitGameUnitScript(string id, string owner, Unit unit)
-        {
-            unit.unitAttribute.ID = id;
-            BmuScriptsHandler.GetInstance().InitGameUnit(unit,id);
         }
 
         //初始地图单位
@@ -388,9 +350,7 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
 
             // 获取该脚本对象并传入解析json函数赋值
             newUnit = _object.GetComponent<Unit>();
-            //InitGameUnitScript(data["name"].ToString(),
-            //    data["Controler - Enemy, Friendly or Self"].ToString(),
-            //    newUnit);
+            
             return newUnit;
         }
 
@@ -455,31 +415,9 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
             return new Vector3(-1, -1, 0f);
         }
 
-        //实现点击地图块后弃用
-        //private Boolean _CheckVector(Vector3 vector)
-        //{
-        //    if ((int)vector.x > rows*62.5 || (int)vector.y > columns*62.5)
-        //    {
-        //        Debug.Log(string.Format("Invalid coordinate: {0}, {1} !", (int)vector.x, (int)vector.y));
-        //        return false;
-        //    }
-
-        //    if ((int)vector.x < 0 || (int)vector.y < 0)
-        //    {
-        //        Debug.Log(string.Format("Error ! Outranged coordinate: {0}, {1} !", (int)vector.x, (int)vector.y));
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-
-
-
         // 确定给定坐标上是否含有单位，坐标不合法会返回false，其他依据实际情况返回值
         public Boolean CheckIfHasUnits(Vector3 vector)
         {
-            //if (!_CheckVector(vector)) return false;
-            //return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me != null;
             if (this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0
                 && this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>() != null &&
                 this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>().unitAttribute.uName != "Obstacle"/*units_on_me.Count != 0*/)
@@ -558,13 +496,9 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
         {
             foreach (Vector3 position in positions)
             {
-                if (/*_mapBlocks[(int)position.x, (int)position.y] != null &&*/position.x < columns && position.y < rows
-                    && position.x >= 0 && position.y >= 0)
+                if (position.x < columns && position.y < rows && position.x >= 0 && position.y >= 0)
                 {
                     _mapBlocks[(int)position.x, (int)position.y].gameObject.GetComponent<Image>().color = color;
-                }
-                else
-                {
                 }
             }
         }
@@ -675,7 +609,6 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
                 }
                 else
                 {
-                    //Debug.Log(x + ":" + y);
                     emptyMapBlocksPositions.Add(new Vector2(x, y));
 
                 }
@@ -729,72 +662,6 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
             {
                 _mapBlocks[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.yellow;
             }
-            #region 弃用
-            /*
-            if (area == -1)
-            {
-                foreach (BattleMapBlock map in battleArea_1)
-                {
-                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
-                }
-            }
-            if (area == 0)
-            {
-                foreach (BattleMapBlock map in battleArea0)
-                {
-                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
-                }
-            }
-            if (area == 1)
-            {
-                foreach (BattleMapBlock map in battleArea1)
-                {
-                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
-                }
-            }
-            if (area == 2)
-            {
-                foreach (BattleMapBlock map in battleArea2)
-                {
-                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
-                }
-            }
-            if (area == 3)
-            {
-                foreach (BattleMapBlock map in battleArea3)
-                {
-                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
-                }
-            }
-            if (area == 4)
-            {
-                foreach (BattleMapBlock map in battleArea4)
-                {
-                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
-                }
-            }
-            if (area == 5)
-            {
-                foreach (BattleMapBlock map in battleArea5)
-                {
-                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
-                }
-            }
-            if (area == 6)
-            {
-                foreach (BattleMapBlock map in battleArea6)
-                {
-                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
-                }
-            }
-            if (area == 7)
-            {
-                foreach (BattleMapBlock map in battleArea7)
-                {
-                    _mapBlocks[map.x, map.y].gameObject.GetComponent<Image>().color = Color.yellow;
-                }
-            }*/
-            #endregion
         }
 
         //隐藏战区

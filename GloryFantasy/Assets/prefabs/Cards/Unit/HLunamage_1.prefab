@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 222185562796952934}
   - component: {fileID: 114571055972974218}
   - component: {fileID: 114801837745866446}
-  - component: {fileID: 114622608659729488}
+  - component: {fileID: 114521661362892220}
   m_Layer: 5
   m_Name: HLunamage_1
   m_TagString: Untagged
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 0}
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114145708055982374
 MonoBehaviour:
@@ -102,6 +102,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114521661362892220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1459039587337698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e801334048304f818f0228c2ad458397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: HLunamage_1
 --- !u!114 &114571055972974218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -129,18 +141,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114622608659729488
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1459039587337698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0862c5274ce6410592d7f222395f600a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: HLunamage_1
 --- !u!114 &114801837745866446
 MonoBehaviour:
   m_ObjectHideFlags: 1
