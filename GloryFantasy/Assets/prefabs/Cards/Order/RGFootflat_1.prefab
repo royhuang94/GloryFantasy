@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222728828483452582}
   - component: {fileID: 114996060737040906}
   - component: {fileID: 114639655261958110}
-  - component: {fileID: 114340797536999692}
+  - component: {fileID: 114717864682209256}
   m_Layer: 5
   m_Name: RGFootflat_1
   m_TagString: Untagged
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 0}
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114033560216254036
 MonoBehaviour:
@@ -143,18 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114340797536999692
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1146582120685210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0862c5274ce6410592d7f222395f600a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: RGFootflat_1
 --- !u!114 &114639655261958110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,6 +155,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitPrefab: {fileID: 1858321573231356, guid: b913e9ab8dbafba4287e3fee527293ea, type: 2}
+--- !u!114 &114717864682209256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146582120685210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41ab96137a04835b639b4a45c32a030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: RGFootflat_1
 --- !u!114 &114781865587322526
 MonoBehaviour:
   m_ObjectHideFlags: 1

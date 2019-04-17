@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222472297088693528}
   - component: {fileID: 114889208759647156}
   - component: {fileID: 114345126574793466}
-  - component: {fileID: 114140854102546716}
+  - component: {fileID: 114679083052312198}
   m_Layer: 5
   m_Name: GSummonwilf_1
   m_TagString: Untagged
@@ -51,18 +51,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114140854102546716
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1127099911367114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0862c5274ce6410592d7f222395f600a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: GSummonwilf_1
 --- !u!114 &114345126574793466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,7 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 0}
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114604709786433106
 MonoBehaviour:
@@ -126,6 +114,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114679083052312198
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1127099911367114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41ab96137a04835b639b4a45c32a030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: GSummonwilf_1
 --- !u!114 &114693634382138202
 MonoBehaviour:
   m_ObjectHideFlags: 1

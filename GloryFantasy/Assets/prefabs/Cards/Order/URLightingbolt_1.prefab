@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222279458504354280}
   - component: {fileID: 114366853671134646}
   - component: {fileID: 114801066647329410}
-  - component: {fileID: 114230538664927494}
+  - component: {fileID: 114213710730655742}
   m_Layer: 5
   m_Name: URLightingbolt_1
   m_TagString: Untagged
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114230538664927494
+--- !u!114 &114213710730655742
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1383524363828454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0862c5274ce6410592d7f222395f600a, type: 3}
+  m_Script: {fileID: 11500000, guid: c41ab96137a04835b639b4a45c32a030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: URLightingbolt_1
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 0}
   mapBlockBelow: {fileID: 0}
 --- !u!222 &222279458504354280
 CanvasRenderer:
