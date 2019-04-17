@@ -33,13 +33,13 @@ public class Info
 {
     public Player RoundOwned; //回合所属
     public Player Caster; //施放者
-    public GameUnit.UnitCard CastingCard; //施放的牌
+    public GameUnit.BaseCard CastingCard; //施放的牌
     public Player SummonersController; //召唤单位的控制者
     public List<GameUnit.GameUnit> SummonUnit; //召唤的单位
     public Player Drawer; //抓牌者
-    public List<GameUnit.UnitCard> CaughtCard; //抓的牌
+    public List<GameUnit.BaseCard> CaughtCard; //抓的牌
     public Player HandAdder; //加手者
-    public List<GameUnit.UnitCard> AddingCard; //加手的牌
+    public List<GameUnit.BaseCard> AddingCard; //加手的牌
     public GameUnit.GameUnit Attacker; //宣言攻击者
     public GameUnit.GameUnit AttackedUnit; //被攻击者
     public GameUnit.GameUnit AbilitySpeller; //发动异能者
@@ -114,11 +114,11 @@ public static class GameplayToolExtend
         return Gameplay.Info.Caster;
     }
 
-    public static void SetCastingCard(this GameplayTool self, GameUnit.UnitCard card)
+    public static void SetCastingCard(this GameplayTool self, GameUnit.BaseCard card)
     {
         Info.CastingCard = card;
     }
-    public static GameUnit.UnitCard GetCastingCard(this GameplayTool self)
+    public static GameUnit.BaseCard GetCastingCard(this GameplayTool self)
     {
         return Info.CastingCard;
     }
@@ -150,11 +150,11 @@ public static class GameplayToolExtend
         return Info.Drawer;
     }
 
-    public static void SetCaughtCard(this GameplayTool self, List<GameUnit.UnitCard> cards)
+    public static void SetCaughtCard(this GameplayTool self, List<GameUnit.BaseCard> cards)
     {
         Info.CaughtCard = cards;
     }
-    public static List<GameUnit.UnitCard> GetCaughtCard(this GameplayTool self)
+    public static List<GameUnit.BaseCard> GetCaughtCard(this GameplayTool self)
     {
         return Info.CaughtCard;
     }
@@ -168,11 +168,11 @@ public static class GameplayToolExtend
         return Info.HandAdder;
     }
 
-    public static void SetAddingCard(this GameplayTool self, List<GameUnit.UnitCard> cards)
+    public static void SetAddingCard(this GameplayTool self, List<GameUnit.BaseCard> cards)
     {
         Info.AddingCard = cards;
     }
-    public static List<GameUnit.UnitCard> GetAddingCard(this GameplayTool self)
+    public static List<GameUnit.BaseCard> GetAddingCard(this GameplayTool self)
     {
         return Info.AddingCard;
     }
