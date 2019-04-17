@@ -33,6 +33,7 @@ public class SelectAction : MonoBehaviour {
         Vector2 tempPosition = BattleMap.BattleMap.getInstance().curMapPos;
         Gameplay.GetInstance().gamePlayInput.HandleAtkConfirm(tempPosition);
         Hide();
+        UnitManager.Instance.canAttack = true;
     }
 
     //防御接口
