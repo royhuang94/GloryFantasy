@@ -31,7 +31,6 @@ namespace Ability
             condition = Condition;
             action = Action;
         }
-
         private void Action()
         {
             //保存死掉的怪
@@ -43,6 +42,7 @@ namespace Ability
             //删除这只怪的复活技能
             this.DeleteUnitAbility(newUnit, "FuHuo");
         }
+
         private bool Condition()
         {
             //判断死掉的怪是不是这个复活技能的注册者
