@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Ability;
 using IMessage;
 
 enum TriggerType
@@ -42,7 +43,7 @@ public class Info
     public GameUnit.GameUnit Attacker; //宣言攻击者
     public GameUnit.GameUnit AttackedUnit; //被攻击者
     public GameUnit.GameUnit AbilitySpeller; //发动异能者
-    public Ability SpellingAbility; //发动的异能
+    public Ability.Ability SpellingAbility; //发动的异能
     public GameUnit.GameUnit Injurer; //伤害者
     public GameUnit.GameUnit InjuredUnit; //被伤害者
     public Damage damage; //伤害
@@ -212,7 +213,7 @@ public static class GameplayToolExtend
     /// </summary>
     /// <param name="self"></param>
     /// <param name="ability"></param>
-    public static void SetSpellingAbility(this GameplayTool self, Ability ability)
+    public static void SetSpellingAbility(this GameplayTool self, Ability.Ability ability)
     {
         Info.SpellingAbility = ability;
     }
@@ -221,7 +222,7 @@ public static class GameplayToolExtend
     /// </summary>
     /// <param name="self"></param>
     /// <returns></returns>
-    public static Ability GetSpellingAbility(this GameplayTool self)
+    public static Ability.Ability GetSpellingAbility(this GameplayTool self)
     {
         return Info.SpellingAbility;
     }
