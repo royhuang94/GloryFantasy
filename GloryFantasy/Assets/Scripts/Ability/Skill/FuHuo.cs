@@ -4,40 +4,33 @@ using UnityEngine;
 
 using IMessage;
 
-public class FuHuo : Ability
+namespace Ability
 {
-    Trigger trigger;
-
-    private void Start()
+    public class FuHuo : Ability
     {
-        //创建Trigger实例，传入技能的发动者
-        trigger = new TFuHuo(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
-        //注册Trigger进消息中心
-        MsgDispatcher.RegisterMsg(trigger, "FuHuo");
+        Trigger trigger;
+
+        private void Start()
+        {
+            //创建Trigger实例，传入技能的发动者
+            trigger = new TFuHuo(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+            //注册Trigger进消息中心
+            MsgDispatcher.RegisterMsg(trigger, "FuHuo");
+        }
+
     }
 
-}
-
-public class TFuHuo : Trigger
-{
-    public TFuHuo(MsgReceiver speller)
+    public class TFuHuo : Trigger
     {
-        register = speller;
-        //初始化响应时点
-        msgName = (int)TriggerType.Dead;
-        //初始化条件函数和行为函数
-        condition = Condition;
-        action = Action;
-    }
-
-    private bool Condition()
-    {
-        //判断死掉的怪是不是这个复活技能的注册者
-        if (this.GetDead().GetMsgReceiver() == register)
-            return true;
-        else
-            return false;
-    }
+        public TFuHuo(MsgReceiver speller)
+        {
+            register = speller;
+            //初始化响应时点
+            msgName = (int)TriggerType.Dead;
+            //初始化条件函数和行为函数
+            condition = Condition;
+            action = Action;
+        }
 
     private void Action()
     {
@@ -49,5 +42,15 @@ public class TFuHuo : Trigger
         newUnit.hp -= newUnit.hp / 2;
         //删除这只怪的复活技能
         this.DeleteUnitAbility(newUnit, "FuHuo");
+        private bool Condition()
+        {
+            //判断死掉的怪是不是这个复活技能的注册者
+            if (this.GetDead().GetMsgReceiver() == register)
+                return true;
+            else
+                return false;
+        }
+
+        
     }
 }

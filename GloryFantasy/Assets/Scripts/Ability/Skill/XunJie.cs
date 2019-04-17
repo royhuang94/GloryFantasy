@@ -4,55 +4,58 @@ using UnityEngine;
 
 using IMessage;
 
-public class XunJie : Ability
+namespace Ability
 {
-    Trigger trigger;
-
-    private void Start()
+    public class XunJie : Ability
     {
-        trigger = new TXunJie(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
-        MsgDispatcher.RegisterMsg(trigger, "XunJie");
-    }
+        Trigger trigger;
 
-}
-
-public class TXunJie : Trigger
-{
-    public TXunJie(MsgReceiver _speller)
-    {
-        register = _speller;
-        msgName = (int)TriggerType.Summon;
-        condition = Condition;
-        action = Action;
-    }
-
-    private bool Condition()
-    {
-        //获取召唤列表
-        List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
-        //循环查询有没有召唤的怪是这个技能的发动者
-        for (int i = 0; i < SummonUnits.Count; i++)
+        private void Start()
         {
-            if (SummonUnits[i].GetMsgReceiver() == register)
-                return true;
+            trigger = new TXunJie(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+            MsgDispatcher.RegisterMsg(trigger, "XunJie");
         }
-        return false;
+
     }
 
-    private void Action()
+    public class TXunJie : Trigger
     {
-        //获取发动这个技能的怪
-        List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
-        GameUnit.GameUnit unit = null;
-        for (int i = 0; i < SummonUnits.Count; i++)
+        public TXunJie(MsgReceiver _speller)
         {
-            if (SummonUnits[i].GetMsgReceiver() == register)
-                unit = SummonUnits[i];
+            register = _speller;
+            msgName = (int)TriggerType.Summon;
+            condition = Condition;
+            action = Action;
+        }
 
-            //让这只怪部署后可以移动
-            unit.restrain = false;
-            //让这只怪部署后可以攻击
-            unit.disarm = false;
+        private bool Condition()
+        {
+            //获取召唤列表
+            List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
+            //循环查询有没有召唤的怪是这个技能的发动者
+            for (int i = 0; i < SummonUnits.Count; i++)
+            {
+                if (SummonUnits[i].GetMsgReceiver() == register)
+                    return true;
+            }
+            return false;
+        }
+
+        private void Action()
+        {
+            //获取发动这个技能的怪
+            List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
+            GameUnit.GameUnit unit = null;
+            for (int i = 0; i < SummonUnits.Count; i++)
+            {
+                if (SummonUnits[i].GetMsgReceiver() == register)
+                    unit = SummonUnits[i];
+
+                //让这只怪部署后可以移动
+                unit.restrain = false;
+                //让这只怪部署后可以攻击
+                unit.disarm = false;
+            }
         }
     }
 }

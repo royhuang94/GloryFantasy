@@ -141,7 +141,7 @@ namespace GameUnit
                 this.cardsSets.RemoveAt(extractPos);
                 GameObject newCard = Instantiate(toInstantiate);
                 newCard.transform.SetParent(panel.transform);
-                newCard.GetComponent<UnitCard>().cardPrefabs = toInstantiate;
+                newCard.GetComponent<BaseCard>().cardPrefabs = toInstantiate;
                 this.cardsInstancesInHand.Add(newCard);
             }
         }
@@ -149,7 +149,7 @@ namespace GameUnit
         public void RemoveCard(GameObject cardInstance)
         {
             this.cardsInstancesInHand.Remove(cardInstance);
-            GameObject cardPrefab = cardInstance.GetComponent<UnitCard>().cardPrefabs;
+            GameObject cardPrefab = cardInstance.GetComponent<BaseCard>().cardPrefabs;
             this.removedCards.Add(cardPrefab);
             Destroy(cardInstance);
         }
@@ -158,8 +158,8 @@ namespace GameUnit
         public void CooldownCard(GameObject cardInstance, int roundAmount)
         {
             this.cardsInstancesInHand.Remove(cardInstance);
-            GameObject cardPrefab = cardInstance.GetComponent<UnitCard>().cardPrefabs;
-            cardPrefab.GetComponent<UnitCard>().cooldownRounds = roundAmount;
+            GameObject cardPrefab = cardInstance.GetComponent<BaseCard>().cardPrefabs;
+            cardPrefab.GetComponent<BaseCard>().cooldownRounds = roundAmount;
             this.cooldownCards.Add(cardPrefab);
             Destroy(cardInstance);
         }
@@ -171,7 +171,7 @@ namespace GameUnit
             List<int> pos = new List<int>();
             for (int i = 0; i < cooldownCards.Count; i++)
             {
-                int leftRounds = cooldownCards[i].GetComponent<UnitCard>().cooldownRounds -= 1;
+                int leftRounds = cooldownCards[i].GetComponent<BaseCard>().cooldownRounds -= 1;
                 if (leftRounds == 0)
                 {
                     pos.Add(i);

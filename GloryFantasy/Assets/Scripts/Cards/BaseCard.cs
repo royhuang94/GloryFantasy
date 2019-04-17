@@ -7,7 +7,7 @@ namespace GameUnit
     /*
      * 暂时仅用单位牌，且使用超级生物的信息进行默认初始化
      */
-    public class UnitCard : MonoBehaviour, IMessage.MsgReceiver
+    public class BaseCard : MonoBehaviour, IMessage.MsgReceiver
     {
 
         public string id;

@@ -9,7 +9,8 @@ using UnityEngine.UI;
 
 namespace BattleMap
 {
-    public class BattleMap : MonoBehaviour {
+    public class BattleMap : MonoBehaviour
+    {
         private static BattleMap instance = null;
 
         public static BattleMap getInstance()
@@ -127,7 +128,7 @@ namespace BattleMap
 
         private List<Unit> _unitsList;
 
-#endregion
+        #endregion
 
         // 记录json中token不为空的坐标，待后续处理
         //private List <Vector3> specialPositions = new List <Vector3> ();
@@ -158,8 +159,8 @@ namespace BattleMap
             int x = 0;
             int y = 0;
             int area = 0;
-            
-            
+
+
             for (int i = 0; i < mapDataCount; i++)
             {
                 x = (int)mapData[i]["x"];
@@ -201,7 +202,7 @@ namespace BattleMap
                         break;
                 }
                 #endregion
-               
+
 
                 //实例化地图块
                 _instance = GameObject.Instantiate(normalMapBlocks, new Vector3(x, y, 0f), Quaternion.identity);
@@ -260,13 +261,13 @@ namespace BattleMap
             }
 
             #region 得到每块地图块周围的地图块
-            
+
             BattleMapBlock[] neighbourBlock = new BattleMapBlock[4];
-            
-            
-            for(int i = 0;i < rows; i++)
+
+
+            for (int i = 0; i < rows; i++)
             {
-                for(int j = 0;j< columns; j++)
+                for (int j = 0; j < columns; j++)
                 {
                     Vector2 t = new Vector2(j, i - 1);
                     Vector2 b = new Vector2(j, i + 1);
@@ -307,7 +308,7 @@ namespace BattleMap
 
             if (t.x >= 0 && t.y >= 0 && t.x < columns && t.y < rows)
             {
-                mapBlockDict[new Vector2(t.x,t.y)].neighbourBlock[1] = mapBlockDict[position];
+                mapBlockDict[new Vector2(t.x, t.y)].neighbourBlock[1] = mapBlockDict[position];
             }
             if (b.x >= 0 && b.y >= 0 && b.x < columns && b.y < rows)
             {
@@ -334,7 +335,7 @@ namespace BattleMap
             unit.unitAttribute.ID = id;
             BmuScriptsHandler.GetInstance().InitGameUnit(unit,id);
         }
-        
+
         //初始地图单位
         private Unit InitAndInstantiateGameUnit(JsonData data, int x, int y)
         {
@@ -396,6 +397,47 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
             //    newUnit);
             return newUnit;
         }
+
+        //TODO 根据坐标返回地图块儿 --> 在对应返回的地图块儿上抓取池内的对象，"投递上去"
+        //TODO 相当于是召唤技能，可以与郑大佬的技能脚本产生联系
+        //TODO 类似做一个召唤技能，通过UGUI的按钮实现
+
+        //TODO 如何实现
+        //1. 首先我们输入一个坐标 -> 传递给某个函数，此函数能够根据坐标获得地图块儿 -> 获取到地图块儿后便可以通过地图块儿，从池子中取出Unit “投递”到该地图块儿上
+        //2. 完成
+        //3. 转移成一个skill
+
+        //TODO 测试召唤与对象池
+        public void ButtonClickDown()
+        {
+            if (SummonOnBlock(Random.Range(0, 11), Random.Range(0, 11)))
+                GFGame.UtilityHelper.Log("召唤成功", GFGame.LogColor.PURPLE);
+            else
+                GFGame.UtilityHelper.Log("召唤失败", GFGame.LogColor.BLUE);
+        }
+
+        public bool SummonOnBlock(int x = 0, int y = 1)
+        {
+            //TODO 测试坐标 (0,0)
+            var tempBlock = GetSpecificMapBlock(x, y);
+
+            if(tempBlock.transform.childCount == 0)
+            {
+                var tempUnit = PoolManager.Instance.GetInst("ShadowSoldier_1");
+
+
+                if (tempUnit != null)
+                {
+                    tempUnit.transform.parent = tempBlock.transform;
+                    tempUnit.transform.localPosition = Vector3.zero;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
 
         public BattleMapBlock GetSpecificMapBlock(int x, int y)
         {
@@ -466,8 +508,8 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
 
         public EMapBlockType GetMapBlockType(Vector3 coordinate)
         {
-            int x = (int) coordinate.x;
-            int y = (int) coordinate.y;
+            int x = (int)coordinate.x;
+            int y = (int)coordinate.y;
             if (x < 0 || y < 0 || x >= columns || y >= rows)
             {
                 // TODO: 添加异常坐标处理
@@ -532,7 +574,7 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
         }
 
 
-        
+
         private List<Vector2> emptyMapBlocksPositions = new List<Vector2>();//保存战区空的格子
         private List<Unit> units = new List<Unit>();//获取战区上我方所有单位
         private Unit unit;
@@ -578,7 +620,7 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
             //emptyMapBlocks.Clear();
 
             List<Vector2> battleArea = null;
-            
+
             switch (area)
             {
                 case -1:
@@ -612,11 +654,11 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
                     Debug.Log(string.Format("Invalid area value {0}", area));
                     return false;
             }
-            
+
             foreach (Vector2 pos in battleArea)
             {
-                int x = (int) pos.x;
-                int y = (int) pos.y;
+                int x = (int)pos.x;
+                int y = (int)pos.y;
                 //Debug.Log(x + ":" + y);
                 if (_mapBlocks[x, y].transform.childCount != 0)
                 {
@@ -650,9 +692,9 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
         public void ShowBattleZooe(Vector3 position)
         {
             int area = _mapBlocks[(int)position.x, (int)position.y].area;
-            
+
             List<Vector2> battleArea = null;
-            
+
             switch (area)
             {
                 case -1:
@@ -686,7 +728,7 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
                     Debug.Log(string.Format("Invalid area value {0}", area));
                     return;
             }
-            
+
             foreach (Vector2 pos in battleArea)
             {
                 _mapBlocks[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.yellow;
@@ -758,14 +800,14 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
             }*/
             #endregion
         }
-        
+
         //隐藏战区
         public void HideBattleZooe(Vector3 position)
         {
-            int area  = _mapBlocks[(int)position.x, (int)position.y].area;
-            
+            int area = _mapBlocks[(int)position.x, (int)position.y].area;
+
             List<Vector2> battleArea = null;
-            
+
             switch (area)
             {
                 case -1:
@@ -799,12 +841,12 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
                     Debug.Log(string.Format("Invalid area value {0}", area));
                     return;
             }
-            
+
             foreach (Vector2 pos in battleArea)
             {
                 _mapBlocks[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.white;
             }
-            
+
         }
     }
 }
