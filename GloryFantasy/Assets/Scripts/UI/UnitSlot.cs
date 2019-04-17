@@ -71,7 +71,7 @@ namespace NBearUnit
                     return;
                 }
                 
-                UnitCard card = gameObject.GetComponent<UnitCard>();
+                BaseCard card = gameObject.GetComponent<BaseCard>();
                 JsonData jsonData = CardManager.GetInstance().GetCardJsonData(card.id);
                 int tagCount = jsonData["tag"].Count;
                 string tagInToal = "";

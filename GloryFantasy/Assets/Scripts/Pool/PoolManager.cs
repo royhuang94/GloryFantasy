@@ -2,19 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager
+public class PoolManager:
+    GFGame.LiteSingleton<PoolManager>
 {
-    private static PoolManager _instance;  //单列模式
-
-    public static PoolManager Instance  //单列模式
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = new PoolManager();
-            return _instance;
-        }
-    }
 
     //static 静态变量
     private static string poolConfigPathPrefix = "Assets/Resources/ScriptableObjects/GameObjectPool/";
@@ -33,7 +23,11 @@ public class PoolManager
     //字典
     private Dictionary<string, GameObjectPool> poolDic;
 
-    private PoolManager()
+
+    /// <summary>
+    /// 警告：此处不能直接使用new来创建对象，应该用单例
+    /// </summary>
+    public PoolManager()
     {
         //初始化
         GameObjectPoolList poolList = Resources.Load<GameObjectPoolList>("ScriptableObjects/GameObjectPool/gameobjectpool");
@@ -44,15 +38,11 @@ public class PoolManager
             Debug.Log(pool.ID);
             poolDic.Add(pool.ID, pool);
         }
-
-
-
     }
 
     public void Init()
     {
         //Do Nothing...
-        //用于初始化该类的实例对象
     }
 
     //TODO 实现返回GameObject的函数，GetInst(string name)

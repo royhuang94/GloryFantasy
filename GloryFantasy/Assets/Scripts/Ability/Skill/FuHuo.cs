@@ -32,6 +32,17 @@ namespace Ability
             action = Action;
         }
 
+        private void Action()
+        {
+            //保存死掉的怪
+            GameUnit.GameUnit deadUnit = this.GetDead();
+            //复活死掉的怪并保存
+            GameUnit.GameUnit newUnit = this.Regenerate(deadUnit.unitAttribute.uName, this.GetUnitPosition(deadUnit));
+            //修改这只怪的血量
+            newUnit.hp -= newUnit.hp / 2;
+            //删除这只怪的复活技能
+            this.DeleteUnitAbility(newUnit, "FuHuo");
+        }
         private bool Condition()
         {
             //判断死掉的怪是不是这个复活技能的注册者
@@ -39,18 +50,6 @@ namespace Ability
                 return true;
             else
                 return false;
-        }
-
-        private void Action()
-        {
-            //保存死掉的怪
-            GameUnit.GameUnit deadUnit = this.GetDead();
-            //复活死掉的怪并保存
-            GameUnit.GameUnit newUnit = this.Regenerate(deadUnit.Name, this.GetUnitPosition(deadUnit));
-            //修改这只怪的血量
-            newUnit.hp -= newUnit.hp / 2;
-            //删除这只怪的复活技能
-            this.DeleteUnitAbility(newUnit, "FuHuo");
         }
     }
 }

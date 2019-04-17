@@ -7,25 +7,9 @@ using UnityEngine.UI;
 
 //TODO 实现简单的点击事件，处理单位实例化
 
-public class UnitManager : MonoBehaviour
+public class UnitManager: 
+    GFGame.MonoBehaviourSingleton<UnitManager>
 {
-
-    #region 单列模式
-    private static UnitManager _instance;
-    public static UnitManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                //由于GameObject.Find函数太容易消耗资源，所以我们此处只进行一次
-                _instance = GameObject.Find("UnitManager").GetComponent<UnitManager>();
-            }
-            return _instance;
-        }
-    }
-    #endregion
-
     #region 拖拽Unit
     private bool isPickedUnit = false;
     private NBearUnit.UnitUI pickedUnit; //被鼠标选中的物体 
@@ -82,17 +66,17 @@ public class UnitManager : MonoBehaviour
         //Debug.Log(temp.name);
         temp.transform.localPosition = new Vector3(6.8f, 7f, 0.0f);
         temp.GetComponent<Image>().raycastTarget = true;
-        BmuScriptsHandler.GetInstance().InitGameUnitRandomly(temp.GetComponent<GameUnit.GameUnit>());
+        //BmuScriptsHandler.GetInstance().InitGameUnitRandomly(temp.GetComponent<GameUnit.GameUnit>());
 
         //添加
         //脚本到实例化Unit上
         //AddComponent
         temp.gameObject.AddComponent<NBearUnit.UnitMove>();
-        var hpTest = temp.transform.GetChild(0);
 
-        //GFGame.UtilityHelper.Log("HP: " + temp.GetComponent<GameUnit.GameUnit>().unitAttribute.HP);
+        //AttachHpOnUnit(temp);
+
+        var hpTest = temp.transform.GetChild(0);
         pickedUnit.Hide();
-        
         //TODO 暂时用Text标识血量，以后改为slider
         hpTest.gameObject.SetActive(true);
         float hp = temp.GetComponent<GameUnit.GameUnit>().unitAttribute.HP;
@@ -100,12 +84,8 @@ public class UnitManager : MonoBehaviour
 
         hpTest.GetComponent<Text>().text = string.Format("HP: {0}%", hpDivMaxHp);
 
-
-        //Debug.Log(goTransform.position);
     }
-
     #endregion
-
 
     public bool IsClicked { get; set; }
     public List<Vector2> TargetList { get; set; }
@@ -137,28 +117,13 @@ public class UnitManager : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, null, out position);
             pickedUnit.SetLocalPosition(position + offsetPosition);
         }
-        //Debug.Log("isMoving: " + isMoving);
-        //Debug.Log("canMoving: " + canMoving);
         if (isMoving)
         {
             GFGame.UtilityHelper.Log("高亮地图显示", GFGame.LogColor.RED);
-            //Debug.Log("高亮移动路径");
             UnitMoving();
         }
 
-        //TODO 丢弃BUG 
-        //if(isPickedUnit && Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject(-1) == false)
-        //{
-        //    //TODO 判断是否是地图，是地图则实例化
-        //    if(!IsInstantiation)
-        //    {
-        //        isPickedUnit = false;
-        //        pickedUnit.Hide();
-        //    }
-
-        //}
     }
-
 
     private BattleMap.BattleMapBlock mapBlockParent;
     /// <summary>
@@ -166,8 +131,6 @@ public class UnitManager : MonoBehaviour
     /// </summary>
     public void UnitMoving()
     {
-        //Debug.Log(UnitManager.Instance.CurUnit);
-        //Debug.Log(BattleMap.BattleMap.getInstance().curMapPos);
         if (BattleMap.MapNavigator._Instantce.PathSearch(UnitManager.Instance.CurUnit, BattleMap.BattleMap.getInstance().curMapPos))
         {
 
@@ -179,10 +142,8 @@ public class UnitManager : MonoBehaviour
 
             canMoving = false;
         }
-        //Debug.Log(BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y).name);
-        isMoving = false;
-        //Gameplay.GetInstance().gamePlayInput.HandleConfirm(mapBlockParent.GetCoordinate());
 
+        isMoving = false;
         //TODO 待优化
         BattleMap.MapNavigator._Instantce.RestIsInCloseListBlock();
     }

@@ -30,14 +30,15 @@ namespace GameUnit
                     float hpDivMaxHp = (float)hp / unitAttribute.MaxHp * 100;
                     var textHp = transform.GetComponentInChildren<Text>();
                     textHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
+
+                    //TODO 反击
+
                 }
                 else
                 {
                     Destroy(this.gameObject);
                     BattleMap.BattleMap.getInstance().upDateNeighbourBlock(UnitManager.Instance.EnemyCurUnit);
-
                 }
-
                 UnitManager.Instance.canAttack = false;
             }
         }

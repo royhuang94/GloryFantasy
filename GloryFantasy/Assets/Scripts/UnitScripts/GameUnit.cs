@@ -10,12 +10,15 @@ namespace GameUnit
         public NBearUnit.UnitAttribute unitAttribute;
 
         //TODO 考虑属性应该通过ScriptableObject还是通过下面方法
-        public int atk { get; set; }
-        public int hp { get; set; }
-        public string id { get; set; }
-        public int mov { get; set; }
-        public string Name { get; set; }
-        
+        public int hp { get; set; }//TODO暂时保存 后面改进
+        //public int atk { get; set; }
+        //public string id { get; set; }
+        //public int mov { get; set; }
+        //public string Name { get; set; }
+        //public string owner { get; set; }
+        //new public string[] tag { get; set; }
+        //public int rng { get; set; }
+
         //TODO:对priority进行初始化
         public List<int> priority { get; set; }
         //SPD修正值，迅击和滞击
@@ -25,13 +28,7 @@ namespace GameUnit
 
         //是否为飞行单位
         public bool fly { get; set; }
-
-        public int rng { get; set; }
-        
-        new public string[] tag { get; set; }
-        
-        public string owner { get; set; }
-        
+                                    
         public string damaged { get; set; }        // TODO: 待确定数值后进行修改
 
         /// <summary>

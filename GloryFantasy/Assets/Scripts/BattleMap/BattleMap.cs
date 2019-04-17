@@ -137,7 +137,7 @@ namespace BattleMap
         private void InitAndInstantiateMapBlocks()
         {
             // 更改地图数据位置则需修改此处路径
-            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/BattleMap/eg.json"));
+            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/BattleMap/eg1.json"));
 
             int mapDataCount = mapData.Count;
             this.columns = (int)mapData[mapDataCount - 1]["y"] + 1;
@@ -332,9 +332,8 @@ namespace BattleMap
         /// <param name="unit">GameUnit脚本类的引用</param>
         private void InitGameUnitScript(string id, string owner, Unit unit)
         {
-            unit.id = id;
-            unit.owner = owner;
-            BmuScriptsHandler.GetInstance().InitGameUnit(unit);
+            unit.unitAttribute.ID = id;
+            BmuScriptsHandler.GetInstance().InitGameUnit(unit,id);
         }
 
         //初始地图单位
@@ -342,57 +341,60 @@ namespace BattleMap
         {
             Unit newUnit;
             GameObject _object;
-            if (data["Controler - Enemy, Friendly or Self"].ToString().Equals("Self"))
-            {
-                Debug.Log("instantiateUnit");
-                //this.player = _object = Instantiate(player_assete, new Vector3(x, y, 0f), Quaternion.identity);
-                this.player = _object = Instantiate(player_assete);
-                player.transform.SetParent(_mapBlocks[x, y].transform);
-                player.transform.position = new Vector3(x, y, 0f);
+            #region //弃用
+            //if (data["Controler - Enemy, Friendly or Self"].ToString().Equals("Self"))
+            //{
+            //    Debug.Log("instantiateUnit");
+            //    //this.player = _object = Instantiate(player_assete, new Vector3(x, y, 0f), Quaternion.identity);
+            //    this.player = _object = Instantiate(player_assete);
+            //    player.transform.SetParent(_mapBlocks[x, y].transform);
+            //    player.transform.position = new Vector3(x, y, 0f);
 
-            }
-            if (data["Controler - Enemy, Friendly or Self"].ToString().Equals("Obstacle"))
-            {
-                _object = Instantiate(obstacle, _mapBlocks[x, y].transform, true);
-                _object.transform.position = new Vector3(x, y, 0f);
-            }
-            else
-            {
-                //_object =Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(x, y, 0f),Quaternion.identity);
-                _object = Instantiate(enemys[Random.Range(0, enemys.Length)], _mapBlocks[x, y].transform, true);
-                _object.transform.position = new Vector3(x, y, 0f);
-
-                //TODO 血量显示 test版本, 此后用slider显示
-                var TextHp = _object.transform.GetComponentInChildren<Text>();
-                var gameUnit = _object.GetComponent<GameUnit.GameUnit>();
-                float hp = gameUnit.unitAttribute.HP/* - Random.Range(2, 6)*/;
-                float maxHp = gameUnit.unitAttribute.MaxHp;
-                float hpDivMaxHp = hp / maxHp * 100;
-
-                TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
-                //TextHp.text = string.Format("HP: {0} / {1}", _object.GetComponent<GameUnit.GameUnit>().unitAttribute.HP.ToString(), _object.GetComponent<GameUnit.GameUnit>().unitAttribute.MaxHp.ToString());
-
-            }
+            //}
+            //if (data["Controler - Enemy, Friendly or Self"].ToString().Equals("Obstacle"))
+            //{
+            //    _object = Instantiate(obstacle, _mapBlocks[x, y].transform, true);
+            //    _object.transform.position = new Vector3(x, y, 0f);
+            //}
+            //else
+            //{
+            //_object =Instantiate(enemys[Random.Range(0, enemys.Length)], new Vector3(x, y, 0f),Quaternion.identity);
+            //_object = Instantiate(enemys[Random.Range(0, enemys.Length)], _mapBlocks[x, y].transform, true);
+            //_object.transform.position = new Vector3(x, y, 0f);
+            //}
             // 在单位上挂载unit 脚本
             //_object.AddComponent<Unit>();
-
-            // 获取该脚本对象并传入解析json函数赋值
-            newUnit = _object.GetComponent<Unit>();
-            InitGameUnitScript(data["name"].ToString(),
-                data["Controler - Enemy, Friendly or Self"].ToString(),
-                newUnit);
             /*
-            ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
-                                data["Controler - Enemy, Friendly or Self"].ToString(),
-                                (int)data["Damaged"],
-                                newUnit);*/
+ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
+                    data["Controler - Enemy, Friendly or Self"].ToString(),
+                    (int)data["Damaged"],
+                    newUnit);*/
 
             // 在单位上挂载展示数值显示脚本
             //_object.AddComponent<DisplayData>();
 
             // 不管是不是player单位都挂载展示范围脚本
             //_object.AddComponent<ShowRange>();
+            #endregion
+            _object = PoolManager.Instance.GetInst(data["name"].ToString());                
+            _object.transform.SetParent(_mapBlocks[x, y].transform);
+            _object.transform.localPosition = Vector3.zero;
 
+
+            //TODO 血量显示 test版本, 此后用slider显示
+            var TextHp = _object.transform.GetComponentInChildren<Text>();
+                var gameUnit = _object.GetComponent<GameUnit.GameUnit>();
+                float hp = gameUnit.unitAttribute.HP/* - Random.Range(2, 6)*/;
+                float maxHp = gameUnit.unitAttribute.MaxHp;
+                float hpDivMaxHp = hp / maxHp * 100;
+                TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);              
+            
+
+            // 获取该脚本对象并传入解析json函数赋值
+            newUnit = _object.GetComponent<Unit>();
+            //InitGameUnitScript(data["name"].ToString(),
+            //    data["Controler - Enemy, Friendly or Self"].ToString(),
+            //    newUnit);
             return newUnit;
         }
 
@@ -484,7 +486,7 @@ namespace BattleMap
             //return this._mapBlocks[(int)vector.x, (int)vector.y].units_on_me != null;
             if (this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0
                 && this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>() != null &&
-                this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>().owner != "Obstacle"/*units_on_me.Count != 0*/)
+                this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>().unitAttribute.uName != "Obstacle"/*units_on_me.Count != 0*/)
             {
                 return true;
             }
@@ -595,7 +597,7 @@ namespace BattleMap
             //额外的行动力
             foreach (Unit unit in units)
             {
-                unit.mov += 1;
+                unit.unitAttribute.Mov += 1;
             }
         }
 
@@ -605,7 +607,7 @@ namespace BattleMap
             //移除额外行动力
             foreach (Unit unit in units)
             {
-                unit.mov -= 1;
+                unit.unitAttribute.Mov -= 1;
             }
         }
 
@@ -663,12 +665,12 @@ namespace BattleMap
                     Unit unit = _mapBlocks[x, y].GetComponentInChildren<Unit>();
                     if (unit != null)
                     {
-                        if (unit.owner.Equals("Enemy"))
+                        if (unit.unitAttribute.uName == "黑影战士")
                         {
                             Debug.Log("This WarZone has Enemy,you can`t summon");
                             return false;
                         }
-                        if (unit.owner.Equals("Self"))
+                        else
                         {
                             unit = _mapBlocks[x, y].GetComponentInChildren<Unit>();
                             units.Add(unit);

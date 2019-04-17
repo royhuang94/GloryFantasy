@@ -35,17 +35,17 @@ public class MapBlockRetard : BattleMapBlock
             if (transform.GetComponentInChildren<Unit>() != null)
             {
                 unit = transform.GetComponentInChildren<Unit>();
-                tempMov = unit.mov;
-                Debug.Log(unit.mov);
+                tempMov = unit.unitAttribute.Mov;
+                Debug.Log(unit.unitAttribute.Mov);
                 Retard(unit);
-                Debug.Log(unit.mov);
+                Debug.Log(unit.unitAttribute.Mov);
             }
         }
         else
         {
             hasUnit = false;
             hasRetard = false;
-            unit.mov = tempMov;
+            unit.unitAttribute.Mov = tempMov;
         }
     }
 
@@ -54,7 +54,7 @@ public class MapBlockRetard : BattleMapBlock
     {
         if (hasUnit == true)
         {
-            unit.mov = 0;
+            unit.unitAttribute.Mov = 0;
             hasRetard = true;
         }
     }

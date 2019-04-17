@@ -48,7 +48,7 @@ public class ShowRange : MonoBehaviour
     public void MarkAttackRange(Vector2 target)
     {
         BattleMap.BattleMap.getInstance().ColorMapBlocks(
-            GetPositionsWithinCertainMd(target, 1), Color.red);
+            GetPositionsWithinCertainMd(target, unit.unitAttribute.atk), Color.red);
     }
 
     public void CancleMoveRangeMark(Vector2 target)
