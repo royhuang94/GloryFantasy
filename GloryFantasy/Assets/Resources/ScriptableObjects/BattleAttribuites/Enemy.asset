@@ -17,7 +17,7 @@ MonoBehaviour:
   Effort: 
   uName: "\u9ED1\u5F71\u6218\u58EB"
   HasCD: 1
-  HP: 8
+  HP: 3
   MaxHp: 3
   Prt: 2
   Mov: 3

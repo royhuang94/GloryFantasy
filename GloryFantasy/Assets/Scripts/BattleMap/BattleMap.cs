@@ -261,10 +261,6 @@ namespace BattleMap
             }
 
             #region 得到每块地图块周围的地图块
-
-            BattleMapBlock[] neighbourBlock = new BattleMapBlock[4];
-
-
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
