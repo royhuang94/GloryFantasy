@@ -11,6 +11,12 @@ namespace Ability
         Trigger trigger;
         bool isActive = false;
 
+        private void Awake()
+        {
+            //导入FirstStrike异能的参数
+            InitialAbility("FirstStrike");
+        }
+
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者

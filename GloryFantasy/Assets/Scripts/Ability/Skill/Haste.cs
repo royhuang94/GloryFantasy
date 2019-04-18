@@ -10,6 +10,12 @@ namespace Ability
     {
         Trigger trigger;
 
+        private void Awake()
+        {
+            //导入Haste异能的参数
+            InitialAbility("Haste");
+        }
+
         private void Start()
         {
             trigger = new THaste(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());

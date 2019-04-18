@@ -10,6 +10,12 @@ namespace Ability
     {
         Trigger trigger;
 
+        private void Awake()
+        {
+            //导入Regeneration异能的参数
+            InitialAbility("Regeneration");
+        }
+
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者

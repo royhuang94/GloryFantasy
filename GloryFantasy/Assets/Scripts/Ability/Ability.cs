@@ -173,7 +173,19 @@ namespace Ability
             AbilityTargetList = new List<AbilityTarget>();
         }
 
-        void InitialAbility(string AbilityID)
+        /// <summary>
+        /// 从异能数据库加载对应异能的参数
+        /// </summary>
+        /// <param name="AbilityID">要加载的异能的ID</param>
+        protected void GetAbilityFactors(string AbilityID)
+        {
+            InitialAbility(AbilityID);
+        }
+        /// <summary>
+        /// 从异能数据库加载对应异能的参数
+        /// </summary>
+        /// <param name="AbilityID">要加载的异能的ID</param>
+        protected void InitialAbility(string AbilityID)
         {
             AbilityFormat abilityFormat = AbilityDatabase.GetInstance().GetAbilityFormat(AbilityID);
 

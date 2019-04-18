@@ -10,6 +10,12 @@ namespace Ability
     {
         Trigger trigger;
 
+        private void Awake()
+        {
+            //导入Fly异能的参数
+            InitialAbility("Fly");
+        }
+
         private void Start()
         {
             //让这个技能的单位获得飞行

@@ -12,6 +12,12 @@ namespace Ability
         Trigger trigger;
         public int armor = 1;
 
+        private void Awake()
+        {
+            //导入Armor异能的参数
+            InitialAbility("Armor");
+        }
+
         private void Start()
         {
             //获得这个技能的持有者，并修改其护甲恢复值
