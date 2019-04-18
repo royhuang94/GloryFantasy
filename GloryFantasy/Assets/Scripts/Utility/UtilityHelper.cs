@@ -179,6 +179,7 @@ namespace GFGame
             return oldName.Replace("(Clone)", "");
         }
 
+
         //返回是否设置成功
         public static bool SetClass<T>(ref T cls, object value)
             where T : Object

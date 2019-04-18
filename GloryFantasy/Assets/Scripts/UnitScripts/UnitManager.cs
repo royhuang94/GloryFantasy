@@ -12,7 +12,8 @@ public class UnitManager:
 {
     #region 拖拽Unit
     private bool isPickedUnit = false;
-    private NBearUnit.UnitUI pickedUnit; //被鼠标选中的物体 
+    private NBearUnit.UnitUI pickedUnit; //被鼠标选中的unit 
+    private NBearUnit.UnitUI pickedOrder;//被鼠标选中的效果牌
     private Vector2 offsetPosition = new Vector2(-6.0f, -6.0f);
 
     public NBearUnit.UnitUI PickedUnit
@@ -20,6 +21,13 @@ public class UnitManager:
         get
         {
             return pickedUnit; //pickedUnit永远不会为空，因为是从prefab中复制出去的
+        }
+    }
+    public NBearUnit.UnitUI PickedOrder
+    {
+        get
+        {
+            return pickedOrder; //pickedUnit永远不会为空，因为是从prefab中复制出去的
         }
     }
     public bool IsPickedUnit
@@ -101,8 +109,15 @@ public class UnitManager:
         TargetList = new List<Vector2>();
         mapBlockParent = GetComponentInParent<BattleMap.BattleMapBlock>();
         canvas = GameObject.Find("UnitUI").GetComponent<Canvas>();
+
+        //处理单位抓取的
         pickedUnit = GameObject.Find("PickedUnit").GetComponent<NBearUnit.UnitUI>();
         pickedUnit.Hide();
+
+        //TODO 未来处理效果牌的抓取
+        pickedOrder = GameObject.Find("PickedOrder").GetComponent<NBearUnit.UnitUI>();
+        pickedOrder.Hide();
+
         IsInstantiation = false;
         IsClicked = false;
     }
@@ -154,8 +169,20 @@ public class UnitManager:
     /// <param name="unitUI">目标拾起的单位，用于传递信息</param>
     public void PickedUpUnit(NBearUnit.UnitUI unitUI)
     {
-        //TODO “拾起” 单位
-        pickedUnit.SetUnit();
+        var curGOUnit = unitUI.gameObject;
+        pickedUnit.name = GFGame.UtilityHelper.RemoveNameClone(unitUI.name);
+        GameUnit.UnitCard unitCard = curGOUnit.GetComponent<GameUnit.UnitCard>();
+        if(unitCard != null)
+        {
+            //TODO 此处为单位，所以我们需要添加
+            //UnitCard，并更新id值
+            //HeroUnit，复制为resources文件下，对应名字的attribute
+
+
+            //Debug.Break();
+
+            pickedUnit.SetUnit(GFGame.UtilityHelper.RemoveNameClone(curGOUnit.name), unitCard);
+        }
         isPickedUnit = true;
         pickedUnit.Show();
     }

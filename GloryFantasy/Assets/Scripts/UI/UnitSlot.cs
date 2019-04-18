@@ -26,7 +26,7 @@ namespace NBearUnit
             itemGameObject.transform.localPosition = new Vector3(-28.125f, -28.125f, 0.0f);
             BattleMap.BattleMap.getInstance().IsColor = false;
 
-            itemGameObject.GetComponent<UnitUI>().SetUnit(/*unit*/);
+            itemGameObject.GetComponent<UnitUI>().SetUnit();
             Debug.Log("StoreItem");
             
         }

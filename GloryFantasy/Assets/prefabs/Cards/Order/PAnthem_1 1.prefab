@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114505419562500720}
   - component: {fileID: 114988206388879434}
   - component: {fileID: 114184305444613156}
-  - component: {fileID: 114705591151124422}
   - component: {fileID: 114174364873702194}
   m_Layer: 5
   m_Name: PAnthem_1 1
@@ -96,19 +95,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114705591151124422
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475326142095022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
-  mapBlockBelow: {fileID: 0}
 --- !u!114 &114988206388879434
 MonoBehaviour:
   m_ObjectHideFlags: 1

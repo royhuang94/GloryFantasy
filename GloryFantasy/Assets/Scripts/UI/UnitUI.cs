@@ -52,12 +52,30 @@ namespace NBearUnit
         /// <summary>
         /// 设置Unit
         /// </summary>
+        public void SetUnit(string heroUnitName, GameUnit.UnitCard unitCard)
+        {
+            GetComponent<GameUnit.HeroUnit>().unitAttribute = Resources.Load<NBearUnit.UnitAttribute>("ScriptableObjects/BattleAttribuites/" + heroUnitName);
+
+            //添加脚本
+            var curUnitCar = gameObject.AddComponent<GameUnit.UnitCard>();
+            curUnitCar.id = unitCard.id;
+
+            //TODO 获取当前Unit信息与image
+            //当前为测试代码。。我这边根据resources函数处理的
+            ItemImage.sprite = Resources.Load<Sprite>("test");
+
+        }
+        public void SetOrderCard()
+        {
+            //TODO 获取当前Unit信息与image
+            //当前为测试代码。。我这边根据resources函数处理的
+            ItemImage.sprite = Resources.Load<Sprite>("test");
+        }
         public void SetUnit()
         {
             //TODO 获取当前Unit信息与image
             //当前为测试代码。。我这边根据resources函数处理的
             ItemImage.sprite = Resources.Load<Sprite>("test");
-
         }
 
         public void OnPointerDown(PointerEventData eventData)

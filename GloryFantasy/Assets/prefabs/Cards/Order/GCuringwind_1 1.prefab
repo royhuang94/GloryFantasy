@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114292232208213476}
   - component: {fileID: 114615175158671918}
   - component: {fileID: 114915262093539018}
-  - component: {fileID: 114342201017719362}
   - component: {fileID: 114326534081668852}
   m_Layer: 5
   m_Name: GCuringwind_1 1
@@ -85,19 +84,6 @@ MonoBehaviour:
   id: GCuringwind_1
   buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
     type: 2}
---- !u!114 &114342201017719362
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1959808525209992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
-  mapBlockBelow: {fileID: 0}
 --- !u!114 &114615175158671918
 MonoBehaviour:
   m_ObjectHideFlags: 1
