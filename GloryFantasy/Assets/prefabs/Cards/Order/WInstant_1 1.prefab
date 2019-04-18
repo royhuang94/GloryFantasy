@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114527378072224066}
   - component: {fileID: 114016696829699716}
   - component: {fileID: 114787640108008424}
-  - component: {fileID: 114297404833466386}
   - component: {fileID: 114575946825125358}
   m_Layer: 5
   m_Name: WInstant_1 1
@@ -74,19 +73,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114297404833466386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1901114404064700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
-  mapBlockBelow: {fileID: 0}
 --- !u!114 &114483291741394206
 MonoBehaviour:
   m_ObjectHideFlags: 1

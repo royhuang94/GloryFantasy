@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114342792492128936}
   - component: {fileID: 114718360514800846}
   - component: {fileID: 114283491702621162}
-  - component: {fileID: 114857264869749646}
   - component: {fileID: 114475389720063438}
   m_Layer: 5
   m_Name: REncourage_1 1
@@ -110,19 +109,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114857264869749646
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1427357202967694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
-  mapBlockBelow: {fileID: 0}
 --- !u!114 &114939603865413822
 MonoBehaviour:
   m_ObjectHideFlags: 1

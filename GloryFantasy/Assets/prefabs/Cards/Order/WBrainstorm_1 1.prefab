@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114579296551561774}
   - component: {fileID: 114924292423252728}
   - component: {fileID: 114059911271491780}
-  - component: {fileID: 114167372967764886}
   - component: {fileID: 114651780755564086}
   m_Layer: 5
   m_Name: WBrainstorm_1 1
@@ -44,19 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114167372967764886
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1853849783707612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
-  mapBlockBelow: {fileID: 0}
 --- !u!114 &114579296551561774
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -18,7 +18,7 @@ namespace GameUnit
         
         public int cardsUpperLimit { get; set; }                    // 手牌数量上限
         public int extractCardsUpperLimit { get; set; }            // 抽牌数量上限
-        public List<GameObject> cardsInstancesInHand { get; set; }// 存储手牌列表，玩家实际持有的牌的预制件在这里面
+        public List<GameObject> cardsInHand { get; set; }// 存储手牌列表，玩家实际持有的牌的预制件在这里面
         public List<GameObject> cardsSets { get; set; }            // 牌组堆，待抽取的卡牌组
         public List<GameObject> cooldownCards { get; set; }        // 临时存储冷却状态中卡牌
         public bool cancelCheck { get; set; }                      // 是否取消抽卡检查，在本行注释存在的情况下请不要修改值
@@ -53,7 +53,7 @@ namespace GameUnit
 
         private void Init()
         {
-            cardsInstancesInHand = new List<GameObject>();
+            cardsInHand = new List<GameObject>();
             cardsSets = new List<GameObject>();
             cooldownCards = new List<GameObject>();
 
@@ -128,7 +128,7 @@ namespace GameUnit
         public void ExtractCards()
         {
             // 若手牌数量大于或等于手牌上限，直接返回（取消检查的话则此判定永false）
-            if (cardsInstancesInHand.Count >= cardsUpperLimit && !cancelCheck)
+            if (cardsInHand.Count >= cardsUpperLimit && !cancelCheck)
             {
                 return;
             }
@@ -136,9 +136,9 @@ namespace GameUnit
             // 计算应该抽取的卡牌数，计算规则：不检查=抽三张， 检查=不超出手牌数量上限的，最多三张牌
             int extractAmount = this.cancelCheck
                     ? this.extractCardsUpperLimit
-                    : (this.cardsUpperLimit - this.cardsInstancesInHand.Count > extractCardsUpperLimit
+                    : (this.cardsUpperLimit - this.cardsInHand.Count > extractCardsUpperLimit
                         ? extractCardsUpperLimit
-                        : this.cardsUpperLimit - this.cardsInstancesInHand.Count);
+                        : this.cardsUpperLimit - this.cardsInHand.Count);
             
             // 如果剩余牌量不足，有多少抽多少（几乎不可能）
             if (extractAmount > this.cardsSets.Count)
@@ -155,10 +155,10 @@ namespace GameUnit
                 this.cardsSets.RemoveAt(extractPos);
                 
                 // 将卡牌预制件放入栏位中
-                _unitSlots[cardsInstancesInHand.Count].InsertItem(cardPrefab);
+                _unitSlots[cardsInHand.Count].InsertItem(cardPrefab);
                 
                 // 更新手牌list
-                this.cardsInstancesInHand.Add(cardPrefab);
+                this.cardsInHand.Add(cardPrefab);
             }
         }
 
@@ -169,7 +169,7 @@ namespace GameUnit
         public void RemoveCard(GameObject cardPrefab)
         {
             // 从手牌列表中移除预制
-            this.cardsInstancesInHand.Remove(cardPrefab);
+            this.cardsInHand.Remove(cardPrefab);
             
             // 将其加入冷却列表进行冷却
             this.CooldownCard(cardPrefab);
@@ -202,7 +202,7 @@ namespace GameUnit
         {
             int i = 0;
             // 先遍历前手牌数量个槽位
-            for (; i < cardsInstancesInHand.Count; i++)
+            for (; i < cardsInHand.Count; i++)
             {
                 // 若存在空栏
                 if (_unitSlots[i].IsEmpty())
@@ -213,18 +213,18 @@ namespace GameUnit
             }
             
             // 如果i比手牌数量小，则一定存在空闲卡牌位
-            if(i < cardsInstancesInHand.Count)
+            if(i < cardsInHand.Count)
             {
                 // 将所有卡牌位清空
-                foreach (UnitSlot slot in _unitSlots)
+                for (int j = 0; j < _unitSlots.Length; j++)
                 {
-                    slot.RemoveItem();
+                    _unitSlots[j].RemoveItem(true);
                 }
 
                 // 再按手牌数量放入卡牌
-                for (i = 0; i < cardsInstancesInHand.Count; i++)
+                for (i = 0; i < cardsInHand.Count; i++)
                 {
-                    _unitSlots[i].InsertItem(cardsInstancesInHand[i]);
+                    _unitSlots[i].InsertItem(cardsInHand[i]);
                 }
             }
         }

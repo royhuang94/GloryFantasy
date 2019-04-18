@@ -22,12 +22,11 @@ namespace NBearUnit
         /// <param name="unit"></param>
         public void StoreItem(UnitUI unit)
         {
-            GameObject itemGameObject = Instantiate(_cardPrefab) as GameObject;
-            itemGameObject.transform.SetParent(transform);
+            GameObject itemGameObject = Instantiate(_cardPrefab, transform, true) as GameObject;
             itemGameObject.transform.localPosition = new Vector3(-28.125f, -28.125f, 0.0f);
             BattleMap.BattleMap.getInstance().IsColor = false;
 
-            itemGameObject.GetComponent<UnitUI>().SetUnit(/*unit*/);
+            itemGameObject.GetComponent<UnitUI>().SetUnit();
             Debug.Log("StoreItem");
             
         }
@@ -46,21 +45,21 @@ namespace NBearUnit
         /// <summary>
         /// 移除当前slot中的卡牌,并通知CardManager手牌栏位发生变化
         /// </summary>
-        public void RemoveItem()
+        /// <param name="notNotify">默认为false，请勿修改</param>
+        public void RemoveItem(bool notNotify = false)
         {
             // 如果有Button存在，则销毁按钮
             Destroy(_gameObject);
             
             // 销毁卡牌实例
             Destroy(_cardInstance);
+            _cardInstance = null;
             
-            // 向CardManager发送通知
-            CardManager.GetInstance().RemoveCard(_cardPrefab);
+            if(!notNotify)
+                // 向CardManager发送通知
+                CardManager.GetInstance().RemoveCard(_cardPrefab);
             
             this._cardPrefab = null;
-
-            // 最后销毁实例
-            Destroy(gameObject.GetComponentInChildren<UnitUI>().gameObject);
         }
 
         /// <summary>
@@ -166,12 +165,12 @@ namespace NBearUnit
             if (transform.childCount > 0)
             {
                 // 若点击的卡牌类型为效果牌
-              if (gameObject.GetComponentInChildren<BaseCard>() is OrderCard)
+              if (_cardInstance.GetComponent<BaseCard>() is OrderCard)
                 {
                     // 检测当前使用按钮的展示状态，若没有展示
                     if (!_alreadyShowButton)
                     {
-                        OrderCard cardPreference = gameObject.GetComponent<OrderCard>();
+                        OrderCard cardPreference = _cardInstance.GetComponent<OrderCard>();
                         
                         // 实例化按钮预制件
                         _gameObject = Instantiate(cardPreference.buttonPrefab,

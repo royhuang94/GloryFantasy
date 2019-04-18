@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114233605761325712}
   - component: {fileID: 114625369125671550}
   - component: {fileID: 114187879640778072}
-  - component: {fileID: 114080947959214578}
   - component: {fileID: 114610821229539422}
   m_Layer: 5
   m_Name: WMist_1 1
@@ -33,19 +32,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114080947959214578
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1160707325651242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
-  mapBlockBelow: {fileID: 0}
 --- !u!114 &114187879640778072
 MonoBehaviour:
   m_ObjectHideFlags: 1
