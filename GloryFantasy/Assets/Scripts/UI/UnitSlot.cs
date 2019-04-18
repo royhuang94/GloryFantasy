@@ -4,6 +4,7 @@ using GameUnit;
 using LitJson;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace NBearUnit
 {
@@ -12,7 +13,8 @@ namespace NBearUnit
         public GameObject unitPrefab;
 
         private bool canShowMsg = false;
-        
+        private bool alreadyShowButton = false;
+        private GameObject _gameObject;
         
         /// <summary>
         /// 存储Unit到slot下
@@ -27,6 +29,14 @@ namespace NBearUnit
 
             itemGameObject.GetComponent<UnitUI>().SetUnit(/*unit*/); //设置Item
             Debug.Log("StoreItem");
+        }
+
+        /// <summary>
+        /// 移除当前slot中的卡牌
+        /// </summary>
+        public void RemoveItem()
+        {
+            Destroy(gameObject.GetComponentInChildren<UnitUI>().gameObject);
         }
 
 
@@ -124,18 +134,70 @@ namespace NBearUnit
             //Debug.Log("鼠标左键");
             if (transform.childCount > 0)
             {
-                //TODO 自身不为空
-                //获取当前自身slot下的Unit
-                UnitUI currentItemUI = transform.GetChild(0).GetComponent<UnitUI>();
-                if (UnitManager.Instance.IsPickedUnit == false)
+                // 若点击的卡牌类型为效果牌
+              if (gameObject.GetComponentInChildren<BaseCard>() is OrderCard)
                 {
-                    UnitManager.Instance.PickedUpUnit(currentItemUI); //调用此函数用于鼠标"捡起"当前slot下的unit
-                    BattleMap.BattleMap.getInstance().IsColor = true;
-                    Destroy(currentItemUI.gameObject); //摧毁slot下已经被鼠标"捡起"的unit
+                    // 检测当前使用按钮的展示状态，若没有展示
+                    if (!alreadyShowButton)
+                    {
+                        OrderCard cardPreference = gameObject.GetComponent<OrderCard>();
+                        
+                        // 实例化按钮预制件
+                        _gameObject = Instantiate(cardPreference.buttonPrefab,
+                            GameObject.Find("OrderCardCanvas").transform, true);
+                        
+                        // 设定按钮位置
+                        Button btn = _gameObject.GetComponentInChildren<Button>();
+                        var position = gameObject.transform.position;
+                        btn.transform.position = new Vector3(position.x,
+                            position.y + 40, position.z);
+                        
+                        // 动态添加按钮响应函数
+                        btn.onClick.AddListener(delegate
+                        {
+                            // 调用效果牌中的使用函数
+                            bool useSucceed = cardPreference.Use();
+
+                            // 若成功使用
+                            if (useSucceed)
+                            {
+                                // 从slot中移除当前卡牌
+                                RemoveItem();
+                                
+                                // TODO : 通知CardsManager从手牌堆移除记录
+                            }
+                            
+                            // 不论成功使用与否，都销毁按钮
+                            Destroy(_gameObject);
+                        });
+                    }
+                    else
+                    {
+                        // 若未点击使用按钮，则此动作未取消使用卡牌，销毁按钮
+                        Destroy(_gameObject);
+                    } 
+                    
+                    alreadyShowButton = !alreadyShowButton;
+
                 }
                 else
                 {
-                    //TODO 自身不为空， 当前slot下的unit.id != pickedUnit.id， pickedUnit与当前物品交换
+                    //TODO 自身不为空
+                    //获取当前自身slot下的Unit
+                    UnitUI currentItemUI = transform.GetChild(0).GetComponent<UnitUI>();
+                    if (UnitManager.Instance.IsPickedUnit == false)
+                    {
+                        UnitManager.Instance.PickedUpUnit(currentItemUI); //调用此函数用于鼠标"捡起"当前slot下的unit
+                        BattleMap.BattleMap.getInstance().IsColor = true;
+                        //Destroy(currentItemUI.gameObject); //摧毁slot下已经被鼠标"捡起"的unit
+                        
+                        // TODO : 通知CardsManager从手牌中移除记录
+                        RemoveItem();
+                    }
+                    else
+                    {
+                        //TODO 自身不为空， 当前slot下的unit.id != pickedUnit.id， pickedUnit与当前物品交换
+                    }
                 }
 
             }
@@ -146,7 +208,6 @@ namespace NBearUnit
                 {
                     StoreItem(UnitManager.Instance.PickedUnit);
                     UnitManager.Instance.RemoveAllItem();
-
                 }
 
             }

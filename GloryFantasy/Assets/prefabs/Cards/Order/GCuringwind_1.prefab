@@ -205,6 +205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: GCuringwind_1
+  buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
+    type: 2}
 --- !u!222 &222336505011811772
 CanvasRenderer:
   m_ObjectHideFlags: 1

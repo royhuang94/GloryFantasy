@@ -155,6 +155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: RThrow_1
+  buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
+    type: 2}
 --- !u!114 &114487131678987190
 MonoBehaviour:
   m_ObjectHideFlags: 1
