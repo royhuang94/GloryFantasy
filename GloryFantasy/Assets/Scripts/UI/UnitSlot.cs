@@ -39,7 +39,7 @@ namespace NBearUnit
         public void InsertItem(GameObject cardPrefab)
         {
             _cardInstance = Instantiate(cardPrefab, gameObject.transform, true);
-            _cardInstance.transform.position = gameObject.transform.position;
+            _cardInstance.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
             this._cardPrefab = cardPrefab;
         }
 
