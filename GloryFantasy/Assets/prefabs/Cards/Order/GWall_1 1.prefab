@@ -9,47 +9,61 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1432519570606192}
+  m_RootGameObject: {fileID: 1311245823066862}
   m_IsPrefabAsset: 1
---- !u!1 &1432519570606192
+--- !u!1 &1311245823066862
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 224869538846207688}
-  - component: {fileID: 222481673388503914}
-  - component: {fileID: 114309439780551232}
-  - component: {fileID: 114217245688038322}
-  - component: {fileID: 114756756995600352}
-  - component: {fileID: 114978169110480176}
-  - component: {fileID: 114903012301756066}
-  - component: {fileID: 114693432148763518}
+  - component: {fileID: 224046762020510794}
+  - component: {fileID: 222121243472133516}
+  - component: {fileID: 114122532362480156}
+  - component: {fileID: 114569461603597014}
+  - component: {fileID: 114417179660904960}
+  - component: {fileID: 114114149694865456}
+  - component: {fileID: 114671887790090976}
+  - component: {fileID: 114094281232541830}
   m_Layer: 5
-  m_Name: GWoodfolk_1
+  m_Name: GWall_1 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114217245688038322
+--- !u!114 &114094281232541830
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432519570606192}
+  m_GameObject: {fileID: 1311245823066862}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
+  m_Script: {fileID: 11500000, guid: c41ab96137a04835b639b4a45c32a030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114309439780551232
+  id: GWall_1
+  buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
+    type: 2}
+--- !u!114 &114114149694865456
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432519570606192}
+  m_GameObject: {fileID: 1311245823066862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114122532362480156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1311245823066862}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -71,24 +85,12 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114693432148763518
+--- !u!114 &114417179660904960
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432519570606192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e801334048304f818f0228c2ad458397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: GWoodfolk_1
---- !u!114 &114756756995600352
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432519570606192}
+  m_GameObject: {fileID: 1311245823066862}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -118,18 +120,29 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 114309439780551232}
+  m_TargetGraphic: {fileID: 114122532362480156}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114903012301756066
+--- !u!114 &114569461603597014
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432519570606192}
+  m_GameObject: {fileID: 1311245823066862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114671887790090976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1311245823066862}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
@@ -137,30 +150,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
   mapBlockBelow: {fileID: 0}
---- !u!114 &114978169110480176
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432519570606192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!222 &222481673388503914
+--- !u!222 &222121243472133516
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432519570606192}
+  m_GameObject: {fileID: 1311245823066862}
   m_CullTransparentMesh: 0
---- !u!224 &224869538846207688
+--- !u!224 &224046762020510794
 RectTransform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432519570606192}
+  m_GameObject: {fileID: 1311245823066862}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
