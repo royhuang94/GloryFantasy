@@ -92,6 +92,13 @@ namespace Ability
                 abilityVariable.Draws = (int)jsonData["Draws"];
             if (jsonData["Turns"].ToString() != "")
                 abilityVariable.Turns = (int)jsonData["Turns"];
+            if (jsonData["Area"].ToString() != "")
+            {
+                string[] area = jsonData["Area"].ToString().Split('*');
+                abilityVariable.Area = new Vector2(int.Parse(area[0]), int.Parse(area[1]));
+            }
+            if (jsonData["Curing"].ToString() != "")
+                abilityVariable.Curing = (int)jsonData["Curing"];
         }
 
         /// <summary>

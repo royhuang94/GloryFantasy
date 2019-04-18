@@ -25,6 +25,7 @@ public class GameplayInput
     //}
 
     //移动范围染色
+
     public void HandleMovConfirm(Vector2 target)
     {
         BattleMap.BattleMap map = BattleMap.BattleMap.getInstance();
@@ -60,6 +61,7 @@ public class GameplayInput
         unit.GetComponent<ShowRange>().CancleAttackRangeMark();
         TargetList.Clear();
     }
+
     //public void HandleConfirm(Vector2 target)
     //{
     //    BattleMap.BattleMap map = BattleMap.BattleMap.getInstance();

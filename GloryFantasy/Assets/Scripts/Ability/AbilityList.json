@@ -15,8 +15,8 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -34,8 +34,8 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -53,8 +53,8 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -72,8 +72,8 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -91,8 +91,8 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 3,
@@ -105,13 +105,13 @@
     "TargetType": "友军",
     "IsSpeller": 1,
     "IsTarget": 0,
-    "Range": "Range = 4",
-    "Damage": "Damage = 2",
+    "Range": "4",
+    "Damage": "2",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 0.0,
@@ -124,13 +124,13 @@
     "TargetType": "敌人",
     "IsSpeller": 0,
     "IsTarget": 1,
-    "Range": "Range = 4",
-    "Damage": "Damage = 2",
+    "Range": "4",
+    "Damage": "2",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 0.0,
@@ -143,13 +143,13 @@
     "TargetType": "地形",
     "IsSpeller": 0,
     "IsTarget": 1,
-    "Range": "Range = 4",
-    "Damage": "Damage = 2",
+    "Range": "4",
+    "Damage": "2",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -167,15 +167,15 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
     "AbilityID": "Armor",
-    "Group": 8,
-    "AbilityName": "护甲",
-    "Description": "此单位具有一个{Amount}点的护甲，每点护甲可以抵挡一点伤害。你的回合开始时恢复。",
+    "Group": 7,
+    "AbilityName": "护甲1",
+    "Description": "此单位具有一个{Amount = 1}点的护甲，每点护甲可以抵挡一点伤害。你的回合开始时恢复。",
     "TriggerID": "TArmor",
     "TargetCount": 0,
     "TargetType": 0,
@@ -183,11 +183,30 @@
     "IsTarget": 0,
     "Range": "",
     "Damage": "",
-    "Amount": "Amount",
+    "Amount": "1",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
+  },
+  {
+    "Line": 1,
+    "AbilityID": "Armor",
+    "Group": 8,
+    "AbilityName": "护甲2",
+    "Description": "此单位具有一个{Amount = 2}点的护甲，每点护甲可以抵挡一点伤害。你的回合开始时恢复。",
+    "TriggerID": "TArmor",
+    "TargetCount": 0,
+    "TargetType": 0,
+    "IsSpeller": 0,
+    "IsTarget": 0,
+    "Range": "",
+    "Damage": "",
+    "Amount": "2",
+    "Draws": "",
+    "Turns": "",
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -205,15 +224,15 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
     "AbilityID": "Wit",
     "Group": 10,
     "AbilityName": "聪慧",
-    "Description": "此单位使用的指令牌CD减{Amount}（最小为1）。",
+    "Description": "此单位使用的指令牌CD减{Amount = 1}（最小为1）。",
     "TriggerID": "TWit",
     "TargetCount": 0,
     "TargetType": 0,
@@ -221,49 +240,49 @@
     "IsTarget": 0,
     "Range": "",
     "Damage": "",
-    "Amount": "Amount",
+    "Amount": "1",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
     "AbilityID": "Restore",
     "Group": 11,
     "AbilityName": "治疗",
-    "Description": "此单位部署时，为目标{Range}以内的友方单位恢复{Curing}点生命。",
+    "Description": "此单位部署时，为目标{Range = 4}以内的友方单位恢复{Curing = 5}点生命。",
     "TriggerID": "TRestore",
     "TargetCount": 1,
     "TargetType": "友军",
     "IsSpeller": 0,
     "IsTarget": 1,
-    "Range": "Range",
+    "Range": "4",
     "Damage": "",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": "Curing"
+    "Area": "",
+    "Curing": "5"
   },
   {
     "Line": 1,
     "AbilityID": "SelfBlasting",
     "Group": 12,
     "AbilityName": "自身爆发",
-    "Description": "你的回合结束时，此单位烧灼其周围{Area = “3*3”}的地格，并对其上的单位造成{Damage}点伤害。",
+    "Description": "你的回合结束时，此单位烧灼其周围{Area = 3*3}的地格，并对其上的单位造成{Damage = 2}点伤害。",
     "TriggerID": "TSelfBlasting",
     "TargetCount": 0,
     "TargetType": 0,
     "IsSpeller": 0,
     "IsTarget": 0,
     "Range": "",
-    "Damage": "Damage",
+    "Damage": "2",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "Area = “3*3”",
-    "Column16": ""
+    "Area": "3*3",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -279,10 +298,10 @@
     "Range": "",
     "Damage": "",
     "Amount": "",
-    "Draws": "Draws = 2",
+    "Draws": "2",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -299,9 +318,9 @@
     "Damage": "",
     "Amount": "",
     "Draws": "",
-    "Turns": "Turns = 2",
-    "Column15": "",
-    "Column16": ""
+    "Turns": "2",
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -319,8 +338,8 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -337,9 +356,9 @@
     "Damage": "",
     "Amount": "",
     "Draws": "",
-    "Turns": "Turns = 2",
-    "Column15": "",
-    "Column16": ""
+    "Turns": "2",
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 4,
@@ -352,13 +371,13 @@
     "TargetType": "友军",
     "IsSpeller": 1,
     "IsTarget": 0,
-    "Range": "Range = 4",
+    "Range": "4",
     "Damage": "",
     "Amount": "",
     "Draws": "",
-    "Turns": "Turns  =  2",
-    "Column15": "",
-    "Column16": ""
+    "Turns": " 2",
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 0.0,
@@ -371,13 +390,13 @@
     "TargetType": "地形",
     "IsSpeller": 0,
     "IsTarget": 1,
-    "Range": "Range = 4",
+    "Range": "4",
     "Damage": "",
     "Amount": "",
     "Draws": "",
-    "Turns": "Turns  =  2",
-    "Column15": "",
-    "Column16": ""
+    "Turns": " 2",
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 0.0,
@@ -390,13 +409,13 @@
     "TargetType": "地形",
     "IsSpeller": 0,
     "IsTarget": 1,
-    "Range": "Range = 4",
+    "Range": "4",
     "Damage": "",
     "Amount": "",
     "Draws": "",
-    "Turns": "Turns  =  2",
-    "Column15": "",
-    "Column16": ""
+    "Turns": " 2",
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 0.0,
@@ -409,13 +428,13 @@
     "TargetType": "地形",
     "IsSpeller": 0,
     "IsTarget": 1,
-    "Range": "Range = 4",
+    "Range": "4",
     "Damage": "",
     "Amount": "",
     "Draws": "",
-    "Turns": "Turns  =  2",
-    "Column15": "",
-    "Column16": ""
+    "Turns": " 2",
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 2,
@@ -428,13 +447,13 @@
     "TargetType": "友军",
     "IsSpeller": 1,
     "IsTarget": 0,
-    "Range": "Range = 4",
+    "Range": "4",
     "Damage": "",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 0.0,
@@ -447,13 +466,13 @@
     "TargetType": "地形",
     "IsSpeller": 0,
     "IsTarget": 1,
-    "Range": "Range = 4",
+    "Range": "4",
     "Damage": "",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -471,8 +490,8 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": "Curing = 5"
+    "Area": "",
+    "Curing": "5"
   },
   {
     "Line": 2,
@@ -490,8 +509,8 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 0.0,
@@ -509,8 +528,8 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -527,9 +546,9 @@
     "Damage": "",
     "Amount": "",
     "Draws": "",
-    "Turns": "Turns = 2",
-    "Column15": "",
-    "Column16": ""
+    "Turns": "2",
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -543,31 +562,31 @@
     "IsSpeller": 0,
     "IsTarget": 1,
     "Range": "",
-    "Damage": "Damage = 5",
+    "Damage": "5",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
     "AbilityID": "Arrowrain",
     "Group": 23,
     "AbilityName": "箭雨",
-    "Description": "要求携带者：弓兵。使用者：携带者。消耗一次攻击。选择{Range = 4}以内的格子。使用者对其及周围{Area = \"3*3\"}格内的单位造成{Damage = 4}点伤害。",
+    "Description": "要求携带者：弓兵。使用者：携带者。消耗一次攻击。选择{Range = 4}以内的格子。使用者对其及周围{Area = 3*3}格内的单位造成{Damage = 4}点伤害。",
     "TriggerID": "TArrowrain",
     "TargetCount": 1,
     "TargetType": "地形",
     "IsSpeller": 0,
     "IsTarget": 1,
-    "Range": "Range = 4",
-    "Damage": "Damage = 4",
+    "Range": "4",
+    "Damage": "4",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "Area = \"3*3\"",
-    "Column16": ""
+    "Area": "3*3",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -585,27 +604,27 @@
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
     "AbilityID": "Shadow_Bolt",
     "Group": 25,
     "AbilityName": "暗影电击",
-    "Description": "不进行主动攻击。作为替代，其会对{Range}格内一个敌方单位造成{Damage}点伤害。",
+    "Description": "不进行主动攻击。作为替代，其会对{Range = 4}格内一个敌方单位造成{Damage = 3}点伤害。",
     "TriggerID": "TShadow_Bolt",
     "TargetCount": 1,
     "TargetType": 0,
     "IsSpeller": 0,
     "IsTarget": 0,
-    "Range": "Range",
-    "Damage": "Damage",
+    "Range": "4",
+    "Damage": "3",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
@@ -620,29 +639,29 @@
     "IsTarget": 0,
     "Range": "",
     "Damage": "",
-    "Amount": "Amount = 4",
+    "Amount": "4",
     "Draws": "",
     "Turns": "",
-    "Column15": "",
-    "Column16": ""
+    "Area": "",
+    "Curing": ""
   },
   {
     "Line": 1,
     "AbilityID": "Shadow_FireEnchantment",
     "Group": 27,
     "AbilityName": "邪火附魔",
-    "Description": "攻击时会烧灼攻击目标周围{Area = \"3*3\"}的格子，一回合后消解，并对其上的单位造成{Damage = 1}的伤害。",
+    "Description": "攻击时会烧灼攻击目标周围{Area = 3*3}的格子，一回合后消解，并对其上的单位造成{Damage = 1}的伤害。",
     "TriggerID": "TShadow_FireEnchantment",
     "TargetCount": 0,
     "TargetType": 0,
     "IsSpeller": 0,
     "IsTarget": 0,
     "Range": "",
-    "Damage": "Damage = 1",
+    "Damage": "1",
     "Amount": "",
     "Draws": "",
     "Turns": "",
-    "Column15": "Area = \"3*3\"",
-    "Column16": ""
+    "Area": "3*3",
+    "Curing": ""
   }
 ]
