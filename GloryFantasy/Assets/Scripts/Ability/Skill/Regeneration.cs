@@ -6,23 +6,23 @@ using IMessage;
 
 namespace Ability
 {
-    public class FuHuo : Ability
+    public class Regeneration : Ability
     {
         Trigger trigger;
 
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者
-            trigger = new TFuHuo(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+            trigger = new TRegeneration(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
             //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "FuHuo");
+            MsgDispatcher.RegisterMsg(trigger, "Regeneration");
         }
 
     }
 
-    public class TFuHuo : Trigger
+    public class TRegeneration : Trigger
     {
-        public TFuHuo(MsgReceiver speller)
+        public TRegeneration(MsgReceiver speller)
         {
             register = speller;
             //初始化响应时点
@@ -40,7 +40,7 @@ namespace Ability
             //修改这只怪的血量
             newUnit.hp -= newUnit.hp / 2;
             //删除这只怪的复活技能
-            this.DeleteUnitAbility(newUnit, "FuHuo");
+            this.DeleteUnitAbility(newUnit, "Regeneration");
         }
 
         private bool Condition()

@@ -6,21 +6,21 @@ using IMessage;
 
 namespace Ability
 {
-    public class XunJie : Ability
+    public class Haste : Ability
     {
         Trigger trigger;
 
         private void Start()
         {
-            trigger = new TXunJie(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
-            MsgDispatcher.RegisterMsg(trigger, "XunJie");
+            trigger = new THaste(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+            MsgDispatcher.RegisterMsg(trigger, "Haste");
         }
 
     }
 
-    public class TXunJie : Trigger
+    public class THaste : Trigger
     {
-        public TXunJie(MsgReceiver _speller)
+        public THaste(MsgReceiver _speller)
         {
             register = _speller;
             msgName = (int)TriggerType.Summon;

@@ -6,7 +6,7 @@ using IMessage;
 
 namespace Ability
 {
-    public class XunJi : Ability
+    public class FirstStrike : Ability
     {
         Trigger trigger;
         bool isActive = false;
@@ -14,9 +14,9 @@ namespace Ability
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者
-            trigger = new TXunJi(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+            trigger = new TFirstStrike(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
             //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "XunJi");
+            MsgDispatcher.RegisterMsg(trigger, "FirstStrike");
         }
 
         //这个技能被删除时要做反向操作
@@ -29,9 +29,9 @@ namespace Ability
 
     }
 
-    public class TXunJi : Trigger
+    public class TFirstStrike : Trigger
     {
-        public TXunJi(MsgReceiver _speller)
+        public TFirstStrike(MsgReceiver _speller)
         {
             register = _speller;
             //响应时点是被召唤时

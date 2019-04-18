@@ -7,7 +7,7 @@ using IMessage;
 namespace Ability
 {
     //护甲1
-    public class HuJia1 : Ability
+    public class Armor1 : Ability
     {
         Trigger trigger;
         public int armor = 1;
@@ -17,17 +17,17 @@ namespace Ability
             //获得这个技能的持有者，并修改其护甲恢复值
             GetComponent<GameUnit.GameUnit>().armorRestore = armor;
             //创建Trigger实例，传入技能的发动者和护甲恢复值
-            trigger = new THuJia(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+            trigger = new TArmor(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
             //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "Hujia");
+            MsgDispatcher.RegisterMsg(trigger, "Armor");
         }
 
     }
 
-    public class THuJia : Trigger
+    public class TArmor : Trigger
     {
 
-        public THuJia(MsgReceiver _speller)
+        public TArmor(MsgReceiver _speller)
         {
             register = _speller;
             msgName = (int)TriggerType.BP;

@@ -6,23 +6,23 @@ using IMessage;
 
 namespace Ability
 {
-    public class ShunFaChuangXiang : Ability
+    public class InstantIdea : Ability
     {
         Trigger trigger;
 
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者
-            trigger = new TShunFaChuangXiang(this.GetUnitReceiver(this));
+            trigger = new TInstantIdea(this.GetUnitReceiver(this));
             //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "ShunFaChuangXiang");
+            MsgDispatcher.RegisterMsg(trigger, "InstantIdea");
         }
 
     }
 
-    public class TShunFaChuangXiang : Trigger
+    public class TInstantIdea : Trigger
     {
-        public TShunFaChuangXiang(MsgReceiver speller)
+        public TInstantIdea(MsgReceiver speller)
         {
             register = speller;
             //初始化响应时点,为卡片使用时

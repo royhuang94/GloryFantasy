@@ -6,7 +6,7 @@ using IMessage;
 
 namespace Ability
 {
-    public class FeiXing : Ability
+    public class Fly : Ability
     {
         Trigger trigger;
 
