@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 222316909900678672}
   - component: {fileID: 114487131678987190}
   - component: {fileID: 114804697796931782}
-  - component: {fileID: 114363535411063520}
+  - component: {fileID: 114436450874878370}
   m_Layer: 5
   m_Name: RThrow_1
   m_TagString: Untagged
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 0}
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114269065611304118
 MonoBehaviour:
@@ -143,7 +143,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114363535411063520
+--- !u!114 &114436450874878370
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,10 +151,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1687206824658486}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0862c5274ce6410592d7f222395f600a, type: 3}
+  m_Script: {fileID: 11500000, guid: c41ab96137a04835b639b4a45c32a030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: RThrow_1
+  buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
+    type: 2}
 --- !u!114 &114487131678987190
 MonoBehaviour:
   m_ObjectHideFlags: 1

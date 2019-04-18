@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222884561269274032}
   - component: {fileID: 114977186482649048}
   - component: {fileID: 114322513646870700}
-  - component: {fileID: 114268820506849372}
+  - component: {fileID: 114179374634137982}
   m_Layer: 5
   m_Name: RCourage_1
   m_TagString: Untagged
@@ -51,7 +51,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114268820506849372
+--- !u!114 &114179374634137982
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,10 +59,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1345048788390060}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0862c5274ce6410592d7f222395f600a, type: 3}
+  m_Script: {fileID: 11500000, guid: c41ab96137a04835b639b4a45c32a030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: RCourage_1
+  buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
+    type: 2}
 --- !u!114 &114322513646870700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa4a7379be49c47b5716b9c9da2e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: af96471bd1cda2f4a88cb2040716e14b, type: 2}
+  unitAttribute: {fileID: 0}
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114931986924373416
 MonoBehaviour:

@@ -66,8 +66,7 @@ public class UnitManager:
         //Debug.Log(temp.name);
         temp.transform.localPosition = new Vector3(6.8f, 7f, 0.0f);
         temp.GetComponent<Image>().raycastTarget = true;
-        //BmuScriptsHandler.GetInstance().InitGameUnitRandomly(temp.GetComponent<GameUnit.GameUnit>());
-
+        
         //添加
         //脚本到实例化Unit上
         //AddComponent

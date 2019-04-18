@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 222337874571995068}
   - component: {fileID: 114221044752921332}
   - component: {fileID: 114971921436570702}
-  - component: {fileID: 114106994793130376}
+  - component: {fileID: 114777449405488026}
   m_Layer: 5
   m_Name: WInstant_1
   m_TagString: Untagged
@@ -51,18 +51,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114106994793130376
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549767706747052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e801334048304f818f0228c2ad458397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: WInstant_1
 --- !u!114 &114181208939085934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,6 +181,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114777449405488026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1549767706747052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41ab96137a04835b639b4a45c32a030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: WInstant_1
+  buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
+    type: 2}
 --- !u!114 &114971921436570702
 MonoBehaviour:
   m_ObjectHideFlags: 1
