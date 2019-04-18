@@ -68,11 +68,11 @@ public class MsgTestButton : MonoBehaviour {
     {
         unityEventUpdateResource.AddListener(()=> 
         {
-            IMessage.MsgDispatcher.SendMsg((int)TriggerType.UpdateSource);
+            IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.UpdateSource);
         });
         unityEventBattlePresent.AddListener(() =>
         {
-            IMessage.MsgDispatcher.SendMsg((int)TriggerType.BP);
+            IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.BP);
         });
 
         unityEventUpdateResource.Invoke();

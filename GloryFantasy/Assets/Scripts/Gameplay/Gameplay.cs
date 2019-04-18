@@ -5,30 +5,6 @@ using UnityEngine;
 using Ability;
 using IMessage;
 
-enum TriggerType
-{
-    UpdateSource,
-    BP,
-    MPBegin,
-    MPEnd,
-    EP,
-    CastCard,
-    Summon,
-    DrawCard,
-    AddInHand,
-    AnnounceAttack,
-    ActiveAbility,
-    BeAttacked,
-    Damage,
-    BeDamaged,
-    Kill,
-    BeKilled,
-    Dead,
-    ToBeKilled,
-    Move,
-    UnitMoving
-};
-
 public class Info
 {
     public Player RoundOwned; //回合所属

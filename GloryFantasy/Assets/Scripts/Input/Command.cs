@@ -70,7 +70,7 @@ public class UnitAttackCommand :Command
 
     public override void Excute()
     {
-        MsgDispatcher.SendMsg((int)TriggerType.AnnounceAttack);
+        MsgDispatcher.SendMsg((int)MessageType.AnnounceAttack);
         //根据伤害优先级对伤害请求排序
         DamageRequestList = DamageRequest.CaculateDamageRequestList(_Attacker, _AttackedUnit);
 

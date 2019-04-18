@@ -54,8 +54,10 @@ namespace Ability
                     JsonData tmp = abilitiesJsonData[i];
                     AbilityFormat newAbility = new AbilityFormat(tmp["AbilityID"].ToString());
 
+                    Debug.Log(tmp["AbilityID"]);
+
                     if ((int)tmp["TargetCount"] > 0)
-                        newAbility.AbilityTargetList.Add(new AbilityTarget(tmp["TargetType"].ToString(), (bool)tmp["IsSpeller"], (bool)tmp["IsTarget"]));
+                        newAbility.AbilityTargetList.Add(new AbilityTarget(tmp["TargetType"].ToString(), ((int)tmp["IsSpeller"]>0), ((int)tmp["IsTarget"]>0)));
                     FullAbilityVariable(newAbility.AbilityVariable, tmp);
                     newAbility.Group = (int)tmp["Group"];
                     newAbility.AbilityName = tmp["AbilityName"].ToString();
@@ -70,7 +72,7 @@ namespace Ability
                     //如果已经有这个异能，直接加入对象即可
                     JsonData tmp = abilitiesJsonData[i];
 
-                    _abilityData[tmp["AbilityID"].ToString()].AbilityTargetList.Add(new AbilityTarget(tmp["TargetType"].ToString(), (bool)tmp["IsSpeller"], (bool)tmp["IsTarget"]));
+                    _abilityData[tmp["AbilityID"].ToString()].AbilityTargetList.Add(new AbilityTarget(tmp["TargetType"].ToString(), ((int)tmp["IsSpeller"] > 0), ((int)tmp["IsTarget"] > 0)));
                 }
             }
         }
@@ -83,22 +85,22 @@ namespace Ability
         private void FullAbilityVariable(AbilityVariable abilityVariable, JsonData jsonData)
         {
             if (jsonData["Range"].ToString() != "")
-                abilityVariable.Range = (int)jsonData["Range"];
+                abilityVariable.Range = int.Parse(jsonData["Range"].ToString());
             if (jsonData["Damage"].ToString() != "")
-                abilityVariable.Damage = (int)jsonData["Damage"];
+                abilityVariable.Damage = int.Parse(jsonData["Damage"].ToString());
             if (jsonData["Amount"].ToString() != "")
-                abilityVariable.Amount = (int)jsonData["Amount"];
+                abilityVariable.Amount = int.Parse(jsonData["Amount"].ToString());
             if (jsonData["Draws"].ToString() != "")
-                abilityVariable.Draws = (int)jsonData["Draws"];
+                abilityVariable.Draws =  int.Parse(jsonData["Draws"].ToString());
             if (jsonData["Turns"].ToString() != "")
-                abilityVariable.Turns = (int)jsonData["Turns"];
+                abilityVariable.Turns = int.Parse(jsonData["Turns"].ToString());
             if (jsonData["Area"].ToString() != "")
             {
                 string[] area = jsonData["Area"].ToString().Split('*');
                 abilityVariable.Area = new Vector2(int.Parse(area[0]), int.Parse(area[1]));
             }
             if (jsonData["Curing"].ToString() != "")
-                abilityVariable.Curing = (int)jsonData["Curing"];
+                abilityVariable.Curing = int.Parse(jsonData["Curing"].ToString());
         }
 
         /// <summary>

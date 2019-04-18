@@ -42,7 +42,7 @@ namespace Ability
         {
             register = _speller;
             //响应时点是被召唤时
-            msgName = (int)TriggerType.Summon;
+            msgName = (int)MessageType.Summon;
             condition = Condition;
             action = Action;
         }

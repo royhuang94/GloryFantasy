@@ -38,6 +38,22 @@ public class UnitManager:
         private set;
     }
 
+    /// <summary>
+    /// 标记是否在释放行动牌
+    /// </summary>
+    public bool IsCasting
+    {
+        get;
+        private set;
+    }
+    /// <summary>
+    /// 正在释放的行动牌的异能的引用
+    /// </summary>
+    private Ability.Ability CastingCard;
+    /// <summary>
+    /// 用来存储释放异能的选择目标
+    /// </summary>
+    private List<Vector2> SelectingList = new List<Vector2>();
 
     private Transform goTransform;
     public void CouldInstantiation(bool coudInstantiation, Transform parent)
@@ -147,6 +163,49 @@ public class UnitManager:
         BattleMap.MapNavigator._Instantce.RestIsInCloseListBlock();
     }
 
+    /// <summary>
+    /// 释放行动牌
+    /// </summary>
+    /// <param name="ability">被释放的行动牌上的异能</param>
+    public void CastCard(Ability.Ability ability)
+    {
+        IsCasting = true;
+        this.CastingCard = ability;
+        //初始化对象列表
+        this.SelectingList = new List<Vector2>();
+    }
+    /// <summary>
+    /// 释放指令牌时输入选择目标
+    /// </summary>
+    /// <param name="target"></param>
+    public void InputTarget(Vector2 target)
+    {
+        int count = SelectingList.Count;
+        Ability.AbilityTarget abilityTarget = CastingCard.AbilityTargetList[count];
+        //TODU: 修改敌军友军的区分方式
+        if ((abilityTarget.TargetType == Ability.TargetType.Enemy && BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target).owner == "Enemy") ||
+            (abilityTarget.TargetType == Ability.TargetType.Friendly && BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target).owner == "Frendly") ||
+             abilityTarget.TargetType == Ability.TargetType.Field && !BattleMap.BattleMap.getInstance().CheckIfHasUnits(target))
+        {
+            if (abilityTarget.IsSpeller)
+            {
+                Gameplay.Info.AbilitySpeller = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target);
+                CastingCard.Speller = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target);
+            }
+            if (abilityTarget.IsTarget)
+            {
+                CastingCard.TargetList.Add(target);
+                SelectingList.Add(target);
+            }
+
+            //如果这是最后一个目标
+            if (count + 1 == CastingCard.AbilityTargetList.Count)
+            {
+                Gameplay.Info.SpellingAbility = CastingCard;
+                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.ActiveAbility);
+            }
+        }
+    }
 
     /// <summary>
     /// “抓起” Unit

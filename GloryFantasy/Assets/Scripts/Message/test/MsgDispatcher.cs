@@ -5,6 +5,30 @@ using UnityEngine;
 namespace IMessage
 {
 
+    enum MessageType
+    {
+        UpdateSource,
+        BP,
+        MPBegin,
+        MPEnd,
+        EP,
+        CastCard,
+        Summon,
+        DrawCard,
+        AddInHand,
+        AnnounceAttack,
+        ActiveAbility,
+        BeAttacked,
+        Damage,
+        BeDamaged,
+        Kill,
+        BeKilled,
+        Dead,
+        ToBeKilled,
+        Move,
+        UnitMoving
+    };
+
     public interface MsgReceiver
     {
         /// <summary>

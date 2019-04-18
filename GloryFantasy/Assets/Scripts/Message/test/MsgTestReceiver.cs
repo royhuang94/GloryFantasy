@@ -74,7 +74,7 @@ namespace IMessage
     {
         Trigger1()
         {
-            msgName = (int)TriggerType.ActiveAbility;
+            msgName = (int)MessageType.ActiveAbility;
             condition = Condition;
             action = Action;
         }

@@ -32,7 +32,7 @@ namespace Ability
         {
             register = speller;
             //初始化响应时点,为卡片使用时
-            msgName = (int)TriggerType.CastCard;
+            msgName = (int)MessageType.CastCard;
             //初始化条件函数和行为函数
             condition = Condition;
             action = Action;

@@ -32,7 +32,7 @@ namespace Ability
         {
             register = speller;
             //初始化响应时点
-            msgName = (int)TriggerType.Dead;
+            msgName = (int)MessageType.Dead;
             //初始化条件函数和行为函数
             condition = Condition;
             action = Action;

@@ -15,7 +15,7 @@ namespace GameUnit
         //public string id { get; set; }
         //public int mov { get; set; }
         //public string Name { get; set; }
-        //public string owner { get; set; }
+        public string owner { get; set; }
         //new public string[] tag { get; set; }
         //public int rng { get; set; }
 

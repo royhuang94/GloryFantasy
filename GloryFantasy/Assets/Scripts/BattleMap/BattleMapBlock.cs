@@ -114,6 +114,11 @@ namespace BattleMap
                 BattleMap.getInstance().HideBattleZooe(GetSelfPosition());
 
             }
+            //如果正在释放指令牌，就视为正在选择目标
+            if (UnitManager.Instance.IsCasting)
+            {
+                UnitManager.Instance.InputTarget(GetSelfPosition());
+            }
 
             //TODO 对象池测试
             //else if(!UnitManager.Instance.canMoving)

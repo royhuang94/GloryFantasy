@@ -36,7 +36,7 @@ namespace Ability
         public TArmor(MsgReceiver _speller)
         {
             register = _speller;
-            msgName = (int)TriggerType.BP;
+            msgName = (int)MessageType.BP;
             condition = Condition;
             action = Action;
         }

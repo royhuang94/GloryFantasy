@@ -137,7 +137,7 @@ namespace Ability
     public class Ability : MonoBehaviour, GameplayTool
     {
         /// <summary>
-        /// 对象列表
+        /// 对象列表从表格获得的约束
         /// </summary>
         public List<AbilityTarget> AbilityTargetList;
         /// <summary>
@@ -168,9 +168,19 @@ namespace Ability
         /// <param name="_abilityID"></param>
         public string TriggerID;
 
+        /// <summary>
+        /// 玩家选择的对象
+        /// </summary>
+        public List<Vector2> TargetList;
+        /// <summary>
+        /// 异能发动者
+        /// </summary>
+        public GameUnit.GameUnit Speller;
+
         void Awake()
         {
             AbilityTargetList = new List<AbilityTarget>();
+            TargetList = new List<Vector2>();
         }
 
         /// <summary>

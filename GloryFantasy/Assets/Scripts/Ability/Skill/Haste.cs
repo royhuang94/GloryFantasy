@@ -29,7 +29,7 @@ namespace Ability
         public THaste(MsgReceiver _speller)
         {
             register = _speller;
-            msgName = (int)TriggerType.Summon;
+            msgName = (int)MessageType.Summon;
             condition = Condition;
             action = Action;
         }
