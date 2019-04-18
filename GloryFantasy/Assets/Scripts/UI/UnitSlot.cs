@@ -10,37 +10,68 @@ namespace NBearUnit
 {
     public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
-        public GameObject unitPrefab;
-
-        private bool canShowMsg = false;
-        private bool alreadyShowButton = false;
-        private GameObject _gameObject;
+        private GameObject _cardPrefab = null;
+        private GameObject _cardInstance = null;
+        private bool _canShowMsg = false;
+        private bool _alreadyShowButton = false;
+        private GameObject _gameObject = null;
         
         /// <summary>
-        /// 存储Unit到slot下
+        /// 用于鼠标移动将单位放回slot，存储Unit到slot下
         /// </summary>
         /// <param name="unit"></param>
         public void StoreItem(UnitUI unit)
         {
-            GameObject itemGameObject = Instantiate(unitPrefab) as GameObject;
+            GameObject itemGameObject = Instantiate(_cardPrefab) as GameObject;
             itemGameObject.transform.SetParent(transform);
             itemGameObject.transform.localPosition = new Vector3(-28.125f, -28.125f, 0.0f);
             BattleMap.BattleMap.getInstance().IsColor = false;
 
-            itemGameObject.GetComponent<UnitUI>().SetUnit(/*unit*/); //设置Item
+            itemGameObject.GetComponent<UnitUI>().SetUnit(/*unit*/);
             Debug.Log("StoreItem");
+            
         }
 
         /// <summary>
-        /// 移除当前slot中的卡牌
+        /// 用于向UnitSlot中放入卡牌
+        /// </summary>
+        /// <param name="cardPrefab">要实例化的卡牌</param>
+        public void InsertItem(GameObject cardPrefab)
+        {
+            _cardInstance = Instantiate(cardPrefab, gameObject.transform, true);
+            _cardInstance.transform.position = gameObject.transform.position;
+            this._cardPrefab = cardPrefab;
+        }
+
+        /// <summary>
+        /// 移除当前slot中的卡牌,并通知CardManager手牌栏位发生变化
         /// </summary>
         public void RemoveItem()
         {
+            // 如果有Button存在，则销毁按钮
+            Destroy(_gameObject);
+            
+            // 销毁卡牌实例
+            Destroy(_cardInstance);
+            
+            // 向CardManager发送通知
+            CardManager.GetInstance().RemoveCard(_cardPrefab);
+            
+            this._cardPrefab = null;
+
+            // 最后销毁实例
             Destroy(gameObject.GetComponentInChildren<UnitUI>().gameObject);
         }
 
-
-
+        /// <summary>
+        /// 确认当前栏位是否为空，空是指slot内是否有卡牌存在
+        /// </summary>
+        /// <returns>若为空，则返回true</returns>
+        public bool IsEmpty()
+        {
+            // 若保存的预制件引用为空，则意味着本栏位已空
+            return _cardInstance == null;
+        }
 
         /// <summary>
         /// 当鼠标移入slot槽时
@@ -50,7 +81,7 @@ namespace NBearUnit
         {
             //TODO 显示Unit属性
             //Debug.Log("鼠标进入");
-            canShowMsg = true;
+            _canShowMsg = true;
         }
 
         /// <summary>
@@ -60,12 +91,12 @@ namespace NBearUnit
         public void OnPointerExit(PointerEventData eventData)
         {
             //Debug.Log("鼠标退出");
-            canShowMsg = false;
+            _canShowMsg = false;
         }
 
         private void OnGUI()
         {
-            if (canShowMsg)
+            if (_canShowMsg)
             {
                 /*
                 GUIStyle style1= new GUIStyle();
@@ -81,7 +112,7 @@ namespace NBearUnit
                     return;
                 }
                 
-                BaseCard card = gameObject.GetComponent<BaseCard>();
+                BaseCard card = _cardInstance.GetComponent<BaseCard>();
                 JsonData jsonData = CardManager.GetInstance().GetCardJsonData(card.id);
                 int tagCount = jsonData["tag"].Count;
                 string tagInToal = "";
@@ -138,7 +169,7 @@ namespace NBearUnit
               if (gameObject.GetComponentInChildren<BaseCard>() is OrderCard)
                 {
                     // 检测当前使用按钮的展示状态，若没有展示
-                    if (!alreadyShowButton)
+                    if (!_alreadyShowButton)
                     {
                         OrderCard cardPreference = gameObject.GetComponent<OrderCard>();
                         
@@ -163,8 +194,6 @@ namespace NBearUnit
                             {
                                 // 从slot中移除当前卡牌
                                 RemoveItem();
-                                
-                                // TODO : 通知CardsManager从手牌堆移除记录
                             }
                             
                             // 不论成功使用与否，都销毁按钮
@@ -175,9 +204,10 @@ namespace NBearUnit
                     {
                         // 若未点击使用按钮，则此动作未取消使用卡牌，销毁按钮
                         Destroy(_gameObject);
+                        _gameObject = null;
                     } 
                     
-                    alreadyShowButton = !alreadyShowButton;
+                    _alreadyShowButton = !_alreadyShowButton;
 
                 }
                 else
@@ -191,7 +221,6 @@ namespace NBearUnit
                         BattleMap.BattleMap.getInstance().IsColor = true;
                         //Destroy(currentItemUI.gameObject); //摧毁slot下已经被鼠标"捡起"的unit
                         
-                        // TODO : 通知CardsManager从手牌中移除记录
                         RemoveItem();
                     }
                     else
