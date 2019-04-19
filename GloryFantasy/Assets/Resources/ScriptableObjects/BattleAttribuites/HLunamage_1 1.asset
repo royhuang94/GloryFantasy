@@ -23,6 +23,9 @@ MonoBehaviour:
   Mov: 3
   atk: 1
   rng: 1
+  ability:
+  - QuickArk
+  - Wit
   tag:
   - "\u82F1\u96C4"
   - "\u65BD\u6CD5\u8005"

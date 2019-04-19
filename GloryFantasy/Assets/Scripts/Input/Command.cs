@@ -56,6 +56,8 @@ public class UnitAttackCommand :Command
         _AttackedUnit = AttackedUnit; this.SetAttackedUnit(AttackedUnit);
     }
 
+
+    //TODO 如何使用
     //计算攻击距离是否大于曼哈顿
     public bool Judge()
     {

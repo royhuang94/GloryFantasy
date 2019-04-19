@@ -23,5 +23,8 @@ MonoBehaviour:
   Mov: 2
   atk: 3
   rng: 2
+  ability:
+  - Armor_2
+  - Shadow_Revange
   tag:
   - "\u673A\u7532"

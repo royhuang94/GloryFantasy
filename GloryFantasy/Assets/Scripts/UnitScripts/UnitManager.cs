@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using BattleMap;
 using UnityEngine;
@@ -115,8 +116,11 @@ public class UnitManager:
     private Canvas canvas;
 
     #region 单位行为
+    [NonSerialized]
     public bool isMoving = false;
+    [NonSerialized]
     public bool canMoving = false;
+    [NonSerialized]
     public bool canAttack = false;
     #endregion
 
@@ -230,7 +234,7 @@ public class UnitManager:
         var curGOUnit = unitUI.gameObject;
         pickedUnit.name = GFGame.UtilityHelper.RemoveNameClone(unitUI.name);
         GameUnit.UnitCard unitCard = curGOUnit.GetComponent<GameUnit.UnitCard>();
-        if(unitCard != null)
+        if (unitCard != null)
         {
             //TODO 此处为单位，所以我们需要添加
             //UnitCard，并更新id值
@@ -238,7 +242,6 @@ public class UnitManager:
 
 
             //Debug.Break();
-
             pickedUnit.SetUnit(GFGame.UtilityHelper.RemoveNameClone(curGOUnit.name), unitCard);
         }
         isPickedUnit = true;

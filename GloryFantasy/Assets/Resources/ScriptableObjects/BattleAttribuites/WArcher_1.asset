@@ -23,5 +23,7 @@ MonoBehaviour:
   Mov: 3
   atk: 3
   rng: 3
+  ability:
+  - LastStrike
   tag:
   - "\u5F13\u5175"

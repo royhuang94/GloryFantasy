@@ -23,6 +23,9 @@ MonoBehaviour:
   Mov: 4
   atk: 5
   rng: 1
+  ability:
+  - Haste
+  - FirstStrike
   tag:
   - "\u82F1\u96C4"
   - "\u9A91\u58EB"

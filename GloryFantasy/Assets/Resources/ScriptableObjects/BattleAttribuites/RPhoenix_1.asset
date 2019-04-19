@@ -23,6 +23,10 @@ MonoBehaviour:
   Mov: 4
   atk: 4
   rng: 2
+  ability:
+  - Haste
+  - Fly
+  - Regeneration
   tag:
   - "\u5143\u7D20"
   - "\u91CE\u517D"

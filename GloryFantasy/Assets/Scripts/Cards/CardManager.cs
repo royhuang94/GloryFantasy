@@ -93,6 +93,7 @@ namespace GameUnit
             for (int i = 0; i < unitSlots.Length; i++)
             {
                 _unitSlots[i] = unitSlots[i].GetComponent<UnitSlot>();
+
                 
             }
         }

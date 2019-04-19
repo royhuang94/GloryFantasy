@@ -23,5 +23,7 @@ MonoBehaviour:
   Mov: 4
   atk: 1
   rng: 3
+  ability:
+  - SelfBlasting
   tag:
   - "\u5143\u7D20"

@@ -23,5 +23,7 @@ MonoBehaviour:
   Mov: 2
   atk: 1
   rng: 2
+  ability:
+  - Heal
   tag:
   - "\u53F6\u65CF"

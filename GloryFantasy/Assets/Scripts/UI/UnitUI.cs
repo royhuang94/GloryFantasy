@@ -49,6 +49,58 @@ namespace NBearUnit
             transform.localPosition = position;
         }
 
+        private void AttachedAbility(List<string> abilities)
+        {
+            foreach (var ability in abilities)
+            {
+                //TODO 测试使用，之后需要整合到一个函数中
+                switch (ability)
+                {
+                    case "Haste":
+                        GFGame.UtilityHelper.Log("添加异能" + "Haste" + "成功", GFGame.LogColor.RED);
+                        //var temp = gameObject.AddComponent<Ability.Haste>();
+                        break;
+                    case "FirstStrike":
+                        GFGame.UtilityHelper.Log("添加异能" + "FirstStrike" + "成功", GFGame.LogColor.RED);
+                        //gameObject.AddComponent<Ability.FirstStrike>();
+                        break;
+                    case "QuickArk":
+                        GFGame.UtilityHelper.Log("添加异能" + "QuickArk" + "成功", GFGame.LogColor.RED);
+                        //gameObject.AddComponent<Ability.QuickArk>();
+                        break;
+                    case "Wit":
+                        GFGame.UtilityHelper.Log("添加异能" + "Wit" + "成功", GFGame.LogColor.RED);
+                        // gameObject.AddComponent<Ability.Wit>();
+                        break;
+                    case "LastStrike":
+                        GFGame.UtilityHelper.Log("添加异能" + "LastStrike" + "成功", GFGame.LogColor.RED);
+                        //gameObject.AddComponent<Ability.LastStrike>();
+                        break;
+                    case "Armor_1":
+                        GFGame.UtilityHelper.Log("添加异能" + "Armor1" + "成功", GFGame.LogColor.RED);
+                        //gameObject.AddComponent<Ability.Armor1>();
+                        break;
+                    case "Fly":
+                        GFGame.UtilityHelper.Log("添加异能" + "Fly" + "成功", GFGame.LogColor.RED);
+                        //gameObject.AddComponent<Ability.Fly>();
+                        break;
+                    case "Regeneration":
+                        //gameObject.AddComponent<Ability.Regeneration>();
+                        break;
+                    case "Heal":
+                        GFGame.UtilityHelper.Log("添加异能" + "Heal" + "成功", GFGame.LogColor.RED);
+                        //gameObject.AddComponent<Ability.Heal>();
+                        break;
+                    case "SelfBlasting":
+                        GFGame.UtilityHelper.Log("添加异能" + "SelfBlasting" + "成功", GFGame.LogColor.RED);
+                        //gameObject.AddComponent<Ability.SelfBlasting>();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         /// <summary>
         /// 设置Unit
         /// </summary>
@@ -59,6 +111,9 @@ namespace NBearUnit
             //传递属性值
             var curUnitCar = gameObject.GetComponent<GameUnit.UnitCard>();
             curUnitCar.id = unitCard.id;
+
+            //TODO 测试挂载异能ability unitAttribute
+            AttachedAbility(GetComponent<GameUnit.HeroUnit>().unitAttribute.ability);
 
             //TODO 获取当前Unit信息与image
             //当前为测试代码。。我这边根据resources函数处理的

@@ -204,7 +204,6 @@ namespace NBearUnit
                                 // 从slot中移除当前卡牌
                                 RemoveItem();
                             }
-
                             // 不论成功使用与否，都销毁按钮
                             Destroy(_gameObject);
                         });

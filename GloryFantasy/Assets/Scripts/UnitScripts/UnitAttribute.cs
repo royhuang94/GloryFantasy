@@ -27,6 +27,7 @@ namespace NBearUnit
         #endregion
 
         //单位标签
+        public List<string> ability;
         public List<string> tag;
 
     }
