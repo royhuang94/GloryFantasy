@@ -58,7 +58,7 @@ namespace NBearUnit
                 {
                     case "Haste":
                         GFGame.UtilityHelper.Log("添加异能" + "Haste" + "成功", GFGame.LogColor.RED);
-                        //var temp = gameObject.AddComponent<Ability.Haste>();
+                        var temp = gameObject.AddComponent<Ability.Haste>();
                         break;
                     case "FirstStrike":
                         GFGame.UtilityHelper.Log("添加异能" + "FirstStrike" + "成功", GFGame.LogColor.RED);
