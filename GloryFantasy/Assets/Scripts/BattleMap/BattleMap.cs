@@ -227,6 +227,7 @@ namespace BattleMap
                     {
                         Unit unit = InitAndInstantiateGameUnit(mapData[i]["token"][0], x, y);
                         unit.mapBlockBelow = _mapBlocks[x, y];
+                        unit.gameObject.GetComponent<GameUnit.GameUnit>().owner = GameUnit.OwnerEnum.Enemy;
 
                         _unitsList.Add(unit);
                         _mapBlocks[x, y].AddUnit(unit);

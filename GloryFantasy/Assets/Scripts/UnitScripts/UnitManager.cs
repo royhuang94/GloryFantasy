@@ -201,8 +201,8 @@ public class UnitManager:
         int count = SelectingList.Count;
         Ability.AbilityTarget abilityTarget = CastingCard.AbilityTargetList[count];
         //TODU: 修改敌军友军的区分方式
-        if ((abilityTarget.TargetType == Ability.TargetType.Enemy && BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target).owner == "Enemy") ||
-            (abilityTarget.TargetType == Ability.TargetType.Friendly && BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target).owner == "Frendly") ||
+        if ((abilityTarget.TargetType == Ability.TargetType.Enemy && BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target).owner == GameUnit.OwnerEnum.Enemy) ||
+            (abilityTarget.TargetType == Ability.TargetType.Friendly && BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target).owner == GameUnit.OwnerEnum.Player) ||
              abilityTarget.TargetType == Ability.TargetType.Field && !BattleMap.BattleMap.getInstance().CheckIfHasUnits(target))
         {
             if (abilityTarget.IsSpeller)
@@ -233,6 +233,7 @@ public class UnitManager:
     {
         var curGOUnit = unitUI.gameObject;
         pickedUnit.name = GFGame.UtilityHelper.RemoveNameClone(unitUI.name);
+        
         GameUnit.UnitCard unitCard = curGOUnit.GetComponent<GameUnit.UnitCard>();
         if (unitCard != null)
         {
@@ -244,6 +245,7 @@ public class UnitManager:
             //Debug.Break();
             pickedUnit.SetUnit(GFGame.UtilityHelper.RemoveNameClone(curGOUnit.name), unitCard);
         }
+        pickedUnit.gameObject.GetComponent<GameUnit.GameUnit>().owner = GameUnit.OwnerEnum.Player;
         isPickedUnit = true;
         pickedUnit.Show();
     }

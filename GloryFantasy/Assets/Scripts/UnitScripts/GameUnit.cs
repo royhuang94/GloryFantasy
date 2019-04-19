@@ -5,9 +5,17 @@ using BattleMap;
 
 namespace GameUnit
 {
+    public enum OwnerEnum
+    {
+        Player,
+        Enemy,
+        neutrality //中立
+    }
+
     public class GameUnit : MonoBehaviour, IMessage.MsgReceiver
     {
         public NBearUnit.UnitAttribute unitAttribute;
+        public OwnerEnum owner;
 
         //TODO 考虑属性应该通过ScriptableObject还是通过下面方法
         public int hp { get; set; }//TODO暂时保存 后面改进
@@ -15,7 +23,7 @@ namespace GameUnit
         //public string id { get; set; }
         //public int mov { get; set; }
         //public string Name { get; set; }
-        public string owner { get; set; }
+
         //new public string[] tag { get; set; }
         //public int rng { get; set; }
 
