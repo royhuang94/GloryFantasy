@@ -22,11 +22,20 @@ namespace NBearUnit
         /// <param name="unit"></param>
         public void StoreItem(UnitUI unit)
         {
-            GameObject itemGameObject = Instantiate(_cardPrefab, transform, true) as GameObject;
-            itemGameObject.transform.localPosition = new Vector3(-28.125f, -28.125f, 0.0f);
+            _cardPrefab = unit.gameObject;
+
+            //GameObject itemGameObject = Instantiate(_cardPrefab, transform, true) as GameObject;
+            //itemGameObject.transform.localPosition = Vector3.zero;
+            //BattleMap.BattleMap.getInstance().IsColor = false;
+
+            //itemGameObject.GetComponent<UnitUI>().SetUnit();
+
+            _cardInstance = Instantiate(_cardPrefab, transform, true) as GameObject;
+            _cardInstance.transform.localPosition = Vector3.zero;
             BattleMap.BattleMap.getInstance().IsColor = false;
 
-            itemGameObject.GetComponent<UnitUI>().SetUnit();
+            _cardInstance.GetComponent<UnitUI>().SetUnit();
+
             Debug.Log("StoreItem");
             
         }
@@ -110,7 +119,10 @@ namespace NBearUnit
                 {
                     return;
                 }
-                
+
+
+                Debug.Log(_cardInstance);
+
                 BaseCard card = _cardInstance.GetComponent<BaseCard>();
                 JsonData jsonData = CardManager.GetInstance().GetCardJsonData(card.id);
                 int tagCount = jsonData["tag"].Count;

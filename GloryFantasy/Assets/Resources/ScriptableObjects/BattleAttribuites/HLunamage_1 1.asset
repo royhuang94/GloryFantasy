@@ -17,10 +17,10 @@ MonoBehaviour:
   Effort: "\u6B64\u5355\u4F4D\u4F7F\u7528\u7684\u6548\u679C\u724CCD\u51CF1\uFF08\u6700\u5C0F\u4E3A1\uFF09"
   uName: "\u6708\u5C0F\u4E2B"
   HasCD: 1
-  HP: 7
-  MaxHp: 7
-  Prt: 2
-  Mov: 2
+  HP: 16
+  MaxHp: 16
+  Prt: 0
+  Mov: 3
   atk: 1
   rng: 1
   tag:
