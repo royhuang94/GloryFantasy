@@ -19,8 +19,6 @@ namespace GameUnit
 
         // 记录卡牌冷却回合数
         public int cooldownRounds { get; set; }
-        // 存放卡牌预制件的引用
-        public GameObject cardPrefabs { get; set; }
 
     }
     

@@ -22,7 +22,7 @@ namespace GameUnit
 
             // 根据情况返回
             //删除这张指令牌
-            CardManager.GetInstance().RemoveCard(this.gameObject);
+            //CardManager.GetInstance().RemoveCard(this.gameObject);
             return true;
         }
     }

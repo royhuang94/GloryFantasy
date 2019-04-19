@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using IMessage;
 using LitJson;
 using NBearUnit;
 using UnityEngine;
@@ -73,7 +74,7 @@ namespace GameUnit
             _cardsData = new Dictionary<string, JsonData>();
 
             JsonData cardsJsonData =
-                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Cards/cardSample.json"));
+                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Cards/cardSample.1.json"));
 
             int dataAmount = cardsJsonData.Count;
             for (int i = 0; i < dataAmount; i++)
@@ -107,6 +108,28 @@ namespace GameUnit
             if (_cardsData.ContainsKey(cardID))
             {
                 return _cardsData[cardID];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 返回给定卡牌ID对应的卡牌ability id
+        /// </summary>
+        /// <param name="cardID">卡牌预制件内BaseCard存的ID</param>
+        /// <returns>若存在此ID则返回对用的List，若不存在则返回null，若abilityid总数为0，则返回list为空</returns>
+        public List<string> GetCardAbilityIDs(string cardID)
+        {
+            if (_cardsData.ContainsKey(cardID))
+            {
+                JsonData abilitys = _cardsData[cardID]["ability_id"];
+                List<string> abilityIDs = new List<string>();
+                for (int i = 0; i < abilitys.Count; i++)
+                {
+                    abilityIDs.Add(abilitys[i].ToString());
+                }
+
+                return abilityIDs;
             }
 
             return null;
@@ -184,6 +207,8 @@ namespace GameUnit
         /// <param name="cardPrefab">要冷却的卡牌的预制件引用</param>
         private void CooldownCard(GameObject cardPrefab)
         {
+            
+            Debug.Log(cardPrefab);
             // 读取数据库得到冷却回合数
             int roundAmount= (int)GetCardJsonData(cardPrefab.GetComponent<BaseCard>().id)["cd"];
             

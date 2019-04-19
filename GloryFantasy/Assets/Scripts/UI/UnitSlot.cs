@@ -59,7 +59,7 @@ namespace NBearUnit
                 // 向CardManager发送通知
                 CardManager.GetInstance().RemoveCard(_cardPrefab);
             
-            this._cardPrefab = null;
+            //_cardPrefab = null;
         }
 
         /// <summary>
@@ -165,23 +165,24 @@ namespace NBearUnit
             if (transform.childCount > 0)
             {
                 // 若点击的卡牌类型为效果牌
-              if (_cardInstance.GetComponent<BaseCard>() is OrderCard)
+                if (_cardInstance.GetComponent<BaseCard>() is OrderCard)
                 {
+                    
                     // 检测当前使用按钮的展示状态，若没有展示
                     if (!_alreadyShowButton)
                     {
                         OrderCard cardPreference = _cardInstance.GetComponent<OrderCard>();
-                        
+
                         // 实例化按钮预制件
                         _gameObject = Instantiate(cardPreference.buttonPrefab,
                             GameObject.Find("OrderCardCanvas").transform, true);
-                        
+
                         // 设定按钮位置
                         Button btn = _gameObject.GetComponentInChildren<Button>();
                         var position = gameObject.transform.position;
                         btn.transform.position = new Vector3(position.x,
                             position.y + 40, position.z);
-                        
+
                         // 动态添加按钮响应函数
                         btn.onClick.AddListener(delegate
                         {
@@ -194,7 +195,7 @@ namespace NBearUnit
                                 // 从slot中移除当前卡牌
                                 RemoveItem();
                             }
-                            
+
                             // 不论成功使用与否，都销毁按钮
                             Destroy(_gameObject);
                         });
@@ -204,8 +205,8 @@ namespace NBearUnit
                         // 若未点击使用按钮，则此动作未取消使用卡牌，销毁按钮
                         Destroy(_gameObject);
                         _gameObject = null;
-                    } 
-                    
+                    }
+
                     _alreadyShowButton = !_alreadyShowButton;
 
                 }
@@ -219,7 +220,7 @@ namespace NBearUnit
                         UnitManager.Instance.PickedUpUnit(currentItemUI); //调用此函数用于鼠标"捡起"当前slot下的unit
                         BattleMap.BattleMap.getInstance().IsColor = true;
                         //Destroy(currentItemUI.gameObject); //摧毁slot下已经被鼠标"捡起"的unit
-                        
+
                         RemoveItem();
                     }
                     else
