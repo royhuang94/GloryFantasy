@@ -120,9 +120,6 @@ namespace NBearUnit
                     return;
                 }
 
-
-                Debug.Log(_cardInstance);
-
                 BaseCard card = _cardInstance.GetComponent<BaseCard>();
                 JsonData jsonData = CardManager.GetInstance().GetCardJsonData(card.id);
                 int tagCount = jsonData["tag"].Count;
