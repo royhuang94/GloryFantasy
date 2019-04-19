@@ -56,8 +56,8 @@ namespace NBearUnit
         {
             GetComponent<GameUnit.HeroUnit>().unitAttribute = Resources.Load<NBearUnit.UnitAttribute>("ScriptableObjects/BattleAttribuites/" + heroUnitName);
 
-            //添加脚本
-            var curUnitCar = gameObject.AddComponent<GameUnit.UnitCard>();
+            //传递属性值
+            var curUnitCar = gameObject.GetComponent<GameUnit.UnitCard>();
             curUnitCar.id = unitCard.id;
 
             //TODO 获取当前Unit信息与image

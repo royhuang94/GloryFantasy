@@ -48,7 +48,7 @@ public class ShowRange : MonoBehaviour
     public void MarkAttackRange(Vector2 target)
     {
         BattleMap.BattleMap.getInstance().ColorMapBlocks(
-            GetPositionsWithinCertainMd(target, unit.unitAttribute.atk), Color.red);
+            GetPositionsWithinCertainMd(target, unit.unitAttribute.rng), Color.red);
     }
 
     public void CancleMoveRangeMark(Vector2 target)
@@ -60,6 +60,6 @@ public class ShowRange : MonoBehaviour
     public void CancleAttackRangeMark()
     {
         BattleMap.BattleMap.getInstance().ColorMapBlocks(
-             GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.atk), Color.white);
+             GetPositionsWithinCertainMd(UnitManager.Instance.CurUnit, unit.unitAttribute.rng), Color.white);
     }
 }

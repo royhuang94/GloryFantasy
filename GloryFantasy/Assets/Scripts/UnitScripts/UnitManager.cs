@@ -88,7 +88,7 @@ public class UnitManager:
         GameObject temp = GameObject.Instantiate(pickedUnit.gameObject, goTransform) as GameObject;
         //temp.transform.parent = Panel;
         //Debug.Log(temp.name);
-        temp.transform.localPosition = new Vector3(6.8f, 7f, 0.0f);
+        temp.transform.localPosition = new Vector3(28.08333f, 28.08333f, 0.0f);
         temp.GetComponent<Image>().raycastTarget = true;
         
         //添加
@@ -163,12 +163,11 @@ public class UnitManager:
     {
         if (BattleMap.MapNavigator._Instantce.PathSearch(UnitManager.Instance.CurUnit, BattleMap.BattleMap.getInstance().curMapPos))
         {
-
             BattleMap.BattleMapBlock startBlock = BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)UnitManager.Instance.CurUnit.x, (int)UnitManager.Instance.CurUnit.y);
             BattleMap.BattleMapBlock destBlock = BattleMap.BattleMap.getInstance().GetSpecificMapBlock((int)BattleMap.BattleMap.getInstance().curMapPos.x, (int)BattleMap.BattleMap.getInstance().curMapPos.y);
 
             startBlock.transform.GetChild(0).SetParent(destBlock.transform);
-            destBlock.transform.GetChild(0).localPosition = new Vector3(6.0f, 4.0f, 0.0f);
+            destBlock.transform.GetChild(0).localPosition = new Vector3(28.08333f, 28.08333f, 0.0f);
 
             canMoving = false;
         }

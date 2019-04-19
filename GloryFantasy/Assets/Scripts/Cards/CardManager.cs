@@ -200,14 +200,13 @@ namespace GameUnit
             // 重设手牌位置
             ResortCardsInSlots();
         }
-
+            
         /// <summary>
         /// 将预存的预制件放入冷却列表中，仅CardManager内部使用
         /// </summary>
         /// <param name="cardPrefab">要冷却的卡牌的预制件引用</param>
         private void CooldownCard(GameObject cardPrefab)
         {
-            
             Debug.Log(cardPrefab);
             // 读取数据库得到冷却回合数
             int roundAmount= (int)GetCardJsonData(cardPrefab.GetComponent<BaseCard>().id)["cd"];

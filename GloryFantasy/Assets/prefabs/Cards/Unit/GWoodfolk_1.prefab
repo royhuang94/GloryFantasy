@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
+  unitAttribute: {fileID: 11400000, guid: 379f0a8567b288e41a5896918bdf9909, type: 2}
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114978169110480176
 MonoBehaviour:
@@ -168,8 +168,8 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 28.125, y: 28.125}
   m_SizeDelta: {x: 56.25, y: 56.25}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
