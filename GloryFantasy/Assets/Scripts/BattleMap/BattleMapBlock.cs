@@ -98,10 +98,20 @@ namespace BattleMap
         {
             if (UnitManager.Instance.canMoving)
             {
-                UnitManager.Instance.isMoving = true;
+                //限制移动范围移动为单位的行动力
+                GameUnit.GameUnit tempUnit = BattleMap.getInstance().GetUnitsOnMapBlock(UnitManager.Instance.CurUnit);
+                Vector2 unitPositon = UnitManager.Instance.CurUnit;
+                Vector2 targetPositon = GetSelfPosition();
+                UnitMoveCommand unitMove = new UnitMoveCommand(tempUnit, unitPositon,targetPositon);
+                UnitManager.Instance.isMoving = unitMove.Judge();
+                //关闭移动范围染色
                 Gameplay.GetInstance().gamePlayInput.HandleMovCancel(UnitManager.Instance.TargetList[0]);
-                BattleMap.getInstance().selectAction.SetActive(true);
-                BattleMap.getInstance().selectAction.transform.position = Input.mousePosition;
+                //行为选择面板（攻击or防御）
+                if(UnitManager.Instance.isMoving == true)
+                {
+                    BattleMap.getInstance().selectAction.SetActive(true);
+                    BattleMap.getInstance().selectAction.transform.position = Input.mousePosition;
+                }              
                 //Debug.Log(2);
             }
 

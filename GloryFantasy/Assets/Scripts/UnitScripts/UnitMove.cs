@@ -39,8 +39,9 @@ namespace NBearUnit
                 return;
 
             UnitManager.Instance.CurUnit = transform.GetComponentInParent<BattleMap.BattleMapBlock>().GetCoordinate();
+            Debug.Log("currentUnitPosition: "+ UnitManager.Instance.CurUnit);
             //Debug.Log("左键击下Unit" + UnitManager.Instance.CurUnit);
-            //行动染色
+            #region 行动染色
             if (!UnitManager.Instance.IsClicked)
             {
                 targetList.Clear();
@@ -86,9 +87,9 @@ namespace NBearUnit
                     UnitManager.Instance.canMoving = false;                   
                 }
             }
+            #endregion
 
             m_MyEvent.Invoke();
-            //TODO 待解决Bug，canMoving应当在染色区关闭时设置为false
             GFGame.UtilityHelper.Log(UnitManager.Instance.canMoving, GFGame.LogColor.RED);
         }
 

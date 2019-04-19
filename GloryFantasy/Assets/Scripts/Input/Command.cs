@@ -21,16 +21,17 @@ public class SelectUnitCommand : Command
 
 public class UnitMoveCommand :Command
 {
-    public UnitMoveCommand(GameUnit.GameUnit unit, Vector2 destination)
+    public UnitMoveCommand(GameUnit.GameUnit unit, Vector2 unitPositon,Vector2 targetPosion)
     {
         _unit = unit;
-        _destination = destination;
+        _unitPosition = unitPositon;
+        _targetPosition = targetPosion;
     }
 
     public bool Judge()
     {
-        Vector2 unit1 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_unit);
-        Vector2 unit2 = _destination;
+        Vector2 unit1 = _unitPosition;
+        Vector2 unit2 = _targetPosition;
         int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
         if (MAN_HA_DUN <= _unit.unitAttribute.Mov)
             return true;
@@ -46,6 +47,8 @@ public class UnitMoveCommand :Command
 
     private GameUnit.GameUnit _unit;
     private Vector2 _destination;
+    private Vector2 _unitPosition;
+    private Vector2 _targetPosition;
 }
 
 public class UnitAttackCommand :Command
@@ -61,8 +64,18 @@ public class UnitAttackCommand :Command
     //计算攻击距离是否大于曼哈顿
     public bool Judge()
     {
-        Vector2 unit1 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_Attacker);
-        Vector2 unit2 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_AttackedUnit);
+        //Vector2 unit1 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_Attacker);
+        //Vector2 unit2 = BattleMap.BattleMap.getInstance().GetUnitCoordinate(_AttackedUnit);
+        Vector2 unit1;
+        if (BattleMap.BattleMap.getInstance().CheckIfHasUnits(UnitManager.Instance.CurUnit))
+        {
+            unit1 = UnitManager.Instance.CurUnit;
+        }
+        else
+        {
+            unit1 = BattleMap.BattleMap.getInstance().curMapPos;
+        }
+        Vector2 unit2 = UnitManager.Instance.EnemyCurUnit;
         int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
         if (MAN_HA_DUN <= _Attacker.unitAttribute.rng)
             return true;

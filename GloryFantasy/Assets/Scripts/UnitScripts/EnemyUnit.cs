@@ -19,8 +19,26 @@ namespace GameUnit
         /// <param name="eventData"></param>
         public void OnPointerDown(PointerEventData eventData)
         {
-            if(UnitManager.Instance.canAttack)
+            UnitManager.Instance.EnemyCurUnit = transform.GetComponentInParent<BattleMap.BattleMapBlock>().GetCoordinate();
+            Debug.Log("currentEnemyPositon: "+UnitManager.Instance.EnemyCurUnit);
+            if (UnitManager.Instance.canAttack)
             {
+                //限制攻击范围移动为单位的攻击范围
+                GameUnit Attacker;
+                if (BattleMap.BattleMap.getInstance().CheckIfHasUnits(UnitManager.Instance.CurUnit)){
+                    Attacker = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(UnitManager.Instance.CurUnit);
+                }
+                else
+                {
+                    Attacker = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(BattleMap.BattleMap.getInstance().curMapPos);
+                }
+                
+                GameUnit AttackedUnit = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(UnitManager.Instance.EnemyCurUnit);
+                Debug.Log(Attacker);
+                Debug.Log(AttackedUnit);
+                UnitAttackCommand unitAtk = new UnitAttackCommand(Attacker, AttackedUnit);
+                if (unitAtk.Judge() == false) return;
+
                 GFGame.UtilityHelper.Log("触发攻击", GFGame.LogColor.RED);
                 hp -= 3;
                 UnitManager.Instance.EnemyCurUnit = transform.GetComponentInParent<BattleMap.BattleMapBlock>().GetCoordinate();
