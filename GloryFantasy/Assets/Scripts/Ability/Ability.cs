@@ -201,10 +201,14 @@ namespace Ability
 
             //用序列化拷贝AbilityTargetList;
             Stream stream = Serializer.Serializer.InstanceDataToMemory(abilityFormat.AbilityTargetList);
+            stream.Position = 0;
             this.AbilityTargetList = (List<AbilityTarget>)Serializer.Serializer.MemoryToInstanceData(stream);
+            //Debug.Log("Seccess copy AbilityTargetList");
             //用序列化拷贝AbilityVariable
             stream = Serializer.Serializer.InstanceDataToMemory(abilityFormat.AbilityVariable);
+            stream.Position = 0;
             this.AbilityVariable = (AbilityVariable) Serializer.Serializer.MemoryToInstanceData(stream);
+            //Debug.Log("Success copy AbilityVariable");
             //拷贝变量
             this.AbilityID = abilityFormat.AbilityID;
             this.Group = abilityFormat.Group;
