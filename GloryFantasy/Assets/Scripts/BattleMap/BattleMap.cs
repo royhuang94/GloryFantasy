@@ -76,6 +76,7 @@ namespace BattleMap
         }
 
         public GameObject selectAction;
+        public GameObject selcetAction_Cancel;
         public bool IsColor { get; set; }//控制是否高亮战区
         public Vector3 curMapPos;
         private BattleMapBlock[,] _mapBlocks;         //普通的地图方块

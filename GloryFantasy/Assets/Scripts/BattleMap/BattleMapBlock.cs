@@ -103,14 +103,12 @@ namespace BattleMap
                 Vector2 unitPositon = UnitManager.Instance.CurUnit;
                 Vector2 targetPositon = GetSelfPosition();
                 UnitMoveCommand unitMove = new UnitMoveCommand(tempUnit, unitPositon,targetPositon);
-                UnitManager.Instance.isMoving = unitMove.Judge();
-                //关闭移动范围染色
-                Gameplay.GetInstance().gamePlayInput.HandleMovCancel(UnitManager.Instance.TargetList[0]);
+                UnitManager.Instance.isMoving = unitMove.Judge();               
                 //行为选择面板（攻击or防御）
                 if(UnitManager.Instance.isMoving == true)
                 {
-                    BattleMap.getInstance().selectAction.SetActive(true);
-                    BattleMap.getInstance().selectAction.transform.position = Input.mousePosition;
+                    Gameplay.GetInstance().gamePlayInput.HandleMovCancel(UnitManager.Instance.TargetList[0]);                //关闭移动范围染色
+                    SelectAction.Instance.ShowSeclectActionUI();//显示行为面板
                 }              
                 //Debug.Log(2);
             }

@@ -25,23 +25,30 @@ namespace GameUnit
             {
                 //限制攻击范围移动为单位的攻击范围
                 GameUnit Attacker;
-                if (BattleMap.BattleMap.getInstance().CheckIfHasUnits(UnitManager.Instance.CurUnit)){
-                    Attacker = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(UnitManager.Instance.CurUnit);
-                }
-                else
+                Vector2 unitPositon;
                 {
-                    Attacker = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(BattleMap.BattleMap.getInstance().curMapPos);
+                    if (BattleMap.BattleMap.getInstance().CheckIfHasUnits(UnitManager.Instance.CurUnit))
+                    {
+                        unitPositon = UnitManager.Instance.CurUnit;
+                    }
+                    else
+                    {
+                        unitPositon = BattleMap.BattleMap.getInstance().curMapPos;
+                    }
                 }
-                
+                Attacker = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(unitPositon);
                 GameUnit AttackedUnit = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(UnitManager.Instance.EnemyCurUnit);
                 Debug.Log(Attacker);
                 Debug.Log(AttackedUnit);
                 UnitAttackCommand unitAtk = new UnitAttackCommand(Attacker, AttackedUnit);
                 if (unitAtk.Judge() == false) return;
 
+                //攻击成功关闭攻击染色
+                Gameplay.GetInstance().gamePlayInput.HandleAtkCancel(unitPositon);
+                BattleMap.BattleMap.getInstance().selcetAction_Cancel.SetActive(false);
+
                 GFGame.UtilityHelper.Log("触发攻击", GFGame.LogColor.RED);
-                hp -= 3;
-                UnitManager.Instance.EnemyCurUnit = transform.GetComponentInParent<BattleMap.BattleMapBlock>().GetCoordinate();
+                hp -= 3;               
                 if (!IsDead())
                 {
                     Debug.Log(hp);

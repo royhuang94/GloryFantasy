@@ -81,8 +81,7 @@ namespace NBearUnit
                 else
                 {
                     Gameplay.GetInstance().gamePlayInput.HandleMovCancel(UnitManager.Instance.CurUnit);
-                    BattleMap.BattleMap.getInstance().selectAction.SetActive(true);
-                    BattleMap.BattleMap.getInstance().selectAction.transform.position = Input.mousePosition;
+                    SelectAction.Instance.ShowSeclectActionUI();//显示行为面板
                     UnitManager.Instance.IsClicked = false;
                     UnitManager.Instance.canMoving = false;                   
                 }

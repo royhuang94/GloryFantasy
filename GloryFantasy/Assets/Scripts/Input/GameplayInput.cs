@@ -55,10 +55,10 @@ public class GameplayInput
         }
     }
 
-    public void HandleAtkCancel()
+    public void HandleAtkCancel(Vector2 target)
     {
-        GameUnit.GameUnit unit = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(TargetList[0]);
-        unit.GetComponent<ShowRange>().CancleAttackRangeMark();
+        GameUnit.GameUnit unit = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target);
+        unit.GetComponent<ShowRange>().CancleAttackRangeMark(target);
         TargetList.Clear();
     }
 
