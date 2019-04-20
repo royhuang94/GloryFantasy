@@ -108,6 +108,7 @@ namespace BattleMap
                 if(UnitManager.Instance.isMoving == true)
                 {
                     Gameplay.GetInstance().gamePlayInput.HandleMovCancel(UnitManager.Instance.TargetList[0]);                //关闭移动范围染色
+                    Debug.Log(SelectAction.Instance);
                     SelectAction.Instance.ShowSeclectActionUI();//显示行为面板
                 }              
                 //Debug.Log(2);
@@ -148,7 +149,7 @@ namespace BattleMap
             //go.transform.localPosition = Vector3.zero;
 
             BattleMap.getInstance().curMapPos = GetSelfPosition();
-            Debug.Log(this.aStarState + " / " + GetSelfPosition());
+            //Debug.Log(this.aStarState + " / " + GetSelfPosition());
         }
 
         private void Awake()

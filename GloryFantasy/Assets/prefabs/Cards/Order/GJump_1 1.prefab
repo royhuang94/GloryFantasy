@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114884265991762062}
   - component: {fileID: 114899409286380966}
   - component: {fileID: 114393990969695088}
-  - component: {fileID: 114463222389823220}
   - component: {fileID: 114900167786427618}
   m_Layer: 5
   m_Name: GJump_1 1
@@ -73,17 +72,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114463222389823220
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1704780224713738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114884265991762062
 MonoBehaviour:
   m_ObjectHideFlags: 1

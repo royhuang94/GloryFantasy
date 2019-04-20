@@ -54,7 +54,7 @@ namespace Ability
                     JsonData tmp = abilitiesJsonData[i];
                     AbilityFormat newAbility = new AbilityFormat(tmp["AbilityID"].ToString());
 
-                    Debug.Log(tmp["AbilityID"]);
+                    //Debug.Log(tmp["AbilityID"]);
 
                     if ((int)tmp["TargetCount"] > 0)
                         newAbility.AbilityTargetList.Add(new AbilityTarget(tmp["TargetType"].ToString(), ((int)tmp["IsSpeller"]>0), ((int)tmp["IsTarget"]>0)));

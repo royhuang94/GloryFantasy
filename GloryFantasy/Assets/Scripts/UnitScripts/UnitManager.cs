@@ -63,6 +63,10 @@ public class UnitManager:
     /// 用来存储释放异能的选择目标
     /// </summary>
     private List<Vector2> SelectingList = new List<Vector2>();
+    /// <summary>
+    /// 保存当前实例化到地图上的单位异能id
+    /// </summary>
+    public List<string> abilitiesID { get; set; }
 
     private Transform goTransform;
     public void CouldInstantiation(bool coudInstantiation, Transform parent)
@@ -96,6 +100,7 @@ public class UnitManager:
         //脚本到实例化Unit上
         //AddComponent
         temp.gameObject.AddComponent<NBearUnit.UnitMove>();
+        temp.GetComponent<NBearUnit.UnitUI>().AttachedAbility(abilitiesID);
 
         //AttachHpOnUnit(temp);
 
@@ -199,6 +204,9 @@ public class UnitManager:
     public void InputTarget(Vector2 target)
     {
         int count = SelectingList.Count;
+
+        //TODO 空指针
+        Debug.Log(CastingCard);
         Ability.AbilityTarget abilityTarget = CastingCard.AbilityTargetList[count];
         //TODU: 修改敌军友军的区分方式
         if ((abilityTarget.TargetType == Ability.TargetType.Enemy && BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(target).owner == GameUnit.OwnerEnum.Enemy) ||
@@ -240,9 +248,6 @@ public class UnitManager:
             //TODO 此处为单位，所以我们需要添加
             //UnitCard，并更新id值
             //HeroUnit，复制为resources文件下，对应名字的attribute
-
-
-            //Debug.Break();
             pickedUnit.SetUnit(GFGame.UtilityHelper.RemoveNameClone(curGOUnit.name), unitCard);
         }
         pickedUnit.gameObject.GetComponent<GameUnit.GameUnit>().owner = GameUnit.OwnerEnum.Player;

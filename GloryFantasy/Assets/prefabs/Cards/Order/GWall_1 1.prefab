@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114122532362480156}
   - component: {fileID: 114569461603597014}
   - component: {fileID: 114417179660904960}
-  - component: {fileID: 114114149694865456}
   - component: {fileID: 114671887790090976}
   - component: {fileID: 114094281232541830}
   m_Layer: 5
@@ -47,17 +46,6 @@ MonoBehaviour:
   id: GWall_1
   buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
     type: 2}
---- !u!114 &114114149694865456
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1311245823066862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114122532362480156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitAttribute: {fileID: 11400000, guid: f85d2dfb7eabf6942a8e9120ef003150, type: 2}
+  owner: 0
   mapBlockBelow: {fileID: 0}
 --- !u!222 &222121243472133516
 CanvasRenderer:
@@ -170,8 +159,8 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 28.125, y: 28.125}
   m_SizeDelta: {x: 56.25, y: 56.25}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}

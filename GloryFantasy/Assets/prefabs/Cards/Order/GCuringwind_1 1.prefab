@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114276672117559316}
   - component: {fileID: 114292232208213476}
   - component: {fileID: 114615175158671918}
-  - component: {fileID: 114915262093539018}
   - component: {fileID: 114326534081668852}
   m_Layer: 5
   m_Name: GCuringwind_1 1
@@ -125,17 +124,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114915262093539018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1959808525209992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222012950454788586
 CanvasRenderer:
   m_ObjectHideFlags: 1

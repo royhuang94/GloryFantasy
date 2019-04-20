@@ -87,7 +87,7 @@ public class GameObjectPool
         //实例化出go对象
         GameObject temp = GameObject.Instantiate(prefabs) as GameObject;
         goListStatusTrue.Add(temp);
-        Debug.Log(goListStatusTrue.Count);
+        //Debug.Log(goListStatusTrue.Count);
 
 
         //TODO 血量显示 test版本, 此后用slider显示

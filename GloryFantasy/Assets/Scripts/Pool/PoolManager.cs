@@ -35,7 +35,7 @@ public class PoolManager:
         poolDic = new Dictionary<string, GameObjectPool>();
         foreach (GameObjectPool pool in poolList.poolList)
         {
-            Debug.Log(pool.ID);
+            //Debug.Log(pool.ID);
             poolDic.Add(pool.ID, pool);
         }
     }

@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114483291741394206}
   - component: {fileID: 114527378072224066}
   - component: {fileID: 114016696829699716}
-  - component: {fileID: 114787640108008424}
   - component: {fileID: 114575946825125358}
   m_Layer: 5
   m_Name: WInstantidea_1
@@ -125,17 +124,6 @@ MonoBehaviour:
   id: WInstantidea_1
   buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
     type: 2}
---- !u!114 &114787640108008424
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1901114404064700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222294761129372782
 CanvasRenderer:
   m_ObjectHideFlags: 1

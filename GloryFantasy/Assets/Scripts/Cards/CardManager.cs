@@ -208,7 +208,7 @@ namespace GameUnit
         /// <param name="cardPrefab">要冷却的卡牌的预制件引用</param>
         private void CooldownCard(GameObject cardPrefab)
         {
-            Debug.Log(cardPrefab);
+            //Debug.Log(cardPrefab);
             // 读取数据库得到冷却回合数
             int roundAmount= (int)GetCardJsonData(cardPrefab.GetComponent<BaseCard>().id)["cd"];
             

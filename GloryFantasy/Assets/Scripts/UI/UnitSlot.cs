@@ -122,13 +122,18 @@ namespace NBearUnit
 
                 BaseCard card = _cardInstance.GetComponent<BaseCard>();
                 JsonData jsonData = CardManager.GetInstance().GetCardJsonData(card.id);
-                int tagCount = jsonData["tag"].Count;
+
+                int tagCount;
                 string tagInToal = "";
-                for (int i = 0; i < tagCount; i++)
+                if (jsonData["tag"] != null)
                 {
-                    tagInToal += jsonData["tag"][i].ToString();
-                }
-                
+                    tagCount = jsonData["tag"].Count;
+                   
+                    for (int i = 0; i < tagCount; i++)
+                    {
+                        tagInToal += jsonData["tag"][i].ToString();
+                    }
+                }       
                 //GUILayout.BeginArea(new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, 300, 350));
                 GUILayout.BeginArea(new Rect(0, 0, 300, 500));
                 GUILayout.BeginHorizontal("Box");

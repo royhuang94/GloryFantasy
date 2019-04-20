@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114555856420204116}
   - component: {fileID: 114359589583746072}
   - component: {fileID: 114872550328276600}
-  - component: {fileID: 114281719534773852}
   - component: {fileID: 114875336135390898}
   m_Layer: 5
   m_Name: GArrowrain_1
@@ -32,17 +31,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114281719534773852
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1133648226974368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e46e021e321040bf9ccb622808d8ab9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114359589583746072
 MonoBehaviour:
   m_ObjectHideFlags: 1

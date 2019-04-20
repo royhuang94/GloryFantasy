@@ -49,7 +49,7 @@ namespace NBearUnit
             transform.localPosition = position;
         }
 
-        private void AttachedAbility(List<string> abilities)
+        public void AttachedAbility(List<string> abilities)
         {
             foreach (var ability in abilities)
             {
@@ -78,7 +78,7 @@ namespace NBearUnit
                         break;
                     case "Armor_1":
                         GFGame.UtilityHelper.Log("添加异能" + "Armor1" + "成功", GFGame.LogColor.RED);
-                        //gameObject.AddComponent<Ability.Armor1>();
+                        //gameObject.AddComponent<Ability.Armor>();
                         break;
                     case "Fly":
                         GFGame.UtilityHelper.Log("添加异能" + "Fly" + "成功", GFGame.LogColor.RED);
@@ -113,7 +113,8 @@ namespace NBearUnit
             curUnitCar.id = unitCard.id;
 
             //TODO 测试挂载异能ability unitAttribute
-            AttachedAbility(GetComponent<GameUnit.HeroUnit>().unitAttribute.ability);
+            UnitManager.Instance.abilitiesID = GetComponent<GameUnit.HeroUnit>().unitAttribute.ability;
+            /*AttachedAbility(GetComponent<GameUnit.HeroUnit>().unitAttribute.ability);*/
 
             //TODO 获取当前Unit信息与image
             //当前为测试代码。。我这边根据resources函数处理的
