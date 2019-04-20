@@ -9,7 +9,7 @@ public class SelectAction : MonoBehaviour{
     /// </summary>
 
     //好吧，还是单例方便
-    private static SelectAction instance;
+    private static SelectAction instance = null;
     public static SelectAction Instance
     {
         get
@@ -21,7 +21,8 @@ public class SelectAction : MonoBehaviour{
     // Use this for initialization
 	void Start () {
         instance = this;
-	}
+        BattleMap.BattleMap.getInstance().selectAction.SetActive(false);
+    }
 	
 	// Update is called once per frame
 	void Update () {
