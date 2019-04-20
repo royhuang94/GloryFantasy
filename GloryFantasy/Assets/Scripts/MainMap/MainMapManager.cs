@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GFCharactor;
+
 /// <summary>定义六边形坐标的结构体，并处理坐标转换
 /// 
 /// </summary>
@@ -16,6 +17,11 @@ public struct HexVector
     /// 
     /// </summary>
     public Vector3 Normal_vector;
+    /// <summary>传入六边形坐标数值转换成世界坐标
+    /// 
+    /// </summary>
+    /// <param name="vector"></param>
+    /// <returns></returns>
     public Vector3 ChangeToNormalVect(Vector3 vector)
     {
         //  HexVector hexVector = new HexVector();
@@ -27,6 +33,11 @@ public struct HexVector
         return vector;
 
     }
+    /// <summary>传入世界坐标数值转换成六边形坐标
+    /// 
+    /// </summary>
+    /// <param name="vector"></param>
+    /// <returns></returns>
     public Vector3 ChangeToHexVect(Vector3 vector)
     {
         Hex_vector.x = vector.x / 3f - 0.5f * vector.z;
@@ -42,6 +53,8 @@ public struct HexVector
 /// </summary>
 public class MainMapManager : MonoBehaviour
 {
+
+    public TextAsset textAsset;
     /// <summary>地格材质，测试用，运行的时候找一个Unity默认的材质加上去就行。
     /// 
     /// </summary>
@@ -68,39 +81,39 @@ public class MainMapManager : MonoBehaviour
         AroundList.Add("-1,0", null);
         AroundList.Add("-1,1", null);
         AroundList.Add("1,-1", null);
-        //测试用
-        string[,] simtext = new string[3, 3]
+        //通过读取文件里的字符串转换成对应的地格生成地图
+        System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
+        string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
+        for (int i = 0; i < lines.Length; i++)
         {
-            {"plane","plane","post" },
-            { "plane","plane","plane"},
-            {"post","plane","plane" },
-
-        };
-
-        for (int i = 0; i < simtext.GetLength(0); i++)
-        {
-            for (int j = 0; j < simtext.GetLength(1); j++)
+            string[] element = lines[i].Split(',');
+            for (int j = 0; j < element.Length; j++)
             {
-                GameObject gameObject = new GameObject("test" + i.ToString() + j.ToString());
-                gameObject.transform.parent = GameObject.Find("Map").transform;
-                HexVector vector = new HexVector();
-                gameObject.AddComponent<Button>();
-                gameObject.AddComponent<MapUnit>();
-                MeshFilter flit = gameObject.AddComponent<MeshFilter>();
-                gameObject.AddComponent<MeshRenderer>();
-                gameObject.AddComponent<BoxCollider>();
-                flit.mesh = mesh;
-                gameObject.transform.position = vector.ChangeToNormalVect(new Vector3(i, 0, j));
-                gameObject.GetComponent<MapUnit>().SethexVector();
-                switch (simtext[i, j])
+                if (element[j] != "null")//如果字符串不为null,则生成地格挂载脚本。
                 {
-                    case "plane":
-                        break;
-                    case "post":
-                        gameObject.AddComponent<Post>();
-                        break;
+                    GameObject gameObject = new GameObject("test" + i.ToString() + j.ToString());
+                    gameObject.transform.parent = GameObject.Find("Map").transform;
+                    HexVector vector = new HexVector();
+                    gameObject.AddComponent<Button>();
+                    gameObject.AddComponent<MapUnit>();
+                    MeshFilter flit = gameObject.AddComponent<MeshFilter>();
+                    gameObject.AddComponent<MeshRenderer>();
+                    gameObject.AddComponent<BoxCollider>();
+                    flit.mesh = mesh;
+                    gameObject.transform.position = vector.ChangeToNormalVect(new Vector3(i, 0, j));
+                    gameObject.GetComponent<MapUnit>().SethexVector();
+                    switch (element[j])
+                    {
+                        case "plane":
+                            break;
+                        case "post":
+                            gameObject.AddComponent<Post>();
+                            break;
+
+                    }
                 }
-                //   Debug.Log(gameObject.transform.position);
+              
+               
             }
 
         }
@@ -166,7 +179,7 @@ public class MainMapManager : MonoBehaviour
 
 
 }
-/// <summary>六边形单元格,每个地格都会挂载这个脚本。
+/// <summary>六边形单元格,每个地格都会挂载这个脚本，负责处理角色移动，地格坐标信息也都在这里
 /// 
 /// </summary>
 public class MapUnit : MonoBehaviour
@@ -209,7 +222,7 @@ public class MapUnit : MonoBehaviour
             Debug.Log("这个格子不在角色相邻区域，无法移动");
         }
     }
-    /// <summary>点击合法后，大地图初始化或角色死亡后调用此函数，传到MapManager的SetAround来处理。
+    /// <summary>点击合法后，传到MapManager的SetAround来处理。
     /// 
     /// </summary>
     public void DoOnclick()
@@ -224,9 +237,18 @@ public class MapUnit : MonoBehaviour
 
 
 }
+/// <summary>每个驿站都会挂这个脚本，负责控制传送逻辑
+/// 
+/// </summary>
 public class Post : MapUnit
 {
+    /// <summary>驿站是否激活
+    /// 
+    /// </summary>
     private bool isActive = false;
+    /// <summary>角色踩在驿站上会把ReadyToTrans设置为true
+    /// 
+    /// </summary>
     private static bool ReadyToTrans = false;
     public new void Awake()
     {
@@ -234,6 +256,9 @@ public class Post : MapUnit
         Button btn = gameObject.GetComponent<Button>();
         btn.onClick.AddListener(Onclick);
     }
+    /// <summary>点击驿站格子后触发的事件
+    /// 
+    /// </summary>
     public void Onclick()
     {
         if (mapManager.charactor.charactorData.PlayerLocate.Normal_vector == GetComponent<Transform>().position && ReadyToTrans == false)
@@ -243,6 +268,7 @@ public class Post : MapUnit
             Debug.Log("进入驿站");
             ReadyToTrans = true;
             Debug.Log("准备传送");
+            //如果放弃传送移动到驿站相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
             foreach (MapUnit unit in mapManager.AroundList.Values)
             {
 
@@ -277,6 +303,9 @@ public class Post : MapUnit
             Debug.Log("你不在这个驿站");
         }
     }
+    /// <summary>传送的具体方法
+    /// 
+    /// </summary>
     public void transfer()
     {
         mapManager.charactor.Move(GetComponent<Transform>().position, -2);
