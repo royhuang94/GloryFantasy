@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 224236412827362044}
   - component: {fileID: 222665476399661896}
   - component: {fileID: 114247292663287984}
-  - component: {fileID: 114661634351475006}
   - component: {fileID: 114480119757990722}
   - component: {fileID: 114501560201298730}
+  - component: {fileID: 114630181608749086}
   m_Layer: 5
   m_Name: URLunastrike_1 1
   m_TagString: Untagged
@@ -113,7 +113,7 @@ MonoBehaviour:
   id: URLunastrike_1
   buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
     type: 2}
---- !u!114 &114661634351475006
+--- !u!114 &114630181608749086
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

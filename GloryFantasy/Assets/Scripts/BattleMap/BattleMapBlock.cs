@@ -31,7 +31,6 @@ namespace BattleMap
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
 
-
         //public MapBlock(int area, string[] data)
         //{
         //    this.area = area;

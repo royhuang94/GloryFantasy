@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 224755635417840490}
   - component: {fileID: 222012950454788586}
   - component: {fileID: 114276672117559316}
-  - component: {fileID: 114292232208213476}
   - component: {fileID: 114615175158671918}
   - component: {fileID: 114326534081668852}
+  - component: {fileID: 114376023154866938}
   m_Layer: 5
   m_Name: GCuringwind_1 1
   m_TagString: Untagged
@@ -58,17 +58,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114292232208213476
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1959808525209992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114326534081668852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,6 +72,17 @@ MonoBehaviour:
   id: GCuringwind_1
   buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
     type: 2}
+--- !u!114 &114376023154866938
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1959808525209992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114615175158671918
 MonoBehaviour:
   m_ObjectHideFlags: 1

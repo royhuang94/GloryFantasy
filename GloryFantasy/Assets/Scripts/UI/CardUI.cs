@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace NBearUnit
 {
-    public class UnitUI : MonoBehaviour, IPointerDownHandler
+    public class CardUI : MonoBehaviour, IPointerDownHandler
     {
         #region UI Component
         private Image m_itemImage;

@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 224460862706907188}
   - component: {fileID: 222407750028754160}
   - component: {fileID: 114695051282533582}
-  - component: {fileID: 114233605761325712}
   - component: {fileID: 114625369125671550}
   - component: {fileID: 114610821229539422}
+  - component: {fileID: 114187088956288256}
   m_Layer: 5
   m_Name: WMist_1 1
   m_TagString: Untagged
@@ -31,7 +31,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114233605761325712
+--- !u!114 &114187088956288256
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 224322367078167310}
   - component: {fileID: 222063779657897090}
   - component: {fileID: 114387706463263862}
-  - component: {fileID: 114771819703766682}
   - component: {fileID: 114092280434859718}
   - component: {fileID: 114406808827967250}
+  - component: {fileID: 114002886275575100}
   m_Layer: 5
   m_Name: RThrow_1 1
   m_TagString: Untagged
@@ -31,6 +31,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114002886275575100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1478351617154136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114092280434859718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,17 +124,6 @@ MonoBehaviour:
   id: RThrow_1
   buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
     type: 2}
---- !u!114 &114771819703766682
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1478351617154136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222063779657897090
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 224808199023007548}
   - component: {fileID: 222820093232961474}
   - component: {fileID: 114939603865413822}
-  - component: {fileID: 114342792492128936}
   - component: {fileID: 114718360514800846}
   - component: {fileID: 114475389720063438}
+  - component: {fileID: 114342701714140664}
   m_Layer: 5
   m_Name: RBattlecry_1
   m_TagString: Untagged
@@ -31,7 +31,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114342792492128936
+--- !u!114 &114342701714140664
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

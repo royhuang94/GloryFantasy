@@ -10,7 +10,7 @@ namespace GameUnit
     {
         private void Start()
         {
-            hp = unitAttribute.HP;
+            HP = unitAttribute.HP;
         }
 
         /// <summary>
@@ -48,20 +48,25 @@ namespace GameUnit
                 BattleMap.BattleMap.getInstance().selcetAction_Cancel.SetActive(false);
 
                 GFGame.UtilityHelper.Log("触发攻击", GFGame.LogColor.RED);
-                hp -= 3;               
+                UnitAttackCommand unitAttackCommand = new UnitAttackCommand(Attacker, AttackedUnit);
+                //hp -= 3; 
+                unitAtk.Excute();
                 if (!IsDead())
                 {
-                    Debug.Log(hp);
-                    float hpDivMaxHp = (float)hp / unitAttribute.MaxHp * 100;
+                    Debug.Log(Attacker.HP);
+                    Debug.Log(AttackedUnit.HP);
+                    float hpDivMaxHp = (float)HP / unitAttribute.MaxHp * 100;
+                    Debug.Log(hpDivMaxHp);
+
                     var textHp = transform.GetComponentInChildren<Text>();
                     textHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
 
+                    Attacker.GetComponentInChildren<hpUpdate>().UpdateHp();
                     //TODO 反击
-
                 }
                 else
                 {
-                    Destroy(this.gameObject);
+                    this.gameObject.SetActive(false);
                     BattleMap.BattleMap.getInstance().UpDateNeighbourBlock(UnitManager.Instance.EnemyCurUnit);
                 }
                 UnitManager.Instance.canAttack = false;

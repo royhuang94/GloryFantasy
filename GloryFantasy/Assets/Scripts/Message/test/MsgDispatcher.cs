@@ -18,6 +18,8 @@ namespace IMessage
         AddInHand,
         AnnounceAttack,
         ActiveAbility,
+
+        #region ATK 时点部分
         BeAttacked,
         Damage,
         BeDamaged,
@@ -25,6 +27,8 @@ namespace IMessage
         BeKilled,
         Dead,
         ToBeKilled,
+        #endregion
+
         Move,
         UnitMoving
     };

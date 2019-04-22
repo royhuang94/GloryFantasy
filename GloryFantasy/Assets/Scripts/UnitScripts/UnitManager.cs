@@ -7,24 +7,23 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //TODO 实现简单的点击事件，处理单位实例化
-
 public class UnitManager: 
     GFGame.MonoBehaviourSingleton<UnitManager>
 {
     #region 拖拽Unit
     private bool isPickedUnit = false;
-    private NBearUnit.UnitUI pickedUnit; //被鼠标选中的unit 
-    private NBearUnit.UnitUI pickedOrder;//被鼠标选中的效果牌
+    private NBearUnit.CardUI pickedUnit; //被鼠标选中的unit 
+    private NBearUnit.CardUI pickedOrder;//被鼠标选中的效果牌
     private Vector2 offsetPosition = new Vector2(-6.0f, -6.0f);
 
-    public NBearUnit.UnitUI PickedUnit
+    public NBearUnit.CardUI PickedUnit
     {
         get
         {
             return pickedUnit; //pickedUnit永远不会为空，因为是从prefab中复制出去的
         }
     }
-    public NBearUnit.UnitUI PickedOrder
+    public NBearUnit.CardUI PickedOrder
     {
         get
         {
@@ -100,15 +99,15 @@ public class UnitManager:
         //脚本到实例化Unit上
         //AddComponent
         temp.gameObject.AddComponent<NBearUnit.UnitMove>();
-        temp.GetComponent<NBearUnit.UnitUI>().AttachedAbility(abilitiesID);
+        temp.GetComponent<NBearUnit.CardUI>().AttachedAbility(abilitiesID);
 
-        //AttachHpOnUnit(temp);
+        //AttachHpOnUnit(temp); 
 
         var hpTest = temp.transform.GetChild(0);
         pickedUnit.Hide();
         //TODO 暂时用Text标识血量，以后改为slider
         hpTest.gameObject.SetActive(true);
-        float hp = temp.GetComponent<GameUnit.GameUnit>().unitAttribute.HP;
+        float hp = (temp.GetComponent<GameUnit.GameUnit>().HP = temp.GetComponent<GameUnit.GameUnit>().unitAttribute.HP);
         float hpDivMaxHp = hp / temp.GetComponent<GameUnit.GameUnit>().unitAttribute.MaxHp * 100;
 
         hpTest.GetComponent<Text>().text = string.Format("HP: {0}%", hpDivMaxHp);
@@ -133,14 +132,14 @@ public class UnitManager:
     {
         TargetList = new List<Vector2>();
         mapBlockParent = GetComponentInParent<BattleMap.BattleMapBlock>();
-        canvas = GameObject.Find("UnitUI").GetComponent<Canvas>();
+        canvas = GameObject.Find("BattleCanvas").GetComponent<Canvas>();
 
         //处理单位抓取的
-        pickedUnit = GameObject.Find("PickedUnit").GetComponent<NBearUnit.UnitUI>();
+        pickedUnit = GameObject.Find("PickedUnit").GetComponent<NBearUnit.CardUI>();
         pickedUnit.Hide();
 
         //TODO 未来处理效果牌的抓取
-        pickedOrder = GameObject.Find("PickedOrder").GetComponent<NBearUnit.UnitUI>();
+        pickedOrder = GameObject.Find("PickedOrder").GetComponent<NBearUnit.CardUI>();
         pickedOrder.Hide();
 
         IsInstantiation = false;
@@ -177,10 +176,9 @@ public class UnitManager:
 
             startBlock.transform.GetChild(0).SetParent(destBlock.transform);
             destBlock.transform.GetChild(0).localPosition = new Vector3(28.08333f, 28.08333f, 0.0f);
-
             canMoving = false;
         }
-
+        BattleMap.BattleMap.getInstance().aStarPath.Clear();
         isMoving = false;
         //TODO 待优化
         BattleMap.MapNavigator._Instantce.RestIsInCloseListBlock();
@@ -236,11 +234,11 @@ public class UnitManager:
     /// <summary>
     /// “抓起” Unit
     /// </summary>
-    /// <param name="unitUI">目标拾起的单位，用于传递信息</param>
-    public void PickedUpUnit(NBearUnit.UnitUI unitUI)
+    /// <param name="CardUI">目标拾起的单位，用于传递信息</param>
+    public void PickedUpUnit(NBearUnit.CardUI CardUI)
     {
-        var curGOUnit = unitUI.gameObject;
-        pickedUnit.name = GFGame.UtilityHelper.RemoveNameClone(unitUI.name);
+        var curGOUnit = CardUI.gameObject;
+        pickedUnit.name = GFGame.UtilityHelper.RemoveNameClone(CardUI.name);
         
         GameUnit.UnitCard unitCard = curGOUnit.GetComponent<GameUnit.UnitCard>();
         if (unitCard != null)

@@ -14,15 +14,27 @@ public class Damage
         this.damageValue = damageValue;
     }
 
+    /// <summary>
+    /// 获取Damage伤害
+    /// </summary>
+    /// <param name="unit">当前攻击单位</param>
+    /// <returns></returns>
     public static Damage GetDamage(GameUnit.GameUnit unit)
     {
         Damage damage = new Damage(unit.unitAttribute.atk);
         return damage;
     }
 
+    /// <summary>
+    /// 单位接受攻击
+    /// </summary>
+    /// <param name="unit">被攻击单位</param>
+    /// <param name="damage">伤害</param>
     public static void TakeDamage(GameUnit.GameUnit unit, Damage damage)
     {
-        unit.hp -= damage.damageValue;
+        Debug.Log(damage.damageValue);
+        unit.HP -= damage.damageValue;
+        Debug.Log("收到伤害，当前剩余生命值" + unit.HP);
     }
 }
 
@@ -31,6 +43,12 @@ public class Damage
 //所以我把Command的方法提了出来写成了GameplayTool，Command继承GamePlay,依然是采用继承的方式才能调用，因为真的不想增加太多的全局量
 public class DamageRequest : GameplayTool
 {
+    /// <summary>
+    /// 带参构造函数
+    /// </summary>
+    /// <param name="attacker">攻击者</param>
+    /// <param name="attackedUnit">被攻击单位</param>
+    /// <param name="priority">优先级</param>
     public DamageRequest(GameUnit.GameUnit attacker, GameUnit.GameUnit attackedUnit, int priority)
     {
         _attacker = attacker;
@@ -41,20 +59,26 @@ public class DamageRequest : GameplayTool
     /// <summary>
     /// 根据攻击者和被攻击的攻击优先级列表生成对应的伤害请求list
     /// </summary>
-    /// <param name="DamageRequestList">被填充的伤害请求list</param>
+    /// <param name="DamageRequestList">伤害请求list</param>
     /// <param name="Attacker">攻击者</param>
     /// <param name="AttackedUnit">被攻击者</param>
     public static List<DamageRequest> CaculateDamageRequestList(GameUnit.GameUnit Attacker, GameUnit.GameUnit AttackedUnit)
     {
         List<DamageRequest> damageRequestList = new List<DamageRequest>();
-        for (int i = 0; i < Attacker.priority.Count; i++)
-        {
-            damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.priority[i]));
-        }
-        for (int i = 0; i < AttackedUnit.priority.Count; i++)
-        {
-            damageRequestList.Add(new DamageRequest(AttackedUnit, Attacker, AttackedUnit.priority[i]));
-        }
+        Debug.Log(Attacker.unitAttribute.Prt);
+
+        //TODO 测试
+        damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.unitAttribute.Prt));
+        damageRequestList.Add(new DamageRequest(AttackedUnit, Attacker, AttackedUnit.unitAttribute.Prt));
+
+        //for (int i = 0; i < Attacker.priority.Count; i++)
+        //{
+        //    damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.priority[i]));
+        //}
+        //for (int i = 0; i < AttackedUnit.priority.Count; i++)
+        //{
+        //    damageRequestList.Add(new DamageRequest(AttackedUnit, Attacker, AttackedUnit.priority[i]));
+        //}
         damageRequestList.Sort((a, b) => 
         {
             if (a.priority < b.priority)
@@ -72,14 +96,26 @@ public class DamageRequest : GameplayTool
     /// </summary>
     public void Excute()
     {
-        Damage.TakeDamage(_attackedUnit, Damage.GetDamage(_attacker));
+        //TODO 如果单位死亡则不能反击
+        Damage.TakeDamage( _attackedUnit, Damage.GetDamage(_attacker) );
         this.SetInjurer(_attacker); this.SetInjuredUnit(_attackedUnit);
         MsgDispatcher.SendMsg((int)MessageType.Damage);
         MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
 
+        /*  TODO 时点处理
+            BeAttacked,
+            Damage,
+            BeDamaged,
+            Kill,
+            BeKilled,
+            Dead,
+            ToBeKilled,    
+         */
+
         if (_attackedUnit.IsDead())
         {
-            this.SetKiller(_attacker); this.SetKilledAndDeadUnit(_attackedUnit);
+            this.SetKiller(_attacker);
+            this.SetKilledAndDeadUnit(_attackedUnit);
             MsgDispatcher.SendMsg((int)MessageType.Kill);
             MsgDispatcher.SendMsg((int)MessageType.Dead);
         }

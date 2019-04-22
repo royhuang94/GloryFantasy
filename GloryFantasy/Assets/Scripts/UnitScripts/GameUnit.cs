@@ -18,7 +18,8 @@ namespace GameUnit
         public OwnerEnum owner;
 
         //TODO 考虑属性应该通过ScriptableObject还是通过下面方法
-        public int hp { get; set; }//TODO暂时保存 后面改进
+        private int hp;
+        public int HP { get { return hp; } set { hp = value; } }//TODO暂时保存 后面改进
         //public int atk { get; set; }
         //public string id { get; set; }
         //public int mov { get; set; }

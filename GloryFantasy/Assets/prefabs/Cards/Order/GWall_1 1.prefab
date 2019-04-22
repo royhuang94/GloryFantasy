@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 224046762020510794}
   - component: {fileID: 222121243472133516}
   - component: {fileID: 114122532362480156}
-  - component: {fileID: 114569461603597014}
   - component: {fileID: 114417179660904960}
   - component: {fileID: 114671887790090976}
   - component: {fileID: 114094281232541830}
+  - component: {fileID: 114246081212240932}
   m_Layer: 5
   m_Name: GWall_1 1
   m_TagString: Untagged
@@ -73,6 +73,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114246081212240932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1311245823066862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114417179660904960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,17 +125,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114569461603597014
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1311245823066862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114671887790090976
 MonoBehaviour:
   m_ObjectHideFlags: 1

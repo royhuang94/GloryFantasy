@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 224815721211214562}
   - component: {fileID: 222294761129372782}
   - component: {fileID: 114483291741394206}
-  - component: {fileID: 114527378072224066}
   - component: {fileID: 114016696829699716}
   - component: {fileID: 114575946825125358}
+  - component: {fileID: 114682520917158416}
   m_Layer: 5
   m_Name: WInstantidea_1
   m_TagString: Untagged
@@ -99,17 +99,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114527378072224066
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1901114404064700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114575946825125358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,6 +113,17 @@ MonoBehaviour:
   id: WInstantidea_1
   buttonPrefab: {fileID: 1031866211905490, guid: cb09d51568f2e234cb839127f829fd53,
     type: 2}
+--- !u!114 &114682520917158416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1901114404064700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02b3e0a3a374d8393f4fd7a82e5f40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222294761129372782
 CanvasRenderer:
   m_ObjectHideFlags: 1

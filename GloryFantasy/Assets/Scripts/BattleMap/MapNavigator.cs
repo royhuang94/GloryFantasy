@@ -98,7 +98,7 @@ namespace BattleMap
                         //path.aStarState = AStarState.free;
                         BattleMap.getInstance().aStarPath.Add(path);
                         //Debug.Log("aStarPath " + path.GetSelfPosition());
-                        path.GetComponent<Image>().color = Color.blue;
+
                         if (path.parentBlock == null)
                             path = null;
                         else
@@ -107,6 +107,15 @@ namespace BattleMap
                     //path.GetComponent<Image>().color = Color.white;
 
                     RestIsInOpenListBlock();
+
+                    //TODO 测试移动
+                    var mov = BattleMap.getInstance().GetUnitsOnMapBlock(startPos).unitAttribute.Mov;
+                    if (BattleMap.getInstance().aStarPath.Count - 1 > mov)
+                    {
+                        GFGame.UtilityHelper.Log("超出移动力范围，当前移动力" + mov, GFGame.LogColor.RED);
+                        Debug.Log((BattleMap.getInstance().aStarPath.Count - 1));
+                        return false;
+                    }
                     return true;
                 }
                 OpenList.Remove(A);

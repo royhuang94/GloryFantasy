@@ -49,7 +49,7 @@ public class BattleMapBlockBurning : BattleMapBlock
     {
         if (hasUnit == true && hasBurined == false)
         {
-            unit.hp -= 1;
+            unit.HP -= 1;
             hasBurined = true;
         }
     }

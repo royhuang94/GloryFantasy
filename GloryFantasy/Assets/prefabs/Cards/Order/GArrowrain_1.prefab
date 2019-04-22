@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 224281721860527586}
   - component: {fileID: 222031622362800118}
   - component: {fileID: 114555856420204116}
-  - component: {fileID: 114359589583746072}
   - component: {fileID: 114872550328276600}
   - component: {fileID: 114875336135390898}
+  - component: {fileID: 114439166769574794}
   m_Layer: 5
   m_Name: GArrowrain_1
   m_TagString: Untagged
@@ -31,7 +31,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114359589583746072
+--- !u!114 &114439166769574794
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

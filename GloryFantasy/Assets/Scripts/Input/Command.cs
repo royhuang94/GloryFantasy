@@ -89,6 +89,7 @@ public class UnitAttackCommand :Command
         //根据伤害优先级对伤害请求排序
         DamageRequestList = DamageRequest.CaculateDamageRequestList(_Attacker, _AttackedUnit);
 
+
         for (int i = 0; i < DamageRequestList.Count; i++)
         {
             //优先级相同并且两方互打的伤害请求作为同时处理
@@ -99,14 +100,20 @@ public class UnitAttackCommand :Command
                 DamageRequestList[i].ExcuteSameTime();
                 i++;
             }
-            else
+            else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead())
             {
                 DamageRequestList[i].Excute();
             }
         }
     }
 
+    //TODO 攻击制作
+    //1. 通过变量_Attacker _AttackedUnit 保存宣言攻击者和被攻击者
+    //2. 通过DamageRequestList  —> Damange类中
+    //3. 通过Damage类与Command类来执行攻击环节，注意细节修改
+
     private List<DamageRequest> DamageRequestList;
     private GameUnit.GameUnit _Attacker; //宣言攻击者
     private GameUnit.GameUnit _AttackedUnit; //被攻击者
+
 }

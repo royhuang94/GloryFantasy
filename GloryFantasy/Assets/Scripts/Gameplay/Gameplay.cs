@@ -5,6 +5,10 @@ using UnityEngine;
 using Ability;
 using IMessage;
 
+//TODO 关于Info的问题
+//每次攻击都会更新他的ATK部分吗？
+//会不会因为在同一回合中攻击太频繁导致出现BUG
+
 public class Info
 {
     public Player RoundOwned; //回合所属
@@ -16,16 +20,19 @@ public class Info
     public List<GameUnit.BaseCard> CaughtCard; //抓的牌
     public Player HandAdder; //加手者
     public List<GameUnit.BaseCard> AddingCard; //加手的牌
+    public GameUnit.GameUnit AbilitySpeller; //发动异能者
+
+    #region ATK部分
+    public Ability.Ability SpellingAbility; //发动的异能
     public GameUnit.GameUnit Attacker; //宣言攻击者
     public GameUnit.GameUnit AttackedUnit; //被攻击者
-    public GameUnit.GameUnit AbilitySpeller; //发动异能者
-    public Ability.Ability SpellingAbility; //发动的异能
     public GameUnit.GameUnit Injurer; //伤害者
     public GameUnit.GameUnit InjuredUnit; //被伤害者
     public Damage damage; //伤害
     public GameUnit.GameUnit Killer; //击杀者
     public GameUnit.GameUnit KilledUnit; //被杀者
     public GameUnit.GameUnit Dead; //死者
+    #endregion
 
     /// <summary>
     /// 被UI选定的Unit单位
@@ -153,23 +160,44 @@ public static class GameplayToolExtend
         return Info.AddingCard;
     }
 
+    #region ATK部分
+    /// <summary>
+    /// 设置宣言攻击者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <param name="unit">宣言攻击者</param>
     public static void SetAttacker(this GameplayTool self, GameUnit.GameUnit unit)
     {
         Gameplay.Info.Attacker = unit;
     }
+    /// <summary>
+    /// 获取攻击宣言者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <returns></returns>
     public static GameUnit.GameUnit GetAttacker(this GameplayTool self)
     {
         return Gameplay.Info.Attacker;
     }
-
+    /// <summary>
+    /// 设置被攻击者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <param name="unit">被攻击者</param>
     public static void SetAttackedUnit(this GameplayTool self, GameUnit.GameUnit unit)
     {
         Gameplay.Info.AttackedUnit = unit;
     }
+    /// <summary>
+    /// 获取被攻击者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <returns></returns>
     public static GameUnit.GameUnit GetAttackedUnit(this GameplayTool self)
     {
         return Gameplay.Info.AttackedUnit;
     }
+    #endregion
 
     public static void SetAbilitySpeller(this GameplayTool self, GameUnit.GameUnit speller)
     {
@@ -203,55 +231,108 @@ public static class GameplayToolExtend
         return Info.SpellingAbility;
     }
 
+    #region ATK部分
+    /// <summary>
+    /// 设置伤害者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <param name="unit">触发伤害者</param>
     public static void SetInjurer(this GameplayTool self, GameUnit.GameUnit unit)
     {
         Gameplay.Info.Injurer = unit;
     }
+    /// <summary>
+    /// 获取伤害者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <returns></returns>
     public static GameUnit.GameUnit GetInjurer(this GameplayTool self)
     {
         return Info.Injurer;
     }
-
+    /// <summary>
+    /// 设置被伤害者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <param name="unit">被触发伤害者</param>
     public static void SetInjuredUnit(this GameplayTool self, GameUnit.GameUnit unit)
     {
         Gameplay.Info.InjuredUnit = unit;
     }
+    /// <summary>
+    /// 获取被伤害者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <returns></returns>
     public static GameUnit.GameUnit GetInjuredUnit(this GameplayTool self)
     {
         return Info.InjuredUnit;
     }
-
+    /// <summary>
+    /// 设置伤害数值大小
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <param name="damage">当前伤害数值</param>
     public static void SetDamage(this GameplayTool self, Damage damage)
     {
         Info.damage = damage;
     }
+    /// <summary>
+    /// 获取当前伤害数值
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <returns></returns>
     public static Damage GetDamage(this GameplayTool self)
     {
         return Info.damage;
     }
-
+    /// <summary>
+    /// 设置击杀者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <param name="killer">击杀者</param>
     public static void SetKiller(this GameplayTool self, GameUnit.GameUnit killer)
     {
         Gameplay.Info.Killer = killer;
     }
+    /// <summary>
+    /// 获取击杀者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <returns></returns>
     public static GameUnit.GameUnit GetKiller(this GameplayTool self)
     {
         return Info.Killer;
     }
-
+    /// <summary>
+    /// 设置被击杀者和死者
+    /// </summary>
+    /// <param name="self">GameplayTool 自身或者子类</param>
+    /// <param name="killedUnit">被击杀者</param>
     public static void SetKilledAndDeadUnit(this GameplayTool self, GameUnit.GameUnit killedUnit)
     {
         Gameplay.Info.KilledUnit = killedUnit;
         Gameplay.Info.Dead = killedUnit;
     }
+    /// <summary>
+    /// 获取被击杀者
+    /// </summary>
+    /// <param name="self"></param>
+    /// <returns></returns>
     public static GameUnit.GameUnit GetKilledUnit(this GameplayTool self)
     {
         return Info.KilledUnit;
     }
+    /// <summary>
+    /// 获取死亡单位
+    /// </summary>
+    /// <param name="self"></param>
+    /// <returns></returns>
     public static GameUnit.GameUnit GetDead(this GameplayTool self)
     {
         return Info.Dead;
     }
+    #endregion
 
     public static void SetSelectingUnit(this GameplayTool self, GameUnit.GameUnit unit)
     {

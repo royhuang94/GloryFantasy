@@ -20,7 +20,7 @@ namespace NBearUnit
         /// 用于鼠标移动将单位放回slot，存储Unit到slot下
         /// </summary>
         /// <param name="unit"></param>
-        public void StoreItem(UnitUI unit)
+        public void StoreItem(CardUI unit)
         {
             _cardPrefab = unit.gameObject;
 
@@ -28,13 +28,13 @@ namespace NBearUnit
             //itemGameObject.transform.localPosition = Vector3.zero;
             //BattleMap.BattleMap.getInstance().IsColor = false;
 
-            //itemGameObject.GetComponent<UnitUI>().SetUnit();
+            //itemGameObject.GetComponent<CardUI>().SetUnit();
 
             _cardInstance = Instantiate(_cardPrefab, transform, true) as GameObject;
             _cardInstance.transform.localPosition = Vector3.zero;
             BattleMap.BattleMap.getInstance().IsColor = false;
 
-            _cardInstance.GetComponent<UnitUI>().SetUnit();
+            _cardInstance.GetComponent<CardUI>().SetUnit();
 
             Debug.Log("StoreItem");
             
@@ -114,7 +114,7 @@ namespace NBearUnit
                     new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, 400, 50),
                     "Cube",
                     style1);*/
-                UnitUI currentItemUI = gameObject.GetComponentInChildren<UnitUI>();
+                CardUI currentItemUI = gameObject.GetComponentInChildren<CardUI>();
                 if (currentItemUI == null)
                 {
                     return;
@@ -186,7 +186,6 @@ namespace NBearUnit
                     if (!_alreadyShowButton)
                     {
                         OrderCard cardPreference = _cardInstance.GetComponent<OrderCard>();
-
                         // 实例化按钮预制件
                         _gameObject = Instantiate(cardPreference.buttonPrefab,
                             GameObject.Find("OrderCardCanvas").transform, true);
@@ -227,7 +226,7 @@ namespace NBearUnit
                 {
                     //TODO 自身不为空
                     //获取当前自身slot下的Unit
-                    UnitUI currentItemUI = transform.GetChild(0).GetComponent<UnitUI>();
+                    CardUI currentItemUI = transform.GetChild(0).GetComponent<CardUI>();
                     if (UnitManager.Instance.IsPickedUnit == false)
                     {
                         UnitManager.Instance.PickedUpUnit(currentItemUI); //调用此函数用于鼠标"捡起"当前slot下的unit
