@@ -17,29 +17,29 @@ public struct HexVector
     /// 
     /// </summary>
     public Vector3 Normal_vector;
-    /// <summary>传入六边形坐标数值转换成世界坐标
+    /// <summary>传入六边形坐标数值转换成世界坐标，返回调用者世界坐标并将结果写入两个Vector；
     /// 
     /// </summary>
     /// <param name="vector"></param>
     /// <returns></returns>
     public Vector3 ChangeToNormalVect(Vector3 vector)
     {
-        //  HexVector hexVector = new HexVector();
+        Hex_vector = vector;
         Normal_vector.x = 1.5f * vector.x + 1.5f * vector.z;
         Normal_vector.y = vector.y;
         Normal_vector.z = -vector.x + vector.z;
-        vector.x = Normal_vector.x;
         vector = Normal_vector;
         return vector;
 
     }
-    /// <summary>传入世界坐标数值转换成六边形坐标
+    /// <summary>传入世界坐标数值转换成六边形坐标，返回调用者六边形坐标并将结果写入两个vector
     /// 
     /// </summary>
     /// <param name="vector"></param>
     /// <returns></returns>
     public Vector3 ChangeToHexVect(Vector3 vector)
     {
+        Normal_vector = vector;
         Hex_vector.x = vector.x / 3f - 0.5f * vector.z;
         Hex_vector.y = vector.y;
         Hex_vector.z = vector.x / 3f + 0.5f * vector.z;
@@ -63,9 +63,6 @@ public class MainMapManager : MonoBehaviour
     /// 
     /// </summary>
     public Charactor charactor;
-    /// <summary>角色起始所在位置。
-    /// 
-    /// </summary>
     /// <summary>储存角色周围地格信息的数据结构
     ///
     /// </summary>
@@ -93,24 +90,33 @@ public class MainMapManager : MonoBehaviour
                 {
                     GameObject gameObject = new GameObject("test" + i.ToString() + j.ToString());
                     gameObject.transform.parent = GameObject.Find("Map").transform;
-                    HexVector vector = new HexVector();
                     gameObject.AddComponent<Button>();
-                    gameObject.AddComponent<MapUnit>();
+                    switch (element[j])
+                    {
+                        case "plane":
+                            MapUnit plane = gameObject.AddComponent<Plane>();
+                            gameObject.transform.position = plane.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                            break;
+                        case "post":
+                            MapUnit post = gameObject.AddComponent<Post>();
+                            gameObject.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                            break;
+
+                        case "key":
+                            MapUnit key = gameObject.AddComponent<Key>();
+                            gameObject.transform.position = key.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                            break;
+
+                        default:
+                            Debug.Log("你文件写错了，回去看看");
+                            break;
+
+                    }
+                    //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
                     MeshFilter flit = gameObject.AddComponent<MeshFilter>();
                     gameObject.AddComponent<MeshRenderer>();
                     gameObject.AddComponent<BoxCollider>();
                     flit.mesh = mesh;
-                    gameObject.transform.position = vector.ChangeToNormalVect(new Vector3(i, 0, j));
-                    gameObject.GetComponent<MapUnit>().SethexVector();
-                    switch (element[j])
-                    {
-                        case "plane":
-                            break;
-                        case "post":
-                            gameObject.AddComponent<Post>();
-                            break;
-
-                    }
                 }
               
                
@@ -128,7 +134,7 @@ public class MainMapManager : MonoBehaviour
         charactor.Initalize();
 
     }
-    /// <summary>移动逻辑合法后重设角色周围地形格写入AroundList
+    /// <summary>重设角色周围地形格写入AroundList
     /// 
     /// </summary>
     /// <param name="onclk"></param>
@@ -145,9 +151,6 @@ public class MainMapManager : MonoBehaviour
 
         return AroundList;
     }
-
-    // Debug.Log("playeraround");
-
     /// <summary>重设地形格字典值的具体逻辑
     /// 
     /// </summary>
@@ -159,7 +162,6 @@ public class MainMapManager : MonoBehaviour
     {
         MapUnit playeraround;
         float x = onclk.GetComponent<MapUnit>().hexVector.Hex_vector.x + a;
-        // float x = onclk.GetComponent<Transform>().position.x+1;
         float z = onclk.GetComponent<MapUnit>().hexVector.Hex_vector.z + b;
         if (GameObject.Find("test" + x.ToString() + z.ToString()) != null)
         {
@@ -179,62 +181,80 @@ public class MainMapManager : MonoBehaviour
 
 
 }
-/// <summary>六边形单元格,每个地格都会挂载这个脚本，负责处理角色移动，地格坐标信息也都在这里
+/// <summary>六边形单元格的抽象类，每个地格都会继承这个类
 /// 
 /// </summary>
-public class MapUnit : MonoBehaviour
+public abstract class MapUnit:MonoBehaviour
 {
     public static MainMapManager mapManager;
-    /// <summary>储存地格坐标的结构体，注意地格自身的世界坐标（Vector3 Normal_vector）也在这个结构里。
+    public HexVector hexVector = new HexVector();
+    public Button btn;
+    /// <summary>初始化地格，获得所在实例的按钮组件并监听事件
     /// 
     /// </summary>
+    public virtual void instalize()
+    {
+        mapManager = gameObject.GetComponentInParent<MainMapManager>();
+        btn = gameObject.GetComponent<Button>();
+        btn.onClick.AddListener(OnClick);
+    }
+    /// <summary>点击事件抽象方法，需要每类地格具体实现
     /// 
-    public HexVector hexVector = new HexVector();
+    /// </summary>
+    public abstract void OnClick();
+    /// <summary>移动地图角色的方法，改变角色位置并调用mapmanager重写字典值，驿站传送和普通移动都会调用这个方法
+    /// 
+    /// </summary>
+    public virtual void ChangePosition()
+    {
+
+        mapManager.charactor.Move(GetComponent<Transform>().position, -1);
+        mapManager.setaround(GameObject.Find("test" + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.x.ToString() + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.z.ToString()));
+        Debug.Log("Onclick" + hexVector.Normal_vector.x.ToString() + hexVector.Normal_vector.z.ToString());
+
+    }
+}
+/// <summary>普通的地格，没什么特别的
+/// 
+/// </summary>
+public class Plane : MapUnit
+{
     /// <summary>初始化，给所在GameObject添加Button组件，并把自己在两个坐标系的坐标写入HexVector里。
     /// 
     /// </summary>  
     public void Awake()
     {
-        mapManager = gameObject.GetComponentInParent<MainMapManager>();
-        Button btn = gameObject.GetComponent<Button>();
-        btn.onClick.AddListener(CheckAround);
-
+        //普通地格默认监听CheckAround,特殊地格会重新监听各自的新事件
+        instalize();
         Debug.Log("instalize mapunit.");
 
     }
-    public HexVector SethexVector()
-    {
-        hexVector.Normal_vector = this.GetComponent<Transform>().position;
-        hexVector.Hex_vector = hexVector.ChangeToHexVect(hexVector.Normal_vector);
-        return hexVector;
-    }
+    #region 弃用的代码
+    /// <summary>在MainMapManager里初始化地图时，会调用此方法把地格位置坐标写入结构体方便管理
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    //public HexVector SethexVector()
+    //{
+    //    hexVector.Hex_vector = hexVector.ChangeToHexVect(hexVector.Normal_vector);//hexvector写入结构体111
+    //    return hexVector;
+    //}
+    #endregion
     /// <summary>检测被点击的地格是否在角色相邻区域，
     /// 
     /// </summary>
-    public void CheckAround()
+    public override void OnClick()
     {
         if (mapManager.AroundList.ContainsValue(this))
         {
-            this.DoOnclick();
+            //this.DoOnclick();
+            ChangePosition();
         }
         else
         {
             Debug.Log("这个格子不在角色相邻区域，无法移动");
         }
     }
-    /// <summary>点击合法后，传到MapManager的SetAround来处理。
-    /// 
-    /// </summary>
-    public void DoOnclick()
-    {
-
-        //  hexVector.ChangeToHexVect(hexVector.Normal_vector);
-        mapManager.charactor.Move(GetComponent<Transform>().position, -1);
-        mapManager.setaround(GameObject.Find("test" + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.x.ToString() + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.z.ToString()));
-        Debug.Log("Onclick" + hexVector.Normal_vector.x.ToString() + hexVector.Normal_vector.z.ToString());
-
-    }
-
 
 }
 /// <summary>每个驿站都会挂这个脚本，负责控制传送逻辑
@@ -242,6 +262,7 @@ public class MapUnit : MonoBehaviour
 /// </summary>
 public class Post : MapUnit
 {
+    //private MapUnit parent;
     /// <summary>驿站是否激活
     /// 
     /// </summary>
@@ -250,19 +271,19 @@ public class Post : MapUnit
     /// 
     /// </summary>
     private static bool ReadyToTrans = false;
-    public new void Awake()
+    public void Awake()
     {
         Debug.Log("驿站初始化");
-        Button btn = gameObject.GetComponent<Button>();
-        btn.onClick.AddListener(Onclick);
+        instalize();
     }
     /// <summary>点击驿站格子后触发的事件
     /// 
     /// </summary>
-    public void Onclick()
+    public override void OnClick()
     {
-        if (mapManager.charactor.charactorData.PlayerLocate.Normal_vector == GetComponent<Transform>().position && ReadyToTrans == false)
+        if (mapManager.AroundList.ContainsValue(this) && ReadyToTrans == false)
         {
+            ChangePosition();
             isActive = true;
             Debug.Log("驿站已激活");
             Debug.Log("进入驿站");
@@ -317,3 +338,48 @@ public class Post : MapUnit
         ReadyToTrans = false;
     }
 }
+/// <summary>钥匙（虚构层为各种可以清理路障的道具,地图文件中对应字符串为key）
+/// 
+/// 
+/// </summary>
+public class Key : MapUnit
+{
+    public string form;//样式
+    public void Awake()
+    {
+        Debug.Log("清障道具初始化");
+        instalize();
+    }
+    public override void OnClick()
+    {
+        
+        if (mapManager.AroundList.ContainsValue(this))
+        {
+            ChangePosition();
+            Debug.Log("获取合法");
+            ///Todo:调用MapManager里的charactor实例的获取道具方法
+        }
+        else
+        {
+            Debug.Log("不在相邻地格，无法取得道具");
+        }
+    }
+
+}
+/// <summary>锁（虚构层表现为各种类型的障碍，需要对应的钥匙（清障道具）方可清除并到达此地格）
+/// 
+/// </summary>
+public class Barrier : MapUnit
+{
+    public string form;
+    public  void Awake()
+    {
+        Debug.Log("路障初始化");
+    }
+    public override void OnClick()
+    {
+
+    }
+}
+
+    
