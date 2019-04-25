@@ -146,6 +146,12 @@ namespace GameCard
             {
                 _tag.Add((string.Copy(cardData["tag"][i].ToString())));
             }
+
+            foreach (string abilityName in _abilityId)
+            {
+                gameObject.AddComponent(System.Type.GetType("Ability." +abilityName));
+            }
+            
         }
 
 
