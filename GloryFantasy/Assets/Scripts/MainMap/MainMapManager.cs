@@ -60,21 +60,13 @@ public class MainMapManager : MonoBehaviour
     /// 
     /// </summary>
     public Charactor charactor;
-    /// <summary>储存角色周围地格信息的数据结构
-    ///
-    /// </summary>
-    public Dictionary<string, MapUnit> AroundList = new Dictionary<string, MapUnit>();
+
     /// <summary>初始化，设定
     /// 
     /// </summary>
     void Awake()
     {
-        AroundList.Add("0,1", null);
-        AroundList.Add("0,-1", null);
-        AroundList.Add("1,0", null);
-        AroundList.Add("-1,0", null);
-        AroundList.Add("-1,1", null);
-        AroundList.Add("1,-1", null);
+       
         //通过读取文件里的字符串转换成对应的地格生成地图
         System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
         string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
@@ -118,46 +110,15 @@ public class MainMapManager : MonoBehaviour
     private void Start()
     {
         charactor = GameObject.Find("Charactor").GetComponent<Charactor>();
-        charactor.Initalize();
+            charactor.AroundList.Add("0,1", null);
+            charactor.AroundList.Add("0,-1", null);
+            charactor.AroundList.Add("1,0", null);
+            charactor.AroundList.Add("-1,0", null);
+            charactor.AroundList.Add("-1,1", null);
+            charactor.AroundList.Add("1,-1", null);
+            charactor.Initalize();
     }
-    /// <summary>重设角色周围地形格写入AroundList
-    /// 
-    /// </summary>
-    /// <param name="onclk"></param>
-    /// <returns></returns>
-    public Dictionary<string, MapUnit> setaround(GameObject onclk)
-    {
-        AroundList["0,1"] = SetAround(onclk, 0, 1);
-        AroundList["0,-1"] = SetAround(onclk, 0, -1);
-        AroundList["1,0"] = SetAround(onclk, 1, 0);
-        AroundList["-1,0"] = SetAround(onclk, -1, 0);
-        AroundList["-1,1"] = SetAround(onclk, -1, 1);
-        AroundList["1,-1"] = SetAround(onclk, 1, -1);
-        return AroundList;
-    }
-    /// <summary>重设地形格字典值的具体逻辑
-    /// 
-    /// </summary>
-    /// <param name="onclk"></param>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public MapUnit SetAround(GameObject onclk, float a, float b)
-    {
-        MapUnit playeraround;
-        float x = onclk.GetComponent<MapUnit>().hexVector.Hex_vector.x + a;
-        float z = onclk.GetComponent<MapUnit>().hexVector.Hex_vector.z + b;
-        if (GameObject.Find("test" + x.ToString() + z.ToString()) != null)
-        {
-            playeraround = GameObject.Find("test" + x.ToString() + z.ToString()).GetComponent<MapUnit>();
-        }
-        else
-        {
-            Debug.Log("doesn't have this object");
-            playeraround = null;
-        }
-        return playeraround;
-    }
+
 }
 /// <summary>六边形单元格的抽象类，每个地格都会继承这个类
 /// 
@@ -180,15 +141,14 @@ public abstract class MapUnit:MonoBehaviour
     /// 
     /// </summary>
     public abstract void OnClick();
-    /// <summary>移动地图角色的方法，改变角色位置并调用mapmanager重写字典值，驿站传送和普通移动都会调用这个方法
+    /// <summary>移动地图角色的方法，改变角色位置并调用charactor里的方法重写字典值，驿站传送和普通移动都会调用这个方法
     /// 
     /// </summary>
-    public virtual void ChangePosition()
+    public virtual void ChangePosition(int step)
     {
-        mapManager.charactor.Move(GetComponent<Transform>().position, -1);
-        mapManager.setaround(GameObject.Find("test" + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.x.ToString() + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.z.ToString()));
-        Debug.Log("Onclick" + hexVector.Normal_vector.x.ToString() + hexVector.Normal_vector.z.ToString());
-    }
+        mapManager.charactor.Move(GetComponent<Transform>().position, -step);
+       
+          }
 }
 /// <summary>普通的地格，没什么特别的
 /// 
@@ -202,7 +162,7 @@ public class Plane : MapUnit
     {
         //普通地格默认监听CheckAround,特殊地格会重新监听各自的新事件
         instalize();
-        Debug.Log("instalize mapunit.");
+        Debug.Log("普通地面初始化.");
 
     }
     #region 弃用的代码
@@ -221,10 +181,10 @@ public class Plane : MapUnit
     /// </summary>
     public override void OnClick()
     {
-        if (mapManager.AroundList.ContainsValue(this))
+        if (mapManager.charactor.AroundList.ContainsValue(this))
         {
             //this.DoOnclick();
-            ChangePosition();
+            ChangePosition(1);
         }
         else
         {
@@ -256,16 +216,16 @@ public class Post : MapUnit
     /// </summary>
     public override void OnClick()
     {
-        if (mapManager.AroundList.ContainsValue(this) && ReadyToTrans == false)
+        if (mapManager.charactor.AroundList.ContainsValue(this) && ReadyToTrans == false)
         {
-            ChangePosition();
+            ChangePosition(1);
             isActive = true;
             Debug.Log("驿站已激活");
             Debug.Log("进入驿站");
             ReadyToTrans = true;
             Debug.Log("准备传送");
             //如果放弃传送移动到驿站相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
-            foreach (MapUnit unit in mapManager.AroundList.Values)
+            foreach (MapUnit unit in mapManager.charactor.AroundList.Values)
             {
 
                 if (unit != null)
@@ -304,8 +264,7 @@ public class Post : MapUnit
     /// </summary>
     public void transfer()
     {
-        mapManager.charactor.Move(GetComponent<Transform>().position, -2);
-        mapManager.setaround(GameObject.Find("test" + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.x.ToString() + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.z.ToString()));
+        ChangePosition(2);
         ReadyToTrans = false;
     }
     public void CancelTrans()
@@ -328,9 +287,9 @@ public class Key : MapUnit
     public override void OnClick()
     {
         
-        if (mapManager.AroundList.ContainsValue(this))
+        if (mapManager.charactor.AroundList.ContainsValue(this))
         {
-            ChangePosition();
+            ChangePosition(1);
             Debug.Log("获取合法");
             ///Todo:调用MapManager里的charactor实例的获取道具方法
         }
