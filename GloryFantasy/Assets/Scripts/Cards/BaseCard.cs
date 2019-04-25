@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameUnit
+namespace GameCard
 {
     /*
      * 暂时仅用单位牌，且使用超级生物的信息进行默认初始化

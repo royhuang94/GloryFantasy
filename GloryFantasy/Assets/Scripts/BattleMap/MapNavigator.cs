@@ -5,18 +5,58 @@ using UnityEngine.UI;
 
 namespace BattleMap
 {
+    /// <summary>
+    /// 寻路结点
+    /// </summary>
+    public class Node
+    {
+        /// <summary>
+        /// 该点的坐标
+        /// </summary>
+        public Vector2 position;
+        /// <summary>
+        /// 该点上一个点的坐标
+        /// </summary>
+        public Vector2 parentPosition;
+        /// <summary>
+        /// 从起点走到该点的代价
+        /// </summary>
+        public int G;
+        /// <summary>
+        /// 从该点走到终点的理想预测代价
+        /// </summary>
+        public int H;
+
+        public Node(Vector2 _position, Vector2 _destination , int _G = int.MaxValue / 2)
+        {
+            position = _position;
+            parentPosition = _position;
+            this.H = (int)Vector2.Distance(_position, _destination);
+            this.G = _G;
+        }
+
+        public Node(Vector2 _position, Vector2 _fatherPosition, Vector2 _destination, int _G = int.MaxValue / 2)
+        {
+            position = _position;
+            parentPosition = _fatherPosition;
+            this.H = (int)Vector2.Distance(_position, _destination);
+            this.G = _G;
+        }
+    }
+
     public class MapNavigator
     {
-        private static MapNavigator _instance;
-        public static MapNavigator _Instantce
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new MapNavigator();
-                return _instance;
-            }
-        }
+        //这里有什么必要用单例？让BattleMap持有引用不就行了？
+        //private static MapNavigator _instance;
+        //public static MapNavigator _Instantce
+        //{
+        //    get
+        //    {
+        //        if (_instance == null)
+        //            _instance = new MapNavigator();
+        //        return _instance;
+        //    }
+        //}
 
         //TODO AStarPath
         //1. 设置 BlockType 枚举
@@ -42,139 +82,170 @@ namespace BattleMap
 
         public List<BattleMapBlock> OpenList; //所有被考虑来寻找最短路径的地图块儿
         public List<BattleMapBlock> CloseList; //不会再被考虑的地图块儿
+
+        public Dictionary<Vector2, Node> openList;
+        public Dictionary<Vector2, Node> closeList;
+
         public Vector2 globalEndPos;
 
         //TODO 用于保存最优路径
+        /// <summary>
+        /// 路径
+        /// </summary>
         public List<BattleMapBlock> paths = new List<BattleMapBlock>();
 
         //寻路入口
         public bool PathSearch(Vector2 startPos, Vector2 endPos)
         {
             //单位起点与终点 是否包含在字典内
-            if (!BattleMap.getInstance().mapBlockDict.ContainsKey(startPos) || !BattleMap.getInstance().mapBlockDict.ContainsKey(endPos))
+            //为什么要用这个字典?
+            //if (!BattleMap.Instance().mapBlockDict.ContainsKey(startPos) || !BattleMap.Instance().mapBlockDict.ContainsKey(endPos))
+            //{
+            //    Debug.Log("invalid para");
+            //    return false;
+            //}
+
+            if (BattleMap.Instance().GetSpecificMapBlock((int)startPos.x, (int)startPos.y) == null || BattleMap.Instance().GetSpecificMapBlock((int)endPos.x, (int)endPos.y) == null)
             {
-                Debug.Log("invalid para");
+                Debug.Log("In MapNavigator: invalid Pos");
                 return false;
             }
 
-            //为OpenList && CloseList 初始化空间
-            OpenList = new List<BattleMapBlock>();
-            CloseList = new List<BattleMapBlock>();
-            globalEndPos = endPos;
-            //算法开始
-            //起点为A
-            BattleMapBlock A = BattleMap.getInstance().GetSpecificMapBlock((int)startPos.x, (int)startPos.y);
-            A.G = 0;
-            A.H = Mathf.Abs(globalEndPos.x - startPos.x) + Mathf.Abs(globalEndPos.y - startPos.y);  //Vector2.Distance(A.pos, globalEndPos);
-            A.F = A.G + A.H;
-            A.parentBlock = null; //父地图块儿设置为null，因为此处是起点
+            //初始化openList和closeList
+            openList = new Dictionary<Vector2, Node>();
+            closeList = new Dictionary<Vector2, Node>();
 
-            //此时起点A已经设置完毕，可以不用再考虑此地图块儿了
-            CloseList.Add(A);
-            A.aStarState = AStarState.isInCloseList;
+            //算法开始
+
+            ////起点为A
+            //BattleMapBlock A = BattleMap.Instance().GetSpecificMapBlock((int)startPos.x, (int)startPos.y);
+            //A.G = 0;
+            //A.H = Mathf.Abs(globalEndPos.x - startPos.x) + Mathf.Abs(globalEndPos.y - startPos.y);  //Vector2.Distance(A.pos, globalEndPos);
+            //A.F = A.G + A.H;
+            //A.parentBlock = null; //父地图块儿设置为null，因为此处是起点
+
+            //加入起点
+            openList.Add(startPos, new Node(startPos, endPos, 0));
+
+            ////此时起点A已经设置完毕，可以不用再考虑此地图块儿了
+            //CloseList.Add(A);
+            //A.aStarState = AStarState.isInCloseList;
 
             do
             {
                 //遍历OpenList，寻找F值最小的节点，设为A
-                if (OpenList.Count > 0)
-                    A = OpenList[0];
-                for (int i = 0; i < OpenList.Count; i++)
+                Node A = new Node(startPos, endPos, int.MaxValue / 2);
+                foreach (Node node in openList.Values)
                 {
-                    //冒泡
-                    if (OpenList[i].F < A.F)
-                        A = OpenList[i];
+                    if (node.H + node.G < A.H + A.G)
+                        A = node;
                 }
 
+                AStarSearch(A, startPos, endPos);
+                #region 自己看懂了删掉
+                //if (path != null)
+                //{
+                //    //do
+                //    //{
+                //    //    //设置为AStarPath
+                //    //    //会不会出现问题，此处修改了EMapBlockType，后面遍历时，会不会出问题
+                //    //    path.blockType = EMapBlockType.aStarPath;
+                //    //    //不懂为什么要放在BattleMap里
+                //    //    //BattleMap.Instance().aStarPath.Add(path);
+                //    //    paths.Add(path);
+                //    //    //Debug.Log("aStarPath " + path.GetSelfPosition());
 
-                BattleMapBlock path = AStarSearch(A);
-                if (path != null)
-                {
-                    //Debug.Log("Path Found");
-                    do
-                    {
-                        //设置为AStarPath
-                        //TODO 会不会出现问题，此处修改了EMapBlockType，后面遍历时，会不会出问题
-                        path.blockType = EMapBlockType.aStarPath;
-                        //path.aStarState = AStarState.free;
-                        BattleMap.getInstance().aStarPath.Add(path);
-                        //Debug.Log("aStarPath " + path.GetSelfPosition());
+                //    //    if (path.parentBlock == null)
+                //    //        path = null;
+                //    //    else
+                //    //        path = path.parentBlock;
+                //    //} while (path != null);
 
-                        if (path.parentBlock == null)
-                            path = null;
-                        else
-                            path = path.parentBlock;
-                    } while (path != null);
-                    //path.GetComponent<Image>().color = Color.white;
+                //    RestIsInOpenListBlock();
 
-                    RestIsInOpenListBlock();
+                //    //TODO 测试移动
+                //    var mov = BattleMap.Instance().GetUnitsOnMapBlock(startPos).UnitAttribute.Mov;
+                //    if (paths.Count - 1 > mov)
+                //    {
+                //        GFGame.UtilityHelper.Log("超出移动力范围，当前移动力" + mov, GFGame.LogColor.RED);
+                //        Debug.Log((paths.Count - 1));
+                //        return false;
+                //    }
+                //    return true;
+                //}
+                #endregion
+                openList.Remove(A.position);
+                closeList.Add(A.position, A);
 
-                    //TODO 测试移动
-                    var mov = BattleMap.getInstance().GetUnitsOnMapBlock(startPos).unitAttribute.Mov;
-                    if (BattleMap.getInstance().aStarPath.Count - 1 > mov)
-                    {
-                        GFGame.UtilityHelper.Log("超出移动力范围，当前移动力" + mov, GFGame.LogColor.RED);
-                        Debug.Log((BattleMap.getInstance().aStarPath.Count - 1));
-                        return false;
-                    }
-                    return true;
-                }
-                OpenList.Remove(A);
-                CloseList.Add(A);
-                A.aStarState = AStarState.isInCloseList;
+                //如果找到了endPos
+                //代码自己补
+
                 //OpenList是否还有节点
             } while (OpenList.Count > 0);
 
-            RestIsInCloseListBlock();
             return false;
         }
 
-        //寻找最优Block
-        private BattleMapBlock AStarSearch(BattleMapBlock A)
+        //查找周边方块
+        private void AStarSearch(Node A, Vector2 startPos, Vector2 endPos)
         {
-            //遍历A的周边节点，当前处理地图块儿为B
-            BattleMapBlock B;
-            for (int i = 0; i < A.neighbourBlock.Length; i++)
+            //获得A的周边MapBlock
+            List<BattleMapBlock> neighbourBlock = BattleMap.Instance().GetNeighbourBlock(A);
+            //将MapBlock转为Node格式
+            List<Node> neighourNode = new List<Node>();
+            foreach (BattleMapBlock mapBlock in neighbourBlock)
             {
-                if (A.neighbourBlock[i] == null)
+                neighourNode.Add(new Node(mapBlock.position, A.position, endPos, A.G + 1));
+            }
+            //遍历A的周边Node
+            for (int i = 0; i < neighourNode.Count; i++)
+            {
+                Node B = neighourNode[i];
+                //如果在关闭列表中直接忽略跳到下一个
+                if (closeList.ContainsKey(B.position))
                     continue;
-                B = A.neighbourBlock[i];
-                //是否在开放列表中
-                if (B.aStarState == AStarState.isInOpenList)
+                //如果在开放列表中
+                if (openList.ContainsKey(B.position))
                 {
                     //A到B的G值+A.G>B.G
                     //TODO 未加入H，会不会对最优结果产生影响
-                    float curG = Vector2.Distance(A.GetSelfPosition(), B.GetSelfPosition());
-                    if (B.G > curG + A.G)
+                    //废话，当然不会，还有这个distance是什么鬼，是这么用的吗我的天
+                    //float curG = Vector2.Distance(A.GetSelfPosition(), B.GetSelfPosition());
+                    //if (B.G > curG + A.G)
+                    //{
+                    //    //更新B的父节点为A，并相应更新B.G,B.H
+                    //    B.parentBlock = A;
+                    //    B.G = curG + A.G;
+                    //    B.F = B.H + B.G;
+                    //}
+                    if (B.G > A.G + 1)
                     {
-                        //更新B的父节点为A，并相应更新B.G,B.H
-                        B.parentBlock = A;
-                        B.G = curG + A.G;
-                        B.F = B.H + B.G;
+                        B.parentPosition = A.position;
+                        B.G = A.G + 1;
                     }
                     continue;
                 }
-                else if (B.aStarState == AStarState.free)
+                //如果不在两个列表里
+                else if (!openList.ContainsKey(B.position))
                 {
                     //更新B的父节点为A，并相应更新B.G; 计算B.F,B.H; B加入OpenList
-                    B.parentBlock = A;
-                    B.G = Vector2.Distance(A.GetSelfPosition(), B.GetSelfPosition()) + A.G;
-                    B.H = Mathf.Abs(B.GetSelfPosition().x - globalEndPos.x) + Mathf.Abs(B.GetSelfPosition().y - globalEndPos.y);
-                    B.F = B.G + B.H;
-                    OpenList.Add(B);
-                    B.aStarState = AStarState.isInOpenList;
+                    //B.parentBlock = A;
+                    //B.G = Vector2.Distance(A.GetSelfPosition(), B.GetSelfPosition()) + A.G;
+                    //B.H = Mathf.Abs(B.GetSelfPosition().x - globalEndPos.x) + Mathf.Abs(B.GetSelfPosition().y - globalEndPos.y);
+                    //B.F = B.G + B.H;
+                    //OpenList.Add(B);
+                    //B.aStarState = AStarState.isInOpenList;
+                    openList.Add(B.position, B);
 
                     //当B.H接近0时
-                    if (B.H < Mathf.Epsilon)
-                        //B的所有父节点既是路径
-                        return B;
-                    else
+                    //if (B.H < Mathf.Epsilon)
+                    //    //B的所有父节点既是路径
+                    //    return B;
+                    //else
                         //继续遍历
                         continue;
                 }
-                else
-                    continue;
             }
-            return null;
         }
 
         //地图具象化（并对Openlist，Closelist内节点上色）
@@ -187,30 +258,30 @@ namespace BattleMap
 
         //TODO 待优化
         //重置Block的aStarState
-        public void RestIsInCloseListBlock()
-        {
-            if(CloseList != null)
-            {
-                foreach (var block in CloseList)
-                {
-                    block.aStarState = AStarState.free;
-                    //Debug.Log(block.aStarState);
-                }
+        //public void RestIsInCloseListBlock()
+        //{
+        //    if(CloseList != null)
+        //    {
+        //        foreach (var block in CloseList)
+        //        {
+        //            block.aStarState = AStarState.free;
+        //            //Debug.Log(block.aStarState);
+        //        }
 
-            }
+        //    }
 
-        }
+        //}
 
-        public void RestIsInOpenListBlock()
-        {
-            if (OpenList != null)
-            {
-                foreach (var block in OpenList)
-                {
-                    block.aStarState = AStarState.free;
-                }
-            }
-        }
+        //public void RestIsInOpenListBlock()
+        //{
+        //    if (OpenList != null)
+        //    {
+        //        foreach (var block in OpenList)
+        //        {
+        //            block.aStarState = AStarState.free;
+        //        }
+        //    }
+        //}
     }
 
 }

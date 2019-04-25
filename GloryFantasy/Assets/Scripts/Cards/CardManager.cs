@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using IMessage;
 using LitJson;
-using NBearUnit;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-namespace GameUnit
+using GameGUI;
+
+namespace GameCard
 {
     public class CardManager : MonoBehaviour
     {

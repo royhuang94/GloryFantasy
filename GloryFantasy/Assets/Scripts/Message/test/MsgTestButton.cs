@@ -4,88 +4,96 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class MsgTestButton : MonoBehaviour {
+namespace IMessage
+{
 
-    //单例模式
-    private static MsgTestButton instance;
-
-    public static MsgTestButton Instance
+    /// <summary>
+    /// 测试用按钮代码，请勿使用
+    /// </summary>
+    public class MsgTestButton : MonoBehaviour
     {
-        get
+
+        //单例模式
+        private static MsgTestButton instance;
+
+        public static MsgTestButton Instance
         {
-            return instance;
+            get
+            {
+                return instance;
+            }
         }
-    }
 
-    //[SerializeField] public IMessage.MsgReceiver targetReceiver;
-    public GameObject targetReceiver;
+        //[SerializeField] public IMessage.MsgReceiver targetReceiver;
+        public GameObject targetReceiver;
 
-    #region
-    private UnityEvent unityEventUpdateResource = new UnityEvent();
-    private UnityEvent unityEventBattlePresent = new UnityEvent();
-    public UnityEvent UnityEventUpdateResource { get { return unityEventUpdateResource; } }
-    #endregion
+        #region
+        private UnityEvent unityEventUpdateResource = new UnityEvent();
+        private UnityEvent unityEventBattlePresent = new UnityEvent();
+        public UnityEvent UnityEventUpdateResource { get { return unityEventUpdateResource; } }
+        #endregion
 
-    #region 
-    private bool isUpdateResourceOver = false;
-    private bool isBattlePresentOver = false;
-    public bool IsUpdateResourceOver
-    {
-        get
+        #region 
+        private bool isUpdateResourceOver = false;
+        private bool isBattlePresentOver = false;
+        public bool IsUpdateResourceOver
         {
-            return isUpdateResourceOver;
+            get
+            {
+                return isUpdateResourceOver;
+            }
+            set
+            {
+                isUpdateResourceOver = value;
+            }
         }
-        set
+        public bool IsBattlePresentOver
         {
-            isUpdateResourceOver = value;
+            get
+            {
+                return isBattlePresentOver;
+            }
+            set
+            {
+                isBattlePresentOver = value;
+            }
         }
-    }
-    public bool IsBattlePresentOver
-    {
-        get
+        #endregion
+
+
+        private void Awake()
         {
-            return isBattlePresentOver;
+            instance = this;
+            //GetComponent<Button>().onClick.AddListener(() =>
+            //{
+            //    //IMessage.MsgDispatcher.SendMsg((int)MsgTestType.A, targetReceiver.GetComponent<IMessage.MsgReceiver>());
+            //    IMessage.MsgDispatcher.SendMsg((int)MsgTestType.A);
+            //});
         }
-        set
+
+        private void Start()
         {
-            isBattlePresentOver = value;
+            unityEventUpdateResource.AddListener(() =>
+            {
+                MsgDispatcher.SendMsg((int)MessageType.UpdateSource);
+            });
+            unityEventBattlePresent.AddListener(() =>
+            {
+                MsgDispatcher.SendMsg((int)MessageType.BP);
+            });
+
+            unityEventUpdateResource.Invoke();
         }
-    }
-    #endregion
 
-
-    private void Awake()
-    {
-        instance = this;
-        //GetComponent<Button>().onClick.AddListener(() =>
-        //{
-        //    //IMessage.MsgDispatcher.SendMsg((int)MsgTestType.A, targetReceiver.GetComponent<IMessage.MsgReceiver>());
-        //    IMessage.MsgDispatcher.SendMsg((int)MsgTestType.A);
-        //});
-    }
-
-    private void Start()
-    {
-        unityEventUpdateResource.AddListener(()=> 
+        //响应结束按钮点击事件
+        public void EndBtnOnClick()
         {
-            IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.UpdateSource);
-        });
-        unityEventBattlePresent.AddListener(() =>
-        {
-            IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.BP);
-        });
-
-        unityEventUpdateResource.Invoke();
-    }
-
-    //响应结束按钮点击事件
-    public void EndBtnOnClick()
-    {
-        if(isUpdateResourceOver == true)
-        {
-            unityEventBattlePresent.Invoke();
-            isUpdateResourceOver = false;
+            if (isUpdateResourceOver == true)
+            {
+                unityEventBattlePresent.Invoke();
+                isUpdateResourceOver = false;
+            }
         }
-    }
 
+    }
 }

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using Unit = GameUnit.GameUnit;
 using UnityEngine.EventSystems;
 
+using GamePlay;
 
 
-
-//TODO Í¨¹ı ×ÔÉí this.transform.positionÓëµÚÒ»¿é¶ùµØÍ¼¿é¶ù×ø±ê(298.8)µÄ²î£¬µÄ¼¸±¶¹ØÏµµÃµ½¾ßÌåÎª(0, 0) -> (7, 7)µÃÎïÌå×ø±ê
+//TODO é€šè¿‡ è‡ªèº« this.transform.positionä¸ç¬¬ä¸€å—å„¿åœ°å›¾å—å„¿åæ ‡(298.8)çš„å·®ï¼Œçš„å‡ å€å…³ç³»å¾—åˆ°å…·ä½“ä¸º(0, 0) -> (7, 7)å¾—ç‰©ä½“åæ ‡
 
 namespace BattleMap
 {
@@ -21,49 +21,40 @@ namespace BattleMap
 
     public enum EMapBlockType
     {
-        normal,   //ÆÕÍ¨µØÍ¼¿é¶ù
-        burnning, //×ÆÉÕ¿é¶ù
-        Retire,   //ÖÍÁô¿é¶ù
-        aStarPath   //AĞÇÂ·¾¶
+        normal,   //æ™®é€šåœ°å›¾å—å„¿
+        burnning, //ç¼çƒ§å—å„¿
+        Retire,   //æ»ç•™å—å„¿
+        aStarPath   //Aæ˜Ÿè·¯å¾„
     }
 
 
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
-
-        //public MapBlock(int area, string[] data)
+        //ç»§æ‰¿äº†MonoBehaviourå°±ä¸èƒ½ç”¨æ„é€ å‡½æ•°äº†
+        //public BattleMapBlock() { }
+        //public BattleMapBlock(int x, int y)
         //{
-        //    this.area = area;
-        //    this.data = data;
+        //    this.x = x;
+        //    this.y = y;
         //}
-
-        //public MapBlock()
-        //{
-        //    this.area = 0;
-        //    this.data = null;
-        //}
-
-        public BattleMapBlock() { }
-        public BattleMapBlock(int x, int y)
+        private void Awake()
         {
-            this.x = x;
-            this.y = y;
+            setMapBlackPosition();
         }
 
-
-        //public List<Unit> GetGameUnits()
-        //{
-        //    Debug.Log("getunitList");
-        //    this.units_on_me = MapManager.getInstance().UnitsList;
-        //    return this.units_on_me;
-        //}
-
+        /// <summary>
+        /// å‘æ–¹å—ä¸Šå¢åŠ GameUnit
+        /// </summary>
+        /// <param name="unit"></param>
         public void AddUnit(Unit unit)
         {
             //Debug.Log("MapBlocks--Added unit:" + unit.ToString());
             units_on_me.Add(unit);
         }
-
+        /// <summary>
+        /// å‘æ–¹å—ä¸Šå¢åŠ GameUnit
+        /// </summary>
+        /// <param name="units"></param>
         public void AddUnits(Unit[] units)
         {
             //Debug.Log("MapBlocks--Adding Units");
@@ -72,129 +63,56 @@ namespace BattleMap
                 units_on_me.Add(gameUnit);
             }
         }
-
+        /// <summary>
+        /// æ–¹å—ä¸Šç§»é™¤GameUnit
+        /// </summary>
+        /// <param name="unit"></param>
         public void RemoveUnit(Unit unit)
         {
             //Debug.Log("MapBlocks--Removed unit:" + unit.ToString());
             units_on_me.Remove(unit);
         }
-
+        /// <summary>
+        /// è·å¾—è¿™ä¸ªæ–¹å—çš„è™šæ‹Ÿåæ ‡
+        /// </summary>
+        /// <returns></returns>
         public Vector3 GetCoordinate()
         {
             return new Vector3(this.x, this.y, 0f);
         }
-
-        //»ñÈ¡¸ÃµØÍ¼¿é×ÔÉíµÄÎ»ÖÃ
+        /// <summary>
+        /// è·å–è¯¥åœ°å›¾å—è‡ªèº«çš„ä¸–ç•Œç³»åæ ‡
+        /// </summary>
+        /// <returns></returns>
         public Vector3 GetSelfPosition()
         {
             //return this.transform.position;
             return coordinate;
         }
-
-
-        //´¦ÀíµØÍ¼¿éµã»÷ÊÂ¼ş
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            if (UnitManager.Instance.canMoving)
-            {
-                //ÏŞÖÆÒÆ¶¯·¶Î§ÒÆ¶¯Îªµ¥Î»µÄĞĞ¶¯Á¦
-                GameUnit.GameUnit tempUnit = BattleMap.getInstance().GetUnitsOnMapBlock(UnitManager.Instance.CurUnit);
-                Vector2 unitPositon = UnitManager.Instance.CurUnit;
-                Vector2 targetPositon = GetSelfPosition();
-                UnitMoveCommand unitMove = new UnitMoveCommand(tempUnit, unitPositon,targetPositon);
-                UnitManager.Instance.isMoving = unitMove.Judge();               
-                //ĞĞÎªÑ¡ÔñÃæ°å£¨¹¥»÷or·ÀÓù£©
-                if(UnitManager.Instance.isMoving == true)
-                {
-                    Gameplay.GetInstance().gamePlayInput.HandleMovCancel(UnitManager.Instance.TargetList[0]);                //¹Ø±ÕÒÆ¶¯·¶Î§È¾É«
-                    Debug.Log(SelectAction.Instance);
-                    SelectAction.Instance.ShowSeclectActionUI();//ÏÔÊ¾ĞĞÎªÃæ°å
-                }              
-                //Debug.Log(2);
-            }
-
-            if (UnitManager.Instance.IsPickedUnit)
-            {
-                //¼ì²âµ½µØÍ¼£¬¿ÉÊµÀı»¯Æå×Ó
-                if (!BattleMap.getInstance().WarZoneBelong(GetSelfPosition())) return;
-                UnitManager.Instance.CouldInstantiation(true, this.transform);
-                BattleMap.getInstance().IsColor = false;
-                BattleMap.getInstance().HideBattleZooe(GetSelfPosition());
-
-            }
-            //Èç¹ûÕıÔÚÊÍ·ÅÖ¸ÁîÅÆ£¬¾ÍÊÓÎªÕıÔÚÑ¡ÔñÄ¿±ê
-            if (UnitManager.Instance.IsCasting)
-            {
-                UnitManager.Instance.InputTarget(GetSelfPosition());
-            }
-
-            //TODO ¶ÔÏó³Ø²âÊÔ
-            //else if(!UnitManager.Instance.canMoving)
-            //{
-
-            //    //²âÊÔÊÖ¶Î£¬µã»÷µØÍ¼¿é¶ù£¬´Ó³Ø×ÓÖĞÌí¼Óµ½µØÍ¼¿é¶ùÉÏ
-            //    GameObject temp = PoolManager.Instance.GetInst("ShadowSoldier_1");
-            //    temp.transform.parent = this.transform;
-            //    //TODO Ğ´Ò»¸öUIµÄlocalpositionº¯Êı³öÀ´µ÷ÕûÎ»ÖÃ
-            //    temp.transform.localPosition = Vector3.zero;
-
-            //    Debug.Log(temp.name);
-            //}
-
-            /*GameObject go = */
-            //MapManager.getInstance().OnClickInstantiateUnit();
-            //go.transform.SetParent(this.transform);
-            //go.transform.localScale = GetCoordinate();
-            //go.transform.localPosition = Vector3.zero;
-
-            BattleMap.getInstance().curMapPos = GetSelfPosition();
-            //Debug.Log(this.aStarState + " / " + GetSelfPosition());
-        }
-
-        private void Awake()
-        {
-            setMapBlackPosition();
-        }
-
-        //´¦ÀíµØÍ¼¿éµÄ×ø±ê
+        /// <summary>
+        /// updateåœ°å›¾å—çš„ä¸–ç•Œç³»åæ ‡
+        /// </summary>
         private void setMapBlackPosition()
         {
-
             coordinate = new Vector3((int)transform.position.x, (int)transform.position.y, 0.0f);
-            //Debug.Log(coordinate);
-            //var minusValue = Mathf.Abs(this.transform.position.x - coordinateSub);
-            //Debug.Log("Position: " + this.transform.position + "/(0, " + minusValue / coordinateDivisor + ")");
-
         }
 
-        public int Distance(BattleMapBlock target)
+        //å¤„ç†åœ°å›¾å—ç‚¹å‡»äº‹ä»¶
+        public void OnPointerDown(PointerEventData eventData)
         {
-            //TODO ¼ÆËãÁ½µã¼äµÄ¾àÀë
-
-
-            return 0;
+            Gameplay.Instance().gamePlayInput.OnPointerDown(this, eventData);
         }
 
-
-        //ÏÔÊ¾Õ½Çø
+        //æ˜¾ç¤ºæˆ˜åŒº
         public void OnPointerEnter(PointerEventData eventData)
         {
-
-
-            if (BattleMap.getInstance().IsColor == true)
-            {
-                BattleMap.getInstance().ShowBattleZooe(GetSelfPosition());
-            }
+            Gameplay.Instance().gamePlayInput.OnPointerEnter(this, eventData);
         }
-        //Òş²ØÕ½Çø
+        //éšè—æˆ˜åŒº
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (BattleMap.getInstance().IsColor == true)
-            {
-                BattleMap.getInstance().HideBattleZooe(GetSelfPosition());
-            }
+            Gameplay.Instance().gamePlayInput.OnPointerExit(this, eventData);
         }
-
 
 
 
@@ -207,15 +125,22 @@ namespace BattleMap
         public string type { get; set; }
         public int tokenCount;
         public List<Unit> units_on_me = new List<Unit>();
-        public BattleMapBlock[] neighbourBlock = new BattleMapBlock[4];
-        public BattleMapBlock parentBlock = null;
-        public AStarState aStarState { get; set; }
         public EMapBlockType blockType { get; set; }
+        public Vector2 position
+        {
+            get { return new Vector2(x, y); } 
+        }
 
-        //×îÓÅÂ·¾¶¼ÆËã
-        public float F = 0;
-        public float G = 0;
-        public float H = 0;
+        ////è¿™äº›å˜é‡ä¸ºä»€ä¹ˆä¼šæ”¾åœ¨è¿™é‡Œï¼Ÿ
+        ///neighbourBlockè¿™ä¸ªæˆå‘˜éå¸¸å±é™©
+        //public BattleMapBlock[] neighbourBlock = new BattleMapBlock[4];
+        //public BattleMapBlock parentBlock = null;
+        //public AStarState aStarState { get; set; }
+
+        ////æœ€ä¼˜è·¯å¾„è®¡ç®—
+        //public float F = 0;
+        //public float G = 0;
+        //public float H = 0;
 
     }
 }

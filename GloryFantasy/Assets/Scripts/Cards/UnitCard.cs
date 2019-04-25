@@ -1,4 +1,4 @@
-namespace GameUnit
+namespace GameCard
 {
     /// <summary>
     /// 单位卡牌类

@@ -4,10 +4,18 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-namespace Serializer
+namespace GameUtility
 {
+    /// <summary>
+    /// 序列化工具
+    /// </summary>
     public static class Serializer
     {
+        /// <summary>
+        /// 对象序列化为内存流
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
         public static MemoryStream InstanceDataToMemory(object instance)
         {
             //创建一个新的流来容纳经过序列化的对象
@@ -20,6 +28,11 @@ namespace Serializer
             return memoStream;
         }
 
+        /// <summary>
+        /// 内存流序列化为对象
+        /// </summary>
+        /// <param name="memoryStream"></param>
+        /// <returns></returns>
         public static object MemoryToInstanceData(Stream memoryStream)
         {
             //创建一个序列化格式化器来执行具体的反序列化操作

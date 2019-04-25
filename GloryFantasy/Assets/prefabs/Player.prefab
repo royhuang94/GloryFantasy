@@ -39,9 +39,9 @@ GameObject:
   - component: {fileID: 222943915749300392}
   - component: {fileID: 114616982460946538}
   - component: {fileID: 114186171841492582}
-  - component: {fileID: 114435515757696822}
+  - component: {fileID: 114519134959883018}
   m_Layer: 5
-  m_Name: Enemy
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114435515757696822
+--- !u!114 &114519134959883018
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,10 +129,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1695966838942208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b16b6263dfa81734d881c71363840761, type: 3}
+  m_Script: {fileID: 11500000, guid: fc6bf223f12183f49b3694c40053e2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: 1
+  owner: 0
   mapBlockBelow: {fileID: 0}
 --- !u!114 &114616982460946538
 MonoBehaviour:
@@ -153,7 +153,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300012, guid: fbe1e7b94bb1a4a099d5bcb15a00141c, type: 3}
+  m_Sprite: {fileID: 21300008, guid: fbe1e7b94bb1a4a099d5bcb15a00141c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

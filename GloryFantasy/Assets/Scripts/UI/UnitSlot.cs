@@ -6,8 +6,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace NBearUnit
+using GameCard;
+
+namespace GameGUI
 {
+    /// <summary>
+    /// 手牌槽
+    /// </summary>
     public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
         private GameObject _cardPrefab = null;
@@ -32,7 +37,7 @@ namespace NBearUnit
 
             _cardInstance = Instantiate(_cardPrefab, transform, true) as GameObject;
             _cardInstance.transform.localPosition = Vector3.zero;
-            BattleMap.BattleMap.getInstance().IsColor = false;
+            BattleMap.BattleMap.Instance().IsColor = false;
 
             _cardInstance.GetComponent<CardUI>().SetUnit();
 
@@ -227,13 +232,10 @@ namespace NBearUnit
                     //TODO 自身不为空
                     //获取当前自身slot下的Unit
                     CardUI currentItemUI = transform.GetChild(0).GetComponent<CardUI>();
-                    if (UnitManager.Instance.IsPickedUnit == false)
+                    if (GamePlay.Gameplay.Instance().gamePlayInput.IsSelectingSlot == false)
                     {
-                        UnitManager.Instance.PickedUpUnit(currentItemUI); //调用此函数用于鼠标"捡起"当前slot下的unit
-                        BattleMap.BattleMap.getInstance().IsColor = true;
-                        //Destroy(currentItemUI.gameObject); //摧毁slot下已经被鼠标"捡起"的unit
-
-                        RemoveItem();
+                        GamePlay.Gameplay.Instance().gamePlayInput.SelectSlotUnit(this); //调用此函数用于鼠标"捡起"当前slot
+                        BattleMap.BattleMap.Instance().IsColor = true;
                     }
                     else
                     {
@@ -244,14 +246,19 @@ namespace NBearUnit
             }
             else
             {
-                //TODO 自身为空
-                if(UnitManager.Instance.IsPickedUnit == true)
-                {
-                    StoreItem(UnitManager.Instance.PickedUnit);
-                    UnitManager.Instance.RemoveAllItem();
-                }
 
             }
+        }
+
+        /// <summary>
+        /// 返回这个手牌槽里的卡
+        /// </summary>
+        /// <returns></returns>
+        public BaseCard GetBaseCard()
+        {
+            if (transform.GetChild(0) != null)
+                return transform.GetChild(0).GetComponent<BaseCard>();
+            return null;
         }
 
     }

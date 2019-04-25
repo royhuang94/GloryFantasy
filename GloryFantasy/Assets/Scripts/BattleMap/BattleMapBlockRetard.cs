@@ -28,24 +28,24 @@ public class MapBlockRetard : BattleMapBlock
     // Update is called once per frame
     void Update()
     {
-        if (BattleMap.BattleMap.getInstance().CheckIfHasUnits(vector) && hasRetard == false)
+        if (BattleMap.BattleMap.Instance().CheckIfHasUnits(vector) && hasRetard == false)
         {
             hasUnit = true;
             //units = MapManager.MapManager.getInstance().GetUnitsOnMapBlock(vector);
             if (transform.GetComponentInChildren<Unit>() != null)
             {
                 unit = transform.GetComponentInChildren<Unit>();
-                tempMov = unit.unitAttribute.Mov;
-                Debug.Log(unit.unitAttribute.Mov);
+                tempMov = unit.mov;
+                Debug.Log(unit.mov);
                 Retard(unit);
-                Debug.Log(unit.unitAttribute.Mov);
+                Debug.Log(unit.mov);
             }
         }
         else
         {
             hasUnit = false;
             hasRetard = false;
-            unit.unitAttribute.Mov = tempMov;
+            unit.mov = tempMov;
         }
     }
 
@@ -54,7 +54,7 @@ public class MapBlockRetard : BattleMapBlock
     {
         if (hasUnit == true)
         {
-            unit.unitAttribute.Mov = 0;
+            unit.mov = 0;
             hasRetard = true;
         }
     }

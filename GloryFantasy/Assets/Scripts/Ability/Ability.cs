@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using LitJson;
-using Serializer;
+using GameUtility;
 using System.IO;
+using GamePlay;
 
 namespace Ability
 {
@@ -200,14 +201,14 @@ namespace Ability
             AbilityFormat abilityFormat = AbilityDatabase.GetInstance().GetAbilityFormat(AbilityID);
 
             //用序列化拷贝AbilityTargetList;
-            Stream stream = Serializer.Serializer.InstanceDataToMemory(abilityFormat.AbilityTargetList);
+            Stream stream = GameUtility.Serializer.InstanceDataToMemory(abilityFormat.AbilityTargetList);
             stream.Position = 0;
-            this.AbilityTargetList = (List<AbilityTarget>)Serializer.Serializer.MemoryToInstanceData(stream);
+            this.AbilityTargetList = (List<AbilityTarget>)GameUtility.Serializer.MemoryToInstanceData(stream);
             //Debug.Log("Seccess copy AbilityTargetList");
             //用序列化拷贝AbilityVariable
-            stream = Serializer.Serializer.InstanceDataToMemory(abilityFormat.AbilityVariable);
+            stream = GameUtility.Serializer.InstanceDataToMemory(abilityFormat.AbilityVariable);
             stream.Position = 0;
-            this.AbilityVariable = (AbilityVariable) Serializer.Serializer.MemoryToInstanceData(stream);
+            this.AbilityVariable = (AbilityVariable) GameUtility.Serializer.MemoryToInstanceData(stream);
             //Debug.Log("Success copy AbilityVariable");
             //拷贝变量
             this.AbilityID = abilityFormat.AbilityID;

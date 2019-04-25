@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using IMessage;
+using GamePlay;
 
 namespace Ability
 {
@@ -42,9 +43,9 @@ namespace Ability
             //保存死掉的怪
             GameUnit.GameUnit deadUnit = this.GetDead();
             //复活死掉的怪并保存
-            GameUnit.GameUnit newUnit = this.Regenerate(deadUnit.unitAttribute.uName, this.GetUnitPosition(deadUnit));
+            GameUnit.GameUnit newUnit = this.Regenerate(deadUnit.id, this.GetUnitPosition(deadUnit));
             //修改这只怪的血量
-            newUnit.HP -= newUnit.HP / 2;
+            newUnit.hp -= newUnit.hp / 2;
             //删除这只怪的复活技能
             this.DeleteUnitAbility(newUnit, "Regeneration");
         }

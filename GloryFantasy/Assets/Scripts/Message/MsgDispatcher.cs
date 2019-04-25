@@ -2,35 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using GamePlay;
+
 namespace IMessage
 {
 
     enum MessageType
     {
-        UpdateSource,
-        BP,
-        MPBegin,
-        MPEnd,
-        EP,
-        CastCard,
-        Summon,
-        DrawCard,
-        AddInHand,
-        AnnounceAttack,
-        ActiveAbility,
+        UpdateSource, //？
+        BP, //开始阶段
+        MPBegin, //主要阶段开始
+        MPEnd, //主要阶段结束
+        EP, //结束阶段
+        CastCard, //发动卡片
+        Summon, //召唤
+        DrawCard, //抽牌
+        AddInHand, //加入手牌
+        AnnounceAttack, //攻击宣言
+        ActiveAbility, //异能发动
 
         #region ATK 时点部分
-        BeAttacked,
-        Damage,
-        BeDamaged,
-        Kill,
-        BeKilled,
-        Dead,
-        ToBeKilled,
+        BeAttacked, //被攻击
+        Damage, //造成伤害
+        BeDamaged, //被伤害
+        Kill, //杀死了什么
+        BeKilled, //被杀死
+        Dead, //死亡
+        ToBeKilled, //即将被杀死
         #endregion
 
-        Move,
-        UnitMoving
+        Move, //开始移动
+        UnitMoving //正在移动
     };
 
     public interface MsgReceiver
@@ -197,10 +199,10 @@ namespace IMessage
         /// <summary>
         /// Trigger的成立限定条件函数
         /// </summary>
-        public IMessage.Condition condition;
+        public Condition condition;
         /// <summary>
         /// Trigger的执行函数
         /// </summary>
-        public IMessage.Action action;
+        public Action action;
     }
 }

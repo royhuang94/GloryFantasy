@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.IO;
 
-namespace GFGame
+namespace GameUtility
 {
     public enum LogColor
     {
@@ -50,7 +50,7 @@ namespace GFGame
                     return "<color=#000000>{0}</color>";
             }
         }
-        
+
         public static void Log(object msg, LogColor color = LogColor.BLACK)
         {
             if (color == LogColor.BLACK)

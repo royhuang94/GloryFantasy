@@ -4,6 +4,8 @@ using UnityEngine;
 using BattleMapBlock = BattleMap.BattleMapBlock;
 using Unit = GameUnit.GameUnit;
 
+//懒得吐槽了，去看BattleMap我写的注释，改下
+
 /// <summary>
 /// 灼烧地图块
 /// </summary>
@@ -25,7 +27,7 @@ public class BattleMapBlockBurning : BattleMapBlock
     private void Update()
     {
         //检测地图块上是否存在单位
-        if (BattleMap.BattleMap.getInstance().CheckIfHasUnits(vector))
+        if (BattleMap.BattleMap.Instance().CheckIfHasUnits(vector))
         {
             hasUnit = true;
             //units = MapManager.MapManager.getInstance().GetUnitsOnMapBlock(vector);
@@ -49,7 +51,7 @@ public class BattleMapBlockBurning : BattleMapBlock
     {
         if (hasUnit == true && hasBurined == false)
         {
-            unit.HP -= 1;
+            unit.hp -= 1;
             hasBurined = true;
         }
     }
