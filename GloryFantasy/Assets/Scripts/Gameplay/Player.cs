@@ -17,4 +17,9 @@ namespace GamePlay
         /// </summary>
         public int crytal = 0;
     }
+
+    public class Computer
+    {
+
+    }
 }
