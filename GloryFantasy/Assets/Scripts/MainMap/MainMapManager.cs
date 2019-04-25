@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using GFCharactor;
-
+namespace MainMap { 
 /// <summary>定义六边形坐标的结构体，并处理坐标转换
 /// 
 /// </summary>
@@ -46,14 +45,12 @@ public struct HexVector
         vector = Hex_vector;
         return vector;
     }
-
 }
 /// <summary>在这个类里读取地图文件并生成地图
 /// 
 /// </summary>
 public class MainMapManager : MonoBehaviour
 {
-
     public TextAsset textAsset;
     /// <summary>地格材质，测试用，运行的时候找一个Unity默认的材质加上去就行。
     /// 
@@ -101,38 +98,27 @@ public class MainMapManager : MonoBehaviour
                             MapUnit post = gameObject.AddComponent<Post>();
                             gameObject.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
                             break;
-
                         case "key":
                             MapUnit key = gameObject.AddComponent<Key>();
                             gameObject.transform.position = key.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
                             break;
-
                         default:
                             Debug.Log("你文件写错了，回去看看");
                             break;
-
                     }
                     //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
                     MeshFilter flit = gameObject.AddComponent<MeshFilter>();
                     gameObject.AddComponent<MeshRenderer>();
                     gameObject.AddComponent<BoxCollider>();
                     flit.mesh = mesh;
-                }
-              
-               
+                }                        
             }
-
         }
-
-
-
-
     }
     private void Start()
     {
         charactor = GameObject.Find("Charactor").GetComponent<Charactor>();
         charactor.Initalize();
-
     }
     /// <summary>重设角色周围地形格写入AroundList
     /// 
@@ -141,14 +127,12 @@ public class MainMapManager : MonoBehaviour
     /// <returns></returns>
     public Dictionary<string, MapUnit> setaround(GameObject onclk)
     {
-
         AroundList["0,1"] = SetAround(onclk, 0, 1);
         AroundList["0,-1"] = SetAround(onclk, 0, -1);
         AroundList["1,0"] = SetAround(onclk, 1, 0);
         AroundList["-1,0"] = SetAround(onclk, -1, 0);
         AroundList["-1,1"] = SetAround(onclk, -1, 1);
         AroundList["1,-1"] = SetAround(onclk, 1, -1);
-
         return AroundList;
     }
     /// <summary>重设地形格字典值的具体逻辑
@@ -168,18 +152,12 @@ public class MainMapManager : MonoBehaviour
             playeraround = GameObject.Find("test" + x.ToString() + z.ToString()).GetComponent<MapUnit>();
         }
         else
-
         {
             Debug.Log("doesn't have this object");
             playeraround = null;
         }
         return playeraround;
-
-
     }
-
-
-
 }
 /// <summary>六边形单元格的抽象类，每个地格都会继承这个类
 /// 
@@ -207,11 +185,9 @@ public abstract class MapUnit:MonoBehaviour
     /// </summary>
     public virtual void ChangePosition()
     {
-
         mapManager.charactor.Move(GetComponent<Transform>().position, -1);
         mapManager.setaround(GameObject.Find("test" + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.x.ToString() + mapManager.charactor.charactorData.PlayerLocate.Hex_vector.z.ToString()));
         Debug.Log("Onclick" + hexVector.Normal_vector.x.ToString() + hexVector.Normal_vector.z.ToString());
-
     }
 }
 /// <summary>普通的地格，没什么特别的
@@ -262,7 +238,6 @@ public class Plane : MapUnit
 /// </summary>
 public class Post : MapUnit
 {
-    //private MapUnit parent;
     /// <summary>驿站是否激活
     /// 
     /// </summary>
@@ -364,7 +339,6 @@ public class Key : MapUnit
             Debug.Log("不在相邻地格，无法取得道具");
         }
     }
-
 }
 /// <summary>锁（虚构层表现为各种类型的障碍，需要对应的钥匙（清障道具）方可清除并到达此地格）
 /// 
@@ -380,6 +354,7 @@ public class Barrier : MapUnit
     {
 
     }
+}
 }
 
     

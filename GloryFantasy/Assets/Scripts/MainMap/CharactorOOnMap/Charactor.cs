@@ -3,7 +3,7 @@ using System;
 
 
 //2019.4.12版
-namespace GFCharactor
+namespace MainMap
 { 
 
 public class Charactor : MonoBehaviour
