@@ -48,28 +48,7 @@ namespace BattleMap
 
     public class MapNavigator
     {
-        //TODO AStarPath
-        //1. 设置 BlockType 枚举
-        //moveable， bar， boundary， aStarPath
-        //2. 设置 AStarState 枚举
-        //free， isInOpenList， isInCloseList
-        //3. MapBlock
-        //字段： BlockType、AStarState、neighbourBlock、parentBlock、F、G、H
-        //4. List<MapBlock> OpenList //可探索的Block
-
-        //5 List<MapBlock> CloseList  //已选过的Block
-
-        //6. Vector2 globalEndPos
-
-        //7. bool PathSearch(Vector2 startPos,Vector2 endPos)
-
-        //8  MapBlock AStarSearch(MapBlock A)
-
-        //9 InstantiateMapBeta //地图具象化(颜色改变)
-
-        public List<BattleMapBlock> OpenList; //所有被考虑来寻找最短路径的地图块儿
-        public List<BattleMapBlock> CloseList; //不会再被考虑的地图块儿
-
+        //是未排序字典，采用哈希表的方式存储的，add是存在key,就更新，不存在就插入
         public Dictionary<Vector2, Node> openList;
         public Dictionary<Vector2, Node> closeList;
 
@@ -84,14 +63,6 @@ namespace BattleMap
         //寻路入口
         public bool PathSearch(Vector2 startPos, Vector2 endPos)
         {
-            //单位起点与终点 是否包含在字典内
-            //为什么要用这个字典?
-            //if (!BattleMap.Instance().mapBlockDict.ContainsKey(startPos) || !BattleMap.Instance().mapBlockDict.ContainsKey(endPos))
-            //{
-            //    Debug.Log("invalid para");
-            //    return false;
-            //}
-
             if (BattleMap.Instance().GetSpecificMapBlock((int)startPos.x, (int)startPos.y) == null || BattleMap.Instance().GetSpecificMapBlock((int)endPos.x, (int)endPos.y) == null)
             {
                 Debug.Log("In MapNavigator: invalid Pos");
@@ -101,27 +72,13 @@ namespace BattleMap
             //初始化openList和closeList
             openList = new Dictionary<Vector2, Node>();
             closeList = new Dictionary<Vector2, Node>();
-
-            //算法开始
-
-            ////起点为A
-            //BattleMapBlock A = BattleMap.Instance().GetSpecificMapBlock((int)startPos.x, (int)startPos.y);
-            //A.G = 0;
-            //A.H = Mathf.Abs(globalEndPos.x - startPos.x) + Mathf.Abs(globalEndPos.y - startPos.y);  //Vector2.Distance(A.pos, globalEndPos);
-            //A.F = A.G + A.H;
-            //A.parentBlock = null; //父地图块儿设置为null，因为此处是起点
-
             //加入起点
             openList.Add(startPos, new Node(startPos, endPos, 0));
-
-            ////此时起点A已经设置完毕，可以不用再考虑此地图块儿了
-            //CloseList.Add(A);
-            //A.aStarState = AStarState.isInCloseList;
-
             do
             {
                 //遍历OpenList，寻找F值最小的节点，设为A
                 Node A = new Node(startPos, endPos, int.MaxValue / 2);
+                //遍历OpenList，寻找F值最小的节点，设为A
                 foreach (Node node in openList.Values)
                 {
                     if (node.H + node.G < A.H + A.G)
@@ -129,16 +86,32 @@ namespace BattleMap
                 }
 
                 AStarSearch(A, startPos, endPos);
-/////////////////////////////////////////////////////////////
                 openList.Remove(A.position);
                 closeList.Add(A.position, A);
-
+                
                 //如果找到了endPos
                 //代码自己补
-
+                if (A.H < Mathf.Epsilon)
+                {
+                    List<Node> paths = new List<Node>();
+                    paths.Add(closeList[endPos]);
+                    Debug.Log("找到路径");
+                    for (int i = 0; i < closeList.Count; i++)
+                    {
+                        paths.Add(closeList[paths[i].parentPosition]);
+                        if (paths[i + 1].G == 0)
+                            break;
+                    }
+                    for (int i = paths.Count - 1; i >= 0; i--)
+                    {
+                        Debug.Log("最优路径" + paths[i].position);
+                    }
+                    
+                    return true;
+                }
 
                 //OpenList是否还有节点
-            } while (OpenList.Count > 0);
+            } while (openList.Count > 0);
 
             return false;
         }
@@ -154,6 +127,7 @@ namespace BattleMap
             {
                 neighourNode.Add(new Node(mapBlock.position, A.position, endPos, A.G + 1));
             }
+
             //遍历A的周边Node
             for (int i = 0; i < neighourNode.Count; i++)
             {
@@ -164,17 +138,6 @@ namespace BattleMap
                 //如果在开放列表中
                 if (openList.ContainsKey(B.position))
                 {
-                    //A到B的G值+A.G>B.G
-                    //TODO 未加入H，会不会对最优结果产生影响
-                    //废话，当然不会，还有这个distance是什么鬼，是这么用的吗我的天
-                    //float curG = Vector2.Distance(A.GetSelfPosition(), B.GetSelfPosition());
-                    //if (B.G > curG + A.G)
-                    //{
-                    //    //更新B的父节点为A，并相应更新B.G,B.H
-                    //    B.parentBlock = A;
-                    //    B.G = curG + A.G;
-                    //    B.F = B.H + B.G;
-                    //}
                     if (B.G > A.G + 1)
                     {
                         B.parentPosition = A.position;
@@ -183,60 +146,14 @@ namespace BattleMap
                     continue;
                 }
                 //如果不在两个列表里
-                else if (!openList.ContainsKey(B.position))
+                else if (!openList.ContainsKey(B.position) )
                 {
-                    //更新B的父节点为A，并相应更新B.G; 计算B.F,B.H; B加入OpenList
-                    //B.parentBlock = A;
-                    //B.G = Vector2.Distance(A.GetSelfPosition(), B.GetSelfPosition()) + A.G;
-                    //B.H = Mathf.Abs(B.GetSelfPosition().x - globalEndPos.x) + Mathf.Abs(B.GetSelfPosition().y - globalEndPos.y);
-                    //B.F = B.G + B.H;
-                    //OpenList.Add(B);
-                    //B.aStarState = AStarState.isInOpenList;
                     openList.Add(B.position, B);
-
-                    //当B.H接近0时
-                    //if (B.H < Mathf.Epsilon)
-                    //    //B的所有父节点既是路径
-                    //    return B;
-                    //else
-                        //继续遍历
-                        continue;
+                    continue; 
                 }
             }
         }
 
-        //地图具象化（并对Openlist，Closelist内节点上色）
-        public void InstantiateMapBeta(BattleMapBlock[,] mapBlocks)
-        {
-
-        }
-
-        //TODO 待优化
-        //重置Block的aStarState
-        //public void RestIsInCloseListBlock()
-        //{
-        //    if(CloseList != null)
-        //    {
-        //        foreach (var block in CloseList)
-        //        {
-        //            block.aStarState = AStarState.free;
-        //            //Debug.Log(block.aStarState);
-        //        }
-
-        //    }
-
-        //}
-
-        //public void RestIsInOpenListBlock()
-        //{
-        //    if (OpenList != null)
-        //    {
-        //        foreach (var block in OpenList)
-        //        {
-        //            block.aStarState = AStarState.free;
-        //        }
-        //    }
-        //}
     }
 
 }

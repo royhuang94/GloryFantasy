@@ -54,7 +54,8 @@ namespace GamePlay.Input
         public override void Excute()
         {
             Debug.Log("Moving Command excusing");
-            BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _destination, _targetPosition);
+            if (BattleMap.BattleMap.Instance().MapNavigator.PathSearch(_unitPosition, _targetPosition))
+                BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _targetPosition);
         }
 
         private GameUnit.GameUnit _unit;
@@ -89,7 +90,6 @@ namespace GamePlay.Input
             MsgDispatcher.SendMsg((int)MessageType.AnnounceAttack);
             //根据伤害优先级对伤害请求排序
             DamageRequestList = DamageRequest.CaculateDamageRequestList(_Attacker, _AttackedUnit);
-
 
             for (int i = 0; i < DamageRequestList.Count; i++)
             {

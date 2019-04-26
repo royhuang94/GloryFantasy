@@ -122,19 +122,19 @@ namespace BattleMap
             List<BattleMapBlock> neighbour = new List<BattleMapBlock>();
             int x = (int)node.position.x;
             int y = (int)node.position.y;
-            if (GetSpecificMapBlock(x - 1, y) != null)
+            if (GetSpecificMapBlock(x - 1, y) != null && GetSpecificMapBlock(x - 1, y).units_on_me.Count == 0)
             {
                 neighbour.Add(GetSpecificMapBlock(x - 1, y));
             }
-            if (GetSpecificMapBlock(x + 1, y) != null)
+            if (GetSpecificMapBlock(x + 1, y) != null && GetSpecificMapBlock(x + 1, y).units_on_me.Count == 0)
             {
                 neighbour.Add(GetSpecificMapBlock(x + 1, y));
             }
-            if (GetSpecificMapBlock(x, y - 1) != null)
+            if (GetSpecificMapBlock(x, y - 1) != null && GetSpecificMapBlock(x, y - 1).units_on_me.Count == 0)
             {
                 neighbour.Add(GetSpecificMapBlock(x, y - 1));
             }
-            if (GetSpecificMapBlock(x, y + 1) != null)
+            if (GetSpecificMapBlock(x, y + 1) != null && GetSpecificMapBlock(x, y + 1).units_on_me.Count == 0)
             {
                 neighbour.Add(GetSpecificMapBlock(x, y + 1));
             }
@@ -328,11 +328,10 @@ namespace BattleMap
         /// <summary>
         /// 传入unit和坐标，将Unit瞬间移动到该坐标（仅做坐标变更，不做其他处理）
         /// <param name="unit">移动的目标单位</param>
-        /// <param name="worldCoordinate">地图块儿所处的世界坐标</param>
         /// <param name="gameobjectCoordinate">地图块儿自身的物体坐标</param>
         /// <returns></returns>
         /// </summary>
-        public bool MoveUnitToCoordinate(Unit unit, Vector3 worldCoordinate, Vector2 gameobjectCoordinate)
+        public bool MoveUnitToCoordinate(Unit unit,  Vector2 gameobjectCoordinate)
         {
             foreach (Unit gameUnit in _unitsList)
             {
@@ -347,6 +346,7 @@ namespace BattleMap
                         unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
                     }
                     unit.mapBlockBelow.AddUnit(unit);
+                    //unit.transform.position = _destination;
                     unit.transform.localPosition = Vector3.zero;
                     return true;
                 }
