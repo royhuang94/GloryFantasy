@@ -128,15 +128,12 @@ namespace GameGUI
                 BaseCard card = _cardInstance.GetComponent<BaseCard>();
                 JsonData jsonData = CardManager.GetInstance().GetCardJsonData(card.id);
 
-                int tagCount;
                 string tagInToal = "";
-                if (jsonData["tag"] != null)
+                if (card.tag.Count != 0)
                 {
-                    tagCount = jsonData["tag"].Count;
-                   
-                    for (int i = 0; i < tagCount; i++)
+                    for (int i = 0; i < card.tag.Count; i++)
                     {
-                        tagInToal += jsonData["tag"][i].ToString();
+                        tagInToal += card.tag[i];
                     }
                 }       
                 //GUILayout.BeginArea(new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, 300, 350));
@@ -151,11 +148,11 @@ namespace GameGUI
                 GUILayout.EndVertical();
                 
                 GUILayout.BeginVertical("Box", GUILayout.Width(500));
-                GUILayout.TextField(jsonData["name"].ToString());
-                GUILayout.TextField(jsonData["effect"].ToString());
-                GUILayout.TextField(jsonData["cd"].ToString());
+                GUILayout.TextField(card.name);
+                GUILayout.TextField(card.effect);
+                GUILayout.TextField(card.cd.ToString());
                 GUILayout.TextField(tagInToal);
-                GUILayout.TextField(jsonData["type"].ToString());
+                GUILayout.TextField(card.type);
                 
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();

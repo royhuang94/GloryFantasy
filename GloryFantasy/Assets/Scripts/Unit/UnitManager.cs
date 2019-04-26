@@ -24,6 +24,7 @@ namespace GameUnit
             //根据卡牌id生成单位
             GameObject temp = GameUnitPool.Instance().GetInst(cardID, owner);
             //TODO:修改连接关系
+            
             //修改单位的父级对象
             temp.transform.SetParent(parent);
             //修改单位的本地坐标系坐标
