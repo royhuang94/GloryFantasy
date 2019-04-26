@@ -41,7 +41,7 @@ namespace GamePlay
         {
             Debug.Log(damage.damageValue);
             unit.hp -= damage.damageValue;
-            Debug.Log("收到伤害，当前剩余生命值" + unit.hp);
+            Debug.Log(unit.name + "收到伤害，当前剩余生命值" + unit.hp);
         }
     }
 
@@ -128,6 +128,13 @@ namespace GamePlay
                 this.SetKilledAndDeadUnit(_attackedUnit);
                 MsgDispatcher.SendMsg((int)MessageType.Kill);
                 MsgDispatcher.SendMsg((int)MessageType.Dead);
+               
+                //死亡单位回收到对象池
+                Gameplay.Instance().gamePlayInput.UnitBackPool(_attackedUnit);
+            }
+            else
+            {
+                Gameplay.Instance().gamePlayInput.UpdateHp(_attackedUnit);
             }
         }
 
@@ -153,6 +160,13 @@ namespace GamePlay
                 this.SetKiller(_attackedUnit); this.SetKilledAndDeadUnit(_attacker);
                 MsgDispatcher.SendMsg((int)MessageType.Kill);
                 MsgDispatcher.SendMsg((int)MessageType.Dead);
+
+                //死亡单位回收到对象池
+                Gameplay.Instance().gamePlayInput.UnitBackPool(_attacker);
+            }
+            else
+            {
+                Gameplay.Instance().gamePlayInput.UpdateHp(_attacker);
             }
 
             if (_attackedUnit.IsDead())
@@ -160,6 +174,13 @@ namespace GamePlay
                 this.SetKiller(_attacker); this.SetKilledAndDeadUnit(_attackedUnit);
                 MsgDispatcher.SendMsg((int)MessageType.Kill);
                 MsgDispatcher.SendMsg((int)MessageType.Dead);
+
+                //死亡单位回收到对象池
+                Gameplay.Instance().gamePlayInput.UnitBackPool(_attackedUnit);
+            }
+            else
+            {
+                Gameplay.Instance().gamePlayInput.UpdateHp(_attackedUnit);
             }
         }
 

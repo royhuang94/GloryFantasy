@@ -48,14 +48,8 @@ namespace BattleMap
     {
         public Dictionary<Vector2, Node> openList;
         public Dictionary<Vector2, Node> closeList;
+        List<Node> paths; //最优路径
 
-        public Vector2 globalEndPos;
-
-        //TODO 用于保存最优路径
-        /// <summary>
-        /// 路径
-        /// </summary>
-        public List<BattleMapBlock> paths = new List<BattleMapBlock>();
 
         //寻路入口
         public bool PathSearch(Vector2 startPos, Vector2 endPos)
@@ -90,7 +84,7 @@ namespace BattleMap
                 //代码自己补
                 if (A.H < Mathf.Epsilon)
                 {
-                    List<Node> paths = new List<Node>();
+                    paths = new List<Node>();
                     paths.Add(closeList[endPos]);
                     Debug.Log("找到路径");
                     for (int i = 0; i < closeList.Count; i++)

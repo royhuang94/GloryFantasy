@@ -204,13 +204,14 @@ namespace GamePlay.Input
                     unit.restrain = false;
                     HandleAtkCancel(TargetList[0]);
                     TargetList.Clear();
-                    if (!unit.IsDead())
-                    {
-                        float hpDivMaxHp = (float)unit.hp / unit.MaxHP * 100;
-                        var textHp = unit.transform.GetComponentInChildren<Text>();
-                        textHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
-                        //Attacker.GetComponentInChildren<hpUpdate>().UpdateHp();
-                    }
+                    //if (!unit.IsDead())
+                    //{
+                    //    float hpDivMaxHp = (float)unit.hp / unit.MaxHP * 100;
+                    //    var textHp = unit.transform.GetComponentInChildren<Text>();
+                    //    textHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
+                    //    //Attacker.GetComponentInChildren<hpUpdate>().UpdateHp();
+                    //}
+                    
                     //攻击完工攻击范围隐藏                  
                     
                 }
@@ -308,6 +309,26 @@ namespace GamePlay.Input
         internal void SelectSlotUnit(UnitSlot currentItemUI)
         {
             selectedSlot = currentItemUI;
+        }
+
+        /// <summary>
+        /// 单位回收
+        /// </summary>
+        /// <param name="deadUnit"></param>
+        internal void UnitBackPool(GameUnit.GameUnit deadUnit)
+        {
+            //TODO 回收单位
+        }
+
+        /// <summary>
+        /// 更新血条HP
+        /// </summary>
+        /// <param name="attackedUnit">受攻击单位</param>
+       internal void UpdateHp(GameUnit.GameUnit attackedUnit)
+        {
+            float hpDivMaxHp = (float)attackedUnit.hp / attackedUnit.MaxHP * 100;
+            var textHp = attackedUnit.transform.GetComponentInChildren<Text>();
+            textHp.text = string.Format("Hp: {0}%", Mathf.Ceil(hpDivMaxHp));
         }
     }
 }
