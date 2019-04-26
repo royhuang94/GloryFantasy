@@ -140,14 +140,6 @@ namespace BattleMap
             }
             return neighbour;
         }
-        
-        /// <summary>
-        /// 将单位设置在MapBlock下
-        /// </summary>
-        public void SetUnitToMapBlock()
-        {
-            //TODO：完善一下
-        }
 
         //初始地图单位
         private Unit InitAndInstantiateGameUnit(JsonData data, int x, int y)
@@ -228,7 +220,14 @@ namespace BattleMap
         //    return false;
         //}
         #endregion
-        
+
+        /// <summary>
+        /// 将单位设置在MapBlock下
+        /// </summary>
+        public void SetUnitToMapBlock()
+        {
+            //TODO：完善一下
+        }
         /// <summary>
         /// 传入坐标，获取对应的MapBlock。坐标不合法会返回null
         /// </summary>
