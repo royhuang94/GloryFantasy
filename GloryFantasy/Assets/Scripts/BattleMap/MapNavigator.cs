@@ -27,7 +27,6 @@ namespace BattleMap
         /// </summary>
         public int H;
 
-        //赋值时，position == parentPosition 是起点？
         public Node(Vector2 _position, Vector2 _destination , int _G = int.MaxValue / 2)
         {
             position = _position;
@@ -36,7 +35,6 @@ namespace BattleMap
             this.G = _G;
         }
 
-        //parentPosition 是 position的父节点
         public Node(Vector2 _position, Vector2 _fatherPosition, Vector2 _destination, int _G = int.MaxValue / 2)
         {
             position = _position;
@@ -48,7 +46,6 @@ namespace BattleMap
 
     public class MapNavigator
     {
-        //是未排序字典，采用哈希表的方式存储的，add是存在key,就更新，不存在就插入
         public Dictionary<Vector2, Node> openList;
         public Dictionary<Vector2, Node> closeList;
 
