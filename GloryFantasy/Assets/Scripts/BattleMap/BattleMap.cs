@@ -207,16 +207,15 @@ namespace BattleMap
                 instance = GameObject.Instantiate(normalMapBlocks, new Vector3(x, y, 0f), Quaternion.identity);
                 instance.transform.SetParent(_tilesHolder);
 
-
                 //如果是边缘地图块，就上烧灼块，否则上普通块
-                if (x == 0 && y == 0)
-                {
-                    instance.gameObject.AddComponent<BattleMapBlockBurning>();
-                }
-                else
-                {
+                //if (x == 0 && y == 0)
+                //{
+                //    instance.gameObject.AddComponent<BattleMapBlockBurning>();
+                //}
+                //else
+                //{
                     instance.gameObject.AddComponent<BattleMapBlock>();
-                }
+                //}
                 //初始化mapBlock成员
                 _mapBlocks[x, y] = instance.gameObject.GetComponent<BattleMapBlock>();
                 _mapBlocks[x, y].area = area;
@@ -490,6 +489,7 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
         /// <returns></returns>
         public Boolean CheckIfHasUnits(Vector3 vector)
         {
+            Debug.Log(_mapBlocks.Length);
             if (this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0
                 && this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>() != null &&
                 this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>().id != "Obstacle"/*units_on_me.Count != 0*/)
@@ -550,29 +550,27 @@ ReadUnitDataInJason(this._unitsData[data["name"].ToString()],
         }
         /// <summary>
         /// 传入unit和坐标，将Unit瞬间移动到该坐标（仅做坐标变更，不做其他处理）
-        /// </summary>
-        /// <param name="unit"></param>
-        /// <param name="destination"></param>
+        /// <param name="unit">移动的目标单位</param>
+        /// <param name="worldCoordinate">地图块儿所处的世界坐标</param>
+        /// <param name="gameobjectCoordinate">地图块儿自身的物体坐标</param>
         /// <returns></returns>
-        public bool MoveUnitToCoordinate(Unit unit, Vector3 destination)
+        /// </summary>
+        public bool MoveUnitToCoordinate(Unit unit, Vector3 worldCoordinate, Vector2 gameobjectCoordinate)
         {
             foreach (Unit gameUnit in _unitsList)
             {
                 if (gameUnit == unit)
                 {
                     unit.mapBlockBelow.RemoveUnit(unit);
+
                     //你看，我上面说什么了，负面地形越多，这种代码就越难写，要时刻小心继承带来的“类爆炸”
                     //TODO: review plz
-                    if (_mapBlocks[(int)destination.x, (int)destination.y] != null)
+                    if (_mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y] != null)
                     {
-                        unit.mapBlockBelow = _mapBlocks[(int)destination.x, (int)destination.y];
-                    }
-                    if (_mapBlocksBurning[(int)destination.x, (int)destination.y] != null)
-                    {
-                        unit.mapBlockBelow = _mapBlocksBurning[(int)destination.x, (int)destination.y];
+                        unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
                     }
                     unit.mapBlockBelow.AddUnit(unit);
-                    unit.transform.position = destination;
+                    unit.transform.localPosition = Vector3.zero;
                     return true;
                 }
             }

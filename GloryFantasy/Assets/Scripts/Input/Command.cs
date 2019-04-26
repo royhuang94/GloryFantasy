@@ -32,11 +32,12 @@ namespace GamePlay.Input
 
     public class UnitMoveCommand : Command
     {
-        public UnitMoveCommand(GameUnit.GameUnit unit, Vector2 unitPositon, Vector2 targetPosion)
+        public UnitMoveCommand(GameUnit.GameUnit unit, Vector2 unitPositon, Vector2 targetPosion, Vector2 destination)
         {
             _unit = unit;
             _unitPosition = unitPositon;
             _targetPosition = targetPosion;
+            _destination = destination;
         }
 
         public bool Judge()
@@ -47,14 +48,13 @@ namespace GamePlay.Input
             if (MAN_HA_DUN <= _unit.mov)
                 return true;
             //BattleMap.BattleMap.Instance().MapNavigator
-
             return false;
         }
 
         public override void Excute()
         {
             Debug.Log("Moving Command excusing");
-            BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _destination);
+            BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _destination, _targetPosition);
         }
 
         private GameUnit.GameUnit _unit;

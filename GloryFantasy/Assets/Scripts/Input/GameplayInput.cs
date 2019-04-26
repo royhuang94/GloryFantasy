@@ -95,7 +95,7 @@ namespace GamePlay.Input
                 GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(TargetList[0]);
                 Vector2 startPos = TargetList[0];
                 Vector2 endPos = mapBlock.position;
-                UnitMoveCommand unitMove = new UnitMoveCommand(unit, startPos, endPos);
+                UnitMoveCommand unitMove = new UnitMoveCommand(unit, startPos, endPos,  mapBlock.GetSelfPosition() );
                 if (unitMove.Judge())
                 {
                     unitMove.Excute();

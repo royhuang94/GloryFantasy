@@ -26,6 +26,7 @@ public class BattleMapBlockBurning : BattleMapBlock
 
     private void Update()
     {
+        Debug.Log(1);
         //检测地图块上是否存在单位
         if (BattleMap.BattleMap.Instance().CheckIfHasUnits(vector))
         {

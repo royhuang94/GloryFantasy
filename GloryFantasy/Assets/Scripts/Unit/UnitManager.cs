@@ -38,6 +38,18 @@ namespace GameUnit
             float hpDivMaxHp = hp / temp.GetComponent<GameUnit>().MaxHP * 100;
 
             hpTest.GetComponent<Text>().text = string.Format("HP: {0}%", hpDivMaxHp);
+
+            //挂载ShowRange脚本
+            temp.AddComponent<GameGUI.ShowRange>();
+
+            //获取GameUnit对象
+            GameUnit gameUnit = temp.GetComponent<GameUnit>();
+
+            //添加当前实例单位到UnitList中
+            BattleMap.BattleMap.Instance().UnitsList.Add(gameUnit);
+            //添加当前实例单位的所在地图块儿
+            gameUnit.mapBlockBelow = parent.gameObject.GetComponent<BattleMapBlock>();
+
         }
     }
 }

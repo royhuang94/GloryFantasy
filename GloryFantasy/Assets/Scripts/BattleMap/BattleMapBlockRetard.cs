@@ -28,6 +28,7 @@ public class MapBlockRetard : BattleMapBlock
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(1);
         if (BattleMap.BattleMap.Instance().CheckIfHasUnits(vector) && hasRetard == false)
         {
             hasUnit = true;

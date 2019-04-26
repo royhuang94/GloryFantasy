@@ -27,6 +27,7 @@ namespace BattleMap
         /// </summary>
         public int H;
 
+        //赋值时，position == parentPosition 是起点？
         public Node(Vector2 _position, Vector2 _destination , int _G = int.MaxValue / 2)
         {
             position = _position;
@@ -35,6 +36,7 @@ namespace BattleMap
             this.G = _G;
         }
 
+        //parentPosition 是 position的父节点
         public Node(Vector2 _position, Vector2 _fatherPosition, Vector2 _destination, int _G = int.MaxValue / 2)
         {
             position = _position;
@@ -46,18 +48,6 @@ namespace BattleMap
 
     public class MapNavigator
     {
-        //这里有什么必要用单例？让BattleMap持有引用不就行了？
-        //private static MapNavigator _instance;
-        //public static MapNavigator _Instantce
-        //{
-        //    get
-        //    {
-        //        if (_instance == null)
-        //            _instance = new MapNavigator();
-        //        return _instance;
-        //    }
-        //}
-
         //TODO AStarPath
         //1. 设置 BlockType 枚举
         //moveable， bar， boundary， aStarPath
@@ -76,9 +66,6 @@ namespace BattleMap
         //8  MapBlock AStarSearch(MapBlock A)
 
         //9 InstantiateMapBeta //地图具象化(颜色改变)
-
-
-        //TODO 放在什么地方调用这个函数
 
         public List<BattleMapBlock> OpenList; //所有被考虑来寻找最短路径的地图块儿
         public List<BattleMapBlock> CloseList; //不会再被考虑的地图块儿
@@ -142,43 +129,13 @@ namespace BattleMap
                 }
 
                 AStarSearch(A, startPos, endPos);
-                #region 自己看懂了删掉
-                //if (path != null)
-                //{
-                //    //do
-                //    //{
-                //    //    //设置为AStarPath
-                //    //    //会不会出现问题，此处修改了EMapBlockType，后面遍历时，会不会出问题
-                //    //    path.blockType = EMapBlockType.aStarPath;
-                //    //    //不懂为什么要放在BattleMap里
-                //    //    //BattleMap.Instance().aStarPath.Add(path);
-                //    //    paths.Add(path);
-                //    //    //Debug.Log("aStarPath " + path.GetSelfPosition());
-
-                //    //    if (path.parentBlock == null)
-                //    //        path = null;
-                //    //    else
-                //    //        path = path.parentBlock;
-                //    //} while (path != null);
-
-                //    RestIsInOpenListBlock();
-
-                //    //TODO 测试移动
-                //    var mov = BattleMap.Instance().GetUnitsOnMapBlock(startPos).UnitAttribute.Mov;
-                //    if (paths.Count - 1 > mov)
-                //    {
-                //        GFGame.UtilityHelper.Log("超出移动力范围，当前移动力" + mov, GFGame.LogColor.RED);
-                //        Debug.Log((paths.Count - 1));
-                //        return false;
-                //    }
-                //    return true;
-                //}
-                #endregion
+/////////////////////////////////////////////////////////////
                 openList.Remove(A.position);
                 closeList.Add(A.position, A);
 
                 //如果找到了endPos
                 //代码自己补
+
 
                 //OpenList是否还有节点
             } while (OpenList.Count > 0);
@@ -253,8 +210,6 @@ namespace BattleMap
         {
 
         }
-
-
 
         //TODO 待优化
         //重置Block的aStarState

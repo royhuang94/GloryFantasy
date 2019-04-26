@@ -15,14 +15,14 @@ namespace GameGUI
     /// </summary>
     public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
-        private GameObject _cardPrefab = null;
-        private GameObject _cardInstance = null;
+        private GameObject _cardPrefab = null;   
+        private GameObject _cardInstance = null; //卡牌的实例
         private bool _canShowMsg = false;
         private bool _alreadyShowButton = false;
         private GameObject _gameObject = null;
         
         /// <summary>
-        /// 用于鼠标移动将单位放回slot，存储Unit到slot下
+        /// 用于鼠标移动将单位放回slot，存储Unit到slot下  / 待定使用
         /// </summary>
         /// <param name="unit"></param>
         public void StoreItem(CardUI unit)
@@ -229,7 +229,7 @@ namespace GameGUI
                 }
                 else
                 {
-                    //TODO 自身不为空
+                    //自身不为空
                     //获取当前自身slot下的Unit
                     CardUI currentItemUI = transform.GetChild(0).GetComponent<CardUI>();
                     if (GamePlay.Gameplay.Instance().gamePlayInput.IsSelectingSlot == false)

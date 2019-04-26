@@ -50,9 +50,12 @@ namespace BattleMap
         {
             //Debug.Log("MapBlocks--Added unit:" + unit.ToString());
             units_on_me.Add(unit);
+            //在Hierarchy中，还需要把单位添加到Block下
+            //修改单位的父级对象
+            unit.gameObject.transform.SetParent(this.transform);
         }
         /// <summary>
-        /// 向方块上增加GameUnit
+        /// 向方块上增加GameUnit/ 疑问为啥一个地图块儿阔能出现多只单位？
         /// </summary>
         /// <param name="units"></param>
         public void AddUnits(Unit[] units)
@@ -61,6 +64,9 @@ namespace BattleMap
             foreach (Unit gameUnit in units)
             {
                 units_on_me.Add(gameUnit);
+                //在Hierarchy中，还需要把单位添加到Block下
+                //修改单位的父级对象
+                gameUnit.gameObject.transform.SetParent(this.transform);
             }
         }
         /// <summary>
@@ -78,6 +84,7 @@ namespace BattleMap
         /// <returns></returns>
         public Vector3 GetCoordinate()
         {
+            //对于新添加的单位以及移动后的单位，需要对其进行更新
             return new Vector3(this.x, this.y, 0f);
         }
         /// <summary>
