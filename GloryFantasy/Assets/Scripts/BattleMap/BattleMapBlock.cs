@@ -30,13 +30,6 @@ namespace BattleMap
 
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        //继承了MonoBehaviour就不能用构造函数了
-        //public BattleMapBlock() { }
-        //public BattleMapBlock(int x, int y)
-        //{
-        //    this.x = x;
-        //    this.y = y;
-        //}
         private void Awake()
         {
             setMapBlackPosition();
@@ -93,7 +86,6 @@ namespace BattleMap
         /// <returns></returns>
         public Vector3 GetSelfPosition()
         {
-            //return this.transform.position;
             return coordinate;
         }
         /// <summary>

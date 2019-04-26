@@ -85,11 +85,7 @@ namespace GamePlay.Input
         /// <param name="mapBlock"></param>
         /// <param name="eventData"></param>
         public void OnPointerDown(BattleMapBlock mapBlock, PointerEventData eventData)
-        {
-            //获得点击的地图方块的坐标
-            //Vector2 targetPositon = mapBlock.GetSelfPosition();
-            //UnitMoveCommand unitMove = new UnitMoveCommand(tempUnit, unitPositon, targetPositon);
-               
+        {             
             if (IsMoving)
             {
                 GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(TargetList[0]);
@@ -99,6 +95,8 @@ namespace GamePlay.Input
                 if (unitMove.Judge())
                 {
                     unitMove.Excute();
+                    //移动完关闭染色
+                    
                     SetMovingIsFalse(unit);
                 }
                 else
@@ -279,57 +277,5 @@ namespace GamePlay.Input
         {
             selectedSlot = currentItemUI;
         }
-
-        //public void HandleConfirm(Vector2 target)
-        //{
-        //    BattleMap.BattleMap map = BattleMap.BattleMap.getInstance();
-        //    if (TargetList.Count == 0)
-        //    {
-        //        if (map.CheckIfHasUnits(target))
-        //        {
-        //            TargetList.Add(target);
-        //            GameUnit.GameUnit unit = BattleMap.BattleMap.getInstance().GetUnitsOnMapBlock(TargetList[0]);
-        //            unit.GetComponent<ShowRange>().MarkMoveRange();
-        //            unit.GetComponent<ShowRange>().MarkAttackRange();
-        //        }
-        //    }
-        //    else
-        //    if (TargetList.Count == 1)
-        //    {
-        //        if (map.CheckIfHasUnits(target))
-        //        {
-        //            //TargetList.Add(target);
-        //            GameUnit.GameUnit unit1 = map.GetUnitsOnMapBlock(TargetList[0]);
-        //            //GameUnit.GameUnit unit2 = mapManager.GetUnitsOnMapBlock(TargetList[1])[0];
-        //            GameUnit.GameUnit unit2 = map.GetUnitsOnMapBlock(target);
-        //            UnitAttackCommand attackCommand = new UnitAttackCommand(unit1, unit2);
-        //            if (attackCommand.Judge())
-        //            {
-        //                //关闭染色
-        //                unit1.GetComponent<ShowRange>().CancleAttackRangeMark();
-        //                unit1.GetComponent<ShowRange>().CancleMoveRangeMark();
-
-        //                attackCommand.Excute();
-        //                TargetList.Clear();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            //TargetList.Add(target);
-        //            GameUnit.GameUnit unit1 = map.GetUnitsOnMapBlock(TargetList[0]);
-        //            Vector2 unit2 = target;
-        //            UnitMoveCommand moveCommand = new UnitMoveCommand(unit1, unit2);
-        //            if (moveCommand.Judge())
-        //            {
-        //                //关闭染色
-        //                unit1.GetComponent<ShowRange>().CancleAttackRangeMark();
-        //                unit1.GetComponent<ShowRange>().CancleMoveRangeMark();
-
-        //                moveCommand.Excute();
-        //                TargetList.Clear();
-        //            }
-        //        }
-        //    }
-        //}
     }
 }

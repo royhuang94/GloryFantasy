@@ -56,14 +56,9 @@ namespace BattleMap
         public GameObject obstacle;
         public MapNavigator MapNavigator;//寻路类
         public BattleArea battleArea;//战区类
-        
-        //而且为什么烧灼地块是用继承的方式来实现？如果我们现在不只是2种特殊地形，而是10种，那难道你要写10个不同的地图方块类嘛？
-        //所以正确的写法应该是把对负面地形的处理写成一个类，然后让MapBlock去持有
-        //TODO：review pl
-       
+               
         private void InitAndInstantiateMapBlocks()
-        {
-            
+        { 
             JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + InitialMapDataPath));
             int mapDataCount = mapData.Count;
             this.columns = (int)mapData[mapDataCount - 1]["y"] + 1;
@@ -109,9 +104,6 @@ namespace BattleMap
             }
         }
 
-
-
-
         /// <summary>
         /// 获取传入寻路结点相邻的方块列表
         /// </summary>
@@ -153,9 +145,9 @@ namespace BattleMap
                 case ("Enemy"):
                     owner = OwnerEnum.Enemy; break;
                 case ("Friendly"):
-                    owner = OwnerEnum.Player; break;
-                case ("Self"):
                     owner = OwnerEnum.neutrality; break;
+                case ("Self"):
+                    owner = OwnerEnum.Player; break;
                 default:
                     owner = OwnerEnum.Enemy;break;
             }
@@ -187,39 +179,6 @@ namespace BattleMap
         //1. 首先我们输入一个坐标 -> 传递给某个函数，此函数能够根据坐标获得地图块儿 -> 获取到地图块儿后便可以通过地图块儿，从池子中取出Unit “投递”到该地图块儿上
         //2. 完成
         //3. 转移成一个skill
-
-        //TODO 测试召唤与对象池
-        //WTF it is？测试代码请专门开个测试脚本做单元测试OK？
-        #region 召唤功能测试代码
-        //public void ButtonClickDown()
-        //{
-        //    if (SummonOnBlock(Random.Range(0, 11), Random.Range(0, 11)))
-        //        GFGame.UtilityHelper.Log("召唤成功", GFGame.LogColor.PURPLE);
-        //    else
-        //        GFGame.UtilityHelper.Log("召唤失败", GFGame.LogColor.BLUE);
-        //}
-
-        //public bool SummonOnBlock(int x = 0, int y = 1)
-        //{
-        //    //TODO 测试坐标 (0,0)
-        //    var tempBlock = GetSpecificMapBlock(x, y);
-
-        //    if(tempBlock.transform.childCount == 0)
-        //    {
-        //        var tempUnit = GameUnitPool.Instance().GetInst("ShadowSoldier_1", OwnerEnum.Enemy);
-
-
-        //        if (tempUnit != null)
-        //        {
-        //            tempUnit.transform.parent = tempBlock.transform;
-        //            tempUnit.transform.localPosition = Vector3.zero;
-        //            return true;
-        //        }
-        //    }
-
-        //    return false;
-        //}
-        #endregion
 
         /// <summary>
         /// 将单位设置在MapBlock下
@@ -266,7 +225,6 @@ namespace BattleMap
         /// <returns></returns>
         public Boolean CheckIfHasUnits(Vector3 vector)
         {
-            Debug.Log(_mapBlocks.Length);
             if (this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0
                 && this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>() != null &&
                 this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>().id != "Obstacle"/*units_on_me.Count != 0*/)
@@ -339,9 +297,6 @@ namespace BattleMap
                 if (gameUnit == unit)
                 {
                     unit.mapBlockBelow.RemoveUnit(unit);
-
-                    //你看，我上面说什么了，负面地形越多，这种代码就越难写，要时刻小心继承带来的“类爆炸”
-                    //TODO: review plz
                     if (_mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y] != null)
                     {
                         unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
