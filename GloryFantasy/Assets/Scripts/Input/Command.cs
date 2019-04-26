@@ -54,7 +54,6 @@ namespace GamePlay.Input
         public override void Excute()
         {
             Debug.Log("Moving Command excusing");
-            BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _destination);
         }
 
         private GameUnit.GameUnit _unit;
