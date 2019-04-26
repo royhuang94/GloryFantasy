@@ -32,6 +32,8 @@ namespace GamePlay.Input
         /// 存储点击的对象坐标
         /// </summary>
         public List<Vector2> TargetList = new List<Vector2>();
+        //保存移动前的单位
+        public List<GameUnit.GameUnit> BeforeMoveGameUnits = new List<GameUnit.GameUnit>();
 
         /// <summary>
         /// 标记是否已经选择了一张手牌
@@ -85,19 +87,21 @@ namespace GamePlay.Input
         /// <param name="mapBlock"></param>
         /// <param name="eventData"></param>
         public void OnPointerDown(BattleMapBlock mapBlock, PointerEventData eventData)
-        {             
+        {
             if (IsMoving)
             {
+                
                 GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(TargetList[0]);
                 Vector2 startPos = TargetList[0];
                 Vector2 endPos = mapBlock.position;
                 UnitMoveCommand unitMove = new UnitMoveCommand(unit, startPos, endPos,  mapBlock.GetSelfPosition() );
                 if (unitMove.Judge())
                 {
-                    unitMove.Excute();
-                    //移动完关闭染色
-                    
+                    GameUtility.UtilityHelper.Log("移动完成，进入待机，再次点击进入攻击", GameUtility.LogColor.RED);
+                    unitMove.Excute();                   
                     SetMovingIsFalse(unit);
+                    IsAttacking = false;
+                    unit.restrain = true;
                 }
                 else
                 {
@@ -160,14 +164,24 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerDown(GameUnit.GameUnit unit, PointerEventData eventData)
         {
-            if (IsMoving)
+            //鼠标右键取消攻击
+            if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
+            {
+                GameUtility.UtilityHelper.Log("取消攻击", GameUtility.LogColor.RED);
+                HandleAtkCancel(TargetList[0]);
+                IsAttacking = false;
+                unit.restrain = false;
+            }
+            else if (IsMoving)
             {
                 //如果移动两次都选择同一个单位，就进行一次待机
                 Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
                 if (TargetList[0] == pos )
                 {
+                    GameUtility.UtilityHelper.Log("进入待机，再次点击进入攻击", GameUtility.LogColor.RED);
                     SetMovingIsFalse(unit);
                     unit.restrain = true;
+                    IsAttacking = false;
                 }
                 else
                 {
@@ -187,6 +201,8 @@ namespace GamePlay.Input
                     GameUtility.UtilityHelper.Log("触发攻击", GameUtility.LogColor.RED);
                     unitAtk.Excute();                   
                     IsAttacking = false;
+                    unit.restrain = false;
+                    HandleAtkCancel(TargetList[0]);
                     TargetList.Clear();
                     if (!unit.IsDead())
                     {
@@ -195,6 +211,8 @@ namespace GamePlay.Input
                         textHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
                         //Attacker.GetComponentInChildren<hpUpdate>().UpdateHp();
                     }
+                    //攻击完工攻击范围隐藏                  
+                    
                 }
                 else
                 {
@@ -204,15 +222,18 @@ namespace GamePlay.Input
             //如果单位可以移动
             else if (unit.restrain == false)
             {
+                GameUtility.UtilityHelper.Log("准备移动", GameUtility.LogColor.RED);
                 SetMovingIsTrue(unit);
             }
             //如果单位已经不能移动，但是可以攻击
             else if (unit.restrain == true && unit.disarm == false)
             {
+                GameUtility.UtilityHelper.Log("准备攻击，右键取消攻击", GameUtility.LogColor.RED);
                 IsAttacking = true;
                 TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
+                //显示攻击范围
+                HandleAtkConfirm(TargetList[0]);//显示攻击范围
             }
-
         }
 
         /// <summary>
@@ -225,14 +246,17 @@ namespace GamePlay.Input
             Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
             Debug.Log("Unit position is " + pos);
             TargetList.Add(pos);
+            BeforeMoveGameUnits.Add(unit);
             HandleMovConfirm(pos);
         }
         public void SetMovingIsFalse(GameUnit.GameUnit unit)
         {
             IsMoving = false;
             Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
+            HandleMovCancel(pos);//移动完毕关闭移动范围染色
+            BeforeMoveGameUnits.Clear();
             TargetList.Clear();
-            HandleMovCancel(pos);
+            
         }
 
         //移动范围染色
@@ -248,8 +272,16 @@ namespace GamePlay.Input
 
         public void HandleMovCancel(Vector2 target)
         {
-            GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-            unit.GetComponent<ShowRange>().CancleMoveRangeMark(target);
+            GameUnit.GameUnit unit = null;
+            if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
+            {
+                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
+            }
+            else
+            {
+                unit = BeforeMoveGameUnits[0];
+            }
+            unit.GetComponent<ShowRange>().CancleMoveRangeMark(TargetList[0]);
         }
 
         //攻击范围染色
