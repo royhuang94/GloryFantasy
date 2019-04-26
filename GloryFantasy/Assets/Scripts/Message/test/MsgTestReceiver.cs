@@ -76,31 +76,26 @@ namespace IMessage
         }
     }
 
-    //TODO:扩充这个Trigger
-    namespace IMessage
+    class Trigger1 : Trigger
     {
-
-        class Trigger1 : Trigger
+        Trigger1()
         {
-            Trigger1()
-            {
-                msgName = (int)MessageType.ActiveAbility;
-                condition = Condition;
-                action = Action;
-            }
+            msgName = (int)MessageType.ActiveAbility;
+            condition = Condition;
+            action = Action;
+        }
 
-            private bool Condition()
-            {
-                if (this.GetAttacker().name == "fsaf")
-                    return false;
-                else
-                    return true;
-            }
+        private bool Condition()
+        {
+            if (this.GetAttacker().name == "fsaf")
+                return false;
+            else
+                return true;
+        }
 
-            private void Action()
-            {
+        private void Action()
+        {
 
-            }
         }
     }
 }
