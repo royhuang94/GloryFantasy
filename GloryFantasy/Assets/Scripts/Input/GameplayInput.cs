@@ -164,6 +164,7 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerDown(GameUnit.GameUnit unit, PointerEventData eventData)
         {
+            Debug.Log("fdsf");
             //鼠标右键取消攻击
             if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
             {
@@ -188,7 +189,27 @@ namespace GamePlay.Input
                     //点到其他单位什么都不做
                 }
             }
-            else if (IsAttacking)
+            //如果单位可以移动
+            else if (unit.restrain == false)
+            {
+                GameUtility.UtilityHelper.Log("准备移动", GameUtility.LogColor.RED);
+                SetMovingIsTrue(unit);
+            }
+            //如果单位已经不能移动，但是可以攻击
+            else if (unit.restrain == true && unit.disarm == false)
+            {
+                BeforeMoveGameUnits.Add(unit);//
+                GameUtility.UtilityHelper.Log("准备攻击，右键取消攻击", GameUtility.LogColor.RED);
+                IsAttacking = true;
+                TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
+                //显示攻击范围
+                HandleAtkConfirm(TargetList[0]);//显示攻击范围
+            }
+        }
+
+        public void OnPointerDownEnemy(GameUnit.GameUnit unit, PointerEventData eventData)
+        {
+            if (IsAttacking)
             {
                 //获取攻击者和被攻击者
                 GameUnit.GameUnit Attacker = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(TargetList[0]);
@@ -199,41 +220,19 @@ namespace GamePlay.Input
                 if (unitAtk.Judge())
                 {
                     GameUtility.UtilityHelper.Log("触发攻击", GameUtility.LogColor.RED);
-                    unitAtk.Excute();                   
+                    unitAtk.Excute();
                     IsAttacking = false;
-                    unit.restrain = false;
-                    HandleAtkCancel(TargetList[0]);
-                    TargetList.Clear();
-                    //if (!unit.IsDead())
-                    //{
-                    //    float hpDivMaxHp = (float)unit.hp / unit.MaxHP * 100;
-                    //    var textHp = unit.transform.GetComponentInChildren<Text>();
-                    //    textHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
-                    //    //Attacker.GetComponentInChildren<hpUpdate>().UpdateHp();
-                    //}
-                    
-                    //攻击完工攻击范围隐藏                  
-                    
+                    BeforeMoveGameUnits[0].restrain = false;
+                    IsMoving = false;
+                    HandleAtkCancel(TargetList[0]);////攻击完工攻击范围隐藏  
+                    BeforeMoveGameUnits.Clear();
+                    TargetList.Clear();              
+
                 }
                 else
                 {
                     //如果攻击指令不符合条件就什么都不做
                 }
-            }
-            //如果单位可以移动
-            else if (unit.restrain == false)
-            {
-                GameUtility.UtilityHelper.Log("准备移动", GameUtility.LogColor.RED);
-                SetMovingIsTrue(unit);
-            }
-            //如果单位已经不能移动，但是可以攻击
-            else if (unit.restrain == true && unit.disarm == false)
-            {
-                GameUtility.UtilityHelper.Log("准备攻击，右键取消攻击", GameUtility.LogColor.RED);
-                IsAttacking = true;
-                TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
-                //显示攻击范围
-                HandleAtkConfirm(TargetList[0]);//显示攻击范围
             }
         }
 
@@ -298,8 +297,17 @@ namespace GamePlay.Input
 
         public void HandleAtkCancel(Vector2 target)
         {
-            GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-            unit.GetComponent<ShowRange>().CancleAttackRangeMark(target);
+            GameUnit.GameUnit unit = null;
+            if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
+            {
+                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
+            }
+            else
+            {
+                unit = BeforeMoveGameUnits[0];
+            }
+            unit.GetComponent<ShowRange>().CancleAttackRangeMark(TargetList[0]);
+
         }
 
         /// <summary>
