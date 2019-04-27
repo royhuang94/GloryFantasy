@@ -52,5 +52,16 @@ namespace GameUnit
             gameUnit.mapBlockBelow = parent.gameObject.GetComponent<BattleMapBlock>();
 
         }
+
+        /// <summary>
+        /// 获取地图块儿上的list 单位
+        /// </summary>
+        /// <param name="position">单位位置</param>
+        /// <returns></returns>
+        public static List<GameUnit> GetUnitFromBattleMapBlock(Vector2 position)
+        {
+            BattleMap.BattleMapBlock mapBlock =  BattleMap.BattleMap.Instance().GetSpecificMapBlock(position);
+            return mapBlock.units_on_me;
+        }
     }
 }

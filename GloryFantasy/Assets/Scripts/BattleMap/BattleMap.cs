@@ -187,6 +187,15 @@ namespace BattleMap
         {
             //TODO：完善一下
         }
+
+        /// <summary>
+        /// 传入坐标，获取对应的MapBlock。坐标不合法会返回null
+        /// </summary>
+        /// <returns></returns>
+        public BattleMapBlock GetSpecificMapBlock(Vector2 pos)
+        {
+            return GetSpecificMapBlock((int)pos.x, (int)pos.y);
+        }
         /// <summary>
         /// 传入坐标，获取对应的MapBlock。坐标不合法会返回null
         /// </summary>

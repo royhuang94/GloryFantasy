@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using GameUnit;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unit = GameUnit.GameUnit;
 
 namespace BattleMap
 {
@@ -81,7 +83,6 @@ namespace BattleMap
                 closeList.Add(A.position, A);
                 
                 //如果找到了endPos
-                //代码自己补
                 if (A.H < Mathf.Epsilon)
                 {
                     paths = new List<Node>();
@@ -97,7 +98,12 @@ namespace BattleMap
                     {
                         Debug.Log("最优路径" + paths[i].position);
                     }
-                    
+
+                    //判断移动力与路径长度
+                    if (IsExcessUnitMove())
+                        return false;
+
+                    Debug.Log("成功移动到指定目标");
                     return true;
                 }
 
@@ -145,6 +151,25 @@ namespace BattleMap
             }
         }
 
+        /// <summary>
+        /// 判断A星算法给出的路径是否超过单位行动力
+        /// </summary>
+        /// <param name="unit">当前控制单位</param>
+        /// <returns></returns>
+        private bool IsExcessUnitMove()
+        {
+            Vector2 startPos = paths[paths.Count - 1].position;
+            Unit gameUnit = BattleMap.Instance().GetUnitsOnMapBlock(startPos);
+
+            Debug.Log(gameUnit.name + "行动力为 " + gameUnit.mov);
+            if (paths.Count - 1 > gameUnit.mov)
+            {
+                Debug.Log("超过移动力，无法移动到指定目标");
+                return true;
+            }
+
+            return false;
+        }
     }
 
 }
