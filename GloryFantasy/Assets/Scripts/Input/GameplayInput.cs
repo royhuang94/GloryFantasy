@@ -317,7 +317,8 @@ namespace GamePlay.Input
         /// <param name="deadUnit"></param>
         internal void UnitBackPool(GameUnit.GameUnit deadUnit)
         {
-            //TODO 回收单位
+            //回收单位
+            GameUnitPool.Instance().PushUnit(deadUnit.gameObject);
         }
 
         /// <summary>
