@@ -172,6 +172,37 @@ namespace GamePlay.Input
                 HandleAtkCancel(TargetList[0]);
                 IsAttacking = false;
                 unit.restrain = false;
+                IsMoving = false;
+                BeforeMoveGameUnits.Clear();
+                TargetList.Clear();
+            }
+            else if (IsAttacking)
+            {
+                if(unit.owner == OwnerEnum.Enemy)
+                {
+                    //获取攻击者和被攻击者
+                    GameUnit.GameUnit Attacker = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(TargetList[0]);
+                    GameUnit.GameUnit AttackedUnit = unit;
+                    //创建攻击指令
+                    UnitAttackCommand unitAtk = new UnitAttackCommand(Attacker, AttackedUnit);
+                    //如果攻击指令符合条件则执行
+                    if (unitAtk.Judge())
+                    {
+                        GameUtility.UtilityHelper.Log("触发攻击", GameUtility.LogColor.RED);
+                        unitAtk.Excute();
+                        IsAttacking = false;
+                        BeforeMoveGameUnits[0].restrain = false;
+                        IsMoving = false;
+                        HandleAtkCancel(TargetList[0]);////攻击完工攻击范围隐藏  
+                        BeforeMoveGameUnits.Clear();
+                        TargetList.Clear();
+
+                    }
+                    else
+                    {
+                        //如果攻击指令不符合条件就什么都不做
+                    }
+                }
             }
             else if (IsMoving)
             {
@@ -207,34 +238,6 @@ namespace GamePlay.Input
             }
         }
 
-        public void OnPointerDownEnemy(GameUnit.GameUnit unit, PointerEventData eventData)
-        {
-            if (IsAttacking)
-            {
-                //获取攻击者和被攻击者
-                GameUnit.GameUnit Attacker = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(TargetList[0]);
-                GameUnit.GameUnit AttackedUnit = unit;
-                //创建攻击指令
-                UnitAttackCommand unitAtk = new UnitAttackCommand(Attacker, AttackedUnit);
-                //如果攻击指令符合条件则执行
-                if (unitAtk.Judge())
-                {
-                    GameUtility.UtilityHelper.Log("触发攻击", GameUtility.LogColor.RED);
-                    unitAtk.Excute();
-                    IsAttacking = false;
-                    BeforeMoveGameUnits[0].restrain = false;
-                    IsMoving = false;
-                    HandleAtkCancel(TargetList[0]);////攻击完工攻击范围隐藏  
-                    BeforeMoveGameUnits.Clear();
-                    TargetList.Clear();              
-
-                }
-                else
-                {
-                    //如果攻击指令不符合条件就什么都不做
-                }
-            }
-        }
 
         /// <summary>
         /// 设置IsMoving为True

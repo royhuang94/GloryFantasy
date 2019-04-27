@@ -17,7 +17,7 @@ namespace GameUnit
         /// <param name="eventData"></param>
         public void OnPointerDown(PointerEventData eventData)
         {
-            Gameplay.Instance().gamePlayInput.OnPointerDownEnemy(this, eventData);
+            Gameplay.Instance().gamePlayInput.OnPointerDown(this, eventData);
         }
     }
 }
