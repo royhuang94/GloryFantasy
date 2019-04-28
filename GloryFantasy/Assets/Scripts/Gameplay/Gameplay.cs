@@ -38,6 +38,7 @@ namespace IMessage
         public GameUnit.GameUnit Killer; //击杀者
         public GameUnit.GameUnit KilledUnit; //被杀者
         public GameUnit.GameUnit Dead; //死者
+        public int ATKDistance; //攻击者与被攻击者之间的距离
         #endregion
 
         /// <summary>

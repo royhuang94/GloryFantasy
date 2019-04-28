@@ -351,5 +351,25 @@ namespace BattleMap
         {
             battleArea.HideBattleZooe(position, _mapBlocks);
         }
+
+        /// <summary>
+        /// 移除BattleBlock下的 unit
+        /// </summary>
+        public void RemoveUnitOnBlock(Unit deadUnit)
+        {
+            //获取死亡单位的Pos
+            Vector2 unitPos = GetUnitCoordinate(deadUnit);
+            //通过unitPos的坐标获取对应的地图块儿
+            BattleMapBlock battleMap = GetSpecificMapBlock(unitPos);
+            //移除对应地图块儿下的deadUnit
+            battleMap.units_on_me.Remove(deadUnit);
+        }
+        /// <summary>
+        /// 移除BattleBlock下的 units_on_me
+        /// </summary>
+        public void RemoveUnitsOnBlock()
+        {
+
+        }
     }
 }

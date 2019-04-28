@@ -77,17 +77,13 @@ namespace GamePlay
             List<DamageRequest> damageRequestList = new List<DamageRequest>();
             Debug.Log(Attacker.priority);
 
-            //TODO 测试
-            //damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.priority));
-            //damageRequestList.Add(new DamageRequest(AttackedUnit, Attacker, AttackedUnit.priority));
-
-            for (int i = 0; i < Attacker.priority.Count; i++)
-            {
-                damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.priority[i]));
-            }
             for (int i = 0; i < AttackedUnit.priority.Count; i++)
             {
                 damageRequestList.Add(new DamageRequest(AttackedUnit, Attacker, AttackedUnit.priority[i]));
+            }
+            for (int i = 0; i < Attacker.priority.Count; i++)
+            {
+                damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.priority[i]));
             }
             damageRequestList.Sort((a, b) =>
             {
