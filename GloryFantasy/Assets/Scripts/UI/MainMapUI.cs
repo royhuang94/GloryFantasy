@@ -50,9 +50,9 @@ namespace GameGUI
             int num1 = Random.Range(0, dataAmount);
             int num2 = Random.Range(0, dataAmount);
             int num3 = Random.Range(0, dataAmount);
-            JsonData Card1 = CardManager.GetInstance().GetCardJsonData(cardsJsonData[num1]["id"].ToString());
-            JsonData Card2 = CardManager.GetInstance().GetCardJsonData(cardsJsonData[num2]["id"].ToString());
-            JsonData Card3 = CardManager.GetInstance().GetCardJsonData(cardsJsonData[num3]["id"].ToString());
+            JsonData Card1 = CardManager.Instance().GetCardJsonData(cardsJsonData[num1]["id"].ToString());
+            JsonData Card2 = CardManager.Instance().GetCardJsonData(cardsJsonData[num2]["id"].ToString());
+            JsonData Card3 = CardManager.Instance().GetCardJsonData(cardsJsonData[num3]["id"].ToString());
             ShowCard(cardsJsonData[num1]["id"].ToString(), cardsJsonData[num2]["id"].ToString(), cardsJsonData[num3]["id"].ToString());
 
 
