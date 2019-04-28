@@ -71,7 +71,7 @@ namespace GameGUI
             
             if(!notNotify)
                 // 向CardManager发送通知
-                CardManager.GetInstance().RemoveCard(_cardPrefab);
+                CardManager.Instance().RemoveCard(_cardPrefab);
             
             //_cardPrefab = null;
         }
@@ -126,7 +126,6 @@ namespace GameGUI
                 }
 
                 BaseCard card = _cardInstance.GetComponent<BaseCard>();
-                JsonData jsonData = CardManager.GetInstance().GetCardJsonData(card.id);
 
                 string tagInToal = "";
                 if (card.tag.Count != 0)

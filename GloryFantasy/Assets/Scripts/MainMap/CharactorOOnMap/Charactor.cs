@@ -44,9 +44,7 @@ public class Charactor : MonoBehaviour
     {
 
         Debug.Log("初始化角色位置");
-        //charactorData.PlayerLocate.Normal_vector = locate;
-            charactorData.PlayerLocate.ChangeToHexVect(locate);
-      //  Debug.Log("Initialize complete!" + locate);
+        charactorData.PlayerLocate.ChangeToHexVect(locate);
         return charactorData.PlayerLocate.Normal_vector;
     }
     /// <summary>初始化角色信息
@@ -57,7 +55,6 @@ public class Charactor : MonoBehaviour
         this.SetCharactorLocate(locate);
         this.SetMessage(HP, MaxStep);
         GetComponent<Transform>().position = locate;
-       // charactorData.PlayerLocate.Normal_vector = transform.GetComponent<Transform>().position;
         charactorData.UnderFeet = GameObject.Find("test" + charactorData.PlayerLocate.ChangeToHexVect(charactorData.PlayerLocate.Normal_vector).x.ToString() + charactorData.PlayerLocate.ChangeToHexVect(charactorData.PlayerLocate.Normal_vector).z.ToString());
         setaround(charactorData.UnderFeet);
         Debug.Log("角色初始化完成");

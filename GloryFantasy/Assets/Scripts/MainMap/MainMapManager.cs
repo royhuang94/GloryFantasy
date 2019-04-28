@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GameCard;
+using LitJson;
+using System.IO;
+using GameGUI;
 namespace MainMap { 
 /// <summary>定义六边形坐标的结构体，并处理坐标转换
 /// 
@@ -51,6 +55,7 @@ public struct HexVector
 /// </summary>
 public class MainMapManager : MonoBehaviour
 {
+    public MainMapUI mainMapUI;
     public TextAsset textAsset;
     /// <summary>地格材质，测试用，运行的时候找一个Unity默认的材质加上去就行。
     /// 
@@ -66,7 +71,7 @@ public class MainMapManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-       
+        mainMapUI = GameObject.Find("TestUI").GetComponent<MainMapUI>();
         //通过读取文件里的字符串转换成对应的地格生成地图
         System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
         string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
@@ -125,7 +130,7 @@ public class MainMapManager : MonoBehaviour
 /// </summary>
 public abstract class MapUnit:MonoBehaviour
 {
-    public static MainMapManager mapManager;
+    public  MainMapManager mapManager;
     public HexVector hexVector = new HexVector();
     public Button btn;
     /// <summary>初始化地格，获得所在实例的按钮组件并监听事件
@@ -222,8 +227,8 @@ public class Post : MapUnit
             isActive = true;
             Debug.Log("驿站已激活");
             Debug.Log("进入驿站");
-            ReadyToTrans = true;
-            Debug.Log("准备传送");
+            //TODO 显示驿站ui
+            mapManager.mainMapUI.ShowPostUI(this);
             //如果放弃传送移动到驿站相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
             foreach (MapUnit unit in mapManager.charactor.AroundList.Values)
             {
@@ -259,6 +264,11 @@ public class Post : MapUnit
             Debug.Log("你不在这个驿站");
         }
     }
+    public static void PrepareTrans()
+        {
+            ReadyToTrans = true;
+            Debug.Log("准备传送");
+        }
     /// <summary>传送的具体方法
     /// 
     /// </summary>
@@ -271,7 +281,8 @@ public class Post : MapUnit
     {
         ReadyToTrans = false;
     }
-}
+ 
+    }
 /// <summary>钥匙（虚构层为各种可以清理路障的道具,地图文件中对应字符串为key）
 /// 
 /// 

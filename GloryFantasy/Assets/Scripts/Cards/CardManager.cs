@@ -11,7 +11,7 @@ using GameGUI;
 
 namespace GameCard
 {
-    public class CardManager : MonoBehaviour
+    public class CardManager : UnitySingleton<CardManager>
     {
         #region 变量
         public GameObject[] tmpCardPrefabs;        // 存放暂用预制卡牌引用的数组
@@ -28,21 +28,8 @@ namespace GameCard
         private Dictionary<string, JsonData> _cardsData;
         #endregion
         
-        #region 简单单例模式
-        private static CardManager _instance = null;
-        private CardManager()
-        {
-            
-        }
-        
-        public static CardManager GetInstance()
-        {
-            return _instance;
-        }
-        #endregion
         private void Awake()
         {
-            _instance = this;
             Init();
             LoadCardsIntoSets();
             cancelCheck = false;

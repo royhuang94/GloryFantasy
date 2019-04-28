@@ -117,7 +117,7 @@ namespace GameCard
             }
             
             // 调用接口从卡牌数据库获取对应的JsonData
-            JsonData cardData = CardManager.GetInstance().GetCardJsonData(id);
+            JsonData cardData = CardManager.Instance().GetCardJsonData(id);
             
             // 如果不存在此ID，则抛出异常
             if(cardData == null)
