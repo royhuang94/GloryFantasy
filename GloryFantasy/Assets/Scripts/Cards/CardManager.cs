@@ -17,15 +17,35 @@ namespace GameCard
         public GameObject[] tmpCardPrefabs;        // 存放暂用预制卡牌引用的数组
         public GameObject[] unitSlots;            // 卡牌槽物体的引用，仅用于初始化_unitsSlots
         private UnitSlot[] _unitSlots;            // 卡牌存放位置UnitSlot的引用
+
+        private const int AMOUNT_OF_ROW = 6;      //panel每行可放置的卡牌数量，调整在这调
+        private const int PANEL_WIDTH = 500;      //panel 宽度，调整在这调
+        private const float CARD_WIDTH = 80.5f;      //card 宽度，调整在这调
+        
+        public GameObject coolDownSlot;        // 冷却牌物体的引用，仅用于初始化_coolDownSlots
+        
+        public GameObject cardsSetsSlot;        // 牌堆组物体的引用，仅用于初始化_cardsSetsSlots
+        
+        private List<CoolDownSlot> _coolDownSlots;     //冷却牌存放位置CoolDownSlot的引用
+        
+        private List<CardsSetsSlot> _cardsSetsSlots;     //牌堆组存放位置CardsSetsSlot的引用
+
+        private GameObject _coolDownPanel;
+        private GameObject _cardsSetsPanel;
         
         public int cardsUpperLimit { get; set; }                    // 手牌数量上限
         public int extractCardsUpperLimit { get; set; }            // 抽牌数量上限
-        public List<GameObject> cardsInHand { get; set; }// 存储手牌列表，玩家实际持有的牌的预制件在这里面
+        
+        private List<GameObject> _cardsInHand;                    // 存储手牌列表，玩家实际持有的牌的预制件在这里面
+
+        public List<GameObject> cardsInHand { get { return _cardsInHand; } }
         public List<GameObject> cardsSets { get; set; }            // 牌组堆，待抽取的卡牌组
         public List<GameObject> cooldownCards { get; set; }        // 临时存储冷却状态中卡牌
         public bool cancelCheck { get; set; }                      // 是否取消抽卡检查，在本行注释存在的情况下请不要修改值
 
         private Dictionary<string, JsonData> _cardsData;
+
+        private Dictionary<GameObject, CoolDownSlot> _prefabToCoolDownSlots;
         #endregion
         
         private void Awake()
@@ -33,6 +53,10 @@ namespace GameCard
             Init();
             LoadCardsIntoSets();
             cancelCheck = false;
+            _coolDownPanel = GameObject.Find("CoolDownCardInfoPanel");
+            _cardsSetsPanel = GameObject.Find("CardsSetsInfoPanel");
+            _coolDownPanel.SetActive(false);
+            _cardsSetsPanel.SetActive(false);
         }
 
         private void Start()
@@ -42,7 +66,8 @@ namespace GameCard
 
         private void Init()
         {
-            cardsInHand = new List<GameObject>();
+            Debug.Log("in init");
+            _cardsInHand = new List<GameObject>();
             cardsSets = new List<GameObject>();
             cooldownCards = new List<GameObject>();
 
@@ -78,12 +103,16 @@ namespace GameCard
         private void InitUnitSlots()
         {
             _unitSlots = new UnitSlot[unitSlots.Length];
+            Debug.Log("init_unit: " + unitSlots.Length);
             for (int i = 0; i < unitSlots.Length; i++)
             {
                 _unitSlots[i] = unitSlots[i].GetComponent<UnitSlot>();
 
                 
             }
+            _coolDownSlots = new List<CoolDownSlot>();
+            _cardsSetsSlots = new List<CardsSetsSlot>();
+
         }
 
 
@@ -139,8 +168,9 @@ namespace GameCard
         /// </summary>
         public void ExtractCards()
         {
+            Debug.Log("点击抽卡");
             // 若手牌数量大于或等于手牌上限，直接返回（取消检查的话则此判定永false）
-            if (cardsInHand.Count >= cardsUpperLimit && !cancelCheck)
+            if (_cardsInHand.Count >= cardsUpperLimit && !cancelCheck)
             {
                 return;
             }
@@ -148,9 +178,9 @@ namespace GameCard
             // 计算应该抽取的卡牌数，计算规则：不检查=抽三张， 检查=不超出手牌数量上限的，最多三张牌
             int extractAmount = this.cancelCheck
                     ? this.extractCardsUpperLimit
-                    : (this.cardsUpperLimit - this.cardsInHand.Count > extractCardsUpperLimit
+                    : (this.cardsUpperLimit - this._cardsInHand.Count > extractCardsUpperLimit
                         ? extractCardsUpperLimit
-                        : this.cardsUpperLimit - this.cardsInHand.Count);
+                        : this.cardsUpperLimit - this._cardsInHand.Count);
             
             // 如果剩余牌量不足，有多少抽多少（几乎不可能）
             if (extractAmount > this.cardsSets.Count)
@@ -167,11 +197,13 @@ namespace GameCard
                 this.cardsSets.RemoveAt(extractPos);
                 
                 // 将卡牌预制件放入栏位中
-                _unitSlots[cardsInHand.Count].InsertItem(cardPrefab);
+                _unitSlots[_cardsInHand.Count].InsertItem(cardPrefab);
                 
                 // 更新手牌list
-                this.cardsInHand.Add(cardPrefab);
+                this._cardsInHand.Add(cardPrefab);
             }
+            Debug.Log("cardset: " + cardsSets.Count);
+            UpdateCardsSetsInfo();
         }
 
         /// <summary>
@@ -181,7 +213,7 @@ namespace GameCard
         public void RemoveCard(GameObject cardPrefab)
         {
             // 从手牌列表中移除预制
-            this.cardsInHand.Remove(cardPrefab);
+            this._cardsInHand.Remove(cardPrefab);
             
             // 将其加入冷却列表进行冷却
             this.CooldownCard(cardPrefab);
@@ -203,8 +235,11 @@ namespace GameCard
             // 初始化BaseCard脚本内剩余回合数的counter
             cardPrefab.GetComponent<BaseCard>().cooldownRounds = roundAmount;
             
+            //TODO: 不用加入冷却堆的卡牌不加入冷却list
             // 加入冷却list
             this.cooldownCards.Add(cardPrefab);
+            Debug.Log("cool: " + cooldownCards.Count);
+            PutInCoolDown(cardPrefab);                //每处理一个进入冷却状态的卡牌就放进冷却堆中
         }
 
         
@@ -215,7 +250,7 @@ namespace GameCard
         {
             int i = 0;
             // 先遍历前手牌数量个槽位
-            for (; i < cardsInHand.Count; i++)
+            for (; i < _cardsInHand.Count; i++)
             {
                 // 若存在空栏
                 if (_unitSlots[i].IsEmpty())
@@ -226,7 +261,7 @@ namespace GameCard
             }
             
             // 如果i比手牌数量小，则一定存在空闲卡牌位
-            if(i < cardsInHand.Count)
+            if(i < _cardsInHand.Count)
             {
                 // 将所有卡牌位清空
                 for (int j = 0; j < _unitSlots.Length; j++)
@@ -235,9 +270,9 @@ namespace GameCard
                 }
 
                 // 再按手牌数量放入卡牌
-                for (i = 0; i < cardsInHand.Count; i++)
+                for (i = 0; i < _cardsInHand.Count; i++)
                 {
-                    _unitSlots[i].InsertItem(cardsInHand[i]);
+                    _unitSlots[i].InsertItem(_cardsInHand[i]);
                 }
             }
         }
@@ -246,23 +281,40 @@ namespace GameCard
         // 处理冷却牌堆，将冷却完毕的卡牌放回牌组中
         public void HandleCooldownEvent()
         {
-            List<int> pos = new List<int>();
+            List<GameObject> prefabToRemove = new List<GameObject>();
             for (int i = 0; i < cooldownCards.Count; i++)
             {
                 int leftRounds = cooldownCards[i].GetComponent<BaseCard>().cooldownRounds -= 1;
                 if (leftRounds == 0)
                 {
-                    pos.Add(i);
+                    prefabToRemove.Add(cooldownCards[i]);
                 }
             }
 
-            for (int i = 0; i < pos.Count; i++)
+            for (int i = 0; i < prefabToRemove.Count; i++)
             {
-                cardsSets.Add(cooldownCards[pos[i]]);
-                cooldownCards.RemoveAt(pos[i]);
-            }
-        }
+                cardsSets.Add(prefabToRemove[i]);
+                cooldownCards.Remove(prefabToRemove[i]);
+                _coolDownSlots.Remove(_prefabToCoolDownSlots[prefabToRemove[i]]);
+                
+                _prefabToCoolDownSlots[prefabToRemove[i]].RemoveItem();
+                
+                Destroy(_prefabToCoolDownSlots[prefabToRemove[i]]);
+                
+                _prefabToCoolDownSlots.Remove(prefabToRemove[i]);
 
+            }
+            if (cardsSets.Count > _cardsSetsSlots.Count)
+            {
+                for (int j = 0; j < cardsSets.Count - _cardsSetsSlots.Count; j++)
+                {
+                    GameObject newCooldownSlot = Instantiate(cardsSetsSlot, _cardsSetsPanel.transform);
+                    _cardsSetsSlots.Add(newCooldownSlot.GetComponent<CardsSetsSlot>());
+                }
+            }
+            
+        }
+        
         // 随机交换牌组中位置实现洗牌
         public void Shuffle()
         {
@@ -288,6 +340,117 @@ namespace GameCard
             
         }
 
+
+
         
+        /// <summary>
+        /// 冷却堆按钮绑定方法，点击显示冷却堆卡牌信息界面
+        /// </summary>
+        public void ShowCoolDownCardInfo()
+        {
+            
+            if (!_coolDownPanel.activeInHierarchy)
+            {
+                Debug.Log("点击冷却牌_显示");
+                
+                _cardsSetsPanel.SetActive(false);
+                
+                _coolDownPanel.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("点击冷却牌_不显示");
+                _coolDownPanel.SetActive(false);
+            }
+            
+            
+        }
+
+        /// <summary>
+        /// 冷却堆按钮绑定方法，点击显示牌组堆卡牌信息界面
+        /// </summary>
+        public void ShowCardsSetsInfo()
+        {
+            if (!_cardsSetsPanel.activeInHierarchy)
+            {
+                Debug.Log("点击牌堆组_显示");
+                
+                _coolDownPanel.SetActive(false);
+                _cardsSetsPanel.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("点击牌堆组_不显示");
+                _cardsSetsPanel.SetActive(false);
+            }
+            
+            
+        }
+
+        /// <summary>
+        /// 负责把进入冷却的卡牌放进冷却堆中
+        /// </summary>
+        public void PutInCoolDown(GameObject cardPrefab)
+        {
+            setPanelSize(_coolDownPanel, cooldownCards.Count);
+            
+            if (_coolDownSlots.Count < cooldownCards.Count)        //slot中比冷却卡牌的个数小，说明有新的进入冷却状态的卡牌
+            {
+                int slotIndex = _coolDownSlots.Count;              //新加入的下标
+                for (int i = 0; i < cooldownCards.Count - slotIndex; i++)
+                {
+                    GameObject newCooldownSlot = Instantiate(coolDownSlot, _coolDownPanel.transform);
+                    _coolDownSlots.Add(newCooldownSlot.GetComponent<CoolDownSlot>());
+                
+                }
+                for (int i = 0; i < cooldownCards.Count - slotIndex; i++)
+                {
+                    _prefabToCoolDownSlots.Add(cardPrefab, _coolDownSlots[slotIndex + i]);
+                    Debug.Log("panel:" + _coolDownPanel.transform); 
+                    _coolDownSlots[slotIndex + i].InsertItem(cooldownCards[slotIndex + i]);       //插入到冷却slot中
+                    //_coolDownSlots[slotIndex + i].init(_coolDownPanel.transform); 
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 根据卡牌数量设置对应panel的size
+        /// </summary>
+        /// <param name="panel">冷却堆或者牌组堆对应 panel</param>
+        /// <param name="amount">冷却堆卡牌数组或者牌组堆数组对应卡牌数量</param>
+        private void setPanelSize(GameObject panel, int amount)
+        {
+            int height = (amount + AMOUNT_OF_ROW - 1) / AMOUNT_OF_ROW;
+            
+            RectTransform rectTransform = panel.GetComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(PANEL_WIDTH, height * CARD_WIDTH);
+        }
+        
+        
+        /// <summary>
+        /// 更新牌组堆信息，用于 panel 显示
+        /// </summary>
+        public void UpdateCardsSetsInfo()
+        {
+            setPanelSize(_cardsSetsPanel, cardsSets.Count);
+
+            for (int i = 0; i < _cardsSetsSlots.Count; i++)     //删除slot里面原有的所有元素
+            {
+                _cardsSetsSlots[i].RemoveItem();
+                Destroy(_cardsSetsSlots[i].gameObject);        
+            }
+            _cardsSetsSlots.Clear();
+            for (int i = 0; i < cardsSets.Count; i++)        //重新添加进去，以实现卡牌堆紧凑
+            {
+                GameObject newCooldownSlot = Instantiate(cardsSetsSlot, _cardsSetsPanel.transform);
+                _cardsSetsSlots.Add(newCooldownSlot.GetComponent<CardsSetsSlot>());
+            }
+
+            for (int i = 0; i < cardsSets.Count; i++)
+            {
+                _cardsSetsSlots[i].InsertItem(cardsSets[i]);
+                
+            }
+        }
     }
 }
