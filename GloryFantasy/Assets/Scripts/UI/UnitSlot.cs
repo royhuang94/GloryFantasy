@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 using GameCard;
+using GamePlay;
+using GamePlay.Round;
 
 namespace GameGUI
 {
@@ -176,9 +178,21 @@ namespace GameGUI
             //Debug.Log("鼠标");
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
+
+            // 如果不是玩家回合，则无法使用卡牌
+            if (!Gameplay.Instance().roundProcessController.isPlayerRound())
+                return;
+            
             //Debug.Log("鼠标左键");
             if (transform.childCount > 0)
             {
+                // 如果当前的AP值不足以使用当前选择卡牌，直接结束函数，防止使用
+                if (!Player.Instance().ConsumeAp(_cardInstance.GetComponent<BaseCard>().cost))
+                {
+                    Debug.Log("Ran out of AP!!!! Can\'t use this card!");
+                    return;
+                }
+                
                 // 若点击的卡牌类型为效果牌
                 if (_cardInstance.GetComponent<BaseCard>() is OrderCard)
                 {

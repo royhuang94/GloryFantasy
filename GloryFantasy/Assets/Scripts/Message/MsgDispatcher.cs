@@ -17,10 +17,15 @@ namespace IMessage
         CastCard, //发动卡片
         Summon, //召唤
         DrawCard, //抽牌
+        Prepare,//准备阶段
+        Discard,//弃牌阶段
+        AI,     //敌人行动阶段
+        
         AddInHand, //加入手牌
         AnnounceAttack, //攻击宣言
         ActiveAbility, //异能发动
-
+        
+        
         #region ATK 时点部分
         BeAttacked, //被攻击
         Damage, //造成伤害

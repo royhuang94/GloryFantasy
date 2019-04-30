@@ -11,7 +11,7 @@ using GameGUI;
 
 namespace GameCard
 {
-    public class CardManager : UnitySingleton<CardManager>
+    public class CardManager : UnitySingleton<CardManager>, MsgReceiver
     {
         #region 变量
         public GameObject[] tmpCardPrefabs;        // 存放暂用预制卡牌引用的数组
@@ -37,7 +37,21 @@ namespace GameCard
 
         private void Start()
         {
-            ExtractCards();
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.DrawCard,
+                canDoExtractAction,
+                ExtractCards,
+                "Extract cards Trigger"
+            );
+            
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.EP,
+                canDoCoolDownAction,
+                HandleCooldownEvent,
+                "Cooldown cards Trigger"
+            );
         }
 
         private void Init()
@@ -283,11 +297,31 @@ namespace GameCard
             HandleCooldownEvent();
         }
 
-        public void OnNotifyRoundStart()
+        /// <summary>
+        /// 仿照主程写的写的接口
+        /// </summary>
+        T IMessage.MsgReceiver.GetUnit<T>()
         {
-            
+            return this as T;
         }
 
+        /// <summary>
+        /// 检测是否能进行抽卡操作，现在暂时设定为永true,是抽卡的condition函数
+        /// </summary>
+        /// <returns>根据实际情况确定是否能抽卡</returns>
+        public bool canDoExtractAction()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// 检测是否能进行冷却操作，现在暂时设定为永true，是冷却事件的condition函数
+        /// </summary>
+        /// <returns></returns>
+        public bool canDoCoolDownAction()
+        {
+            return true;
+        }
         
     }
 }
