@@ -18,10 +18,6 @@ namespace GameGUI
         private GameObject _cardPrefab = null;   
         private GameObject _cardInstance = null; //卡牌的实例
         private bool _canShowMsg = false;
-        private bool _alreadyShowButton = false;
-        private GameObject _gameObject = null;
-
-        public GameObject cardPrefab { get { return _cardPrefab; } }
 
         /// <summary>
         /// 用于向UnitSlot中放入卡牌
@@ -39,9 +35,6 @@ namespace GameGUI
         /// </summary>
         public void RemoveItem()
         {
-            // 如果有Button存在，则销毁按钮
-            Destroy(_gameObject);
-            
             // 销毁卡牌实例
             Destroy(_cardInstance);
             _cardInstance = null;
@@ -85,14 +78,6 @@ namespace GameGUI
         {
             if (_canShowMsg)
             {
-                /*
-                GUIStyle style1= new GUIStyle();
-                style1.fontSize = 30;
-                style1.normal.textColor = Color.red;
-                GUI.Label(
-                    new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, 400, 50),
-                    "Cube",
-                    style1);*/
                 CardUI currentItemUI = gameObject.GetComponentInChildren<CardUI>();
                 if (currentItemUI == null)
                 {

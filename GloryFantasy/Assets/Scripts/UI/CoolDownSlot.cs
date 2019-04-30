@@ -17,16 +17,28 @@ namespace GameGUI
     /// </summary>
     public class CoolDownSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        private GameObject _cardPrefab = null;   
+        
+        public GameObject textPrefab;
+        
+        private GameObject _cardPrefab = null;
         private GameObject _cardInstance = null; //卡牌的实例
-        private GameObject _textInstance = null; //cd值的实例
+        private GameObject _textPrefabInstance = null;
+        private BaseCard _baseCard;
+        private Text _text;
         private bool _canShowMsg = false;
-        private bool _alreadyShowButton = false;
 
         private const int FONTSIZE = 28;       //字体大小，需要更改在这里更改
 
-        public GameObject textPrefab;
         
+
+
+        private void Start()
+        {
+            _baseCard = _cardPrefab.GetComponent<BaseCard>();
+        }
+
+        
+
         public GameObject textPre
         {
             get { return textPrefab; }
@@ -39,23 +51,21 @@ namespace GameGUI
         public void InsertItem(GameObject cardPrefab)
         {
             _cardInstance = Instantiate(cardPrefab, gameObject.transform, true);
-            _textInstance = Instantiate(textPrefab);
+            _textPrefabInstance = Instantiate(textPrefab, _cardInstance.transform, true);
             
-            _textInstance.SetActive(true);
-            int cd = cardPrefab.GetComponent<BaseCard>().cooldownRounds;
-            _textInstance.GetComponent<Text>().text = string.Format("{0}", cd);
-            _textInstance.GetComponent<Text>().fontSize = FONTSIZE;
-            _textInstance.GetComponent<RectTransform>().sizeDelta = new Vector2(80, 80);
-            _textInstance.transform.SetParent(_cardInstance.transform);
-            _textInstance.transform.localPosition = Vector3.zero;
+            _textPrefabInstance.SetActive(true);
+            _text = _textPrefabInstance.GetComponent<Text>();
+            _text.fontSize = FONTSIZE;
+            _textPrefabInstance.GetComponent<RectTransform>().sizeDelta = new Vector2(80, 80);
+            _textPrefabInstance.transform.localPosition = Vector3.zero;
             _cardInstance.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
             
             this._cardPrefab = cardPrefab;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            _textInstance.GetComponent<Text>().text = string.Format("{0}", _cardPrefab.GetComponent<BaseCard>().cooldownRounds);
+            _text.text = string.Format("{0}", _baseCard.cooldownRounds);
         }
 
 
@@ -66,6 +76,8 @@ namespace GameGUI
         {
             // 销毁卡牌实例
             Destroy(_cardInstance);
+            Destroy(_textPrefabInstance);
+            _text = null;
             _cardInstance = null;
             
             
