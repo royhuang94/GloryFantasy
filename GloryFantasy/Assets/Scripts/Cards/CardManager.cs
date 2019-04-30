@@ -55,6 +55,7 @@ namespace GameCard
             cancelCheck = false;
             _coolDownPanel = GameObject.Find("CoolDownCardInfoPanel");
             _cardsSetsPanel = GameObject.Find("CardsSetsInfoPanel");
+            UpdateCardsSetsInfo();
             _coolDownPanel.SetActive(false);
             _cardsSetsPanel.SetActive(false);
         }
@@ -82,6 +83,7 @@ namespace GameCard
         {
             Debug.Log("in init");
             _cardsInHand = new List<GameObject>();
+            _prefabToCoolDownSlots = new Dictionary<GameObject, CoolDownSlot>();
             cardsSets = new List<GameObject>();
             cooldownCards = new List<GameObject>();
 
@@ -90,6 +92,8 @@ namespace GameCard
             
             InitUnitSlots();
             InitCardsData();
+            
+            
         }
 
         /// <summary>
@@ -409,25 +413,29 @@ namespace GameCard
         /// </summary>
         public void PutInCoolDown(GameObject cardPrefab)
         {
+            Debug.Log(cardPrefab);
             setPanelSize(_coolDownPanel, cooldownCards.Count);
-            
-            if (_coolDownSlots.Count < cooldownCards.Count)        //slot中比冷却卡牌的个数小，说明有新的进入冷却状态的卡牌
+
+            if (_coolDownSlots.Count < cooldownCards.Count) //slot中比冷却卡牌的个数小，说明有新的进入冷却状态的卡牌
             {
-                int slotIndex = _coolDownSlots.Count;              //新加入的下标
+                int slotIndex = _coolDownSlots.Count; //新加入的下标
                 for (int i = 0; i < cooldownCards.Count - slotIndex; i++)
                 {
                     GameObject newCooldownSlot = Instantiate(coolDownSlot, _coolDownPanel.transform);
                     _coolDownSlots.Add(newCooldownSlot.GetComponent<CoolDownSlot>());
-                
+
                 }
+
                 for (int i = 0; i < cooldownCards.Count - slotIndex; i++)
                 {
                     _prefabToCoolDownSlots.Add(cardPrefab, _coolDownSlots[slotIndex + i]);
-                    Debug.Log("panel:" + _coolDownPanel.transform); 
-                    _coolDownSlots[slotIndex + i].InsertItem(cooldownCards[slotIndex + i]);       //插入到冷却slot中
+                    Debug.Log("panel:" + _coolDownPanel.transform);
+                    _coolDownSlots[slotIndex + i].InsertItem(cooldownCards[slotIndex + i]); //插入到冷却slot中
                     //_coolDownSlots[slotIndex + i].init(_coolDownPanel.transform); 
                 }
             }
+        }
+
         /// <summary>
         /// 检测是否能进行抽卡操作，现在暂时设定为永true,是抽卡的condition函数
         /// </summary>

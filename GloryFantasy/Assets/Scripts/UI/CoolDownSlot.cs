@@ -53,6 +53,11 @@ namespace GameGUI
             this._cardPrefab = cardPrefab;
         }
 
+        private void Update()
+        {
+            _textInstance.GetComponent<Text>().text = string.Format("{0}", _cardPrefab.GetComponent<BaseCard>().cooldownRounds);
+        }
+
 
         /// <summary>
         /// 移除当前slot中的卡牌,并通知CardManager手牌栏位发生变化
