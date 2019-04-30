@@ -6,6 +6,7 @@ using GameCard;
 using LitJson;
 using System.IO;
 using GameGUI;
+using UnityEditor;
 namespace MainMap { 
 /// <summary>定义六边形坐标的结构体，并处理坐标转换
 /// 
@@ -71,47 +72,59 @@ public class MainMapManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        ReadMap();
         mainMapUI = GameObject.Find("TestUI").GetComponent<MainMapUI>();
         //通过读取文件里的字符串转换成对应的地格生成地图
-        System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
-        string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
-        for (int i = 0; i < lines.Length; i++)
+     
+    }
+    private void ReadMap()
         {
-            string[] element = lines[i].Split(',');
-            for (int j = 0; j < element.Length; j++)
+            System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
+            string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
+            for (int i = 0; i < lines.Length; i++)
             {
-                if (element[j] != "null")//如果字符串不为null,则生成地格挂载脚本。
+                string[] element = lines[i].Split(',');
+                for (int j = 0; j < element.Length; j++)
                 {
-                    GameObject gameObject = new GameObject("test" + i.ToString() + j.ToString());
-                    gameObject.transform.parent = GameObject.Find("Map").transform;
-                    gameObject.AddComponent<Button>();
-                    switch (element[j])
+                    if (element[j] != "null")//如果字符串不为null,则生成地格挂载脚本。
                     {
-                        case "plane":
-                            MapUnit plane = gameObject.AddComponent<Plane>();
-                            gameObject.transform.position = plane.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
-                            break;
-                        case "post":
-                            MapUnit post = gameObject.AddComponent<Post>();
-                            gameObject.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
-                            break;
-                        case "key":
-                            MapUnit key = gameObject.AddComponent<Key>();
-                            gameObject.transform.position = key.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
-                            break;
-                        default:
-                            Debug.Log("你文件写错了，回去看看");
-                            break;
+                        string[] upper = element[j].Split(new char[] { ':' }, option);
+                        GameObject mapunit = new GameObject("test" + i.ToString() + j.ToString());
+                        mapunit.transform.parent = GameObject.Find("Map").transform;
+                        mapunit.AddComponent<Button>();
+                        switch (upper[0])
+                        {
+                            case "plane":
+                                MapUnit plane = mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = plane.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                                break;
+                            case "post":
+                                MapUnit post = mapunit.AddComponent<Post>();
+                                mapunit.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                                break;
+                            case "key":
+                                MapUnit key = mapunit.AddComponent<Key>();
+                                mapunit.transform.position = key.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                                break;
+                            default:
+                                Debug.Log("你文件写错了，回去看看");
+                                break;
+                        }
+                        //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
+                        MeshFilter flit = mapunit.AddComponent<MeshFilter>();
+                        mapunit.AddComponent<MeshRenderer>();
+                        mapunit.AddComponent<BoxCollider>();
+                        flit.mesh = mesh;
+                        if (upper.Length == 2)
+                        {
+                            MapElementManager.Instance().InstalizeElement(upper[1],mapunit);
+                          
+                        }
+
                     }
-                    //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
-                    MeshFilter flit = gameObject.AddComponent<MeshFilter>();
-                    gameObject.AddComponent<MeshRenderer>();
-                    gameObject.AddComponent<BoxCollider>();
-                    flit.mesh = mesh;
-                }                        
+                }
             }
         }
-    }
     private void Start()
     {
         charactor = GameObject.Find("Charactor").GetComponent<Charactor>();
@@ -170,17 +183,7 @@ public class Plane : MapUnit
         Debug.Log("普通地面初始化.");
 
     }
-    #region 弃用的代码
-    /// <summary>在MainMapManager里初始化地图时，会调用此方法把地格位置坐标写入结构体方便管理
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    //public HexVector SethexVector()
-    //{
-    //    hexVector.Hex_vector = hexVector.ChangeToHexVect(hexVector.Normal_vector);//hexvector写入结构体111
-    //    return hexVector;
-    //}
-    #endregion
+
     /// <summary>检测被点击的地格是否在角色相邻区域，
     /// 
     /// </summary>
