@@ -73,11 +73,13 @@ public class MainMapManager : MonoBehaviour
     void Awake()
     {
         ReadMap();
-        mainMapUI = GameObject.Find("TestUI").GetComponent<MainMapUI>();
-        //通过读取文件里的字符串转换成对应的地格生成地图
+        mainMapUI = GameObject.Find("TestUI").GetComponent<MainMapUI>();//我写这个是干啥来着？？？不知道，反正ui还没接，不管了。2019.3.30
      
     }
-    private void ReadMap()
+        /// <summary>通过读取文件里的字符串转换成对应的地格生成地图
+        /// 
+        /// </summary>
+        private void ReadMap()
         {
             System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
             string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
@@ -115,19 +117,26 @@ public class MainMapManager : MonoBehaviour
                         mapunit.AddComponent<MeshRenderer>();
                         mapunit.AddComponent<BoxCollider>();
                         flit.mesh = mesh;
+                        //如果有地格上层元素，传给MapElementManager处理
                         if (upper.Length == 2)
                         {
-                            MapElementManager.Instance().InstalizeElement(upper[1],mapunit);
-                          
+                            MapElementManager.Instance().InstalizeElement(upper[1],mapunit);                        
+                        }
+                        else
+                        {
+                            
                         }
 
                     }
                 }
             }
         }
+        /// <summary>获取角色实例，并初始化AroundList字典
+        /// 
+        /// </summary>
     private void Start()
     {
-        charactor = GameObject.Find("Charactor").GetComponent<Charactor>();
+            charactor = GameObject.Find("Charactor").GetComponent<Charactor>();
             charactor.AroundList.Add("0,1", null);
             charactor.AroundList.Add("0,-1", null);
             charactor.AroundList.Add("1,0", null);
