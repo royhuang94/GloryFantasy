@@ -6,6 +6,8 @@ using Ability;
 using IMessage;
 using GamePlay;
 using GameCard;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace IMessage
 {
@@ -413,10 +415,24 @@ namespace GamePlay
         {
             roundProcessController = new RoundProcessController();
             gamePlayInput = new GameplayInput();
+            _phaseNameText = GameObject.Find("phaseNameText").GetComponentInChildren<Text>();
+            _phaseNameText.color = Color.red;
+            _phaseNameText.text = roundProcessController.State.ToString();
         }
 
         public static Info Info = new Info();
         public RoundProcessController roundProcessController;
         public GameplayInput gamePlayInput;
+
+        private Text _phaseNameText;
+        
+        /// <summary>
+        /// 提供给场景中阶段切换的按钮
+        /// </summary>
+        public void switchPhaseHandler()
+        {
+            roundProcessController.StepIntoNextState();
+            _phaseNameText.text = roundProcessController.State.ToString();
+        }
     }
 }
