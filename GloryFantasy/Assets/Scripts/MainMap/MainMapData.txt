@@ -1,4 +1,4 @@
 plane,plane,post,plane
-plane,null,plane,null
+plane,null,plane:randomevent,null
 post,plane,plane,plane
-null,plane,plane,key
+null,plane,plane:monster,key

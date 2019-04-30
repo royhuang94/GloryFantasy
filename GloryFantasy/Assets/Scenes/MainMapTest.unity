@@ -568,8 +568,6 @@ RectTransform:
   - {fileID: 1402317416}
   - {fileID: 528005010}
   - {fileID: 1111612886}
-  - {fileID: 699077941}
-  - {fileID: 1267743487}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1109,15 +1107,15 @@ RectTransform:
   m_GameObject: {fileID: 699077940}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 264536820}
-  m_RootOrder: 3
+  m_Father: {fileID: 1765456297}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.5, y: 0}
-  m_SizeDelta: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: -150}
+  m_SizeDelta: {x: 831, y: 640}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &699077942
 MonoBehaviour:
@@ -1306,6 +1304,7 @@ RectTransform:
   - {fileID: 1765456297}
   - {fileID: 128456746}
   - {fileID: 1020668894}
+  - {fileID: 1267743487}
   m_Father: {fileID: 264536820}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1373,18 +1372,18 @@ RectTransform:
   m_GameObject: {fileID: 1267743486}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 361673710}
   - {fileID: 2019776344}
   - {fileID: 1548088160}
-  m_Father: {fileID: 264536820}
-  m_RootOrder: 4
+  m_Father: {fileID: 1111612886}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.5, y: 0}
-  m_SizeDelta: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1267743488
 MonoBehaviour:
@@ -1855,6 +1854,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1690299938}
+  - {fileID: 699077941}
   m_Father: {fileID: 1111612886}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1960,6 +1960,7 @@ GameObject:
   - component: {fileID: 1927058735}
   - component: {fileID: 1927058734}
   - component: {fileID: 1927058737}
+  - component: {fileID: 1927058738}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2023,8 +2024,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e43c36b6354fad8186cd3bf1eafdbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tmpCardPrefabs: []
-  unitSlots: []
+  tmpCardPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  unitSlots:
+  - {fileID: 1927058733}
+--- !u!114 &1927058738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1927058733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d87041551afb4bcf9e28c0e6e93114fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1994109299
 GameObject:
   m_ObjectHideFlags: 0

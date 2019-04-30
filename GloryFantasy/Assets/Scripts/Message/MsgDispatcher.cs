@@ -37,7 +37,8 @@ namespace IMessage
         #endregion
 
         Move, //开始移动
-        UnitMoving //正在移动
+        UnitMoving, //正在移动
+        Aftermove //移动结束
     };
 
     public interface MsgReceiver
