@@ -22,6 +22,7 @@ namespace BattleMap
             IsColor = false;
             MapNavigator = new MapNavigator();
             battleArea = new BattleArea();
+            debuffBM = new DebuffBattleMapBlovk();
         }
 
         private void Start()
@@ -112,6 +113,7 @@ namespace BattleMap
         public GameObject obstacle;
         public MapNavigator MapNavigator;//寻路类
         public BattleArea battleArea;//战区类
+        public DebuffBattleMapBlovk debuffBM;//异常地图快类
                
         private void InitAndInstantiateMapBlocks()
         { 
@@ -423,18 +425,7 @@ namespace BattleMap
             //移除对应地图块儿下的deadUnit
             battleMap.units_on_me.Remove(deadUnit);
         }
-        /// <summary>
-        /// 移除BattleBlock下的 units_on_me
-        /// </summary>
-        public void RemoveUnitsOnBlock()
-        {
 
-        }
-
-
-        /// <summary>
-        /// 仿照主程写的写的接口
-        /// </summary>
         T IMessage.MsgReceiver.GetUnit<T>()
         {
             return this as T;

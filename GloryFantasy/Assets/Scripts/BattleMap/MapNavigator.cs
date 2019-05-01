@@ -1,4 +1,5 @@
 ﻿using GameUnit;
+using IMessage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,12 +47,13 @@ namespace BattleMap
         }
     }
 
-    public class MapNavigator
+    public class MapNavigator : MsgReceiver
     {
+        T IMessage.MsgReceiver.GetUnit<T>(){return this as T;}
+
         public Dictionary<Vector2, Node> openList;
         public Dictionary<Vector2, Node> closeList;
         List<Node> paths; //最优路径
-
 
         //寻路入口
         public bool PathSearch(Vector2 startPos, Vector2 endPos)
@@ -174,11 +176,29 @@ namespace BattleMap
         //一格一格移动
         public IEnumerator moveStepByStep(Unit unit)
         {
-            for (int i = paths.Count - 1; i >= 0; i--)
+            //测试一哈
+            List<Vector2> vector2s = new List<Vector2>();
+            vector2s.Add(new Vector2(0, 0));
+            BattleMap.Instance().debuffBM.SetBattleMapBlockBurning(vector2s);
+            List<Vector2> vector22s = new List<Vector2>();
+            vector22s.Add(new Vector2(1, 1));
+            BattleMap.Instance().debuffBM.SetBattleMapBlockRetrad(vector22s);
+
+            for (int i = paths.Count - 2; i >= 0; i--)
             {
-                BattleMapBlock battleMap = BattleMap.Instance().GetSpecificMapBlock((int)paths[i].position.x, (int)paths[i].position.y);
+                Vector2 tempVector = new Vector2((int)paths[i].position.x, (int)paths[i].position.y);
+                BattleMapBlock battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);
                 unit.gameObject.transform.SetParent(battleMap.transform);
                 unit.transform.localPosition = Vector3.zero;
+                if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
+                {
+                    BattleMap.Instance().debuffBM.UnitEnterBurning((tempVector));
+                }
+                else if (battleMap.blockType == EMapBlockType.Retire)//如果经过滞留块
+                {
+                    i = -1;//结束循环，将单位停在该位置；
+                    //TODObug待修护 单位停在了滞留块上而不是鼠标点击位置，导致移动Jude（）的坐标与单位停的坐标不一致，空指针
+                }
                 yield return new WaitForSeconds(0.1f);
             }
         }
