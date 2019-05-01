@@ -130,6 +130,11 @@ namespace BattleMap
             get { return new Vector2(x, y); } 
         }
 
+        /// <summary>
+        /// collider组件
+        /// </summary>
+        public BMBCollider bmbCollider = new BMBCollider();
+
         ////这些变量为什么会放在这里？
         ///neighbourBlock这个成员非常危险
         //public BattleMapBlock[] neighbourBlock = new BattleMapBlock[4];

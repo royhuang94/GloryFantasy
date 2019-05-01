@@ -36,6 +36,12 @@ namespace IMessage
         ToBeKilled, //即将被杀死
         #endregion
 
+        #region Collider检测
+        UnitEnter, //单位进入
+        UnitExit, //单位退出
+        UnitDispose, //单位驻足
+        #endregion
+
         Move, //开始移动
         UnitMoving, //正在移动
         Aftermove //移动结束
@@ -164,7 +170,6 @@ namespace IMessage
             for (int index = handlerCount - 1; index >= 0; index --)
             {
                 var handler = handlers[index];
-
                 if ((MonoBehaviour)handler.receiver != null)
                 {
 

@@ -116,7 +116,7 @@ namespace GamePlay.Input
                 //做个判断，如果选中的手牌不是单位卡则返回不操作
                 //if (selectedSlot.GetBaseCard().) //BaseCard的成员都没写好……什么鬼
                 //在对应MapBlock生成单位
-                UnitManager.InstantiationUnit(selectedSlot.GetBaseCard().id , OwnerEnum.Player, mapBlock.transform);
+                UnitManager.InstantiationUnit(selectedSlot.GetBaseCard().id , OwnerEnum.Player, mapBlock);
                 //把这张手牌从手牌里删掉
                 //删掉对应手牌槽的引用
                 selectedSlot.RemoveItem();
