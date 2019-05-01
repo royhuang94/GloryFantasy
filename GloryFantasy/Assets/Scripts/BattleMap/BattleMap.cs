@@ -45,7 +45,6 @@ namespace BattleMap
            );
         }
 
-        #region Collider
 
         /// <summary>
         /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
@@ -78,11 +77,6 @@ namespace BattleMap
         {
 
         }
-
-
-
-
-        #endregion
 
         public void InitMap()
         {
