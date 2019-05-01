@@ -5,13 +5,14 @@ using Random = UnityEngine.Random;
 using LitJson;
 using System.IO;
 using Unit = GameUnit.GameUnit;
+using IMessage;
 using UnityEngine.UI;
-
 using GameUnit;
+
 
 namespace BattleMap
 {
-    public class BattleMap : UnitySingleton<BattleMap>
+    public class BattleMap : UnitySingleton<BattleMap>, MsgReceiver
     {
 
         private void Awake()
@@ -21,11 +22,61 @@ namespace BattleMap
             IsColor = false;
             MapNavigator = new MapNavigator();
             battleArea = new BattleArea();
+            debuffBM = new DebuffBattleMapBlovk();
         }
 
         private void Start()
         {
             InitMap();
+
+            MsgDispatcher.RegisterMsg(
+               this.GetMsgReceiver(),
+               (int)MessageType.MPBegin,
+               canDoMPAction,
+               MpBegin,
+               "Mp Begin Trigger"
+           );
+
+            MsgDispatcher.RegisterMsg(
+               this.GetMsgReceiver(),
+               (int)MessageType.MPEnd,
+               canDoMPEndAction,
+               MpEnd,
+               "Mp End Trigger"
+           );
+        }
+
+
+        /// <summary>
+        /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
+        /// </summary>
+        /// <returns>根据实际情况确定是否能进入主要阶段</returns>
+        public bool canDoMPAction()
+        {
+            return true;
+        }       
+        /// <summary>
+        /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
+        /// </summary>
+        /// <returns>根据实际情况确定是否能进入主要阶段</returns>
+        public bool canDoMPEndAction()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// 主要阶段j开始
+        /// </summary>
+        public void MpBegin()
+        {
+
+        }
+        /// <summary>
+        /// 主要阶段结束
+        /// </summary>
+        public void MpEnd()
+        {
+
         }
 
         public void InitMap()
@@ -56,6 +107,7 @@ namespace BattleMap
         public GameObject obstacle;
         public MapNavigator MapNavigator;//寻路类
         public BattleArea battleArea;//战区类
+        public DebuffBattleMapBlovk debuffBM;//异常地图快类
                
         private void InitAndInstantiateMapBlocks()
         { 
@@ -89,7 +141,8 @@ namespace BattleMap
                 _mapBlocks[x, y].x = x;
                 _mapBlocks[x, y].y = y;
                 _mapBlocks[x, y].blockType = EMapBlockType.normal;
-
+                //初始化地图块儿的collider组件
+                _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
 
                 int tokenCount = mapData[i]["token"].Count;
                 if (tokenCount == 1)
@@ -102,6 +155,7 @@ namespace BattleMap
                     _mapBlocks[x, y].AddUnit(unit);
                 }
             }
+            GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks);
         }
 
         /// <summary>
@@ -365,12 +419,10 @@ namespace BattleMap
             //移除对应地图块儿下的deadUnit
             battleMap.units_on_me.Remove(deadUnit);
         }
-        /// <summary>
-        /// 移除BattleBlock下的 units_on_me
-        /// </summary>
-        public void RemoveUnitsOnBlock()
-        {
 
+        T IMessage.MsgReceiver.GetUnit<T>()
+        {
+            return this as T;
         }
     }
 }

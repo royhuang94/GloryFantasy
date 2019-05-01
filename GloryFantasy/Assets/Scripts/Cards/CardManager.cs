@@ -41,6 +41,8 @@ namespace GameCard
         public List<GameObject> cardsInHand { get { return _cardsInHand; } }
         public List<GameObject> cardsSets { get; set; }            // 牌组堆，待抽取的卡牌组
         public List<GameObject> cooldownCards { get; set; }        // 临时存储冷却状态中卡牌
+        
+        public List<GameObject> garbageCards { get; set; }        //弃牌堆
         public bool cancelCheck { get; set; }                      // 是否取消抽卡检查，在本行注释存在的情况下请不要修改值
 
         private Dictionary<string, JsonData> _cardsData;
@@ -225,16 +227,36 @@ namespace GameCard
         }
 
         /// <summary>
-        /// 从手牌中移除卡牌，用于外界通知CardManager手牌发生变动
+        /// 从手牌中移除卡牌（默认进行冷却），用于外界通知CardManager手牌发生变动
         /// </summary>
-        /// <param name="cardPrefab"></param>
-        public void RemoveCard(GameObject cardPrefab)
+        /// <param name="cardPrefab">手牌中要移除的卡牌</param>
+        /// <param name="controlCd">控制cd值为-1表示按卡牌本身cd值进行冷却，否则按设定值进行冷却</param>
+        public void RemoveCard(GameObject cardPrefab, int controlCd = -1)
         {
             // 从手牌列表中移除预制
             this._cardsInHand.Remove(cardPrefab);
             
-            // 将其加入冷却列表进行冷却
-            this.CooldownCard(cardPrefab);
+            // 将其加入冷却列表进行冷却，传递控制冷却信息
+            this.CooldownCard(cardPrefab, controlCd);
+            
+            // 重设手牌位置
+            ResortCardsInSlots();
+        }
+
+        /// <summary>
+        /// 用于将手牌中的卡牌移回抽牌牌库
+        /// </summary>
+        /// <param name="cardPrefab">要移除的卡牌的预制件引用</param>
+        public void MoveBackToCardSets(GameObject cardPrefab)
+        {
+            // 将其从手牌中移出
+            _cardsInHand.Remove(cardPrefab);
+            
+            // 将其加入cardSets
+            cardsSets.Add(cardPrefab);
+            
+            // 通知牌库panel发生变动
+            UpdateCardsSetsInfo();
             
             // 重设手牌位置
             ResortCardsInSlots();
@@ -244,14 +266,30 @@ namespace GameCard
         /// 将预存的预制件放入冷却列表中，仅CardManager内部使用
         /// </summary>
         /// <param name="cardPrefab">要冷却的卡牌的预制件引用</param>
-        private void CooldownCard(GameObject cardPrefab)
+        /// <param name="controlCd">默认值为-1，表示按卡牌cd值进行冷却，设定其他值则按设定值冷却</param>
+        private void CooldownCard(GameObject cardPrefab, int controlCd = -1)
         {
             //Debug.Log(cardPrefab);
-            // 读取数据库得到冷却回合数
-            int roundAmount= (int)GetCardJsonData(cardPrefab.GetComponent<BaseCard>().id)["cd"];
-            
-            // 初始化BaseCard脚本内剩余回合数的counter
-            cardPrefab.GetComponent<BaseCard>().cooldownRounds = roundAmount;
+
+            // 如果控制cd的参数值小于等于0，表示按卡牌cd值进行冷却
+            if (controlCd <= 0)
+            {
+                // 读取数据库得到冷却回合数
+                int roundAmount = cardPrefab.GetComponent<BaseCard>().cd;
+
+                // 若卡牌自身的cd值为负数，则直接销毁，并进入弃牌堆
+                if (roundAmount < 0)
+                {
+                    garbageCards.Add(cardPrefab);
+                    return;
+                }
+
+                // 初始化BaseCard脚本内剩余回合数的counter
+                cardPrefab.GetComponent<BaseCard>().cooldownRounds = roundAmount;
+                
+            }
+            else // 按controlCd值进行冷却
+                cardPrefab.GetComponent<BaseCard>().cooldownRounds = controlCd;
             
             //TODO: 不用加入冷却堆的卡牌不加入冷却list
             // 加入冷却list

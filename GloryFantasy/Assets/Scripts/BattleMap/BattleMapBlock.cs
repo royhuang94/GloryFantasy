@@ -22,7 +22,7 @@ namespace BattleMap
     public enum EMapBlockType
     {
         normal,   //普通地图块儿
-        burnning, //灼烧块儿
+        Burnning, //灼烧块儿
         Retire,   //滞留块儿
         aStarPath   //A星路径
     }
@@ -42,10 +42,11 @@ namespace BattleMap
         /// <param name="unit"></param>
         public void AddUnit(Unit unit)
         {
-            Debug.Log("MapBlocks--Added unit:" + unit.ToString());
+            //Debug.Log("MapBlocks--Added unit:" + unit.ToString());
             units_on_me.Add(unit);
             //在Hierarchy中，还需要把单位添加到Block下
             //修改单位的父级对象
+            unit.gameObject.transform.SetParent(this.transform);
         }
         /// <summary>
         /// 向方块上增加GameUnit
@@ -129,6 +130,13 @@ namespace BattleMap
         {
             get { return new Vector2(x, y); } 
         }
+
+        /// <summary>
+        /// collider组件
+        /// </summary>
+        public BMBCollider bmbCollider = new BMBCollider();
+
+
     }
 }
 

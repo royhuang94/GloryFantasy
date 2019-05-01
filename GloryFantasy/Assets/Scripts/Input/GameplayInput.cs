@@ -116,7 +116,7 @@ namespace GamePlay.Input
                 //做个判断，如果选中的手牌不是单位卡则返回不操作
                 //if (selectedSlot.GetBaseCard().) //BaseCard的成员都没写好……什么鬼
                 //在对应MapBlock生成单位
-                UnitManager.InstantiationUnit(selectedSlot.GetBaseCard().id , OwnerEnum.Player, mapBlock.transform);
+                UnitManager.InstantiationUnit(selectedSlot.GetBaseCard().id , OwnerEnum.Player, mapBlock);
                 //把这张手牌从手牌里删掉
                 //删掉对应手牌槽的引用
                 selectedSlot.RemoveItem();
@@ -124,6 +124,10 @@ namespace GamePlay.Input
                 //关闭鼠标所在战区的高光显示
                 BattleMap.BattleMap.Instance().IsColor = false;
                 BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
+
+                //创建部署指令
+                BattleDispositionCommand unitAtk = new BattleDispositionCommand(mapBlock.units_on_me);
+                unitAtk.Excute();
             }
             //如果正在释放指令牌，就视为正在选择目标
             else if (IsCasting)

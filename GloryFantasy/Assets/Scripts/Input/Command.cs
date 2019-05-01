@@ -29,6 +29,21 @@ namespace GamePlay.Input
 
         private GameUnit.GameUnit _unit;
     }
+    public class BattleDispositionCommand : Command
+    {
+        public BattleDispositionCommand(List<GameUnit.GameUnit> units)
+        {
+            _units = units;
+        }
+
+        public override void Excute()
+        {
+            //更新本此召唤的怪物（覆盖方式）
+            this.SetSummonUnit(_units);
+        }
+
+        private List<GameUnit.GameUnit> _units;
+    }
 
     public class UnitMoveCommand : Command
     {
@@ -55,7 +70,11 @@ namespace GamePlay.Input
         {
             Debug.Log("Moving Command excusing");
             if (BattleMap.BattleMap.Instance().MapNavigator.PathSearch(_unitPosition, _targetPosition))
+            {
+                //TODO 产生移动变化，检测
+
                 BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _targetPosition);
+            }
         }
 
         private GameUnit.GameUnit _unit;

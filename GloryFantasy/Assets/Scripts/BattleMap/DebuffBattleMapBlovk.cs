@@ -8,33 +8,53 @@ using Unit = GameUnit.GameUnit;
 /// </summary>
 namespace BattleMap
 {
-    public class DebuffBattleMapBlovk : UnitySingleton<DebuffBattleMapBlovk>
+    public class DebuffBattleMapBlovk
     {
-        //灼烧
-        public void BattleMapBlockBurning(Vector2 position)
+        //创造灼烧块
+        public void SetBattleMapBlockBurning(List<Vector2> vector2s)
         {
-            Unit unit = GetUnitOnMapBolock(position);
-            unit.hp -= 1;
-        }
-
-        //滞留
-        public void BattleMapBlockRetrad(Vector2 position)
-        {
-            Unit unit = GetUnitOnMapBolock(position);
-            unit.transform.position = position;
-        }
-
-        
-        private Unit GetUnitOnMapBolock(Vector2 position)
-        {
-            Unit unit = null;
-            if (BattleMap.Instance().CheckIfHasUnits(position))
+            BattleMapBlock bm = null;
+            foreach (Vector2 vector2 in vector2s)
             {
-               return unit = BattleMap.Instance().GetUnitsOnMapBlock(position);
+                bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
+                bm.blockType = EMapBlockType.Burnning;
             }
-            else
+            
+        }
+
+        //创造滞留块
+        public void SetBattleMapBlockRetrad(List<Vector2> vector2s)
+        {
+            BattleMapBlock bm = null;
+            foreach (Vector2 vector2 in vector2s)
             {
-                return null;
+                bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
+                bm.blockType = EMapBlockType.Retire;
+            }
+        }
+        
+        //单位进入灼烧块
+        public void UnitEnterBurning(Vector2 vector2)
+        {
+            if (BattleMap.Instance().CheckIfHasUnits(vector2)){
+                Unit unit = BattleMap.Instance().GetUnitsOnMapBlock(vector2);
+                unit.hp -= 1;//TODO更新HP显示
+                Debug.Log(unit.hp);
+            }
+        }
+
+        //单位进入滞留块
+        public void UnitEnterRetire(Vector2 vector2)
+        {
+            BattleMapBlock bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
+            Debug.Log(bm);
+            Debug.Log(bm.transform.position);
+            Debug.Log(bm.transform.localPosition);
+            if (BattleMap.Instance().CheckIfHasUnits(vector2))
+            {
+                Unit unit = BattleMap.Instance().GetUnitsOnMapBlock(vector2);
+                unit.gameObject.transform.SetParent(bm.transform);
+                unit.transform.localPosition = Vector3.zero;
             }
         }
     }

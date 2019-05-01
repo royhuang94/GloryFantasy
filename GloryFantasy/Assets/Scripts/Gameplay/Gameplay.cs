@@ -415,6 +415,8 @@ namespace GamePlay
         {
             roundProcessController = new RoundProcessController();
             gamePlayInput = new GameplayInput();
+
+            bmbColliderManager = new BMBColliderManager(); 
             _phaseNameText = GameObject.Find("phaseNameText").GetComponentInChildren<Text>();
             _phaseNameText.color = Color.red;
             _phaseNameText.text = roundProcessController.State.ToString();
@@ -423,6 +425,7 @@ namespace GamePlay
         public static Info Info = new Info();
         public RoundProcessController roundProcessController;
         public GameplayInput gamePlayInput;
+        public BMBColliderManager bmbColliderManager;
 
         private Text _phaseNameText;
         

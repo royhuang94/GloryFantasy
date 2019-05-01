@@ -93,9 +93,9 @@ namespace GameUnit
         public bool fly { get; set; }
         
         /// <summary>
-        /// ？？？？什么玩意儿
+        /// 单位异能
         /// </summary>
-        public string damaged { get; set; }       
+        public List<string> abilities { get; set; }       
 
         /// <summary>
         /// 为真单位不能攻击
@@ -116,6 +116,34 @@ namespace GameUnit
 
         public BattleMapBlock mapBlockBelow;
 
+
+        private Vector2 curPos = new Vector2(-1, -1);
+        /// <summary>
+        /// 当前单位的坐标
+        /// </summary>
+        public Vector2 CurPos
+        {
+            get
+            {
+                if (mapBlockBelow != null)
+                {
+                    curPos = mapBlockBelow.position;
+                    return curPos;
+                }
+
+                return curPos;
+            }
+            set
+            {
+                curPos = value;
+            }
+        }
+        /// <summary>
+        /// 单位将要移动到的下一步坐标
+        /// </summary>
+        public Vector2 nextPos { get; set; }
+
+
         // TODO: 这是地图上单位的基类，请继承此类进行行为描述
 
         T IMessage.MsgReceiver.GetUnit<T>()
@@ -130,6 +158,18 @@ namespace GameUnit
         public bool IsDead()
         {
             return !(hp > 0);
+        }
+
+        /// <summary>
+        /// 异能携带检测
+        /// </summary>
+        /// <returns>带有异能 true，反之 false</returns>
+        public bool IsIncludeAbility()
+        {
+            if (abilities != null && abilities.Count <= 0)
+                return false;
+
+            return true;
         }
     }
 }
