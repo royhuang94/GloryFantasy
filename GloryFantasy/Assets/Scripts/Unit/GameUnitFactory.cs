@@ -27,11 +27,11 @@ namespace GameUnit
             switch (owner)
             {
                 case (OwnerEnum.Enemy):
-                        newUnit = Instantiate(EnemyMould);
-                        break;
+                    newUnit = Instantiate(EnemyMould);
+                    break;
                 case (OwnerEnum.Player):
-                        newUnit = Instantiate(FriendlyMould);
-                        break;
+                    newUnit = Instantiate(FriendlyMould);
+                    break;
                 default:
                     newUnit = Instantiate(NeutralityMould);
                     break;

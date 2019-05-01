@@ -228,7 +228,7 @@ namespace GamePlay.Input
             //如果单位已经不能移动，但是可以攻击
             else if (unit.restrain == true && unit.disarm == false)
             {
-                BeforeMoveGameUnits.Add(unit);//
+                BeforeMoveGameUnits.Add(unit);
                 GameUtility.UtilityHelper.Log("准备攻击，右键取消攻击", GameUtility.LogColor.RED);
                 IsAttacking = true;
                 TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
@@ -329,6 +329,8 @@ namespace GamePlay.Input
         {
             //回收单位
             GameUnitPool.Instance().PushUnit(deadUnit.gameObject);
+            //移除对应地图块儿下的死亡单位
+            BattleMap.BattleMap.Instance().RemoveUnitOnBlock(deadUnit);
         }
 
         /// <summary>

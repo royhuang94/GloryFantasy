@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GameCard;
+using LitJson;
+using System.IO;
+using GameGUI;
+using UnityEditor;
 namespace MainMap { 
 /// <summary>定义六边形坐标的结构体，并处理坐标转换
 /// 
@@ -51,6 +56,7 @@ public struct HexVector
 /// </summary>
 public class MainMapManager : MonoBehaviour
 {
+    public MainMapUI mainMapUI;
     public TextAsset textAsset;
     /// <summary>地格材质，测试用，运行的时候找一个Unity默认的材质加上去就行。
     /// 
@@ -66,50 +72,71 @@ public class MainMapManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-       
-        //通过读取文件里的字符串转换成对应的地格生成地图
-        System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
-        string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
-        for (int i = 0; i < lines.Length; i++)
+        ReadMap();
+        mainMapUI = GameObject.Find("TestUI").GetComponent<MainMapUI>();//我写这个是干啥来着？？？不知道，反正ui还没接，不管了。2019.3.30
+     
+    }
+        /// <summary>通过读取文件里的字符串转换成对应的地格生成地图
+        /// 
+        /// </summary>
+        private void ReadMap()
         {
-            string[] element = lines[i].Split(',');
-            for (int j = 0; j < element.Length; j++)
+            System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
+            string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
+            for (int i = 0; i < lines.Length; i++)
             {
-                if (element[j] != "null")//如果字符串不为null,则生成地格挂载脚本。
+                string[] element = lines[i].Split(',');
+                for (int j = 0; j < element.Length; j++)
                 {
-                    GameObject gameObject = new GameObject("test" + i.ToString() + j.ToString());
-                    gameObject.transform.parent = GameObject.Find("Map").transform;
-                    gameObject.AddComponent<Button>();
-                    switch (element[j])
+                    if (element[j] != "null")//如果字符串不为null,则生成地格挂载脚本。
                     {
-                        case "plane":
-                            MapUnit plane = gameObject.AddComponent<Plane>();
-                            gameObject.transform.position = plane.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
-                            break;
-                        case "post":
-                            MapUnit post = gameObject.AddComponent<Post>();
-                            gameObject.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
-                            break;
-                        case "key":
-                            MapUnit key = gameObject.AddComponent<Key>();
-                            gameObject.transform.position = key.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
-                            break;
-                        default:
-                            Debug.Log("你文件写错了，回去看看");
-                            break;
+                        string[] upper = element[j].Split(new char[] { ':' }, option);
+                        GameObject mapunit = new GameObject("test" + i.ToString() + j.ToString());
+                        mapunit.transform.parent = GameObject.Find("Map").transform;
+                        mapunit.AddComponent<Button>();
+                        switch (upper[0])
+                        {
+                            case "plane":
+                                MapUnit plane = mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = plane.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                                break;
+                            case "post":
+                                MapUnit post = mapunit.AddComponent<Post>();
+                                mapunit.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                                break;
+                            case "key":
+                                MapUnit key = mapunit.AddComponent<Key>();
+                                mapunit.transform.position = key.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                                break;
+                            default:
+                                Debug.Log("你文件写错了，回去看看");
+                                break;
+                        }
+                        //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
+                        MeshFilter flit = mapunit.AddComponent<MeshFilter>();
+                        mapunit.AddComponent<MeshRenderer>();
+                        mapunit.AddComponent<BoxCollider>();
+                        flit.mesh = mesh;
+                        //如果有地格上层元素，传给MapElementManager处理
+                        if (upper.Length == 2)
+                        {
+                            MapElementManager.Instance().InstalizeElement(upper[1],mapunit);                        
+                        }
+                        else
+                        {
+                            
+                        }
+
                     }
-                    //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
-                    MeshFilter flit = gameObject.AddComponent<MeshFilter>();
-                    gameObject.AddComponent<MeshRenderer>();
-                    gameObject.AddComponent<BoxCollider>();
-                    flit.mesh = mesh;
-                }                        
+                }
             }
         }
-    }
+        /// <summary>获取角色实例，并初始化AroundList字典
+        /// 
+        /// </summary>
     private void Start()
     {
-        charactor = GameObject.Find("Charactor").GetComponent<Charactor>();
+            charactor = GameObject.Find("Charactor").GetComponent<Charactor>();
             charactor.AroundList.Add("0,1", null);
             charactor.AroundList.Add("0,-1", null);
             charactor.AroundList.Add("1,0", null);
@@ -125,7 +152,7 @@ public class MainMapManager : MonoBehaviour
 /// </summary>
 public abstract class MapUnit:MonoBehaviour
 {
-    public static MainMapManager mapManager;
+    public  MainMapManager mapManager;
     public HexVector hexVector = new HexVector();
     public Button btn;
     /// <summary>初始化地格，获得所在实例的按钮组件并监听事件
@@ -165,17 +192,7 @@ public class Plane : MapUnit
         Debug.Log("普通地面初始化.");
 
     }
-    #region 弃用的代码
-    /// <summary>在MainMapManager里初始化地图时，会调用此方法把地格位置坐标写入结构体方便管理
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    //public HexVector SethexVector()
-    //{
-    //    hexVector.Hex_vector = hexVector.ChangeToHexVect(hexVector.Normal_vector);//hexvector写入结构体111
-    //    return hexVector;
-    //}
-    #endregion
+
     /// <summary>检测被点击的地格是否在角色相邻区域，
     /// 
     /// </summary>
@@ -222,8 +239,8 @@ public class Post : MapUnit
             isActive = true;
             Debug.Log("驿站已激活");
             Debug.Log("进入驿站");
-            ReadyToTrans = true;
-            Debug.Log("准备传送");
+            //TODO 显示驿站ui
+            mapManager.mainMapUI.ShowPostUI(this);
             //如果放弃传送移动到驿站相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
             foreach (MapUnit unit in mapManager.charactor.AroundList.Values)
             {
@@ -259,6 +276,11 @@ public class Post : MapUnit
             Debug.Log("你不在这个驿站");
         }
     }
+    public static void PrepareTrans()
+        {
+            ReadyToTrans = true;
+            Debug.Log("准备传送");
+        }
     /// <summary>传送的具体方法
     /// 
     /// </summary>
@@ -271,7 +293,8 @@ public class Post : MapUnit
     {
         ReadyToTrans = false;
     }
-}
+ 
+    }
 /// <summary>钥匙（虚构层为各种可以清理路障的道具,地图文件中对应字符串为key）
 /// 
 /// 

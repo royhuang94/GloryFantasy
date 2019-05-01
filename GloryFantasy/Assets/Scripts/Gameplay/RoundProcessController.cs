@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using IMessage;
 using UnityEngine;
 
 namespace GamePlay.Round
@@ -17,127 +18,262 @@ namespace GamePlay.Round
     {
         public RoundProcessController()
         {
-            _state = RoundState.crystalPhase;
+            State = RoundState.RestoreApPhase;
+            // 初始化状态后手动调用以进行当前状态的工作
+            EnteringCurrentState();
         }
 
-        public bool IsPlayerRound()
+        /// <summary>
+        /// 切换到下一个状态要做的工作，现暂时使用按钮进行调用，后面由动画队列空消息触发
+        /// </summary>
+        public void StepIntoNextState()
         {
-            return this.isPlayerRound;
+            State.Exit(this);
+            State.NextState(this);
+            EnteringCurrentState();
         }
 
-        public bool IsCpuRound()
+        /// <summary>
+        /// 进入当前状态需要做的工作
+        /// </summary>
+        public void EnteringCurrentState()
         {
-            return !this.isPlayerRound;
+            State.Enter(this);
+            State.Update(this);
         }
 
-        public void EnterPlayerRound()
+        /// <summary>
+        /// 对外接口判断，用于检测当前是否为玩家可操作的主要阶段
+        /// </summary>
+        /// <returns>若为玩家可操作的主要阶段，则返回true，否则返回false</returns>
+        public bool isPlayerRound()
         {
-            this.isPlayerRound = true;
-            // TODO : 进入玩家回合的操作
+            return State == RoundState.mainPhase;
         }
 
-        public void QuitPlayerRound()
-        {
-            this.isPlayerRound = false;
-            // TODO : 退出玩家回合的操作
-        }
-
-        public void EnterCpuRound()
-        {
-            this.isPlayerRound = false;
-            // TODO : 进入AI回合的操作
-        }
-
-        public void QuitCpuRound()
-        {
-            // TODO : 退出CPU回合的操作
-        }
-
-        private bool isPlayerRound = false;
-
-        public RoundState _state;
+        public RoundState State;
     }
 
     public class RoundState
     {
-        virtual public void HandleInput(RoundProcessController roundProcessController, RoundInput input) { }
-        virtual public void Update(RoundProcessController roundProcessController) { }
-        virtual public void Enter(RoundProcessController roundProcessController) { }
-        virtual public void Exit(RoundProcessController roundProcessController) { }
-        virtual public void NextState(RoundProcessController roundProcessController)
+        public virtual void HandleInput(RoundProcessController roundProcessController, RoundInput input) { }
+        public void Update(RoundProcessController roundProcessController) { }
+        public virtual void Enter(RoundProcessController roundProcessController) { }
+        public virtual void Exit(RoundProcessController roundProcessController) { }
+        public virtual void NextState(RoundProcessController roundProcessController)
         {
             Exit(roundProcessController);
         }
 
-        public static CrystalPhase crystalPhase;
-        public static StartPhase startPhase;
-        public static DrawPhase drawPhase;
-        public static ReadyPhase readyPhase;
-        public static MainPhase mainPhase;
-        public static DiscardPhase discardPhase;
-        public static EndPhase endPhase;
+        public static RestoreApPhase RestoreApPhase = new RestoreApPhase();
+        public static StartPhase startPhase = new StartPhase();
+        public static ExtractCardsPhase ExtractCardsPhase = new ExtractCardsPhase();
+        public static PreparePhase PreparePhase = new PreparePhase();
+        public static MainPhase mainPhase = new MainPhase();
+        public static DiscardPhase discardPhase = new DiscardPhase();
+        public static EndPhase endPhase = new EndPhase();
+        public static AIPhase AiPhase = new AIPhase();
     }
 
-    public class CrystalPhase : RoundState
+    /// <summary>
+    /// 恢复费用阶段
+    /// </summary>
+    public class RestoreApPhase : RoundState
     {
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
-            roundProcessController._state = RoundState.startPhase;
+            roundProcessController.State = RoundState.startPhase;
+        }
+
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.NextState(roundProcessController);
+            // 发送更新资源点消息
+            MsgDispatcher.SendMsg((int)MessageType.UpdateSource);
+        }
+
+        public override string ToString()
+        {
+            return "恢复专注值阶段";
         }
     }
 
+    /// <summary>
+    /// 开始阶段
+    /// </summary>
     public class StartPhase : RoundState
     {
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
-            roundProcessController._state = RoundState.drawPhase;
+            roundProcessController.State = RoundState.ExtractCardsPhase;
+        }
+
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.Enter(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.BP);
+        }
+
+        public override string ToString()
+        {
+            return "开始阶段";
         }
     }
-
-    public class DrawPhase : RoundState
+    
+    
+    /// <summary>
+    /// 抽牌阶段
+    /// </summary>
+    public class ExtractCardsPhase : RoundState
     {
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
-            roundProcessController._state = RoundState.readyPhase;
+            roundProcessController.State = RoundState.PreparePhase;
+        }
+
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.Enter(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.DrawCard);
+        }
+
+        public override string ToString()
+        {
+            return "抽牌阶段";
         }
     }
 
-    public class ReadyPhase : RoundState
+    /// <summary>
+    /// 准备阶段
+    /// </summary>
+    public class PreparePhase : RoundState
     {
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
-            roundProcessController._state = RoundState.mainPhase;
+            roundProcessController.State = RoundState.mainPhase;
+        }
+
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.Enter(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.Prepare);
+        }
+
+        public override string ToString()
+        {
+            return "准备阶段";
         }
     }
-
+    
+    
+    /// <summary>
+    /// 主要阶段
+    /// </summary>
     public class MainPhase : RoundState
     {
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
-            roundProcessController._state = RoundState.discardPhase;
+            roundProcessController.State = RoundState.discardPhase;
+        }
+
+        /// <summary>
+        /// 进入状态时发送主要阶段开始消息
+        /// </summary>
+        /// <param name="roundProcessController"></param>
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.Enter(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.MPBegin);
+        }
+
+        /// <summary>
+        /// 退出状态时发送主要阶段结束消息
+        /// </summary>
+        /// <param name="roundProcessController"></param>
+        public override void Exit(RoundProcessController roundProcessController)
+        {
+            base.Exit(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.MPEnd);
+        }
+
+        public override string ToString()
+        {
+            return "主要阶段及主要阶段结束阶段";
         }
     }
 
+    
+    /// <summary>
+    /// 弃牌阶段
+    /// </summary>
     public class DiscardPhase : RoundState
     {
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
-            roundProcessController._state = RoundState.endPhase;
+            roundProcessController.State = RoundState.endPhase;
+        }
+
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.Enter(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.Discard);
+        }
+
+        public override string ToString()
+        {
+            return "弃牌阶段";
         }
     }
 
+    
+    /// <summary>
+    /// 结束阶段
+    /// </summary>
     public class EndPhase : RoundState
     {
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
-            roundProcessController._state = RoundState.crystalPhase;
+            roundProcessController.State = RoundState.AiPhase;
+        }
+
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.Enter(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.EP);
+        }
+
+        public override string ToString()
+        {
+            return "结束阶段";
         }
     }
+
+    public class AIPhase : RoundState
+    {
+        public override void NextState(RoundProcessController roundProcessController)
+        {
+            base.NextState(roundProcessController);
+            roundProcessController.State = RoundState.RestoreApPhase;
+        }
+
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.Enter(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.AI);
+        }
+
+        public override string ToString()
+        {
+            return "AI阶段";
+        }
+    }
+    
+    
 }

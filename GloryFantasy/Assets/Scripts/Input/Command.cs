@@ -72,14 +72,29 @@ namespace GamePlay.Input
             _AttackedUnit = AttackedUnit; this.SetAttackedUnit(AttackedUnit);
         }
 
-        //TODO 如何使用
-        //计算攻击距离是否大于曼哈顿
+        /// <summary>
+        /// 计算攻击距离是否大于曼哈顿
+        /// </summary>
+        /// <returns></returns>
         public bool Judge()
         {
             Vector2 unit1 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_Attacker);
             Vector2 unit2 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_AttackedUnit);
             int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
             if (MAN_HA_DUN <= _Attacker.rng)
+                return true;
+
+            return false;
+        }
+        /// <summary>
+        /// 计算反击距离是否大于曼哈顿
+        /// </summary>
+        public bool JudgeStrikeBack()
+        {
+            Vector2 unit1 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_AttackedUnit);
+            Vector2 unit2 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_Attacker); 
+            int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
+            if (MAN_HA_DUN <= _AttackedUnit.rng)
                 return true;
 
             return false;
@@ -98,12 +113,22 @@ namespace GamePlay.Input
                     && DamageRequestList[i]._attacker == DamageRequestList[i + 1]._attackedUnit
                     && DamageRequestList[i]._attackedUnit == DamageRequestList[i + 1]._attacker)
                 {
-                    DamageRequestList[i].ExcuteSameTime();
+                    //判断被攻击者的反击距离
+                    if (JudgeStrikeBack())
+                        DamageRequestList[i].ExcuteSameTime();
+                    else
+                        DamageRequestList[i].Excute(); //距离不够，无法进行反击
+
                     i++;
                 }
-                else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead())
+                else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead() && JudgeStrikeBack()) //符合反击要求
                 {
                     DamageRequestList[i].Excute();
+                }
+                else if(!_AttackedUnit.IsDead() && !_Attacker.IsDead() && !JudgeStrikeBack()) //距离不够，无法进行反击
+                {
+                    DamageRequestList[i].Excute();
+                    i++;
                 }
             }
         }
