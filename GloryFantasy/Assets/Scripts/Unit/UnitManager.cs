@@ -54,7 +54,7 @@ namespace GameUnit
             temp.AddComponent<GameGUI.ShowRange>();
 
             //部署成功 = 单位驻足
-            MsgDispatcher.SendMsg((int)MessageType.UnitDispose);
+            MsgDispatcher.SendMsg((int)MessageType.UnitExit);
         }
 
         /// <summary>

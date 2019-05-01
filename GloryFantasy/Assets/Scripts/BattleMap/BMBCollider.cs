@@ -60,6 +60,9 @@ public class BMBCollider
         exitUnits.Add(unit);
 
         unit.CurPos = unit.nextPos;
+        
+        //单位附属的地图块儿更新为下一个即将到达的地图块儿
+        unit.mapBlockBelow = BattleMap.BattleMap.Instance().GetSpecificMapBlock(unit.nextPos);
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位离开");
     }
     /// <summary>
