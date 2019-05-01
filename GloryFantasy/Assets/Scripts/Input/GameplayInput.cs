@@ -163,8 +163,7 @@ namespace GamePlay.Input
         /// <param name="unit"></param>
         /// <param name="eventData"></param>
         public void OnPointerDown(GameUnit.GameUnit unit, PointerEventData eventData)
-        {
-            Debug.Log("fdsf");
+        {    
             //鼠标右键取消攻击
             if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
             {

@@ -65,7 +65,15 @@ namespace BattleMap
             battleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
             {
-                mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                if (!WarZoneBelong(position, mapBlock))
+                {
+                    mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.red;
+                }
+                else
+                {
+                    mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                }
+                
             }
         }
 
