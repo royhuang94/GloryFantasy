@@ -65,8 +65,14 @@ namespace MainMap
     /// </summary>
     public abstract class MapElement:MonoBehaviour
     {
+        /// <summary>有啥用？？不知道
+        /// 
+        /// </summary>
         public HexVector site = new HexVector();
-        private MapUnit ParentUnit;
+        /// <summary>这是上层所在元素的mapunit,暂时还用不上，就注掉了
+        /// 
+        /// </summary>
+      //  private MapUnit ParentUnit;
         protected virtual void Awake()
         {
          
@@ -74,7 +80,7 @@ namespace MainMap
         }
         protected void instalize()
         {
-            ParentUnit = gameObject.GetComponentInParent<MapUnit>();
+          //  ParentUnit = gameObject.GetComponentInParent<MapUnit>();
             Button btn = gameObject.GetComponentInParent<Button>();
             btn.onClick.AddListener(ElementOnClick);
         }

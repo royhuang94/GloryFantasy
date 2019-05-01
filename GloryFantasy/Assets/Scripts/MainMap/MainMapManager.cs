@@ -334,7 +334,7 @@ public class Barrier : MapUnit
     }
     public override void OnClick()
     {
-
+            
     }
 }
 }

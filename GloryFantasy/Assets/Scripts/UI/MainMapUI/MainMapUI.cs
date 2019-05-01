@@ -6,6 +6,7 @@ using GameCard;
 using UnityEngine.UI;
 using LitJson;
 using System.IO;
+using FairyGUI;
 
 namespace GameGUI
 {/// <summary>以下所有代码都是为了测试和演示，所以会略草率= = 
@@ -15,15 +16,21 @@ namespace GameGUI
     {
        // public Button CardCollection;
         public   GameObject TestUI;
-        public  GameObject cardcolct;
+        public  GComponent mainmapUI;
+        public GameObject cardcollect_UI;
+        public GComponent cardcollectUI;
         public  GameObject postUI;
+        public GButton ccbtn;
+        public GButton closebtn;
+        public GameObject Map;
 
         private void Awake()
         {
           //  TestUI = GameObject.Find("TestUI");
-            Button cardcolctbtn = gameObject.GetComponentInChildren<Button>();
-           // cardcolct = GameObject.Find("DealUI");
-          //  postUI = GameObject.Find("PostUI");
+            mainmapUI = GameObject.Find("MainMapUI").GetComponent<UIPanel>().ui;
+            ccbtn = mainmapUI.GetChild("CardCollectionBtn").asButton;
+            ccbtn.onClick.Add(()=>ShowCardCollect());
+            Map = GameObject.FindGameObjectWithTag("Map");
             Debug.Log("ui初始化");
 
         }
@@ -50,9 +57,9 @@ namespace GameGUI
             int num1 = Random.Range(0, dataAmount);
             int num2 = Random.Range(0, dataAmount);
             int num3 = Random.Range(0, dataAmount);
-            JsonData Card1 = CardManager.Instance().GetCardJsonData(cardsJsonData[num1]["id"].ToString());
-            JsonData Card2 = CardManager.Instance().GetCardJsonData(cardsJsonData[num2]["id"].ToString());
-            JsonData Card3 = CardManager.Instance().GetCardJsonData(cardsJsonData[num3]["id"].ToString());
+          //  JsonData Card1 = CardManager.Instance().GetCardJsonData(cardsJsonData[num1]["id"].ToString());
+          //  JsonData Card2 = CardManager.Instance().GetCardJsonData(cardsJsonData[num2]["id"].ToString());
+          //  JsonData Card3 = CardManager.Instance().GetCardJsonData(cardsJsonData[num3]["id"].ToString());
             ShowCard(cardsJsonData[num1]["id"].ToString(), cardsJsonData[num2]["id"].ToString(), cardsJsonData[num3]["id"].ToString());
 
 
@@ -85,15 +92,21 @@ namespace GameGUI
 
 
         }
-        void Start()
+        public void ShowCardCollect()
         {
+            Debug.Log("展示卡牌收藏");
+            Map.SetActive(false);
+            cardcollect_UI.SetActive(true);
+            cardcollectUI = GameObject.Find("CardCollectionUI").GetComponent<UIPanel>().ui;
+            closebtn = cardcollectUI.GetChild("Close").asButton;
+            closebtn.onClick.Add(() => CloseCardCollect());
 
         }
-
-   
-        void Update()
+        public void CloseCardCollect()
         {
-
+            cardcollect_UI.SetActive(false);
+            Map.SetActive(true);
+            Debug.Log("卡牌收藏关闭");
         }
     }
 }
