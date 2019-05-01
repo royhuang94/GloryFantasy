@@ -1,4 +1,5 @@
 ﻿using GameUnit;
+using IMessage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -179,8 +180,11 @@ namespace BattleMap
                 BattleMapBlock battleMap = BattleMap.Instance().GetSpecificMapBlock((int)paths[i].position.x, (int)paths[i].position.y);
                 unit.gameObject.transform.SetParent(battleMap.transform);
                 unit.transform.localPosition = Vector3.zero;
+                unit.nextPos = paths[i].position;
+                MsgDispatcher.SendMsg((int)MessageType.UnitExit);
                 yield return new WaitForSeconds(0.1f);
             }
+            MsgDispatcher.SendMsg((int)MessageType.UnitDispose);
         }
     }
 }
