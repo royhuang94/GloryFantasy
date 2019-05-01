@@ -124,6 +124,10 @@ namespace GamePlay.Input
                 //关闭鼠标所在战区的高光显示
                 BattleMap.BattleMap.Instance().IsColor = false;
                 BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
+
+                //创建部署指令
+                BattleDispositionCommand unitAtk = new BattleDispositionCommand(mapBlock.units_on_me);
+                unitAtk.Excute();
             }
             //如果正在释放指令牌，就视为正在选择目标
             else if (IsCasting)

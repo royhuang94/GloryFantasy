@@ -199,8 +199,11 @@ namespace BattleMap
                     i = -1;//结束循环，将单位停在该位置；
                     //TODObug待修护 单位停在了滞留块上而不是鼠标点击位置，导致移动Jude（）的坐标与单位停的坐标不一致，空指针
                 }
+                unit.nextPos = paths[i].position;
+                MsgDispatcher.SendMsg((int)MessageType.UnitExit);
                 yield return new WaitForSeconds(0.1f);
             }
+            MsgDispatcher.SendMsg((int)MessageType.UnitDispose);
         }
     }
 }

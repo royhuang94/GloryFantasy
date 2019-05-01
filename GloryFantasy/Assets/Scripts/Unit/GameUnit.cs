@@ -93,9 +93,9 @@ namespace GameUnit
         public bool fly { get; set; }
         
         /// <summary>
-        /// ？？？？什么玩意儿
+        /// 单位异能
         /// </summary>
-        public string damaged { get; set; }       
+        public List<string> abilities { get; set; }       
 
         /// <summary>
         /// 为真单位不能攻击
@@ -158,6 +158,18 @@ namespace GameUnit
         public bool IsDead()
         {
             return !(hp > 0);
+        }
+
+        /// <summary>
+        /// 异能携带检测
+        /// </summary>
+        /// <returns>带有异能 true，反之 false</returns>
+        public bool IsIncludeAbility()
+        {
+            if (abilities != null && abilities.Count <= 0)
+                return false;
+
+            return true;
         }
     }
 }

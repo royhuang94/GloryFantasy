@@ -62,7 +62,8 @@ namespace GameGUI
         /// 移除当前slot中的卡牌,并通知CardManager手牌栏位发生变化
         /// </summary>
         /// <param name="notNotify">默认为false，请勿修改</param>
-        public void RemoveItem(bool notNotify = false)
+        /// <param name="controlCd">控制冷却回合数，默认为-1，表示按卡牌cd值冷却，其他非0值即指定冷却回合数</param>
+        public void RemoveItem(bool notNotify = false, int controlCd = -1)
         {
             // 如果有Button存在，则销毁按钮
             Destroy(_gameObject);
@@ -73,9 +74,21 @@ namespace GameGUI
             
             if(!notNotify)
                 // 向CardManager发送通知
-                CardManager.Instance().RemoveCard(_cardPrefab);
+                CardManager.Instance().RemoveCard(_cardPrefab, controlCd);
             
             //_cardPrefab = null;
+        }
+
+        /// <summary>
+        /// 将当前槽位内的卡牌放回抽牌牌库接口
+        /// </summary>
+        public void MoveItemBackToCardSets()
+        {
+            // 将卡牌实例删除，实现卡牌消失效果
+            RemoveItem(true);
+            
+            // 通知CardManager将牌移回牌库
+            CardManager.Instance().MoveBackToCardSets(_cardPrefab);
         }
 
         /// <summary>

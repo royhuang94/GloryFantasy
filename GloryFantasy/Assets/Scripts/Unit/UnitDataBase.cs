@@ -140,9 +140,11 @@ namespace GameUnit
         /// </summary>
         public void AddGameUnitAbility(Unit unit, JsonData unitJsonData)
         {
+            unit.abilities = new List<string>();
             for (int i = 0; i < unitJsonData["Ability"].Count; i++)
             {
                if (unitJsonData["Ability"][i].ToString() == "") continue;
+                unit.abilities.Add(unitJsonData["Ability"][i].ToString());
                Component ability = unit.gameObject.AddComponent(System.Type.GetType("Ability." + unitJsonData["Ability"][i].ToString()));
                if (ability != null)
                 {
