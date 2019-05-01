@@ -220,7 +220,7 @@ namespace GamePlay.Input
                 }
             }
             //如果单位可以移动
-            else if (unit.restrain == false)
+            else if (unit.restrain == false && unit.owner == OwnerEnum.Player)
             {
                 GameUtility.UtilityHelper.Log("准备移动", GameUtility.LogColor.RED);
                 SetMovingIsTrue(unit);

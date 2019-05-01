@@ -310,8 +310,9 @@ namespace BattleMap
                         unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
                     }
                     unit.mapBlockBelow.AddUnit(unit);
+                    StartCoroutine(MapNavigator.moveStepByStep(unit));
+                    
                     //unit.transform.position = _destination;
-                    unit.transform.localPosition = Vector3.zero;
                     return true;
                 }
             }

@@ -30,6 +30,7 @@ namespace BattleMap
 
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
+        private MapNavigator mapNavigator;
         private void Awake()
         {
             setMapBlackPosition();
@@ -41,11 +42,10 @@ namespace BattleMap
         /// <param name="unit"></param>
         public void AddUnit(Unit unit)
         {
-            //Debug.Log("MapBlocks--Added unit:" + unit.ToString());
+            Debug.Log("MapBlocks--Added unit:" + unit.ToString());
             units_on_me.Add(unit);
             //在Hierarchy中，还需要把单位添加到Block下
             //修改单位的父级对象
-            unit.gameObject.transform.SetParent(this.transform);
         }
         /// <summary>
         /// 向方块上增加GameUnit
