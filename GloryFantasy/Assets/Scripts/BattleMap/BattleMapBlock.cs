@@ -30,6 +30,7 @@ namespace BattleMap
 
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
+        private MapNavigator mapNavigator;
         private void Awake()
         {
             setMapBlackPosition();
@@ -41,14 +42,13 @@ namespace BattleMap
         /// <param name="unit"></param>
         public void AddUnit(Unit unit)
         {
-            //Debug.Log("MapBlocks--Added unit:" + unit.ToString());
+            Debug.Log("MapBlocks--Added unit:" + unit.ToString());
             units_on_me.Add(unit);
             //在Hierarchy中，还需要把单位添加到Block下
             //修改单位的父级对象
-            unit.gameObject.transform.SetParent(this.transform);
         }
         /// <summary>
-        /// 向方块上增加GameUnit/ 疑问为啥一个地图块儿阔能出现多只单位？
+        /// 向方块上增加GameUnit
         /// </summary>
         /// <param name="units"></param>
         public void AddUnits(Unit[] units)
@@ -135,16 +135,6 @@ namespace BattleMap
         /// </summary>
         public BMBCollider bmbCollider = new BMBCollider();
 
-        ////这些变量为什么会放在这里？
-        ///neighbourBlock这个成员非常危险
-        //public BattleMapBlock[] neighbourBlock = new BattleMapBlock[4];
-        //public BattleMapBlock parentBlock = null;
-        //public AStarState aStarState { get; set; }
-
-        ////最优路径计算
-        //public float F = 0;
-        //public float G = 0;
-        //public float H = 0;
 
     }
 }

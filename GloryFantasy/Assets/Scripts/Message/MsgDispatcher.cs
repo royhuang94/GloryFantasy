@@ -170,7 +170,8 @@ namespace IMessage
             for (int index = handlerCount - 1; index >= 0; index --)
             {
                 var handler = handlers[index];
-                if ((MonoBehaviour)handler.receiver != null)
+                if (handler.receiver != null || handler.receiver.Equals(null))
+                //if ((MonoBehaviour)handler.receiver != null)
                 {
 
                     //单播
