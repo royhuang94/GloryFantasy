@@ -12,6 +12,7 @@ namespace GameGUI
         private int rows;
         private int columns;
         private Unit unit;
+        private bool unitMove;
         private void Awake()
         {
             this.unit = gameObject.GetComponent<Unit>();
@@ -19,6 +20,7 @@ namespace GameGUI
 
         private void Start()
         {
+            
             rows = BattleMap.BattleMap.Instance().Rows;
             columns = BattleMap.BattleMap.Instance().Columns;
         }
@@ -26,8 +28,17 @@ namespace GameGUI
         public List<Vector2> GetPositionsWithinCertainMd(Vector2 position, int ManhattanDistance)
         {
             List<Vector2> reslist = new List<Vector2>();
-            RecrusiveBody((int)position.x, (int)position.y, ManhattanDistance, reslist);
+            if (unitMove)
+            {
+                RecrusiveBody((int)position.x, (int)position.y, ManhattanDistance, reslist);
+                RemoveMapBlokHasUnit(reslist);
+            }
+            else
+            {
+                RecrusiveBody((int)position.x, (int)position.y, ManhattanDistance, reslist);               
+           }
             return reslist;
+
         }
 
         public void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
@@ -36,15 +47,39 @@ namespace GameGUI
             reslist.Add(new Vector2(x, y));
             if (leftManhattanDistance == 0)
                 return;
-
             RecrusiveBody(x + 1, y, leftManhattanDistance - 1, reslist);
             RecrusiveBody(x - 1, y, leftManhattanDistance - 1, reslist);
             RecrusiveBody(x, y + 1, leftManhattanDistance - 1, reslist);
             RecrusiveBody(x, y - 1, leftManhattanDistance - 1, reslist);
         }
 
+        //移动范围不显示有单位的地图块
+        //TODO 不显示无法到达的地图块
+        public void RemoveMapBlokHasUnit(List<Vector2> reslist)
+        {
+            for (int i = 0; i < reslist.Count; i++)
+            {
+                for (int j = reslist.Count - 1; j > i; j--)
+                {
+
+                    if (reslist[i] == reslist[j])
+                    {
+                        reslist.RemoveAt(j);
+                    }
+                }
+            }
+            for (int i = 0; i < reslist.Count; i++)
+            {
+                if (BattleMap.BattleMap.Instance().CheckIfHasUnits(reslist[i]))
+                {
+                    reslist.Remove(reslist[i]);
+                }
+            }
+        }
+
         public void MarkMoveRange(Vector2 target)
         {
+            unitMove = true;
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                 GetPositionsWithinCertainMd(target, unit.mov), Color.green);
         }
@@ -57,6 +92,7 @@ namespace GameGUI
 
         public void CancleMoveRangeMark(Vector2 target)
         {
+            unitMove = false;
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                  GetPositionsWithinCertainMd(target, unit.mov), Color.white);
         }
@@ -66,6 +102,7 @@ namespace GameGUI
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                  GetPositionsWithinCertainMd(target, unit.rng), Color.white);
         }
+
 
     }
 }

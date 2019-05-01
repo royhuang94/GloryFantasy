@@ -1,4 +1,5 @@
 ﻿using GameUnit;
+using IMessage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -81,7 +82,7 @@ namespace BattleMap
                 AStarSearch(A, startPos, endPos);
                 openList.Remove(A.position);
                 closeList.Add(A.position, A);
-                
+
                 //如果找到了endPos
                 if (A.H < Mathf.Epsilon)
                 {
@@ -143,10 +144,10 @@ namespace BattleMap
                     continue;
                 }
                 //如果不在两个列表里
-                else if (!openList.ContainsKey(B.position) )
+                else if (!openList.ContainsKey(B.position))
                 {
                     openList.Add(B.position, B);
-                    continue; 
+                    continue;
                 }
             }
         }
@@ -170,8 +171,22 @@ namespace BattleMap
 
             return false;
         }
-    }
 
+        //一格一格移动
+        public IEnumerator moveStepByStep(Unit unit)
+        {
+            for (int i = paths.Count - 1; i >= 0; i--)
+            {
+                BattleMapBlock battleMap = BattleMap.Instance().GetSpecificMapBlock((int)paths[i].position.x, (int)paths[i].position.y);
+                unit.gameObject.transform.SetParent(battleMap.transform);
+                unit.transform.localPosition = Vector3.zero;
+                unit.nextPos = paths[i].position;
+                MsgDispatcher.SendMsg((int)MessageType.UnitExit);
+                yield return new WaitForSeconds(0.1f);
+            }
+            MsgDispatcher.SendMsg((int)MessageType.UnitDispose);
+        }
+    }
 }
 
 

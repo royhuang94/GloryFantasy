@@ -116,7 +116,7 @@ namespace GamePlay.Input
                 //做个判断，如果选中的手牌不是单位卡则返回不操作
                 //if (selectedSlot.GetBaseCard().) //BaseCard的成员都没写好……什么鬼
                 //在对应MapBlock生成单位
-                UnitManager.InstantiationUnit(selectedSlot.GetBaseCard().id , OwnerEnum.Player, mapBlock.transform);
+                UnitManager.InstantiationUnit(selectedSlot.GetBaseCard().id , OwnerEnum.Player, mapBlock);
                 //把这张手牌从手牌里删掉
                 //删掉对应手牌槽的引用
                 selectedSlot.RemoveItem();
@@ -124,6 +124,10 @@ namespace GamePlay.Input
                 //关闭鼠标所在战区的高光显示
                 BattleMap.BattleMap.Instance().IsColor = false;
                 BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
+
+                //创建部署指令
+                BattleDispositionCommand unitAtk = new BattleDispositionCommand(mapBlock.units_on_me);
+                unitAtk.Excute();
             }
             //如果正在释放指令牌，就视为正在选择目标
             else if (IsCasting)
@@ -163,8 +167,7 @@ namespace GamePlay.Input
         /// <param name="unit"></param>
         /// <param name="eventData"></param>
         public void OnPointerDown(GameUnit.GameUnit unit, PointerEventData eventData)
-        {
-            Debug.Log("fdsf");
+        {    
             //鼠标右键取消攻击
             if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
             {
@@ -221,7 +224,7 @@ namespace GamePlay.Input
                 }
             }
             //如果单位可以移动
-            else if (unit.restrain == false)
+            else if (unit.restrain == false && unit.owner == OwnerEnum.Player)
             {
                 GameUtility.UtilityHelper.Log("准备移动", GameUtility.LogColor.RED);
                 SetMovingIsTrue(unit);

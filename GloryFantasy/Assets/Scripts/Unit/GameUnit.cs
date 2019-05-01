@@ -116,6 +116,34 @@ namespace GameUnit
 
         public BattleMapBlock mapBlockBelow;
 
+
+        private Vector2 curPos = new Vector2(-1, -1);
+        /// <summary>
+        /// 当前单位的坐标
+        /// </summary>
+        public Vector2 CurPos
+        {
+            get
+            {
+                if (mapBlockBelow != null)
+                {
+                    curPos = mapBlockBelow.position;
+                    return curPos;
+                }
+
+                return curPos;
+            }
+            set
+            {
+                curPos = value;
+            }
+        }
+        /// <summary>
+        /// 单位将要移动到的下一步坐标
+        /// </summary>
+        public Vector2 nextPos { get; set; }
+
+
         // TODO: 这是地图上单位的基类，请继承此类进行行为描述
 
         T IMessage.MsgReceiver.GetUnit<T>()

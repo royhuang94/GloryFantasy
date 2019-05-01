@@ -5,13 +5,14 @@ using Random = UnityEngine.Random;
 using LitJson;
 using System.IO;
 using Unit = GameUnit.GameUnit;
+using IMessage;
 using UnityEngine.UI;
-
 using GameUnit;
+
 
 namespace BattleMap
 {
-    public class BattleMap : UnitySingleton<BattleMap>
+    public class BattleMap : UnitySingleton<BattleMap>, MsgReceiver
     {
 
         private void Awake()
@@ -26,6 +27,55 @@ namespace BattleMap
         private void Start()
         {
             InitMap();
+
+            MsgDispatcher.RegisterMsg(
+               this.GetMsgReceiver(),
+               (int)MessageType.MPBegin,
+               canDoMPAction,
+               MpBegin,
+               "Mp Begin Trigger"
+           );
+
+            MsgDispatcher.RegisterMsg(
+               this.GetMsgReceiver(),
+               (int)MessageType.MPEnd,
+               canDoMPEndAction,
+               MpEnd,
+               "Mp End Trigger"
+           );
+        }
+
+
+        /// <summary>
+        /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
+        /// </summary>
+        /// <returns>根据实际情况确定是否能进入主要阶段</returns>
+        public bool canDoMPAction()
+        {
+            return true;
+        }       
+        /// <summary>
+        /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
+        /// </summary>
+        /// <returns>根据实际情况确定是否能进入主要阶段</returns>
+        public bool canDoMPEndAction()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// 主要阶段j开始
+        /// </summary>
+        public void MpBegin()
+        {
+
+        }
+        /// <summary>
+        /// 主要阶段结束
+        /// </summary>
+        public void MpEnd()
+        {
+
         }
 
         public void InitMap()
@@ -89,7 +139,8 @@ namespace BattleMap
                 _mapBlocks[x, y].x = x;
                 _mapBlocks[x, y].y = y;
                 _mapBlocks[x, y].blockType = EMapBlockType.normal;
-
+                //初始化地图块儿的collider组件
+                _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
 
                 int tokenCount = mapData[i]["token"].Count;
                 if (tokenCount == 1)
@@ -102,6 +153,7 @@ namespace BattleMap
                     _mapBlocks[x, y].AddUnit(unit);
                 }
             }
+            GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks);
         }
 
         /// <summary>
@@ -310,8 +362,9 @@ namespace BattleMap
                         unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
                     }
                     unit.mapBlockBelow.AddUnit(unit);
+                    StartCoroutine(MapNavigator.moveStepByStep(unit));
+                    
                     //unit.transform.position = _destination;
-                    unit.transform.localPosition = Vector3.zero;
                     return true;
                 }
             }
@@ -370,6 +423,15 @@ namespace BattleMap
         public void RemoveUnitsOnBlock()
         {
 
+        }
+
+
+        /// <summary>
+        /// 仿照主程写的写的接口
+        /// </summary>
+        T IMessage.MsgReceiver.GetUnit<T>()
+        {
+            return this as T;
         }
     }
 }
