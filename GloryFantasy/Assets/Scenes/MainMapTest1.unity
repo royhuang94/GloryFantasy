@@ -588,7 +588,7 @@ MonoBehaviour:
   TestUI: {fileID: 264536816}
   cardcollect_UI: {fileID: 1978117138}
   postUI: {fileID: 1111612885}
-  Map: {fileID: 0}
+  Map: {fileID: 661397515}
 --- !u!1 &361673709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,11 +1373,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 024553ecf96a65649b929ee08c9214fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  packageName: F_MainMapUI
+  packageName: MainMapUI
   componentName: Component2
   fitScreen: 0
   sortingOrder: 0
-  packagePath: MainMapFairyGUIPackage/Package1
+  packagePath: MainMapFairyGUIPackage/MainMapUI
   renderMode: 0
   renderCamera: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
@@ -1951,13 +1951,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 024553ecf96a65649b929ee08c9214fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  packageName: F_MainMapUI
+  packageName: MainMapUI
   componentName: Component4
   fitScreen: 0
   sortingOrder: 1
-  packagePath: MainMapFairyGUIPackage/Package1
+  packagePath: MainMapFairyGUIPackage/MainMapUI
   renderMode: 0
-  renderCamera: {fileID: 644372513}
+  renderCamera: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   scale: {x: 1, y: 1, z: 1}
   rotation: {x: 0, y: 0, z: 0}
