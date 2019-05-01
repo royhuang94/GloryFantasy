@@ -5,7 +5,7 @@ using BattleMap;
 using IMessage;
 using Unit = GameUnit.GameUnit;
 
-public class BMBColliderManager : MonoBehaviour, MsgReceiver
+public class BMBColliderManager :  MsgReceiver
 {
     //保存了所有的地图块儿
     private BattleMapBlock[,] mapBlocks;
@@ -28,7 +28,7 @@ public class BMBColliderManager : MonoBehaviour, MsgReceiver
         mapBlocks = _mapBlocks;
     }
 
-    public void Start()
+    public  BMBColliderManager()
     {
         MsgDispatcher.RegisterMsg(
            this.GetMsgReceiver(),

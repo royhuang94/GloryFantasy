@@ -46,6 +46,7 @@ namespace BattleMap
             units_on_me.Add(unit);
             //在Hierarchy中，还需要把单位添加到Block下
             //修改单位的父级对象
+            unit.gameObject.transform.SetParent(this.transform);
         }
         /// <summary>
         /// 向方块上增加GameUnit
