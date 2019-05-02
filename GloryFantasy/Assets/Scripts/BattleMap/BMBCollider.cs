@@ -7,13 +7,13 @@ using Unit = GameUnit.GameUnit;
 public class BMBCollider
 {
     //地图块儿的检测范围
-    List<Vector2> colliderRange = new List<Vector2>();
+    public List<Vector2> colliderRange = new List<Vector2>();
     //进入单位
-    List<Unit> enterUnits = new List<Unit>();
+    public List<Unit> enterUnits = new List<Unit>();
     //离开单位
-    List<Unit> exitUnits = new List<Unit>();
+    public List<Unit> exitUnits = new List<Unit>();
     //驻足单位
-    List<Unit> disposeUnits = new List<Unit>();
+    public List<Unit> disposeUnits = new List<Unit>();
 
 
     //-1 离开 / 0 进入 / 1 驻足
@@ -37,42 +37,40 @@ public class BMBCollider
     /// 单位进入，并更新enterUnits，state
     /// </summary>
     /// <param name="unit">当前操作单位</param>
-    public void OnUnitEnter(Unit unit)
+    public void OnUnitEnter(List<Unit> units)
     {
-        state = 0;
-        enterUnits.Add(unit);
 
-        unit.CurPos = unit.nextPos;
+        enterUnits = units; //进入记录
+        state = 0;
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位进入");
+
+        if (units[0].nextPos == units[0].CurPos)
+            OnUnitDispose();
     }
     /// <summary>
     /// 单位退出，并更新enterUnits/disposeUnits，state
     /// </summary>
     /// <param name="unit">当前操作单位</param>
-    public void OnUnitExit(Unit unit)
+    public void OnUnitExit()
     {
-        if (state == 0)
-            enterUnits.Remove(unit);
-        else
-            disposeUnits.Remove(unit);
+        exitUnits = enterUnits; //退出记录
+        enterUnits = new List<Unit>(); //覆盖
 
+        if (state == 1)
+            disposeUnits = new List<Unit>();//覆盖
         state = -1;
-        exitUnits.Add(unit);
-
-        unit.CurPos = unit.nextPos;
-        
-        //单位附属的地图块儿更新为下一个即将到达的地图块儿
-        unit.mapBlockBelow = BattleMap.BattleMap.Instance().GetSpecificMapBlock(unit.nextPos);
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位离开");
+
     }
+
     /// <summary>
     /// 单位驻足，并更新disposeUnits，state
     /// </summary>
     /// <param name="unit">当前操作单位</param>
-    public void OnUnitDispose(Unit unit)
+    public void OnUnitDispose()
     {
         state = 1;
-        disposeUnits.Add(unit);
+        disposeUnits = enterUnits; //驻足记录
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位驻足");
     }
 }

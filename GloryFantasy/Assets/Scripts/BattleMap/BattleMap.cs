@@ -144,6 +144,7 @@ namespace BattleMap
                 //初始化地图块儿的collider组件
                 _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
 
+                GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
                 int tokenCount = mapData[i]["token"].Count;
                 if (tokenCount == 1)
                 {
@@ -155,7 +156,6 @@ namespace BattleMap
                     _mapBlocks[x, y].AddUnit(unit);
                 }
             }
-            GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks);
         }
 
         /// <summary>
@@ -363,7 +363,6 @@ namespace BattleMap
                     {
                         unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
                     }
-                    unit.mapBlockBelow.AddUnit(unit);
                     StartCoroutine(MapNavigator.moveStepByStep(unit));
                     
                     //unit.transform.position = _destination;

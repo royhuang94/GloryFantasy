@@ -90,6 +90,7 @@ namespace GamePlay
         /// </summary>
         public void InitAp()
         {
+            //_apUpLimit = 30;
             _apUpLimit = 3;
             _defaultAp = _apUpLimit;
             _addOnAp = 0;

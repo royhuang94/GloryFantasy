@@ -184,11 +184,19 @@ namespace BattleMap
             vector22s.Add(new Vector2(1, 1));
             BattleMap.Instance().debuffBM.SetBattleMapBlockRetrad(vector22s);
 
+            Vector2 tempVector;
+            BattleMapBlock battleMap;
             for (int i = paths.Count - 2; i >= 0; i--)
             {
-                Vector2 tempVector = new Vector2((int)paths[i].position.x, (int)paths[i].position.y);
-                BattleMapBlock battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);
-                unit.gameObject.transform.SetParent(battleMap.transform);
+                //移除上一步的地图块儿下面的units_on_me
+                tempVector = new Vector2((int)paths[i + 1].position.x, (int)paths[i + 1].position.y);
+                battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);
+                battleMap.RemoveUnit(unit);
+                //添加当前unit到地图块儿下面的units_on_me内
+                tempVector = new Vector2((int)paths[i].position.x, (int)paths[i].position.y);
+                battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);
+                battleMap.AddUnit(unit);
+                //unit.gameObject.transform.SetParent(battleMap.transform);
                 unit.transform.localPosition = Vector3.zero;
                 if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
                 {
@@ -200,10 +208,12 @@ namespace BattleMap
                     //TODObug待修护 单位停在了滞留块上而不是鼠标点击位置，导致移动Jude（）的坐标与单位停的坐标不一致，空指针
                 }
                 unit.nextPos = paths[i].position;
-                MsgDispatcher.SendMsg((int)MessageType.UnitExit);
-                yield return new WaitForSeconds(0.1f);
+
+                yield return new WaitForSeconds(0.2f);
+                GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
+                MsgDispatcher.SendMsg((int)MessageType.Move);
             }
-            MsgDispatcher.SendMsg((int)MessageType.UnitDispose);
+            MsgDispatcher.SendMsg((int)MessageType.Aftermove);
         }
     }
 }

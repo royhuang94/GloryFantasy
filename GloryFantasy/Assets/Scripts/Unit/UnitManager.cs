@@ -49,12 +49,12 @@ namespace GameUnit
 
             //单位部署相当于单位驻足地图块儿
             gameUnit.nextPos = gameUnit.CurPos;
-            Gameplay.Instance().bmbColliderManager.SetCurUnit(gameUnit);
+
             //挂载ShowRange脚本
             temp.AddComponent<GameGUI.ShowRange>();
 
-            //部署成功 = 单位驻足
-            MsgDispatcher.SendMsg((int)MessageType.UnitExit);
+            //部署成功
+            Gameplay.Instance().bmbColliderManager.Fresh(gameUnit);
         }
 
         /// <summary>
