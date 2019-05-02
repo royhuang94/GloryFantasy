@@ -24,16 +24,16 @@ namespace GameGUI
         public GButton closebtn;
         public GameObject Map;
 
-        private void Awake()
+
+        private void Start()
         {
-          //  TestUI = GameObject.Find("TestUI");
+            //  TestUI = GameObject.Find("TestUI");
             mainmapUI = GameObject.Find("MainMapUI").GetComponent<UIPanel>().ui;
             ccbtn = mainmapUI.GetChild("CardCollectionBtn").asButton;
-            ccbtn.onClick.Add(()=>ShowCardCollect());
+            ccbtn.onClick.Add(() => ShowCardCollect());
             Map = GameObject.FindGameObjectWithTag("Map");
             Debug.Log("ui初始化");
-
-        }
+        }  
         /// <summary>点击驿站地格后调用此方法展示驿站UI;
         /// 
         /// </summary>

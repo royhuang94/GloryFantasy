@@ -72,7 +72,7 @@ public class MainMapManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        ReadMap();
+            ReadMap();
         mainMapUI = GameObject.Find("TestUI").GetComponent<MainMapUI>();//我写这个是干啥来着？？？不知道，反正ui还没接，不管了。2019.3.30
      
     }

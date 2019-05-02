@@ -81,7 +81,7 @@ namespace FairyGUI
 
 		List<Renderer> _renders;
 
-		void OnEnable()
+        void OnEnable()
 		{
 			if (Application.isPlaying)
 			{
