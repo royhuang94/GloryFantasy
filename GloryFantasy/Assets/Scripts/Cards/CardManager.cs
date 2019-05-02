@@ -68,7 +68,7 @@ namespace GameCard
                 this.GetMsgReceiver(),
                 (int)MessageType.DrawCard,
                 canDoExtractAction,
-                ExtractCards,
+                ()=> { ExtractCards(); },
                 "Extract cards Trigger"
             );
             
@@ -89,8 +89,8 @@ namespace GameCard
             cardsSets = new List<GameObject>();
             cooldownCards = new List<GameObject>();
 
-            cardsUpperLimit = 10;
-            extractCardsUpperLimit = 3;
+            cardsUpperLimit = 7;
+            extractCardsUpperLimit = 1;
             
             InitUnitSlots();
             InitCardsData();
@@ -186,21 +186,22 @@ namespace GameCard
         /// <summary>
         /// 从牌组中抽取卡牌到手牌中
         /// </summary>
-        public void ExtractCards()
+        /// <param name="cardAmount">抽取卡牌数量，默认为三</param>
+        public void ExtractCards(int cardAmount = 1)
         {
-            Debug.Log("点击抽卡");
             // 若手牌数量大于或等于手牌上限，直接返回（取消检查的话则此判定永false）
             if (_cardsInHand.Count >= cardsUpperLimit && !cancelCheck)
             {
                 return;
             }
 
+            // 根据参数确定抽取卡牌的数量,若和抽牌上限一致则使用抽牌上限，否则使用给定参数
+            int extractAmount = (cardAmount == this.extractCardsUpperLimit) ? extractCardsUpperLimit : cardAmount;
+
             // 计算应该抽取的卡牌数，计算规则：不检查=抽三张， 检查=不超出手牌数量上限的，最多三张牌
-            int extractAmount = this.cancelCheck
-                    ? this.extractCardsUpperLimit
-                    : (this.cardsUpperLimit - this._cardsInHand.Count > extractCardsUpperLimit
-                        ? extractCardsUpperLimit
-                        : this.cardsUpperLimit - this._cardsInHand.Count);
+            extractAmount = cancelCheck ? extractAmount : 
+                (cardsUpperLimit - _cardsInHand.Count > extractAmount ? 
+                    extractAmount : cardsUpperLimit - _cardsInHand.Count);
             
             // 如果剩余牌量不足，有多少抽多少（几乎不可能）
             if (extractAmount > this.cardsSets.Count)
@@ -222,7 +223,8 @@ namespace GameCard
                 // 更新手牌list
                 this._cardsInHand.Add(cardPrefab);
             }
-            Debug.Log("cardset: " + cardsSets.Count);
+            
+            // 通知牌堆panel发生变化
             UpdateCardsSetsInfo();
         }
 
