@@ -89,16 +89,12 @@ namespace BattleMap
                 {
                     paths = new List<Node>();
                     paths.Add(closeList[endPos]);
-                    Debug.Log("找到路径");
+                    //Debug.Log("找到路径");
                     for (int i = 0; i < closeList.Count; i++)
                     {
                         paths.Add(closeList[paths[i].parentPosition]);
                         if (paths[i + 1].G == 0)
                             break;
-                    }
-                    for (int i = paths.Count - 1; i >= 0; i--)
-                    {
-                        Debug.Log("最优路径" + paths[i].position);
                     }
 
                     //判断移动力与路径长度
@@ -176,13 +172,14 @@ namespace BattleMap
         //一格一格移动
         public IEnumerator moveStepByStep(Unit unit)
         {
-            //测试一哈
+            #region 测试一哈 先固定（0.0）为灼烧块，（0.1）为粘滞块
             List<Vector2> vector2s = new List<Vector2>();
             vector2s.Add(new Vector2(0, 0));
             BattleMap.Instance().debuffBM.SetBattleMapBlockBurning(vector2s);
             List<Vector2> vector22s = new List<Vector2>();
             vector22s.Add(new Vector2(1, 1));
             BattleMap.Instance().debuffBM.SetBattleMapBlockRetrad(vector22s);
+            #endregion
 
             Vector2 tempVector;
             BattleMapBlock battleMap;
@@ -196,24 +193,25 @@ namespace BattleMap
                 tempVector = new Vector2((int)paths[i].position.x, (int)paths[i].position.y);
                 battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);
                 battleMap.AddUnit(unit);
-                //unit.gameObject.transform.SetParent(battleMap.transform);
                 unit.transform.localPosition = Vector3.zero;
+
                 if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
                 {
-                    BattleMap.Instance().debuffBM.UnitEnterBurning((tempVector));
+                    BattleMap.Instance().debuffBM.UnitEnterBurning(tempVector);
                 }
                 else if (battleMap.blockType == EMapBlockType.Retire)//如果经过滞留块
                 {
-                    i = -1;//结束循环，将单位停在该位置；
-                    //TODObug待修护 单位停在了滞留块上而不是鼠标点击位置，导致移动Jude（）的坐标与单位停的坐标不一致，空指针
+                    
+                    BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
+                    unit.nextPos = paths[i].position;
+                    MsgDispatcher.SendMsg((int)MessageType.Aftermove);
+                    break;
                 }
                 unit.nextPos = paths[i].position;
-
-                yield return new WaitForSeconds(0.2f);
-                GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
+                MsgDispatcher.SendMsg((int)MessageType.Aftermove);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
+                yield return new WaitForSeconds(0.2f);
             }
-            MsgDispatcher.SendMsg((int)MessageType.Aftermove);
         }
     }
 }

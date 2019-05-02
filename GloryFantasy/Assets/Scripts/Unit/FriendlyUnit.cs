@@ -12,6 +12,7 @@ namespace GameUnit
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            Debug.Log(this.CurPos);
             Gameplay.Instance().gamePlayInput.OnPointerDown(this, eventData);
         }
     }

@@ -44,18 +44,9 @@ namespace BattleMap
         }
 
         //单位进入滞留块
-        public void UnitEnterRetire(Vector2 vector2)
+        public void UnitEnterRetire(Unit unit,BattleMapBlock battleMapBlock)
         {
-            BattleMapBlock bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
-            Debug.Log(bm);
-            Debug.Log(bm.transform.position);
-            Debug.Log(bm.transform.localPosition);
-            if (BattleMap.Instance().CheckIfHasUnits(vector2))
-            {
-                Unit unit = BattleMap.Instance().GetUnitsOnMapBlock(vector2);
-                unit.gameObject.transform.SetParent(bm.transform);
-                unit.transform.localPosition = Vector3.zero;
-            }
+            unit.mapBlockBelow = battleMapBlock;
         }
     }
 }

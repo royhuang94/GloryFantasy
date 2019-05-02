@@ -90,7 +90,6 @@ namespace GamePlay.Input
         {
             if (IsMoving)
             {
-                
                 GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(TargetList[0]);
                 Vector2 startPos = TargetList[0];
                 Vector2 endPos = mapBlock.position;
@@ -167,7 +166,8 @@ namespace GamePlay.Input
         /// <param name="unit"></param>
         /// <param name="eventData"></param>
         public void OnPointerDown(GameUnit.GameUnit unit, PointerEventData eventData)
-        {    
+        {    Debug.Log(unit);
+            Debug.Log(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
             //鼠标右键取消攻击
             if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
             {
