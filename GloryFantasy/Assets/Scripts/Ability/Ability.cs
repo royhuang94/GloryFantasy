@@ -169,10 +169,10 @@ namespace Ability
         /// <param name="_abilityID"></param>
         public string TriggerID;
 
-        /// <summary>
+        ///// <summary>
         /// 玩家选择的对象
         /// </summary>
-        public List<Vector2> TargetList;
+        //public List<Vector2> TargetList;
         /// <summary>
         /// 异能发动者
         /// </summary>
@@ -181,7 +181,7 @@ namespace Ability
         void Awake()
         {
             AbilityTargetList = new List<AbilityTarget>();
-            TargetList = new List<Vector2>();
+            //TargetList = new List<Vector2>();
         }
 
         /// <summary>
@@ -204,7 +204,6 @@ namespace Ability
             Stream stream = GameUtility.Serializer.InstanceDataToMemory(abilityFormat.AbilityTargetList);
             stream.Position = 0;
             this.AbilityTargetList = (List<AbilityTarget>)GameUtility.Serializer.MemoryToInstanceData(stream);
-            //Debug.Log("Seccess copy AbilityTargetList");
             //用序列化拷贝AbilityVariable
             stream = GameUtility.Serializer.InstanceDataToMemory(abilityFormat.AbilityVariable);
             stream.Position = 0;
