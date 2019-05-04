@@ -20,7 +20,7 @@ namespace Ability
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者
-            trigger = new TInstantIdea(this.GetUnitReceiver(this));
+            trigger = new TInstantIdea(this.GetCardReceiver(this));
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(trigger, "InstantIdea");
         }

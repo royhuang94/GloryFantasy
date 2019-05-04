@@ -344,6 +344,16 @@ namespace GamePlay
         {
             return script.GetComponent<GameUnit.GameUnit>().GetMsgReceiver();
         }
+        /// <summary>
+        /// 传入Monobehaviour脚本，返回该脚本所依附的BaseCard的MsgReceiver
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="script"></param>
+        /// <returns></returns>
+        public static IMessage.MsgReceiver GetCardReceiver(this GameplayTool self, MonoBehaviour script)
+        {
+            return script.GetComponent<BaseCard>().GetMsgReceiver();
+        }
 
     }
 }
