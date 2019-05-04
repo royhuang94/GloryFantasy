@@ -284,6 +284,11 @@ namespace GamePlay
         //{
         //    Info.SelectingUnit = unit;
         //}
+        /// <summary>
+        /// 获取指令牌发动选择的目标List，对象类型需要自行强转GameUnit或者BattleMapBlock
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static List<object> GetSelectingUnits(this GameplayTool self)
         {
 
