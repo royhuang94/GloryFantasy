@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Ability;
+using Ability.Buff;
 using IMessage;
 using GamePlay;
 using GameCard;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace IMessage
 {
@@ -415,8 +415,9 @@ namespace GamePlay
         {
             roundProcessController = new RoundProcessController();
             gamePlayInput = new GameplayInput();
+            bmbColliderManager = new BMBColliderManager();
+            buffManager = new BuffManager();
 
-            bmbColliderManager = new BMBColliderManager(); 
             _phaseNameText = GameObject.Find("phaseNameText").GetComponentInChildren<Text>();
             _phaseNameText.color = Color.red;
             _phaseNameText.text = roundProcessController.State.ToString();
@@ -426,6 +427,7 @@ namespace GamePlay
         public RoundProcessController roundProcessController;
         public GameplayInput gamePlayInput;
         public BMBColliderManager bmbColliderManager;
+        public BuffManager buffManager;
 
         private Text _phaseNameText;
         
