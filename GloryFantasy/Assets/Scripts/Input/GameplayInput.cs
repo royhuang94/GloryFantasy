@@ -66,20 +66,20 @@ namespace GamePlay.Input
         public bool IsCasting
         {
             get;
-            private set;
+            set;
         }
         /// <summary>
         /// 正在释放的行动牌的异能的引用
         /// </summary>
-        private Ability.Ability CastingCard;
+        public Ability.Ability CastingCard;
         /// <summary>
         /// 用来存储释放异能的选择目标
         /// </summary>
-        private List<Vector2> SelectingList = new List<Vector2>();
+        public List<object> SelectingList = new List<object>();
         /// <summary>
         /// 保存当前实例化到地图上的单位异能id
         /// </summary>
-        public List<string> abilitiesID { get; set; }
+        //public List<string> abilitiesID { get; set; }
 
         /// <summary>
         /// 处理地图方块的鼠标点击
@@ -113,28 +113,37 @@ namespace GamePlay.Input
                 //如果不是自己的战区，则无操作
                 if (!BattleMap.BattleMap.Instance().WarZoneBelong(mapBlock.GetSelfPosition())) return;
                 //做个判断，如果选中的手牌不是单位卡则返回不操作
-                //if (selectedSlot.GetBaseCard().) //BaseCard的成员都没写好……什么鬼
+                if (selectedSlot.GetBaseCard().type != "Unit") return;
                 //在对应MapBlock生成单位
                 UnitManager.InstantiationUnit(selectedSlot.GetBaseCard().id , OwnerEnum.Player, mapBlock);
                 //把这张手牌从手牌里删掉
-                //删掉对应手牌槽的引用
                 selectedSlot.RemoveItem();
+                //删掉对应手牌槽的引用
                 selectedSlot = null;
                 //关闭鼠标所在战区的高光显示
                 BattleMap.BattleMap.Instance().IsColor = false;
                 BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
 
-                //创建部署指令
+                //创建部署指令并执行
                 BattleDispositionCommand unitAtk = new BattleDispositionCommand(mapBlock.units_on_me);
                 unitAtk.Excute();
             }
             //如果正在释放指令牌，就视为正在选择目标
             else if (IsCasting)
             {
-                
+                if (this.CastingCard.AbilityTargetList[SelectingList.Count].TargetType == Ability.TargetType.Field  ||
+                    this.CastingCard.AbilityTargetList[SelectingList.Count].TargetType == Ability.TargetType.All)
+                {
+                    SelectingList.Add(mapBlock);
+                }
+                //如果已经选够了目标就发动卡片
+                //这里应该让Card那边写个发动卡片的函数，写在Input里不科学
+                if (SelectingList.Count == this.CastingCard.AbilityTargetList.Count)
+                {
+                    Gameplay.Info.CastingCard = this.CastingCard.GetComponent<OrderCard>();
+                    IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
+                }
             }
-
-            BattleMap.BattleMap.Instance().curMapPos = mapBlock.GetSelfPosition();
         }
         /// <summary>
         /// 处理地图方块的鼠标进入
@@ -221,6 +230,23 @@ namespace GamePlay.Input
                 else
                 {
                     //点到其他单位什么都不做
+                }
+            }
+            else if (IsCasting)
+            {
+                if ((this.CastingCard.AbilityTargetList[SelectingList.Count].TargetType == Ability.TargetType.Enemy && unit.owner == OwnerEnum.Enemy) ||
+                    (this.CastingCard.AbilityTargetList[SelectingList.Count].TargetType == Ability.TargetType.Friendly && unit.owner == OwnerEnum.Player) ||
+                    (this.CastingCard.AbilityTargetList[SelectingList.Count].TargetType == Ability.TargetType.Field) ||
+                    (this.CastingCard.AbilityTargetList[SelectingList.Count].TargetType == Ability.TargetType.All))
+                {
+                    SelectingList.Add(unit);
+                }
+                //如果已经选够了目标就发动卡片
+                //这里应该让Card那边写个发动卡片的函数，写在Input里不科学
+                if (SelectingList.Count == this.CastingCard.AbilityTargetList.Count)
+                {
+                    Gameplay.Info.CastingCard = this.CastingCard.GetComponent<OrderCard>();
+                    IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
                 }
             }
             //如果单位可以移动
