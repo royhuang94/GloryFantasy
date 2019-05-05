@@ -14,6 +14,8 @@ namespace BattleMap
     {
         private List<int> areas;//地图块所属战区区域id
         private Dictionary<int, List<Vector2>> battleAreaDic;//战区id与战区相对应的字典
+        public  Dictionary<int, List<Vector2>> BattleAreaDic{ get{return battleAreaDic;}}
+        public Dictionary<int, string> battleAreaBelong;//战区归属,
 
         public BattleArea()
         {
@@ -110,18 +112,12 @@ namespace BattleMap
                             Debug.Log("This WarZone has Enemy,you can`t summon");
                             return false;
                         }
-                        else
-                        {
-                            //TODO  处理玩家控制该战区
-                        }
                     }
                 }
-                else
-                {
-                    //TODO 处理该战区无控制者
-                }
             }
-            return true;
+            return true;   
         }
+
+        public void GetInBattleZooe
     }
 }
