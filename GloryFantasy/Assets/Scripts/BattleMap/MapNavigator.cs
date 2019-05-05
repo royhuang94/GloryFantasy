@@ -55,6 +55,21 @@ namespace BattleMap
         public Dictionary<Vector2, Node> closeList;
         List<Node> paths; //最优路径
 
+        List<Vector2> vectorPaths = new List<Vector2>();
+        public List<Vector2> Paths
+        {
+            get
+            {
+                if(paths != null)
+                {
+                    foreach (Node path in paths)
+                    {
+                        vectorPaths.Add(path.position);
+                    }
+                }
+            }
+        }
+
         //寻路入口
         public bool PathSearch(Vector2 startPos, Vector2 endPos)
         {

@@ -231,5 +231,19 @@ namespace GameUnit
 
             return true;
         }
+
+        /// <summary>
+        /// 判断单位id
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public override bool Equals(object other)
+        {
+            if(other != null && other is GameUnit)
+            {
+                return ((GameUnit)other).id == this.id;
+            }
+            return false;
+        }
     }
 }
