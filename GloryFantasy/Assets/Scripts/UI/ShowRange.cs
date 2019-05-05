@@ -54,7 +54,7 @@ namespace GameGUI
         }
 
         //移动范围不显示有单位的地图块
-        //TODO 不显示无法到达的地图块
+        //不显示无法到达的地图块
         public void RemoveMapBlokHasUnit(List<Vector2> reslist)
         {
             for (int i = 0; i < reslist.Count; i++)

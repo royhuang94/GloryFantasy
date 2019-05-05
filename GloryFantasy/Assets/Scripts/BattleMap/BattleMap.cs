@@ -388,7 +388,11 @@ namespace BattleMap
             }
         }
 
-        //判断该战区能不能召唤（所属权）
+        /// <summary>
+        /// 战区所属权，传入一个坐标，判断该坐标所在的战区的所属权
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public bool WarZoneBelong(Vector3 position)
         {
             return battleArea.WarZoneBelong(position, _mapBlocks);
