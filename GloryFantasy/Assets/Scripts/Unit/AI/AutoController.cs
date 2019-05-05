@@ -8,19 +8,16 @@ namespace AI
 {
     public class AutoController
     {
-        //TODO 需要写啥基类吗？
-        //a. 比如，远程/魔法 ai 与近战 ai 不同？ 相同的类处理
-        //b. 他们攻击方式，移动方式不同？
-        //TODO 在这个函数进行监听消息？
-        //TODO 在这个函数进行AutoAction -> AutoSelect -> AutoATK ?
-
         //目标单位
         private Unit targetBattleUnit;
         //仇恨列表记录器
         public HatredRecorder hatredRecorder = new HatredRecorder();
         //移动到目标的路径
         private List<Vector2> toTargetPath = new List<Vector2>();
-        //路径长度
+
+        /// <summary>
+        /// 路径长度
+        /// </summary>
         private int PathCount
         {
             get
@@ -28,15 +25,21 @@ namespace AI
                 return toTargetPath.Count;
             }
         }
-        //起点
+
+        /// <summary>
+        /// 起点
+        /// </summary>
         private Vector2 StartPos
         {
             get
             {
                 return toTargetPath[PathCount - 1];
             }
-        }       
-        //终点
+        }
+
+        /// <summary>
+        /// 终点
+        /// </summary>
         private Vector2 EndPos
         {
             get
@@ -44,8 +47,11 @@ namespace AI
                 return toTargetPath[0];
             }
         }
-        //技能相关
-        //获取技能的停止移动距离
+
+        /// <summary>
+        ///技能相关
+        ///获取技能的停止移动距离
+        /// </summary>
         private int SkillStopDistance
         {
             get
