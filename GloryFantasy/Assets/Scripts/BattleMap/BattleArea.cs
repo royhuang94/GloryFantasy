@@ -118,6 +118,6 @@ namespace BattleMap
             return true;   
         }
 
-        public void GetInBattleZooe
+        //public void GetInBattleZooe
     }
 }
