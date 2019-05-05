@@ -7,9 +7,19 @@ using System.Collections.Generic;
 //2019.4.25版
 namespace MainMap
 { 
-
+    /// <summary>角色的运动状态
+    /// 
+    /// </summary>
+public enum MoveState
+    {
+        Start,//准备移动阶段
+        Moving,//移动中
+        Stop,//移动结束
+        MotionLess,//静止
+    }
 public class Charactor : MonoBehaviour
 {
+    
     public Vector3 locate;
     /// <summary>开放给策划用于在Unity的Inspector里直接调整数值，代码内需要修改角色信息请修改CharacorData.
     /// 
@@ -17,24 +27,26 @@ public class Charactor : MonoBehaviour
     public int HP;//人物血量
     public int Step;//当前剩余步数，貌似不需要在外部修改，写在外面只是为了看见它。
     public int MaxStep;//最大步数
+    public int MoveSpeed;//开放给策划用于调整人物角色移动速度
     /// <summary>储存角色信息的数据结构，考虑到未来可能有需求需要返回全部的数值，就写了这么个玩意。
     /// 
     /// </summary>
     public struct CharactorData
     {
-        public int HP;
-        public int MaxStep;
-        public int Step;
-        public object[,] Bag;
-        public HexVector PlayerLocate;
-        public GameObject UnderFeet;
+        public int hp;
+        public int maxstep;
+        public int step;
+        public object[,] bag;//背包
+        public HexVector playerlocate;
+        public GameObject underfeet;
+        public MoveState charactorstate;
     }
     /// <summary>储存角色周围地格信息的数据结构
         ///
         /// </summary>
-    public Dictionary<string, MapUnit> AroundList = new Dictionary<string, MapUnit>();
-    public MainMapManager mapManager;
-    public CharactorData charactorData;
+    public Dictionary<string, MapUnit> aroundlist = new Dictionary<string, MapUnit>();
+    public MainMapManager mapmanager;
+    public CharactorData charactordata;
     /// <summary>设定角色初始位置
     /// 
     /// </summary>
@@ -44,19 +56,20 @@ public class Charactor : MonoBehaviour
     {
 
         Debug.Log("初始化角色位置");
-        charactorData.PlayerLocate.ChangeToHexVect(locate);
-        return charactorData.PlayerLocate.Normal_vector;
+        charactordata.playerlocate.ChangeToNormalVect(locate);
+        return charactordata.playerlocate.Normal_vector;
     }
     /// <summary>初始化角色信息
     /// 
     /// </summary>
-    public void Initalize()
+    public void CharactorInitalize()
     {
-        this.SetCharactorLocate(locate);
+        GetComponent<Transform>().position = SetCharactorLocate(locate);
         this.SetMessage(HP, MaxStep);
-        GetComponent<Transform>().position = locate;
-        charactorData.UnderFeet = GameObject.Find("test" + charactorData.PlayerLocate.ChangeToHexVect(charactorData.PlayerLocate.Normal_vector).x.ToString() + charactorData.PlayerLocate.ChangeToHexVect(charactorData.PlayerLocate.Normal_vector).z.ToString());
-        setaround(charactorData.UnderFeet);
+        this.charactordata.charactorstate = MoveState.MotionLess;
+        //GetComponent<Transform>().position = locate;
+        charactordata.underfeet = GameObject.Find("test" + charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).x.ToString() + charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).z.ToString());
+        setaround(charactordata.underfeet);
         Debug.Log("角色初始化完成");
 
     }
@@ -69,12 +82,12 @@ public class Charactor : MonoBehaviour
     public CharactorData SetMessage(int hp, int maxstep)
     {
         Debug.Log("初始化角色最大步数和血量");
-        charactorData.HP = hp;
-        charactorData.MaxStep = maxstep;
-        charactorData.Step = charactorData.MaxStep;
-        Step = charactorData.Step;
+        charactordata.hp = hp;
+        charactordata.maxstep = maxstep;
+        charactordata.step = charactordata.maxstep;
+        Step = charactordata.step;
        // Debug.Log("Initialize complete HP:" + charactorData.HP + " Maxstep:" + charactorData.Step);
-        return charactorData;
+        return charactordata;
     }
 
     /// <summary>如果移动合法，调用这个函数改变角色坐标。
@@ -86,16 +99,16 @@ public class Charactor : MonoBehaviour
     {   
         if(ChangeStep(step))
             {
-                charactorData.PlayerLocate.ChangeToHexVect(newtransform);
-                setaround(GameObject.Find("test" + charactorData.PlayerLocate.Hex_vector.x.ToString() + charactorData.PlayerLocate.Hex_vector.z.ToString()));
-                this.GetComponent<Transform>().position = charactorData.PlayerLocate.Normal_vector;
-                charactorData.UnderFeet = GameObject.Find("test" + charactorData.PlayerLocate.Hex_vector.x.ToString() + charactorData.PlayerLocate.Hex_vector.z.ToString());
-                Debug.Log("角色移动至：" + charactorData.PlayerLocate.Hex_vector.x.ToString() + "," + charactorData.PlayerLocate.Hex_vector.z.ToString());
+ 
+                charactordata.charactorstate = MoveState.Start;         
+                // this.GetComponent<Transform>().position = charactordata.playerlocate.Normal_vector;
+                StartCoroutine(MoveAction(newtransform, MoveSpeed));
+
             }
         else
             {
                 HasDead();
-                Debug.Log("角色移动至：" + charactorData.PlayerLocate.Hex_vector.x.ToString() + "," + charactorData.PlayerLocate.Hex_vector.z.ToString());
+                Debug.Log("角色因死亡返回至：" + charactordata.playerlocate.Hex_vector.x.ToString() + "," + charactordata.playerlocate.Hex_vector.z.ToString());
 
             }
 
@@ -109,13 +122,13 @@ public class Charactor : MonoBehaviour
         /// <returns></returns>
     public Dictionary<string, MapUnit> setaround(GameObject onclk)
         {
-            AroundList["0,1"] = SetAround(onclk, 0, 1);
-            AroundList["0,-1"] = SetAround(onclk, 0, -1);
-            AroundList["1,0"] = SetAround(onclk, 1, 0);
-            AroundList["-1,0"] = SetAround(onclk, -1, 0);
-            AroundList["-1,1"] = SetAround(onclk, -1, 1);
-            AroundList["1,-1"] = SetAround(onclk, 1, -1);
-            return AroundList;
+            aroundlist["0,1"] = SetAround(onclk, 0, 1);
+            aroundlist["0,-1"] = SetAround(onclk, 0, -1);
+            aroundlist["1,0"] = SetAround(onclk, 1, 0);
+            aroundlist["-1,0"] = SetAround(onclk, -1, 0);
+            aroundlist["-1,1"] = SetAround(onclk, -1, 1);
+            aroundlist["1,-1"] = SetAround(onclk, 1, -1);
+            return aroundlist;
         }
     /// <summary>重设地形格字典值的具体逻辑
         /// 
@@ -148,12 +161,12 @@ public class Charactor : MonoBehaviour
     public bool ChangeStep(int value)
     {
             Debug.Log("角色减少步数" + value);
-        if (charactorData.Step + value <= charactorData.MaxStep)
+        if (charactordata.step + value <= charactordata.maxstep)
         {
 
-            charactorData.Step = charactorData.Step + value;
-            Step = charactorData.Step;
-            if (charactorData.Step < 0)
+            charactordata.step = charactordata.step + value;
+            Step = charactordata.step;
+            if (charactordata.step < 0)
             {
                     return false;
                     // HasDead();
@@ -162,8 +175,8 @@ public class Charactor : MonoBehaviour
         else
         {
             Debug.Log("超出最大步数");
-            charactorData.Step = charactorData.MaxStep;
-            Step = charactorData.Step;
+            charactordata.step = charactordata.maxstep;
+            Step = charactordata.step;
 
         }
 
@@ -176,14 +189,45 @@ public class Charactor : MonoBehaviour
     {
 
         Debug.Log("步数为负，角色累死了，返回起点");
-        Initalize();
+        CharactorInitalize();
 
     }
-    // Use this for initialization
     void Awake()
     {
 
-        mapManager = GameObject.Find("Map").GetComponent<MainMapManager>();
+        mapmanager = GameObject.Find("Map").GetComponent<MainMapManager>();
     }
-}
+ /// <summary>实现移动的携程
+ /// 
+ /// </summary>
+ /// <param name="target"></param>
+ /// <param name="movespeed"></param>
+ /// <returns></returns>
+IEnumerator MoveAction(Vector3 target,float movespeed)
+        {
+            if(charactordata.charactorstate==MoveState.Start)
+            {
+                charactordata.charactorstate = MoveState.Moving;
+                Debug.Log("移动开始");
+                while (GetComponent<Transform>().position != target)
+                {
+                    Debug.Log("移动中");
+                    this.GetComponent<Transform>().position = Vector3.MoveTowards(GetComponent<Transform>().position, target, movespeed * Time.deltaTime);
+                 yield return 0;
+                }
+                charactordata.charactorstate = MoveState.Stop;
+                Debug.Log("移动结束");
+                charactordata.playerlocate.ChangeToHexVect(target);
+                setaround(GameObject.Find("test" + charactordata.playerlocate.Hex_vector.x.ToString() + charactordata.playerlocate.Hex_vector.z.ToString()));
+                charactordata.underfeet = GameObject.Find("test" + charactordata.playerlocate.Hex_vector.x.ToString() + charactordata.playerlocate.Hex_vector.z.ToString());
+                Debug.Log("角色移动至：" + charactordata.playerlocate.Hex_vector.x.ToString() + "," + charactordata.playerlocate.Hex_vector.z.ToString());
+                charactordata.charactorstate = MoveState.MotionLess;
+                charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();
+
+
+            }
+            
+        }
+
+    }
 }

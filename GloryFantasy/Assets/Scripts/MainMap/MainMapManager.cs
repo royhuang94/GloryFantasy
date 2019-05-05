@@ -56,7 +56,7 @@ public struct HexVector
 /// </summary>
 public class MainMapManager : MonoBehaviour
 {
-    public MainMapUI mainMapUI;
+    public MainMapUI mainmapUI;
     public TextAsset textAsset;
     /// <summary>地格材质，测试用，运行的时候找一个Unity默认的材质加上去就行。
     /// 
@@ -72,8 +72,8 @@ public class MainMapManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-            ReadMap();
-        mainMapUI = GameObject.Find("TestUI").GetComponent<MainMapUI>();//我写这个是干啥来着？？？不知道，反正ui还没接，不管了。2019.3.30
+        ReadMap();
+        mainmapUI = GameObject.Find("TestUI").GetComponent<MainMapUI>();//我写这个是干啥来着？？？不知道，反正ui还没接，不管了。2019.3.30
      
     }
         /// <summary>通过读取文件里的字符串转换成对应的地格生成地图
@@ -137,13 +137,13 @@ public class MainMapManager : MonoBehaviour
     private void Start()
     {
             charactor = GameObject.Find("Charactor").GetComponent<Charactor>();
-            charactor.AroundList.Add("0,1", null);
-            charactor.AroundList.Add("0,-1", null);
-            charactor.AroundList.Add("1,0", null);
-            charactor.AroundList.Add("-1,0", null);
-            charactor.AroundList.Add("-1,1", null);
-            charactor.AroundList.Add("1,-1", null);
-            charactor.Initalize();
+            charactor.aroundlist.Add("0,1", null);
+            charactor.aroundlist.Add("0,-1", null);
+            charactor.aroundlist.Add("1,0", null);
+            charactor.aroundlist.Add("-1,0", null);
+            charactor.aroundlist.Add("-1,1", null);
+            charactor.aroundlist.Add("1,-1", null);
+            charactor.CharactorInitalize();
     }
 
 }
@@ -158,7 +158,7 @@ public abstract class MapUnit:MonoBehaviour
     /// <summary>初始化地格，获得所在实例的按钮组件并监听事件
     /// 
     /// </summary>
-    public virtual void instalize()
+    public virtual void MapUnitInstalize()
     {
         mapManager = gameObject.GetComponentInParent<MainMapManager>();
         btn = gameObject.GetComponent<Button>();
@@ -173,9 +173,24 @@ public abstract class MapUnit:MonoBehaviour
     /// </summary>
     public virtual void ChangePosition(int step)
     {
-        mapManager.charactor.Move(GetComponent<Transform>().position, -step);
-       
+            if(mapManager.charactor.charactordata.charactorstate == MoveState.MotionLess)
+            {
+
+                mapManager.charactor.Move(GetComponent<Transform>().position, -step);
+            }
+            else
+            {
+                Debug.Log("角色非静止");
+            }
+
           }
+        /// <summary>移动结束人物静止后会调用这个函数，比如显示驿站ui,
+        /// 
+        /// </summary>
+    public virtual void ChangePositionOver()
+        {
+            Debug.Log("移动结束");
+        }
 }
 /// <summary>普通的地格，没什么特别的
 /// 
@@ -188,7 +203,7 @@ public class Plane : MapUnit
     public void Awake()
     {
         //普通地格默认监听CheckAround,特殊地格会重新监听各自的新事件
-        instalize();
+        MapUnitInstalize();
         Debug.Log("普通地面初始化.");
 
     }
@@ -198,10 +213,9 @@ public class Plane : MapUnit
     /// </summary>
     public override void OnClick()
     {
-        if (mapManager.charactor.AroundList.ContainsValue(this))
+        if (mapManager.charactor.aroundlist.ContainsValue(this))
         {
-            //this.DoOnclick();
-            ChangePosition(1);
+                ChangePosition(1);
         }
         else
         {
@@ -226,35 +240,16 @@ public class Post : MapUnit
     public void Awake()
     {
         Debug.Log("驿站初始化");
-        instalize();
+        MapUnitInstalize();
     }
     /// <summary>点击驿站格子后触发的事件
     /// 
     /// </summary>
     public override void OnClick()
     {
-        if (mapManager.charactor.AroundList.ContainsValue(this) && ReadyToTrans == false)
+        if (mapManager.charactor.aroundlist.ContainsValue(this) && ReadyToTrans == false)
         {
-            ChangePosition(1);
-            isActive = true;
-            Debug.Log("驿站已激活");
-            Debug.Log("进入驿站");
-            //TODO 显示驿站ui
-            mapManager.mainMapUI.ShowPostUI(this);
-            //如果放弃传送移动到驿站相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
-            foreach (MapUnit unit in mapManager.charactor.AroundList.Values)
-            {
-
-                if (unit != null)
-                {
-                    unit.gameObject.GetComponent<Button>().onClick.AddListener(CancelTrans);
-                   
-                }
-                else
-                {
-                    
-                }
-            }
+            ChangePosition(1);                    
         }
         else if (ReadyToTrans == true)
         {
@@ -276,7 +271,29 @@ public class Post : MapUnit
             Debug.Log("你不在这个驿站");
         }
     }
-    public static void PrepareTrans()
+    public override void ChangePositionOver()
+        {
+            isActive = true;
+            Debug.Log("驿站已激活");
+            Debug.Log("进入驿站");
+            //TODO 显示驿站ui
+            mapManager.mainmapUI.ShowPostUI(this);
+            //如果放弃传送移动到驿站相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
+            foreach (MapUnit unit in mapManager.charactor.aroundlist.Values)
+            {
+
+                if (unit != null)
+                {
+                    unit.gameObject.GetComponent<Button>().onClick.AddListener(CancelTrans);
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+        public static void PrepareTrans()
         {
             ReadyToTrans = true;
             Debug.Log("准备传送");
@@ -305,12 +322,12 @@ public class Key : MapUnit
     public void Awake()
     {
         Debug.Log("清障道具初始化");
-        instalize();
+        MapUnitInstalize();
     }
     public override void OnClick()
     {
         
-        if (mapManager.charactor.AroundList.ContainsValue(this))
+        if (mapManager.charactor.aroundlist.ContainsValue(this))
         {
             ChangePosition(1);
             Debug.Log("获取合法");
@@ -334,7 +351,7 @@ public class Barrier : MapUnit
     }
     public override void OnClick()
     {
-            
+        //Todo:检测角色背包里是否有相匹配的钥匙，因为我还没写背包，所以就先晾在这了。    
     }
 }
 }

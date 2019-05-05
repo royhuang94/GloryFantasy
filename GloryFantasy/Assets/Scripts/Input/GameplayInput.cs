@@ -111,7 +111,7 @@ namespace GamePlay.Input
             else if (IsSelectingSlot)
             {
                 //如果不是自己的战区，则无操作
-                if (!BattleMap.BattleMap.Instance().WarZoneBelong(mapBlock.GetSelfPosition())) return;
+                //if (!BattleMap.BattleMap.Instance().WarZoneBelong(mapBlock.GetSelfPosition())) return;
                 //做个判断，如果选中的手牌不是单位卡则返回不操作
                 if (selectedSlot.GetBaseCard().type != "Unit") return;
                 //在对应MapBlock生成单位

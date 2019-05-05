@@ -14,6 +14,8 @@ namespace BattleMap
     {
         private List<int> areas;//地图块所属战区区域id
         private Dictionary<int, List<Vector2>> battleAreaDic;//战区id与战区相对应的字典
+        public  Dictionary<int, List<Vector2>> BattleAreaDic{ get{return battleAreaDic;}}
+        public Dictionary<int, string> battleAreaBelong;//战区归属,
 
         public BattleArea()
         {
@@ -89,9 +91,11 @@ namespace BattleMap
             }
         }
 
-        //判断该战区能不能召唤（所属权）
+        //战区所属权
         public bool WarZoneBelong(Vector3 position, BattleMapBlock[,] mapBlock)
         {
+            int unitAmout = 0;//战区上单位的数量
+            int enemyAmout = 0;//战区上敌方单位数量
             int area = mapBlock[(int)position.x, (int)position.y].area;
             List<Vector2> battleAreas = null;
             battleAreaDic.TryGetValue(area, out battleAreas);
@@ -99,29 +103,35 @@ namespace BattleMap
             {
                 int x = (int)pos.x;
                 int y = (int)pos.y;
-                if (mapBlock[x, y].transform.childCount != 0)
+                if (BattleMap.Instance().CheckIfHasUnits(pos))
                 {
+                    unitAmout++;
                     GameUnit.GameUnit unit = mapBlock[x, y].GetComponentInChildren<GameUnit.GameUnit>();
-                    if (unit != null)
-                    {
-                        if (unit.owner == GameUnit.OwnerEnum.Enemy)
-                        {
-                            //TODO 处理争夺状态下该干什么
-                            Debug.Log("This WarZone has Enemy,you can`t summon");
-                            return false;
-                        }
-                        else
-                        {
-                            //TODO  处理玩家控制该战区
-                        }
-                    }
-                }
-                else
-                {
-                    //TODO 处理该战区无控制者
+                    if (unit.owner == GameUnit.OwnerEnum.Enemy)
+                        enemyAmout++;   
                 }
             }
-            return true;
+            if(unitAmout == 0)
+            {
+                //该战区没有所属权
+                return true;
+            }
+            else if(enemyAmout == unitAmout)
+            {
+                //该战区被敌方控制
+                return false;
+            }
+            else if(enemyAmout < unitAmout && enemyAmout != 0)
+            {
+                //该战区处于争夺状态
+                return false;
+            }
+            else
+            {
+                //该战区被玩家控制
+                return true;
+            }
         }
+
     }
 }
