@@ -20,7 +20,7 @@ namespace Ability
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者
-            trigger = new TInstantIdea(this.GetUnitReceiver(this));
+            trigger = new TInstantIdea(this.GetCardReceiver(this));
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(trigger, "InstantIdea");
         }
@@ -50,8 +50,8 @@ namespace Ability
 
         private void Action()
         {
-            //获取被选中的友军
-            GameUnit.GameUnit unit = this.GetSelectingUnit();
+            //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
+            GameUnit.GameUnit unit = (GameUnit.GameUnit) this.GetSelectingUnits()[0];
             //复制被选中友军的一次性战技入手牌
         }
     }

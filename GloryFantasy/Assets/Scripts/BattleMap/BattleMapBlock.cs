@@ -30,7 +30,6 @@ namespace BattleMap
 
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        private MapNavigator mapNavigator;
         private void Awake()
         {
             setMapBlackPosition();
@@ -73,16 +72,15 @@ namespace BattleMap
             units_on_me.Remove(unit);
         }
         /// <summary>
-        /// 获得这个方块的虚拟坐标
+        /// 获得这个地图块的虚拟坐标(从地图Json读取出来的坐标)
         /// </summary>
         /// <returns></returns>
         public Vector3 GetCoordinate()
         {
-            //对于新添加的单位以及移动后的单位，需要对其进行更新
             return new Vector3(this.x, this.y, 0f);
         }
         /// <summary>
-        /// 获取该地图块自身的世界系坐标
+        /// 获取该地图块自身的世界坐标
         /// </summary>
         /// <returns></returns>
         public Vector3 GetSelfPosition()
@@ -90,7 +88,7 @@ namespace BattleMap
             return coordinate;
         }
         /// <summary>
-        /// update地图块的世界系坐标
+        /// update地图块的世界坐标
         /// </summary>
         private void setMapBlackPosition()
         {
@@ -116,17 +114,14 @@ namespace BattleMap
 
 
 
-        private Vector3 coordinate;
-
+        private Vector3 coordinate;//该地图块的世界坐标
         public int area { get; set; }
         public int x { get; set; }
         public int y { get; set; }
-        public string[] data { get; set; }
         public string type { get; set; }
-        public int tokenCount;
         public List<Unit> units_on_me = new List<Unit>();
         public EMapBlockType blockType { get; set; }
-        public Vector2 position
+        public Vector2 position//该地图块的虚拟坐标(从地图Json读取出来的坐标)
         {
             get { return new Vector2(x, y); } 
         }
