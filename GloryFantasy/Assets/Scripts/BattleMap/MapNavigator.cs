@@ -66,7 +66,9 @@ namespace BattleMap
                     {
                         vectorPaths.Add(path.position);
                     }
+                    return vectorPaths;
                 }
+                return null;
             }
         }
 
