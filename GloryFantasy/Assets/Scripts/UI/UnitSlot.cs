@@ -193,7 +193,7 @@ namespace GameGUI
                 return;
 
             // 如果不是玩家回合，则无法使用卡牌
-            if (!Gameplay.Instance().roundProcessController.isPlayerRound())
+            if (!Gameplay.Instance().roundProcessController.IsPlayerRound())
                 return;
             
             //Debug.Log("鼠标左键");

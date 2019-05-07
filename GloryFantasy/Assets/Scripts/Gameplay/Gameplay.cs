@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,8 @@ using Ability.Buff;
 using IMessage;
 using GamePlay;
 using GameCard;
+using GamePlay.Input;
+using GamePlay.Round;
 
 namespace IMessage
 {
@@ -78,8 +81,7 @@ namespace IMessage
 
 namespace GamePlay
 {
-    using GamePlay.Input;
-    using Round;
+    
 
     public class Gameplay : UnitySingleton<Gameplay>
     {
@@ -110,6 +112,11 @@ namespace GamePlay
         public void switchPhaseHandler()
         {
             roundProcessController.StepIntoNextState();
+            
+        }
+
+        private void LateUpdate()
+        {
             _phaseNameText.text = roundProcessController.State.ToString();
         }
     }

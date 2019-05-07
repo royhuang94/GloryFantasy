@@ -199,7 +199,7 @@ namespace BattleMap
                 case ("Enemy"):
                     owner = OwnerEnum.Enemy; break;
                 case ("Friendly"):
-                    owner = OwnerEnum.neutrality; break;
+                    owner = OwnerEnum.Neutrality; break;
                 case ("Self"):
                     owner = OwnerEnum.Player; break;
                 default:
@@ -402,6 +402,21 @@ namespace BattleMap
         public void ShowBattleZooe(Vector3 position)
         {
             battleArea.ShowBattleZooe(position, _mapBlocks);
+        }
+
+        /// <summary>
+        /// 用于确定给定坐标地图块所属的接口
+        /// </summary>
+        /// <param name="position">合法的坐标</param>
+        /// <returns>若地图块拥有单位，则返回对应的单位所属，若无，则返回中立</returns>
+        public GameUnit.OwnerEnum GetMapblockBelong(Vector3 position)
+        {
+            if (CheckIfHasUnits(position))
+            {
+                return _mapBlocks[(int) position.x, (int) position.y].GetComponentInChildren<GameUnit.GameUnit>().owner;
+            }
+
+            return OwnerEnum.Neutrality;
         }
 
         //隐藏战区

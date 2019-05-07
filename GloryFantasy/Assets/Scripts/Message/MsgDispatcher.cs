@@ -21,6 +21,9 @@ namespace IMessage
         Discard,//弃牌阶段
         AI,     //敌人行动阶段
         
+        WIN,    // 胜利消息
+        LOSE,    // 失败消息
+        
         AddInHand, //加入手牌
         AnnounceAttack, //攻击宣言
         ActiveAbility, //异能发动
@@ -170,7 +173,7 @@ namespace IMessage
             for (int index = handlerCount - 1; index >= 0; index --)
             {
                 var handler = handlers[index];
-                if (handler.receiver != null || handler.receiver.Equals(null))
+                if (handler.receiver != null )//|| handler.receiver.Equals(null))
                 //if ((MonoBehaviour)handler.receiver != null)
                 {
 
