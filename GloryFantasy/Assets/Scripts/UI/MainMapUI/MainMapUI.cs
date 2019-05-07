@@ -61,9 +61,6 @@ namespace GameGUI
           //  JsonData Card2 = CardManager.Instance().GetCardJsonData(cardsJsonData[num2]["id"].ToString());
           //  JsonData Card3 = CardManager.Instance().GetCardJsonData(cardsJsonData[num3]["id"].ToString());
             ShowCard(cardsJsonData[num1]["id"].ToString(), cardsJsonData[num2]["id"].ToString(), cardsJsonData[num3]["id"].ToString());
-
-
-
         }
         /// <summary>点击传送时，调用此方法
         /// 
@@ -92,6 +89,9 @@ namespace GameGUI
 
 
         }
+        /// <summary>展示卡牌收藏
+        /// 
+        /// </summary>
         public void ShowCardCollect()
         {
             Debug.Log("展示卡牌收藏");
@@ -102,6 +102,9 @@ namespace GameGUI
             closebtn.onClick.Add(() => CloseCardCollect());
 
         }
+        /// <summary>关闭卡牌收藏
+        /// 
+        /// </summary>
         public void CloseCardCollect()
         {
             cardcollect_UI.SetActive(false);

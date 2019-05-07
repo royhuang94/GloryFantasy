@@ -143,11 +143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e20cbb958efd341bf97993711eb903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locate: {x: 0, y: 0, z: 0}
+  locate: {x: 1, y: 0, z: 0}
   HP: 100
   Step: 0
   MaxStep: 10
-  mapManager: {fileID: 0}
+  MoveSpeed: 1
+  mapmanager: {fileID: 0}
 --- !u!65 &103618436
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -814,7 +815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fcaf7ab6f610b24091f0209364d0061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMapUI: {fileID: 0}
+  mainmapUI: {fileID: 0}
   textAsset: {fileID: 4900000, guid: eef84f21a7096804e8157760dad8245d, type: 3}
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   charactor: {fileID: 0}
