@@ -389,13 +389,25 @@ namespace BattleMap
         }
 
         /// <summary>
-        /// 战区所属权，传入一个坐标，判断该坐标所在的战区的所属权
+        /// 战区所属权，传入一个坐标，判断该坐标所在的战区的所属权(胜利条件之一)
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
         public bool WarZoneBelong(Vector3 position)
         {
             return battleArea.WarZoneBelong(position, _mapBlocks);
+        }
+
+        //战区胜利条件之一：守卫战区指定回合数
+        public bool ProtectBattleZooe(int area, int curRounds, int targetRounds)
+        {
+            return battleArea.ProtectBattleZooe(area,curRounds,targetRounds);
+        }
+
+        //战区胜利条件之一：将某单位护送到指定战区/某敌人进入指定战区
+        public int ProjectUnit(int area, Unit player = null, Unit enemy = null)
+        {
+            return battleArea.ProjectUnit(area,player,enemy);
         }
 
         //显示战区
