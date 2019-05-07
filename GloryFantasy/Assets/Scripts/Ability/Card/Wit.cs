@@ -21,18 +21,11 @@ namespace Ability
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者
-            trigger = new TWit(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+            trigger = new TWit(this.GetCardReceiver(this));
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(trigger, "Wit");
         }
 
-        //这个技能被删除时要做反向操作
-        //准确来说，应该是trigger启动即召唤之后删除技能才需要反向操作
-        //不过因为怪被summon之后才能被玩家看见，所以技能被删除时直接反向也没差
-        private void OnDestroy()
-        {
-
-        }
 
     }
 
