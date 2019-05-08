@@ -478,6 +478,26 @@ namespace BattleMap
             //移除对应地图块儿下的deadUnit
             battleMap.units_on_me.Remove(deadUnit);
         }
+
+        /// <summary>
+        /// 返回我方所有单位
+        /// </summary>
+        /// <returns></returns>
+        public List<Unit> GetFriendlyUnitsList()
+        {
+            List<Unit> friendlyUnits = new List<Unit>();
+            foreach (Unit unit in _unitsList)
+            {
+                if(unit.owner == OwnerEnum.Player)
+                {
+                    friendlyUnits.Add(unit);
+                }
+            }
+
+            return friendlyUnits;
+        }
+
+
         T IMessage.MsgReceiver.GetUnit<T>()
         {
             return this as T;

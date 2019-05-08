@@ -336,7 +336,6 @@ namespace GamePlay.Round
 
     public class LoseState : RoundState
     {
-
         public override void Enter(RoundProcessController roundProcessController)
         {
             base.Enter(roundProcessController);
