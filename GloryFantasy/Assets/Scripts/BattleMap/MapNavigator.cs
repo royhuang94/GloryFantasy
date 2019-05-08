@@ -55,13 +55,14 @@ namespace BattleMap
         public Dictionary<Vector2, Node> closeList;
         List<Node> paths; //最优路径
 
-        List<Vector2> vectorPaths = new List<Vector2>();
+        List<Vector2> vectorPaths;
         public List<Vector2> Paths
         {
             get
             {
                 if(paths != null)
                 {
+                    vectorPaths = new List<Vector2>();
                     foreach (Node path in paths)
                     {
                         vectorPaths.Add(path.position);
@@ -71,7 +72,6 @@ namespace BattleMap
                 return null;
             }
         }
-
         //寻路入口
         public bool PathSearch(Vector2 startPos, Vector2 endPos)
         {
@@ -117,8 +117,6 @@ namespace BattleMap
                     //判断移动力与路径长度
                     if (IsExcessUnitMove())
                         return false;
-
-                    Debug.Log("成功移动到指定目标");
                     return true;
                 }
 
@@ -185,6 +183,56 @@ namespace BattleMap
             return false;
         }
 
+        /// <summary>
+        /// AI移动
+        /// 一格一格移动处理函数
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator moveStepByStepAI(Unit unit, List<Vector2> paths, System.Action callback)
+        {
+            #region 测试一哈 先固定（0.0）为灼烧块，（0.1）为粘滞块
+            List<Vector2> vector2s = new List<Vector2>();
+            vector2s.Add(new Vector2(0, 0));
+            BattleMap.Instance().debuffBM.SetBattleMapBlockBurning(vector2s);
+            List<Vector2> vector22s = new List<Vector2>();
+            vector22s.Add(new Vector2(1, 1));
+            BattleMap.Instance().debuffBM.SetBattleMapBlockRetrad(vector22s);
+            #endregion
+
+            Vector2 tempVector;
+            BattleMapBlock battleMap;
+            for (int i = paths.Count - 2; i >= 0; i--)
+            {
+                //移除上一步的地图块儿下面的units_on_me
+                tempVector = new Vector2((int)paths[i + 1].x, (int)paths[i + 1].y);
+                battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);
+                battleMap.RemoveUnit(unit);
+                //添加当前unit到地图块儿下面的units_on_me内
+                tempVector = new Vector2((int)paths[i].x, (int)paths[i].y);
+                battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);                            
+                battleMap.AddUnit(unit);
+                unit.transform.localPosition = Vector3.zero;
+
+                if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
+                {
+                    BattleMap.Instance().debuffBM.UnitEnterBurning(tempVector);
+                }
+                else if (battleMap.blockType == EMapBlockType.Retire)//如果经过滞留块
+                {
+                    
+                    BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
+                    unit.nextPos = paths[i];
+                    MsgDispatcher.SendMsg((int)MessageType.Aftermove);
+                    break;
+                }
+                unit.nextPos = paths[i];
+                MsgDispatcher.SendMsg((int)MessageType.Aftermove);
+                MsgDispatcher.SendMsg((int)MessageType.Move);
+                yield return new WaitForSeconds(0.2f);
+            }
+            if(callback != null)
+                callback();
+        }
         //一格一格移动
         public IEnumerator moveStepByStep(Unit unit)
         {

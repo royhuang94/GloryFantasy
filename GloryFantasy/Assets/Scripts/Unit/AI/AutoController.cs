@@ -1,5 +1,4 @@
-﻿using GamePlay.Input;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unit = GameUnit.GameUnit;
@@ -8,180 +7,65 @@ namespace AI
 {
     public class AutoController
     {
-        //目标单位
-        private Unit targetBattleUnit;
-        //仇恨列表记录器
-        public HatredRecorder hatredRecorder = new HatredRecorder();
-        //移动到目标的路径
-        private List<Vector2> toTargetPath = new List<Vector2>();
+        //管理所有的ai的controllers
+        public List<SingleController> singleControllers = new List<SingleController>();
 
         /// <summary>
-        /// 路径长度
+        /// 更新所有Controller的仇恨列表
         /// </summary>
-        private int PathCount
+        /// <param name="enemyUnit"></param>
+        /// <param name="enemyUnits"></param>
+        public void UpdateAllHatredList(Unit enemyUnit = null, List<Unit> enemyUnits = null)
         {
-            get
-            {
-                return toTargetPath.Count;
-            }
-        }
-
-        /// <summary>
-        /// 起点
-        /// </summary>
-        private Vector2 StartPos
-        {
-            get
-            {
-                return toTargetPath[PathCount - 1];
-            }
-        }
-
-        /// <summary>
-        /// 终点
-        /// </summary>
-        private Vector2 EndPos
-        {
-            get
-            {
-                return toTargetPath[0];
-            }
-        }
-
-        /// <summary>
-        ///技能相关
-        ///获取技能的停止移动距离
-        /// </summary>
-        private int SkillStopDistance
-        {
-            get
-            {
-                return -1; //目前还未使用异能
-            }
-        }
-
-        /// <summary>
-        /// 自动行动
-        /// </summary>
-        /// <param name="battleUnit"></param>
-        private void AutoAction(Unit battleUnit)
-        {
-            //自动选取目标
-            AutoSelectTarget(battleUnit);
-
-            //找不到目标单位
-            if (targetBattleUnit != null && battleUnit == null)
-            {
+            if (singleControllers.Count <= 0)
                 return;
-            }
 
-            UnitMoveCommand unitMove;
-            //需要移动
-            if (battleUnit != null && PathCount > 0)
+            foreach (SingleController controller in singleControllers)
             {
-                unitMove = new UnitMoveCommand(battleUnit, StartPos, EndPos, Vector2.zero);
-                unitMove.Excute(); //已经判断过距离
-            }
-
-            //自动攻击(搓招)
-            AutoUseAtk(battleUnit);
-
-        }
-
-        /// <summary>
-        /// 自动选择目标
-        /// </summary>
-        /// <param name="battleUnitAction"></param>
-        private void AutoSelectTarget(Unit battleUnit)
-        {
-            int stopDistance = AtkStopDistance(battleUnit);
-            //从仇恨列表中确定目标
-            Unit hatredUnit = null;
-            //地图导航
-            BattleMap.MapNavigator mapNavigator = BattleMap.BattleMap.Instance().MapNavigator;
-
-            for (int i = 0; i < hatredRecorder.HatredCount; i++)
-            {
-                hatredUnit = hatredRecorder.GetHatredByIndex(i, i == 0);
-                if(hatredUnit.IsDead())
+                if (enemyUnit != null)
                 {
-                    //已经排序过，且无法找到还能够行动的单位，就表示场上没有存活的敌方单位了
-                    hatredUnit = null;
-                    break;
-                }
-
-                //判断这个单位是否可以到达
-                bool catched = false;
-
-                //如果这个单位就在攻击范围内，即身边
-                if (Distance(battleUnit, hatredUnit) <= stopDistance)
-                {
-                    toTargetPath.Clear();
-                    catched = true;
-                }
-                else
-                {
-                    catched = mapNavigator.PathSearch(battleUnit.CurPos, hatredUnit.CurPos);
-                }
-
-                //寻路不可达
-                if(!catched)
-                {
-                    hatredUnit = null;
+                    controller.hatredRecorder.AddHatred(enemyUnit);
                     continue;
                 }
-                else //找到了
-                {
-                    toTargetPath = mapNavigator.Paths;
-                    break;
-                }
-            }
+                else if(enemyUnits != null)
+                    controller.hatredRecorder.AddHatredUnits(enemyUnits);
 
-            //没有目标
-            if (hatredUnit == null)
-            {
-                targetBattleUnit = null;
-                return;
-            }
-
-            if(battleUnit != null && !hatredUnit.Equals(targetBattleUnit))
-            {
-                targetBattleUnit = hatredUnit;
+                Debug.Log("仇恨列表数量: " + controller.hatredRecorder.HatredCount);
             }
 
         }
 
         /// <summary>
-        /// 自动攻击
+        /// 通过ID
+        /// 获取对应的singleController
         /// </summary>
-        private void AutoUseAtk(Unit battleUnit)
+        /// <param name="id">想要获取单位的controller的ID</param>
+        /// <returns></returns>
+        public SingleController GetSingleControllerByID(Vector2 pos)
         {
-            //TODO 异能引入后进行修改
-
-            //异能为引入前版本
-            //获取攻击者和被攻击者
-            GameUnit.GameUnit Attacker = battleUnit;
-            GameUnit.GameUnit AttackedUnit = targetBattleUnit;
-            //创建攻击指令
-            UnitAttackCommand unitAtk = new UnitAttackCommand(Attacker, AttackedUnit);
-
-            unitAtk.Excute();//已经判断过距离，放心攻击
+            foreach (SingleController controller in singleControllers)
+            {
+                if (controller.BattleUnit.CurPos == pos)
+                    return controller;
+            }
+            return null;
         }
+
 
         /// <summary>
-        /// 获取攻击时的停止距离，近战，远程不同
+        ///记录仇恨列表
+        ///对仇恨值做加法
         /// </summary>
-        /// <returns>攻击范围</returns>
-        private int AtkStopDistance(Unit battleUnit)
+        /// <param name="enemyUnit"></param>
+        /// <param name="hostUnit"></param>
+        public void RecordedHatred(Unit enemyUnit, Unit hostUnit)
         {
-            return battleUnit.rng;
-        }
-
-        private int Distance(Unit unit1, Unit unit2)
-        {
-            return Mathf.Abs((int)unit1.CurPos.x - (int)unit2.CurPos.x) + Mathf.Abs((int)unit1.CurPos.y - (int)unit2.CurPos.y);
+            //当敌方单位是玩家单位时，触发更新
+            if(enemyUnit.owner == GameUnit.OwnerEnum.Player)
+            {
+                GetSingleControllerByID(hostUnit.CurPos).hatredRecorder.RecordedHatred(enemyUnit.id, enemyUnit.atk);
+            }
         }
     }
-
 }
 

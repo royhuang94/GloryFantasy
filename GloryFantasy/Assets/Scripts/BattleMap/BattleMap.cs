@@ -8,7 +8,7 @@ using Unit = GameUnit.GameUnit;
 using IMessage;
 using UnityEngine.UI;
 using GameUnit;
-
+using System.Collections;
 
 namespace BattleMap
 {
@@ -154,8 +154,15 @@ namespace BattleMap
 
                     _unitsList.Add(unit);
                     _mapBlocks[x, y].AddUnit(unit);
+
+                    //初始化AI控制器与携带的仇恨列表
+                    AI.SingleController controller = new AI.SingleController(unit);
+                    controller.hatredRecorder.Reset(unit);
+                    GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
+
                 }
             }
+
         }
 
         /// <summary>
@@ -223,7 +230,6 @@ namespace BattleMap
             newUnit = _object.GetComponent<Unit>();
             return newUnit;
         }
-
 
         //TODO 根据坐标返回地图块儿 --> 在对应返回的地图块儿上抓取池内的对象，"投递上去"
         //TODO 相当于是召唤技能，可以与郑大佬的技能脚本产生联系
@@ -363,8 +369,32 @@ namespace BattleMap
                     {
                         unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
                     }
-                    StartCoroutine(MapNavigator.moveStepByStep(unit));
-                    
+                    StartCoroutine(MapNavigator.moveStepByStep(unit));                    
+                    //unit.transform.position = _destination;
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// AI移动
+        /// </summary>
+        /// <param name="unit">目标单位</param>
+        /// <param name="targetPosition">最优路径</param>
+        /// <param name="callback">攻击回调</param>
+        /// <returns></returns>
+        public bool AIMoveUnitToCoordinate(Unit unit,  List<Vector2> targetPosition, System.Action callback)
+        {
+            foreach (Unit gameUnit in _unitsList)
+            {
+                if (gameUnit == unit)
+                {
+                    unit.mapBlockBelow.RemoveUnit(unit);
+                    if (_mapBlocks[(int)targetPosition[0].x, (int)targetPosition[0].y] != null)
+                    {
+                        unit.mapBlockBelow = _mapBlocks[(int)targetPosition[0].x, (int)targetPosition[0].y];
+                    }
+                    StartCoroutine(MapNavigator.moveStepByStepAI(unit, targetPosition, callback));                    
                     //unit.transform.position = _destination;
                     return true;
                 }
@@ -409,7 +439,6 @@ namespace BattleMap
         {
             battleArea.HideBattleZooe(position, _mapBlocks);
         }
-
         /// <summary>
         /// 移除BattleBlock下的 unit
         /// </summary>
@@ -422,7 +451,6 @@ namespace BattleMap
             //移除对应地图块儿下的deadUnit
             battleMap.units_on_me.Remove(deadUnit);
         }
-
         T IMessage.MsgReceiver.GetUnit<T>()
         {
             return this as T;

@@ -35,30 +35,62 @@ namespace AI
         /// <summary>
         /// 重置仇恨列表
         /// </summary>
-        /// <param name="hostUnit">仇恨列表的拥有者</param>
-        /// <param name="enemyTeam">敌人队伍列表</param>
-        public void Reset(Unit hostUnit, List<Unit> enemyTeam)
+        /// <param name="hostUnit"></param>
+        public void Reset(Unit hostUnit)
         {
             Clean();
-
-            if(hostUnit == null || enemyTeam == null)
+            if (hostUnit == null)
             {
                 Debug.Log("重置仇恨列表失败");
                 return;
             }
 
             host = hostUnit;
-            for (int i = 0; i < enemyTeam.Count; i++) //遍历仇恨列表
-            {
-                if(i >= hatredList.Count)
-                    hatredList.Add(new HatredItem()); //当敌人数量大于优先设置的仇恨列表总容量时，动态增加列表，以防数组越界
+        }
 
-                hatredList[i].battleUnit = enemyTeam[i];
-                hatredList[i].hatred = 0; //gui 000.....
+        /// <summary>
+        /// 多个单位同时部署时
+        /// </summary>
+        /// <param name="enemyTeam">敌人队伍列表</param>
+        public void AddHatredUnits(List<Unit> enemyTeam)
+        {
+            if(enemyTeam == null)
+            {
+                Debug.Log("重置仇恨列表失败");
+                return;
             }
 
-            if (hatredList.Count > enemyTeam.Count)
-                hatredList.RemoveRange(enemyTeam.Count, hatredList.Count - enemyTeam.Count); //删除多余部分
+            for (int i = 0; i < enemyTeam.Count; i++) //遍历仇恨列表
+            {
+                hatredList.Add(new HatredItem()); //当敌人数量大于优先设置的仇恨列表总容量时，动态增加列表，以防数组越界
+                hatredList[HatredCount - 1].battleUnit = enemyTeam[i];
+                hatredList[HatredCount - 1].hatred = 0; //gui 000.....
+            }
+
+        }
+
+        /// <summary>
+        /// 单个单位部署时
+        /// </summary>
+        /// <param name="enemyUnit"></param>
+        public void AddHatred(Unit enemyUnit)
+        {
+            if (enemyUnit == null)
+                return;
+
+            hatredList.Add(new HatredItem());
+
+            hatredList[HatredCount - 1].battleUnit = enemyUnit;
+            hatredList[HatredCount - 1].hatred = 0;
+        }
+
+        public void RemoveDeadHartedItem()
+        {
+            foreach (HatredItem item in hatredList)
+            {
+                if (item.battleUnit.hp <= 0)
+                    hatredList.Remove(item);
+            }
         }
 
         /// <summary>

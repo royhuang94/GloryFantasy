@@ -125,8 +125,8 @@ namespace GamePlay.Input
                 BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
 
                 //创建部署指令并执行
-                BattleDispositionCommand unitAtk = new BattleDispositionCommand(mapBlock.units_on_me);
-                unitAtk.Excute();
+                BattleDispositionCommand unitDispose = new BattleDispositionCommand(mapBlock.units_on_me);
+                unitDispose.Excute();
             }
             //如果正在释放指令牌，就视为正在选择目标
             else if (IsCasting)
@@ -208,7 +208,6 @@ namespace GamePlay.Input
                         HandleAtkCancel(TargetList[0]);////攻击完工攻击范围隐藏  
                         BeforeMoveGameUnits.Clear();
                         TargetList.Clear();
-
                     }
                     else
                     {

@@ -90,6 +90,8 @@ namespace GamePlay
             gamePlayInput = new GameplayInput();
             bmbColliderManager = new BMBColliderManager();
             buffManager = new BuffManager();
+            autoController = new AI.AutoController();
+            singleBattle = new AI.BattleField();
 
             _phaseNameText = GameObject.Find("phaseNameText").GetComponentInChildren<Text>();
             _phaseNameText.color = Color.red;
@@ -97,10 +99,12 @@ namespace GamePlay
         }
 
         public static Info Info = new Info();
-        public RoundProcessController roundProcessController;
+        public RoundProcessController roundProcessController; 
         public GameplayInput gamePlayInput;
         public BMBColliderManager bmbColliderManager;
         public BuffManager buffManager;
+        public  AI.BattleField singleBattle;
+        public AI.AutoController autoController;
 
         private Text _phaseNameText;
         

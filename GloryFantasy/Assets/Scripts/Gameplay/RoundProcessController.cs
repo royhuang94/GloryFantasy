@@ -121,8 +121,8 @@ namespace GamePlay.Round
             return "开始阶段";
         }
     }
-    
-    
+
+
     /// <summary>
     /// 抽牌阶段
     /// </summary>
@@ -168,8 +168,8 @@ namespace GamePlay.Round
             return "准备阶段";
         }
     }
-    
-    
+
+
     /// <summary>
     /// 主要阶段
     /// </summary>
@@ -207,7 +207,7 @@ namespace GamePlay.Round
         }
     }
 
-    
+
     /// <summary>
     /// 弃牌阶段
     /// </summary>
@@ -231,7 +231,7 @@ namespace GamePlay.Round
         }
     }
 
-    
+
     /// <summary>
     /// 结束阶段
     /// </summary>
@@ -267,13 +267,15 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.AI);
-        }
 
+            Gameplay.Instance().singleBattle.battleState = AI.BattleState.Prepare;
+            Gameplay.Instance().singleBattle.Run();
+        }
         public override string ToString()
         {
             return "AI阶段";
         }
     }
-    
-    
+
+
 }

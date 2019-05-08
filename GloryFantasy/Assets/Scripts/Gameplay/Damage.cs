@@ -118,6 +118,8 @@ namespace GamePlay
                 ToBeKilled,    
              */
 
+            //只会执行_attacker为play的情况
+            Gameplay.Instance().autoController.RecordedHatred(_attacker, _attackedUnit);
             if (_attackedUnit.IsDead())
             {
                 this.SetKiller(_attacker);
@@ -127,6 +129,9 @@ namespace GamePlay
                
                 //死亡单位回收到对象池
                 Gameplay.Instance().gamePlayInput.UnitBackPool(_attackedUnit);
+
+                //删除对应controller中的死亡单位
+                Gameplay.Instance().autoController.UpdateAllHatredList();
             }
             else
             {
@@ -151,6 +156,9 @@ namespace GamePlay
             MsgDispatcher.SendMsg((int)MessageType.Damage);
             MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
 
+            //两次只有attacker是player的时候触发记录
+            Gameplay.Instance().autoController.RecordedHatred(_attacker, _attackedUnit);
+            Gameplay.Instance().autoController.RecordedHatred(_attackedUnit, _attacker);
             if (_attacker.IsDead())
             {
                 this.SetKiller(_attackedUnit); this.SetKilledAndDeadUnit(_attacker);
@@ -159,10 +167,14 @@ namespace GamePlay
 
                 //死亡单位回收到对象池
                 Gameplay.Instance().gamePlayInput.UnitBackPool(_attacker);
+
+                //删除对应controller中的死亡单位
+                Gameplay.Instance().autoController.UpdateAllHatredList();
             }
             else
             {
                 Gameplay.Instance().gamePlayInput.UpdateHp(_attacker);
+                
             }
 
             if (_attackedUnit.IsDead())
@@ -173,6 +185,9 @@ namespace GamePlay
 
                 //死亡单位回收到对象池
                 Gameplay.Instance().gamePlayInput.UnitBackPool(_attackedUnit);
+
+                //删除对应controller中的死亡单位
+                Gameplay.Instance().autoController.UpdateAllHatredList();
             }
             else
             {

@@ -40,9 +40,39 @@ namespace GamePlay.Input
         {
             //更新本此召唤的怪物（覆盖方式）
             this.SetSummonUnit(_units);
+
+            //更新仇恨列表
+            Gameplay.Instance().autoController.UpdateAllHatredList(null, _units);
         }
 
         private List<GameUnit.GameUnit> _units;
+    }
+
+    public class UnitMoveAICommand : Command
+    {
+        /// <summary>
+        /// AI移动类的构造函数
+        /// </summary>
+        /// <param name="unit">单位</param>
+        /// <param name="_toTargetPath">最优路径</param>
+        /// <param name="_callback">攻击回调</param>
+        public UnitMoveAICommand(GameUnit.GameUnit unit, List<Vector2> _toTargetPath, System.Action _callback)
+        {
+            _unit = unit;
+            toTargetPath = _toTargetPath;
+            callback = _callback;
+        }
+
+        public override void Excute()
+        {
+            Debug.Log("Moving Command excusing");
+            BattleMap.BattleMap.Instance().AIMoveUnitToCoordinate(_unit, toTargetPath, callback);
+        }
+
+        private System.Action callback;
+        private GameUnit.GameUnit _unit;
+        //移动到目标的路径
+        private List<Vector2> toTargetPath;
     }
 
     public class UnitMoveCommand : Command
@@ -69,12 +99,13 @@ namespace GamePlay.Input
         public override void Excute()
         {
             Debug.Log("Moving Command excusing");
-            if (BattleMap.BattleMap.Instance().MapNavigator.PathSearch(_unitPosition, _targetPosition))
+            if (_unit.owner != GameUnit.OwnerEnum.Enemy && BattleMap.BattleMap.Instance().MapNavigator.PathSearch(_unitPosition, _targetPosition))
             {
                 //TODO 产生移动变化，检测
-
                 BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _targetPosition);
             }
+            else
+                BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _targetPosition);
         }
 
         private GameUnit.GameUnit _unit;

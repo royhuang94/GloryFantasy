@@ -11,13 +11,20 @@ using IMessage;
 
 namespace GameUnit
 {
+    public enum HeroActionState
+    {
+        Normal,                  //正常
+        WaitForPlayerChoose,     //等待玩家操作
+        BattleEnd,               //战斗结束
+        Error,                   //错误
+        Warn,                    //警告(测试用)
+    }
+
     /// <summary>
     /// 提供一些与Unit相关的方法
     /// </summary>
     public class UnitManager
     {
-
-
         //角色初始化到地图上
         public static void InstantiationUnit(string cardID, OwnerEnum owner, BattleMapBlock battleMapBlock)
         {
