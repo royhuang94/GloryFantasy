@@ -55,7 +55,11 @@ namespace Ability
 
         private void Action()
         {
-
+            List<GameUnit.GameUnit> gameUnits = BattleMap.BattleMap.Instance().GetFriendlyUnitsList();
+            foreach (GameUnit.GameUnit unit in gameUnits)
+            {
+                unit.hp += 5;
+            }
         }
     }
 }
