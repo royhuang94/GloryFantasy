@@ -1,69 +1,51 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using IMessage;
-using LitJson;
 using UnityEngine;
-using UnityEngine.UI;
-using Random = UnityEngine.Random;
-
+using System.Collections.Generic;
 using GameGUI;
+using LitJson;
+using Random = UnityEngine.Random;
 
 namespace GameCard
 {
     public class CardManager : UnitySingleton<CardManager>, MsgReceiver
     {
         #region 变量
-        public GameObject[] tmpCardPrefabs;        // 存放暂用预制卡牌引用的数组
-        public GameObject[] unitSlots;            // 卡牌槽物体的引用，仅用于初始化_unitsSlots
-        private UnitSlot[] _unitSlots;            // 卡牌存放位置UnitSlot的引用
+        // 空物体的引用
+        public GameObject emptyObject;
+        public int cardsUpperLimit;                   // 手牌数量上限
+        public int extractCardsUpperLimit;            // 抽牌数量上限
+        public bool cancelCheck;                      // 是否取消抽卡检查，在本行注释存在的情况下请不要修改值
 
-        private const int AMOUNT_OF_ROW = 6;      //panel每行可放置的卡牌数量，调整在这调
-        private const int PANEL_WIDTH = 500;      //panel 宽度，调整在这调
-        private const float CARD_WIDTH = 80.5f;      //card 宽度，调整在这调
-        
-        public GameObject coolDownSlot;        // 冷却牌物体的引用，仅用于初始化_coolDownSlots
-        
-        public GameObject cardsSetsSlot;        // 牌堆组物体的引用，仅用于初始化_cardsSetsSlots
-        
-        private List<CoolDownSlot> _coolDownSlots;     //冷却牌存放位置CoolDownSlot的引用
-        
-        private List<CardsSetsSlot> _cardsSetsSlots;     //牌堆组存放位置CardsSetsSlot的引用
+        private List<String> _handcards;               // 存储手牌的ID
+        private List<String> _cardsSets;               // 牌组堆，待抽取的卡牌组
+        private List<cdObject> _cooldownCards;           // 临时存储冷却状态中卡牌
+        private List<String> _garbageCards;            //弃牌堆
 
-        private GameObject _coolDownPanel;
-        private GameObject _cardsSetsPanel;
-        
-        public int cardsUpperLimit { get; set; }                    // 手牌数量上限
-        public int extractCardsUpperLimit { get; set; }            // 抽牌数量上限
-        
-        private List<GameObject> _cardsInHand;                    // 存储手牌列表，玩家实际持有的牌的预制件在这里面
-
-        public List<GameObject> cardsInHand { get { return _cardsInHand; } }
-        public List<GameObject> cardsSets { get; set; }            // 牌组堆，待抽取的卡牌组
-        public List<GameObject> cooldownCards { get; set; }        // 临时存储冷却状态中卡牌
-        
-        public List<GameObject> garbageCards { get; set; }        //弃牌堆
-        public bool cancelCheck { get; set; }                      // 是否取消抽卡检查，在本行注释存在的情况下请不要修改值
-
+        // 存储json格式卡牌数据的字典
         private Dictionary<string, JsonData> _cardsData;
+        
+        // 存放手牌实体的list
+        private List<GameObject> _handcardsInstance;
 
-        private Dictionary<GameObject, CoolDownSlot> _prefabToCoolDownSlots;
         #endregion
         
+        public List<string> cardsInHand { get { return _handcards; } }
+        public List<string> cardsSets { get { return _cardsSets; } }
+        public List<cdObject> cooldownCards { get { return _cooldownCards; } }
+        public List<GameObject> handcardsInstance { get { return _handcardsInstance; } }
+
         private void Awake()
         {
             Init();
             LoadCardsIntoSets();
             cancelCheck = false;
-            _coolDownPanel = GameObject.Find("CoolDownCardInfoPanel");
-            _cardsSetsPanel = GameObject.Find("CardsSetsInfoPanel");
-            UpdateCardsSetsInfo();
-            _coolDownPanel.SetActive(false);
-            _cardsSetsPanel.SetActive(false);
         }
 
         private void Start()
         {
+            // 注册函数响应抽牌信息
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.DrawCard,
@@ -72,6 +54,7 @@ namespace GameCard
                 "Extract cards Trigger"
             );
             
+            // 注册函数响应回合结束信息
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.EP,
@@ -79,22 +62,27 @@ namespace GameCard
                 HandleCooldownEvent,
                 "Cooldown cards Trigger"
             );
+            ExtractCards(3);
         }
 
+        /// <summary>
+        /// 类内变量初始化工作
+        /// </summary>
         private void Init()
         {
-            Debug.Log("in init");
-            _cardsInHand = new List<GameObject>();
-            _prefabToCoolDownSlots = new Dictionary<GameObject, CoolDownSlot>();
-            cardsSets = new List<GameObject>();
-            cooldownCards = new List<GameObject>();
+            _handcards = new List<string>();
+            _cardsSets = new List<string>();
+            _cooldownCards = new List<cdObject>();
+            _garbageCards = new List<string>();
+            
+            _handcardsInstance = new List<GameObject>();
+            
+            _cardsData = new Dictionary<string, JsonData>();
 
             cardsUpperLimit = 7;
             extractCardsUpperLimit = 1;
             
-            InitUnitSlots();
             InitCardsData();
-            
             
         }
 
@@ -114,25 +102,6 @@ namespace GameCard
             {
                 _cardsData.Add(cardsJsonData[i]["id"].ToString(), cardsJsonData[i]);
             }
-        }
-
-        
-        /// <summary>
-        /// 初始化_unitSlots引用数组
-        /// </summary>
-        private void InitUnitSlots()
-        {
-            _unitSlots = new UnitSlot[unitSlots.Length];
-            Debug.Log("init_unit: " + unitSlots.Length);
-            for (int i = 0; i < unitSlots.Length; i++)
-            {
-                _unitSlots[i] = unitSlots[i].GetComponent<UnitSlot>();
-
-                
-            }
-            _coolDownSlots = new List<CoolDownSlot>();
-            _cardsSetsSlots = new List<CardsSetsSlot>();
-
         }
 
 
@@ -173,223 +142,286 @@ namespace GameCard
             return null;
         }
 
+        /// <summary>
+        /// 用于设置卡牌堆内卡牌情况
+        /// </summary>
         private void LoadCardsIntoSets()
         {
             // TODO: 根据策划案修改此函数，以下仅用于demo
-            for (int i = 0; i < 24; i++)
+            // 将所有卡牌加入牌堆中，一样只有一张
+            foreach (string cardID in _cardsData.Keys)
             {
-                // 随机把prefab放入牌组中，实际应按照策划案或玩家数据
-                cardsSets.Add(tmpCardPrefabs[Random.Range(0, tmpCardPrefabs.Length)]);
+                _cardsSets.Add(string.Copy(cardID));
             }
+            
+            // 发送卡牌堆变动消息
+            MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
         }
 
         /// <summary>
         /// 从牌组中抽取卡牌到手牌中
         /// </summary>
-        /// <param name="cardAmount">抽取卡牌数量，默认为三</param>
-        public void ExtractCards(int cardAmount = 1 )
+        /// <param name="cardAmount">抽取卡牌数量，默认为一</param>
+        public void ExtractCards(int cardAmount = 1)
         {
             // 若手牌数量大于或等于手牌上限，直接返回（取消检查的话则此判定永false）
-            if (_cardsInHand.Count >= cardsUpperLimit && !cancelCheck)
+            if (_handcards.Count >= cardsUpperLimit && !cancelCheck)
             {
                 return;
             }
 
             // 根据参数确定抽取卡牌的数量,若和抽牌上限一致则使用抽牌上限，否则使用给定参数
-            int extractAmount = (cardAmount == this.extractCardsUpperLimit) ? extractCardsUpperLimit : cardAmount;
+            int extractAmount = (cardAmount == extractCardsUpperLimit) ? extractCardsUpperLimit : cardAmount;
 
-            // 计算应该抽取的卡牌数，计算规则：不检查=抽三张， 检查=不超出手牌数量上限的，最多三张牌
+            // 计算应该抽取的卡牌数，计算规则：不检查=抽cardAmount张， 检查=不超出手牌数量上限的，最多cardAmount张牌
             extractAmount = cancelCheck ? extractAmount : 
-                (cardsUpperLimit - _cardsInHand.Count > extractAmount ? 
-                    extractAmount : cardsUpperLimit - _cardsInHand.Count);
+                (cardsUpperLimit - _handcards.Count > extractAmount ? 
+                    extractAmount : cardsUpperLimit - _handcards.Count);
             
             // 如果剩余牌量不足，有多少抽多少（几乎不可能）
-            if (extractAmount > this.cardsSets.Count)
-                extractAmount = this.cardsSets.Count;
+            if (extractAmount > _cardsSets.Count)
+                extractAmount = _cardsSets.Count;
             
             
             for (int i = 0; i < extractAmount; i++)
             {
                 // 随机抽取卡牌
-                int extractPos = Random.Range(0, cardsSets.Count);
-                GameObject cardPrefab = this.cardsSets[extractPos];
+                int extractPos = Random.Range(0, _cardsSets.Count);
+                string cardId= _cardsSets[extractPos];
                 
                 // 确定是哪张后就将其从卡牌堆中移除
-                this.cardsSets.RemoveAt(extractPos);
+                _cardsSets.RemoveAt(extractPos);
                 
-                // 将卡牌预制件放入栏位中
-                _unitSlots[_cardsInHand.Count].InsertItem(cardPrefab);
+                // 调用接口完成向手牌中插入卡牌操作，设置不发送消息，由后续发生消息
+                InsertIntoHandCard(cardId, false);
                 
-                // 更新手牌list
-                this._cardsInHand.Add(cardPrefab);
+                //FGUIInterfaces.Instance().InsertIntoHandCard(cardId);
+                
             }
-            
-            // 通知牌堆panel发生变化
-            UpdateCardsSetsInfo();
+            // 发送手牌变动消息
+            MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
+            // 发送牌堆变化消息
+            MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
         }
 
         /// <summary>
-        /// 从手牌中移除卡牌（默认进行冷却），用于外界通知CardManager手牌发生变动
+        /// 从手牌中移除卡牌（默认进行冷却），处理CardManager内事务后发出手牌变动消息，用于外界通知CardManager手牌发生变动
         /// </summary>
-        /// <param name="cardPrefab">手牌中要移除的卡牌</param>
+        /// <param name="cardIndex">手牌中要移除的卡牌的下标，函数内会进行检测</param>
         /// <param name="controlCd">控制cd值为-1表示按卡牌本身cd值进行冷却，否则按设定值进行冷却</param>
-        public void RemoveCard(GameObject cardPrefab, int controlCd = -1)
+        /// <exception cref="NotImplementedException">若卡牌下标异常则抛出此异常</exception>
+        public void RemoveCardToCd(int cardIndex, int controlCd = -1)
         {
-            // 从手牌列表中移除预制
-            this._cardsInHand.Remove(cardPrefab);
+            // 调用接口完成所有从手牌中移除需要做的操作
+            string cardId = RemoveFromHandCard(cardIndex);
             
             // 将其加入冷却列表进行冷却，传递控制冷却信息
-            this.CooldownCard(cardPrefab, controlCd);
+            CooldownCard(cardId, controlCd);
             
-            // 重设手牌位置
-            ResortCardsInSlots();
+            // 发送手牌变动消息
+            MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
         }
 
         /// <summary>
-        /// 用于将手牌中的卡牌移回抽牌牌库
+        /// 从手牌中移除卡牌（默认进行冷却），处理CardManager内事务后发出手牌变动消息，用于外界通知CardManager手牌发生变动
         /// </summary>
-        /// <param name="cardPrefab">要移除的卡牌的预制件引用</param>
-        public void MoveBackToCardSets(GameObject cardPrefab)
+        /// <param name="cardInstance">要一处的卡牌的实例，函数内会进行检验</param>
+        /// <param name="controlCd">控制cd值为-1表示按卡牌本身cd值进行冷却，否则按设定值进行冷却</param>
+        public void RemoveCardToCd(GameObject cardInstance, int controlCd = -1)
         {
-            // 将其从手牌中移出
-            _cardsInHand.Remove(cardPrefab);
+            // 调用接口完成所有从手牌中移除需要做的操作
+            string cardId = RemoveFromHandCard(cardInstance);
+            
+            // 将其加入冷却列表进行冷却，传递控制冷却信息
+            CooldownCard(cardId, controlCd);
+            
+            // 发送手牌变动消息
+            MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
+        }
+
+        /// <summary>
+        /// 用于将卡牌从手牌中移除，仅会处理cardManager内部事务，会检查下标，若错误则抛出异常
+        /// 外界调用前请确认清楚自己的行为可能导致cardManger与UI中卡牌信息不一致
+        /// </summary>
+        /// <returns>返回移除的卡牌的ID</returns>
+        /// <param name="cardIndex">要移除的卡牌在手牌中的下标</param>
+        /// <exception cref="NotImplementedException">若下标不存在则抛出此异常</exception>
+        public string RemoveFromHandCard(int cardIndex)
+        {
+            // 检测传入卡牌下标真实性
+            if (cardIndex < 0 || cardIndex >= _handcards.Count)
+            {
+                Debug.Log("Invalid index sent!");
+                throw new NotImplementedException();
+            }
+            
+            string cardId = _handcards[cardIndex];
+            
+            // 销毁该实例
+            Destroy(_handcardsInstance[cardIndex]);
+            
+            // 从手牌列表中移除对应的卡牌
+            _handcards.RemoveAt(cardIndex);
+            
+            // 从手牌实例中移除该object对应的object
+            _handcardsInstance.RemoveAt(cardIndex);
+
+            return cardId;
+        }
+
+        /// <summary>
+        /// 用于移除给定手牌，仅会处理cardManager内部事务，会检查是否存在，若错误则抛出异常
+        /// 外界调用前请确认清楚自己的行为可能导致cardManger与UI中卡牌信息不一致
+        /// </summary>
+        /// <param name="cardInstance">要移出的卡牌的实例</param>
+        /// <returns>返回移除的卡牌的ID</returns>
+        /// <exception cref="NotImplementedException">若实例不存在则抛出此异常</exception>
+        public string RemoveFromHandCard(GameObject cardInstance)
+        {
+            // 检查是否存在该卡牌实例
+            if (!_handcardsInstance.Contains(cardInstance))
+            {
+                Debug.Log("Card instance does not exist!");
+                throw new NotImplementedException();
+            }
+
+            string cardId = cardInstance.GetComponent<BaseCard>().id;
+            
+            // 从手牌列表中移除对应的卡牌
+            _handcards.Remove(cardId);
+
+            // 从手牌实例中移除该object对应的object
+            _handcardsInstance.Remove(cardInstance);
+            
+            // 销毁该实例
+            Destroy(cardInstance);
+
+            return cardId;
+        }
+
+        /// <summary>
+        /// 用于将卡牌插入手牌中，会根据参数产生手牌变动消息
+        /// </summary>
+        /// <param name="cardId">要插入的卡牌的ID</param>
+        /// <param name="sendMsg">是否发送手牌变动消息，默认发送，若连续调用请设置false并自己发送消息</param>
+        public void InsertIntoHandCard(string cardId, bool sendMsg = true)
+        {
+            // 实例化卡牌到不可见区域，并绑定脚本再初始化
+            GameObject cardInstance = Instantiate(emptyObject);
+            cardInstance.AddComponent<BaseCard>().Init(cardId, GetCardJsonData(cardId));
+            
+            // 将实例放入对应位置的list中
+            _handcardsInstance.Add(cardInstance);
+            
+            // 更新手牌list
+            _handcards.Add(cardId);
+
+            if (sendMsg)
+            {
+                // 发送手牌变动消息
+                MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
+            }
+        }
+
+        /// <summary>
+        /// 用于将手牌中的卡牌移回抽牌牌库，产生牌堆变动、手牌变动消息
+        /// </summary>
+        /// <param name="cardIndex">要移除的卡牌在手牌中的位置</param>
+        /// <exception cref="NotImplementedException">若下标位置异常则抛出异常</exception>
+        public void MoveBackToCardSets(int cardIndex)
+        {
+            // 调用接口完成所有从手牌中移除需要做的操作
+            string cardId = RemoveFromHandCard(cardIndex);
             
             // 将其加入cardSets
-            cardsSets.Add(cardPrefab);
+            _cardsSets.Add(cardId);
             
-            // 通知牌库panel发生变动
-            UpdateCardsSetsInfo();
+            // 发送牌堆变动消息
+            MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
             
-            // 重设手牌位置
-            ResortCardsInSlots();
+            // 发送手牌变动消息
+            MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
         }
             
         /// <summary>
-        /// 将预存的预制件放入冷却列表中，仅CardManager内部使用
+        /// 将预存的预制件放入冷却列表中，仅CardManager内部使用，产生冷却池变动消息
         /// </summary>
-        /// <param name="cardPrefab">要冷却的卡牌的预制件引用</param>
+        /// <param name="cardId">要冷却的卡牌的预制件引用</param>
         /// <param name="controlCd">默认值为-1，表示按卡牌cd值进行冷却，设定其他值则按设定值冷却</param>
-        private void CooldownCard(GameObject cardPrefab, int controlCd = -1)
+        private void CooldownCard(string cardId, int controlCd = -1)
         {
-            //Debug.Log(cardPrefab);
-
             // 如果控制cd的参数值小于等于0，表示按卡牌cd值进行冷却
             if (controlCd <= 0)
             {
                 // 读取数据库得到冷却回合数
-                int roundAmount = cardPrefab.GetComponent<BaseCard>().cd;
+                int roundAmount = (int)_cardsData[cardId]["cd"];
 
                 // 若卡牌自身的cd值为负数，则直接销毁，并进入弃牌堆
                 if (roundAmount < 0)
                 {
-                    garbageCards.Add(cardPrefab);
+                    _garbageCards.Add(cardId);
                     return;
                 }
 
                 // 初始化BaseCard脚本内剩余回合数的counter
-                cardPrefab.GetComponent<BaseCard>().cooldownRounds = roundAmount;
+                _cooldownCards.Add(new cdObject(roundAmount, cardId));
                 
             }
             else // 按controlCd值进行冷却
-                cardPrefab.GetComponent<BaseCard>().cooldownRounds = controlCd;
+                _cooldownCards.Add(new cdObject(controlCd, cardId));
             
-            //TODO: 不用加入冷却堆的卡牌不加入冷却list
-            // 加入冷却list
-            this.cooldownCards.Add(cardPrefab);
-            PutInCoolDown(cardPrefab);                //每处理一个进入冷却状态的卡牌就放进冷却堆中
+            // 发送冷却池变动消息
+            MsgDispatcher.SendMsg((int)MessageType.CooldownlistChange);
         }
 
-        
         /// <summary>
-        /// 重新调整卡牌槽中卡牌位置，消除空闲卡牌位
+        /// 冷却处理函数，响应EP消息，处理卡牌冷却，根据情况产生冷却池变动消息，卡牌堆变动消息
         /// </summary>
-        public void ResortCardsInSlots()
-        {
-            int i = 0;
-            // 先遍历前手牌数量个槽位
-            for (; i < _cardsInHand.Count; i++)
-            {
-                // 若存在空栏
-                if (_unitSlots[i].IsEmpty())
-                {
-                    // 跳出循环
-                    break;
-                }
-            }
-            
-            // 如果i比手牌数量小，则一定存在空闲卡牌位
-            if(i < _cardsInHand.Count)
-            {
-                // 将所有卡牌位清空
-                for (int j = 0; j < _unitSlots.Length; j++)
-                {
-                    _unitSlots[j].RemoveItem(true);
-                }
-
-                // 再按手牌数量放入卡牌
-                for (i = 0; i < _cardsInHand.Count; i++)
-                {
-                    _unitSlots[i].InsertItem(_cardsInHand[i]);
-                }
-            }
-        }
-
-
-        // 处理冷却牌堆，将冷却完毕的卡牌放回牌组中
         public void HandleCooldownEvent()
         {
-            List<GameObject> prefabToRemove = new List<GameObject>();
-            for (int i = 0; i < cooldownCards.Count; i++)
+            List<cdObject> toRemove = new List<cdObject>();
+            for (int i = 0; i < _cooldownCards.Count; i++)
             {
-                int leftRounds = cooldownCards[i].GetComponent<BaseCard>().cooldownRounds -= 1;
+                int leftRounds = _cooldownCards[i].ReduceCd();
                 if (leftRounds == 0)
                 {
-                    prefabToRemove.Add(cooldownCards[i]);
+                    toRemove.Add(_cooldownCards[i]);
                 }
             }
 
-            for (int i = 0; i < prefabToRemove.Count; i++)
+            for (int i = 0; i < toRemove.Count; i++)
             {
-                cardsSets.Add(prefabToRemove[i]);
-                cooldownCards.Remove(prefabToRemove[i]);
-                _coolDownSlots.Remove(_prefabToCoolDownSlots[prefabToRemove[i]]);
+                // 将冷却完毕的id重新放回牌堆
+                _cardsSets.Add(toRemove[i].objectId);
                 
-                _prefabToCoolDownSlots[prefabToRemove[i]].RemoveItem();
-                
-                Destroy(_prefabToCoolDownSlots[prefabToRemove[i]]);
-                
-                _prefabToCoolDownSlots.Remove(prefabToRemove[i]);
+                // 将其从冷却列表中移除
+                _cooldownCards.Remove(toRemove[i]);
+            }
 
-            }
-            if (cardsSets.Count > _cardsSetsSlots.Count)
-            {
-                for (int j = 0; j < cardsSets.Count - _cardsSetsSlots.Count; j++)
-                {
-                    GameObject newCooldownSlot = Instantiate(cardsSetsSlot, _cardsSetsPanel.transform);
-                    _cardsSetsSlots.Add(newCooldownSlot.GetComponent<CardsSetsSlot>());
-                }
-            }
+            // 发送冷却池变动消息
+            MsgDispatcher.SendMsg((int)MessageType.CooldownlistChange);
             
+            if (toRemove.Count > 0)
+                // 发送卡牌堆变动消息
+                MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
         }
         
-        // 随机交换牌组中位置实现洗牌
+        /// <summary>
+        /// 随机洗牌函数，产生卡牌堆变动消息
+        /// </summary>
         public void Shuffle()
         {
-            int size = cardsSets.Count;
+            int size = _cardsSets.Count;
             
             for (int i = 0; i < size; i++)
             {
                 int pos = Random.Range(0, size);
-                GameObject temp = cardsSets[i];
-                cardsSets[i] = cardsSets[pos];
-                cardsSets[pos] = temp;
+                string temp = _cardsSets[i];
+                _cardsSets[i] = _cardsSets[pos];
+                _cardsSets[pos] = temp;
             }
-        }
-        
-        // 回合结束被调用的接口，处理回合结束应处理的事务
-        public void OnNotifyRoundEnd()
-        {
-            HandleCooldownEvent();
+            // 发送卡牌堆变动消息
+            MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
         }
 
         /// <summary>
@@ -400,131 +432,53 @@ namespace GameCard
             return this as T;
         }
 
-
-
-        
-        /// <summary>
-        /// 冷却堆按钮绑定方法，点击显示冷却堆卡牌信息界面
-        /// </summary>
-        public void ShowCoolDownCardInfo()
-        {
-            
-            if (!_coolDownPanel.activeInHierarchy)
-            {
-                _cardsSetsPanel.SetActive(false);
-                
-                _coolDownPanel.SetActive(true);
-            }
-            else
-            {
-                _coolDownPanel.SetActive(false);
-            }
-            
-            
-        }
-
-        /// <summary>
-        /// 冷却堆按钮绑定方法，点击显示牌组堆卡牌信息界面
-        /// </summary>
-        public void ShowCardsSetsInfo()
-        {
-            if (!_cardsSetsPanel.activeInHierarchy)
-            {
-                
-                _coolDownPanel.SetActive(false);
-                _cardsSetsPanel.SetActive(true);
-            }
-            else
-            {
-                _cardsSetsPanel.SetActive(false);
-            }
-            
-            
-        }
-
-        /// <summary>
-        /// 负责把进入冷却的卡牌放进冷却堆中
-        /// </summary>
-        public void PutInCoolDown(GameObject cardPrefab)
-        {
-            Debug.Log(cardPrefab);
-            setPanelSize(_coolDownPanel, cooldownCards.Count);
-
-            if (_coolDownSlots.Count < cooldownCards.Count) //slot中比冷却卡牌的个数小，说明有新的进入冷却状态的卡牌
-            {
-                int slotIndex = _coolDownSlots.Count; //新加入的下标
-                for (int i = 0; i < cooldownCards.Count - slotIndex; i++)
-                {
-                    GameObject newCooldownSlot = Instantiate(coolDownSlot, _coolDownPanel.transform);
-                    _coolDownSlots.Add(newCooldownSlot.GetComponent<CoolDownSlot>());
-
-                }
-
-                for (int i = 0; i < cooldownCards.Count - slotIndex; i++)
-                {
-                    _prefabToCoolDownSlots.Add(cardPrefab, _coolDownSlots[slotIndex + i]);
-                    _coolDownSlots[slotIndex + i].InsertItem(cooldownCards[slotIndex + i]); //插入到冷却slot中
-                    //_coolDownSlots[slotIndex + i].init(_coolDownPanel.transform); 
-                }
-            }
-        }
-
         /// <summary>
         /// 检测是否能进行抽卡操作，现在暂时设定为永true,是抽卡的condition函数
         /// </summary>
         /// <returns>根据实际情况确定是否能抽卡</returns>
         public bool canDoExtractAction()
         {
-            return true;
+            return _cardsSets.Count != 0;
         }
 
         /// <summary>
-        /// 检测是否能进行冷却操作，现在暂时设定为永true，是冷却事件的condition函数
+        /// 检测是否需要进行冷却操作，现在暂时设定为永true，是冷却事件的condition函数
         /// </summary>
-        /// <returns></returns>
+        /// <returns>若冷却堆不为0，返回true，即需要处理冷却，否则返回false，即不需要</returns>
         public bool canDoCoolDownAction()
         {
-            return true;
+            return _cooldownCards.Count != 0;
         }
+    }
+
+    public class cdObject
+    {
+        private int _leftCd;
+        private string _objectId;
         
-        /// <summary>
-        /// 根据卡牌数量设置对应panel的size
-        /// </summary>
-        /// <param name="panel">冷却堆或者牌组堆对应 panel</param>
-        /// <param name="amount">冷却堆卡牌数组或者牌组堆数组对应卡牌数量</param>
-        private void setPanelSize(GameObject panel, int amount)
+        public int leftCd
         {
-            int height = (amount + AMOUNT_OF_ROW - 1) / AMOUNT_OF_ROW;
-            
-            RectTransform rectTransform = panel.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(PANEL_WIDTH, height * CARD_WIDTH);
+            get { return _leftCd; }
         }
-        
-        
-        /// <summary>
-        /// 更新牌组堆信息，用于 panel 显示
-        /// </summary>
-        public void UpdateCardsSetsInfo()
+        public string objectId
         {
-            setPanelSize(_cardsSetsPanel, cardsSets.Count);
+            get { return _objectId; }
+        }
 
-            for (int i = 0; i < _cardsSetsSlots.Count; i++)     //删除slot里面原有的所有元素
-            {
-                _cardsSetsSlots[i].RemoveItem();
-                Destroy(_cardsSetsSlots[i].gameObject);        
-            }
-            _cardsSetsSlots.Clear();
-            for (int i = 0; i < cardsSets.Count; i++)        //重新添加进去，以实现卡牌堆紧凑
-            {
-                GameObject newCooldownSlot = Instantiate(cardsSetsSlot, _cardsSetsPanel.transform);
-                _cardsSetsSlots.Add(newCooldownSlot.GetComponent<CardsSetsSlot>());
-            }
+        public cdObject(int cd, string id)
+        {
+            _leftCd = cd;
+            _objectId = id;
+        }
 
-            for (int i = 0; i < cardsSets.Count; i++)
-            {
-                _cardsSetsSlots[i].InsertItem(cardsSets[i]);
-                
-            }
+        public bool IfCdIsOver()
+        {
+            return _leftCd == 0;
+        }
+
+        public int ReduceCd()
+        {
+            return --_leftCd;
         }
     }
 }

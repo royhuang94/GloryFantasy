@@ -24,6 +24,10 @@ namespace IMessage
         WIN,    // 胜利消息
         LOSE,    // 失败消息
         
+        HandcardChange,        // 手牌变动消息
+        CardsetChange,         // 卡牌堆变动消息
+        CooldownlistChange,    // 冷却列表变动消息
+        
         AddInHand, //加入手牌
         AnnounceAttack, //攻击宣言
         ActiveAbility, //异能发动

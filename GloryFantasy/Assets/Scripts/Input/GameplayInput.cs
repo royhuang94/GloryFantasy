@@ -38,25 +38,25 @@ namespace GamePlay.Input
         /// <summary>
         /// 标记是否已经选择了一张手牌
         /// </summary>
-        public bool IsSelectingSlot
+        public bool IsSelectingCard
         {
             get
             {
-                return selectedSlot != null;
+                return _selectedCardInstance != null;
             }
         }
         /// <summary>
-        /// 被鼠标选中的手牌槽Slot
+        /// 被鼠标选中的手牌实例
         /// </summary>
-        private UnitSlot selectedSlot;
+        private GameObject _selectedCardInstance;
         /// <summary>
-        /// 被鼠标选中的手牌槽Slot
+        /// 被鼠标选中的手牌实例
         /// </summary>
-        public UnitSlot SelectedSlot
+        public GameObject SelectedCardInstance
         {
             get
             {
-                return selectedSlot; //pickedUnit永远不会为空，因为是从prefab中复制出去的
+                return _selectedCardInstance; //有可能为空的
             }
         }
 
@@ -108,18 +108,18 @@ namespace GamePlay.Input
                 }
             }
             //如果已经选中了一张手牌
-            else if (IsSelectingSlot)
+            else if (IsSelectingCard)
             {
                 //如果不是自己的战区，则无操作
                 //if (!BattleMap.BattleMap.Instance().WarZoneBelong(mapBlock.GetSelfPosition())) return;
                 //做个判断，如果选中的手牌不是单位卡则返回不操作
-                if (selectedSlot.GetBaseCard().type != "Unit") return;
+                if (_selectedCardInstance.GetComponent<BaseCard>().type != "Unit") return;
                 //在对应MapBlock生成单位
-                UnitManager.InstantiationUnit(selectedSlot.GetBaseCard().id , OwnerEnum.Player, mapBlock);
+                UnitManager.InstantiationUnit(_selectedCardInstance.GetComponent<BaseCard>().id , OwnerEnum.Player, mapBlock);
                 //把这张手牌从手牌里删掉
-                selectedSlot.RemoveItem();
+                CardManager.Instance().RemoveCardToCd(_selectedCardInstance);
                 //删掉对应手牌槽的引用
-                selectedSlot = null;
+                _selectedCardInstance = null;
                 //关闭鼠标所在战区的高光显示
                 BattleMap.BattleMap.Instance().IsColor = false;
                 BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
@@ -345,9 +345,9 @@ namespace GamePlay.Input
         /// 设置被选中的手牌槽
         /// </summary>
         /// <param name="currentItemUI"></param>
-        internal void SelectSlotUnit(UnitSlot currentItemUI)
+        internal void SelectCard(GameObject currentItemInstance)
         {
-            selectedSlot = currentItemUI;
+            _selectedCardInstance = currentItemInstance;
         }
 
         /// <summary>

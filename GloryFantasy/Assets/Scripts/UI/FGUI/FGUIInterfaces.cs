@@ -1,12 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GamePlay;
 using FairyGUI;
 using GameCard;
+using IMessage;
+using LitJson;
 
 
-public class FGUIInterfaces : MonoBehaviour
+public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 {
 
 	private GComponent _mainUI;
@@ -14,58 +17,129 @@ public class FGUIInterfaces : MonoBehaviour
 	private GButton _cardSetsButton;
 	private GTextField _APText;
 	
-	private GList _listInCardBook;
-	private GComponent _cardBookFrame;
+	#region 卡牌书内变量
 	private Window _cardBookWindow;
+	private GComponent _cardBookFrame;
 	private GButton _closeWindowButton;
+	private GList _cardsSetsList;
+	private GComponent _cardDisplayer;
+	private GTextField _abstractText;
+	private GTextField _storyText;
+	private GLoader _iconLoader;
+	private GLoader _picLoader;
+	#endregion
+	
+	private GList _handcardList;
+	
+	private GList _cooldownList;
 
+	#region 描述窗内变量
+	private Window _cardDescribeWindow;
+	private GComponent _cardDescibeFrame;
+	private GTextField _title;
+	private GTextField _effect;
+	private GTextField _value;
+	#endregion
+	
+	#region 现有UGUI遗存
 	private GameObject _battleMapBlockAndUnits;
-	private GameObject _cardsSlots;
-	private GameObject _summonButton;
-	private GameObject _cooldownButton;
 	private GameObject _roundStateText;
-	
 	private List<GameObject> _uiToHide;
-	
-	// Use this for initialization
-	void Start () {
+	#endregion
+
+	#region 资源包定义
+	private const string path = "BattleMapFGUIPkg/";
+	private const string pkgName = "20190507";
+	private const string numsPkg = "cdNums";
+
+	private const string handcardAssets = "handcardFake";
+	private const string cooldowncardAssets = "handcardFake";
+	private const string cardsetsAssets = "handcardFake";
+	private const string cardBookPicAssets = "handcardFake";
+	#endregion
+
+	#region 卡牌管理器内列表引用
+	private List<string> handcardList;
+	private List<string> cardSetsList;
+	private List<cdObject> cooldownList;
+	private List<GameObject> handcardInstanceList;
+	#endregion
+	private void Awake()
+	{
 		GRoot.inst.SetContentScaleFactor(960, 540);
-		UIPackage.AddPackage("BattleMapFGUIPkg/20190504");
-		_mainUI = UIPackage.CreateObject("20190504", "battleScene").asCom;
-		_cardBookFrame = UIPackage.CreateObject("20190504", "cardBookFrame").asCom;
+		UIPackage.AddPackage(path + pkgName);
+		UIPackage.AddPackage(path + numsPkg);
+		UIPackage.AddPackage(path + handcardAssets);
+		//UIPackage.AddPackage(path + cooldowncardAssets);
+		//UIPackage.AddPackage(path + cardsetsAssets);
+		//UIPackage.AddPackage(path + cardBookPicAssets);
 		
+		// 战斗场景UI
+		_mainUI = UIPackage.CreateObject(pkgName, "battleScene").asCom;
+		// 卡牌书界面
+		_cardBookFrame = UIPackage.CreateObject(pkgName, "cardBookFrame").asCom;
+
+		// 卡牌描述窗口内容
+		_cardDescibeFrame = UIPackage.CreateObject(pkgName, "cardDescribeFrame").asCom;
+		
+		// 添加主界面UI到游戏场景
 		GRoot.inst.AddChild(_mainUI);
 		
+		#region 卡牌书相关内容初始化
+		// 初始化卡牌书窗口
 		_cardBookWindow = new Window();
+		// 设定卡牌书窗口内容
 		_cardBookWindow.contentPane = _cardBookFrame;
+		// 获取卡牌书内展示区相关变量
+		_cardDisplayer = _cardBookFrame.GetChild("cardDisplayer").asCom;
+		_abstractText = _cardDisplayer.GetChild("abstractText").asTextField;
+		_storyText = _cardDisplayer.GetChild("storyText").asTextField;
+		_iconLoader = _cardDisplayer.GetChild("iconLoader").asLoader;
+		_picLoader = _cardDisplayer.GetChild("cardPicLoader").asLoader;
+		// 设定卡牌书窗口居中
+		_cardBookWindow.CenterOn(GRoot.inst, true);
+		#endregion
 		
+		// 初始化卡牌内容描述窗口
+		_cardDescribeWindow = new Window();
+		// 设定卡牌内容描述窗口内容
+		_cardDescribeWindow.contentPane = _cardDescibeFrame;
+		_title = _cardDescibeFrame.GetChild("title").asTextField;
+		_effect = _cardDescibeFrame.GetChild("effect").asTextField;
+		_value = _cardDescibeFrame.GetChild("values").asTextField;
+		
+		// 从游戏主场景获得各按钮的引用
 		_endRoundButton = _mainUI.GetChild("endRoundButton").asButton;
 		_cardSetsButton = _mainUI.GetChild("cardSetsButton").asButton;
-		_APText = _mainUI.GetChild("APDisplayer").asCom.GetChild("APText").asTextField;
 		_closeWindowButton = _cardBookFrame.GetChild("closeButton").asButton;
-		_listInCardBook = _cardBookFrame.GetChild("cardList").asList;
 		
+		// 从游戏场景获得各list的引用
+		_cooldownList = _mainUI.GetChild("cooldownList").asList;
+		_handcardList = _mainUI.GetChild("handcardList").asList;
+		_cardsSetsList = _cardBookFrame.GetChild("cardList").asList;
 		
+		// 从游戏主场景获取AP值展示的text
+		_APText = _mainUI.GetChild("APDisplayer").asCom.GetChild("APText").asTextField;
+	}
+
+	// Use this for initialization
+	void Start () {
 		#region 处理其他UI
 		_battleMapBlockAndUnits = GameObject.Find("MainPanel_1212");
-		_cardsSlots = GameObject.Find("Panel");
-		_summonButton = GameObject.Find("SummonButton");
-		_cooldownButton = GameObject.Find("CoolDownButton");
 		_roundStateText = GameObject.Find("phaseNameText");
 		
 		_uiToHide = new List<GameObject>();
 
 		_uiToHide.Add(_battleMapBlockAndUnits);
-		_uiToHide.Add(_cardsSlots);
-		_uiToHide.Add(_summonButton);
-		_uiToHide.Add(_cooldownButton);
 		_uiToHide.Add(_roundStateText);
 		#endregion
 
-		foreach (GComponent item in _listInCardBook.GetChildren())
-		{
-			item.icon = UIPackage.GetItemURL("20190504", "emptyCardSlot");
-		}
+		#region 获取卡牌管理器上相应列表引用
+		handcardList = CardManager.Instance().cardsInHand;
+		cardSetsList = CardManager.Instance().cardsSets;
+		cooldownList = CardManager.Instance().cooldownCards;
+		handcardInstanceList = CardManager.Instance().handcardsInstance;
+		#endregion
 		
 		// 卡牌书界面内关闭按钮事件监听
 		_closeWindowButton.onClick.Add(ShowCardBook);
@@ -76,6 +150,37 @@ public class FGUIInterfaces : MonoBehaviour
 		// 卡牌堆按钮添加事件监听
 		_cardSetsButton.onClick.Add(ShowCardBook);
 		
+		MsgDispatcher.RegisterMsg(
+			this.GetMsgReceiver(),
+			(int)MessageType.HandcardChange,
+			() => { return true;},
+			UpdateHandcards,
+			"Hand cards observer"
+		);
+		
+		MsgDispatcher.RegisterMsg(
+			this.GetMsgReceiver(),
+			(int)MessageType.CardsetChange,
+			() => { return true;},
+			UpdateCardsSets,
+			"Card sets observer"
+		);
+		
+		MsgDispatcher.RegisterMsg(
+			this.GetMsgReceiver(),
+			(int)MessageType.CooldownlistChange,
+			() => { return true;},
+			UpdateCooldownList,
+			"Cooldown list observer"
+		);
+		
+		UpdateHandcards();
+		UpdateCardsSets();
+		UpdateCooldownList();
+		
+		_handcardList.onClickItem.Add(OnClickHandCard);
+		
+		_cardsSetsList.onClickItem.Add(OnClickCardInCardSets);
 	}
 
 	private void LateUpdate()
@@ -83,6 +188,71 @@ public class FGUIInterfaces : MonoBehaviour
 		_APText.text = Player.Instance().ap.ToString();
 	}
 
+	/// <summary>
+	/// 响应手牌点击事件的函数
+	/// </summary>
+	public void OnClickHandCard(EventContext context)
+	{
+		// 如果不是玩家回合，则无法使用卡牌
+		if (!Gameplay.Instance().roundProcessController.IsPlayerRound())
+			return;
+		
+		int index = _handcardList.GetChildIndex(context.data as GObject);
+		BaseCard baseCardReference = handcardInstanceList[index].GetComponent<BaseCard>();
+		if (!Player.Instance().ConsumeAp(baseCardReference.cost))
+		{
+			Debug.Log("Ran out of AP, cant use this one");
+			return;
+		}
+		// 若是效果牌
+		if (baseCardReference.type.Equals("Order"))
+		{
+			// 判断使用结果
+			if (baseCardReference.Use())
+			{
+				// 使用成功则移除手牌
+				CardManager.Instance().RemoveCardToCd(index);
+				return;
+			}
+		}
+		else
+		{
+			if (Gameplay.Instance().gamePlayInput.IsSelectingCard == false)
+			{
+				Gameplay.Instance().gamePlayInput.SelectCard(handcardInstanceList[index]);
+				BattleMap.BattleMap.Instance().IsColor = true;
+			}
+		}
+	}
+
+	/// <summary>
+	/// 响应卡牌堆内卡牌点击事件的函数
+	/// </summary>
+	/// <param name="context"></param>
+	public void OnClickCardInCardSets(EventContext context)
+	{
+		// 先获取到点击的下标
+		int index = _cardsSetsList.GetChildIndex(context.data as GObject);
+		
+		// 通过下标获取到id
+		string cardId = cardSetsList[index];
+		
+		// 向数据库查询展示数据
+		JsonData data = CardManager.Instance().GetCardJsonData(cardId);
+
+		_abstractText.text = "姓名：" + data["name"] + "\n" + "类型：" + data["type"];
+
+		_storyText.text = "这里本来该有卡牌故事但是现在没有数据\n" + data["effect"];
+		
+		// TODO: 根据策划案加载icon
+
+		_picLoader.url = UIPackage.GetItemURL(cardBookPicAssets, cardId);
+		
+	}
+
+	/// <summary>
+	/// 临时处理函数，用于协调UGUI和FGUI的显示与隐藏关系
+	/// </summary>
 	private void ShowCardBook()
 	{
 		if (!_cardBookWindow.isShowing)
@@ -98,6 +268,78 @@ public class FGUIInterfaces : MonoBehaviour
 		{
 			_uiToHide[i].SetActive(!_uiToHide[i].activeSelf);
 		}
-		
 	}
+
+	/// <summary>
+	/// 更新卡牌书内卡牌堆列表，非cardManager调用等于浪费时间
+	/// </summary>
+	public void UpdateCardsSets()
+	{
+		// TODO: 完善此方法
+		// 从卡牌list中移除所有item，加入新的，虽然暴力，但很简单
+		_cardsSetsList.RemoveChildren(0, -1, true);
+
+		foreach (string cardId in cardSetsList)
+		{
+			GObject item = UIPackage.CreateObject(pkgName, "cardsSetsItem");
+			item.icon = UIPackage.GetItemURL(cardsetsAssets,cardId);
+			_cardsSetsList.AddChild(item);
+		}
+	}
+
+	/// <summary>
+	/// 更新手牌，保持与CardManager的同步
+	/// </summary>
+	public void UpdateHandcards()
+	{
+		// TODO: 完善此方法
+		_handcardList.RemoveChildren(0, -1, true);
+		foreach (string cardId in handcardList)
+		{
+			GObject item = UIPackage.CreateObject(pkgName, "handcardItem2");
+			item.icon = UIPackage.GetItemURL(handcardAssets, cardId);
+			_handcardList.AddChild(item);
+			string id = string.Copy(cardId);
+			item.onRollOver.Add(() =>
+			{
+				JsonData data = CardManager.Instance().GetCardJsonData(id);
+				_title.text = data["name"].ToString();
+				_effect.text = data["effect"].ToString();
+				_value.text = "冷却：" + data["cd"] + "    " + "专注值：" + data["cost"] + "\n" + data["type"];
+				
+				_cardDescribeWindow.Show();
+			});
+			
+			item.onRollOut.Add(() =>
+			{
+				_cardDescribeWindow.Hide();
+			});
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public void UpdateCooldownList()
+	{
+		// TODO: 完善此方法
+		_cooldownList.RemoveChildren(0, -1, true);
+		foreach (cdObject cooldownCard in cooldownList)
+		{
+			GObject item = UIPackage.CreateObject(pkgName, "cooldownItem");
+			item.icon = UIPackage.GetItemURL(numsPkg, "cdNum" + cooldownCard.leftCd);
+			item.asCom.GetChild("n2").asLoader.url = UIPackage.GetItemURL(cooldowncardAssets, cooldownCard.objectId);
+			_cooldownList.AddChild(item);
+		}
+	}
+	
+	/// <summary>
+	/// 仿照主程写的写的接口
+	/// </summary>
+	T MsgReceiver.GetUnit<T>()
+	{
+		return this as T;
+	}
+	
 }
+

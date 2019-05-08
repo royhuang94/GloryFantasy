@@ -10,6 +10,28 @@ using GameCard;
 using GamePlay;
 using GamePlay.Round;
 
+
+
+
+// TODO: 已弃用，请尽快移除对本脚本的使用-------2019/5/9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 namespace GameGUI
 {
     /// <summary>
@@ -72,9 +94,9 @@ namespace GameGUI
             Destroy(_cardInstance);
             _cardInstance = null;
             
-            if(!notNotify)
+            //if(!notNotify)
                 // 向CardManager发送通知
-                CardManager.Instance().RemoveCard(_cardPrefab, controlCd);
+                //CardManager.Instance().RemoveCard(_cardPrefab, controlCd);
             
             //_cardPrefab = null;
         }
@@ -88,7 +110,7 @@ namespace GameGUI
             RemoveItem(true);
             
             // 通知CardManager将牌移回牌库
-            CardManager.Instance().MoveBackToCardSets(_cardPrefab);
+            //CardManager.Instance().MoveBackToCardSets(_cardPrefab);
         }
 
         /// <summary>
@@ -175,6 +197,7 @@ namespace GameGUI
         }
 
 
+        // TODO: 以下函数已迁移至FGUIInterfaces.cs/ OnClickHandCard函数下
         /// <summary>
         /// 自身slot为空
         /// 1. isPickedUnit != false       直接放在这个空的slot槽下
@@ -254,10 +277,9 @@ namespace GameGUI
                 {
                     //自身不为空
                     //获取当前自身slot下的Unit
-                    CardUI currentItemUI = transform.GetChild(0).GetComponent<CardUI>();
-                    if (GamePlay.Gameplay.Instance().gamePlayInput.IsSelectingSlot == false)
+                    if (GamePlay.Gameplay.Instance().gamePlayInput.IsSelectingCard == false)
                     {
-                        GamePlay.Gameplay.Instance().gamePlayInput.SelectSlotUnit(this); //调用此函数用于鼠标"捡起"当前slot
+                        //GamePlay.Gameplay.Instance().gamePlayInput.SelectSlotUnit(this); //调用此函数用于鼠标"捡起"当前slot
                         BattleMap.BattleMap.Instance().IsColor = true;
                     }
                     else

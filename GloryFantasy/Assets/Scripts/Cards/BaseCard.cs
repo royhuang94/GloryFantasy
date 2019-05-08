@@ -5,15 +5,8 @@ using UnityEngine;
 
 namespace GameCard
 {
-    /*
-     * 暂时仅用单位牌，且使用超级生物的信息进行默认初始化
-     */
     public class BaseCard : MonoBehaviour, IMessage.MsgReceiver
     {
-
-        // 暂时没想到好方法限制他的写操作，绝对不要修改
-        public string id;
-        
         #region 变量定义
         
         private List<string> _abilityId;
@@ -30,7 +23,11 @@ namespace GameCard
         private string _relatedToken;
         private string _tokenId;
         private string _type;
-
+        
+        private string _id;
+        
+        // 记录卡牌冷却回合数
+        public int cooldownRounds;
         #endregion
         
         #region 所有变量可访问性定义
@@ -97,6 +94,11 @@ namespace GameCard
             get { return _type; }
         }
         
+        public string id
+        {
+            get { return _id; }
+        }
+        
         #endregion
         
         T IMessage.MsgReceiver.GetUnit<T>()
@@ -105,23 +107,24 @@ namespace GameCard
         }
 
         /// <summary>
-        /// 启动时从卡牌数据库请求数据并进行初始化
+        /// 调用时从卡牌数据库请求数据并进行初始化
         /// </summary>
+        /// <param name="cardId">卡牌初始化使用的CardID.必须存在</param>
+        /// <param name="cardData">卡牌初始化时需要用到的json数据</param>
         /// <exception cref="NotImplementedException">无法正常初始化</exception>
-        private void Start()
+        public void Init(string cardId, JsonData cardData)
         {
             // 若id为空，则抛出异常，一般在预制件没有做好，或者程序内某个地方挂上了id为空的BaseCard脚本就会抛出错误
-            if (id.Length == 0 )
+            if (cardId.Length == 0 )
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
-            
-            // 调用接口从卡牌数据库获取对应的JsonData
-            JsonData cardData = CardManager.Instance().GetCardJsonData(id);
+
+            _id = cardId;
             
             // 如果不存在此ID，则抛出异常
             if(cardData == null)
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
 
             _cd = int.Parse(cardData["cd"].ToString());
             _cost = int.Parse(cardData["cost"].ToString());
@@ -154,9 +157,14 @@ namespace GameCard
             
         }
 
-
-        // 记录卡牌冷却回合数
-        public int cooldownRounds { get; set; }
+        /// <summary>
+        /// 用于使用卡牌效果
+        /// </summary>
+        /// <returns>返回使用结果，成功返回true</returns>
+        public bool Use()
+        {
+            return true;
+        }
 
     }
     
