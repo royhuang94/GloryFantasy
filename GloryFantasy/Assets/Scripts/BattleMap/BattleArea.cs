@@ -91,7 +91,7 @@ namespace BattleMap
             }
         }
 
-        //战区所属权
+        //战斗胜利条件之一：战区所属权
         public bool WarZoneBelong(Vector3 position, BattleMapBlock[,] mapBlock)
         {
             int unitAmout = 0;//战区上单位的数量
@@ -133,5 +133,68 @@ namespace BattleMap
             }
         }
 
+        /// <summary>
+        ///  战斗胜利条件之一：守卫某战区存活指定回合数
+        /// </summary>
+        /// <param name="area">要守卫的战区</param>
+        /// <param name="curRounds">当前回合数</param>
+        /// <param name="targetRounds">要守卫的目标回合数</param>
+        /// <param name="mapBlock"></param>
+        /// <returns></returns>
+        public bool ProtectBattleZooe(int area,int curRounds,int targetRounds)
+        {
+            int unitAmout = 0;//该战区上我方单位数量
+            List<Vector2> battleAreas = null;
+            battleAreaDic.TryGetValue(area, out battleAreas);
+            foreach (Vector2 pos in battleAreas)
+            {
+                if (BattleMap.Instance().CheckIfHasUnits(pos))
+                {
+                    GameUnit.GameUnit unit = BattleMap.Instance().GetUnitsOnMapBlock(pos);
+                    if(unit.owner == GameUnit.OwnerEnum.Player&& curRounds <= targetRounds)
+                    {
+                        unitAmout++;
+                    }
+                }
+            }
+            if(unitAmout == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// 战斗胜利条件与失败之一:将某单位护送到指定战区/某敌人进入指定战区
+        /// </summary>
+        /// <param name="area">玩家单位或敌方单位要到到达的目标战区（同一战区）</param>
+        /// <param name="player">哪个玩家的单位到达</param>
+        /// /// <param name="enemy">哪个敌方单位到达</param>
+        /// <returns></returns>
+        public int ProjectUnit(int area,GameUnit.GameUnit player,GameUnit.GameUnit enemy)//不好直接返回bool值，万一都还没见进入这个战区该返回什么？暂时就这样吧
+        {
+            List<Vector2> battleAreas = null;
+            battleAreaDic.TryGetValue(area, out battleAreas);
+            foreach (Vector2 pos in battleAreas)
+            {
+                if (BattleMap.Instance().CheckIfHasUnits(pos))
+                {
+                    GameUnit.GameUnit tempUnit = BattleMap.Instance().GetUnitsOnMapBlock(pos);
+                    if(player != null&& tempUnit.id == player.id)
+                    {
+                            return 0;//胜利
+                    }
+                    
+                    else if(enemy!=null && tempUnit.id == enemy.id)
+                    {
+                        return 1;//失败
+                    }    
+                }
+            }
+            return -1;//都还没进入指定战区
+        }
     }
 }

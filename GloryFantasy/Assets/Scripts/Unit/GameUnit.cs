@@ -10,7 +10,7 @@ namespace GameUnit
     {
         Player,
         Enemy,
-        neutrality //中立
+        Neutrality //中立
     }
 
     public class GameUnit : MonoBehaviour, IMessage.MsgReceiver

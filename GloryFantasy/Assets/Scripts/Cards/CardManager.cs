@@ -187,7 +187,7 @@ namespace GameCard
         /// 从牌组中抽取卡牌到手牌中
         /// </summary>
         /// <param name="cardAmount">抽取卡牌数量，默认为三</param>
-        public void ExtractCards(int cardAmount = 1)
+        public void ExtractCards(int cardAmount = 1 )
         {
             // 若手牌数量大于或等于手牌上限，直接返回（取消检查的话则此判定永false）
             if (_cardsInHand.Count >= cardsUpperLimit && !cancelCheck)

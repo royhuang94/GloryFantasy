@@ -54,7 +54,6 @@ public class Charactor : MonoBehaviour
     /// <returns></returns>
     public Vector3 SetCharactorLocate(Vector3 locate)
     {
-
         Debug.Log("初始化角色位置");
         charactordata.playerlocate.ChangeToNormalVect(locate);
         return charactordata.playerlocate.Normal_vector;
@@ -71,7 +70,6 @@ public class Charactor : MonoBehaviour
         charactordata.underfeet = GameObject.Find("test" + charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).x.ToString() + charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).z.ToString());
         setaround(charactordata.underfeet);
         Debug.Log("角色初始化完成");
-
     }
     /// <summary>设定初始步数和血量
     /// 
@@ -99,21 +97,15 @@ public class Charactor : MonoBehaviour
     {   
         if(ChangeStep(step))
             {
- 
                 charactordata.charactorstate = MoveState.Start;         
                 // this.GetComponent<Transform>().position = charactordata.playerlocate.Normal_vector;
                 StartCoroutine(MoveAction(newtransform, MoveSpeed));
-
             }
         else
             {
                 HasDead();
                 Debug.Log("角色因死亡返回至：" + charactordata.playerlocate.Hex_vector.x.ToString() + "," + charactordata.playerlocate.Hex_vector.z.ToString());
-
             }
-
-
-
         }
     /// <summary>重设角色周围地形格写入AroundList
         /// 
@@ -169,7 +161,6 @@ public class Charactor : MonoBehaviour
             if (charactordata.step < 0)
             {
                     return false;
-                    // HasDead();
             }
         }
         else
@@ -177,7 +168,6 @@ public class Charactor : MonoBehaviour
             Debug.Log("超出最大步数");
             charactordata.step = charactordata.maxstep;
             Step = charactordata.step;
-
         }
 
         return true;
@@ -223,7 +213,6 @@ IEnumerator MoveAction(Vector3 target,float movespeed)
                 Debug.Log("角色移动至：" + charactordata.playerlocate.Hex_vector.x.ToString() + "," + charactordata.playerlocate.Hex_vector.z.ToString());
                 charactordata.charactorstate = MoveState.MotionLess;
                 charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();
-
 
             }
             

@@ -46,9 +46,50 @@ namespace GamePlay.Round
         /// 对外接口判断，用于检测当前是否为玩家可操作的主要阶段
         /// </summary>
         /// <returns>若为玩家可操作的主要阶段，则返回true，否则返回false</returns>
-        public bool isPlayerRound()
+        public bool IsPlayerRound()
         {
             return State == RoundState.mainPhase;
+        }
+
+
+        /// <summary>
+        /// 返回当前状态机是否处于结果状态（胜利，失败）
+        /// </summary>
+        /// <returns>如果不在结果状态，返回false，否则返回true</returns>
+        public bool IsResultState()
+        {
+            if (State != RoundState.WinState || State != RoundState.LoseState)
+                return false;
+            
+            return true;
+        }
+
+
+        /// <summary>
+        /// 对外提供的接口，用于使状态机进入胜利状态
+        /// </summary>
+        public void Win()
+        {
+            State = RoundState.WinState;
+            State.Enter(this);
+        }
+
+        /// <summary>
+        /// 对外提供的接口，用于使状态机进入失败的状态
+        /// </summary>
+        public void Lose()
+        {
+            State = RoundState.LoseState;
+            State.Enter(this);
+        }
+
+        /// <summary>
+        /// 用于重置状态机当前状态，使进入恢复专注值状态
+        /// </summary>
+        public void SetDefault()
+        {
+            State = RoundState.RestoreApPhase;
+            EnteringCurrentState();
         }
 
         public RoundState State;
@@ -73,6 +114,8 @@ namespace GamePlay.Round
         public static DiscardPhase discardPhase = new DiscardPhase();
         public static EndPhase endPhase = new EndPhase();
         public static AIPhase AiPhase = new AIPhase();
+        public static WinState WinState = new WinState();
+        public static LoseState LoseState = new LoseState();
     }
 
     /// <summary>
@@ -277,5 +320,33 @@ namespace GamePlay.Round
         }
     }
 
+    public class WinState : RoundState
+    {
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.Enter(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.WIN);
+        }
 
+        public override string ToString()
+        {
+            return "获胜";
+        }
+    }
+
+    public class LoseState : RoundState
+    {
+
+        public override void Enter(RoundProcessController roundProcessController)
+        {
+            base.Enter(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.LOSE);
+        }
+
+        public override string ToString()
+        {
+            return "败北";
+        }
+    }
+   
 }
