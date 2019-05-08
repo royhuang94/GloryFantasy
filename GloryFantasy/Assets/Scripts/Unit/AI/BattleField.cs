@@ -47,27 +47,29 @@ namespace AI
                 if (!unit.IsDead())
                 {
                     AI.SingleController controller = GamePlay.Gameplay.Instance().autoController.GetSingleControllerByID(unit.CurPos);
-
-                    GameUnit.HeroActionState state = controller.AutoAction();
-
-                    //TODO 状态切换
-                    //目前没有切换，之后添加
-                    switch (state)
+                    if(controller != null)
                     {
-                        case GameUnit.HeroActionState.WaitForPlayerChoose:
-                            battleState = BattleState.WaitForPlayer;
-                            break;
-                        case GameUnit.HeroActionState.BattleEnd:
-                            battleState = BattleState.End;
-                            break;
-                        case GameUnit.HeroActionState.Error:
-                            battleState = BattleState.Exception;
-                            break;
-                        case GameUnit.HeroActionState.Warn:
-                            battleState = BattleState.Exception;
-                            break;
-                        default:
-                            break;
+                        GameUnit.HeroActionState state = controller.AutoAction();
+
+                        //TODO 状态切换
+                        //目前没有切换，之后添加
+                        switch (state)
+                        {
+                            case GameUnit.HeroActionState.WaitForPlayerChoose:
+                                battleState = BattleState.WaitForPlayer;
+                                break;
+                            case GameUnit.HeroActionState.BattleEnd:
+                                battleState = BattleState.End;
+                                break;
+                            case GameUnit.HeroActionState.Error:
+                                battleState = BattleState.Exception;
+                                break;
+                            case GameUnit.HeroActionState.Warn:
+                                battleState = BattleState.Exception;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
