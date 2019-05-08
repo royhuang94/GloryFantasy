@@ -17,7 +17,7 @@ public enum MoveState
         Stop,//移动结束
         MotionLess,//静止
     }
-public class Charactor : MonoBehaviour
+public class Charactor : UnitySingleton<Charactor>
 {
     
     public Vector3 locate;
@@ -45,7 +45,7 @@ public class Charactor : MonoBehaviour
         ///
         /// </summary>
     public Dictionary<string, MapUnit> aroundlist = new Dictionary<string, MapUnit>();
-    public MainMapManager mapmanager;
+   // public MainMapManager mapmanager;
     public CharactorData charactordata;
     /// <summary>设定角色初始位置
     /// 
@@ -185,7 +185,7 @@ public class Charactor : MonoBehaviour
     void Awake()
     {
 
-        mapmanager = GameObject.Find("Map").GetComponent<MainMapManager>();
+      //  mapmanager = GameObject.Find("Map").GetComponent<MainMapManager>();
     }
  /// <summary>实现移动的携程
  /// 

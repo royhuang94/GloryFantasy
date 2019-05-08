@@ -29,17 +29,18 @@ namespace MainMap
     /// <param name="mapunit"></param>
         public void InstalizeElement(string elementtype, GameObject mapunit)
         {
+//#if UNITY_EDITOR
             switch (elementtype)
             {
                 case "monster":
                     Debug.Log("生成怪物");
-                    GameObject monster = (GameObject)Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Scripts/MainMap/MMtestPrefab/monster.prefab", typeof(GameObject)));
+                    GameObject monster = (GameObject)Instantiate(Resources.Load("MMtestPrefab/monster", typeof(GameObject)));
                     ElementSet(monster,mapunit);
                     monster.AddComponent<Monster>();
                     break;
                 case "randomevent":
                     Debug.Log("生成随机事件");
-                    GameObject randomevent = (GameObject)Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Scripts/MainMap/MMtestPrefab/randomevent.prefab", typeof(GameObject)));
+                    GameObject randomevent = (GameObject)Instantiate(Resources.Load("MMtestPrefab/randomevent", typeof(GameObject)));
                     ElementSet(randomevent,mapunit);
                     randomevent.AddComponent<RandomEvent>();
                     break;
@@ -47,6 +48,7 @@ namespace MainMap
                     Debug.Log("地格上层元素读取错误");
                     break;
             }
+//#endif
         }
         /// <summary>设置传入的地图上层元素的父节点
         /// 
@@ -80,7 +82,7 @@ namespace MainMap
         }
         protected void instalize()
         {
-          //  ParentUnit = gameObject.GetComponentInParent<MapUnit>();
+        //  ParentUnit = gameObject.GetComponentInParent<MapUnit>();
             Button btn = gameObject.GetComponentInParent<Button>();
             btn.onClick.AddListener(ElementOnClick);
         }
@@ -98,6 +100,7 @@ namespace MainMap
         }
         public override void ElementOnClick()
         {
+            //if(mapManager.charactor.aroundlist.ContainsValue(this))
             Debug.Log("怪物被点击");
         }
     }
