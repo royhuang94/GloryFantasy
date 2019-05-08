@@ -296,7 +296,6 @@ namespace GameCard
             //TODO: 不用加入冷却堆的卡牌不加入冷却list
             // 加入冷却list
             this.cooldownCards.Add(cardPrefab);
-            Debug.Log("cool: " + cooldownCards.Count);
             PutInCoolDown(cardPrefab);                //每处理一个进入冷却状态的卡牌就放进冷却堆中
         }
 
@@ -412,15 +411,12 @@ namespace GameCard
             
             if (!_coolDownPanel.activeInHierarchy)
             {
-                Debug.Log("点击冷却牌_显示");
-                
                 _cardsSetsPanel.SetActive(false);
                 
                 _coolDownPanel.SetActive(true);
             }
             else
             {
-                Debug.Log("点击冷却牌_不显示");
                 _coolDownPanel.SetActive(false);
             }
             
@@ -434,14 +430,12 @@ namespace GameCard
         {
             if (!_cardsSetsPanel.activeInHierarchy)
             {
-                Debug.Log("点击牌堆组_显示");
                 
                 _coolDownPanel.SetActive(false);
                 _cardsSetsPanel.SetActive(true);
             }
             else
             {
-                Debug.Log("点击牌堆组_不显示");
                 _cardsSetsPanel.SetActive(false);
             }
             
@@ -469,7 +463,6 @@ namespace GameCard
                 for (int i = 0; i < cooldownCards.Count - slotIndex; i++)
                 {
                     _prefabToCoolDownSlots.Add(cardPrefab, _coolDownSlots[slotIndex + i]);
-                    Debug.Log("panel:" + _coolDownPanel.transform);
                     _coolDownSlots[slotIndex + i].InsertItem(cooldownCards[slotIndex + i]); //插入到冷却slot中
                     //_coolDownSlots[slotIndex + i].init(_coolDownPanel.transform); 
                 }

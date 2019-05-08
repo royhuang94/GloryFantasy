@@ -47,7 +47,11 @@ namespace IMessage
 
         Move, //开始移动
         UnitMoving, //正在移动
-        Aftermove //移动结束
+        Aftermove, //移动结束
+        
+        RoundsEnd,  //回合结束
+        
+        Encounter // 遭遇战
     };
 
     public interface MsgReceiver
