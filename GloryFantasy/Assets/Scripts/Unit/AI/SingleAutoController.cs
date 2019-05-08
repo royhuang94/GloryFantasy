@@ -141,6 +141,7 @@ namespace AI
                 if (Distance(battleUnit, hatredUnit) <= stopDistance)
                 {
                     toTargetPath.Clear();
+                    targetBattleUnit = hatredUnit;
                     AutoUseAtk();
                     catched = true;
                 }
