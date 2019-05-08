@@ -778,7 +778,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 644372511}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.888889, y: -5, z: 0}
+  m_LocalPosition: {x: 8.89401, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1380,7 +1380,7 @@ MonoBehaviour:
   sortingOrder: 0
   packagePath: MainMapFairyGUIPackage/MainMapUI
   renderMode: 0
-  renderCamera: {fileID: 0}
+  renderCamera: {fileID: 644372513}
   position: {x: 0, y: 0, z: 0}
   scale: {x: 1, y: 1, z: 1}
   rotation: {x: 0, y: 0, z: 0}
@@ -1397,7 +1397,7 @@ Transform:
   m_GameObject: {fileID: 1318690173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.018518519, y: 0.018518519, z: 0.018518519}
+  m_LocalScale: {x: 0.04608295, y: 0.04608295, z: 0.04608295}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -1958,7 +1958,7 @@ MonoBehaviour:
   sortingOrder: 1
   packagePath: MainMapFairyGUIPackage/MainMapUI
   renderMode: 0
-  renderCamera: {fileID: 0}
+  renderCamera: {fileID: 644372513}
   position: {x: 0, y: 0, z: 0}
   scale: {x: 1, y: 1, z: 1}
   rotation: {x: 0, y: 0, z: 0}
@@ -1975,7 +1975,7 @@ Transform:
   m_GameObject: {fileID: 1978117138}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.018518519, y: 0.018518519, z: 0.018518519}
+  m_LocalScale: {x: 0.021008404, y: 0.021008404, z: 0.021008404}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7

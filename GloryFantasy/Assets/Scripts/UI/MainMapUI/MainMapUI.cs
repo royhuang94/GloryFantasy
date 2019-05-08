@@ -12,7 +12,7 @@ namespace GameGUI
 {/// <summary>以下所有代码都是为了测试和演示，所以会略草率= = 
 /// 
 /// </summary>
-    public class MainMapUI : MonoBehaviour
+    public class MainMapUI : UnitySingleton<MainMapUI>
     {
        // public Button CardCollection;
         public   GameObject TestUI;
@@ -27,7 +27,7 @@ namespace GameGUI
 
         private void Start()
         {
-            //  TestUI = GameObject.Find("TestUI");
+            GRoot.inst.SetContentScaleFactor(960, 540);
             mainmapUI = GameObject.Find("MainMapUI").GetComponent<UIPanel>().ui;
             ccbtn = mainmapUI.GetChild("CardCollectionBtn").asButton;
             ccbtn.onClick.Add(() => ShowCardCollect());
