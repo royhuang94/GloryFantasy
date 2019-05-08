@@ -228,7 +228,7 @@ namespace BattleMap
                 unit.nextPos = paths[i];
                 MsgDispatcher.SendMsg((int)MessageType.Aftermove);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.4f); 
             }
             if(callback != null)
                 callback();

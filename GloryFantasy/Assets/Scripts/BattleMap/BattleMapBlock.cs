@@ -98,7 +98,8 @@ namespace BattleMap
         //处理地图块点击事件
         public void OnPointerDown(PointerEventData eventData)
         {
-            Gameplay.Instance().gamePlayInput.OnPointerDown(this, eventData);
+            if(Gameplay.Instance().roundProcessController.IsPlayerRound())
+                Gameplay.Instance().gamePlayInput.OnPointerDown(this, eventData);
         }
 
         //显示战区
