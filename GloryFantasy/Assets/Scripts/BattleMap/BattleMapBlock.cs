@@ -39,13 +39,14 @@ namespace BattleMap
         /// 向方块上增加GameUnit
         /// </summary>
         /// <param name="unit"></param>
-        public void AddUnit(Unit unit)
+        public void AddUnit(Unit unit, bool isSetUnitsOnMe = true)
         {
             //Debug.Log("MapBlocks--Added unit:" + unit.ToString());
-            units_on_me.Add(unit);
+            if(isSetUnitsOnMe)
+                units_on_me.Add(unit);
             //在Hierarchy中，还需要把单位添加到Block下
             //修改单位的父级对象
-            unit.gameObject.transform.SetParent(this.transform);
+                unit.gameObject.transform.SetParent(this.transform);
         }
         /// <summary>
         /// 向方块上增加GameUnit

@@ -209,14 +209,17 @@ namespace BattleMap
                 battleMap.RemoveUnit(unit);
                 //添加当前unit到地图块儿下面的units_on_me内
                 tempVector = new Vector2((int)paths[i].x, (int)paths[i].y);
-                battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);                            
-                battleMap.AddUnit(unit);
+                battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);
+                if(i != 0)
+                    battleMap.AddUnit(unit);
+                else
+                    battleMap.AddUnit(unit, false);
                 unit.transform.localPosition = Vector3.zero;
 
                 if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
                 {
                     BattleMap.Instance().debuffBM.UnitEnterBurning(tempVector);
-                }
+                } 
                 else if (battleMap.blockType == EMapBlockType.Retire)//如果经过滞留块
                 {
                     

@@ -99,13 +99,12 @@ namespace GamePlay.Input
         public override void Excute()
         {
             Debug.Log("Moving Command excusing");
-            if (_unit.owner != GameUnit.OwnerEnum.Enemy && BattleMap.BattleMap.Instance().MapNavigator.PathSearch(_unitPosition, _targetPosition))
+            if (BattleMap.BattleMap.Instance().MapNavigator.PathSearch(_unitPosition, _targetPosition))
             {
                 //TODO 产生移动变化，检测
                 BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _targetPosition);
             }
-            else
-                BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_unit, _targetPosition);
+
         }
 
         private GameUnit.GameUnit _unit;
