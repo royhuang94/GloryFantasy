@@ -61,7 +61,7 @@ public class MainMapManager : UnitySingleton<MainMapManager>
     /// <summary>地格材质，测试用，运行的时候找一个Unity默认的材质加上去就行。
     /// 
     /// </summary>
-    public Mesh mesh;
+    public Sprite mesh;
     /// <summary>人物角色实例。
     /// 
     /// </summary>
@@ -73,9 +73,7 @@ public class MainMapManager : UnitySingleton<MainMapManager>
     void Awake()
     {
         Screen.SetResolution(960, 540, false);
-        ReadMap();
-      //  mainmapUI = GameObject.Find("TestUI").GetComponent<MainMapUI>();//我写这个是干啥来着？？？不知道，反正ui还没接，不管了。2019.3.30
-     
+        ReadMap();     
     }
         /// <summary>通过读取文件里的字符串转换成对应的地格生成地图
         /// 
@@ -114,10 +112,13 @@ public class MainMapManager : UnitySingleton<MainMapManager>
                                 break;
                         }
                         //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
-                        MeshFilter flit = mapunit.AddComponent<MeshFilter>();
-                        mapunit.AddComponent<MeshRenderer>();
-                        mapunit.AddComponent<BoxCollider>();
-                        flit.mesh = mesh;
+                        SpriteRenderer render = mapunit.AddComponent<SpriteRenderer>();
+                        render.sprite = mesh;
+                        PolygonCollider2D collider = mapunit.AddComponent<PolygonCollider2D>();
+                        collider.isTrigger = true;
+                        mapunit.transform.rotation= Quaternion.AngleAxis(90, Vector3.right);
+                        mapunit.transform.localScale= new Vector3(0.5f, 0.5f, 0.5f);
+
                         //如果有地格上层元素，传给MapElementManager处理
                         if (upper.Length == 2)
                         {
