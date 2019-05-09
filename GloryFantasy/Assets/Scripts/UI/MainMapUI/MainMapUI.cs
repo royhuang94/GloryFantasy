@@ -15,23 +15,29 @@ namespace GameGUI
     public class MainMapUI : UnitySingleton<MainMapUI>
     {
        // public Button CardCollection;
-        public   GameObject TestUI;
-        public  GComponent mainmapUI;
-        public GameObject cardcollect_UI;
+        public GameObject TestUI;
+        public GComponent mainmapUI;
+        public Window cardcollect_UI;
         public GComponent cardcollectUI;
-        public  GameObject postUI;
+        public GameObject postUI;
         public GButton ccbtn;
         public GButton closebtn;
         public GameObject Map;
 
 
-        private void Start()
+        private void Awake()
         {
             GRoot.inst.SetContentScaleFactor(960, 540);
-            mainmapUI = GameObject.Find("MainMapUI").GetComponent<UIPanel>().ui;
+            UIPackage.AddPackage("MainMapFairyGUIPackage/MainMapUI");
+            mainmapUI = UIPackage.CreateObject("MainMapUI", "Component2").asCom;
+            cardcollectUI = UIPackage.CreateObject("MainMapUI", "Component4").asCom;
+            GRoot.inst.AddChild(mainmapUI);
             ccbtn = mainmapUI.GetChild("CardCollectionBtn").asButton;
             ccbtn.onClick.Add(() => ShowCardCollect());
             Map = GameObject.FindGameObjectWithTag("Map");
+            cardcollect_UI = new Window();
+            cardcollect_UI.contentPane=cardcollectUI;
+            cardcollect_UI.CenterOn(GRoot.inst, true);
             Debug.Log("ui初始化");
         }  
         /// <summary>点击驿站地格后调用此方法展示驿站UI;
@@ -95,10 +101,10 @@ namespace GameGUI
         public void ShowCardCollect()
         {
             Debug.Log("展示卡牌收藏");
+            //TODO：ui调用setactive会导致性能问题，后期要改其他实现方式！！2019.5.8
             Map.SetActive(false);
-            cardcollect_UI.SetActive(true);
-            cardcollectUI = GameObject.Find("CardCollectionUI").GetComponent<UIPanel>().ui;
-            closebtn = cardcollectUI.GetChild("Close").asButton;
+            cardcollect_UI.Show();
+            closebtn = cardcollect_UI.contentPane.GetChild("Close").asButton;
             closebtn.onClick.Add(() => CloseCardCollect());
 
         }
@@ -107,8 +113,9 @@ namespace GameGUI
         /// </summary>
         public void CloseCardCollect()
         {
-            cardcollect_UI.SetActive(false);
+            cardcollect_UI.Hide();
             Map.SetActive(true);
+            //TODO：ui调用setactive会导致性能问题，后期要改其他实现方式！！2019.5.8
             Debug.Log("卡牌收藏关闭");
         }
     }
