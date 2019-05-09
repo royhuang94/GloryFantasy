@@ -7,7 +7,7 @@ using GamePlay;
 
 namespace Ability
 {
-    public class Wit : Ability
+    public class CuringWind : Ability
     {
         Trigger trigger;
         bool isActive = false;
@@ -15,23 +15,23 @@ namespace Ability
         private void Awake()
         {
             //导入Wit异能的参数
-            InitialAbility("Wit");
+            InitialAbility("CuringWind");
         }
 
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者
-            trigger = new TWit(this.GetCardReceiver(this));
+            trigger = new TCuringWind(this.GetCardReceiver(this));
             //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "Wit");
+            MsgDispatcher.RegisterMsg(trigger, "CuringWind");
         }
 
 
     }
 
-    public class TWit : Trigger
+    public class TCuringWind : Trigger
     {
-        public TWit(MsgReceiver _speller)
+        public TCuringWind(MsgReceiver _speller)
         {
             register = _speller;
             //响应时点是发动卡牌
