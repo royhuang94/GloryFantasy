@@ -4,7 +4,6 @@ using UnityEngine;
 
 using IMessage;
 using GamePlay;
-using GameCard;
 
 namespace Ability
 {
@@ -50,7 +49,7 @@ namespace Ability
         {
 
             //TODO抽两张牌
-            
+            GameCard.CardManager.Instance().ExtractCards(3);
             //TODO选择手牌
 
             //TODO将选择的冷却两回合
