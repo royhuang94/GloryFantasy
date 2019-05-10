@@ -155,8 +155,12 @@ namespace BattleMap
                     _unitsList.Add(unit);
                     _mapBlocks[x, y].AddUnit(unit);
 
+                    AI.SingleController controller;
                     //初始化AI控制器与携带的仇恨列表
-                    AI.SingleController controller = new AI.SingleController(unit);
+                    if (_unitsList.Count == 5 || _unitsList.Count == 6)
+                        controller = new AI.SingleAutoControllerAtker(unit); //无脑型
+                    else
+                        controller = new AI.SingleAutoControllerDefender(unit);//防守型
                     controller.hatredRecorder.Reset(unit);
                     GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
 
@@ -383,7 +387,7 @@ namespace BattleMap
         /// <param name="targetPosition">最优路径</param>
         /// <param name="callback">攻击回调</param>
         /// <returns></returns>
-        public bool AIMoveUnitToCoordinate(Unit unit,  List<Vector2> targetPosition, System.Action callback)
+        public bool AIMoveUnitToCoordinate(Unit unit, List<Vector2> targetPosition, System.Action callback)
         {
             foreach (Unit gameUnit in _unitsList)
             {

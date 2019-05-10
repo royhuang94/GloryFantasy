@@ -72,6 +72,63 @@ namespace BattleMap
                 return null;
             }
         }
+
+        //寻路入口
+        public bool PathSearchForAI(Vector2 startPos, Vector2 endPos, bool isAtk)
+        {
+            if (BattleMap.Instance().GetSpecificMapBlock((int)startPos.x, (int)startPos.y) == null || BattleMap.Instance().GetSpecificMapBlock((int)endPos.x, (int)endPos.y) == null)
+            {
+                Debug.Log("In MapNavigator: invalid Pos");
+                return false;
+            }
+
+            //初始化openList和closeList
+            openList = new Dictionary<Vector2, Node>();
+            closeList = new Dictionary<Vector2, Node>();
+            //加入起点
+            openList.Add(startPos, new Node(startPos, endPos, 0));
+            do
+            {
+                //遍历OpenList，寻找F值最小的节点，设为A
+                Node A = new Node(startPos, endPos, int.MaxValue / 2);
+                //遍历OpenList，寻找F值最小的节点，设为A
+                foreach (Node node in openList.Values)
+                {
+                    if (node.H + node.G < A.H + A.G)
+                        A = node;
+                }
+
+                AStarSearch(A, startPos, endPos);
+                openList.Remove(A.position);
+                closeList.Add(A.position, A);
+
+                //如果找到了endPos
+                if (A.H < Mathf.Epsilon)
+                {
+                    paths = new List<Node>();
+                    paths.Add(closeList[endPos]);
+                    //Debug.Log("找到路径");
+                    for (int i = 0; i < closeList.Count; i++)
+                    {
+                        paths.Add(closeList[paths[i].parentPosition]);
+                        if (paths[i + 1].G == 0)
+                            break;
+                    }
+                    //如果是攻击ai的话
+                    if (isAtk)
+                        return true;
+                    //判断移动力与路径长度
+                    if (IsExcessUnitMove())
+                        return false;
+                    return true;
+                }
+
+                //OpenList是否还有节点
+            } while (openList.Count > 0);
+
+            return false;
+        }
+
         //寻路入口
         public bool PathSearch(Vector2 startPos, Vector2 endPos)
         {
