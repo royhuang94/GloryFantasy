@@ -31,8 +31,8 @@ namespace BattleMap
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
 
-        private bool _showUnitMsg = false;
-        private Unit unit;
+        private bool _showUnitMsg = false;        //判断能否展示单位信息
+        private Unit _unit;                        //地图上单位
         private void Awake()
         {
             setMapBlackPosition();
@@ -110,11 +110,9 @@ namespace BattleMap
         public void OnPointerEnter(PointerEventData eventData)
         {
             Gameplay.Instance().gamePlayInput.OnPointerEnter(this, eventData);
-            unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
-            if (unit != null)
+            _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
+            if (_unit != null)
             {
-                Debug.Log("mouse enter position: " + GetSelfPosition());
-                Debug.Log("mouse enter unit: " + unit);
                 _showUnitMsg = true;
             }
         }
@@ -122,11 +120,9 @@ namespace BattleMap
         public void OnPointerExit(PointerEventData eventData)
         {
             Gameplay.Instance().gamePlayInput.OnPointerExit(this, eventData);
-            unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
-            if (unit != null)
+            _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
+            if (_unit != null)
             {
-                Debug.Log("mouse exit position: " + GetSelfPosition());
-                Debug.Log("mouse exit unit: " + unit);
                 _showUnitMsg = false;
             }
         }
@@ -137,20 +133,22 @@ namespace BattleMap
             if (_showUnitMsg)
             {
                 string tagInTotal = "";
-                if (unit.tag.Count != 0)
+                if(_unit == null)
+                    return;
+                if (_unit.tag.Count != 0)
                 {
-                    for (int i = 0; i < unit.tag.Count; i++)
+                    for (int i = 0; i < _unit.tag.Count; i++)
                     {
-                        tagInTotal += unit.tag[i];
+                        tagInTotal += _unit.tag[i];
                     }
                 }  
                      
                 string priorityInToal = "";
-                if (unit.priority.Count != 0)
+                if (_unit.priority.Count != 0)
                 {
-                    for (int i = 0; i < unit.priority.Count; i++)
+                    for (int i = 0; i < _unit.priority.Count; i++)
                     {
-                        priorityInToal += unit.priority[i].ToString();
+                        priorityInToal += _unit.priority[i].ToString();
                         priorityInToal += "/";
                     }
                 }
@@ -172,15 +170,15 @@ namespace BattleMap
                 GUILayout.EndVertical();
                 
                 GUILayout.BeginVertical("Box", GUILayout.Width(900));
-                GUILayout.TextField(unit.name);
-                GUILayout.TextField(unit.Color);
-                GUILayout.TextField(unit.atk.ToString());
-                GUILayout.TextField(unit.hp.ToString());
-                GUILayout.TextField(unit.rng.ToString());
-                GUILayout.TextField(unit.mov.ToString());
+                GUILayout.TextField(_unit.name);
+                GUILayout.TextField(_unit.Color);
+                GUILayout.TextField(_unit.atk.ToString());
+                GUILayout.TextField(_unit.hp.ToString());
+                GUILayout.TextField(_unit.rng.ToString());
+                GUILayout.TextField(_unit.mov.ToString());
                 GUILayout.TextField(priorityInToal);
                 GUILayout.TextField(tagInTotal);
-                GUILayout.TextField(unit.Effort);
+                GUILayout.TextField(_unit.Effort);
                 
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
