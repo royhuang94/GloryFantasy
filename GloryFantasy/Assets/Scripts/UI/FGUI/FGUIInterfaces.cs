@@ -33,6 +33,8 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	
 	private GList _cooldownList;
 
+	private GObject lastClicked;
+
 	#region 描述窗内变量
 	private Window _cardDescribeWindow;
 	private GComponent _cardDescibeFrame;
@@ -73,6 +75,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		//UIPackage.AddPackage(path + cooldowncardAssets);
 		//UIPackage.AddPackage(path + cardsetsAssets);
 		//UIPackage.AddPackage(path + cardBookPicAssets);
+		lastClicked = null;
 		
 		// 战斗场景UI
 		_mainUI = UIPackage.CreateObject(pkgName, "battleScene").asCom;
@@ -149,6 +152,8 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		
 		// 卡牌堆按钮添加事件监听
 		_cardSetsButton.onClick.Add(ShowCardBook);
+
+		_handcardList.childrenRenderOrder = ChildrenRenderOrder.Arch;
 		
 		MsgDispatcher.RegisterMsg(
 			this.GetMsgReceiver(),
@@ -196,6 +201,31 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		// 如果不是玩家回合，则无法使用卡牌
 		if (!Gameplay.Instance().roundProcessController.IsPlayerRound())
 			return;
+		
+		GObject item = context.data as GObject;
+		
+		// 确认当前点击的卡牌和上次点击的不同，此时表明用户想使用这张卡牌
+		if (item != lastClicked)
+		{
+			// 改变记录
+			lastClicked = item;
+			// 动效
+			DoSpecialEffect(item);
+		}
+		else // 此时用户点击的牌和上次相同，表示用户想取消使用
+		{
+			// 恢复原大小
+			foreach (GObject litem in _handcardList.GetChildren())
+			{
+				StartCoroutine(FancyHandCardEffect(litem, 1));
+			}
+			
+			// 重置上次选择项
+			lastClicked = null;
+			
+			// 结束函数执行，因为用户取消使用
+			return;
+		}
 		
 		int index = _handcardList.GetChildIndex(context.data as GObject);
 		BaseCard baseCardReference = handcardInstanceList[index].GetComponent<BaseCard>();
@@ -298,10 +328,15 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		{
 			GObject item = UIPackage.CreateObject(pkgName, "handcardItem2");
 			item.icon = UIPackage.GetItemURL(handcardAssets, cardId);
+			item.SetPivot(0.5f, 1f);
 			_handcardList.AddChild(item);
 			string id = string.Copy(cardId);
 			item.onRollOver.Add(() =>
 			{
+				// 切换当前鼠标防治上的卡牌最最上
+				_handcardList.apexIndex = _handcardList.GetChildIndex(item);
+				
+				// 获取并展示数据
 				JsonData data = CardManager.Instance().GetCardJsonData(id);
 				_title.text = data["name"].ToString();
 				_effect.text = data["effect"].ToString();
@@ -309,11 +344,53 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 				
 				_cardDescribeWindow.Show();
 			});
-			
+
 			item.onRollOut.Add(() =>
 			{
 				_cardDescribeWindow.Hide();
 			});
+		}
+	}
+
+	private void DoSpecialEffect(GObject item)
+	{
+		int index = _handcardList.GetChildIndex(item);
+		for (int i = 0; i < _handcardList.numChildren; i++)
+		{  
+			if (i == index)
+			{
+				StartCoroutine(FancyHandCardEffect(item, 1.5f));
+				continue;
+			}
+			
+			GObject childItem = _handcardList.GetChildAt(i);
+			
+			float distance = Mathf.Abs(i - index);
+
+			float distanceRange = 1.25f - 0.5f / 6.0f * distance;
+			
+			StartCoroutine(FancyHandCardEffect(childItem, distanceRange));
+
+		}
+		
+	}
+
+
+	private IEnumerator FancyHandCardEffect(GObject item, float finalScale)
+	{
+		int frameCount = 18;
+		
+		float range = item.scaleX;
+
+		float step = (range - finalScale) / frameCount;
+
+		float judge = Mathf.Abs(step / 2 + step);
+		
+		while (Mathf.Abs(range - finalScale) > judge)
+		{
+			range -= step;
+			item.SetScale(range, range);
+			yield return null;
 		}
 	}
 
