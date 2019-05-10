@@ -42,15 +42,7 @@ namespace Ability
 
         private bool Condition()
         {
-            //获取召唤列表
-            List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
-            //循环查询有没有召唤的怪是这个技能的发动者
-            for (int i = 0; i < SummonUnits.Count; i++)
-            {
-                if (SummonUnits[i].GetMsgReceiver() == register)
-                    return true;
-            }
-            return false;
+            return true;
         }
 
         private void Action()
