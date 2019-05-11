@@ -332,10 +332,10 @@ namespace BattleMap
                     break;
                 }
                 unit.nextPos = paths[i].position;
-                MsgDispatcher.SendMsg((int)MessageType.Aftermove);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
                 yield return new WaitForSeconds(0.2f);
             }
+            MsgDispatcher.SendMsg((int)MessageType.Aftermove);
         }
     }
 }

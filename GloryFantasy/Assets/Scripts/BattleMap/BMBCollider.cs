@@ -18,7 +18,6 @@ public class BMBCollider
 
     //-1 离开 / 0 进入 / 1 驻足
     public int state = -1; //-2(默认值)
-
     /// <summary>
     /// 初始化检测范围
     /// </summary>
@@ -43,9 +42,9 @@ public class BMBCollider
         enterUnits = units; //进入记录
         state = 0;
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位进入");
-
         if (units[0].nextPos == units[0].CurPos)
             OnUnitDispose();
+
     }
     /// <summary>
     /// 单位退出，并更新enterUnits/disposeUnits，state
