@@ -97,14 +97,20 @@ namespace GameGUI
 
         private void RecrusiveBodyForSkill(int x,int y,int range,List<Vector2> reslist)
         {
-            Debug.Log("fadf");
             if (x < 0 || y < 0 || x >= rows || y >= columns) return;
             reslist.Add(new Vector2(x, y));
             if (range == 0) return;
             if(range == 2 || range == 4)
             {
-                int tempRange = range - 1;
-                RecrusiveBody(x, y, tempRange, reslist);
+                if(range == 2)
+                {
+                    range = range - 1;
+                }
+                else if(range == 4)
+                {
+                    range = range - 2;
+                }
+                RecrusiveBody(x, y, range, reslist);
             }
             if(range == 3 || range == 6)
             {
@@ -113,6 +119,7 @@ namespace GameGUI
             }
             if(range == 5)
             {
+                //TODO
                 RecrusiveBody2(x, y, range, reslist);
             }
         }

@@ -12,7 +12,6 @@ namespace Ability
     {
         Trigger trigger;
         private AbilityFormat arrowrRain;
-        public bool isSkill { get; set; }//是否可以释放技能
         public int skillRange//箭雨伤害范围
         {
             get
@@ -45,7 +44,7 @@ namespace Ability
                 Debug.Log("箭雨发动");
                 //TODO取消技能伤害范围染色
                 Gameplay.Instance().gamePlayInput.HandleSkillCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(skillMaker), skillRange);//取消技能可释放范围染色
-                isSkill = false;//箭雨释放完毕;
+                GamePlay.Gameplay.Instance().gamePlayInput.isSkill = false;//箭雨释放完毕;
             }
         }
     }
@@ -77,7 +76,6 @@ namespace Ability
             GameUnit.GameUnit unit = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
             Vector3 unitCoordinate =  BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
             Gameplay.Instance().gamePlayInput.HandleSkillConfim(unitCoordinate,(int)ability.AbilityVariable.Range);//显示技能可释放范围（攻击范围)
-            GameCard.CardManager.Instance().arrowrain.isSkill = true;
         }
     }
 }

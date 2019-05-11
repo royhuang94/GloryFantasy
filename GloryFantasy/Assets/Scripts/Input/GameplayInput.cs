@@ -34,6 +34,8 @@ namespace GamePlay.Input
         public List<Vector2> TargetList = new List<Vector2>();
         //保存移动前的单位
         public List<GameUnit.GameUnit> BeforeMoveGameUnits = new List<GameUnit.GameUnit>();
+        //是否可以释放技能
+        public bool isSkill { get; set; }
 
         /// <summary>
         /// 标记是否已经选择了一张手牌
@@ -182,7 +184,6 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerDown(GameUnit.GameUnit unit, PointerEventData eventData)
         {
-            Debug.Log(IsMoving);
             //鼠标右键取消攻击
             if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
             {
@@ -190,9 +191,8 @@ namespace GamePlay.Input
                 HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
                 IsAttacking = false;
                 unit.restrain = true;
-                unit.disarm = false;
-                IsMoving = false;
                 unit.disarm = true;
+                IsMoving = false;
                 BeforeMoveGameUnits.Clear();
                 TargetList.Clear();
             }
@@ -276,19 +276,16 @@ namespace GamePlay.Input
                 TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
             }
             //如果可以释放技能
-            else if (CardManager.Instance().arrowrain.isSkill)
+            if (isSkill)
             {
                 //释放箭雨
-                foreach(GameUnit.GameUnit skillMaker in BattleMap.BattleMap.Instance().UnitsList)
+                foreach (GameUnit.GameUnit skillMaker in BattleMap.BattleMap.Instance().UnitsList)
                 {
-                    if(skillMaker.id == "WArrowrain_1")
+                    if (skillMaker.id == "WArrowrain_1")
                     {
-                        Vector2 unitPosition = BattleMap.BattleMap.Instance().GetUnitCoordinate(skillMaker);
-                        Vector2 targetPosition = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
-                        int range = CardManager.Instance().arrowrain.skillRange;
-                        CardManager.Instance().arrowrain.ReleaseSkill(skillMaker,range, unitPosition, targetPosition);
+                        //TODO 调用Arrowrain.cs中的ReleaseSkill
                     }
-                }               
+                }
             }
         }
 
