@@ -185,6 +185,7 @@ namespace GamePlay.Input
                 IsAttacking = false;
                 unit.restrain = false;
                 IsMoving = false;
+                unit.disarm = true;
                 BeforeMoveGameUnits.Clear();
                 TargetList.Clear();
             }
@@ -206,6 +207,7 @@ namespace GamePlay.Input
                         IsAttacking = false;
                         BeforeMoveGameUnits[0].restrain = false;
                         IsMoving = false;
+                        unit.disarm = true;
                         HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(BeforeMoveGameUnits[0]));////攻击完工攻击范围隐藏  
                         BeforeMoveGameUnits.Clear();
                         TargetList.Clear();

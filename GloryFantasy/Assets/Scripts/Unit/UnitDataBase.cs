@@ -113,8 +113,8 @@ namespace GameUnit
             unit.priDS = 0;
             unit.fly = false;
             //unit.damaged = "" //不知道这什么玩意儿
-            unit.disarm = false;
-            unit.restrain = false;
+            unit.disarm = true;
+            unit.restrain = true;
             unit.armorRestore = 0;
             unit.armor = 0;
 
