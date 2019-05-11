@@ -4,12 +4,14 @@ using IMessage;
 using UnityEngine;
 using System.Collections.Generic;
 using GameGUI;
+using GamePlay;
+using GameUnit;
 using LitJson;
 using Random = UnityEngine.Random;
 
 namespace GameCard
 {
-    public class CardManager : UnitySingleton<CardManager>, MsgReceiver
+    public class CardManager : UnitySingleton<CardManager>, MsgReceiver, GameplayTool
     {
         #region 变量
         // 空物体的引用
@@ -18,10 +20,12 @@ namespace GameCard
         public int extractCardsUpperLimit;            // 抽牌数量上限
         public bool cancelCheck;                      // 是否取消抽卡检查，在本行注释存在的情况下请不要修改值
 
-        private List<String> _handcards;               // 存储手牌的ID
-        private List<String> _cardsSets;               // 牌组堆，待抽取的卡牌组
+        private List<string> _handcards;               // 存储手牌的ID
+        private List<string> _cardsSets;               // 牌组堆，待抽取的卡牌组
+        private List<string> _cardOnMap;                // 场上卡牌记录列表
         private List<cdObject> _cooldownCards;           // 临时存储冷却状态中卡牌
-        private List<String> _garbageCards;            //弃牌堆
+        private List<string> _garbageCards;            //弃牌堆
+        private GameUnit.GameUnit _latestDeadUnit;      // 最近死掉的单位
 
         // 存储json格式卡牌数据的字典
         private Dictionary<string, JsonData> _cardsData;
@@ -63,6 +67,15 @@ namespace GameCard
                 HandleCooldownEvent,
                 "Cooldown cards Trigger"
             );
+            
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.Dead,
+                canSendToCoolDownList,
+                HandleCardOnMapToCooldown,
+                "Map Unit cooldown Trigger"
+             );
+            
             ExtractCards(3);
         }
 
@@ -75,6 +88,7 @@ namespace GameCard
             _cardsSets = new List<string>();
             _cooldownCards = new List<cdObject>();
             _garbageCards = new List<string>();
+            _cardOnMap = new List<string>();
             
             _handcardsInstance = new List<GameObject>();
             
@@ -155,8 +169,11 @@ namespace GameCard
                 _cardsSets.Add(string.Copy(cardID));
             }
             
-            // 发送卡牌堆变动消息
-            MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
+            // 随机洗牌            
+            Shuffle();
+            
+            // Shuffle函数会发送卡牌堆变动消息，这里不再重复发送
+            // MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
         }
 
         /// <summary>
@@ -184,25 +201,82 @@ namespace GameCard
                 extractAmount = _cardsSets.Count;
             
             
+            // 按照序列抽取卡牌
             for (int i = 0; i < extractAmount; i++)
             {
-                // 随机抽取卡牌
-                int extractPos = Random.Range(0, _cardsSets.Count);
-                string cardId= _cardsSets[extractPos];
+                // 获得对应卡牌的id
+                string cardId= _cardsSets[i];
                 
-                // 确定是哪张后就将其从卡牌堆中移除
-                _cardsSets.RemoveAt(extractPos);
+                // 将其从卡牌堆中移除
+                _cardsSets.RemoveAt(i);
                 
                 // 调用接口完成向手牌中插入卡牌操作，设置不发送消息，由后续发生消息
                 InsertIntoHandCard(cardId, false);
-                
-                //FGUIInterfaces.Instance().InsertIntoHandCard(cardId);
-                
             }
+            
             // 发送手牌变动消息
             MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
             // 发送牌堆变化消息
             MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
+        }
+
+        /// <summary>
+        /// 用于冷却死亡单位卡牌action的condition函数，确定收到的死亡消息来自于玩家单位
+        /// </summary>
+        /// <returns>若符合条件则返回true，否则返回false</returns>
+        public bool canSendToCoolDownList()
+        {
+            _latestDeadUnit = this.GetDead();
+            return _latestDeadUnit.owner == OwnerEnum.Player;
+        }
+
+        /// <summary>
+        /// 用于冷却死亡单位卡牌action的action函数，将需要冷却的卡牌放入冷却池
+        /// </summary>
+        public void HandleCardOnMapToCooldown()
+        {
+            // 获取刚死亡的卡牌的id
+            string cardId = _latestDeadUnit.id;
+
+            
+            if (_cardOnMap.Contains(cardId))
+                _cardOnMap.Remove(cardId);
+            else
+            {    
+                // 与现有记录不同步，抛出异常
+                throw new NotImplementedException();
+            }
+
+            // 调用接口进行冷却, 并调用方法计算冷却回合数
+            CooldownCard(cardId, CalculateCardCoolDown(_latestDeadUnit));
+        }
+
+        /// <summary>
+        /// 计算unit的冷却回合数，因为有可能有异能影响所以拿到一边进行计算
+        /// </summary>
+        /// <param name="unit">要进行计算的卡牌单位的unit引用</param>
+        /// <returns>若为-1则表示按照原有冷却进行计算，否则按照计算结果进行冷却</returns>
+        private int CalculateCardCoolDown(GameUnit.GameUnit unit)
+        {
+            // TODO:获取脚本，根据实际情况计算其冷却回合数
+            return -1;
+        }
+
+        /// <summary>
+        /// 将手牌中的单位牌使用时调用接口，处理CardManager内事务并发送卡牌变动信息，不直接冷却卡牌
+        /// </summary>
+        /// <param name="cardInstance">要移除的手牌的下标</param>
+        public void RemoveCardToMapList(GameObject cardInstance)
+        {
+            // 调用接口完成所有从手牌中移除需要做的操作
+            string cardId = RemoveFromHandCard(cardInstance);
+            
+            // 添加到地图上单位卡牌列表
+            _cardOnMap.Add(cardId);
+
+            // 发送消息通知手牌发生变动
+            MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
+            
         }
 
         /// <summary>
@@ -428,13 +502,13 @@ namespace GameCard
         /// <summary>
         /// 仿照主程写的写的接口
         /// </summary>
-        T IMessage.MsgReceiver.GetUnit<T>()
+        T MsgReceiver.GetUnit<T>()
         {
             return this as T;
         }
 
         /// <summary>
-        /// 检测是否能进行抽卡操作，现在暂时设定为永true,是抽卡的condition函数
+        /// 检测是否能进行抽卡操作，是抽卡的condition函数
         /// </summary>
         /// <returns>根据实际情况确定是否能抽卡</returns>
         public bool canDoExtractAction()

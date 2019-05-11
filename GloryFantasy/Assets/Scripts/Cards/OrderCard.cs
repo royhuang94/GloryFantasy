@@ -16,7 +16,7 @@ namespace GameCard
         /// 点击使用卡牌时调用的函数
         /// </summary>
         /// <returns>若成功使用则返回true，中途取消或其他情况返回false</returns>
-        public bool Use()
+        public override bool Use()
         {
             //进入指令卡选择目标状态
             GamePlay.Gameplay.Instance().gamePlayInput.IsCasting = true;

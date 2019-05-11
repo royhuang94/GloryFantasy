@@ -102,6 +102,7 @@ namespace GamePlay.Input
                     SetMovingIsFalse(unit);//并清空targetList
                     IsAttacking = true;
                     unit.restrain = true;
+                    unit.disarm = true;
                 }
                 else
                 {
@@ -118,7 +119,9 @@ namespace GamePlay.Input
                 //在对应MapBlock生成单位
                 UnitManager.InstantiationUnit(_selectedCardInstance.GetComponent<BaseCard>().id , OwnerEnum.Player, mapBlock);
                 //把这张手牌从手牌里删掉
-                CardManager.Instance().RemoveCardToCd(_selectedCardInstance);
+                CardManager.Instance().RemoveCardToMapList(_selectedCardInstance);
+                // 扣除消耗的Ap值
+                Player.Instance().ConsumeAp(_selectedCardInstance.GetComponent<BaseCard>().cost);
                 //删掉对应手牌槽的引用
                 _selectedCardInstance = null;
                 //关闭鼠标所在战区的高光显示
@@ -142,6 +145,8 @@ namespace GamePlay.Input
                 if (SelectingList.Count == this.CastingCard.AbilityTargetList.Count)
                 {
                     Gameplay.Info.CastingCard = this.CastingCard.GetComponent<OrderCard>();
+                    // 消耗Ap值
+                    Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
                     IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
                 }
             }
@@ -177,13 +182,15 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerDown(GameUnit.GameUnit unit, PointerEventData eventData)
         {
+            Debug.Log(IsMoving);
             //鼠标右键取消攻击
             if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
             {
                 GameUtility.UtilityHelper.Log("取消攻击", GameUtility.LogColor.RED);
                 HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
                 IsAttacking = false;
-                unit.restrain = false;
+                unit.restrain = true;
+                unit.disarm = false;
                 IsMoving = false;
                 unit.disarm = true;
                 BeforeMoveGameUnits.Clear();
@@ -205,7 +212,7 @@ namespace GamePlay.Input
                         GameUtility.UtilityHelper.Log("触发攻击", GameUtility.LogColor.RED);
                         unitAtk.Excute();
                         IsAttacking = false;
-                        BeforeMoveGameUnits[0].restrain = false;
+                        BeforeMoveGameUnits[0].restrain = true;
                         IsMoving = false;
                         unit.disarm = true;
                         HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(BeforeMoveGameUnits[0]));////攻击完工攻击范围隐藏  
@@ -249,6 +256,8 @@ namespace GamePlay.Input
                 if (SelectingList.Count == this.CastingCard.AbilityTargetList.Count)
                 {
                     Gameplay.Info.CastingCard = this.CastingCard.GetComponent<OrderCard>();
+                    // 消耗Ap值
+                    Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
                     IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
                 }
             }

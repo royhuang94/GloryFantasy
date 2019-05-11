@@ -94,7 +94,7 @@ namespace GameUnit
             unit.owner = owner;
             unit.atk = int.Parse(data["Atk"].ToString());
             unit.id = data["CardID"].ToString();
-            unit.Color = data["Color"].ToString();
+            unit.Color = data["Color"][0].ToString();
             unit.Effort = data["Effort"].ToString();
             unit.CD = (int) data["HasCD"];
             unit.MaxHP = int.Parse(data["Hp"].ToString()); unit.hp = unit.MaxHP - damage;
