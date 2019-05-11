@@ -352,6 +352,35 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		}
 	}
 
+	/// <summary>
+	/// 设置左上角卡牌描述框内容的接口，该窗口不会自动根据内容调整大小，自己注意文字长度
+	/// </summary>
+	/// <param name="title">标题文字</param>
+	/// <param name="middle">中间文字</param>
+	/// <param name="end">末端文字</param>
+	public void setDescribeWindowContentText(string title, string middle, string end)
+	{
+		_title.text = title;
+		_effect.text = middle;
+		_value.text = end;
+	}
+
+	/// <summary>
+	/// 设置卡牌描述框显示
+	/// </summary>
+	public void setDescribeWindowShow()
+	{
+		_cardDescribeWindow.Show();
+	}
+
+	/// <summary>
+	/// 设置卡牌描述框隐藏
+	/// </summary>
+	public void setDescribeWindowHide()
+	{
+		_cardDescribeWindow.Hide();
+	}
+
 	private void DoSpecialEffect(GObject item)
 	{
 		int index = _handcardList.GetChildIndex(item);
@@ -395,7 +424,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	}
 
 	/// <summary>
-	/// 
+	/// 更新冷却区卡牌
 	/// </summary>
 	public void UpdateCooldownList()
 	{
