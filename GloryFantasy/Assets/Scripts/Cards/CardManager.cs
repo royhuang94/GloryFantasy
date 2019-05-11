@@ -35,6 +35,7 @@ namespace GameCard
         public List<string> cardsSets { get { return _cardsSets; } }
         public List<cdObject> cooldownCards { get { return _cooldownCards; } }
         public List<GameObject> handcardsInstance { get { return _handcardsInstance; } }
+        public Ability.Arrowrain arrowrain;//持有箭雨类
 
         private void Awake()
         {
