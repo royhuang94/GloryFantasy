@@ -102,6 +102,7 @@ namespace GamePlay.Input
                     SetMovingIsFalse(unit);//并清空targetList
                     IsAttacking = true;
                     unit.restrain = true;
+                    unit.disarm = true;
                 }
                 else
                 {
@@ -188,7 +189,8 @@ namespace GamePlay.Input
                 GameUtility.UtilityHelper.Log("取消攻击", GameUtility.LogColor.RED);
                 HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
                 IsAttacking = false;
-                unit.restrain = false;
+                unit.restrain = true;
+                unit.disarm = false;
                 IsMoving = false;
                 BeforeMoveGameUnits.Clear();
                 TargetList.Clear();
@@ -209,7 +211,7 @@ namespace GamePlay.Input
                         GameUtility.UtilityHelper.Log("触发攻击", GameUtility.LogColor.RED);
                         unitAtk.Excute();
                         IsAttacking = false;
-                        BeforeMoveGameUnits[0].restrain = false;
+                        BeforeMoveGameUnits[0].restrain = true;
                         IsMoving = false;
                         HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(BeforeMoveGameUnits[0]));////攻击完工攻击范围隐藏  
                         BeforeMoveGameUnits.Clear();

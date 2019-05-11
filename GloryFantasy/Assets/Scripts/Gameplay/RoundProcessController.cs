@@ -204,6 +204,15 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.Prepare);
+
+            foreach (GameUnit.GameUnit unit in BattleMap.BattleMap.Instance().UnitsList)
+            {
+                if(unit.owner == GameUnit.OwnerEnum.Player)
+                {
+                    unit.restrain = false;
+                    unit.disarm = false;
+                }
+            }
         }
 
         public override string ToString()
@@ -266,6 +275,8 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.Discard);
+
+
         }
 
         public override string ToString()
