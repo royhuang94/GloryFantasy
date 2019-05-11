@@ -191,6 +191,36 @@ namespace GamePlay.Input
         private List<DamageRequest> DamageRequestList;
         private GameUnit.GameUnit _Attacker; //宣言攻击者
         private GameUnit.GameUnit _AttackedUnit; //被攻击者
+    }
 
+    public class ReleaseSkillCommand : Command
+    {
+        public ReleaseSkillCommand(GameUnit.GameUnit skillMaker, int range,Vector2 makerPosition,Vector2 targetPosition)
+        {
+            _skillMaker = skillMaker;
+            _range = range;
+            _targetPosition = targetPosition;
+            _makerPosition = makerPosition;
+        }
+
+        //判断技能释放范围目标是否超出释放范围
+        public bool Judge()
+        {
+            Vector2 skillMaker = _makerPosition;
+            Vector2 target = _targetPosition;
+            int MAN_HA_DUN = Mathf.Abs((int)skillMaker.x - (int)target.x) + Mathf.Abs((int)skillMaker.y - (int)target.y);
+            if (MAN_HA_DUN <= _range)
+                return true;
+            return false;
+        }
+
+        public override void Excute()
+        {
+
+        }
+        private GameUnit.GameUnit _skillMaker;//技能释放者
+        private int _range;//技能范围
+        private Vector2 _targetPosition;//释放技能的目标点(中心点)
+        private Vector2 _makerPosition;//释放者坐标
     }
 }

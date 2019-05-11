@@ -64,7 +64,9 @@ namespace AI
             {
                 hatredList.Add(new HatredItem()); //当敌人数量大于优先设置的仇恨列表总容量时，动态增加列表，以防数组越界
                 hatredList[HatredCount - 1].battleUnit = enemyTeam[i];
-                hatredList[HatredCount - 1].hatred = 0; //gui 000.....
+                SetHartredByRace(enemyTeam[i].tag[0]);
+
+                //hatredList[HatredCount - 1].hatred = 0; //gui 000.....
             }
 
         }
@@ -80,8 +82,41 @@ namespace AI
 
             hatredList.Add(new HatredItem());
 
+
             hatredList[HatredCount - 1].battleUnit = enemyUnit;
-            hatredList[HatredCount - 1].hatred = 0;
+            SetHartredByRace(enemyUnit.tag[0]);
+
+        }
+
+        private void SetHartredByRace(string race)
+        {
+            switch (race)
+            {
+                case "英雄":
+                    hatredList[HatredCount - 1].hatred = 0;
+                    break;
+                case "机甲":
+                    hatredList[HatredCount - 1].hatred = 1;
+                    break;
+                case "骑兵":
+                    hatredList[HatredCount - 1].hatred  = 2;
+                    break;
+                case "元素":
+                    hatredList[HatredCount - 1].hatred = 3;
+                    break;
+                case "野兽":
+                    hatredList[HatredCount - 1].hatred = 4;
+                    break;
+                case "叶族":
+                    hatredList[HatredCount - 1].hatred = 8;
+                    break;
+                case "弓兵":
+                    hatredList[HatredCount - 1].hatred = 12;
+                    break;
+                default:
+                    hatredList[HatredCount - 1].hatred = 2;
+                    break;
+            }
         }
 
         public void RemoveDeadHartedItem()
@@ -113,7 +148,8 @@ namespace AI
         private void SortHatred()
         {
             //简单的排序
-            hatredList.Sort(this);
+            hatredList.Sort(delegate (HatredItem h1, HatredItem h2) { return h1.hatred.CompareTo(h2.hatred); });
+            Debug.Log("sort ended");
         }
 
         /// <summary>
@@ -165,7 +201,10 @@ namespace AI
                 return null;
 
             if (isSort)
+            {
                 SortHatred();
+                hatredList.Reverse();
+            }
 
             //防止越界
             return hatredList[index > hatredList.Count - 1 ? hatredList.Count : index].battleUnit;

@@ -72,5 +72,6 @@ public class BMBCollider
         state = 1;
         disposeUnits = enterUnits; //驻足记录
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位驻足");
+        GamePlay.Gameplay.Instance().gamePlayInput.HandleAtkConfirm(colliderRange[0]);
     }
 }

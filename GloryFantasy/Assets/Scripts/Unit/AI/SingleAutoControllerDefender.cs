@@ -11,10 +11,7 @@ namespace AI
 {
     public class SingleAutoControllerDefender:SingleController
     {
-        public SingleAutoControllerDefender(Unit _gameUnit) :base(_gameUnit)
-        {
-
-        }
+        public SingleAutoControllerDefender(Unit _gameUnit) : base(_gameUnit) { }
 
 
         /// <summary>
@@ -23,29 +20,7 @@ namespace AI
         /// <param name="battleUnit"></param>
         public override HeroActionState AutoAction()
         {
-            //自动选取目标
-            AutoSelectTarget();
-
-            //找不到目标单位
-            if (targetBattleUnit == null && battleUnit != null)
-            {
-                return GameUnit.HeroActionState.Warn; ;
-            }
-
-            UnitMoveAICommand unitMove;
-            //需要移动
-            if (battleUnit != null && PathCount > 0)
-            {
-                unitMove = new UnitMoveAICommand(battleUnit, toTargetPath, AutoUseAtk);
-                Debug.Log("AI StartPos: " + StartPos + " EndPos: " + EndPos);
-                unitMove.Excute(); //已经判断过距离
-            }
-
-            //TODO 战斗结束
-            if (false)
-                return GameUnit.HeroActionState.BattleEnd;
-            else
-                return GameUnit.HeroActionState.Normal;
+            return base.AutoAction();
         }
 
         /// <summary>

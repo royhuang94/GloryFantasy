@@ -157,7 +157,7 @@ namespace BattleMap
 
                     AI.SingleController controller;
                     //初始化AI控制器与携带的仇恨列表
-                    if (_unitsList.Count == 5 || _unitsList.Count == 6)
+                    if (_unitsList.Count == 3 || _unitsList.Count == 5 || _unitsList.Count == 6)
                         controller = new AI.SingleAutoControllerAtker(unit); //无脑型
                     else
                         controller = new AI.SingleAutoControllerDefender(unit);//防守型

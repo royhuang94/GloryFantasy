@@ -41,7 +41,7 @@ namespace GameGUI
 
         }
 
-        public void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
+        private void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
         {
             if (x < 0 || y < 0 || x >= rows || y >= columns) return;
             reslist.Add(new Vector2(x, y));
@@ -103,6 +103,17 @@ namespace GameGUI
                  GetPositionsWithinCertainMd(target, unit.rng), Color.white);
         }
 
+        //ººƒ‹ Õ∑≈∑∂Œß
+        public void MarkSkillRange(Vector2 target, int range)
+        {
+            BattleMap.BattleMap.Instance().ColorMapBlocks(
+                GetPositionsWithinCertainMd(target, range), Color.red);
+        }
 
+        public void CancleSkillRangeMark(Vector2 target,int range)
+        {
+            BattleMap.BattleMap.Instance().ColorMapBlocks(
+                GetPositionsWithinCertainMd(target, range), Color.white);
+        }
     }
 }
