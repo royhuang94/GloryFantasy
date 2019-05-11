@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using IMessage;
 using LitJson;
 using UnityEngine;
 
@@ -161,7 +162,7 @@ namespace GameCard
         /// 用于使用卡牌效果
         /// </summary>
         /// <returns>返回使用结果，成功返回true</returns>
-        public bool Use()
+        public virtual bool Use()
         {
             return true;
         }

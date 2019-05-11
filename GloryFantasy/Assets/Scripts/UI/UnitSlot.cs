@@ -223,7 +223,7 @@ namespace GameGUI
             if (transform.childCount > 0)
             {
                 // 如果当前的AP值不足以使用当前选择卡牌，直接结束函数，防止使用
-                if (!Player.Instance().ConsumeAp(_cardInstance.GetComponent<BaseCard>().cost))
+                if (!Player.Instance().CanConsumeAp(_cardInstance.GetComponent<BaseCard>().cost))
                 {
                     Debug.Log("Ran out of AP!!!! Can\'t use this card!");
                     return;

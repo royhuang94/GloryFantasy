@@ -204,7 +204,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 
 		int index = _handcardList.GetChildIndex(context.data as GObject);
 		BaseCard baseCardReference = handcardInstanceList[index].GetComponent<BaseCard>();
-		if (!Player.Instance().ConsumeAp(baseCardReference.cost))
+		if (!Player.Instance().CanConsumeAp(baseCardReference.cost))
 		{
 			Debug.Log("Ran out of AP, cant use this one");
 			return;
@@ -238,13 +238,16 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		// 若是效果牌
 		if (baseCardReference.type.Equals("Order"))
 		{
-			// 判断使用结果
-			if (baseCardReference.Use())
-			{
-				// 使用成功则移除手牌
-				CardManager.Instance().RemoveCardToCd(index);
-				return;
-			}
+//			// 判断使用结果
+//			if (baseCardReference.Use())
+//			{
+//				// 使用成功则移除手牌
+//				CardManager.Instance().RemoveCardToCd(index);
+//				return;
+//			}
+
+			baseCardReference.Use();
+			
 		}
 		else
 		{
@@ -267,6 +270,10 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		
 		// 通过下标获取到id
 		string cardId = cardSetsList[index];
+		
+		// 测试，直接把卡牌放入手牌中
+		CardManager.Instance().InsertIntoHandCard(cardId);
+		
 		
 		// 向数据库查询展示数据
 		JsonData data = CardManager.Instance().GetCardJsonData(cardId);

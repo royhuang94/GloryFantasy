@@ -135,13 +135,21 @@ namespace GamePlay
         /// </summary>
         /// <param name="Ap">消耗的ap值</param>
         /// <returns>若成功消耗返回true，否则为false并不改变玩家当前ap值</returns>
-        public bool ConsumeAp(int Ap)
+        public bool CanConsumeAp(int Ap)
         {
             if (_ap < Ap)
                 return false;
             
-            _ap -= Ap;
             return true;
+        }
+
+        /// <summary>
+        /// 消耗AP值的接口，请确定能消耗之后再进行消耗
+        /// </summary>
+        /// <param name="Ap">要消耗掉的ap值</param>
+        public void ConsumeAp(int Ap)
+        {
+            _ap -= Ap;
         }
 
         /// <summary>

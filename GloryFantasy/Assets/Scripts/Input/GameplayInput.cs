@@ -119,6 +119,8 @@ namespace GamePlay.Input
                 UnitManager.InstantiationUnit(_selectedCardInstance.GetComponent<BaseCard>().id , OwnerEnum.Player, mapBlock);
                 //把这张手牌从手牌里删掉
                 CardManager.Instance().RemoveCardToMapList(_selectedCardInstance);
+                // 扣除消耗的Ap值
+                Player.Instance().ConsumeAp(_selectedCardInstance.GetComponent<BaseCard>().cost);
                 //删掉对应手牌槽的引用
                 _selectedCardInstance = null;
                 //关闭鼠标所在战区的高光显示
@@ -142,6 +144,8 @@ namespace GamePlay.Input
                 if (SelectingList.Count == this.CastingCard.AbilityTargetList.Count)
                 {
                     Gameplay.Info.CastingCard = this.CastingCard.GetComponent<OrderCard>();
+                    // 消耗Ap值
+                    Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
                     IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
                 }
             }
@@ -177,6 +181,7 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerDown(GameUnit.GameUnit unit, PointerEventData eventData)
         {
+            Debug.Log(IsMoving);
             //鼠标右键取消攻击
             if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
             {
@@ -247,6 +252,8 @@ namespace GamePlay.Input
                 if (SelectingList.Count == this.CastingCard.AbilityTargetList.Count)
                 {
                     Gameplay.Info.CastingCard = this.CastingCard.GetComponent<OrderCard>();
+                    // 消耗Ap值
+                    Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
                     IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
                 }
             }
