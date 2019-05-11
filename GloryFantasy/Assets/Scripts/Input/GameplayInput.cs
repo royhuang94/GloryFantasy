@@ -99,7 +99,6 @@ namespace GamePlay.Input
                 if (unitMove.Judge())
                 {
                     GameUtility.UtilityHelper.Log("移动完成，进入攻击状态，点击敌人进行攻击，右键点击角色取消攻击", GameUtility.LogColor.RED);
-                    
                     unitMove.Excute();
                     SetMovingIsFalse(unit);//并清空targetList
                     IsAttacking = true;
@@ -164,6 +163,7 @@ namespace GamePlay.Input
             {
                 BattleMap.BattleMap.Instance().ShowBattleZooe(mapBlock.GetSelfPosition());
             }
+            //TODO显示技能伤害的范围
         }
         /// <summary>
         /// 处理地图方块的鼠标移出
@@ -176,6 +176,7 @@ namespace GamePlay.Input
             {
                 BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
             }
+            //TODO
         }
         /// <summary>
         /// 处理单位的鼠标点击
@@ -274,18 +275,6 @@ namespace GamePlay.Input
                 GameUtility.UtilityHelper.Log("准备攻击，右键取消攻击", GameUtility.LogColor.RED);
                 IsAttacking = true;
                 TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
-            }
-            //如果可以释放技能
-            if (isSkill)
-            {
-                //释放箭雨
-                foreach (GameUnit.GameUnit skillMaker in BattleMap.BattleMap.Instance().UnitsList)
-                {
-                    if (skillMaker.id == "WArrowrain_1")
-                    {
-                        //TODO 调用Arrowrain.cs中的ReleaseSkill
-                    }
-                }
             }
         }
 
