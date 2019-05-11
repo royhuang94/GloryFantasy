@@ -201,6 +201,14 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		// 如果不是玩家回合，则无法使用卡牌
 		if (!Gameplay.Instance().roundProcessController.IsPlayerRound())
 			return;
+
+		int index = _handcardList.GetChildIndex(context.data as GObject);
+		BaseCard baseCardReference = handcardInstanceList[index].GetComponent<BaseCard>();
+		if (!Player.Instance().ConsumeAp(baseCardReference.cost))
+		{
+			Debug.Log("Ran out of AP, cant use this one");
+			return;
+		}
 		
 		GObject item = context.data as GObject;
 		
@@ -227,13 +235,6 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			return;
 		}
 		
-		int index = _handcardList.GetChildIndex(context.data as GObject);
-		BaseCard baseCardReference = handcardInstanceList[index].GetComponent<BaseCard>();
-		if (!Player.Instance().ConsumeAp(baseCardReference.cost))
-		{
-			Debug.Log("Ran out of AP, cant use this one");
-			return;
-		}
 		// 若是效果牌
 		if (baseCardReference.type.Equals("Order"))
 		{
