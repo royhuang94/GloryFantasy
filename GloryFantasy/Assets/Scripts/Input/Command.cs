@@ -69,6 +69,7 @@ namespace GamePlay.Input
             BattleMap.BattleMap.Instance().AIMoveUnitToCoordinate(_unit, toTargetPath, callback);
         }
 
+
         private System.Action callback;
         private GameUnit.GameUnit _unit;
         //移动到目标的路径

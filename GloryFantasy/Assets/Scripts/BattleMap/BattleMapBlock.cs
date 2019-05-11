@@ -30,6 +30,9 @@ namespace BattleMap
 
     public class BattleMapBlock : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
+
+        private bool _showUnitMsg = false;        //判断能否展示单位信息
+        private Unit _unit;                        //地图上单位
         private void Awake()
         {
             setMapBlackPosition();
@@ -107,13 +110,81 @@ namespace BattleMap
         public void OnPointerEnter(PointerEventData eventData)
         {
             Gameplay.Instance().gamePlayInput.OnPointerEnter(this, eventData);
+            _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
+            if (_unit != null)
+            {
+                _showUnitMsg = true;
+            }
         }
         //隐藏战区
         public void OnPointerExit(PointerEventData eventData)
         {
             Gameplay.Instance().gamePlayInput.OnPointerExit(this, eventData);
+            _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
+            if (_unit != null)
+            {
+                _showUnitMsg = false;
+            }
         }
 
+        
+        private void OnGUI()
+        {
+            if (_showUnitMsg)
+            {
+                string tagInTotal = "";
+                if(_unit == null)
+                    return;
+                if (_unit.tag.Count != 0)
+                {
+                    for (int i = 0; i < _unit.tag.Count; i++)
+                    {
+                        tagInTotal += _unit.tag[i];
+                    }
+                }  
+                     
+                string priorityInToal = "";
+                if (_unit.priority.Count != 0)
+                {
+                    for (int i = 0; i < _unit.priority.Count; i++)
+                    {
+                        priorityInToal += _unit.priority[i].ToString();
+                        priorityInToal += "/";
+                    }
+                }
+
+                priorityInToal = priorityInToal.Substring(0, priorityInToal.Length - 1);
+                //GUILayout.BeginArea(new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, 300, 350));
+                GUILayout.BeginArea(new Rect(0, 0, 330, 900));
+                GUILayout.BeginHorizontal("Box");
+                GUILayout.BeginVertical(GUILayout.Width(50));
+                GUILayout.Label("name:");
+                GUILayout.Label("color:");
+                GUILayout.Label("attack:");
+                GUILayout.Label("HP:");
+                GUILayout.Label("range:");
+                GUILayout.Label("move:");
+                GUILayout.Label("priority:");
+                GUILayout.Label("tag:");
+                GUILayout.Label("effect:");
+                GUILayout.EndVertical();
+                
+                GUILayout.BeginVertical("Box", GUILayout.Width(900));
+                GUILayout.TextField(_unit.name);
+                GUILayout.TextField(_unit.Color);
+                GUILayout.TextField(_unit.atk.ToString());
+                GUILayout.TextField(_unit.hp.ToString());
+                GUILayout.TextField(_unit.rng.ToString());
+                GUILayout.TextField(_unit.mov.ToString());
+                GUILayout.TextField(priorityInToal);
+                GUILayout.TextField(tagInTotal);
+                GUILayout.TextField(_unit.Effort);
+                
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
+                GUILayout.EndArea();
+            }
+        }
 
 
         private Vector3 coordinate;//该地图块的世界坐标
