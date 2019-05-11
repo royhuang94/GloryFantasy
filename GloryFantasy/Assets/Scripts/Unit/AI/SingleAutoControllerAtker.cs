@@ -14,38 +14,21 @@ namespace AI
     {
         bool canAtk; //未到达目的地前，为false
 
-        public SingleAutoControllerAtker(Unit _gameUnit) : base(_gameUnit)
-        {
+        public SingleAutoControllerAtker(Unit _gameUnit) : base(_gameUnit) { }
 
-        }
-
+        /// <summary>
+        /// 自动行动
+        /// </summary>
+        /// <param name="battleUnit"></param>
         public override HeroActionState AutoAction()
         {
-            //自动选取目标
-            AutoSelectTarget();
-
-            //找不到目标单位
-            if (targetBattleUnit == null && battleUnit != null)
-            {
-                return GameUnit.HeroActionState.Warn; ;
-            }
-
-            UnitMoveAICommand unitMove;
-            //需要移动
-            if (battleUnit != null && PathCount > 0)
-            {
-                unitMove = new UnitMoveAICommand(battleUnit, toTargetPath, AutoUseAtk);
-                Debug.Log("AI StartPos: " + StartPos + " EndPos: " + EndPos);
-                unitMove.Excute(); //已经判断过距离
-            }
-
-            //TODO 战斗结束
-            if (false)
-                return GameUnit.HeroActionState.BattleEnd;
-            else
-                return GameUnit.HeroActionState.Normal;
+            return base.AutoAction();
         }
 
+        /// <summary>
+        /// 自动选择目标
+        /// </summary>
+        /// <param name="battleUnitAction"></param>
         protected override void AutoSelectTarget()
         {
             int stopDistance = AtkStopDistance();
@@ -149,7 +132,8 @@ namespace AI
             }
         }
         /// <summary>
-        /// 当行动单位到达目的地才能够攻击 即 toTarget[pathCount - 1] == hatredUnit.position
+        /// 自动攻击
+        /// 当行动单位到达目的地才能够攻击
         /// </summary>
         protected override void AutoUseAtk()
         {

@@ -85,9 +85,6 @@ namespace AI
         /// <param name="battleUnit"></param>
         public virtual GameUnit.HeroActionState AutoAction()
         {
-            return GameUnit.HeroActionState.Warn;
-
-#if false
             //自动选取目标
             AutoSelectTarget();
 
@@ -107,11 +104,10 @@ namespace AI
             }
 
             //TODO 战斗结束
-            if(false)
+            if (false)
                 return GameUnit.HeroActionState.BattleEnd;
             else
                 return GameUnit.HeroActionState.Normal;
-#endif
         }
 
         /// <summary>
@@ -120,91 +116,6 @@ namespace AI
         /// <param name="battleUnitAction"></param>
         protected virtual void AutoSelectTarget()
         {
-#if false
-            int stopDistance = AtkStopDistance();
-            //从仇恨列表中确定目标
-            Unit hatredUnit = null;
-            //地图导航
-            BattleMap.MapNavigator mapNavigator = BattleMap.BattleMap.Instance().MapNavigator;
-
-            for (int i = 0; i < hatredRecorder.HatredCount; i++)
-            {
-                hatredUnit = hatredRecorder.GetHatredByIndex(i, i == 0);
-                if (hatredUnit.IsDead())
-                {
-                    //已经排序过，且无法找到还能够行动的单位，就表示场上没有存活的敌方单位了
-                    hatredUnit = null;
-                    break;
-                }
-
-                //判断这个单位是否可以到达
-                bool catched = false;
-
-                //如果这个单位就在攻击范围内，即身边
-                if (Distance(battleUnit, hatredUnit) <= stopDistance)
-                {
-                    toTargetPath.Clear();
-                    targetBattleUnit = hatredUnit;
-                    AutoUseAtk();
-                    catched = true;
-                }
-                else
-                {
-                    //if (catched = mapNavigator.PathSearch(battleUnit.CurPos, new Vector2(hatredUnit.CurPos.x, hatredUnit.CurPos.y + 1)))
-                    //    toTargetPath = mapNavigator.Paths;
-                    //TODO 把被仇恨单位作为起点
-                    //遍历4个相邻地图块儿，把对于当前单位最近的地图块儿作为终点
-                    Node nodeStart = new Node(hatredUnit.CurPos, hatredUnit.CurPos);
-                    //获得A的周边MapBlock
-                    List<BattleMapBlock> neighbourBlock = BattleMap.BattleMap.Instance().GetNeighbourBlock(nodeStart);
-                    int prevPathCount = int.MaxValue;
-                    BattleMapBlock preBattleMapBlock = null;
-                    foreach (BattleMapBlock battleMapBlock in neighbourBlock)
-                    {
-                        if (mapNavigator.PathSearch(battleUnit.CurPos, battleMapBlock.position))
-                        {
-                            //找到对于ai单位的最短路径
-                            if (prevPathCount > mapNavigator.Paths.Count)
-                            {
-                                toTargetPath = mapNavigator.Paths;
-                                /* prevPathCount = mapNavigator.Paths.Count*/
-                                
-                                if (preBattleMapBlock != null)
-                                    preBattleMapBlock.RemoveUnit(battleUnit);
-                                battleMapBlock.units_on_me.Add(battleUnit);
-                                preBattleMapBlock = battleMapBlock;
-                                catched = true;
-                            }
-                        }   
-                    }
-
-                }
-
-                //寻路不可达
-                if (!catched)
-                {
-                    hatredUnit = null;
-                    continue;
-                }
-                else //找到了
-                {
-                    break;
-                }
-            }
-
-            //没有目标
-            if (hatredUnit == null)
-            {
-                targetBattleUnit = null;
-                return;
-            }
-
-            if (battleUnit != null && !hatredUnit.Equals(targetBattleUnit))
-            {
-                targetBattleUnit = hatredUnit;
-            }
-
-#endif
         }
 
         /// <summary>
@@ -212,18 +123,6 @@ namespace AI
         /// </summary>
         protected virtual void AutoUseAtk()
         {
-#if false
-            //TODO 异能引入后进行修改
-
-            //异能为引入前版本
-            //获取攻击者和被攻击者
-            GameUnit.GameUnit Attacker = battleUnit;
-            GameUnit.GameUnit AttackedUnit = targetBattleUnit;
-            //创建攻击指令
-            UnitAttackCommand unitAtk = new UnitAttackCommand(Attacker, AttackedUnit);
-
-            unitAtk.Excute();//已经判断过距离，放心攻击
-#endif
         }
 
         /// <summary>
