@@ -117,7 +117,7 @@ namespace GamePlay.Input
                 //在对应MapBlock生成单位
                 UnitManager.InstantiationUnit(_selectedCardInstance.GetComponent<BaseCard>().id , OwnerEnum.Player, mapBlock);
                 //把这张手牌从手牌里删掉
-                CardManager.Instance().RemoveCardToCd(_selectedCardInstance);
+                CardManager.Instance().RemoveCardToMapList(_selectedCardInstance);
                 //删掉对应手牌槽的引用
                 _selectedCardInstance = null;
                 //关闭鼠标所在战区的高光显示
