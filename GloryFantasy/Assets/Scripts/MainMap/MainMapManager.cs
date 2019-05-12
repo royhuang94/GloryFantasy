@@ -29,9 +29,9 @@ public struct HexVector
     public Vector3 ChangeToNormalVect(Vector3 vector)
     {
         Hex_vector = vector;
-        Normal_vector.x = 1.5f * vector.x + 1.5f * vector.z;
-        Normal_vector.y = vector.y;
-        Normal_vector.z = -vector.x + vector.z;
+        Normal_vector.x = 1.5f * vector.x + 1.5f * vector.y;
+        Normal_vector.z = vector.z;
+        Normal_vector.y = -vector.x + vector.y;
         vector = Normal_vector;
         return vector;
 
@@ -44,9 +44,9 @@ public struct HexVector
     public Vector3 ChangeToHexVect(Vector3 vector)
     {
         Normal_vector = vector;
-        Hex_vector.x = vector.x / 3f - 0.5f * vector.z;
-        Hex_vector.y = vector.y;
-        Hex_vector.z = vector.x / 3f + 0.5f * vector.z;
+        Hex_vector.x = vector.x / 3f - 0.5f * vector.y;
+        Hex_vector.z = vector.z;
+        Hex_vector.y = vector.x / 3f + 0.5f * vector.y;
         vector = Hex_vector;
         return vector;
     }
@@ -56,12 +56,13 @@ public struct HexVector
 /// </summary>
 public class MainMapManager : UnitySingleton<MainMapManager>
 {
-   // public MainMapUI mainmapUI;
+        // public MainMapUI mainmapUI;
+    public Mesh mesh;
     public TextAsset textAsset;
     /// <summary>地格材质，测试用，运行的时候找一个Unity默认的材质加上去就行。
     /// 
     /// </summary>
-    public Sprite mesh;
+    public Sprite sprite;
     /// <summary>人物角色实例。
     /// 
     /// </summary>
@@ -97,15 +98,15 @@ public class MainMapManager : UnitySingleton<MainMapManager>
                         {
                             case "plane":
                                 MapUnit plane = mapunit.AddComponent<Plane>();
-                                mapunit.transform.position = plane.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                                mapunit.transform.position = plane.hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
                                 break;
                             case "post":
                                 MapUnit post = mapunit.AddComponent<Post>();
-                                mapunit.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                                mapunit.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
                                 break;
                             case "key":
                                 MapUnit key = mapunit.AddComponent<Key>();
-                                mapunit.transform.position = key.hexVector.ChangeToNormalVect(new Vector3(i, 0, j));
+                                mapunit.transform.position = key.hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
                                 break;
                             default:
                                 Debug.Log("你文件写错了，回去看看");
@@ -113,10 +114,11 @@ public class MainMapManager : UnitySingleton<MainMapManager>
                         }
                         //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
                         SpriteRenderer render = mapunit.AddComponent<SpriteRenderer>();
-                        render.sprite = mesh;
-                        PolygonCollider2D collider = mapunit.AddComponent<PolygonCollider2D>();
-                        collider.isTrigger = true;
-                        mapunit.transform.rotation= Quaternion.AngleAxis(90, Vector3.right);
+                        render.sprite = sprite;
+                        MeshCollider collider = mapunit.AddComponent<MeshCollider>();
+                        collider.sharedMesh = mesh;
+                        
+                       // mapunit.transform.rotation= Quaternion.AngleAxis(90, Vector3.right);
                         mapunit.transform.localScale= new Vector3(0.5f, 0.5f, 0.5f);
 
                         //如果有地格上层元素，传给MapElementManager处理

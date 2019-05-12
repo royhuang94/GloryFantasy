@@ -40,6 +40,7 @@ public class Charactor : UnitySingleton<Charactor>
         public HexVector playerlocate;
         public GameObject underfeet;
         public MoveState charactorstate;
+        
     }
     /// <summary>储存角色周围地格信息的数据结构
         ///
@@ -67,7 +68,7 @@ public class Charactor : UnitySingleton<Charactor>
         this.SetMessage(HP, MaxStep);
         this.charactordata.charactorstate = MoveState.MotionLess;
         //GetComponent<Transform>().position = locate;
-        charactordata.underfeet = GameObject.Find("test" + charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).x.ToString() + charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).z.ToString());
+        charactordata.underfeet = GameObject.Find("test" + charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).x.ToString() + charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).y.ToString());
         setaround(charactordata.underfeet);
         Debug.Log("角色初始化完成");
     }
@@ -133,10 +134,10 @@ public class Charactor : UnitySingleton<Charactor>
         {
             MapUnit playeraround;
             float x = onclk.GetComponent<MapUnit>().hexVector.Hex_vector.x + a;
-            float z = onclk.GetComponent<MapUnit>().hexVector.Hex_vector.z + b;
-            if (GameObject.Find("test" + x.ToString() + z.ToString()) != null)
+            float y = onclk.GetComponent<MapUnit>().hexVector.Hex_vector.y + b;
+            if (GameObject.Find("test" + x.ToString() + y.ToString()) != null)
             {
-                playeraround = GameObject.Find("test" + x.ToString() + z.ToString()).GetComponent<MapUnit>();
+                playeraround = GameObject.Find("test" + x.ToString() + y.ToString()).GetComponent<MapUnit>();
             }
             else
             {
@@ -182,7 +183,11 @@ public class Charactor : UnitySingleton<Charactor>
         CharactorInitalize();
 
     }
-    void Awake()
+    public void Onclick()
+        {
+            Debug.Log("onclick");
+        }
+        void Awake()
     {
 
       //  mapmanager = GameObject.Find("Map").GetComponent<MainMapManager>();
@@ -208,9 +213,9 @@ IEnumerator MoveAction(Vector3 target,float movespeed)
                 charactordata.charactorstate = MoveState.Stop;
                 Debug.Log("移动结束");
                 charactordata.playerlocate.ChangeToHexVect(target);
-                setaround(GameObject.Find("test" + charactordata.playerlocate.Hex_vector.x.ToString() + charactordata.playerlocate.Hex_vector.z.ToString()));
-                charactordata.underfeet = GameObject.Find("test" + charactordata.playerlocate.Hex_vector.x.ToString() + charactordata.playerlocate.Hex_vector.z.ToString());
-                Debug.Log("角色移动至：" + charactordata.playerlocate.Hex_vector.x.ToString() + "," + charactordata.playerlocate.Hex_vector.z.ToString());
+                setaround(GameObject.Find("test" + charactordata.playerlocate.Hex_vector.x.ToString() + charactordata.playerlocate.Hex_vector.y.ToString()));
+                charactordata.underfeet = GameObject.Find("test" + charactordata.playerlocate.Hex_vector.x.ToString() + charactordata.playerlocate.Hex_vector.y.ToString());
+                Debug.Log("角色移动至：" + charactordata.playerlocate.Hex_vector.x.ToString() + "," + charactordata.playerlocate.Hex_vector.y.ToString());
                 charactordata.charactorstate = MoveState.MotionLess;
                 charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();
 
