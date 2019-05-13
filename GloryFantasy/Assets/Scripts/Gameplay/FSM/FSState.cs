@@ -61,7 +61,7 @@ namespace GamePlay.FSM
 
         #region On(+1 重载)
         /// <summary>
-        /// On(+6 重载)
+        /// On(+1 重载)
         /// 该方法用于将事件的名字和事件加入到Dictionary中
         /// </summary>
         /// <param name="eventName"></param>

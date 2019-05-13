@@ -17,21 +17,7 @@ namespace GamePlay.FSM
         }
         public BattleUnitAction()
         {
-            MsgDispatcher.RegisterMsg(
-                  this.GetMsgReceiver(),
-                  (int)MessageType.NoneToSIdle,
-                  CanStateTransition,
-                  AnyTransitionToIdle,
-                  "Translation to Move Action"
-                  );
-            MsgDispatcher.RegisterMsg(
-                  this.GetMsgReceiver(),
-                  (int)MessageType.SIdleToNone,
-                  CanStateTransition,
-                   IdleTransitionToAny,
-                  "Translation to Move Action"
-                  );
-
+            //注册Idle -> PerpareMove消息
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.SIdleToSPerpareMove,
@@ -39,6 +25,7 @@ namespace GamePlay.FSM
                  IdleTransitionToPerpareMove,
                 "Translation to Move Action"
                 );
+            //注册 PerpareMove -> Idle 消息
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.SPerpareMoveToSIdle,
@@ -46,6 +33,7 @@ namespace GamePlay.FSM
                 PerpareTransitionToIdle,
                 "Translation to Idle Action"
                 );
+            //注册StartMove -> Idle 消息
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.SStartMoveToSIdle,
@@ -53,6 +41,7 @@ namespace GamePlay.FSM
                 StartMoveTransitionToIdle,
                 "Translation to Idle Action"
                 );
+            //注册Idle -> StartMove 消息
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.SIdleToSStartMove,
@@ -60,6 +49,7 @@ namespace GamePlay.FSM
                 IdleTransitionToStartMove,
                 "Translation to Idle Action"
                 );
+            //注册Idle -> Atk 消息
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.SIdleToAtk,
@@ -67,6 +57,7 @@ namespace GamePlay.FSM
                 IdleTransitionToAtk,
                 "Translation to Idle Action"
                 );
+            //注册Atk -> Idle消息
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.SAtkToSIdle,
