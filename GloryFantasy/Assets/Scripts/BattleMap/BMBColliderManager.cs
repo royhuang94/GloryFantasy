@@ -45,7 +45,7 @@ public class BMBColliderManager :  MsgReceiver
                 if(battleMapBlock.units_on_me.Count == 0)
                 {
                     //单位坐标发生变化
-                    MsgDispatcher.SendMsg((int)MessageType.UnitExit);
+                    //MsgDispatcher.SendMsg((int)MessageType.UnitExit);
                     collider.OnUnitExit();
                 }
             }

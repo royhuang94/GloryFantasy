@@ -18,7 +18,8 @@ namespace GameUnit
         public void OnPointerDown(PointerEventData eventData)
         {
             if(Gameplay.Instance().roundProcessController.IsPlayerRound())
-                Gameplay.Instance().gamePlayInput.OnPointerDown(this, eventData);
+                //Gameplay.Instance().gamePlayInput.OnPointerDownEnemy(this, eventData);
+            Gameplay.Instance().gamePlayInput.OnPointerDownEnemy(this, eventData);
         }
     }
 }

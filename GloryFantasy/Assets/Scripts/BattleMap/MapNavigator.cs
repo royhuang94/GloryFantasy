@@ -325,7 +325,6 @@ namespace BattleMap
                 }
                 else if (battleMap.blockType == EMapBlockType.Retire)//如果经过滞留块
                 {
-                    
                     BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
                     unit.nextPos = paths[i].position;
                     MsgDispatcher.SendMsg((int)MessageType.Aftermove);

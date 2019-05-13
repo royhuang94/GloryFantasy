@@ -43,10 +43,13 @@ namespace IMessage
         ToBeKilled, //即将被杀死
         #endregion
 
-        #region Collider检测
-        UnitEnter, //单位进入
-        UnitExit, //单位退出
-        UnitDispose, //单位驻足
+        #region 状态
+        SIdleToSPerpareMove,//idle -> PerpareMove
+        SPerpareMoveToSIdle,//PerpareMove -> Idle
+        SIdleToSStartMove,//Idle -> StartMove
+        SStartMoveToSIdle,
+        SIdleToAtk,
+        SAtkToSIdle,
         #endregion
 
         Move, //开始移动

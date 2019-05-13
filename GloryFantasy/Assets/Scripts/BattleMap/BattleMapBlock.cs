@@ -106,7 +106,7 @@ namespace BattleMap
         public void OnPointerDown(PointerEventData eventData)
         {
             if(Gameplay.Instance().roundProcessController.IsPlayerRound())
-                Gameplay.Instance().gamePlayInput.OnPointerDown(this, eventData);
+                Gameplay.Instance().gamePlayInput.OnPointerDownBlock(this, eventData);
         }
 
         //显示战区

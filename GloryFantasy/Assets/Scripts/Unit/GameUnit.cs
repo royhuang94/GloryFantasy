@@ -146,7 +146,6 @@ namespace GameUnit
 
 
         // TODO: 这是地图上单位的基类，请继承此类进行行为描述
-
         T IMessage.MsgReceiver.GetUnit<T>()
         {
             return this as T;
