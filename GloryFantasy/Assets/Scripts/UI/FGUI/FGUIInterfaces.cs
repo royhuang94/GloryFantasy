@@ -253,7 +253,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		{
 			if (Gameplay.Instance().gamePlayInput.IsSelectingCard == false)
 			{
-				Gameplay.Instance().gamePlayInput.SelectCard(handcardInstanceList[index]);
+				Gameplay.Instance().gamePlayInput. OnPointerDownUnitCard(handcardInstanceList[index]);
 				BattleMap.BattleMap.Instance().IsColor = true;
 			}
 		}

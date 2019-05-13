@@ -95,17 +95,13 @@ namespace GamePlay
             autoController = new AI.AutoController();
             singleBattle = new AI.BattleField();
 
-            battleUnitAction = new FSM.BattleUnitAction();
-
             _phaseNameText = GameObject.Find("phaseNameText").GetComponentInChildren<Text>();
             _phaseNameText.color = Color.red;
             _phaseNameText.text = roundProcessController.State.ToString();
         }
         private void Update()
         {
-            gamePlayInput.Update();
         }
-        new
 
         public static Info Info = new Info();
         public RoundProcessController roundProcessController; 
@@ -114,8 +110,6 @@ namespace GamePlay
         public BuffManager buffManager;
         public  AI.BattleField singleBattle;
         public AI.AutoController autoController;
-
-        public FSM.BattleUnitAction battleUnitAction;
 
         private Text _phaseNameText;
         

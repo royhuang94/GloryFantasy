@@ -13,125 +13,48 @@ using GamePlay.FSM;
 
 namespace GamePlay.Input
 {
-    //这个类使用的方法要尽量保证简洁，复杂的逻辑封进command里
-    //以便留更多的空间给写UI和操作逻辑的人
-
     /// <summary>
     /// 游戏输入控制类
     /// </summary>
     public class GameplayInput
     {
-        public FiniteStateMachine FSM;
+        //public FiniteStateMachine FSM;
+        public InputFSM InputFSM;
 
         public GameplayInput()
         {
-            FSM = new FSM.FiniteStateMachine();
-
-            //FSM.Register("NoneAction", new BattleUnitNoneAction());
-            FSM.Register("WaitPlayerAction", new BattleUnitWaitPlayer());
-            FSM.Register("PerpareMoveAction", new BattleUnitPerpareMoveAction());
-            FSM.Register("StartMoveAction", new BattleUnitStartMoveAction());
-            FSM.Register("StartAttackAction", new BattleUnitAttackAction());
-
-            FSM.EntryPoint("WaitPlayerAction");
-
-            //FSM.GetState("NoneAction").On("WAIT_PLAYER").Enter("WaitPlayerAction");
-            FSM.GetState("WaitPlayerAction").On("PREPARE_MOVING").Enter("PerpareMoveAction").On("START_MOVING").Push("StartMoveAction").On("START_ATTACK").Enter("StartAttackAction");
-            FSM.GetState("PerpareMoveAction").On("WAIT_PLAYER").Enter("WaitPlayerAction");
-            FSM.GetState("StartMoveAction").On("WAIT_PLAYER").Enter("WaitPlayerAction")/*.On("START_ATTACK").Push("StartAttackAction")*/;
-            FSM.GetState("StartAttackAction").On("WAIT_PLAYER").Enter("WaitPlayerAction");
-        }
-        public void Update()
-        {
-            FSM.Update();
+            InputFSM = new InputFSM();
         }
 
         /// <summary>
-        /// 标记是否在选择移动目标
-        /// </summary>
-        public bool IsMoving { get; set; }
-        /// <summary>
-        /// 标记是否正在选择攻击目标
-        /// </summary>
-        public bool IsAttacking { get; set; }
-        /// <summary>
-        /// 存储点击的对象坐标
-        /// </summary>
-        public List<Vector2> TargetList = new List<Vector2>();
-        //保存移动前的单位
-        public List<GameUnit.GameUnit> BeforeMoveGameUnits = new List<GameUnit.GameUnit>();
-
-        /// <summary>
-        /// 被鼠标点中的地图块儿
-        /// </summary>
-        private BattleMapBlock selectedBlock;
-        public BattleMapBlock SelectedBlock
-        {
-            get
-            {
-                return selectedBlock;
-            }
-        }
-        /// <summary>
-        /// 被鼠标点中的地图块儿
-        /// </summary>
-        private GameUnit.GameUnit selectedUnit;
-        public GameUnit.GameUnit SelectedUnit
-        {
-            get
-            {
-                return selectedUnit;
-            }
-        }
-
-        //是否可以释放技能
-        public bool isSkill { get; set; }
-
-        /// <summary>
-        /// 标记是否已经选择了一张手牌
+        /// 标记是否已经选择了一张手牌,在召唤状态
         /// </summary>
         public bool IsSelectingCard
         {
             get
             {
-                return _selectedCardInstance != null;
-            }
-        }
-        /// <summary>
-        /// 被鼠标选中的手牌实例
-        /// </summary>
-        private GameObject _selectedCardInstance;
-        /// <summary>
-        /// 被鼠标选中的手牌实例
-        /// </summary>
-        public GameObject SelectedCardInstance
-        {
-            get
-            {
-                return _selectedCardInstance; //有可能为空的
+                return InputFSM.CurrentState is InputFSMSummonState;
             }
         }
 
         /// <summary>
-        /// 标记是否在释放行动牌
+        /// 获取释放异能的选择目标
         /// </summary>
-        public bool IsCasting
+        public List<object> SelectingList
         {
-            get;
-            set;
+            get
+            {
+                List<object> tmpList = new List<object>();
+                foreach (Vector2 pos in InputFSM.TargetList)
+                {
+                    if (BattleMap.BattleMap.Instance().CheckIfHasUnits(pos))
+                        tmpList.Add(BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos) as object);
+                    else
+                        tmpList.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos) as object);
+                }
+                return tmpList;
+            }
         }
-        /// <summary>
-        /// 正在释放的行动牌的异能的引用
-        /// </summary>
-        public Ability.Ability CastingCard;
-        /// <summary>
-        /// 用来存储释放异能的选择目标
-        /// </summary>
-        public List<object> SelectingList = new List<object>();
-        /// <summary>
-        /// 保存当前实例化到地图上的单位异能id
-        /// </summary>
-        //public List<string> abilitiesID { get; set; }
 
         /// <summary>
         /// 处理地图方块的鼠标点击
@@ -140,53 +63,7 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
-            //如果已经选中了一张手牌
-            if (IsSelectingCard)
-            {
-                //如果不是自己的战区，则无操作
-                //if (!BattleMap.BattleMap.Instance().WarZoneBelong(mapBlock.GetSelfPosition())) return;
-                //做个判断，如果选中的手牌不是单位卡则返回不操作
-                if (_selectedCardInstance.GetComponent<BaseCard>().type != "Unit") return;
-                //在对应MapBlock生成单位
-                UnitManager.InstantiationUnit(_selectedCardInstance.GetComponent<BaseCard>().id, OwnerEnum.Player, mapBlock);
-                //把这张手牌从手牌里删掉
-                CardManager.Instance().RemoveCardToMapList(_selectedCardInstance);
-                // 扣除消耗的Ap值
-                Player.Instance().ConsumeAp(_selectedCardInstance.GetComponent<BaseCard>().cost);
-                //删掉对应手牌槽的引用
-                _selectedCardInstance = null;
-                //关闭鼠标所在战区的高光显示
-                BattleMap.BattleMap.Instance().IsColor = false;
-                BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
-
-                //创建部署指令并执行
-                BattleDispositionCommand unitDispose = new BattleDispositionCommand(mapBlock.units_on_me);
-                unitDispose.Excute();
-                //IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.NoneToSIdle);
-            }
-            //如果正在释放指令牌，就视为正在选择目标
-            else if (IsCasting)
-            {
-                if (this.CastingCard.AbilityTargetList[SelectingList.Count].TargetType == Ability.TargetType.Field ||
-                    this.CastingCard.AbilityTargetList[SelectingList.Count].TargetType == Ability.TargetType.All)
-                {
-                    SelectingList.Add(mapBlock);
-                }
-                //如果已经选够了目标就发动卡片
-                //这里应该让Card那边写个发动卡片的函数，写在Input里不科学
-                if (SelectingList.Count == this.CastingCard.AbilityTargetList.Count)
-                {
-                    Gameplay.Info.CastingCard = this.CastingCard.GetComponent<OrderCard>();
-                    // 消耗Ap值
-                    Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
-                    IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
-                }
-            }
-            else if(IsMoving)
-            {
-                selectedBlock = mapBlock;
-                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.SIdleToSStartMove);
-            }
+            InputFSM.OnPointerDownBlock(mapBlock, eventData);
         }
         /// <summary>
         /// 处理玩家单位的鼠标点击
@@ -195,20 +72,7 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)
         {
-            //鼠标右键取消攻击
-            if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
-            {
-                GameUtility.UtilityHelper.Log("取消攻击", GameUtility.LogColor.RED);
-                HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
-                IsAttacking = false;
-                unit.restrain = true;
-                unit.disarm = false;
-                IsMoving = false;
-                BeforeMoveGameUnits.Clear();
-                TargetList.Clear();
-            }
-            selectedUnit = unit;
-            IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.SIdleToSPerpareMove);
+            InputFSM.OnPointerDownFriendly(unit, eventData);
         }
         /// <summary>
         /// 处理敌人单位的鼠标点击
@@ -217,24 +81,23 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerDownEnemy(GameUnit.GameUnit unit, PointerEventData eventData)
         {
-            //TODO 处理攻击/对敌释放的异能
-            //鼠标右键取消攻击
-            if (IsAttacking == true && eventData.button == PointerEventData.InputButton.Right)
-            {
-                GameUtility.UtilityHelper.Log("取消攻击", GameUtility.LogColor.RED);
-                HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
-                IsAttacking = false;
-                unit.restrain = true;
-                unit.disarm = false;
-                IsMoving = false;
-                BeforeMoveGameUnits.Clear();
-                TargetList.Clear();
-            }
-            else if(IsAttacking)
-            {
-                selectedUnit = unit;
-                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.SIdleToAtk);
-            }
+            this.InputFSM.OnPointerDownEnemy(unit, eventData);
+        }
+        /// <summary>
+        /// 设置被选中的手牌槽
+        /// </summary>
+        /// <param name="currentItemUI"></param>
+        internal void OnPointerDownUnitCard(GameObject currentItemInstance)
+        {
+            InputFSM.OnPointerDownUnitCard(currentItemInstance.GetComponent<BaseCard>());
+        }
+        /// <summary>
+        /// 设置要使用的效果牌
+        /// </summary>
+        /// <param name="ability"></param>
+        public void OnUseOrderCard(Ability.Ability ability)
+        {
+            InputFSM.OnCastCard(ability);
         }
 
         #region 鼠标点检测，状态机前版本，现已注释
@@ -415,11 +278,7 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerEnter(BattleMapBlock mapBlock, PointerEventData eventData)
         {
-            if (BattleMap.BattleMap.Instance().IsColor == true)
-            {
-                BattleMap.BattleMap.Instance().ShowBattleZooe(mapBlock.GetSelfPosition());
-            }
-            //TODO显示技能伤害的范围
+            InputFSM.OnPointerEnter(mapBlock, eventData);
         }
         /// <summary>
         /// 处理地图方块的鼠标移出
@@ -428,85 +287,9 @@ namespace GamePlay.Input
         /// <param name="eventData"></param>
         public void OnPointerExit(BattleMapBlock mapBlock, PointerEventData eventData)
         {
-            if (BattleMap.BattleMap.Instance().IsColor == true)
-            {
-                BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
-            }
-            //TODO
+            InputFSM.OnPointerExit(mapBlock, eventData);
         }
 
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="target"></param>
-        public void SetMovingIsTrue(GameUnit.GameUnit unit)
-        {
-            IsMoving = true;
-            Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
-            Debug.Log("Unit position is " + pos);
-            TargetList.Add(pos);
-            BeforeMoveGameUnits.Add(unit);
-            HandleMovConfirm(pos);
-        }
-        public void SetMovingIsFalse(GameUnit.GameUnit unit)
-        {
-            IsMoving = false;
-            Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
-            HandleMovCancel(pos);//移动完毕关闭移动范围染色
-            TargetList.Clear();
-        }
-
-        //移动范围染色
-        public void HandleMovConfirm(Vector2 target)
-        {
-            BattleMap.BattleMap map = BattleMap.BattleMap.Instance();
-            if (map.CheckIfHasUnits(target))
-            {
-                GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-                unit.GetComponent<ShowRange>().MarkMoveRange(target);
-            }
-        }
-
-        public void HandleMovCancel(Vector2 target)
-        {
-            GameUnit.GameUnit unit = null;
-            if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
-            {
-                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-            }
-            else
-            {
-                unit = BeforeMoveGameUnits[0];
-            }
-            unit.GetComponent<ShowRange>().CancleMoveRangeMark(TargetList[0]);
-        }
-
-        //攻击范围染色
-        public void HandleAtkConfirm(Vector2 target)
-        {
-            BattleMap.BattleMap map = BattleMap.BattleMap.Instance();
-            if (map.CheckIfHasUnits(target))
-            {
-                GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-                unit.GetComponent<ShowRange>().MarkAttackRange(target);
-            }
-        }
-
-        public void HandleAtkCancel(Vector2 target)
-        {
-            GameUnit.GameUnit unit = null;
-            if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
-            {
-                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-            }
-            else
-            {
-                unit = BeforeMoveGameUnits[0];
-            }
-            unit.GetComponent<ShowRange>().CancleAttackRangeMark(target);
-        }
 
         //技能可释放范围染色
         public void HandleSkillConfim(Vector2 target,int range)
@@ -529,18 +312,9 @@ namespace GamePlay.Input
             }
             else
             {
-                unit = BeforeMoveGameUnits[0];
+                //unit = BeforeMoveGameUnits[0];
             }
-            unit.GetComponent<ShowRange>().CancleSkillRangeMark(TargetList[0],range);
-        }
-
-        /// <summary>
-        /// 设置被选中的手牌槽
-        /// </summary>
-        /// <param name="currentItemUI"></param>
-        internal void SelectCard(GameObject currentItemInstance)
-        {
-            _selectedCardInstance = currentItemInstance;
+            unit.GetComponent<ShowRange>().CancleSkillRangeMark(InputFSM.TargetList[0],range);
         }
 
 

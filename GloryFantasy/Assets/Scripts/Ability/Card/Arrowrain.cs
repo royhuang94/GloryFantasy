@@ -56,7 +56,7 @@ namespace Ability
                     }
                 }
                 //TODO取消技能伤害范围染色
-                GamePlay.Gameplay.Instance().gamePlayInput.isSkill = false;//箭雨释放完毕;
+                //GamePlay.Gameplay.Instance().gamePlayInput.isSkill = false;//箭雨释放完毕;
             }
         }
     }
@@ -88,7 +88,7 @@ namespace Ability
             Vector3 unitCoordinate =  BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
             AbilityFormat ability = AbilityDatabase.GetInstance().GetAbilityFormat("Arrowrain");
             Gameplay.Instance().gamePlayInput.HandleSkillConfim(unitCoordinate,(int)ability.AbilityVariable.Range);//显示技能可释放范围（攻击范围)
-            GamePlay.Gameplay.Instance().gamePlayInput.isSkill = true;//可以发动技能
+            //GamePlay.Gameplay.Instance().gamePlayInput.isSkill = true;//可以发动技能
         }
     }
 }
