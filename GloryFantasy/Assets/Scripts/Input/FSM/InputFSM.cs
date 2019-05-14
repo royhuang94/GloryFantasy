@@ -33,6 +33,8 @@ namespace GamePlay.FSM
         /// </summary>
         public Ability.Ability ability;
 
+        public object BeforeMoveGameUnits { get; internal set; }
+
         /// <summary>
         /// 处理地图方块的鼠标点击
         /// </summary>

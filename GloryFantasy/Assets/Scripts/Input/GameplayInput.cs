@@ -100,7 +100,75 @@ namespace GamePlay.Input
             InputFSM.OnCastCard(ability);
         }
 
-        #region 鼠标点检测，状态机前版本，现已注释
+        /// <summary>
+        /// 处理地图方块的鼠标进入
+        /// </summary>
+        /// <param name="mapBlock"></param>
+        /// <param name="eventData"></param>
+        public void OnPointerEnter(BattleMapBlock mapBlock, PointerEventData eventData)
+        {
+            InputFSM.OnPointerEnter(mapBlock, eventData);
+        }
+        /// <summary>
+        /// 处理地图方块的鼠标移出
+        /// </summary>
+        /// <param name="mapBlock"></param>
+        /// <param name="eventData"></param>
+        public void OnPointerExit(BattleMapBlock mapBlock, PointerEventData eventData)
+        {
+            InputFSM.OnPointerExit(mapBlock, eventData);
+        }
+
+
+        //技能可释放范围染色
+        public void HandleSkillConfim(Vector2 target,int range)
+        {
+            BattleMap.BattleMap map = BattleMap.BattleMap.Instance();
+            if (map.CheckIfHasUnits(target))
+            {
+                GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
+                unit.GetComponent<ShowRange>().MarkSkillRange(target,range);
+            }
+        }
+
+        //取消可释放技能范围染色
+        public void HandleSkillCancel(Vector2 target,int range)
+        {
+            GameUnit.GameUnit unit = null;
+            if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
+            {
+                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
+            }
+            else
+            {
+                //unit = BeforeMoveGameUnits[0];
+            }
+            unit.GetComponent<ShowRange>().CancleSkillRangeMark(InputFSM.TargetList[0],range);
+        }
+        /// <summary>
+        /// 单位回收
+        /// </summary>
+        /// <param name="deadUnit"></param>
+        internal void UnitBackPool(GameUnit.GameUnit deadUnit)
+        {
+            //回收单位
+            GameUnitPool.Instance().PushUnit(deadUnit.gameObject);
+            //移除对应地图块儿下的死亡单位
+            BattleMap.BattleMap.Instance().RemoveUnitOnBlock(deadUnit);
+        }
+
+        /// <summary>
+        /// 更新血条HP
+        /// </summary>
+        /// <param name="attackedUnit">受攻击单位</param>
+       internal void UpdateHp(GameUnit.GameUnit attackedUnit)
+        {
+            float hpDivMaxHp = (float)attackedUnit.hp / attackedUnit.MaxHP * 100;
+            var textHp = attackedUnit.transform.GetComponentInChildren<Text>();
+            textHp.text = string.Format("Hp: {0}%", Mathf.Ceil(hpDivMaxHp));
+        }
+
+        #region 玩家的UI操作输入检测，状态机前版本，现已注释
         ///// <summary>
         ///// 处理地图方块的鼠标点击
         ///// </summary>
@@ -270,75 +338,5 @@ namespace GamePlay.Input
         //    }
         //}
         #endregion
-
-        /// <summary>
-        /// 处理地图方块的鼠标进入
-        /// </summary>
-        /// <param name="mapBlock"></param>
-        /// <param name="eventData"></param>
-        public void OnPointerEnter(BattleMapBlock mapBlock, PointerEventData eventData)
-        {
-            InputFSM.OnPointerEnter(mapBlock, eventData);
-        }
-        /// <summary>
-        /// 处理地图方块的鼠标移出
-        /// </summary>
-        /// <param name="mapBlock"></param>
-        /// <param name="eventData"></param>
-        public void OnPointerExit(BattleMapBlock mapBlock, PointerEventData eventData)
-        {
-            InputFSM.OnPointerExit(mapBlock, eventData);
-        }
-
-
-        //技能可释放范围染色
-        public void HandleSkillConfim(Vector2 target,int range)
-        {
-            BattleMap.BattleMap map = BattleMap.BattleMap.Instance();
-            if (map.CheckIfHasUnits(target))
-            {
-                GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-                unit.GetComponent<ShowRange>().MarkSkillRange(target,range);
-            }
-        }
-
-        //取消可释放技能范围染色
-        public void HandleSkillCancel(Vector2 target,int range)
-        {
-            GameUnit.GameUnit unit = null;
-            if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
-            {
-                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-            }
-            else
-            {
-                //unit = BeforeMoveGameUnits[0];
-            }
-            unit.GetComponent<ShowRange>().CancleSkillRangeMark(InputFSM.TargetList[0],range);
-        }
-
-
-        /// <summary>
-        /// 单位回收
-        /// </summary>
-        /// <param name="deadUnit"></param>
-        internal void UnitBackPool(GameUnit.GameUnit deadUnit)
-        {
-            //回收单位
-            GameUnitPool.Instance().PushUnit(deadUnit.gameObject);
-            //移除对应地图块儿下的死亡单位
-            BattleMap.BattleMap.Instance().RemoveUnitOnBlock(deadUnit);
-        }
-
-        /// <summary>
-        /// 更新血条HP
-        /// </summary>
-        /// <param name="attackedUnit">受攻击单位</param>
-       internal void UpdateHp(GameUnit.GameUnit attackedUnit)
-        {
-            float hpDivMaxHp = (float)attackedUnit.hp / attackedUnit.MaxHP * 100;
-            var textHp = attackedUnit.transform.GetComponentInChildren<Text>();
-            textHp.text = string.Format("Hp: {0}%", Mathf.Ceil(hpDivMaxHp));
-        }
     }
 }

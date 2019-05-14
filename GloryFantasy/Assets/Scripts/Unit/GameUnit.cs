@@ -155,8 +155,8 @@ namespace GameUnit
         private void Start()
         {
             //创建Trigger实例
-            triggerMove = new TMoveStrike(GetComponent<GameUnit>().GetMsgReceiver(),this);
-            triggerAFMove = new TAFMoveStrike(GetComponent<GameUnit>().GetMsgReceiver(),this);
+            triggerMove = new TMoveStrike(GetComponent<GameUnit>().GetMsgReceiver(), this);
+            triggerAFMove = new TAFMoveStrike(GetComponent<GameUnit>().GetMsgReceiver(), this);
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(triggerMove, "Move");
             MsgDispatcher.RegisterMsg(triggerAFMove, "AFMove");
@@ -176,12 +176,16 @@ namespace GameUnit
 
             private bool Condition()
             {
-                return true;
+                if (this.curUnit.restrain == true)
+                    return false;
+                else
+                    return true;
             }
 
             private void Action()
             {
                 //处理单位移动消息
+
             }
         }
 
@@ -206,7 +210,8 @@ namespace GameUnit
             private void Action()
             {
                 //处理单位移动后消息
-                GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(curUnit);
+
+                
             }
         }
 

@@ -331,9 +331,11 @@ namespace BattleMap
                     break;
                 }
                 unit.nextPos = paths[i].position;
+                GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
                 yield return new WaitForSeconds(0.2f);
             }
+            unit.restrain = true;
             MsgDispatcher.SendMsg((int)MessageType.Aftermove);
         }
     }
