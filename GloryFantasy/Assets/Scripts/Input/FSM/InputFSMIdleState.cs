@@ -12,12 +12,12 @@ namespace GamePlay.FSM
         public InputFSMIdleState(InputFSM fsm) : base(fsm)
         { }
 
-        //进入静止状态后，压入静止状态前将状态机的历史栈清空释放资源
+        //进入静止状态后，压入静止状态后将状态机的历史栈清空剩自己释放资源
         public override void OnEnter()
         {
             base.OnEnter();
 
-            FSM.ClearState();
+            FSM.ClearStateWithoutTop();
         }
 
         public override void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)

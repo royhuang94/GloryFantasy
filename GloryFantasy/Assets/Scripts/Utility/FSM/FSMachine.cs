@@ -43,8 +43,8 @@ namespace GameUtility
         public void PushState(T pushedState)
         {
             if (StateStack.Count != 0) StateStack.Peek().OnExit();
-            pushedState.OnEnter();
             StateStack.Push(pushedState);
+            pushedState.OnEnter();
         }
 
         public void PopState()
@@ -54,9 +54,11 @@ namespace GameUtility
             if (StateStack.Count != 0) StateStack.Peek().OnEnter();
         }
 
-        public void ClearState()
+        public void ClearStateWithoutTop()
         {
+            T tmp = StateStack.Pop();
             StateStack.Clear();
+            StateStack.Push(tmp);
         }
     }
 }

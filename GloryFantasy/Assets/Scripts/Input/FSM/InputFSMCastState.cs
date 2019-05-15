@@ -13,6 +13,22 @@ namespace GamePlay.FSM
         public InputFSMCastState(InputFSM fsm) : base(fsm)
         { }
 
+        public override void OnEnter()
+        {
+            base.OnEnter();
+
+            //如果发动的指令牌不需要指定目标则直接发动
+            //并且状态机压入回正常状态
+            if (FSM.ability.AbilityTargetList.Count == 0)
+            {
+                Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
+                // 消耗Ap值
+                Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
+                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
+
+                FSM.PushState(new InputFSMIdleState(FSM));
+            }
+        }
 
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
