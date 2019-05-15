@@ -382,7 +382,15 @@ namespace GameCard
         {
             // 实例化卡牌到不可见区域，并绑定脚本再初始化
             GameObject cardInstance = Instantiate(emptyObject);
-            cardInstance.AddComponent<BaseCard>().Init(cardId, GetCardJsonData(cardId));
+            JsonData cardData = GetCardJsonData(cardId);
+            
+            //根据json数据中卡牌分类挂载不同脚本
+            if(cardData["type"].ToString().Equals("Order"))
+                cardInstance.AddComponent<OrderCard>().Init(cardId, cardData);
+            else if(cardData["type"].ToString().Equals("Unit"))
+                cardInstance.AddComponent<UnitCard>().Init(cardId, cardData);
+            else
+                cardInstance.AddComponent<BaseCard>().Init(cardId, cardData);
             
             // 将实例放入对应位置的list中
             _handcardsInstance.Add(cardInstance);

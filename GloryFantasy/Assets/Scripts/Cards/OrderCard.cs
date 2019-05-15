@@ -1,3 +1,4 @@
+using LitJson;
 using UnityEngine;
 
 namespace GameCard
@@ -12,6 +13,15 @@ namespace GameCard
         /// </summary>
         public GameObject buttonPrefab;
 
+        public override void Init(string cardId, JsonData cardData)
+        {
+            base.Init(cardId, cardData);
+            foreach (string abilityName in ability_id)
+            {
+                gameObject.AddComponent(System.Type.GetType("Ability." +abilityName));
+            }
+        }
+        
         /// <summary>
         /// 点击使用卡牌时调用的函数
         /// </summary>

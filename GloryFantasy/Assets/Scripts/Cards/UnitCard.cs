@@ -1,3 +1,5 @@
+using LitJson;
+
 namespace GameCard
 {
     /// <summary>
@@ -5,6 +7,16 @@ namespace GameCard
     /// </summary>
     public class UnitCard : BaseCard
     {
+        
+        public override void Init(string cardId, JsonData cardData)
+        {
+            base.Init(cardId, cardData);
+            foreach (string abilityName in ability_id)
+            {
+                gameObject.AddComponent(System.Type.GetType("Ability." +abilityName));
+            }
+        }
+        
         /// <summary>
         /// 点击使用卡牌时调用的函数
         /// </summary>

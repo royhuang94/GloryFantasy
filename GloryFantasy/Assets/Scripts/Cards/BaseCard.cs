@@ -113,7 +113,7 @@ namespace GameCard
         /// <param name="cardId">卡牌初始化使用的CardID.必须存在</param>
         /// <param name="cardData">卡牌初始化时需要用到的json数据</param>
         /// <exception cref="NotImplementedException">无法正常初始化</exception>
-        public void Init(string cardId, JsonData cardData)
+        public virtual void Init(string cardId, JsonData cardData)
         {
             // 若id为空，则抛出异常，一般在预制件没有做好，或者程序内某个地方挂上了id为空的BaseCard脚本就会抛出错误
             if (cardId.Length == 0 )
@@ -149,11 +149,6 @@ namespace GameCard
             for (int i = 0; i < cardData["tag"].Count; i++)
             {
                 _tag.Add((string.Copy(cardData["tag"][i].ToString())));
-            }
-
-            foreach (string abilityName in _abilityId)
-            {
-                gameObject.AddComponent(System.Type.GetType("Ability." +abilityName));
             }
             
         }
