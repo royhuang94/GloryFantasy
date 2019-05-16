@@ -41,6 +41,7 @@ namespace GamePlay.FSM
         public void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             StateStack.Peek().OnPointerDownBlock(mapBlock, eventData);
+            Debug.Log(BattleMap.BattleMap.Instance().GetCoordinate(mapBlock));
         }
         /// <summary>
         /// 处理玩家单位的鼠标点击

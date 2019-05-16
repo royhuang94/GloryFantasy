@@ -1,0 +1,43 @@
+[
+  {
+    "EncounterID": "1_1_1",
+    "MapID": "1_1",
+    "UnitMessage": [
+      {
+        "UnitID": "Shadow_1",
+        "Pos_X": 0,
+        "Pos_Y": 0,
+        "UnitControler": 1
+
+      },
+      {
+        "UnitID": "Shadow_2",
+        "Pos_X": 3,
+        "Pos_Y": 4,
+        "UnitControler": 1
+      }
+    ],
+    "EventMessage": [
+      {
+        "EventID": "ReinforceWarrior",
+        "SourceRegion": 1
+      },
+      {
+        "EventID": "ReinforceWolf",
+        "SourceRegion": 3
+      }
+
+
+    ],
+    "BattleFleldMessage": [
+      {
+        "BattleFleld_LocationID": 1,
+        "BattleFleld_EffectID": ""
+      },
+      {
+        "BattleFleld_LocationID": 1,
+        "BattleFleld_EffectID": ""
+      }
+    ]
+  }
+]

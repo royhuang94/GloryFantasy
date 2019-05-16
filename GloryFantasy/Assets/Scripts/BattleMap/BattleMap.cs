@@ -23,6 +23,7 @@ namespace BattleMap
             MapNavigator = new MapNavigator();
             battleArea = new BattleArea();
             debuffBM = new DebuffBattleMapBlovk();
+            BattleMapPath = "Assets/Scripts/BattleMap/";
         }
 
         private void Start()
@@ -87,7 +88,8 @@ namespace BattleMap
 
         //初始化地图的地址
         //更改地图数据位置则需修改此处路径
-        public string InitialMapDataPath = "/Scripts/BattleMap/eg1.json";
+        public string InitialMapDataPath = "/Scripts/BattleMap/eg1.json";//待删除
+        private string BattleMapPath;
         // 获取战斗地图上的所有单位
         private List<Unit> _unitsList;//TODO考虑后面是否毁用到，暂留
         public List<Unit> UnitsList{get{return _unitsList;}}              
@@ -108,9 +110,63 @@ namespace BattleMap
         public MapNavigator MapNavigator;//寻路类
         public BattleArea battleArea;//战区类
         public DebuffBattleMapBlovk debuffBM;//异常地图快类
-               
+        private string[][] nstrs;//存战斗地图的数组
+        [SerializeField]
+        private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
+
+        /// <summary>
+        /// 设置战斗地图文件路径，给大地图的接口
+        /// </summary>
+        /// <param name="mapID">地图文件名字</param>
+        public void  InitBattleMapPath(string mapID)
+        {
+            BattleMapPath = BattleMapPath + mapID + ".txt";
+        }
+
+        //初始战斗地图
+        private void InitAndInstantiateMapBlocks1()
+        {
+            InitBattleMapPath("map_1");//应该从地图遭遇获取，放在这临时测试，之后删掉
+            //读取战斗地图文件
+            string[] strs = File.ReadAllLines(BattleMapPath);
+            nstrs = new string[strs.Length][];
+            for(int i = 0;i < nstrs.Length; i++)
+            {
+                nstrs[i] = strs[i].Split('/');
+            }
+
+            this.rows = nstrs.Length;
+            this.columns = nstrs[0].Length;
+            battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
+            _mapBlocks = new BattleMapBlock[columns, rows];
+            GameObject instance = new GameObject();
+            //实例地图块
+            for (int y = 0; y < nstrs.Length; y++)
+            {
+                for(int x = 0;x <nstrs[y].Length; x++)
+                {
+                    instance = GameObject.Instantiate(normalMapBlocks, new Vector3(x, y, 0f), Quaternion.identity);
+                    instance.transform.SetParent(_tilesHolder);
+                    instance.gameObject.AddComponent<BattleMapBlock>();
+                    //初始化mapBlock成员
+                    _mapBlocks[x, y] = instance.gameObject.GetComponent<BattleMapBlock>();
+                    _mapBlocks[x, y].area = int.Parse(nstrs[y][x].Split('-')[1]);
+                    _mapBlocks[x, y].x = x;
+                    _mapBlocks[x, y].y = y;
+                    _mapBlocks[x, y].blockType = EMapBlockType.normal;
+                    //初始化地图块儿的collider组件
+                    _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
+                    GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
+                }
+            }
+
+            //TODO初始战斗地图单位
+            //UnitDataBase.instance().InitGameUnit();
+        }
+
+        #region 有了新的地图读取后，可以删除，还没对接，暂时保留
         private void InitAndInstantiateMapBlocks()
-        { 
+        {
             JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + InitialMapDataPath));
             int mapDataCount = mapData.Count;
             this.columns = (int)mapData[mapDataCount - 1]["y"] + 1;
@@ -168,6 +224,7 @@ namespace BattleMap
             }
 
         }
+        #endregion
 
         /// <summary>
         /// 获取传入寻路结点相邻的方块列表
@@ -279,7 +336,7 @@ namespace BattleMap
         /// <returns></returns>
         public Vector3 GetCoordinate(BattleMapBlock mapBlock)
         {
-            for (int i = columns - 1; i > 0; i--)
+            for (int i = columns - 1; i >= 0; i--)
             {
                 for (int j = 0; j < rows; j++)
                 {
@@ -399,7 +456,6 @@ namespace BattleMap
                         unit.mapBlockBelow = _mapBlocks[(int)targetPosition[0].x, (int)targetPosition[0].y];
                     }
                     StartCoroutine(MapNavigator.moveStepByStepAI(unit, targetPosition, callback));                    
-                    //unit.transform.position = _destination;
                     return true;
                 }
             }
