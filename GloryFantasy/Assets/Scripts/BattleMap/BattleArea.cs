@@ -23,7 +23,7 @@ namespace BattleMap
             battleAreaDic = new Dictionary<int, List<Vector2>>();
         }
 
-        //获取地图块所属战区
+        //获取地图块所属战区,对接后删除
         public void GetAreas(JsonData mapData)
         {
             int mapDataCount = mapData.Count;
@@ -47,6 +47,38 @@ namespace BattleMap
 
             //动态增加战区数量,战区序号从-1开始
             for (int i = -1; i < areas.Count - 1; i++)
+            {
+                List<Vector2> battleArea = new List<Vector2>();//同一个战区上的所有地图块坐标
+                battleAreaDic.Add(i, battleArea);
+            }
+        }
+
+        //获取地图块所属战区
+        public void GetAreas(string[][] nstrs)
+        {
+            for (int y = 0; y < nstrs.Length; y++)
+            {
+                for (int x = 0; x < nstrs[y].Length; x++)
+                {
+                    int area = int.Parse(nstrs[y][x].Split('-')[1]);
+                    areas.Add(area);
+                }
+            }
+            //移除重复元素
+            for (int i = 0; i < areas.Count; i++)
+            {
+                for (int j = areas.Count - 1; j > i; j--)
+                {
+
+                    if (areas[i] == areas[j])
+                    {
+                        areas.RemoveAt(j);
+                    }
+                }
+            }
+
+            //动态增加战区数量,战区序号从1开始
+            for (int i = 1; i <= areas.Count; i++)
             {
                 List<Vector2> battleArea = new List<Vector2>();//同一个战区上的所有地图块坐标
                 battleAreaDic.Add(i, battleArea);

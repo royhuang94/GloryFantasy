@@ -1,7 +1,6 @@
 [
   {
-    "EncounterID": "1_1_1",
-    "MapID": "1_1",
+    "EncounterID": "Forest_Shadow_1",
     "UnitMessage": [
       {
         "UnitID": "Shadow_1",
@@ -11,33 +10,38 @@
 
       },
       {
-        "UnitID": "Shadow_2",
+        "UnitID": "Shadow_1",
         "Pos_X": 3,
         "Pos_Y": 4,
         "UnitControler": 1
       }
     ],
-    "EventMessage": [
+    "BattlefieldMessage": [
       {
-        "EventID": "ReinforceWarrior",
-        "SourceRegion": 1
+        "RegionID": 1,
+        "EventList": {
+          "ReinforceWarrior": 1,
+          "Empty": 1
+        },
+        "Buff": []
       },
       {
-        "EventID": "ReinforceWolf",
-        "SourceRegion": 3
+        "RegionID": 2,
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": []
+      },
+      {
+        "RegionID": 3,
+        "EventList": {
+          "ReinforceWolf": 2,
+          "Empty": 1
+        },
+        "Buff": []
       }
-
-
     ],
-    "BattleFleldMessage": [
-      {
-        "BattleFleld_LocationID": 1,
-        "BattleFleld_EffectID": ""
-      },
-      {
-        "BattleFleld_LocationID": 1,
-        "BattleFleld_EffectID": ""
-      }
-    ]
+    "MapID": "Forest_1"
   }
+
 ]

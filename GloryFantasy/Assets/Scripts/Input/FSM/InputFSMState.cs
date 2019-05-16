@@ -71,6 +71,7 @@ namespace GamePlay.FSM
         /// <param name="eventData"></param>
         virtual public void OnPointerEnter(BattleMapBlock mapBlock, PointerEventData eventData)
         {
+            Debug.Log(mapBlock.GetSelfPosition());
             if (BattleMap.BattleMap.Instance().IsColor == true)
             {
                 BattleMap.BattleMap.Instance().ShowBattleZooe(mapBlock.GetSelfPosition());

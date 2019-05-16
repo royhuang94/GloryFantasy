@@ -24,6 +24,7 @@ namespace BattleMap
             battleArea = new BattleArea();
             debuffBM = new DebuffBattleMapBlovk();
             BattleMapPath = "Assets/Scripts/BattleMap/";
+            encounterData = new Dictionary<string, JsonData>();
         }
 
         private void Start()
@@ -82,6 +83,8 @@ namespace BattleMap
 
         public void InitMap()
         {
+            //初始遭遇
+            InitEncounter();
             //初始化地图
             InitAndInstantiateMapBlocks();
         }
@@ -90,6 +93,7 @@ namespace BattleMap
         //更改地图数据位置则需修改此处路径
         public string InitialMapDataPath = "/Scripts/BattleMap/eg1.json";//待删除
         private string BattleMapPath;
+        private string EncounterPath = "/Scripts/BattleMap/encounter.json";//遭遇事件文件路径
         // 获取战斗地图上的所有单位
         private List<Unit> _unitsList;//TODO考虑后面是否毁用到，暂留
         public List<Unit> UnitsList{get{return _unitsList;}}              
@@ -113,11 +117,9 @@ namespace BattleMap
         private string[][] nstrs;//存战斗地图的数组
         [SerializeField]
         private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
+        public Dictionary<string, JsonData> encounterData;
 
-        /// <summary>
-        /// 设置战斗地图文件路径，给大地图的接口
-        /// </summary>
-        /// <param name="mapID">地图文件名字</param>
+        //初始战斗地图路径
         public void  InitBattleMapPath(string mapID)
         {
             BattleMapPath = BattleMapPath + mapID + ".txt";
@@ -126,7 +128,7 @@ namespace BattleMap
         //初始战斗地图
         private void InitAndInstantiateMapBlocks1()
         {
-            InitBattleMapPath("map_1");//应该从地图遭遇获取，放在这临时测试，之后删掉
+            InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);
             nstrs = new string[strs.Length][];
@@ -140,6 +142,7 @@ namespace BattleMap
             battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
             _mapBlocks = new BattleMapBlock[columns, rows];
             GameObject instance = new GameObject();
+            battleArea.GetAreas(nstrs);//存储战区id;
             //实例地图块
             for (int y = 0; y < nstrs.Length; y++)
             {
@@ -150,18 +153,46 @@ namespace BattleMap
                     instance.gameObject.AddComponent<BattleMapBlock>();
                     //初始化mapBlock成员
                     _mapBlocks[x, y] = instance.gameObject.GetComponent<BattleMapBlock>();
-                    _mapBlocks[x, y].area = int.Parse(nstrs[y][x].Split('-')[1]);
+                    int area = int.Parse(nstrs[y][x].Split('-')[1]);
+                    _mapBlocks[x, y].area = area;
                     _mapBlocks[x, y].x = x;
                     _mapBlocks[x, y].y = y;
                     _mapBlocks[x, y].blockType = EMapBlockType.normal;
                     //初始化地图块儿的collider组件
                     _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
                     GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
+
+                    battleArea.StoreBattleArea(area, new Vector2(x,y));//存储战区
                 }
             }
 
             //TODO初始战斗地图单位
-            //UnitDataBase.instance().InitGameUnit();
+            //UnitDataBase.Instance().InitGameUnit()
+        }
+
+        /// <summary>
+        /// 初始并存储遭遇
+        /// </summary>
+        private void InitEncounter()
+        {
+            JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
+            int encouterCount = data.Count;
+            for (int i = 0; i < encouterCount; i++)
+            {
+                string encounterID = data[i]["EncounterID"].ToString();
+                this.encounterData.Add(encounterID, data[i]);
+            }
+        }
+
+        /// <summary>
+        /// 给大地图的接口
+        /// </summary>
+        /// <param name="encounterID">遭遇id</param>
+        public void InitEncounter(string encounterID)
+        {
+            JsonData jsonData = null;
+            encounterData.TryGetValue(encounterID, out jsonData);
+            InitBattleMapPath(jsonData["MapID"].ToString());
         }
 
         #region 有了新的地图读取后，可以删除，还没对接，暂时保留
@@ -478,6 +509,7 @@ namespace BattleMap
             }
         }
 
+        #region 战区
         /// <summary>
         /// 战区所属权，传入一个坐标，判断该坐标所在的战区的所属权(胜利条件之一)
         /// </summary>
@@ -538,6 +570,7 @@ namespace BattleMap
             //移除对应地图块儿下的deadUnit
             battleMap.units_on_me.Remove(deadUnit);
         }
+        #endregion 
 
         /// <summary>
         /// 返回我方所有单位
