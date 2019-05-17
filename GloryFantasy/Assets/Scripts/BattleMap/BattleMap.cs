@@ -129,7 +129,6 @@ namespace BattleMap
         private void InitAndInstantiateMapBlocks()
         {
             InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
-            InitAndInstantiateGameUnit("Forest_Shadow_1");
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);
             nstrs = new string[strs.Length][];
@@ -167,8 +166,8 @@ namespace BattleMap
                 }
             }
 
-            //TODO初始战斗地图单位
-            //UnitDataBase.Instance().InitGameUnit()
+            //Forest_Shadow_1
+            InitAndInstantiateGameUnit("Forest_Shadow_1");
         }
 
         /// <summary>
@@ -339,31 +338,31 @@ namespace BattleMap
             GameObject _object;
             for (int i = 0; i < unitDataCount; i++)
             {
-                int x = (int)data[i]["Pos_X"];
-                int y = (int)data[i]["Pos_Y"];
+                int x = (int)unitData[i]["Pos_X"];
+                int y = (int)unitData[i]["Pos_Y"];
                 //单位控制者:0为玩家，1为敌方AI_1,2为敌方AI_2，...
-                switch (data["UnitControler"].ToString())
+                switch (unitData[i]["UnitControler"].ToString())
                 {
                     case ("0"):
                         owner = OwnerEnum.Player;break;
                     case ("1"):
                         owner = OwnerEnum.Enemy;break;
                     default:
-                        break;
+                        owner = OwnerEnum.Enemy; break;
                 }
                 //从对象池获取单位
-                //_object = GameUnitPool.Instance().GetInst(data[i]["UnitID"].ToString(), owner, x, y);
+                _object = GameUnitPool.Instance().GetInst(unitData[i]["UnitID"].ToString(), owner);
                 //修改单位对象的父级为地图方块
-                //_object.transform.SetParent(_mapBlocks[x, y].transform);
-                //_object.transform.localPosition = Vector3.zero;
+                _object.transform.SetParent(_mapBlocks[x, y].transform); 
+                _object.transform.localPosition = Vector3.zero;
 
                 //TODO 血量显示 test版本, 此后用slider显示
-                //var TextHp = _object.transform.GetComponentInChildren<Text>();
-                //var gameUnit = _object.GetComponent<GameUnit.GameUnit>();
-                //float hp = gameUnit.hp/* - Random.Range(2, 6)*/;
-                //float maxHp = gameUnit.MaxHP;
-                //float hpDivMaxHp = hp / maxHp * 100;
-                //TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
+                var TextHp = _object.transform.GetComponentInChildren<Text>();
+                var gameUnit = _object.GetComponent<GameUnit.GameUnit>();
+                float hp = gameUnit.hp/* - Random.Range(2, 6)*/;
+                float maxHp = gameUnit.MaxHP;
+                float hpDivMaxHp = hp / maxHp * 100;
+                TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
             }
             Debug.Log(unitData.Count);
             Debug.Log(unitData[0]["UnitID"].ToString());

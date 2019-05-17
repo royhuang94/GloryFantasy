@@ -1,0 +1,26 @@
+﻿[
+	{
+		"Color": [
+			"W"
+		],
+		"Tag": [
+
+		],
+		"Ability": [
+
+		],
+		"ID": "Shadow_1",
+		"Name": "黑影",
+		"Atk": "4",
+		"Hp": "6",
+		"Rng": "1",
+		"Mov": "2",
+		"Prt": "0",
+		"CardID": "",
+		"HasCD": "0",
+		"Effort": "",
+		"Event": {
+      "test": "1"
+		}
+	}
+]

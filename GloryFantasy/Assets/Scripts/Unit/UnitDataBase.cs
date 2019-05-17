@@ -17,7 +17,7 @@ namespace GameUnit
         }
 
         #region 变量
-        [SerializeField]private string DataBasePath = "/Scripts/Unit/textToken.json";
+       [SerializeField]private string DataBasePath;
         private Dictionary<string, JsonData> _unitsData;
         private List<string> _unitsDataIDs;
         #endregion
@@ -31,8 +31,7 @@ namespace GameUnit
             this._unitsDataIDs = new List<string>();
 
             // 从制定路劲加载json文件并映射成字典
-            JsonData unitsTemplate =
-                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + DataBasePath));
+            JsonData unitsTemplate = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + DataBasePath));
             // 获取总模板数量
             int dataAmount = unitsTemplate.Count;
             // 依次添加数据到相应数据集中
@@ -96,7 +95,7 @@ namespace GameUnit
             unit.id = data["CardID"].ToString();
             unit.Color = data["Color"][0].ToString();
             unit.Effort = data["Effort"].ToString();
-            unit.CD = (int) data["HasCD"];
+            unit.CD = int.Parse(data["HasCD"].ToString());
             unit.MaxHP = int.Parse(data["Hp"].ToString()); unit.hp = unit.MaxHP - damage;
             unit.id = data["ID"].ToString();
             unit.mov = int.Parse(data["Mov"].ToString());
@@ -105,10 +104,29 @@ namespace GameUnit
             unit.priority.Add(int.Parse(data["Prt"].ToString()));
             unit.rng = int.Parse(data["Rng"].ToString());
             unit.tag = new List<string>();
-            for (int i = 0; i < data["Tag"].Count; i++)
+            unit.events = new List<string>();
+
+            int tagCount = data["Tag"].Count;
+            int eventCount = data["Event"].Count;
+
+            for (int i = 0; i < Mathf.Max(tagCount, eventCount); i++)
             {
-                unit.tag.Add(data["Tag"][i].ToString());
+                if(i < tagCount && i < eventCount)
+                {
+                    unit.tag.Add(data["Tag"][i].ToString());
+                    unit.events.Add(data["Event"][i].ToString());
+                }
+                else if(i < tagCount)
+                {
+                    unit.tag.Add(data["Tag"][i].ToString());
+                }
+                else if(i < eventCount)
+                {
+                    unit.events.Add(data["Event"][i].ToString());
+                }
+                Debug.Log("event" + unit.events[i]);
             }
+
             unit.priSPD = 0;
             unit.priDS = 0;
             unit.fly = false;
