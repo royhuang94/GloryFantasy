@@ -56,39 +56,47 @@ public struct HexVector
 /// </summary>
 public class MainMapManager : UnitySingleton<MainMapManager>
 {
-        // public MainMapUI mainmapUI;
     public Mesh mesh;
     public TextAsset textAsset;
-    /// <summary>地格材质，测试用，运行的时候找一个Unity默认的材质加上去就行。
-    /// 
-    /// </summary>
-    public Sprite sprite;
-    /// <summary>人物角色实例。
-    /// 
-    /// </summary>
-    //public Charactor charactor;
-
-    /// <summary>初始化，设定
-    /// 
-    /// </summary>
-    void Awake()
+/// <summary>全部地格材质
+/// 
+/// </summary>
+    public Sprite test;
+    public Sprite montainsprite;
+    public Sprite planesplite;
+    public Sprite deadtreesprite;
+    public Sprite marshsprite;
+    public Sprite bushsprite;
+    public Sprite desertsprite;
+    public Sprite greenerysprite;
+    public Sprite oasissprite;
+    public Sprite grasslandsprite;
+    public Sprite wastelandsprite;
+    public Sprite bloodstonesprite;
+    public Sprite cursestonesprite;
+    public Sprite bonepitsprite;
+    public Sprite obsidiansprite;
+/// <summary>初始化，设定
+/// 
+/// </summary>
+void Awake()
     {
-        Screen.SetResolution(960, 540, false);
-        ReadMap();     
+     Screen.SetResolution(960, 540, false);
+     ReadMap();     
     }
-        /// <summary>通过读取文件里的字符串转换成对应的地格生成地图
-        /// 
-        /// </summary>
-        private void ReadMap()
-        {
-            System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
-            string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string[] element = lines[i].Split(',');
-                for (int j = 0; j < element.Length; j++)
+/// <summary>通过读取文件里的字符串转换成对应的地格生成地图
+/// 
+/// </summary>
+private void ReadMap()
+   {
+      System.StringSplitOptions option = System.StringSplitOptions.RemoveEmptyEntries;
+      string[] lines = textAsset.text.Split(new char[] { '\r', '\n' }, option);
+      for (int i = 0; i < lines.Length; i++)
+         {
+            string[] element = lines[i].Split(',');
+            for (int j = 0; j < element.Length; j++)
                 {
-                    if (element[j] != "null")//如果字符串不为null,则生成地格挂载脚本。
+                  if (element[j] != "null")//如果字符串不为null,则生成地格挂载脚本。
                     {
                         string[] upper = element[j].Split(new char[] { ':' }, option);
                         GameObject mapunit = new GameObject("test" + i.ToString() + j.ToString());
@@ -97,24 +105,108 @@ public class MainMapManager : UnitySingleton<MainMapManager>
                         switch (upper[0])
                         {
                             case "plane":
-                                MapUnit plane = mapunit.AddComponent<Plane>();
-                                mapunit.transform.position = plane.hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = planesplite;
                                 break;
+                            case "montain":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = montainsprite;
+                                break;
+                            case "deadtree":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = deadtreesprite;
+                                break;
+                            case "marsh":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = marshsprite;
+                                break;
+                            case "bush":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = bushsprite;
+                                break;
+                            case "desert":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = desertsprite;
+                                break;
+                            case "greenery":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = greenerysprite;
+                                break;
+                            case "oasis":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = oasissprite;
+                                break;
+                            case "grassland":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = grasslandsprite;
+                                break;
+                            case "wasteland":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = wastelandsprite;
+                                break;
+                            case "bloodstone":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = bloodstonesprite;
+                                break;
+                            case "cursestone":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = cursestonesprite;
+                                break;
+                            case "bonepit":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = bonepitsprite;
+                                break;
+                            case "obsidian":
+                                mapunit.AddComponent<Plane>();
+                                mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
+                                break;
+                            //这里用的是默认的地格素材，
                             case "post":
                                 MapUnit post = mapunit.AddComponent<Post>();
                                 mapunit.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = test;
                                 break;
                             case "key":
                                 MapUnit key = mapunit.AddComponent<Key>();
                                 mapunit.transform.position = key.hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+                                mapunit.AddComponent<SpriteRenderer>();
+                                mapunit.GetComponent<SpriteRenderer>().sprite = test;
                                 break;
                             default:
                                 Debug.Log("你文件写错了，回去看看");
                                 break;
                         }
                         //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
-                        SpriteRenderer render = mapunit.AddComponent<SpriteRenderer>();
-                        render.sprite = sprite;
+
                         MeshCollider collider = mapunit.AddComponent<MeshCollider>();
                         collider.sharedMesh = mesh;
                         
