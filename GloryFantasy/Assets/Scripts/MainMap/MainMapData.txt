@@ -8,5 +8,5 @@ plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane
 plane,plane,plane,plane,plane,plane:monster,plane,plane,plane,plane,plane,plane
 plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane
 plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane
-plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane
-plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane,plane
+plane,montain,deadtree,marsh,bush,desert,greenery,oasis,grassland,wasteland,bloodstone,cursestone
+plane,bonepit,obsidian,plane,plane,plane,plane,plane,plane,plane,plane,plane

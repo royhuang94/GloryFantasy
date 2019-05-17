@@ -23,8 +23,8 @@ namespace BattleMap
             MapNavigator = new MapNavigator();
             battleArea = new BattleArea();
             debuffBM = new DebuffBattleMapBlovk();
+            encounter = new Encounter.EncounterData();
             BattleMapPath = "Assets/Scripts/BattleMap/";
-            encounterData = new Dictionary<string, JsonData>();
         }
 
         private void Start()
@@ -83,8 +83,8 @@ namespace BattleMap
 
         public void InitMap()
         {
-            //初始遭遇
-            InitEncounter();
+            //读取并存储遭遇
+            encounter.InitEncounter();
             //初始化地图
             InitAndInstantiateMapBlocks();
         }
@@ -114,10 +114,11 @@ namespace BattleMap
         public MapNavigator MapNavigator;//寻路类
         public BattleArea battleArea;//战区类
         public DebuffBattleMapBlovk debuffBM;//异常地图快类
+        public Encounter.EncounterData encounter;//持有遭遇类
         private string[][] nstrs;//存战斗地图的数组
         [SerializeField]
         private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
-        public Dictionary<string, JsonData> encounterData;
+
 
         //初始战斗地图路径
         public void  InitBattleMapPath(string mapID)
@@ -128,7 +129,8 @@ namespace BattleMap
         //初始战斗地图
         private void InitAndInstantiateMapBlocks()
         {
-            InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
+            encounter.InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
+
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);
             nstrs = new string[strs.Length][];
@@ -170,30 +172,6 @@ namespace BattleMap
             InitAndInstantiateGameUnit("Forest_Shadow_1");
         }
 
-        /// <summary>
-        /// 初始并存储遭遇
-        /// </summary>
-        private void InitEncounter()
-        {
-            JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
-            int encouterCount = data.Count;
-            for (int i = 0; i < encouterCount; i++)
-            {
-                string encounterID = data[i]["EncounterID"].ToString();
-                this.encounterData.Add(encounterID, data[i]);
-            }
-        }
-
-        /// <summary>
-        /// 给大地图的接口
-        /// </summary>
-        /// <param name="encounterID">遭遇id</param>
-        public void InitEncounter(string encounterID)
-        {
-            JsonData jsonData = null;
-            encounterData.TryGetValue(encounterID, out jsonData);
-            InitBattleMapPath(jsonData["MapID"].ToString());
-        }
 
         #region 有了新的地图读取后，可以删除，还没对接，暂时保留
         private void InitAndInstantiateMapBlocks1()
@@ -330,7 +308,7 @@ namespace BattleMap
         private void InitAndInstantiateGameUnit(string encounterID)
         {
             JsonData data = null;
-            encounterData.TryGetValue(encounterID, out data);
+            //encounterData.TryGetValue(encounterID, out data);
             JsonData unitData = data["UnitMessage"];
             int unitDataCount = unitData.Count;
             Unit newUnit;

@@ -782,9 +782,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fcaf7ab6f610b24091f0209364d0061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 4300000, guid: 96308553cbcba68449aad412fa06485a, type: 3}
+  mesh: {fileID: 4300000, guid: 470d50d339328b74da1197d550ec1284, type: 3}
   textAsset: {fileID: 4900000, guid: eef84f21a7096804e8157760dad8245d, type: 3}
-  sprite: {fileID: 21300000, guid: 8af57e4d80485cc4f93004ad4977f046, type: 3}
+  test: {fileID: 21300000, guid: 8af57e4d80485cc4f93004ad4977f046, type: 3}
+  montainsprite: {fileID: 21300000, guid: 2b8149457700a8741a74d7996aeb8e37, type: 3}
+  planesplite: {fileID: 21300000, guid: b04fb324cebb0ae47b3534afae2a31af, type: 3}
+  deadtreesprite: {fileID: 21300000, guid: 16f4858322ee6ce41a4eec5f59081616, type: 3}
+  marshsprite: {fileID: 21300000, guid: 0d30c5d019af12c46a02004a08384c3e, type: 3}
+  bushsprite: {fileID: 21300000, guid: 3b5ffe4b13de28a4e803c197fc12c262, type: 3}
+  desertsprite: {fileID: 21300000, guid: 159ec3855aaa4a640a12d359a3b994d6, type: 3}
+  greenerysprite: {fileID: 21300000, guid: 842b8912def852342aae0987c5d2c992, type: 3}
+  oasissprite: {fileID: 21300000, guid: 27e2c576b0dd9554d898c7dc6cb2ae69, type: 3}
+  grasslandsprite: {fileID: 21300000, guid: 5c44a48ca9bad10409b2af4650c8d7c9, type: 3}
+  wastelandsprite: {fileID: 21300000, guid: c9a8371362e127b4792966e366a45151, type: 3}
+  bloodstonesprite: {fileID: 21300000, guid: fa5f838a9fbc7ce4598d62016ec5e719, type: 3}
+  cursestonesprite: {fileID: 21300000, guid: 30e352de4b4ff19418433341d29e5298, type: 3}
+  bonepitsprite: {fileID: 21300000, guid: 97988cba7776eb848aa3a3f3e2242ad4, type: 3}
+  obsidiansprite: {fileID: 21300000, guid: 5e6764ce6ff9fa64b8e6c41a350d3ea8, type: 3}
 --- !u!114 &661397519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2054,7 +2068,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 96308553cbcba68449aad412fa06485a, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 470d50d339328b74da1197d550ec1284, type: 3}
 --- !u!1 &1927058733
 GameObject:
   m_ObjectHideFlags: 0
