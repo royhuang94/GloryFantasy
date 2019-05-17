@@ -31,7 +31,7 @@ public struct HexVector
         Hex_vector = vector;
         Normal_vector.x = 1.5f * vector.x + 1.5f * vector.y;
         Normal_vector.z = vector.z;
-        Normal_vector.y = -vector.x + vector.y;
+        Normal_vector.y = -0.5f* (float)System.Math.Sqrt(3)*vector.x + 0.5f * (float)System.Math.Sqrt(3) * vector.y;
         vector = Normal_vector;
         return vector;
 
@@ -44,9 +44,9 @@ public struct HexVector
     public Vector3 ChangeToHexVect(Vector3 vector)
     {
         Normal_vector = vector;
-        Hex_vector.x = vector.x / 3f - 0.5f * vector.y;
+        Hex_vector.x = vector.x / 3f - ((float)System.Math.Sqrt(3) / 3f) * vector.y;
         Hex_vector.z = vector.z;
-        Hex_vector.y = vector.x / 3f + 0.5f * vector.y;
+        Hex_vector.y = vector.x / 3f + ((float)System.Math.Sqrt(3)/3f) * vector.y;
         vector = Hex_vector;
         return vector;
     }
