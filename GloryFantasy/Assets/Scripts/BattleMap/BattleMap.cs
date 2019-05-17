@@ -126,9 +126,10 @@ namespace BattleMap
         }
 
         //初始战斗地图
-        private void InitAndInstantiateMapBlocks1()
+        private void InitAndInstantiateMapBlocks()
         {
             InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
+            InitAndInstantiateGameUnit("Forest_Shadow_1");
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);
             nstrs = new string[strs.Length][];
@@ -196,7 +197,7 @@ namespace BattleMap
         }
 
         #region 有了新的地图读取后，可以删除，还没对接，暂时保留
-        private void InitAndInstantiateMapBlocks()
+        private void InitAndInstantiateMapBlocks1()
         {
             JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + InitialMapDataPath));
             int mapDataCount = mapData.Count;
@@ -286,7 +287,7 @@ namespace BattleMap
             return neighbour;
         }
 
-        //初始地图单位
+        //初始地图单位，对接完成后删除，暂留
         private Unit InitAndInstantiateGameUnit(JsonData data, int x, int y)
         {
             Unit newUnit;
@@ -321,6 +322,51 @@ namespace BattleMap
             
             newUnit = _object.GetComponent<Unit>();
             return newUnit;
+        }
+
+        /// <summary>
+        /// 初始战斗地图上的单位
+        /// </summary>
+        /// <param name="encounterID">遭遇id</param>
+        private void InitAndInstantiateGameUnit(string encounterID)
+        {
+            JsonData data = null;
+            encounterData.TryGetValue(encounterID, out data);
+            JsonData unitData = data["UnitMessage"];
+            int unitDataCount = unitData.Count;
+            Unit newUnit;
+            OwnerEnum owner;
+            GameObject _object;
+            for (int i = 0; i < unitDataCount; i++)
+            {
+                int x = (int)data[i]["Pos_X"];
+                int y = (int)data[i]["Pos_Y"];
+                //单位控制者:0为玩家，1为敌方AI_1,2为敌方AI_2，...
+                switch (data["UnitControler"].ToString())
+                {
+                    case ("0"):
+                        owner = OwnerEnum.Player;break;
+                    case ("1"):
+                        owner = OwnerEnum.Enemy;break;
+                    default:
+                        break;
+                }
+                //从对象池获取单位
+                //_object = GameUnitPool.Instance().GetInst(data[i]["UnitID"].ToString(), owner, x, y);
+                //修改单位对象的父级为地图方块
+                //_object.transform.SetParent(_mapBlocks[x, y].transform);
+                //_object.transform.localPosition = Vector3.zero;
+
+                //TODO 血量显示 test版本, 此后用slider显示
+                //var TextHp = _object.transform.GetComponentInChildren<Text>();
+                //var gameUnit = _object.GetComponent<GameUnit.GameUnit>();
+                //float hp = gameUnit.hp/* - Random.Range(2, 6)*/;
+                //float maxHp = gameUnit.MaxHP;
+                //float hpDivMaxHp = hp / maxHp * 100;
+                //TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
+            }
+            Debug.Log(unitData.Count);
+            Debug.Log(unitData[0]["UnitID"].ToString());
         }
 
         //TODO 根据坐标返回地图块儿 --> 在对应返回的地图块儿上抓取池内的对象，"投递上去"
