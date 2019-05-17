@@ -14,23 +14,37 @@ namespace GameGUI
 /// </summary>
     public class MainMapUI : UnitySingleton<MainMapUI>
     {
-       // public Button CardCollection;
-        public GameObject TestUI;
+        GameObject TestUI;
+        private string MainMapUIPackage = "MainMapFairyGUIPackage/MainMapUI";
+        private string CardCollectionPackage = "MainMapFairyGUIPackage/CardCollection";
+        private string CardIconPackage = "MainMapFairyGUIPackage/CardIcon";
+        private const string cardicons = "CardIcon";
         public GComponent mainmapUI;
-        public Window cardcollect_UI;
-        public GComponent cardcollectUI;
-        public GameObject postUI;
-        public GButton ccbtn;
-        public GButton closebtn;
+        private GComponent libraryUI;
+        private GComponent cardcollectUI;
+        private Window cardcollect_UI;
+        private GameObject postUI;
+        //Todo: delete this
         public GameObject Map;
-
+        private GButton ccbtn;
+        private GButton closebtn;
+        private GLoader _cardloader;
+        private GList _cardsSetsList;
+        private List<string> cardSetsList;
+        private GTextField _abstractText;
+        private GTextField _storyText;
+        private GLoader _iconLoader;
+        private GLoader _picLoader;
+        private GComponent _cardDisplayer;
 
         private void Awake()
         {
             GRoot.inst.SetContentScaleFactor(960, 540);
-            UIPackage.AddPackage("MainMapFairyGUIPackage/MainMapUI");
+            UIPackage.AddPackage(MainMapUIPackage);
+            UIPackage.AddPackage(CardCollectionPackage);
+            UIPackage.AddPackage(CardIconPackage);
             mainmapUI = UIPackage.CreateObject("MainMapUI", "Component2").asCom;
-            cardcollectUI = UIPackage.CreateObject("MainMapUI", "Component4").asCom;
+            cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBookMain").asCom;
             GRoot.inst.AddChild(mainmapUI);
             ccbtn = mainmapUI.GetChild("CardCollectionBtn").asButton;
             ccbtn.onClick.Add(() => ShowCardCollect());
@@ -38,8 +52,22 @@ namespace GameGUI
             cardcollect_UI = new Window();
             cardcollect_UI.contentPane=cardcollectUI;
             cardcollect_UI.CenterOn(GRoot.inst, true);
+            _cardsSetsList = cardcollectUI.GetChild("cardList").asList;
+            _cardDisplayer = cardcollectUI.GetChild("cardDisplayer").asCom;
+            _abstractText = _cardDisplayer.GetChild("abstractText").asTextField;
+            _storyText = _cardDisplayer.GetChild("storyText").asTextField;
+            _iconLoader = _cardDisplayer.GetChild("iconLoader").asLoader;
+            _picLoader = _cardDisplayer.GetChild("cardPicLoader").asLoader;
             Debug.Log("ui初始化");
-        }  
+            
+        }
+        private void Start()
+        {
+            cardSetsList = CardCollection.Instance().mycollection;
+
+            _cardsSetsList.onClickItem.Add(OnClickCardInCardSets);
+            GetCards();
+        }
         /// <summary>点击驿站地格后调用此方法展示驿站UI;
         /// 
         /// </summary>
@@ -67,6 +95,9 @@ namespace GameGUI
           //  JsonData Card2 = CardManager.Instance().GetCardJsonData(cardsJsonData[num2]["id"].ToString());
           //  JsonData Card3 = CardManager.Instance().GetCardJsonData(cardsJsonData[num3]["id"].ToString());
             ShowCard(cardsJsonData[num1]["id"].ToString(), cardsJsonData[num2]["id"].ToString(), cardsJsonData[num3]["id"].ToString());
+            CardCollection.Instance().mycollection.Add(cardsJsonData[num1]["id"].ToString());
+            CardCollection.Instance().mycollection.Add(cardsJsonData[num2]["id"].ToString());
+            CardCollection.Instance().mycollection.Add(cardsJsonData[num3]["id"].ToString());
         }
         /// <summary>点击传送时，调用此方法
         /// 
@@ -100,10 +131,18 @@ namespace GameGUI
         /// </summary>
         public void ShowCardCollect()
         {
+            cardcollect_UI.Show();
             Debug.Log("展示卡牌收藏");
             //TODO：ui调用setactive会导致性能问题，后期要改其他实现方式！！2019.5.8
             Map.SetActive(false);
-            cardcollect_UI.Show();
+            _cardsSetsList.RemoveChildren(0, -1, true);
+
+            foreach (string cardId in cardSetsList)
+            {
+                GObject item = UIPackage.CreateObject("CardCollection", "cardsSetsItem");
+                item.icon = UIPackage.GetItemURL(cardicons, cardId);
+                _cardsSetsList.AddChild(item);
+            }
             closebtn = cardcollect_UI.contentPane.GetChild("Close").asButton;
             closebtn.onClick.Add(() => CloseCardCollect());
 
@@ -113,10 +152,34 @@ namespace GameGUI
         /// </summary>
         public void CloseCardCollect()
         {
-            cardcollect_UI.Hide();
+
             Map.SetActive(true);
+            cardcollect_UI.Hide();
             //TODO：ui调用setactive会导致性能问题，后期要改其他实现方式！！2019.5.8
             Debug.Log("卡牌收藏关闭");
+        }
+        /// <summary>
+        /// 响应卡牌堆内卡牌点击事件的函数
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnClickCardInCardSets(EventContext context)
+        {
+            // 先获取到点击的下标
+            int index = _cardsSetsList.GetChildIndex(context.data as GObject);
+
+            // 通过下标获取到id
+            string cardId = cardSetsList[index];
+            // 向数据库查询展示数据
+            JsonData data = CardManager.Instance().GetCardJsonData(cardId);
+
+            _abstractText.text = "姓名：" + data["name"] + "\n" + "类型：" + data["type"];
+
+            _storyText.text = "这里本来该有卡牌故事但是现在没有数据\n" + data["effect"];
+
+            // TODO: 根据策划案加载icon
+
+            _picLoader.url = UIPackage.GetItemURL(cardicons, cardId);
+
         }
     }
 }
