@@ -24,7 +24,7 @@ namespace BattleMap
             battleArea = new BattleArea();
             debuffBM = new DebuffBattleMapBlovk();
             BattleMapPath = "Assets/Scripts/BattleMap/";
-            //encounterData = new Dictionary<string, JsonData>();
+            encounterData = new Dictionary<string, JsonData>();
         }
 
         private void Start()
@@ -93,8 +93,7 @@ namespace BattleMap
         //更改地图数据位置则需修改此处路径
         public string InitialMapDataPath = "/Scripts/BattleMap/eg1.json";//待删除
         private string BattleMapPath;
-        //private string EncounterPath = "/Scripts/BattleMap/encounter.json";//遭遇事件文件路径
-
+        private string EncounterPath = "/Scripts/BattleMap/encounter.json";//遭遇事件文件路径
         // 获取战斗地图上的所有单位
         private List<Unit> _unitsList;//TODO考虑后面是否毁用到，暂留
         public List<Unit> UnitsList{get{return _unitsList;}}              
@@ -118,7 +117,7 @@ namespace BattleMap
         private string[][] nstrs;//存战斗地图的数组
         [SerializeField]
         private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
-        //public Dictionary<string, JsonData> encounterData;
+        public Dictionary<string, JsonData> encounterData;
 
         //初始战斗地图路径
         public void  InitBattleMapPath(string mapID)
@@ -129,7 +128,7 @@ namespace BattleMap
         //初始战斗地图
         private void InitAndInstantiateMapBlocks1()
         {
-            //InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
+            InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);
             nstrs = new string[strs.Length][];
@@ -174,27 +173,27 @@ namespace BattleMap
         /// <summary>
         /// 初始并存储遭遇
         /// </summary>
-        //private void InitEncounter()
-        //{
-        //    JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
-        //    int encouterCount = data.Count;
-        //    for (int i = 0; i < encouterCount; i++)
-        //    {
-        //        string encounterID = data[i]["EncounterID"].ToString();
-        //        //this.encounterData.Add(encounterID, data[i]);
-        //    }
-        //}
+        private void InitEncounter()
+        {
+            JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
+            int encouterCount = data.Count;
+            for (int i = 0; i < encouterCount; i++)
+            {
+                string encounterID = data[i]["EncounterID"].ToString();
+                this.encounterData.Add(encounterID, data[i]);
+            }
+        }
 
         /// <summary>
         /// 给大地图的接口
         /// </summary>
         /// <param name="encounterID">遭遇id</param>
-        //public void InitEncounter(string encounterID)
-        //{
-        //    JsonData jsonData = null;
-        //    //encounterData.TryGetValue(encounterID, out jsonData);
-        //    InitBattleMapPath(jsonData["MapID"].ToString());
-        //}
+        public void InitEncounter(string encounterID)
+        {
+            JsonData jsonData = null;
+            encounterData.TryGetValue(encounterID, out jsonData);
+            InitBattleMapPath(jsonData["MapID"].ToString());
+        }
 
         #region 有了新的地图读取后，可以删除，还没对接，暂时保留
         private void InitAndInstantiateMapBlocks()
@@ -323,6 +322,15 @@ namespace BattleMap
             newUnit = _object.GetComponent<Unit>();
             return newUnit;
         }
+
+        //TODO 根据坐标返回地图块儿 --> 在对应返回的地图块儿上抓取池内的对象，"投递上去"
+        //TODO 相当于是召唤技能，可以与郑大佬的技能脚本产生联系
+        //TODO 类似做一个召唤技能，通过UGUI的按钮实现
+
+        //TODO 如何实现
+        //1. 首先我们输入一个坐标 -> 传递给某个函数，此函数能够根据坐标获得地图块儿 -> 获取到地图块儿后便可以通过地图块儿，从池子中取出Unit “投递”到该地图块儿上
+        //2. 完成
+        //3. 转移成一个skill
 
         /// <summary>
         /// 将单位设置在MapBlock下
