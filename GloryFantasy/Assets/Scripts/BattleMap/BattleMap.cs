@@ -91,7 +91,6 @@ namespace BattleMap
 
         //初始化地图的地址
         //更改地图数据位置则需修改此处路径
-        public string InitialMapDataPath = "/Scripts/BattleMap/eg1.json";//待删除
         private string BattleMapPath;
         // 获取战斗地图上的所有单位
         private List<Unit> _unitsList;//TODO考虑后面是否毁用到，暂留
@@ -102,14 +101,9 @@ namespace BattleMap
         public int Rows{get{return rows;}}                    
         public int BlockCount{get{return columns * rows;}}
         public bool IsColor { get; set; }//控制是否高亮战区
-        public Vector3 curMapPos;//TODO
-        private BattleMapBlock[,] _mapBlocks;         //普通的地图方块
-        public GameObject normalMapBlocks;//实例地图块的prefab
+        private BattleMapBlock[,] _mapBlocks; 
+        public GameObject normalMapBlocks;//实例地图块的prefab，普通的地图方块
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
-        public GameObject[] enemys;             // 存储敌方单位素材的数组
-        public GameObject[] enemy_sets;         //存储敌方群体单位素材的数组
-        public GameObject player_assete;       // 存放玩家单位素材的引用
-        public GameObject obstacle;
         public MapNavigator MapNavigator;//寻路类
         public BattleArea battleArea;//战区类
         public DebuffBattleMapBlovk debuffBM;//异常地图快类
@@ -119,7 +113,10 @@ namespace BattleMap
         private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
 
 
-        //初始战斗地图路径
+        /// <summary>
+        /// 初始战斗地图路径
+        /// </summary>
+        /// <param name="mapID">地图名字</param>
         public void  InitBattleMapPath(string mapID)
         {
             BattleMapPath = BattleMapPath + mapID + ".txt";
@@ -129,6 +126,7 @@ namespace BattleMap
         private void InitAndInstantiateMapBlocks()
         {
             encounter.InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
+            encounter.InitBattlefield("Forest_Shadow_1");
 
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);
@@ -167,12 +165,12 @@ namespace BattleMap
                 }
             }
 
-            //Forest_Shadow_1
-            InitAndInstantiateGameUnit("Forest_Shadow_1");
+            InitAndInstantiateGameUnit("Forest_Shadow_1");//初始战斗地图上的单位
         }
 
 
         #region 有了新的地图读取后，可以删除，还没对接，暂时保留
+        public string InitialMapDataPath = "/Scripts/BattleMap/eg1.json";//待删除
         private void InitAndInstantiateMapBlocks1()
         {
             JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + InitialMapDataPath));
@@ -344,8 +342,6 @@ namespace BattleMap
                 float hpDivMaxHp = hp / maxHp * 100;
                 TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
             }
-            Debug.Log(unitData.Count);
-            Debug.Log(unitData[0]["UnitID"].ToString());
         }
 
         //TODO 根据坐标返回地图块儿 --> 在对应返回的地图块儿上抓取池内的对象，"投递上去"
@@ -487,7 +483,6 @@ namespace BattleMap
                         unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
                     }
                     StartCoroutine(MapNavigator.moveStepByStep(unit));                    
-                    //unit.transform.position = _destination;
                     return true;
                 }
             }
