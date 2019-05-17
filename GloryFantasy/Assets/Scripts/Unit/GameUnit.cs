@@ -96,7 +96,12 @@ namespace GameUnit
         /// <summary>
         /// 单位异能
         /// </summary>
-        public List<string> abilities { get; set; }       
+        public List<string> abilities { get; set; }               
+       
+        /// <summary>
+        /// 单位事件
+        /// </summary>
+        public List<string> events { get; set; }       
 
         /// <summary>
         /// 为真单位不能攻击

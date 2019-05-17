@@ -10,7 +10,7 @@ namespace Encounter
         #region 变量
         //初始化遭遇
         [SerializeField] private string EncounterPath = "/Scripts/BattleMap/encounter.json";//遭遇事件文件路径
-        public Dictionary<string, JsonData> encounterData;//遭遇id和对用的Jsondata对象
+        private Dictionary<string, JsonData> encounterData;//遭遇id和对用的Jsondata对象
         public Dictionary<int, JsonData> battlefieldMessageData;//该战区的id和对应的事件
         #endregion
 
@@ -41,7 +41,17 @@ namespace Encounter
             BattleMap.BattleMap.Instance().InitBattleMapPath(jsonData["MapID"].ToString());
         }
 
-        //TODO初始事件
+        /// <summary>
+        /// 通过遭遇ID获取对应的遭遇data
+        /// </summary>
+        /// <param name="encounterID">遭遇id</param>
+        public JsonData GetEncounterDataByID(string encounterID)
+        {
+            if (encounterID == null)
+                return null;
+
+            return encounterData[encounterID];
+        }
 
         /// <summary>
         /// 初始战区事件
