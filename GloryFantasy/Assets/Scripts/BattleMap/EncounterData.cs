@@ -40,6 +40,14 @@ namespace Encounter
             BattleMap.BattleMap.Instance().InitBattleMapPath(jsonData["MapID"].ToString());
         }
 
+        public JsonData GetEncounterDataByID(string encounterID)
+        {
+            if (encounterID == null)
+                return null;
+
+            return encounterData[encounterID];
+        }
+
 
 
     }

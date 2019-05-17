@@ -307,8 +307,10 @@ namespace BattleMap
         /// <param name="encounterID">遭遇id</param>
         private void InitAndInstantiateGameUnit(string encounterID)
         {
-            JsonData data = null;
-            //encounterData.TryGetValue(encounterID, out data);
+            JsonData data = encounter.GetEncounterDataByID(encounterID);
+            if (data == null)
+                return;
+
             JsonData unitData = data["UnitMessage"];
             int unitDataCount = unitData.Count;
             Unit newUnit;
