@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 96308553cbcba68449aad412fa06485a
+guid: 470d50d339328b74da1197d550ec1284
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -9,7 +9,6 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Cylinder001
-    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -41,7 +40,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 40
     meshCompression: 0
     addColliders: 0
     importVisibility: 1

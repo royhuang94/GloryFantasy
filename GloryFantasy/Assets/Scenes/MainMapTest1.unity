@@ -638,9 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0bd92a1bd8180d45a189f836b196087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TestUI: {fileID: 264536816}
-  postUI: {fileID: 1111612885}
-  Map: {fileID: 661397515}
+  Map: {fileID: 0}
 --- !u!1 &361673709
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fcaf7ab6f610b24091f0209364d0061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 4300000, guid: 5ea4229d7ca235d46ab9d33523073220, type: 3}
+  mesh: {fileID: 4300000, guid: 96308553cbcba68449aad412fa06485a, type: 3}
   textAsset: {fileID: 4900000, guid: eef84f21a7096804e8157760dad8245d, type: 3}
   sprite: {fileID: 21300000, guid: 8af57e4d80485cc4f93004ad4977f046, type: 3}
 --- !u!114 &661397519
@@ -1124,7 +1122,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 897925532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.6666665, y: -5, z: 0}
+  m_LocalPosition: {x: 8.888889, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1365,7 +1363,7 @@ MonoBehaviour:
   rotation: {x: 0, y: 0, z: 0}
   fairyBatching: 0
   touchDisabled: 0
-  cachedUISize: {x: 0, y: 0}
+  cachedUISize: {x: 960, y: 540}
   hitTestMode: 0
   setNativeChildrenOrder: 0
 --- !u!4 &1204614658
@@ -1376,7 +1374,7 @@ Transform:
   m_GameObject: {fileID: 1204614656}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.025, y: 0.025, z: 0.025}
+  m_LocalScale: {x: 0.018518519, y: 0.018518519, z: 0.018518519}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -2056,7 +2054,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 5ea4229d7ca235d46ab9d33523073220, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 96308553cbcba68449aad412fa06485a, type: 3}
 --- !u!1 &1927058733
 GameObject:
   m_ObjectHideFlags: 0
