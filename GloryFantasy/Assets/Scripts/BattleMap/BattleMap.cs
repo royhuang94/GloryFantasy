@@ -93,7 +93,6 @@ namespace BattleMap
         //更改地图数据位置则需修改此处路径
         public string InitialMapDataPath = "/Scripts/BattleMap/eg1.json";//待删除
         private string BattleMapPath;
-        private string EncounterPath = "/Scripts/BattleMap/encounter.json";//遭遇事件文件路径
         // 获取战斗地图上的所有单位
         private List<Unit> _unitsList;//TODO考虑后面是否毁用到，暂留
         public List<Unit> UnitsList{get{return _unitsList;}}              
@@ -130,6 +129,7 @@ namespace BattleMap
         private void InitAndInstantiateMapBlocks()
         {
             encounter.InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
+            encounter.InitBattlefield("Forest_Shadow_1");
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);
             nstrs = new string[strs.Length][];
@@ -263,7 +263,7 @@ namespace BattleMap
             return neighbour;
         }
 
-        //初始地图单位，对接完成后删除，暂留
+        #region//初始地图单位，对接完成后删除，暂留
         private Unit InitAndInstantiateGameUnit(JsonData data, int x, int y)
         {
             Unit newUnit;
@@ -299,6 +299,7 @@ namespace BattleMap
             newUnit = _object.GetComponent<Unit>();
             return newUnit;
         }
+        #endregion
 
         /// <summary>
         /// 初始战斗地图上的单位
@@ -315,8 +316,8 @@ namespace BattleMap
             GameObject _object;
             for (int i = 0; i < unitDataCount; i++)
             {
-                int x = (int)data[i]["Pos_X"];
-                int y = (int)data[i]["Pos_Y"];
+                int x = (int)unitData[i]["Pos_X"];
+                int y = (int)unitData[i]["Pos_Y"];
                 //单位控制者:0为玩家，1为敌方AI_1,2为敌方AI_2，...
                 switch (data["UnitControler"].ToString())
                 {
