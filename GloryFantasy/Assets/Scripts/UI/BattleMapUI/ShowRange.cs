@@ -9,8 +9,8 @@ namespace GameGUI
 
     public class ShowRange : MonoBehaviour
     {
-        private int rows;
         private int columns;
+        private int rows;
         private Unit unit;
         private bool unitMove;
         private void Awake()
@@ -20,9 +20,9 @@ namespace GameGUI
 
         private void Start()
         {
-            
-            rows = BattleMap.BattleMap.Instance().Rows;
+
             columns = BattleMap.BattleMap.Instance().Columns;
+            rows = BattleMap.BattleMap.Instance().Rows;
         }
 
         
@@ -44,7 +44,7 @@ namespace GameGUI
 
         private void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
         {
-            if (x < 0 || y < 0 || x >= rows || y >= columns) return;
+            if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             reslist.Add(new Vector2(x, y));
             if (leftManhattanDistance == 0)
                 return;
@@ -56,7 +56,7 @@ namespace GameGUI
 
         private void RecrusiveBody2(int x, int y, int range, List<Vector2> reslist)
         {
-            if (x < 0 || y < 0 || x >= rows || y >= columns) return;
+            if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             Vector2 centPosition = new Vector2(x, y);
             int tempRange = range%2 == 0 ? range / 2 - 1 : (range - 1) / 2 ;
             int starPosition_x =(int)centPosition.x - tempRange;
@@ -97,7 +97,7 @@ namespace GameGUI
 
         private void RecrusiveBodyForSkill(int x,int y,int range,List<Vector2> reslist)
         {
-            if (x < 0 || y < 0 || x >= rows || y >= columns) return;
+            if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             reslist.Add(new Vector2(x, y));
             if (range == 0) return;
             if(range == 2 || range == 4)

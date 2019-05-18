@@ -113,7 +113,7 @@ namespace BattleMap
         public void OnPointerEnter(PointerEventData eventData)
         {
             Gameplay.Instance().gamePlayInput.OnPointerEnter(this, eventData);
-            show();
+            //show();
             if (_unit != null)
             {
                 _fguiInterfaces.setDescribeWindowShow();        // 显示
