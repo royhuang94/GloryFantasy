@@ -92,14 +92,15 @@ namespace GameGUI
         private void Start()
         {
             playercardlist = CardCollection.Instance().mycollection;
-            cardcollectionlist.onClickItem.Add(OnClickCardInLibrary);
+            cardcollectionlist.onClickItem.Add(OnClickCardInCardCollection);
             onsalelist.onClickItem.Add(OnClickCardInLibrary);
             GetCards();
         }
-        /// <summary>点击驿站地格后调用此方法展示驿站UI并作初始化工作;
+        #region 图书馆相关代码
+        /// <summary>点击图书馆地格后调用此方法展示图书馆UI并作初始化工作;
         /// 
         /// </summary>
-        public  void ShowPostUI(Post post)
+        public void ShowlibraryUI(Library library)
         {
             mapcamera.SetActive(false);
             library_UI.Show();
@@ -125,16 +126,13 @@ namespace GameGUI
             librarylist.Add(cardsJsonData[num1]["id"].ToString());
             librarylist.Add(cardsJsonData[num2]["id"].ToString());
             librarylist.Add(cardsJsonData[num3]["id"].ToString());
-            playercardlist.Add(cardsJsonData[num1]["id"].ToString());
-            playercardlist.Add(cardsJsonData[num2]["id"].ToString());
-            playercardlist.Add(cardsJsonData[num3]["id"].ToString());
         }
         /// <summary>点击传送时，调用此方法
         /// 
         /// </summary>
         public  void TransOnClick()
         {
-            Post.PrepareTrans();
+            Library.PrepareTrans();
         }
         /// <summary>点击离开时，调用此方法
         /// 
@@ -157,15 +155,26 @@ namespace GameGUI
                 onsalelist.AddChild(item);
             }
         }
+        /// <summary>图书馆内卡牌的点击事件
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public void OnClickCardInLibrary(EventContext context)
         {
             int index = onsalelist.GetChildIndex(context.data as GObject);
-            string cardId = playercardlist[index];
-            librarylist.Remove(cardId);
+            string cardId = librarylist[index];
+            if (CardCollection.Instance().AddCard(cardId))
+            {
+                Debug.Log("购买成功！");
+                librarylist.Remove(cardId);
+            }
+
             onsalelist.RemoveChildAt(index, true);
 
 
         }
+        #endregion
+        #region 卡牌书相关代码
         /// <summary>展示卡牌收藏
         /// 
         /// </summary>
@@ -174,6 +183,7 @@ namespace GameGUI
             cardcollect_UI.Show();
             Debug.Log("展示卡牌收藏");
             //TODO：隐藏地格渲染
+            mapcamera.SetActive(false);
             cardcollectionlist.RemoveChildren(0, -1, true);
 
             foreach (string cardId in playercardlist)
@@ -192,6 +202,7 @@ namespace GameGUI
         public void CloseCardCollect()
         {
             cardcollect_UI.Hide();
+            mapcamera.SetActive(true);
             //TODO：显示地格渲染
             Debug.Log("卡牌收藏关闭");
         }
@@ -218,6 +229,7 @@ namespace GameGUI
             _picLoader.url = UIPackage.GetItemURL(cardicons, cardId);
 
         }
+        #endregion
     }
 }
 

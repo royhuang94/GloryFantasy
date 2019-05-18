@@ -191,7 +191,7 @@ private void ReadMap()
                                 break;
                             //这里用的是默认的地格素材，
                             case "post":
-                                MapUnit post = mapunit.AddComponent<Post>();
+                                MapUnit post = mapunit.AddComponent<Library>();
                                 mapunit.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
                                 mapunit.AddComponent<SpriteRenderer>();
                                 mapunit.GetComponent<SpriteRenderer>().sprite = test;
@@ -262,7 +262,7 @@ public abstract class MapUnit:MonoBehaviour
     /// 
     /// </summary>
     public abstract void OnClick();
-    /// <summary>移动地图角色的方法，改变角色位置并调用charactor里的方法重写字典值，驿站传送和普通移动都会调用这个方法
+    /// <summary>移动地图角色的方法，改变角色位置并调用charactor里的方法重写字典值，图书馆传送和普通移动都会调用这个方法
     /// 
     /// </summary>
     public virtual void ChangePosition(int step)
@@ -278,7 +278,7 @@ public abstract class MapUnit:MonoBehaviour
             }
 
           }
-        /// <summary>移动结束人物静止后会调用这个函数，比如显示驿站ui,
+        /// <summary>移动结束人物静止后会调用这个函数，比如显示图书馆ui,
         /// 
         /// </summary>
     public virtual void ChangePositionOver()
@@ -322,25 +322,25 @@ public class Plane : MapUnit
     }
 
 }
-/// <summary>每个驿站都会挂这个脚本，负责控制传送逻辑
+/// <summary>每个图书馆都会挂这个脚本，负责控制传送逻辑
 /// 
 /// </summary>
-public class Post : MapUnit
+public class Library : MapUnit
 {
-    /// <summary>驿站是否激活
+    /// <summary>图书馆是否激活
     /// 
     /// </summary>
     private bool isActive = false;
-    /// <summary>角色踩在驿站上会把ReadyToTrans设置为true
+    /// <summary>角色踩在图书馆上会把ReadyToTrans设置为true
     /// 
     /// </summary>
     private static bool ReadyToTrans = false;
     public void Awake()
     {
-        Debug.Log("驿站初始化");
+        Debug.Log("图书馆初始化");
         MapUnitInstalize();
     }
-    /// <summary>点击驿站格子后触发的事件
+    /// <summary>点击图书馆格子后触发的事件
     /// 
     /// </summary>
     public override void OnClick()
@@ -354,7 +354,7 @@ public class Post : MapUnit
 
             if (isActive == false)
             {
-                Debug.Log("所选驿站未激活。");
+                Debug.Log("所选图书馆未激活。");
             }
             else
             {
@@ -366,17 +366,17 @@ public class Post : MapUnit
         }
         else
         {
-            Debug.Log("你不在这个驿站");
+            Debug.Log("你不在这个图书馆");
         }
     }
     public override void ChangePositionOver()
         {
             isActive = true;
-            Debug.Log("驿站已激活");
-            Debug.Log("进入驿站");
-            //TODO 显示驿站ui
-            MainMapUI.Instance().ShowPostUI(this);
-            //如果放弃传送移动到驿站相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
+            Debug.Log("图书馆已激活");
+            Debug.Log("进入图书馆");
+            //TODO 显示图书馆ui
+            MainMapUI.Instance().ShowlibraryUI(this);
+            //如果放弃传送移动到图书馆相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
             foreach (MapUnit unit in Charactor.Instance().aroundlist.Values)
             {
 
