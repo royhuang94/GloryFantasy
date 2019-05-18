@@ -311,7 +311,6 @@ namespace BattleMap
 
             JsonData unitData = data["UnitMessage"];
             int unitDataCount = unitData.Count;
-            Unit newUnit;
             OwnerEnum owner;
             GameObject _object;
             for (int i = 0; i < unitDataCount; i++)
