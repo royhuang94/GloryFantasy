@@ -9,7 +9,7 @@ using System.IO;
 using FairyGUI;
 
 namespace GameGUI
-{/// <summary>以下所有代码都是为了测试和演示，所以会略草率= = 
+{/// <summary>
 /// 
 /// </summary>
     public class MainMapUI : UnitySingleton<MainMapUI>
