@@ -50,7 +50,8 @@ public struct HexVector
         vector = Hex_vector;
         return vector;
     }
-}
+
+    }
 /// <summary>在这个类里读取地图文件并生成地图
 /// 
 /// </summary>
@@ -205,12 +206,9 @@ private void ReadMap()
                                 Debug.Log("你文件写错了，回去看看");
                                 break;
                         }
-                        //材质什么的都是在这里加的，后期素材到了会写在switch判断里！
 
                         MeshCollider collider = mapunit.AddComponent<MeshCollider>();
                         collider.sharedMesh = mesh;
-                        
-                       // mapunit.transform.rotation= Quaternion.AngleAxis(90, Vector3.right);
                         mapunit.transform.localScale= new Vector3(0.5f, 0.5f, 0.5f);
 
                         //如果有地格上层元素，传给MapElementManager处理
@@ -286,6 +284,10 @@ public abstract class MapUnit:MonoBehaviour
     public virtual void ChangePositionOver()
         {
             Debug.Log("移动结束");
+            if (GetComponentInChildren<MapElement>() != null)
+            {
+                GetComponentInChildren<MapElement>().ElementOnClick();
+            }
         }
 }
 /// <summary>普通的地格，没什么特别的
