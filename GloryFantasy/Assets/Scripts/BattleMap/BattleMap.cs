@@ -330,9 +330,24 @@ namespace BattleMap
                 }
                 //从对象池获取单位
                 _object = GameUnitPool.Instance().GetInst(unitData[i]["UnitID"].ToString(), owner);
+
+                Unit unit = _object.GetComponent<Unit>();
                 //修改单位对象的父级为地图方块
-                _object.transform.SetParent(_mapBlocks[x, y].transform); 
-                _object.transform.localPosition = Vector3.zero;
+                _mapBlocks[x, y].AddUnit(unit);
+                // _object.transform.SetParent(_mapBlocks[x, y].transform); 
+                //_object.transform.localPosition = Vector3.zero;
+                _unitsList.Add(unit);
+                unit.mapBlockBelow = _mapBlocks[x, y];
+
+                AI.SingleController controller;
+                //初始化AI控制器与携带的仇恨列表
+                if (_unitsList.Count == 3 || _unitsList.Count == 5 || _unitsList.Count == 6)
+                    controller = new AI.SingleAutoControllerAtker(unit); //无脑型
+                else
+                    controller = new AI.SingleAutoControllerDefender(unit);//防守型
+                controller.hatredRecorder.Reset(unit);
+                GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
+
 
                 //TODO 血量显示 test版本, 此后用slider显示
                 var TextHp = _object.transform.GetComponentInChildren<Text>();
