@@ -62,7 +62,7 @@ public class MainMapManager : UnitySingleton<MainMapManager>
 /// 
 /// </summary>
     public Sprite test;
-    public Sprite montainsprite;
+    public Sprite mountainsprite;
     public Sprite planesplite;
     public Sprite deadtreesprite;
     public Sprite marshsprite;
@@ -110,11 +110,11 @@ private void ReadMap()
                                 mapunit.AddComponent<SpriteRenderer>();
                                 mapunit.GetComponent<SpriteRenderer>().sprite = planesplite;
                                 break;
-                            case "montain":
+                            case "mountain":
                                 mapunit.AddComponent<Plane>();
                                 mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
                                 mapunit.AddComponent<SpriteRenderer>();
-                                mapunit.GetComponent<SpriteRenderer>().sprite = montainsprite;
+                                mapunit.GetComponent<SpriteRenderer>().sprite = mountainsprite;
                                 break;
                             case "deadtree":
                                 mapunit.AddComponent<Plane>();
