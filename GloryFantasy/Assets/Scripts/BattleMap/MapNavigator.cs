@@ -258,6 +258,7 @@ namespace BattleMap
 
             Vector2 tempVector;
             BattleMapBlock battleMap;
+            bool isRetire = false;
             for (int i = paths.Count - 2; i >= 0; i--)
             {
                 //移除上一步的地图块儿下面的units_on_me
@@ -283,14 +284,18 @@ namespace BattleMap
                     BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
                     unit.nextPos = paths[i];
                     MsgDispatcher.SendMsg((int)MessageType.Aftermove);
+                    isRetire = true;
                     break;
                 }
                 unit.nextPos = paths[i];
-                MsgDispatcher.SendMsg((int)MessageType.Aftermove);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
                 yield return new WaitForSeconds(0.4f); 
             }
-            if(callback != null)
+            if (isRetire == false)
+            {
+                MsgDispatcher.SendMsg((int)MessageType.Aftermove);
+            }
+            if (callback != null)
                 callback();
         }
         //一格一格移动
