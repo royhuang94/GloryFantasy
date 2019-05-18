@@ -332,7 +332,7 @@ namespace BattleMap
                 {
                     BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
                     unit.nextPos = paths[i].position;
-                    MsgDispatcher.SendMsg((int)MessageType.Aftermove);
+                    GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                     break;
                 }
                 unit.nextPos = paths[i].position;
