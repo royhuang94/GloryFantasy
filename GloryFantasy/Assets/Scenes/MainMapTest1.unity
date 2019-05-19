@@ -144,11 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e20cbb958efd341bf97993711eb903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locate: {x: 1, y: 0, z: 0}
+  locate: {x: 18, y: 5, z: 0}
   HP: 100
   Step: 0
-  MaxStep: 10
-  MoveSpeed: 1
+  MaxStep: 20
+  MoveSpeed: 3
 --- !u!65 &103618436
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -549,7 +549,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &210065014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0bd92a1bd8180d45a189f836b196087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Map: {fileID: 0}
+  mapcamera: {fileID: 676726614}
 --- !u!1 &361673709
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +879,7 @@ MonoBehaviour:
   mesh: {fileID: 4300000, guid: 470d50d339328b74da1197d550ec1284, type: 3}
   textAsset: {fileID: 4900000, guid: eef84f21a7096804e8157760dad8245d, type: 3}
   test: {fileID: 21300000, guid: 8af57e4d80485cc4f93004ad4977f046, type: 3}
-  montainsprite: {fileID: 21300000, guid: 2b8149457700a8741a74d7996aeb8e37, type: 3}
+  mountainsprite: {fileID: 21300000, guid: 2b8149457700a8741a74d7996aeb8e37, type: 3}
   planesplite: {fileID: 21300000, guid: b04fb324cebb0ae47b3534afae2a31af, type: 3}
   deadtreesprite: {fileID: 21300000, guid: 16f4858322ee6ce41a4eec5f59081616, type: 3}
   marshsprite: {fileID: 21300000, guid: 0d30c5d019af12c46a02004a08384c3e, type: 3}

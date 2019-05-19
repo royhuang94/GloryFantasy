@@ -113,7 +113,7 @@ namespace BattleMap
         public void OnPointerEnter(PointerEventData eventData)
         {
             Gameplay.Instance().gamePlayInput.OnPointerEnter(this, eventData);
-            show();
+            Show();
             if (_unit != null)
             {
                 _fguiInterfaces.setDescribeWindowShow();        // 显示
@@ -134,8 +134,11 @@ namespace BattleMap
         /// <summary>
         /// 获取单位即信息，用于fgui显示
         /// </summary>
-        private void show()
+        private void Show()
         {
+            // 分隔符
+            string separator = " / ";
+            
             _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
             if(_unit == null)
                 return;
@@ -146,10 +149,10 @@ namespace BattleMap
                 for (int i = 0; i < _unit.tag.Count; i++)
                 {
                     tagInTotal += _unit.tag[i];
-                    tagInTotal += " / ";
+                    tagInTotal += separator;
                 }
-            }  
-            tagInTotal = tagInTotal.Substring(0, tagInTotal.Length - 3);    // 删掉最后一个 /
+                tagInTotal = tagInTotal.Substring(0, tagInTotal.Length - separator.Length);    // 删掉最后一个 /
+            }
                      
             // 多个priority, 一起显示，/ 隔开
             string priorityInTotal = "";
@@ -158,17 +161,17 @@ namespace BattleMap
                 for (int i = 0; i < _unit.priority.Count; i++)
                 {
                     priorityInTotal += _unit.priority[i].ToString();
-                    priorityInTotal += " / ";
+                    priorityInTotal += separator;
                 }
+                priorityInTotal = priorityInTotal.Substring(0, priorityInTotal.Length - separator.Length);  // 删掉最后一个 /
             }
-            priorityInTotal = priorityInTotal.Substring(0, priorityInTotal.Length - 3);  // 删掉最后一个 /
-            
-            // 标签及效果信息，可能过长显示截断
-            string effectInfo = tagInTotal + "  " + _unit.Effort;
-            
+           
             // 单位基础信息
             string valueInfo = "颜色： " + _unit.Color + "    生命：  " + _unit.hp + "\n攻击： " + _unit.atk 
                                + "    范围： " + _unit.rng + "\n移动： " + _unit.mov + "    优先级： " + priorityInTotal;
+            
+            // 标签及效果信息，可能过长显示截断
+            string effectInfo = tagInTotal + "  " + _unit.Effort;
             
             _fguiInterfaces.setDescribeWindowContentText(_unit.name, valueInfo, effectInfo);
         }

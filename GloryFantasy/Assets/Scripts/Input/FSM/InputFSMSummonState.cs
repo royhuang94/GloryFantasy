@@ -18,8 +18,6 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownBlock(mapBlock, eventData);
 
-            //如果不是自己的战区，则无操作
-            if (!BattleMap.BattleMap.Instance().WarZoneBelong(mapBlock.GetSelfPosition())) return;
             //在对应MapBlock生成单位
             UnitManager.InstantiationUnit(FSM.selectedCard.id, OwnerEnum.Player, mapBlock);
             //把这张手牌从手牌里删掉

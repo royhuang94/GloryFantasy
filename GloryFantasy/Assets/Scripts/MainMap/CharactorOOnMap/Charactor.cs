@@ -40,8 +40,12 @@ public class Charactor : UnitySingleton<Charactor>
         public HexVector playerlocate;
         public GameObject underfeet;
         public MoveState charactorstate;
-        
-    }
+        public string VecToString(float i)
+        {
+                return (System.Convert.ToInt32(i)).ToString();
+        }
+
+        }
     /// <summary>储存角色周围地格信息的数据结构
         ///
         /// </summary>
@@ -67,8 +71,8 @@ public class Charactor : UnitySingleton<Charactor>
         GetComponent<Transform>().position = SetCharactorLocate(locate);
         this.SetMessage(HP, MaxStep);
         this.charactordata.charactorstate = MoveState.MotionLess;
-        //GetComponent<Transform>().position = locate;
-        charactordata.underfeet = GameObject.Find("test" + ((int)charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).x).ToString() + ((int)charactordata.playerlocate.ChangeToHexVect(charactordata.playerlocate.Normal_vector).y).ToString());
+        Vector3 vect = charactordata.playerlocate.Hex_vector;
+        charactordata.underfeet = GameObject.Find("test" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y));
         setaround(charactordata.underfeet);
         Debug.Log("角色初始化完成");
     }
@@ -212,10 +216,10 @@ IEnumerator MoveAction(Vector3 target,float movespeed)
                 }
                 charactordata.charactorstate = MoveState.Stop;
                 Debug.Log("移动结束");
-                charactordata.playerlocate.ChangeToHexVect(target);
-                setaround(GameObject.Find("test" + ((int)charactordata.playerlocate.Hex_vector.x).ToString() + ((int)charactordata.playerlocate.Hex_vector.y).ToString()));
-                charactordata.underfeet = GameObject.Find("test" + ((int)charactordata.playerlocate.Hex_vector.x).ToString() + ((int)charactordata.playerlocate.Hex_vector.y).ToString());
-                Debug.Log("角色移动至：" + ((int)charactordata.playerlocate.Hex_vector.x).ToString() + "," + ((int)charactordata.playerlocate.Hex_vector.y).ToString());
+                Vector3 vect = charactordata.playerlocate.ChangeToHexVect(target);
+                setaround(GameObject.Find("test" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y)));
+                charactordata.underfeet = GameObject.Find("test" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y));
+                Debug.Log("角色移动至：" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y));
                 charactordata.charactorstate = MoveState.MotionLess;
                 charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();
 

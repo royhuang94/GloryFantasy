@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1136,7 +1136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c7280f750344bf8fd3b945f665257e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DataBasePath: /Scripts/Unit/TokenJson.json
+  DataBasePath: /Scripts/Unit/Token.json
 --- !u!1 &1105144843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1571,20 +1571,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f9faae9612c8244997528244cce29b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialMapDataPath: /Scripts/BattleMap/eg1.json
-  curMapPos: {x: 0, y: 0, z: 0}
   normalMapBlocks: {fileID: 1353697842424854, guid: 9ac99019ada7d8a44b25b4712381b3d4,
     type: 2}
   _tilesHolder: {fileID: 1154925227}
-  enemys:
-  - {fileID: 1695966838942208, guid: d5f31e612b1f37348abc73cb96bbdc48, type: 2}
-  - {fileID: 1695966838942208, guid: d5f31e612b1f37348abc73cb96bbdc48, type: 2}
-  enemy_sets:
-  - {fileID: 1695966838942208, guid: d5f31e612b1f37348abc73cb96bbdc48, type: 2}
-  player_assete: {fileID: 1858321573231356, guid: b913e9ab8dbafba4287e3fee527293ea,
-    type: 2}
-  obstacle: {fileID: 1712584433230114, guid: 16444f7bc0b65204e8c526b735d6dd3c, type: 2}
   battlePanel: {fileID: 1154925226}
+  InitialMapDataPath: /Scripts/BattleMap/eg1.json
 --- !u!1 &1341492555
 GameObject:
   m_ObjectHideFlags: 0

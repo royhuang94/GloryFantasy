@@ -67,24 +67,12 @@ namespace MainMap
     /// </summary>
     public abstract class MapElement:MonoBehaviour
     {
-        /// <summary>有啥用？？不知道
-        /// 
-        /// </summary>
-        public HexVector site = new HexVector();
-        /// <summary>这是上层所在元素的mapunit,暂时还用不上，就注掉了
-        /// 
-        /// </summary>
-      //  private MapUnit ParentUnit;
         protected virtual void Awake()
         {
-         
-            
+                    
         }
         protected void instalize()
         {
-        //  ParentUnit = gameObject.GetComponentInParent<MapUnit>();
-            Button btn = gameObject.GetComponentInParent<Button>();
-            btn.onClick.AddListener(ElementOnClick);
         }
         public abstract void ElementOnClick();
     }
@@ -100,8 +88,7 @@ namespace MainMap
         }
         public override void ElementOnClick()
         {
-            //if(mapManager.charactor.aroundlist.ContainsValue(this))
-            Debug.Log("怪物被点击");
+                Debug.Log("怪物被点击");
         }
     }
     /// <summary>随机事件
@@ -116,7 +103,7 @@ namespace MainMap
         }
         public override void ElementOnClick()
         {
-            Debug.Log("随机事件被点击");
+                Debug.Log("随机事件被点击");
         }
     }
 

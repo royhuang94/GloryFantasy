@@ -123,8 +123,8 @@ namespace GameUnit
                 else if(i < eventCount)
                 {
                     unit.events.Add(data["Event"][i].ToString());
+                    Debug.Log("event" + unit.events[i]);
                 }
-                Debug.Log("event" + unit.events[i]);
             }
 
             unit.priSPD = 0;
