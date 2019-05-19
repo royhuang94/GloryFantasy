@@ -42,7 +42,7 @@ namespace Ability
 
         private bool Condition()
         {
-            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "WCuringWind_1")
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id.Equals("GCuringwind_1"))
                 return true;
             else
                 return false;

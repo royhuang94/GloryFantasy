@@ -143,7 +143,8 @@ namespace GameCard
 
             for (int i = 0; i < cardData["ability_id"].Count; i++)
             {
-                _abilityId.Add(string.Copy(cardData["ability_id"][i].ToString()));
+                if(cardData["ability_id"][i].ToString().Length > 0)
+                    _abilityId.Add(string.Copy(cardData["ability_id"][i].ToString()));
             }
 
             for (int i = 0; i < cardData["tag"].Count; i++)

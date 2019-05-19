@@ -1,4 +1,5 @@
 using LitJson;
+using UnityEngine;
 
 namespace GameCard
 {
@@ -14,6 +15,7 @@ namespace GameCard
             foreach (string abilityName in ability_id)
             {
                 gameObject.AddComponent(System.Type.GetType("Ability." +abilityName));
+                Debug.Log(abilityName);
             }
         }
         
