@@ -23,8 +23,7 @@ namespace GamePlay.FSM
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
                 // 消耗Ap值
-                Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
-                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
+                CardManager.Instance().OnTriggerCurrentCard();
 
                 FSM.PushState(new InputFSMIdleState(FSM));
             }
@@ -45,9 +44,7 @@ namespace GamePlay.FSM
             if (FSM.TargetList.Count == FSM.ability.AbilityTargetList.Count)
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
-                // 消耗Ap值
-                Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
-                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
+                CardManager.Instance().OnTriggerCurrentCard();
             }
         }
 
@@ -65,9 +62,7 @@ namespace GamePlay.FSM
             if (FSM.TargetList.Count == FSM.ability.AbilityTargetList.Count)
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
-                // 消耗Ap值
-                Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
-                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
+                CardManager.Instance().OnTriggerCurrentCard();
             }
         }
 
@@ -85,9 +80,7 @@ namespace GamePlay.FSM
             if (FSM.TargetList.Count == FSM.ability.AbilityTargetList.Count)
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
-                // 消耗Ap值
-                Player.Instance().ConsumeAp(Gameplay.Info.CastingCard.cost);
-                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
+                CardManager.Instance().OnTriggerCurrentCard();
             }
         }
     }

@@ -155,7 +155,7 @@ namespace GameCard
         }
 
         /// <summary>
-        /// 用于使用卡牌效果
+        /// 用于使用卡牌效果,现已弃用，即将移除，谨慎调用
         /// </summary>
         /// <returns>返回使用结果，成功返回true</returns>
         public virtual bool Use()

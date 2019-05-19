@@ -202,13 +202,13 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		if (!Gameplay.Instance().roundProcessController.IsPlayerRound())
 			return;
 
-		int index = _handcardList.GetChildIndex(context.data as GObject);
-		BaseCard baseCardReference = handcardInstanceList[index].GetComponent<BaseCard>();
-		if (!Player.Instance().CanConsumeAp(baseCardReference.cost))
-		{
-			Debug.Log("Ran out of AP, cant use this one");
-			return;
-		}
+//		int index = _handcardList.GetChildIndex(context.data as GObject);
+//		BaseCard baseCardReference = handcardInstanceList[index].GetComponent<BaseCard>();
+//		if (!Player.Instance().CanConsumeAp(baseCardReference.cost))
+//		{
+//			Debug.Log("Ran out of AP, cant use this one");
+//			return;
+//		}
 		
 		GObject item = context.data as GObject;
 		
@@ -218,7 +218,9 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			// 改变记录
 			lastClicked = item;
 			// 动效
-			DoSpecialEffect(item);
+			//DoSpecialEffect(item);
+			// 设置当前选中的卡牌
+			CardManager.Instance().SetSelectingCard(_handcardList.GetChildIndex(item));
 		}
 		else // 此时用户点击的牌和上次相同，表示用户想取消使用
 		{
@@ -231,32 +233,37 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			// 重置上次选择项
 			lastClicked = null;
 			
+			// 调用取消使用方法
+			CardManager.Instance().CancleUseCurrentCard();
+			
 			// 结束函数执行，因为用户取消使用
 			return;
 		}
 		
-		// 若是效果牌
-		if (baseCardReference.type.Equals("Order"))
-		{
-//			// 判断使用结果
-//			if (baseCardReference.Use())
+		CardManager.Instance().OnUseCurrentCard();
+		
+//		// 若是效果牌
+//		if (baseCardReference.type.Equals("Order"))
+//		{
+////			// 判断使用结果
+////			if (baseCardReference.Use())
+////			{
+////				// 使用成功则移除手牌
+////				CardManager.Instance().RemoveCardToCd(index);
+////				return;
+////			}
+//
+//			baseCardReference.Use();
+//			
+//		}
+//		else
+//		{
+//			if (Gameplay.Instance().gamePlayInput.IsSelectingCard == false)
 //			{
-//				// 使用成功则移除手牌
-//				CardManager.Instance().RemoveCardToCd(index);
-//				return;
+//				Gameplay.Instance().gamePlayInput. OnPointerDownUnitCard(handcardInstanceList[index]);
+//				BattleMap.BattleMap.Instance().IsColor = true;
 //			}
-
-			baseCardReference.Use();
-			
-		}
-		else
-		{
-			if (Gameplay.Instance().gamePlayInput.IsSelectingCard == false)
-			{
-				Gameplay.Instance().gamePlayInput. OnPointerDownUnitCard(handcardInstanceList[index]);
-				BattleMap.BattleMap.Instance().IsColor = true;
-			}
-		}
+//		}
 	}
 
 	/// <summary>

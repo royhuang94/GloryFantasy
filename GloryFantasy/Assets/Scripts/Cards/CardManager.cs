@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using GameGUI;
 using GamePlay;
+using GamePlay.FSM;
 using GameUnit;
 using LitJson;
 using Random = UnityEngine.Random;
@@ -33,13 +34,37 @@ namespace GameCard
         // 存放手牌实体的list
         private List<GameObject> _handcardsInstance;
 
+        private string _currentSelectingCard;        // 当前进入选中状态的手牌的ID
+        private int _currentSelectingPos;            // 当前进入选中状态的手牌的位置
+
         #endregion
         
+        #region 变量可见性定义
         public List<string> cardsInHand { get { return _handcards; } }
         public List<string> cardsSets { get { return _cardsSets; } }
         public List<cdObject> cooldownCards { get { return _cooldownCards; } }
         public List<GameObject> handcardsInstance { get { return _handcardsInstance; } }
 
+        /// <summary>
+        /// 当前手牌中选中的卡牌的实例，若没有选中卡牌则返回null
+        /// </summary>
+        public GameObject currentSelectingCardInstance
+        {
+            get
+            {
+                if (_currentSelectingCard == null || _currentSelectingPos < 0)
+                    return null;
+                return _handcardsInstance[_currentSelectingPos];
+            }
+        }
+        
+        /// <summary>
+        /// 获取当前选中卡牌的id,若没有选中卡牌则返回null
+        /// </summary>
+        public string currentSelectingCardId { get { return _currentSelectingCard; } }
+
+        #endregion
+        
         private void Awake()
         {
             Init();
@@ -95,9 +120,89 @@ namespace GameCard
 
             cardsUpperLimit = 7;
             extractCardsUpperLimit = 1;
+
+            _currentSelectingCard = null;
+            _currentSelectingPos = -1;
             
             InitCardsData();
             
+        }
+
+        /// <summary>
+        /// 用于设置当前选中的卡牌
+        /// </summary>
+        /// <param name="cardPos"></param>
+        public void SetSelectingCard(int cardPos)
+        {
+            // 当手牌数量大于cardPos时，可以正常设置卡牌位置，因为此时Count是上界，永远不等于手牌最大位置下标
+            if (cardPos >= 0 && _handcards.Count > cardPos)
+            {
+                _currentSelectingPos = cardPos;
+                _currentSelectingCard = _handcards[cardPos];
+            }
+            // 若手牌数量小于cardPos则越界，若手牌数量与cardPos相等
+            // 则要么有手牌，此时cardPos越上界，要么无手牌，此时0下标也越界
+            else
+            {
+                _currentSelectingPos = -1;
+                _currentSelectingCard = null;
+            }
+        }
+
+        
+        /// <summary>
+        /// 外界接口，使用前需要设置当前选中的卡牌，用于使用当前选中的卡牌
+        /// </summary>
+        public void OnUseCurrentCard()
+        {
+            BaseCard baseCardReference = _handcardsInstance[_currentSelectingPos].GetComponent<BaseCard>();
+            if (!Player.Instance().CanConsumeAp(baseCardReference.cost))
+            {
+                // TODO : 并实现AP值震动效果
+                Debug.Log("Ran out of AP, cant use this one");
+                return;
+            }
+
+            if (baseCardReference.type.Equals("Order"))
+            {
+                Gameplay.Instance().gamePlayInput.OnUseOrderCard(
+                    _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>());
+                return;
+            }
+
+            if (Gameplay.Instance().gamePlayInput.IsSelectingCard == false)
+            {
+                Gameplay.Instance().gamePlayInput.OnPointerDownUnitCard(_handcardsInstance[_currentSelectingPos]);
+                BattleMap.BattleMap.Instance().IsColor = true;
+            }
+            
+        }
+
+        /// <summary>
+        /// 放弃使用当前卡牌，会重置当前选择的卡牌
+        /// </summary>
+        public void CancleUseCurrentCard()
+        {
+            // TODO: 由UI方面调用
+            if (Gameplay.Instance().gamePlayInput.IsSelectingCard)
+                Gameplay.Instance().gamePlayInput.InputFSM.PushState(new InputFSMIdleState(
+                    Gameplay.Instance().gamePlayInput.InputFSM));
+
+            _currentSelectingPos = -1;
+            _currentSelectingCard = null;
+        }
+
+        /// <summary>
+        /// 用于触发当前选择的效果牌的函数，会重置当前选择的卡牌
+        /// </summary>
+        public void OnTriggerCurrentCard()
+        {
+            Player.Instance().ConsumeAp(_handcardsInstance[_currentSelectingPos].GetComponent<OrderCard>().cost);
+            MsgDispatcher.SendMsg((int)MessageType.CastCard);
+            // 从卡牌中移除当前手牌
+            RemoveCardToCd(_currentSelectingPos);
+            _currentSelectingPos = -1;
+            _currentSelectingCard = null;
         }
 
         /// <summary>
