@@ -246,7 +246,6 @@ private void ReadMap()
 /// </summary>
 public abstract class MapUnit:MonoBehaviour
 {
-  //  public  MainMapManager mapManager;
     public HexVector hexVector = new HexVector();
     public Button btn;
     /// <summary>初始化地格，获得所在实例的按钮组件并监听事件
@@ -278,7 +277,7 @@ public abstract class MapUnit:MonoBehaviour
             }
 
           }
-        /// <summary>移动结束人物静止后会调用这个函数，比如显示图书馆ui,
+        /// <summary>charactor中人物移动完成后会调用这个函数，用于响应地格上事件
         /// 
         /// </summary>
     public virtual void ChangePositionOver()
@@ -327,7 +326,7 @@ public class Plane : MapUnit
 /// </summary>
 public class Library : MapUnit
 {
-    
+    public static List<Library> activelibrarylist = new List<Library>();
     /// <summary>图书馆是否激活
     /// 
     /// </summary>
@@ -350,21 +349,23 @@ public class Library : MapUnit
         {
             ChangePosition(1);                    
         }
-        else if (ReadyToTrans == true)
-        {
+    #region 弃用的代码
+            //else if (ReadyToTrans == true)
+            //{
 
-            if (isActive == false)
-            {
-                Debug.Log("所选图书馆未激活。");
-            }
-            else
-            {
-                Debug.Log("指令合法，开始传送");
-                transfer();
-                ReadyToTrans = false;
-                Debug.Log("传送完成");
-            }
-        }
+            //    if (isActive == false)
+            //    {
+            //        Debug.Log("所选图书馆未激活。");
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("指令合法，开始传送");
+            //        transfer();
+            //        ReadyToTrans = false;
+            //        Debug.Log("传送完成");
+            //    }
+            //}
+            #endregion
         else
         {
             Debug.Log("你不在这个图书馆");
@@ -375,29 +376,31 @@ public class Library : MapUnit
             isActive = true;
             Debug.Log("图书馆已激活");
             Debug.Log("进入图书馆");
-            //TODO 显示图书馆ui
             MainMapUI.Instance().ShowlibraryUI(this);
-            //如果放弃传送移动到图书馆相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
-            foreach (MapUnit unit in Charactor.Instance().aroundlist.Values)
-            {
+            activelibrarylist.Add(this);
+            #region 弃用的代码
+            ////如果放弃传送移动到图书馆相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
+            //foreach (MapUnit unit in Charactor.Instance().aroundlist.Values)
+            //{
 
-                if (unit != null)
-                {
-                    unit.gameObject.GetComponent<Button>().onClick.AddListener(CancelTrans);
+            //    if (unit != null)
+            //    {
+            //        unit.gameObject.GetComponent<Button>().onClick.AddListener(CancelTrans);
 
-                }
-                else
-                {
+            //    }
+            //    else
+            //    {
 
-                }
-            }
+            //    }
+            //}
+            #endregion
         }
         public static void PrepareTrans()
         {
             ReadyToTrans = true;
             Debug.Log("准备传送");
         }
-    /// <summary>传送的具体方法
+    /// <summary>传送的具体实现
     /// 
     /// </summary>
     public void transfer()

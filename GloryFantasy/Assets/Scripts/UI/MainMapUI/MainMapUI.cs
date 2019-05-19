@@ -29,12 +29,16 @@ namespace GameGUI
         private GComponent mainmapUI;
         private GComponent libraryUI;
         private GComponent cardcollectUI;
+        private GComponent verifyUI;
         private Window cardcollect_UI;
         private Window library_UI;
+        private Window verify_UI;
         private GComponent _cardDisplayer;
         #endregion
         #region 按钮，文本,装载器等
         private GButton ccbtn;
+        private GButton buybtn;
+        private GButton cancelbtn;
         //private GButton closebtn;
         private GLoader _cardloader;
         private GList cardcollectionlist;
@@ -44,15 +48,12 @@ namespace GameGUI
         private GLoader _iconLoader;
         private GLoader _picLoader;
         #endregion
-        /// <summary>卡牌收藏链表，对CardCollection的引用
+        /// <summary>对CardCollection的引用
         /// //Todo:为啥这么写呢。。？
         /// 
         /// </summary>
         private List<string> playercardlist;
-        /// <summary>图书馆正销售的卡牌链表
-        /// 
-        /// </summary>
-        private List<string> librarylist = new List<string>();
+        private List<string> library_list;
         //URL
         private const string cardicons = "CardIcon";
         /// <summary>初始化
@@ -74,6 +75,10 @@ namespace GameGUI
             library_UI = new Window();
             library_UI.contentPane = libraryUI;
             library_UI.CenterOn(GRoot.inst, true);
+            verifyUI = UIPackage.CreateObject("Library", "verifyUI").asCom;
+            verify_UI = new Window();
+            verify_UI.contentPane = verifyUI;
+            verify_UI.CenterOn(GRoot.inst, true);
             GRoot.inst.AddChild(mainmapUI);
             #region 初始化按钮装载器文本等
             ccbtn = mainmapUI.GetChild("CardCollectionBtn").asButton;
@@ -92,9 +97,10 @@ namespace GameGUI
         private void Start()
         {
             playercardlist = CardCollection.Instance().mycollection;
+            library_list = CardCollection.Instance().librarylist;
             cardcollectionlist.onClickItem.Add(OnClickCardInCardCollection);
             onsalelist.onClickItem.Add(OnClickCardInLibrary);
-            GetCards();
+            CardCollection.Instance().GetCards();
         }
         #region 图书馆相关代码
         /// <summary>点击图书馆地格后调用此方法展示图书馆UI并作初始化工作;
@@ -107,26 +113,7 @@ namespace GameGUI
             ShowCard();
             GButton closebtn = library_UI.contentPane.GetChild("Close").asButton;
             closebtn.onClick.Add(() => LeaveOnClick());
-        }
-        public  void DealOnClick()
-        {
-            GetCards();
-        }
-        /// <summary>获取三张卡牌信息,并写入librarylist;
-        /// 
-        /// </summary>
-        public  void GetCards()
-        {
-            JsonData cardsJsonData =
-            JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Cards/cardSample.1.json"));
-            int dataAmount = cardsJsonData.Count;
-            int num1 = Random.Range(0, dataAmount);
-            int num2 = Random.Range(0, dataAmount);
-            int num3 = Random.Range(0, dataAmount);
-            librarylist.Add(cardsJsonData[num1]["id"].ToString());
-            librarylist.Add(cardsJsonData[num2]["id"].ToString());
-            librarylist.Add(cardsJsonData[num3]["id"].ToString());
-        }
+        }    
         /// <summary>点击传送时，调用此方法
         /// 
         /// </summary>
@@ -140,6 +127,7 @@ namespace GameGUI
         public  void LeaveOnClick()
         {
             library_UI.Hide();
+            verify_UI.Hide();
             mapcamera.SetActive(true);
         }
         /// <summary>展示三张卡牌，
@@ -148,7 +136,7 @@ namespace GameGUI
         public  void ShowCard()
         {
             onsalelist.RemoveChildren();
-            foreach (string cardID in librarylist)
+            foreach (string cardID in library_list)
             {
                 GObject item = UIPackage.CreateObject("Library", "CardItem");
                 item.icon = UIPackage.GetItemURL(cardicons, cardID);
@@ -161,17 +149,35 @@ namespace GameGUI
         /// <param name="context"></param>
         public void OnClickCardInLibrary(EventContext context)
         {
-            int index = onsalelist.GetChildIndex(context.data as GObject);
-            string cardId = librarylist[index];
-            if (CardCollection.Instance().AddCard(cardId))
-            {
-                Debug.Log("购买成功！");
-                librarylist.Remove(cardId);
-            }
+            CardCollection.Instance().choosecardindex = onsalelist.GetChildIndex(context.data as GObject);
+            CardCollection.Instance().choosecardID = library_list[CardCollection.Instance().choosecardindex];
+            verify_UI.Show();
+            buybtn = verify_UI.contentPane.GetChild("buybtn").asButton;
+            cancelbtn = verify_UI.contentPane.GetChild("cancelbtn").asButton;
+            buybtn.onClick.Add(BuyOnclick);
+            cancelbtn.onClick.Add(CancelOnclick);
 
-            onsalelist.RemoveChildAt(index, true);
-
-
+        }
+        /// <summary>购买按钮点击事件
+        /// 
+        /// </summary>
+        /// <param name="cardId"></param>
+        /// <param name="index"></param>
+        public void BuyOnclick()
+        {
+            CardCollection.Instance().BuyCard();
+            onsalelist.RemoveChildAt(CardCollection.Instance().choosecardindex, true);
+            verify_UI.Hide();
+            
+        }
+        /// <summary>取消按钮点击事件
+        /// 
+        /// </summary>
+        public void CancelOnclick()
+        {
+            Debug.Log("取消购买");
+            buybtn.onClick.Remove(BuyOnclick);
+            verify_UI.Hide();
         }
         #endregion
         #region 卡牌书相关代码
