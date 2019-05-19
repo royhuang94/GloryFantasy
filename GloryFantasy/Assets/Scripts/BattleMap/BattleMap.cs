@@ -485,6 +485,29 @@ namespace BattleMap
         /// <param name="gameobjectCoordinate">地图块儿自身的物体坐标</param>
         /// <returns></returns>
         /// </summary>
+        public bool MoveUnitToCoordinate(Vector2 gameobjectCoordinate, Unit unit)
+        {
+            foreach (Unit gameUnit in _unitsList)
+            {
+                if (gameUnit == unit)
+                {
+                    unit.mapBlockBelow.RemoveUnit(unit);
+                    if (_mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y] == null)
+                        return false;
+                    unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
+                    _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y].AddUnit(unit);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 传入unit和坐标，将Unit瞬间移动到该坐标（仅做坐标变更，不做其他处理）
+        /// <param name="unit">移动的目标单位</param>
+        /// <param name="gameobjectCoordinate">地图块儿自身的物体坐标</param>
+        /// <returns></returns>
+        /// </summary>
         public bool MoveUnitToCoordinate(Unit unit,  Vector2 gameobjectCoordinate)
         {
             foreach (Unit gameUnit in _unitsList)

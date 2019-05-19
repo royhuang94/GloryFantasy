@@ -47,6 +47,22 @@ namespace GamePlay.Input
 
         private List<GameUnit.GameUnit> _units;
     }
+    public class SkillJumpCommand : Command
+    {
+        public SkillJumpCommand(List<GameUnit.GameUnit> units, Vector2 targetPos)
+        {
+            _units = units;
+            _targetPos = targetPos;
+        }
+
+        public override void Excute()
+        {
+            BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_targetPos, _units[0]);
+        }
+
+        private List<GameUnit.GameUnit> _units;
+        private Vector2 _targetPos;
+    }
 
     public class UnitMoveAICommand : Command
     {

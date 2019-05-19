@@ -54,6 +54,8 @@ namespace Ability
             //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
             GameUnit.GameUnit unit = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
             //复制被选中友军的一次性战技入手牌
+
+
         }
     }
 }
