@@ -42,7 +42,7 @@ namespace Ability
         private bool Condition()
         {
             //判断发动的卡是不是这个技能的注册者，并且这张卡是不是热血律动
-            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "WCourage_1")
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "RCourage_1")
                 return true;
             else
                 return false;

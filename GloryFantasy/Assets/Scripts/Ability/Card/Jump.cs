@@ -42,7 +42,7 @@ namespace Ability
         private bool Condition()
         {
             //判断发动的卡是不是这个技能的注册者，并且这张卡是不是轻身飞跃
-            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "WJump_1")
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "GJump_1")
                 return true;
             else
                 return false;

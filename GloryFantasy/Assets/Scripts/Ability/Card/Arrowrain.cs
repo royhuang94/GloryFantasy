@@ -76,7 +76,7 @@ namespace Ability
         private bool Condition()
         {
             //判断发动的卡是不是这个技能的注册者，并且这张卡是不是箭雨
-            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "WArrowrain_1")
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "GArrowrain_1")
                 return true;
             else
                 return false;
