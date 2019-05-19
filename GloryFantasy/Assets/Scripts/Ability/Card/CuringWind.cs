@@ -42,7 +42,10 @@ namespace Ability
 
         private bool Condition()
         {
-            return true;
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "WCuringWind_1")
+                return true;
+            else
+                return false;
         }
 
         private void Action()
