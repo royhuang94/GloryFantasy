@@ -48,7 +48,6 @@ namespace BattleMap
            );
         }
 
-
         /// <summary>
         /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
         /// </summary>
@@ -93,7 +92,7 @@ namespace BattleMap
         //更改地图数据位置则需修改此处路径
         private string BattleMapPath;
         // 获取战斗地图上的所有单位
-        private List<Unit> _unitsList;//TODO考虑后面是否毁用到，暂留
+        private List<Unit> _unitsList;
         public List<Unit> UnitsList{get{return _unitsList;}}              
         private int columns;                 // 地图方块每列的数量
         private int rows;                    // 地图方块每行的数量
@@ -111,7 +110,6 @@ namespace BattleMap
         private string[][] nstrs;//存战斗地图的数组
         [SerializeField]
         private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
-
 
         /// <summary>
         /// 初始战斗地图路径
@@ -165,72 +163,8 @@ namespace BattleMap
                 }
             }
 
-            InitAndInstantiateGameUnit("Forest_Shadow_1");//初始战斗地图上的单位
+            UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1",_mapBlocks);//初始战斗地图上的单位
         }
-
-
-        #region 有了新的地图读取后，可以删除，还没对接，暂时保留
-        public string InitialMapDataPath = "/Scripts/BattleMap/eg1.json";//待删除
-        private void InitAndInstantiateMapBlocks1()
-        {
-            JsonData mapData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + InitialMapDataPath));
-            int mapDataCount = mapData.Count;
-            this.columns = (int)mapData[mapDataCount - 1]["y"] + 1;
-            this.rows = (int)mapData[mapDataCount - 1]["x"] + 1;
-            _mapBlocks = new BattleMapBlock[rows, columns];
-            GameObject instance = new GameObject();
-            int x = 0;
-            int y = 0;
-            int area = 0;
-
-            battleArea.GetAreas(mapData);
-
-            for (int i = 0; i < mapDataCount; i++)
-            {
-                x = (int)mapData[i]["x"];
-                y = (int)mapData[i]["y"];
-                area = (int)mapData[i]["area"];
-                Vector2 mapPos = new Vector2(x, y);
-                battleArea.StoreBattleArea(area, mapPos);
-
-                //实例化地图块
-                instance = GameObject.Instantiate(normalMapBlocks, new Vector3(x, y, 0f), Quaternion.identity);
-                instance.transform.SetParent(_tilesHolder);
-                instance.gameObject.AddComponent<BattleMapBlock>();
-                //初始化mapBlock成员
-                _mapBlocks[x, y] = instance.gameObject.GetComponent<BattleMapBlock>();
-                _mapBlocks[x, y].area = area;
-                _mapBlocks[x, y].x = x;
-                _mapBlocks[x, y].y = y;
-                _mapBlocks[x, y].blockType = EMapBlockType.normal;
-                //初始化地图块儿的collider组件
-                _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
-
-                GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
-                int tokenCount = mapData[i]["token"].Count;
-                if (tokenCount == 1)
-                {
-                    Unit unit = InitAndInstantiateGameUnit(mapData[i]["token"][0], x, y);
-                    unit.mapBlockBelow = _mapBlocks[x, y];
-                    unit.gameObject.GetComponent<GameUnit.GameUnit>().owner = GameUnit.OwnerEnum.Enemy;
-
-                    _unitsList.Add(unit);
-                    _mapBlocks[x, y].AddUnit(unit);
-
-                    AI.SingleController controller;
-                    //初始化AI控制器与携带的仇恨列表
-                    if (_unitsList.Count == 3 || _unitsList.Count == 5 || _unitsList.Count == 6)
-                        controller = new AI.SingleAutoControllerAtker(unit); //无脑型
-                    else
-                        controller = new AI.SingleAutoControllerDefender(unit);//防守型
-                    controller.hatredRecorder.Reset(unit);
-                    GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
-
-                }
-            }
-
-        }
-        #endregion
 
         /// <summary>
         /// 获取传入寻路结点相邻的方块列表
@@ -259,120 +193,6 @@ namespace BattleMap
                 neighbour.Add(GetSpecificMapBlock(x, y + 1));
             }
             return neighbour;
-        }
-
-        #region//初始地图单位，对接完成后删除，暂留
-        private Unit InitAndInstantiateGameUnit(JsonData data, int x, int y)
-        {
-            Unit newUnit;
-            GameObject _object;
-            //TODO:怎么没有根据所有者分别做处理
-            OwnerEnum owner;
-            switch (data["Controler - Enemy, Friendly or Self"].ToString())
-            {
-                case ("Enemy"):
-                    owner = OwnerEnum.Enemy; break;
-                case ("Friendly"):
-                    owner = OwnerEnum.Neutrality; break;
-                case ("Self"):
-                    owner = OwnerEnum.Player; break;
-                default:
-                    owner = OwnerEnum.Enemy;break;
-            }
-            //从对象池获取单位
-            _object = GameUnitPool.Instance().GetInst(data["name"].ToString(), owner, (int)data["Damaged"]);     
-            //修改单位对象的父级为地图方块
-            _object.transform.SetParent(_mapBlocks[x, y].transform);
-            _object.transform.localPosition = Vector3.zero;
-
-
-            //TODO 血量显示 test版本, 此后用slider显示
-            var TextHp = _object.transform.GetComponentInChildren<Text>();
-            var gameUnit = _object.GetComponent<GameUnit.GameUnit>();
-            float hp = gameUnit.hp/* - Random.Range(2, 6)*/;
-            float maxHp = gameUnit.MaxHP;
-            float hpDivMaxHp = hp / maxHp * 100;
-            TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);              
-            
-            newUnit = _object.GetComponent<Unit>();
-            return newUnit;
-        }
-        #endregion
-
-        /// <summary>
-        /// 初始战斗地图上的单位
-        /// </summary>
-        /// <param name="encounterID">遭遇id</param>
-        private void InitAndInstantiateGameUnit(string encounterID)
-        {
-            JsonData data = encounter.GetEncounterDataByID(encounterID);
-            if (data == null)
-                return;
-
-            JsonData unitData = data["UnitMessage"];
-            int unitDataCount = unitData.Count;
-            OwnerEnum owner;
-            GameObject _object;
-            for (int i = 0; i < unitDataCount; i++)
-            {
-                int x = (int)unitData[i]["Pos_X"];
-                int y = (int)unitData[i]["Pos_Y"];
-                //单位控制者:0为玩家，1为敌方AI_1,2为敌方AI_2，...
-                switch (unitData[i]["UnitControler"].ToString())
-                {
-                    case ("0"):
-                        owner = OwnerEnum.Player;break;
-                    case ("1"):
-                        owner = OwnerEnum.Enemy;break;
-                    default:
-                        owner = OwnerEnum.Enemy; break;
-                }
-                //从对象池获取单位
-                _object = GameUnitPool.Instance().GetInst(unitData[i]["UnitID"].ToString(), owner);
-
-                Unit unit = _object.GetComponent<Unit>();
-                //修改单位对象的父级为地图方块
-                _mapBlocks[x, y].AddUnit(unit);
-                // _object.transform.SetParent(_mapBlocks[x, y].transform); 
-                //_object.transform.localPosition = Vector3.zero;
-                _unitsList.Add(unit);
-                unit.mapBlockBelow = _mapBlocks[x, y];
-
-                AI.SingleController controller;
-                //初始化AI控制器与携带的仇恨列表
-                if (_unitsList.Count == 0 || _unitsList.Count == 3 || _unitsList.Count == 5)
-                    controller = new AI.SingleAutoControllerAtker(unit); //无脑型
-                else
-                    controller = new AI.SingleAutoControllerDefender(unit);//防守型
-                controller.hatredRecorder.Reset(unit);
-                GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
-
-
-                //TODO 血量显示 test版本, 此后用slider显示
-                var TextHp = _object.transform.GetComponentInChildren<Text>();
-                var gameUnit = _object.GetComponent<GameUnit.GameUnit>();
-                float hp = gameUnit.hp/* - Random.Range(2, 6)*/;
-                float maxHp = gameUnit.MaxHP;
-                float hpDivMaxHp = hp / maxHp * 100;
-                TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
-            }
-        }
-
-        //TODO 根据坐标返回地图块儿 --> 在对应返回的地图块儿上抓取池内的对象，"投递上去"
-        //TODO 相当于是召唤技能，可以与郑大佬的技能脚本产生联系
-        //TODO 类似做一个召唤技能，通过UGUI的按钮实现
-
-        //TODO 如何实现
-        //1. 首先我们输入一个坐标 -> 传递给某个函数，此函数能够根据坐标获得地图块儿 -> 获取到地图块儿后便可以通过地图块儿，从池子中取出Unit “投递”到该地图块儿上
-        //2. 完成
-        //3. 转移成一个skill
-
-        /// <summary>
-        /// 将单位设置在MapBlock下
-        /// </summary>
-        public void SetUnitToMapBlock()
-        {
-            //TODO：完善一下
         }
 
         /// <summary>
@@ -566,6 +386,21 @@ namespace BattleMap
             }
         }
 
+        /// <summary>
+        /// 用于确定给定坐标地图块所属的接口
+        /// </summary>
+        /// <param name="position">合法的坐标</param>
+        /// <returns>若地图块拥有单位，则返回对应的单位所属，若无，则返回中立</returns>
+        public GameUnit.OwnerEnum GetMapblockBelong(Vector3 position)
+        {
+            if (CheckIfHasUnits(position))
+            {
+                return _mapBlocks[(int)position.x, (int)position.y].GetComponentInChildren<GameUnit.GameUnit>().owner;
+            }
+
+            return OwnerEnum.Neutrality;
+        }
+
         #region 战区
         /// <summary>
         /// 战区所属权，传入一个坐标，判断该坐标所在的战区的所属权(胜利条件之一)
@@ -593,21 +428,6 @@ namespace BattleMap
         public void ShowBattleZooe(Vector3 position)
         {
             battleArea.ShowBattleZooe(position, _mapBlocks);
-        }
-
-        /// <summary>
-        /// 用于确定给定坐标地图块所属的接口
-        /// </summary>
-        /// <param name="position">合法的坐标</param>
-        /// <returns>若地图块拥有单位，则返回对应的单位所属，若无，则返回中立</returns>
-        public GameUnit.OwnerEnum GetMapblockBelong(Vector3 position)
-        {
-            if (CheckIfHasUnits(position))
-            {
-                return _mapBlocks[(int) position.x, (int) position.y].GetComponentInChildren<GameUnit.GameUnit>().owner;
-            }
-
-            return OwnerEnum.Neutrality;
         }
 
         //隐藏战区
