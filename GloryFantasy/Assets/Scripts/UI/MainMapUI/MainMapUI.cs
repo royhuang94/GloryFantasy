@@ -43,6 +43,7 @@ namespace GameGUI
         private GLoader _cardloader;
         private GList cardcollectionlist;
         private GList onsalelist;
+        private GList transferlist;
         private GTextField _abstractText;
         private GTextField _storyText;
         private GLoader _iconLoader;
@@ -108,18 +109,44 @@ namespace GameGUI
         /// </summary>
         public void ShowlibraryUI(Library library)
         {
+            Library.activelibrarylist.Remove(library);
+            GComponent transfermain = libraryUI.GetChild("TransferMain").asCom;
+            transferlist = transfermain.GetChild("transferlist").asList;
+            transferlist.RemoveChildren();
+            foreach (Library i in Library.activelibrarylist)
+            {
+                GComponent btn = UIPackage.CreateObject("Library", "btn").asCom;
+                GTextField text = btn.GetChild("text").asTextField;
+                text.text = "(" + i.hexVector.Hex_vector.x.ToString() + i.hexVector.Hex_vector.y.ToString() + ")";
+                transferlist.AddChild(btn);
+            }
+            Library.activelibrarylist.Add(library);
             mapcamera.SetActive(false);
             library_UI.Show();
             ShowCard();
             GButton closebtn = library_UI.contentPane.GetChild("Close").asButton;
-            closebtn.onClick.Add(() => LeaveOnClick());
+            GButton transbtn = library_UI.contentPane.GetChild("TransferBtn").asButton;
+            transbtn.onClick.Add(TransOnClick);
+            closebtn.onClick.Add(LeaveOnClick);
+
         }    
         /// <summary>点击传送时，调用此方法
         /// 
         /// </summary>
         public  void TransOnClick()
         {
+
+            transferlist.onClickItem.Add(trans);
+
             Library.PrepareTrans();
+        }
+        public void trans(EventContext context)
+        {
+            int index = transferlist.GetChildIndex(context.data as GObject);
+            Library.activelibrarylist[index].transfer();
+            library_UI.Hide();
+            mapcamera.SetActive(true);
+
         }
         /// <summary>点击离开时，调用此方法
         /// 

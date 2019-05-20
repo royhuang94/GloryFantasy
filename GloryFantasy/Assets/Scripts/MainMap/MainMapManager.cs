@@ -339,6 +339,8 @@ public class Library : MapUnit
     {
         Debug.Log("图书馆初始化");
         MapUnitInstalize();
+            //test
+        activelibrarylist.Add(this);
     }
     /// <summary>点击图书馆格子后触发的事件
     /// 
@@ -376,8 +378,12 @@ public class Library : MapUnit
             isActive = true;
             Debug.Log("图书馆已激活");
             Debug.Log("进入图书馆");
+            if (!activelibrarylist.Contains(this))
+            {
+                activelibrarylist.Add(this);
+            }
             MainMapUI.Instance().ShowlibraryUI(this);
-            activelibrarylist.Add(this);
+
             #region 弃用的代码
             ////如果放弃传送移动到图书馆相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
             //foreach (MapUnit unit in Charactor.Instance().aroundlist.Values)
