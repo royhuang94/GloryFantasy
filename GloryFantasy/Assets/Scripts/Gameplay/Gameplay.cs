@@ -11,6 +11,7 @@ using GamePlay;
 using GameCard;
 using GamePlay.Input;
 using GamePlay.Round;
+using GamePlay.Event;
 
 namespace IMessage
 {
@@ -95,6 +96,7 @@ namespace GamePlay
             autoController = new AI.AutoController();
             singleBattle = new AI.BattleField();
 
+
             _phaseNameText = GameObject.Find("phaseNameText").GetComponentInChildren<Text>();
             _phaseNameText.color = Color.red;
             _phaseNameText.text = roundProcessController.State.ToString();
@@ -110,6 +112,7 @@ namespace GamePlay
         public BuffManager buffManager;
         public  AI.BattleField singleBattle;
         public AI.AutoController autoController;
+        public EventScroll eventScroll;
 
         private Text _phaseNameText;
         
