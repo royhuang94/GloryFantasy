@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BattleMap;
+using GameCard;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -60,6 +61,8 @@ namespace GameUnit
 
             //部署成功
             Gameplay.Instance().bmbColliderManager.Fresh(gameUnit);
+
+            temp.AddComponent<ESSlot>();
         }
 
         /// <summary>

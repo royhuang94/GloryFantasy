@@ -13,6 +13,20 @@ namespace GameCard
         /// </summary>
         public GameObject buttonPrefab;
 
+        // 用于存储当前卡牌是否是战技牌
+        private bool _isExSkill;
+        
+        // 用于战技牌存储对应的场上英雄实例ID
+        private int _instanceId;
+        
+        /// <summary>
+        /// 确认当前效果牌是否是战技牌
+        /// </summary>
+        public bool isExSkill { get { return _isExSkill; } }
+
+        public int instanceId { get { return _instanceId; } set { _instanceId = value; } }
+        
+
         public override void Init(string cardId, JsonData cardData)
         {
             base.Init(cardId, cardData);
@@ -20,6 +34,9 @@ namespace GameCard
             {
                 gameObject.AddComponent(System.Type.GetType("Ability." +abilityName));
             }
+            
+            // 根据tag中是否有含有战技关键字设置变量
+            _isExSkill = tag.Contains("战技");
         }
         
         /// <summary>

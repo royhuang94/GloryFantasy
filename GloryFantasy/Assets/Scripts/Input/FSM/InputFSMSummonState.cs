@@ -17,11 +17,12 @@ namespace GamePlay.FSM
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             base.OnPointerDownBlock(mapBlock, eventData);
-
-            //在对应MapBlock生成单位
-            UnitManager.InstantiationUnit(FSM.selectedCard.id, OwnerEnum.Player, mapBlock);
             //把这张手牌从手牌里删掉
             CardManager.Instance().RemoveCardToMapList(FSM.selectedCard.gameObject);
+            
+            //在对应MapBlock生成单位
+            UnitManager.InstantiationUnit(FSM.selectedCard.id, OwnerEnum.Player, mapBlock);
+            
             // 扣除消耗的Ap值
             Player.Instance().ConsumeAp(FSM.selectedCard.GetComponent<BaseCard>().cost);
             //删掉对应手牌槽的引用
