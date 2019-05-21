@@ -8,19 +8,10 @@ namespace GameGUI
 {
 
     public class ShowRange : UnitySingleton<ShowRange>
-    {
-        private int columns;
-        private int rows;
+    { 
         private bool unitMove;
         public Unit BeforeUnit { get; set; }
-
-        public ShowRange()
-        {
-            columns = BattleMap.BattleMap.Instance().Columns;
-            rows = BattleMap.BattleMap.Instance().Rows;
-        }
-
-        
+       
         private List<Vector2> GetPositionsWithinCertainMd(Vector2 position, int ManhattanDistance)
         {
             List<Vector2> reslist = new List<Vector2>();
@@ -39,6 +30,8 @@ namespace GameGUI
 
         private void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
         {
+            int columns = BattleMap.BattleMap.Instance().Columns;
+            int rows = BattleMap.BattleMap.Instance().Rows;
             if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             reslist.Add(new Vector2(x, y));
             if (leftManhattanDistance == 0)
@@ -51,6 +44,8 @@ namespace GameGUI
 
         private void RecrusiveBody2(int x, int y, int range, List<Vector2> reslist)
         {
+            int columns = BattleMap.BattleMap.Instance().Columns;
+            int rows = BattleMap.BattleMap.Instance().Rows;
             if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             Vector2 centPosition = new Vector2(x, y);
             int tempRange = range%2 == 0 ? range / 2 - 1 : (range - 1) / 2 ;
@@ -92,6 +87,8 @@ namespace GameGUI
 
         private void RecrusiveBodyForSkill(int x,int y,int range,List<Vector2> reslist)
         {
+            int columns = BattleMap.BattleMap.Instance().Columns;
+            int rows = BattleMap.BattleMap.Instance().Rows;
             if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             reslist.Add(new Vector2(x, y));
             if (range == 0) return;
