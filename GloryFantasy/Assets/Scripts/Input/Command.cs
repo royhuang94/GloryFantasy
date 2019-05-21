@@ -69,7 +69,9 @@ namespace GamePlay.Input
 
         public override void Excute()
         {
-            if(Judge())
+            //Gameplay.Instance().gamePlayInput.HandleSkillConfim(_unit.CurPos, _maxJumpPower);
+
+            if (Judge())
                 BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_targetPos, _unit);
         }
 

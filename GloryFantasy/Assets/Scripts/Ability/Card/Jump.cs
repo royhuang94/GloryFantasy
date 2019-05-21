@@ -37,7 +37,7 @@ namespace Ability
             msgName = (int)MessageType.CastCard;
             //初始化条件函数和行为函数
             condition = Condition;
-            action = Action;
+            action = Action;    
         }
 
         private bool Condition()
