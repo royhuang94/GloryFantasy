@@ -109,53 +109,47 @@ namespace GamePlay.FSM
 
 
         //移动范围染色
-        public void HandleMovConfirm(Vector2 target)
+        public void HandleMovConfirm(Vector2 target,GameUnit.GameUnit unit)
         {
             BattleMap.BattleMap map = BattleMap.BattleMap.Instance();
             if (map.CheckIfHasUnits(target))
             {
-                GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-                unit.GetComponent<ShowRange>().MarkMoveRange(target);
+                ShowRange.Instance().MarkMoveRange(target,unit);
             }
         }
 
         public void HandleMovCancel(Vector2 target)
         {
-            GameUnit.GameUnit unit = null;
             if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
             {
-                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
+                ShowRange.Instance().CancleMoveRangeMark(target);
             }
             else
             {
-                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(TargetList[0]);
+                ShowRange.Instance().CancleMoveRangeMark(TargetList[0]);
             }
-            unit.GetComponent<ShowRange>().CancleMoveRangeMark(TargetList[0]);
         }
 
         //攻击范围染色
-        public void HandleAtkConfirm(Vector2 target)
+        public void HandleAtkConfirm(Vector2 target, GameUnit.GameUnit unit)
         {
             BattleMap.BattleMap map = BattleMap.BattleMap.Instance();
             if (map.CheckIfHasUnits(target))
             {
-                GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-                unit.GetComponent<ShowRange>().MarkAttackRange(target);
+                ShowRange.Instance().MarkAttackRange(target,unit);
             }
         }
 
         public void HandleAtkCancel(Vector2 target)
         {
-            GameUnit.GameUnit unit = null;
             if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
             {
-                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
+                ShowRange.Instance().CancleAttackRangeMark(target);
             }
             else
             {
-                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(TargetList[0]);
+                ShowRange.Instance().CancleAttackRangeMark(TargetList[0]);
             }
-            unit.GetComponent<ShowRange>().CancleAttackRangeMark(target);
         }
     }
 }

@@ -123,27 +123,13 @@ namespace GamePlay.Input
         //技能可释放范围染色
         public void HandleSkillConfim(Vector2 target,int range)
         {
-            BattleMap.BattleMap map = BattleMap.BattleMap.Instance();
-            if (map.CheckIfHasUnits(target))
-            {
-                GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-                unit.GetComponent<ShowRange>().MarkSkillRange(target,range);
-            }
+            ShowRange.Instance().MarkSkillRange(target, range);
         }
 
         //取消可释放技能范围染色
         public void HandleSkillCancel(Vector2 target,int range)
         {
-            GameUnit.GameUnit unit = null;
-            if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
-            {
-                unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(target);
-            }
-            else
-            {
-                //unit = BeforeMoveGameUnits[0];
-            }
-            unit.GetComponent<ShowRange>().CancleSkillRangeMark(InputFSM.TargetList[0],range);
+            ShowRange.Instance().CancleSkillRangeMark(target, range);
         }
         /// <summary>
         /// 单位回收

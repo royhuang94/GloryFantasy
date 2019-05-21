@@ -46,7 +46,7 @@ namespace Ability
                 List<Vector2> vector2s = new List<Vector2>();
                 GameUnit.GameUnit unit = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
                 Vector3 unitCoordinate = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
-                vector2s = unit.GetComponent<ShowRange>().GetSkillRnage(unitCoordinate, range);
+                vector2s = ShowRange.Instance().GetSkillRnage(unitCoordinate, range);
                 foreach(Vector2 vector2 in vector2s)
                 {
                     if (BattleMap.BattleMap.Instance().CheckIfHasUnits(vector2))
