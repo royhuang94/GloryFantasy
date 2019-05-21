@@ -73,7 +73,7 @@ public class BMBCollider
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位驻足");
         if (GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.CurrentState is GamePlay.FSM.InputFSMSummonState)
             return;
-        GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.HandleAtkConfirm(colliderRange[0]);
+        GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.HandleAtkConfirm(colliderRange[0],BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(colliderRange[0]));
         //GamePlay.Gameplay.Instance().gamePlayInput.HandleAtkConfirm(colliderRange[0]);
     }
 }

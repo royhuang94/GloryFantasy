@@ -7,20 +7,15 @@ using GameUnit;
 namespace GameGUI
 {
 
-    public class ShowRange : MonoBehaviour
+    public class ShowRange : UnitySingleton<ShowRange>
     {
         private int columns;
         private int rows;
-        private Unit unit;
         private bool unitMove;
-        private void Awake()
-        {
-            this.unit = gameObject.GetComponent<Unit>();
-        }
+        public Unit BeforeUnit { get; set; }
 
-        private void Start()
+        public ShowRange()
         {
-
             columns = BattleMap.BattleMap.Instance().Columns;
             rows = BattleMap.BattleMap.Instance().Rows;
         }
@@ -125,6 +120,21 @@ namespace GameGUI
         }
 
         /// <summary>
+        /// 换回之前染色的单位，以防单位坐标改变或死亡后单位空指针
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        private Unit GetBeforeUnit()
+        {
+            return BeforeUnit;
+        }
+
+        private void SetBeforeUnit(Unit unit)
+        {
+            BeforeUnit = unit;
+        }
+
+        /// <summary>
         /// 返回技能范围内的所有地图快的坐标的列表
         /// </summary>
         /// <param name="position">中心坐标</param>
@@ -141,9 +151,10 @@ namespace GameGUI
         /// 高亮单位移动范围
         /// </summary>
         /// <param name="target">单位坐标</param>
-        public void MarkMoveRange(Vector2 target)
+        public void MarkMoveRange(Vector2 target, Unit unit)
         {
             unitMove = true;
+            SetBeforeUnit(unit);
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                 GetPositionsWithinCertainMd(target, unit.mov), Color.green);
         }
@@ -152,8 +163,9 @@ namespace GameGUI
         /// 高亮单位攻击范围
         /// </summary>
         /// <param name="target">单位坐标</param>
-        public void MarkAttackRange(Vector2 target)
+        public void MarkAttackRange(Vector2 target,Unit unit)
         {
+            SetBeforeUnit(unit);
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                 GetPositionsWithinCertainMd(target, unit.rng), Color.red);
         }
@@ -165,6 +177,7 @@ namespace GameGUI
         public void CancleMoveRangeMark(Vector2 target)
         {
             unitMove = false;
+            Unit unit = GetBeforeUnit();
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                  GetPositionsWithinCertainMd(target, unit.mov), Color.white);   
         }
@@ -175,6 +188,7 @@ namespace GameGUI
         /// <param name="target"></param>
         public void CancleAttackRangeMark(Vector2 target)
         {
+            Unit unit = GetBeforeUnit();
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                  GetPositionsWithinCertainMd(target, unit.rng), Color.white);
         }
