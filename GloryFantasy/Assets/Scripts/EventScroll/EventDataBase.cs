@@ -31,6 +31,9 @@ namespace GamePlay.Event
         }
     }
 
+    /// <summary>
+    /// 事件数据库
+    /// </summary>
     public class EventDataBase : UnitySingleton<EventDataBase>
     {
         //事件表存储对象

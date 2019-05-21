@@ -28,7 +28,7 @@ namespace GamePlay.Event
         private List<EventModule> _eventModuleList = new List<EventModule>();
 
         /// <summary>
-        /// 添加一个事件模块进入随机池
+        /// 添加一个事件模块进入仲裁器
         /// </summary>
         /// <param name="eventModule"></param>
         public void AddEventModule(EventModule eventModule)
@@ -187,6 +187,10 @@ namespace GamePlay.Event
         /// 事件的事件源
         /// </summary>
         public object Source;
+
+        /// <summary>
+        /// 事件模块的事件列表，包含事件名，和权重
+        /// </summary>
         public List<EventWithWeight> EventList = new List<EventWithWeight>();
 
         /// <summary>
@@ -209,9 +213,9 @@ namespace GamePlay.Event
         }
 
         /// <summary>
-        /// 删除该事件集合
+        /// 删除该事件模块
         /// </summary>
-        public void DeleteThisAssembly()
+        public void DeleteThisModule()
         {
             Gameplay.Instance().eventScroll.DeleteOneModule(this);
         }

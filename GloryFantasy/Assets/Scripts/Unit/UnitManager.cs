@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 using GamePlay;
 using IMessage;
+using LitJson;
 
 namespace GameUnit
 {
@@ -25,7 +26,7 @@ namespace GameUnit
     /// </summary>
     public class UnitManager
     {
-        //角色初始化到地图上
+        //角色从卡牌初始化到地图上
         public static void InstantiationUnit(string cardID, OwnerEnum owner, BattleMapBlock battleMapBlock)
         {
             //根据卡牌id生成单位
@@ -61,6 +62,66 @@ namespace GameUnit
 
             //部署成功
             Gameplay.Instance().bmbColliderManager.Fresh(gameUnit);
+        }
+
+        /// <summary>
+        /// 初始战斗地图上的单位
+        /// </summary>
+        /// <param name="encounterID">遭遇id</param>
+        public static void InitAndInstantiateGameUnit(string encounterID,BattleMapBlock[,] _mapBlocks)
+        {
+            JsonData data = BattleMap.BattleMap.Instance().encounter.GetEncounterDataByID(encounterID);
+            if (data == null)
+                return;
+
+            JsonData unitData = data["UnitMessage"];
+            int unitDataCount = unitData.Count;
+            OwnerEnum owner;
+            GameObject _object;
+            for (int i = 0; i < unitDataCount; i++)
+            {
+                int x = (int)unitData[i]["Pos_X"];
+                int y = (int)unitData[i]["Pos_Y"];
+                //单位控制者:0为玩家，1为敌方AI_1,2为敌方AI_2，...
+                switch (unitData[i]["UnitControler"].ToString())
+                {
+                    case ("0"):
+                        owner = OwnerEnum.Player; break;
+                    case ("1"):
+                        owner = OwnerEnum.Enemy; break;
+                    default:
+                        owner = OwnerEnum.Enemy; break;
+                }
+                //从对象池获取单位
+                _object = GameUnitPool.Instance().GetInst(unitData[i]["UnitID"].ToString(), owner);
+
+                GameUnit unit = _object.GetComponent<GameUnit>();
+                //修改单位对象的父级为地图方块
+                _mapBlocks[x, y].AddUnit(unit);
+                // _object.transform.SetParent(_mapBlocks[x, y].transform); 
+                //_object.transform.localPosition = Vector3.zero;
+                List<GameUnit> _unitsList = BattleMap.BattleMap.Instance().UnitsList;
+                _unitsList.Add(unit);
+                unit.mapBlockBelow = _mapBlocks[x, y];
+
+                AI.SingleController controller;
+                //初始化AI控制器与携带的仇恨列表
+                if (_unitsList.Count == 0 || _unitsList.Count == 3 || _unitsList.Count == 5)
+                    controller = new AI.SingleAutoControllerAtker(unit); //无脑型
+                else
+                    controller = new AI.SingleAutoControllerDefender(unit);//防守型
+                controller.hatredRecorder.Reset(unit);
+                GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
+
+
+                //TODO 血量显示 test版本, 此后用slider显示
+                var TextHp = _object.transform.GetComponentInChildren<Text>();
+                var gameUnit = _object.GetComponent<GameUnit>();
+                float hp = gameUnit.hp/* - Random.Range(2, 6)*/;
+                float maxHp = gameUnit.MaxHP;
+                float hpDivMaxHp = hp / maxHp * 100;
+                TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
+            }
         }
 
         /// <summary>
