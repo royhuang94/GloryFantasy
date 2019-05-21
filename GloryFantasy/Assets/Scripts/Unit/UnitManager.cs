@@ -62,7 +62,8 @@ namespace GameUnit
             //部署成功
             Gameplay.Instance().bmbColliderManager.Fresh(gameUnit);
 
-            temp.AddComponent<ESSlot>();
+            if(gameUnit.tag.Contains("英雄"))
+                temp.AddComponent<ESSlot>();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 using IMessage;
 using UnityEngine;
@@ -27,6 +28,10 @@ namespace GameCard
         private List<cdObject> _cooldownCards;           // 临时存储冷却状态中卡牌
         private List<string> _garbageCards;            //弃牌堆
         private GameUnit.GameUnit _latestDeadUnit;      // 最近死掉的单位
+        
+        public delegate void Callback();
+
+        public Callback cb;
 
         // 存储json格式卡牌数据的字典
         private Dictionary<string, JsonData> _cardsData;
@@ -40,6 +45,8 @@ namespace GameCard
         private string _currentSelectingCard;        // 当前进入选中状态的手牌的ID
         private int _currentSelectingPos;            // 当前进入选中状态的手牌的位置
 
+        private bool _isSelectingMode;
+
         #endregion
         
         #region 变量可见性定义
@@ -48,7 +55,8 @@ namespace GameCard
         public List<cdObject> cooldownCards { get { return _cooldownCards; } }
         public List<GameObject> handcardsInstance { get { return _handcardsInstance; } }
         public Dictionary<string, List<string>> unitsExSkillCardDataBase { get { return _unitsExSkillCardDataBase; } }
-
+        public bool selectingMode { get { return _isSelectingMode; } set { _isSelectingMode = value; } }
+        
         /// <summary>
         /// 当前手牌中选中的卡牌的实例，若没有选中卡牌则返回null
         /// </summary>
@@ -74,6 +82,7 @@ namespace GameCard
             Init();
             LoadCardsIntoSets();
             cancelCheck = false;
+            _isSelectingMode = false;
         }
 
         private void Start()
@@ -196,6 +205,13 @@ namespace GameCard
         /// </summary>
         public void OnUseCurrentCard()
         {
+            if (_isSelectingMode)
+            {
+                Gameplay.Instance().gamePlayInput.InputFSM.selectedCard = _handcardsInstance[_currentSelectingPos].GetComponent<BaseCard>();
+                cb();
+                return;
+            }
+            
             BaseCard baseCardReference = _handcardsInstance[_currentSelectingPos].GetComponent<BaseCard>();
             if (!Player.Instance().CanConsumeAp(baseCardReference.cost))
             {

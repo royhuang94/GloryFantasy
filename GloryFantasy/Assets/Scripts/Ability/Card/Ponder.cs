@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameCard;
 using UnityEngine;
 
 using IMessage;
@@ -20,7 +21,7 @@ namespace Ability
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者
-            trigger = new TInstantIdea(this.GetUnitReceiver(this));
+            trigger = new TPonder(this.GetCardReceiver(this));
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(trigger, "Ponder");
         }
@@ -52,10 +53,19 @@ namespace Ability
         {
 
             //TODO抽两张牌
-            GameCard.CardManager.Instance().ExtractCards(3);
+            CardManager.Instance().ExtractCards(2);
             //TODO选择手牌
+            CardManager.Instance().selectingMode = true;
+            CardManager.Instance().cb = OnSlectionOver;
+        }
 
+        private void OnSlectionOver()
+        {
+            BaseCard card = Gameplay.Instance().gamePlayInput.InputFSM.selectedCard;
+            CardManager.Instance().selectingMode = false;
+            
             //TODO将选择的冷却两回合
+            CardManager.Instance().RemoveCardToCd(card.gameObject, 2);
         }
     }
 }
