@@ -49,19 +49,33 @@ namespace GamePlay.Input
     }
     public class SkillJumpCommand : Command
     {
-        public SkillJumpCommand(List<GameUnit.GameUnit> units, Vector2 targetPos)
+        public SkillJumpCommand(GameUnit.GameUnit unit, Vector2 targetPos, int maxJumpPower)
         {
-            _units = units;
+            _unit = unit;
             _targetPos = targetPos;
+            _maxJumpPower = maxJumpPower;
+        }
+
+        public bool Judge()
+        {
+            Vector2 unit1 = _unit.CurPos;
+            Vector2 unit2 = _targetPos;
+            int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
+            if (MAN_HA_DUN <= _maxJumpPower)
+                return true;
+            //BattleMap.BattleMap.Instance().MapNavigator
+            return false;
         }
 
         public override void Excute()
         {
-            BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_targetPos, _units[0]);
+            if(Judge())
+                BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_targetPos, _unit);
         }
 
-        private List<GameUnit.GameUnit> _units;
+        private GameUnit.GameUnit _unit;
         private Vector2 _targetPos;
+        private int _maxJumpPower;
     }
 
     public class UnitMoveAICommand : Command

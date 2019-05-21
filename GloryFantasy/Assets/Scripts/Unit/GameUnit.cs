@@ -12,7 +12,6 @@ namespace GameUnit
         Enemy,
         Neutrality //中立
     }
-
     public class GameUnit : MonoBehaviour, IMessage.MsgReceiver
     {
         //文件数量超过两位数的数据不要使用ScriptableObject实现
@@ -101,7 +100,21 @@ namespace GameUnit
         /// <summary>
         /// 单位事件
         /// </summary>
-        public List<string> events { get; set; }       
+        public List<GamePlay.Event.EventModule.EventWithWeight> eventsInfo { get; set; }
+
+        GamePlay.Event.EventModule eventModule;
+        public GamePlay.Event.EventModule EventModule
+        {
+            get
+            {
+                return eventModule;
+            }
+            set
+            {
+                eventModule = value;
+            }
+        }
+
 
         /// <summary>
         /// 为真单位不能攻击

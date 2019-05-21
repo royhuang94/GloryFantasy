@@ -4,6 +4,7 @@ using UnityEngine;
 
 using IMessage;
 using GamePlay;
+using GamePlay.Input;
 
 namespace Ability
 {
@@ -52,7 +53,12 @@ namespace Ability
         {
             //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
             GameUnit.GameUnit unit = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
+            BattleMap.BattleMapBlock battleMapBlock = (BattleMap.BattleMapBlock)this.GetSelectingUnits()[1];
+            
+
             //将该单位移动到三格内一格
+            SkillJumpCommand skillJumpCommand = new SkillJumpCommand(unit, battleMapBlock.position, 3);
+            skillJumpCommand.Excute();
         }
     }
 }

@@ -35,8 +35,6 @@ namespace GamePlay.FSM
                 GameUtility.UtilityHelper.Log("移动完成，进入攻击状态，点击敌人进行攻击，右键点击角色取消攻击", GameUtility.LogColor.RED);
                 unitMove.Excute();
 
-                //清空对象列表
-                //FSM.TargetList.Clear();
                 FSM.TargetList.Add(endPos);
                 //unit.restrain = true;
 

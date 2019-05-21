@@ -16,8 +16,9 @@ namespace GamePlay.FSM
         public override void OnEnter()
         {
             base.OnEnter();
-
+          
             FSM.ClearStateWithoutTop();
+            FSM.TargetList.Clear(); //清理点击列表
         }
 
         public override void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)
