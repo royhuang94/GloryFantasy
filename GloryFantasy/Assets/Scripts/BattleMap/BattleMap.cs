@@ -9,6 +9,7 @@ using IMessage;
 using UnityEngine.UI;
 using GameUnit;
 using System.Collections;
+using GamePlay.Encounter;
 
 namespace BattleMap
 {
@@ -23,7 +24,6 @@ namespace BattleMap
             MapNavigator = new MapNavigator();
             battleArea = new BattleArea();
             debuffBM = new DebuffBattleMapBlovk();
-            encounter = new Encounter.EncounterData();
             BattleMapPath = "Assets/Scripts/BattleMap/";
         }
 
@@ -83,9 +83,11 @@ namespace BattleMap
         public void InitMap()
         {
             //读取并存储遭遇
-            encounter.InitEncounter();
+            EncouterData.Instance().InitEncounter();
             //初始化地图
             InitAndInstantiateMapBlocks();
+            //初始战区事件
+            EncouterData.Instance().InitBattleFieldEvent("Forest_Shadow_1");//TODO等待对接
         }
 
         //初始化地图的地址
@@ -106,7 +108,6 @@ namespace BattleMap
         public MapNavigator MapNavigator;//寻路类
         public BattleArea battleArea;//战区类
         public DebuffBattleMapBlovk debuffBM;//异常地图快类
-        public Encounter.EncounterData encounter;//持有遭遇类
         private string[][] nstrs;//存战斗地图的数组
         [SerializeField]
         private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
@@ -123,8 +124,7 @@ namespace BattleMap
         //初始战斗地图
         private void InitAndInstantiateMapBlocks()
         {
-            encounter.InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
-            encounter.InitBattlefield("Forest_Shadow_1");
+            EncouterData.Instance().InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
 
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);

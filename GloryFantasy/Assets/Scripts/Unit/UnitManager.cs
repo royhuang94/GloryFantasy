@@ -5,6 +5,7 @@ using BattleMap;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using GamePlay.Encounter;
 
 using GamePlay;
 using IMessage;
@@ -70,20 +71,20 @@ namespace GameUnit
         /// <param name="encounterID">遭遇id</param>
         public static void InitAndInstantiateGameUnit(string encounterID,BattleMapBlock[,] _mapBlocks)
         {
-            JsonData data = BattleMap.BattleMap.Instance().encounter.GetEncounterDataByID(encounterID);
-            if (data == null)
+            Encounter encounter = null;
+            EncouterData.Instance()._encounterData.TryGetValue(encounterID,out encounter);
+            if (encounter == null)
                 return;
 
-            JsonData unitData = data["UnitMessage"];
-            int unitDataCount = unitData.Count;
             OwnerEnum owner;
             GameObject _object;
-            for (int i = 0; i < unitDataCount; i++)
+            for (int i = 0; i < encounter.unitMessageList.Count; i++)
             {
-                int x = (int)unitData[i]["Pos_X"];
-                int y = (int)unitData[i]["Pos_Y"];
+                UnitMessage unitMessage = encounter.unitMessageList[i];
+                int x = unitMessage.pos_X;
+                int y = unitMessage.pos_Y;
                 //单位控制者:0为玩家，1为敌方AI_1,2为敌方AI_2，...
-                switch (unitData[i]["UnitControler"].ToString())
+                switch (unitMessage.unitControler.ToString())
                 {
                     case ("0"):
                         owner = OwnerEnum.Player; break;
@@ -93,7 +94,7 @@ namespace GameUnit
                         owner = OwnerEnum.Enemy; break;
                 }
                 //从对象池获取单位
-                _object = GameUnitPool.Instance().GetInst(unitData[i]["UnitID"].ToString(), owner);
+                _object = GameUnitPool.Instance().GetInst(unitMessage.unitID, owner);
 
                 GameUnit unit = _object.GetComponent<GameUnit>();
                 //修改单位对象的父级为地图方块
