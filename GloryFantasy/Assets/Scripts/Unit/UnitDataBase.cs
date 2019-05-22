@@ -104,27 +104,9 @@ namespace GameUnit
             unit.priority.Add(int.Parse(data["Prt"].ToString()));
             unit.rng = int.Parse(data["Rng"].ToString());
             unit.tag = new List<string>();
-            unit.events = new List<string>();
-
-            int tagCount = data["Tag"].Count;
-            int eventCount = data["Event"].Count;
-
-            for (int i = 0; i < Mathf.Max(tagCount, eventCount); i++)
+            for (int i = 0; i < data["Tag"].Count; i++)
             {
-                if(i < tagCount && i < eventCount)
-                {
-                    unit.tag.Add(data["Tag"][i].ToString());
-                    unit.events.Add(data["Event"][i].ToString());
-                }
-                else if(i < tagCount)
-                {
-                    unit.tag.Add(data["Tag"][i].ToString());
-                }
-                else if(i < eventCount)
-                {
-                    unit.events.Add(data["Event"][i].ToString());
-                    Debug.Log("event" + unit.events[i]);
-                }
+                unit.tag.Add(data["Tag"][i].ToString());
             }
 
             unit.priSPD = 0;
@@ -138,6 +120,14 @@ namespace GameUnit
 
             //最后初始化新异能
             AddGameUnitAbility(unit, data);
+            //最后初始化单位绑定的事件信息
+           bool canInitEventModule =  AddGameUnitEventsInfo(unit, data);
+            if(canInitEventModule)
+            {
+                unit.EventModule = new GamePlay.Event.EventModule(unit);
+                unit.EventModule.AddEvent(unit.eventsInfo);
+            }
+
         }
 
         /// <summary>
@@ -173,6 +163,23 @@ namespace GameUnit
                     GameUtility.UtilityHelper.Log("添加异能 " + unitJsonData["Ability"][i].ToString() + " 失败", GameUtility.LogColor.RED);
                 }
             }
+        }
+        /// <summary>
+        /// 根据给定UnitID，添加GameUnit的异能脚本
+        /// </summary>
+        public bool AddGameUnitEventsInfo(Unit unit, JsonData unitJsonData)
+        {
+            if (unitJsonData["Event"].Count <= 0)
+                return false;
+
+            unit.eventsInfo = new List<GamePlay.Event.EventModule.EventWithWeight>();
+            Dictionary<string, int> temp = GameUtility.UtilityHelper.JsonToDictionary(unitJsonData["Event"]);
+            foreach (string key in temp.Keys)
+            {
+                unit.eventsInfo.Add(new GamePlay.Event.EventModule.EventWithWeight(key, temp[key]));
+            }
+
+            return true;
         }
     }
 }

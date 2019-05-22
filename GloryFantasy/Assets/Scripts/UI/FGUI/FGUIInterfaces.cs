@@ -327,7 +327,14 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		foreach (string cardId in cardSetsList)
 		{
 			GObject item = UIPackage.CreateObject(pkgName, "cardsSetsItem");
-			item.icon = UIPackage.GetItemURL(cardsetsAssets,cardId);
+			if(!cardId.Contains("#"))
+				item.icon = UIPackage.GetItemURL(cardsetsAssets,cardId);
+			else
+			{
+				// 若带有'#'，则说明此id包含instanceid，需要重新解析
+				string nid = cardId.Substring(0, cardId.IndexOf('#'));
+				item.icon = UIPackage.GetItemURL(cardsetsAssets,nid);
+			}
 			_cardsSetsList.AddChild(item);
 		}
 	}
@@ -342,10 +349,20 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		foreach (string cardId in handcardList)
 		{
 			GObject item = UIPackage.CreateObject(pkgName, "handcardItem2");
-			item.icon = UIPackage.GetItemURL(handcardAssets, cardId);
+			String nid;
+			if (cardId.Contains("#"))
+			{
+				nid = cardId.Substring(0, cardId.IndexOf('#'));
+			}
+			else
+			{
+				nid = cardId;
+			}
+			
+			item.icon = UIPackage.GetItemURL(handcardAssets, nid);
 			item.SetPivot(0.5f, 1f);
 			_handcardList.AddChild(item);
-			string id = string.Copy(cardId);
+			string id = string.Copy(nid);
 			item.onRollOver.Add(() =>
 			{
 				// 切换当前鼠标防治上的卡牌最最上

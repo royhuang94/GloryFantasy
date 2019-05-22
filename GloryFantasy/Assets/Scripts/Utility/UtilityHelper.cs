@@ -1,6 +1,7 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using System.IO;
+using LitJson;
+using System.Collections.Generic;
 
 namespace GameUtility
 {
@@ -16,6 +17,28 @@ namespace GameUtility
 
     public static class UtilityHelper
     {
+        /// <summary>
+        /// Json转字典，只支持{"a":1,"b":1,"c":1}格式,其中a为key，1为value
+        /// </summary>
+        /// <param name="a"></param>
+        public static Dictionary<string, int> JsonToDictionary(JsonData a)
+        {
+            Dictionary<string, int> dic = new Dictionary<string, int>();
+            string b = a.ToJson(); //转成字符串
+            string c = b.Replace("{", "").Replace("}", "").Replace("\"", "");//"去掉",{等字符
+            string[] d = c.Split(',');//分割
+            string[][] e = new string[d.Length][];
+            for (int i = 0; i < e.Length; i++)//再次分割
+            {
+                e[i] = d[i].Split(':');
+            }
+            for (int i = 0; i < e.Length; i++)
+            {
+                dic.Add(e[i][0], int.Parse(e[i][1]));
+            }
+            return dic;
+        }
+
         public static string ConvertToObsPath(string path)
         {
             if (path.StartsWith("Assets/"))

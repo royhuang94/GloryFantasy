@@ -316,6 +316,7 @@ namespace BattleMap
                         return false;
                     unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
                     _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y].AddUnit(unit);
+                    unit.transform.localPosition = Vector3.zero;
                     return true;
                 }
             }

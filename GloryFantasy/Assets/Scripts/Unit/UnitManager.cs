@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BattleMap;
+using GameCard;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -58,11 +59,11 @@ namespace GameUnit
             //单位部署相当于单位驻足地图块儿
             gameUnit.nextPos = gameUnit.CurPos;
 
-            //挂载ShowRange脚本
-            temp.AddComponent<GameGUI.ShowRange>();
-
             //部署成功
             Gameplay.Instance().bmbColliderManager.Fresh(gameUnit);
+
+            if(gameUnit.tag.Contains("英雄"))
+                temp.AddComponent<ESSlot>();
         }
 
         /// <summary>

@@ -16,8 +16,9 @@ namespace GamePlay.FSM
         public override void OnEnter()
         {
             base.OnEnter();
-
+          
             FSM.ClearStateWithoutTop();
+            FSM.TargetList.Clear(); //清理点击列表
         }
 
         public override void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)
@@ -31,7 +32,7 @@ namespace GamePlay.FSM
                 Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
                 GameUtility.UtilityHelper.Log("准备移动，再次点击角色取消移动进入攻击.Unit position is " + pos, GameUtility.LogColor.RED);
                 FSM.TargetList.Add(pos);
-                FSM.HandleMovConfirm(pos);
+                FSM.HandleMovConfirm(pos,BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos));
                 FSM.PushState(new InputFSMMoveState(this.FSM));
             }
             //如果单位已经不能移动，但是可以攻击
@@ -40,7 +41,7 @@ namespace GamePlay.FSM
                 Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
                 GameUtility.UtilityHelper.Log("准备攻击，右键取消攻击.Unit position is " + pos, GameUtility.LogColor.RED);
                 FSM.TargetList.Add(pos);
-                FSM.HandleAtkConfirm(pos);
+                FSM.HandleAtkConfirm(pos,BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos));
                 FSM.PushState(new InputFSMAttackState(this.FSM));
             }
         }

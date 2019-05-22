@@ -31,7 +31,7 @@ namespace GamePlay.FSM
                 FSM.HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(Attacker));////攻击完工攻击范围隐藏  
                 unitAtk.Excute();
                 Attacker.disarm = true; //单位横置不能攻击
-                FSM.TargetList.Clear(); //清空对象列表
+
                 FSM.PushState(new InputFSMIdleState(FSM)); //状态机压入静止状态
             }
             else
@@ -50,7 +50,6 @@ namespace GamePlay.FSM
                 FSM.HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
                 unit.restrain = true;
                 unit.disarm = true;
-                FSM.TargetList.Clear();
                 FSM.PushState(new InputFSMIdleState(FSM));
             }
         }

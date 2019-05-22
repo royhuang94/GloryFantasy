@@ -7,25 +7,11 @@ using GameUnit;
 namespace GameGUI
 {
 
-    public class ShowRange : MonoBehaviour
-    {
-        private int columns;
-        private int rows;
-        private Unit unit;
+    public class ShowRange : UnitySingleton<ShowRange>
+    { 
         private bool unitMove;
-        private void Awake()
-        {
-            this.unit = gameObject.GetComponent<Unit>();
-        }
-
-        private void Start()
-        {
-
-            columns = BattleMap.BattleMap.Instance().Columns;
-            rows = BattleMap.BattleMap.Instance().Rows;
-        }
-
-        
+        public Unit BeforeUnit { get; set; }
+       
         private List<Vector2> GetPositionsWithinCertainMd(Vector2 position, int ManhattanDistance)
         {
             List<Vector2> reslist = new List<Vector2>();
@@ -44,6 +30,8 @@ namespace GameGUI
 
         private void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
         {
+            int columns = BattleMap.BattleMap.Instance().Columns;
+            int rows = BattleMap.BattleMap.Instance().Rows;
             if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             reslist.Add(new Vector2(x, y));
             if (leftManhattanDistance == 0)
@@ -56,6 +44,8 @@ namespace GameGUI
 
         private void RecrusiveBody2(int x, int y, int range, List<Vector2> reslist)
         {
+            int columns = BattleMap.BattleMap.Instance().Columns;
+            int rows = BattleMap.BattleMap.Instance().Rows;
             if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             Vector2 centPosition = new Vector2(x, y);
             int tempRange = range%2 == 0 ? range / 2 - 1 : (range - 1) / 2 ;
@@ -97,6 +87,8 @@ namespace GameGUI
 
         private void RecrusiveBodyForSkill(int x,int y,int range,List<Vector2> reslist)
         {
+            int columns = BattleMap.BattleMap.Instance().Columns;
+            int rows = BattleMap.BattleMap.Instance().Rows;
             if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             reslist.Add(new Vector2(x, y));
             if (range == 0) return;
@@ -125,6 +117,21 @@ namespace GameGUI
         }
 
         /// <summary>
+        /// 换回之前染色的单位，以防单位坐标改变或死亡后单位空指针
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        private Unit GetBeforeUnit()
+        {
+            return BeforeUnit;
+        }
+
+        private void SetBeforeUnit(Unit unit)
+        {
+            BeforeUnit = unit;
+        }
+
+        /// <summary>
         /// 返回技能范围内的所有地图快的坐标的列表
         /// </summary>
         /// <param name="position">中心坐标</param>
@@ -141,9 +148,10 @@ namespace GameGUI
         /// 高亮单位移动范围
         /// </summary>
         /// <param name="target">单位坐标</param>
-        public void MarkMoveRange(Vector2 target)
+        public void MarkMoveRange(Vector2 target, Unit unit)
         {
             unitMove = true;
+            SetBeforeUnit(unit);
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                 GetPositionsWithinCertainMd(target, unit.mov), Color.green);
         }
@@ -152,8 +160,9 @@ namespace GameGUI
         /// 高亮单位攻击范围
         /// </summary>
         /// <param name="target">单位坐标</param>
-        public void MarkAttackRange(Vector2 target)
+        public void MarkAttackRange(Vector2 target,Unit unit)
         {
+            SetBeforeUnit(unit);
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                 GetPositionsWithinCertainMd(target, unit.rng), Color.red);
         }
@@ -165,6 +174,7 @@ namespace GameGUI
         public void CancleMoveRangeMark(Vector2 target)
         {
             unitMove = false;
+            Unit unit = GetBeforeUnit();
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                  GetPositionsWithinCertainMd(target, unit.mov), Color.white);   
         }
@@ -175,6 +185,7 @@ namespace GameGUI
         /// <param name="target"></param>
         public void CancleAttackRangeMark(Vector2 target)
         {
+            Unit unit = GetBeforeUnit();
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                  GetPositionsWithinCertainMd(target, unit.rng), Color.white);
         }

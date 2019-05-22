@@ -78,6 +78,7 @@ namespace GamePlay.Event
                         selectedEvent = module.EventList[i].EventName;
                     }
                 }
+                /*eg: GamePlay.Event.ReinforceArcher*/
                 //根据选中的事件的string生成对应的类
                 Type tempType = Type.GetType("GamePlay.Event." + selectedEvent);
                 Event tempEvent = Activator.CreateInstance(tempType) as Event;
@@ -210,6 +211,10 @@ namespace GamePlay.Event
         public void AddEvent(string EventName, int EventWeight)
         {
             EventList.Add(new EventWithWeight(EventName, EventWeight));
+        }
+        public void AddEvent(List<EventWithWeight> eventWithWeights)
+        {
+            EventList.AddRange(eventWithWeights);
         }
 
         /// <summary>

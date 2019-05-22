@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 using IMessage;
 using UnityEngine;
@@ -27,15 +28,24 @@ namespace GameCard
         private List<cdObject> _cooldownCards;           // 临时存储冷却状态中卡牌
         private List<string> _garbageCards;            //弃牌堆
         private GameUnit.GameUnit _latestDeadUnit;      // 最近死掉的单位
+        
+        public delegate void Callback();
+
+        public Callback cb;
 
         // 存储json格式卡牌数据的字典
         private Dictionary<string, JsonData> _cardsData;
+
+        // 存储单位英雄牌和携带战技牌映射关系的字典
+        private Dictionary<string, List<string>> _unitsExSkillCardDataBase;
         
         // 存放手牌实体的list
         private List<GameObject> _handcardsInstance;
 
         private string _currentSelectingCard;        // 当前进入选中状态的手牌的ID
         private int _currentSelectingPos;            // 当前进入选中状态的手牌的位置
+
+        private bool _isSelectingMode;
 
         #endregion
         
@@ -44,7 +54,9 @@ namespace GameCard
         public List<string> cardsSets { get { return _cardsSets; } }
         public List<cdObject> cooldownCards { get { return _cooldownCards; } }
         public List<GameObject> handcardsInstance { get { return _handcardsInstance; } }
-
+        public Dictionary<string, List<string>> unitsExSkillCardDataBase { get { return _unitsExSkillCardDataBase; } }
+        public bool selectingMode { get { return _isSelectingMode; } set { _isSelectingMode = value; } }
+        
         /// <summary>
         /// 当前手牌中选中的卡牌的实例，若没有选中卡牌则返回null
         /// </summary>
@@ -70,6 +82,7 @@ namespace GameCard
             Init();
             LoadCardsIntoSets();
             cancelCheck = false;
+            _isSelectingMode = false;
         }
 
         private void Start()
@@ -100,6 +113,14 @@ namespace GameCard
                 "Map Unit cooldown Trigger"
              );
             
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.Dead,
+                canHandleHeroUnitDeath,
+                HandleHeroUnitDeathEvent,
+                "Ex skill card Trigger"
+            );
+            
             ExtractCards(3);
         }
 
@@ -124,8 +145,37 @@ namespace GameCard
             _currentSelectingCard = null;
             _currentSelectingPos = -1;
             
-            InitCardsData();
+            _unitsExSkillCardDataBase = new Dictionary<string, List<string>>();
             
+            InitCardsData();
+            SetupExSkillMap();
+        }
+
+        /// <summary>
+        /// 提供的接口，用于将指定战技牌加入手牌或者牌库，会产生手牌变动或牌堆变动消息
+        /// </summary>
+        /// <param name="cardId">要加入的卡牌的Id</param>
+        /// <param name="instanceId">战技牌挂载的单位实例id</param>
+        /// <param name="intoHandCard">加入手牌还是牌库</param>
+        public void ArrangeExSkillCard(string cardId, int instanceId, bool intoHandCard = true)
+        {
+            // 重新组装字符串
+            cardId = cardId + "#" + instanceId;
+            
+            if (intoHandCard)
+            {
+                // 插入手牌中，使用封装函数完成插入操作
+                InsertIntoHandCard(cardId);
+                
+            }
+            else
+            {
+                // 放入牌库中
+                _cardsSets.Add(cardId);
+                
+                // 发送牌堆变化消息
+                MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
+            }
         }
 
         /// <summary>
@@ -155,6 +205,13 @@ namespace GameCard
         /// </summary>
         public void OnUseCurrentCard()
         {
+            if (_isSelectingMode)
+            {
+                Gameplay.Instance().gamePlayInput.InputFSM.selectedCard = _handcardsInstance[_currentSelectingPos].GetComponent<BaseCard>();
+                cb();
+                return;
+            }
+            
             BaseCard baseCardReference = _handcardsInstance[_currentSelectingPos].GetComponent<BaseCard>();
             if (!Player.Instance().CanConsumeAp(baseCardReference.cost))
             {
@@ -223,6 +280,21 @@ namespace GameCard
             }
         }
 
+        /// <summary>
+        /// 建立英雄单位牌与其实际战技槽内战技牌的映射关系
+        /// </summary>
+        private void SetupExSkillMap()
+        {
+            _unitsExSkillCardDataBase["琳"] = new List<string>();
+            _unitsExSkillCardDataBase["琳"].Add("GArrowrain_1");
+            
+            _unitsExSkillCardDataBase["道格拉斯"] = new List<string>();
+            _unitsExSkillCardDataBase["道格拉斯"].Add("PAnthem_1");
+            
+            _unitsExSkillCardDataBase["蔻蔻"] = new List<string>();
+            _unitsExSkillCardDataBase["蔻蔻"].Add("URLunastrike_1");
+        }
+
 
         /// <summary>
         /// 返回给定的ID对应的Json数据
@@ -270,7 +342,21 @@ namespace GameCard
             // 将所有卡牌加入牌堆中，一样只有一张
             foreach (string cardID in _cardsData.Keys)
             {
-                _cardsSets.Add(string.Copy(cardID));
+                bool isExSkillCard = false;
+                
+                if(_cardsData[cardID]["tag"].Count != 0 )
+                    foreach (JsonData data in _cardsData[cardID]["tag"])
+                    {
+                        if (data.ToString().Contains("战技"))
+                        {
+                            isExSkillCard = true;
+                            break;
+                        }
+                    }
+                
+                // 如果不是战技牌，则加入牌堆
+                if(!isExSkillCard)
+                    _cardsSets.Add(string.Copy(cardID));
             }
             
             // 随机洗牌            
@@ -334,6 +420,12 @@ namespace GameCard
             return _latestDeadUnit.owner == OwnerEnum.Player;
         }
 
+        public bool canHandleHeroUnitDeath()
+        {
+            _latestDeadUnit = this.GetDead();
+            return _latestDeadUnit.tag.Contains("英雄");
+        }
+
         /// <summary>
         /// 用于冷却死亡单位卡牌action的action函数，将需要冷却的卡牌放入冷却池
         /// </summary>
@@ -353,6 +445,46 @@ namespace GameCard
 
             // 调用接口进行冷却, 并调用方法计算冷却回合数
             CooldownCard(cardId, CalculateCardCoolDown(_latestDeadUnit));
+        }
+
+        /// <summary>
+        /// 处理英雄单位死亡的处理函数
+        /// </summary>
+        public void HandleHeroUnitDeathEvent()
+        {
+            int instanceId = _latestDeadUnit.gameObject.GetInstanceID();
+            List<string> toDelete = new List<string>();
+
+            for (int i = 0; i < _handcards.Count; i++)
+            {
+                if(_handcards[i].Contains(instanceId.ToString()))
+                    toDelete.Add(_handcards[i]);
+            }
+
+            foreach (string po in toDelete)
+            {
+                _handcards.Remove(po);
+            }
+            
+            if(toDelete.Count != 0)
+                MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
+            
+            toDelete.Clear();
+
+            for (int i = 0; i < _cardsSets.Count; i++)
+            {
+                if(_cardsSets[i].Contains(instanceId.ToString()))
+                    toDelete.Add(_cardsSets[i]);
+            }
+
+            foreach (string s in toDelete)
+            {
+                _cardsSets.Remove(s);
+            }
+            
+            if(toDelete.Count != 0)
+                MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
+
         }
 
         /// <summary>
@@ -483,10 +615,20 @@ namespace GameCard
         /// </summary>
         /// <param name="cardId">要插入的卡牌的ID</param>
         /// <param name="sendMsg">是否发送手牌变动消息，默认发送，若连续调用请设置false并自己发送消息</param>
-        public void InsertIntoHandCard(string cardId, bool sendMsg = true)
+        /// <returns>返回已经生成实例的引用，请勿Destroy</returns>
+        public GameObject InsertIntoHandCard(string cardId, bool sendMsg = true)
         {
             // 实例化卡牌到不可见区域，并绑定脚本再初始化
             GameObject cardInstance = Instantiate(emptyObject);
+            
+            // 更新手牌list
+            _handcards.Add(cardId);
+            
+            if (cardId.Contains("#"))
+            {
+                cardId = cardId.Substring(0, cardId.IndexOf('#'));
+            }
+            
             JsonData cardData = GetCardJsonData(cardId);
             
             //根据json数据中卡牌分类挂载不同脚本
@@ -500,14 +642,13 @@ namespace GameCard
             // 将实例放入对应位置的list中
             _handcardsInstance.Add(cardInstance);
             
-            // 更新手牌list
-            _handcards.Add(cardId);
-
             if (sendMsg)
             {
                 // 发送手牌变动消息
                 MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
             }
+
+            return cardInstance;
         }
 
         /// <summary>

@@ -8,42 +8,42 @@ using GamePlay.Input;
 
 namespace Ability
 {
-    public class Jump : Ability
+    public class Throw : Ability
     {
         Trigger trigger;
 
         private void Awake()
         {
             //导入Jump异能的参数
-            InitialAbility("Jump");
+            InitialAbility("Fling");
         }
 
         private void Start()
         {
             //创建Trigger实例，传入技能的发动者
-            trigger = new TJump(this.GetCardReceiver(this));
+            trigger = new TFling(this.GetCardReceiver(this));
             //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "Jump");
+            MsgDispatcher.RegisterMsg(trigger, "Fling");
         }
 
     }
 
-    public class TJump : Trigger
+    public class TFling : Trigger
     {
-        public TJump(MsgReceiver speller)
+        public TFling(MsgReceiver speller)
         {
             register = speller;
             //初始化响应时点,为卡片使用时
             msgName = (int)MessageType.CastCard;
             //初始化条件函数和行为函数
             condition = Condition;
-            action = Action;    
+            action = Action;
         }
 
         private bool Condition()
         {
             //判断发动的卡是不是这个技能的注册者，并且这张卡是不是轻身飞跃
-            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "GJump_1")
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "GTFling_1")
                 return true;
             else
                 return false;
@@ -51,10 +51,10 @@ namespace Ability
 
         private void Action()
         {
-            //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
+            //获取被选中的敌军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
             GameUnit.GameUnit unit = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
             BattleMap.BattleMapBlock battleMapBlock = (BattleMap.BattleMapBlock)this.GetSelectingUnits()[1];
-            
+
 
             //将该单位移动到三格内一格
             SkillJumpCommand skillJumpCommand = new SkillJumpCommand(unit, battleMapBlock.position, 3);

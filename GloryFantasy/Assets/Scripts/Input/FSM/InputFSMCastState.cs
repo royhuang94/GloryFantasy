@@ -45,7 +45,9 @@ namespace GamePlay.FSM
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
                 CardManager.Instance().OnTriggerCurrentCard();
+                FSM.PushState(new InputFSMIdleState(FSM));
             }
+            //Gameplay.Instance().gamePlayInput.HandleSkillCancel(FSM.TargetList[0], 4);
         }
 
         public override void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)
@@ -63,7 +65,9 @@ namespace GamePlay.FSM
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
                 CardManager.Instance().OnTriggerCurrentCard();
+                FSM.PushState(new InputFSMIdleState(FSM));
             }
+            //Gameplay.Instance().gamePlayInput.HandleSkillConfim(FSM.TargetList[0], 4);
         }
 
         public override void OnPointerDownEnemy(GameUnit.GameUnit unit, PointerEventData eventData)
@@ -81,6 +85,7 @@ namespace GamePlay.FSM
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
                 CardManager.Instance().OnTriggerCurrentCard();
+                FSM.PushState(new InputFSMIdleState(FSM));
             }
         }
     }

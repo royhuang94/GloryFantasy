@@ -97,6 +97,14 @@ namespace GamePlay.Round
 
     public class RoundState
     {
+        private int _roundCounter = 0;
+
+        public int roundCounter
+        {
+            set { _roundCounter = value;}
+            get { return _roundCounter; }
+        }
+
         public virtual void HandleInput(RoundProcessController roundProcessController, RoundInput input) { }
         public void Update(RoundProcessController roundProcessController) { }
         public virtual void Enter(RoundProcessController roundProcessController) { }
@@ -315,6 +323,7 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.RestoreApPhase;
+            base.roundCounter += 1;
         }
 
         public override void Enter(RoundProcessController roundProcessController)
