@@ -84,13 +84,15 @@ namespace IMessage
             public int msgName;
             public Condition condition;
             public Action action;
+            public bool DoOnce;
 
-            public MsgHandler(MsgReceiver receiver, int msgName, Condition condition, Action action)
+            public MsgHandler(MsgReceiver receiver, int msgName, Condition condition, Action action, bool doOnce)
             {
                 this.receiver = receiver;
                 this.msgName = msgName;
                 this.condition = condition;
                 this.action = action;
+                this.DoOnce = doOnce;
             }
 
             /// <summary>
@@ -102,6 +104,10 @@ namespace IMessage
                 {
                     action();
                 }
+
+                //如果DoOnce标记为真，则接收者设为null，这样在下次执行该trigger时，会取消执行并将这个trigger清除
+                if (DoOnce)
+                    receiver = null;
             }
         }
 
@@ -120,11 +126,12 @@ namespace IMessage
         /// 给msgReciver增加注册MSG的函数
         /// </summary>
         /// <param name="self"></param>
-        /// <param name="msgName"></param>
-        /// <param name="condition"></param>
-        /// <param name="action"></param>
-        /// <param name="TriggerName"></param>
-        public static void RegisterMsg(this MsgReceiver self, int msgName, Condition condition, Action action, string TriggerName = "NoDefine")
+        /// <param name="msgName">注册的消息类型</param>
+        /// <param name="condition">条件函数</param>
+        /// <param name="action">执行函数</param>
+        /// <param name="TriggerName">Debug消息使用的别名</param>
+        /// <param name="DoOnce">该Trigger是否只执行一次，默认为false</param>
+        public static void RegisterMsg(this MsgReceiver self, int msgName, Condition condition, Action action, string TriggerName = "NoDefine", bool DoOnce = false)
         {
             if (msgName < 0)
             {
@@ -146,7 +153,7 @@ namespace IMessage
 
             var handlers = MsgHandlerDict[msgName];
 
-            handlers.Add(new MsgHandler(self, msgName, condition, action));
+            handlers.Add(new MsgHandler(self, msgName, condition, action, DoOnce));
 
             Debug.Log("RegisterMsg: " + TriggerName + "successfully register");
 
