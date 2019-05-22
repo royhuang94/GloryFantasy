@@ -10,8 +10,15 @@ namespace GameGUI
     public class ShowRange : UnitySingleton<ShowRange>
     { 
         private bool unitMove;
+        private List<Vector2> cannotArrivePoss;
         public Unit BeforeUnit { get; set; }
        
+        /// <summary>
+        /// 返回单位攻击或移动范围内地图快的所有坐标
+        /// </summary>
+        /// <param name="position">单位坐标</param>
+        /// <param name="ManhattanDistance">范围</param>
+        /// <returns></returns>
         private List<Vector2> GetPositionsWithinCertainMd(Vector2 position, int ManhattanDistance)
         {
             List<Vector2> reslist = new List<Vector2>();
@@ -22,12 +29,14 @@ namespace GameGUI
             }
             else
             {
-                RecrusiveBody((int)position.x, (int)position.y, ManhattanDistance, reslist);
+                RecrusiveBody((int)position.x, (int)position.y, ManhattanDistance, reslist);   
             }
+            List<Vector2> temList = reslist;
+            GetMapBlockCannontArrive(position, temList);
             return reslist;
-
         }
 
+        //for单位的移动或攻击范围
         private void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
         {
             int columns = BattleMap.BattleMap.Instance().Columns;
@@ -42,6 +51,7 @@ namespace GameGUI
             RecrusiveBody(x, y - 1, leftManhattanDistance - 1, reslist);
         }
 
+        //for单位的技能范围
         private void RecrusiveBody2(int x, int y, int range, List<Vector2> reslist)
         {
             int columns = BattleMap.BattleMap.Instance().Columns;
@@ -61,10 +71,13 @@ namespace GameGUI
         }
 
 
-        //移动范围不显示有单位的地图块
-        //TODO不显示无法到达的地图块
+        /// <summary>
+        /// 移除地图块上有单位的地图块
+        /// </summary>
+        /// <param name="reslist"></param>
         private void RemoveMapBlokHasUnit(List<Vector2> reslist)
         {
+            //移除重复的元素
             for (int i = 0; i < reslist.Count; i++)
             {
                 for (int j = reslist.Count - 1; j > i; j--)
@@ -76,15 +89,47 @@ namespace GameGUI
                     }
                 }
             }
-            for (int i = 0; i < reslist.Count; i++)
+
+            for (int i = 0; i < reslist.Count;)
             {
                 if (BattleMap.BattleMap.Instance().CheckIfHasUnits(reslist[i]))
                 {
                     reslist.Remove(reslist[i]);
+                    i = 0;
+                }
+                else
+                {
+                    i++;
                 }
             }
         }
 
+        /// <summary>
+        /// 获取因卡位不能到达的地图块的坐标
+        /// </summary>
+        /// <param name="starPos"></param>
+        /// <param name="vector2s"></param>
+        /// <returns></returns>
+        private void GetMapBlockCannontArrive(Vector2 starPos,List<Vector2> vector2s)
+        {
+            cannotArrivePoss = new List<Vector2>();
+            foreach(Vector2 endPos in vector2s)
+            {
+                if(!BattleMap.BattleMap.Instance().MapNavigator.PathSearch(starPos, endPos))
+                {
+                    cannotArrivePoss.Add(endPos);
+                }
+            }
+            RemoveMapBlokHasUnit(cannotArrivePoss);
+        }
+
+        /// <summary>
+        /// 获取单位技能范围内的所有地图块坐标
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="range"></param>
+        /// <param name="reslist"></param>
         private void RecrusiveBodyForSkill(int x,int y,int range,List<Vector2> reslist)
         {
             int columns = BattleMap.BattleMap.Instance().Columns;
@@ -117,7 +162,7 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// 换回之前染色的单位，以防单位坐标改变或死亡后单位空指针
+        /// 得到之前染色的单位，以防单位坐标改变或死亡后单位空指针
         /// </summary>
         /// <param name="unit"></param>
         /// <returns></returns>
@@ -153,7 +198,11 @@ namespace GameGUI
             unitMove = true;
             SetBeforeUnit(unit);
             BattleMap.BattleMap.Instance().ColorMapBlocks(
-                GetPositionsWithinCertainMd(target, unit.mov), Color.green);
+               GetPositionsWithinCertainMd(target, unit.mov), Color.green);
+            if(cannotArrivePoss.Count != 0)
+            {
+                BattleMap.BattleMap.Instance().ColorMapBlocks(cannotArrivePoss, Color.red);
+            }   
         }
 
         /// <summary>
