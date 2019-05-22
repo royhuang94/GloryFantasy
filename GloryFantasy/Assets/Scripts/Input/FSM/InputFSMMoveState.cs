@@ -27,7 +27,7 @@ namespace GamePlay.FSM
             Vector2 endPos = mapBlock.position;
             UnitMoveCommand unitMove = new UnitMoveCommand(unit, startPos, endPos, mapBlock.GetSelfPosition());
             //如果移动指令合法
-            if (unitMove.Judge())
+            if (unitMove.Judge() && BattleMap.BattleMap.Instance().MapNavigator.PathSearch(startPos, endPos))
             {
                 //移动完毕关闭移动范围染色
                 Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
