@@ -24,7 +24,7 @@ namespace BattleMap
             MapNavigator = new MapNavigator();
             battleArea = new BattleArea();
             debuffBM = new DebuffBattleMapBlovk();
-            BattleMapPath = "Assets/Scripts/BattleMap/";
+            BattleMapPath = "Assets/Scripts/BattleMap/BattleMapData/";
         }
 
         private void Start()
@@ -103,7 +103,6 @@ namespace BattleMap
         public int BlockCount{get{return columns * rows;}}
         public bool IsColor { get; set; }//控制是否高亮战区
         private BattleMapBlock[,] _mapBlocks; 
-        public GameObject normalMapBlocks;//实例地图块的prefab，普通的地图方块
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
         public MapNavigator MapNavigator;//寻路类
         public BattleArea battleArea;//战区类
@@ -112,6 +111,12 @@ namespace BattleMap
         [SerializeField]
         private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
         private string encounterID;//遭遇id
+
+        #region 各种类型地格
+        public GameObject flat;//平地
+        public Sprite firing;//灼烧
+        public Sprite viscous;//粘滞
+        #endregion
 
         /// <summary>
         /// 从大地图获取遭遇id
@@ -134,7 +139,7 @@ namespace BattleMap
         //初始战斗地图
         private void InitAndInstantiateMapBlocks()
         {
-            EncouterData.Instance().InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
+            EncouterData.Instance().InitEncounter("Forest_Shadow_1");
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);
             nstrs = new string[strs.Length][];
@@ -154,7 +159,8 @@ namespace BattleMap
             {
                 for(int x = 0;x <nstrs[y].Length; x++)
                 {
-                    instance = GameObject.Instantiate(normalMapBlocks, new Vector3(x, y, 0f), Quaternion.identity);
+                    int mapBlockType = int.Parse(nstrs[y][x].Split('-')[0]);
+                    instance = SetMapBlockType(mapBlockType, x, y);
                     instance.transform.SetParent(_tilesHolder);
                     instance.gameObject.AddComponent<BattleMapBlock>();
                     //初始化mapBlock成员
@@ -167,13 +173,34 @@ namespace BattleMap
                     //初始化地图块儿的collider组件
                     _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
                     GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
-
+                    
                     battleArea.StoreBattleArea(area, new Vector2(x,y));//存储战区
                 }
             }
             UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1",_mapBlocks);//初始战斗地图上的单位
         }
 
+        /// <summary>
+        /// 实例不同类型的地格
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public GameObject SetMapBlockType(int type,int x,int y)
+        {
+            //TODO添加跟多类型地格
+            GameObject instance = new GameObject();
+            switch (type)
+            {
+                case 1://平地
+                    instance = GameObject.Instantiate(flat, new Vector3(x, y, 0f), Quaternion.identity);
+                    break;
+                default:
+                    break;
+            }
+            return instance;
+        }
         /// <summary>
         /// 获取传入寻路结点相邻的方块列表
         /// </summary>

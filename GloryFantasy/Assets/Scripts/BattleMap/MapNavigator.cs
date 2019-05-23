@@ -231,7 +231,7 @@ namespace BattleMap
             Vector2 startPos = paths[paths.Count - 1].position;
             Unit gameUnit = BattleMap.Instance().GetUnitsOnMapBlock(startPos);
 
-            Debug.Log(gameUnit.name + "行动力为 " + gameUnit.mov);
+            //Debug.Log(gameUnit.name + "行动力为 " + gameUnit.mov);
             if (paths.Count - 1 > gameUnit.mov)
             {
                 Debug.Log("超过移动力，无法移动到指定目标");
@@ -247,15 +247,6 @@ namespace BattleMap
         /// <returns></returns>
         public IEnumerator moveStepByStepAI(Unit unit, List<Vector2> paths, System.Action callback)
         {
-            #region 测试一哈 先固定（0.0）为灼烧块，（0.1）为粘滞块
-            List<Vector2> vector2s = new List<Vector2>();
-            vector2s.Add(new Vector2(0, 0));
-            BattleMap.Instance().debuffBM.SetBattleMapBlockBurning(vector2s);
-            List<Vector2> vector22s = new List<Vector2>();
-            vector22s.Add(new Vector2(1, 1));
-            BattleMap.Instance().debuffBM.SetBattleMapBlockRetrad(vector22s);
-            #endregion
-
             Vector2 tempVector;
             BattleMapBlock battleMap;
             bool isRetire = false;
@@ -300,16 +291,7 @@ namespace BattleMap
         }
         //一格一格移动
         public IEnumerator moveStepByStep(Unit unit)
-        {
-            #region 测试一哈 先固定（0.0）为灼烧块，（0.1）为粘滞块
-            List<Vector2> vector2s = new List<Vector2>();
-            vector2s.Add(new Vector2(0, 0));
-            BattleMap.Instance().debuffBM.SetBattleMapBlockBurning(vector2s);
-            List<Vector2> vector22s = new List<Vector2>();
-            vector22s.Add(new Vector2(1, 1));
-            BattleMap.Instance().debuffBM.SetBattleMapBlockRetrad(vector22s);
-            #endregion
-
+        {           
             Vector2 tempVector;
             BattleMapBlock battleMap;
             for (int i = paths.Count - 2; i >= 0; i--)
