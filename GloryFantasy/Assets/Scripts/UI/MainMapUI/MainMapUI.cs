@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using LitJson;
 using System.IO;
 using FairyGUI;
+using PlayerCollection;
 
 namespace GameGUI
 {/// <summary>

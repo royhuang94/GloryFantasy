@@ -212,9 +212,9 @@ private void ReadMap()
                         mapunit.transform.localScale= new Vector3(0.5f, 0.5f, 0.5f);
 
                         //如果有地格上层元素，传给MapElementManager处理
-                        if (upper.Length == 2)
+                        if (upper.Length >= 2)
                         {
-                            MapElementManager.Instance().InstalizeElement(upper[1],mapunit);                        
+                            MapElementManager.Instance().InstalizeElement(upper,mapunit);                        
                         }
                         else
                         {
@@ -225,12 +225,11 @@ private void ReadMap()
                 }
             }
         }
-        /// <summary>获取角色实例，并初始化AroundList字典
+        /// <summary>初始化角色信息
         /// 
         /// </summary>
     private void Start()
     {
-           // Charactor.Instance() = GameObject.Find("Charactor").GetComponent<Charactor>();
             Charactor.Instance().aroundlist.Add("0,1", null);
             Charactor.Instance().aroundlist.Add("0,-1", null);
             Charactor.Instance().aroundlist.Add("1,0", null);
@@ -238,6 +237,7 @@ private void ReadMap()
             Charactor.Instance().aroundlist.Add("-1,1", null);
             Charactor.Instance().aroundlist.Add("1,-1", null);
             Charactor.Instance().CharactorInitalize();
+            Charactor.Instance().InitalizeBattleMapData();
     }
 
 }
@@ -253,7 +253,6 @@ public abstract class MapUnit:MonoBehaviour
     /// </summary>
     public virtual void MapUnitInstalize()
     {
-     //   mapManager = gameObject.GetComponentInParent<MainMapManager>();
         btn = gameObject.GetComponent<Button>();
         btn.onClick.AddListener(OnClick);
     }

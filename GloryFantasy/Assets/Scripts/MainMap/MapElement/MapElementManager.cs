@@ -27,16 +27,17 @@ namespace MainMap
     /// </summary>
     /// <param name="elementtype"></param>
     /// <param name="mapunit"></param>
-        public void InstalizeElement(string elementtype, GameObject mapunit)
+        public void InstalizeElement(string[] elementtype, GameObject mapunit)
         {
 //#if UNITY_EDITOR
-            switch (elementtype)
+            switch (elementtype[1])
             {
                 case "monster":
                     Debug.Log("生成怪物");
                     GameObject monster = (GameObject)Instantiate(Resources.Load("MMtestPrefab/monster", typeof(GameObject)));
                     ElementSet(monster,mapunit);
                     monster.AddComponent<Monster>();
+                    monster.GetComponent<Monster>().SetID(elementtype[2]);
                     break;
                 case "randomevent":
                     Debug.Log("生成随机事件");
@@ -71,7 +72,7 @@ namespace MainMap
         {
                     
         }
-        protected void instalize()
+        public virtual void instalize()
         {
         }
         public abstract void ElementOnClick();
@@ -81,6 +82,7 @@ namespace MainMap
     /// </summary>
     public class Monster:MapElement
     {
+        private string monsterid;
         protected override void Awake()
         {
             Debug.Log("怪物初始化");
@@ -88,7 +90,16 @@ namespace MainMap
         }
         public override void ElementOnClick()
         {
-                Debug.Log("怪物被点击");
+           Debug.Log("怪物被点击");
+            //Todo:场景切换
+           //Todo:在这里把对接信息传给战斗系统，在战斗系统那边写一个类似的方法获取信息。
+           // JumpToBattle(string id,battlemapdata data);
+           //JumpToBattle(monsterid, Charactor.instance().battlemapdata);
+        }
+        public void SetID(string id)
+        {
+            monsterid = id;
+            Debug.Log("ID设置成功");
         }
     }
     /// <summary>随机事件
