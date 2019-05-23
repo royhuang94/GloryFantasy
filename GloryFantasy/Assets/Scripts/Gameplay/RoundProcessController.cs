@@ -217,8 +217,8 @@ namespace GamePlay.Round
             {
                 if(unit.owner == GameUnit.OwnerEnum.Player)
                 {
-                    unit.restrain = false;
-                    unit.disarm = false;
+                    unit.canNotMove = false;
+                    unit.canNotAttack = false;
                 }
             }
         }

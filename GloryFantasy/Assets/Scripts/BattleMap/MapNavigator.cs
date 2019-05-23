@@ -340,7 +340,7 @@ namespace BattleMap
                 MsgDispatcher.SendMsg((int)MessageType.Move);
                 yield return new WaitForSeconds(0.2f);
             }
-            unit.restrain = true;
+            unit.canNotMove = true;
             MsgDispatcher.SendMsg((int)MessageType.Aftermove);
         }
     }

@@ -107,7 +107,6 @@ namespace GamePlay.Event
                 assembly.DeleteEvent(source);
             }
         }
-        
     }
 
     /// <summary>

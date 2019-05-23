@@ -86,12 +86,7 @@ namespace GameUnit
         /// 单位的DS修正值，连击
         /// </summary>
         public int priDS { get; set; }
-
-        /// <summary>
-        /// 标记单位是否为飞行单位
-        /// </summary>
-        public bool fly { get; set; }
-        
+       
         /// <summary>
         /// 单位异能
         /// </summary>
@@ -119,11 +114,13 @@ namespace GameUnit
         /// <summary>
         /// 为真单位不能攻击
         /// </summary>
-        public bool disarm { get; set; }
+        //public bool disarm { get; set; }
+        public bool canNotAttack { get; set; }
         /// <summary>
         /// 为真单位不能移动
         /// </summary>
-        public bool restrain { get; set; }
+        //public bool restrain { get; set; }
+        public bool canNotMove { get; set; }
         /// <summary>
         /// 单位的护甲回复值，每个回合开始给护甲值补回这个值
         /// </summary>
@@ -194,7 +191,7 @@ namespace GameUnit
 
             private bool Condition()
             {
-                if (this.curUnit.restrain == true)
+                if (this.curUnit.canNotMove == true)
                     return false;
                 else
                     return true;
