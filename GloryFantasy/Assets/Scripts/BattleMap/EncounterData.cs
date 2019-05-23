@@ -58,7 +58,7 @@ namespace GamePlay.Encounter
 
     public class EncouterData : UnitySingleton<EncouterData>
     {
-        public string EncounterPath = "/Scripts/BattleMap/encounter.json";//遭遇事件文件路径
+        public string EncounterPath = "/Scripts/BattleMap/BattleMapData/encounter.json";//遭遇事件文件路径
         public Dictionary<string, Encounter> _encounterData;//遭遇对象
         public Dictionary<int,Event.Event> events = new Dictionary<int,Event.Event>();//战区里的事件
         
@@ -113,7 +113,7 @@ namespace GamePlay.Encounter
         }
 
         /// <summary>
-        /// 获取遭遇id，给大地图的接口
+        /// 根据遭遇ID,获取相应的地图文件
         /// </summary>
         /// <param name="encounterID">遭遇id</param>
         public void InitEncounter(string encounterID)

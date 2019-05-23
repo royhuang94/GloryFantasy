@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unit = GameUnit.GameUnit;
+using UnityEngine.UI;
 
 /// <summary>
 /// 处理异常地图块，例如灼烧
@@ -18,8 +19,10 @@ namespace BattleMap
             {
                 bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
                 bm.blockType = EMapBlockType.Burnning;
+                Image upLayer = bm.transform.Find("upLayer").GetComponent<Image>();
+                upLayer.sprite = BattleMap.Instance().firing;
+                upLayer.color = new Color(255, 255, 255, 255);
             }
-            
         }
 
         //创造滞留块
@@ -30,6 +33,9 @@ namespace BattleMap
             {
                 bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
                 bm.blockType = EMapBlockType.Retire;
+                Image upLayer = bm.transform.Find("upLayer").GetComponent<Image>();
+                upLayer.sprite = BattleMap.Instance().viscous;
+                upLayer.color = new Color(255, 255, 255, 255);
             }
         }
         
@@ -38,8 +44,8 @@ namespace BattleMap
         {
             if (BattleMap.Instance().CheckIfHasUnits(vector2)){
                 Unit unit = BattleMap.Instance().GetUnitsOnMapBlock(vector2);
-                unit.hp -= 1;//TODO更新HP显示
-                Debug.Log(unit.hp);
+                unit.hp -= 1;
+                GamePlay.Gameplay.Instance().gamePlayInput.UpdateHp(unit);
             }
         }
 
