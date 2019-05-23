@@ -111,6 +111,16 @@ namespace BattleMap
         private string[][] nstrs;//存战斗地图的数组
         [SerializeField]
         private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
+        private string encounterID;//遭遇id
+
+        /// <summary>
+        /// 从大地图获取遭遇id
+        /// </summary>
+        /// <param name="encounterID"></param>
+        public void GetEncounterIDFromMainMap(string encounterID)
+        {
+            this.encounterID = encounterID;
+        }
 
         /// <summary>
         /// 初始战斗地图路径
@@ -125,7 +135,6 @@ namespace BattleMap
         private void InitAndInstantiateMapBlocks()
         {
             EncouterData.Instance().InitEncounter("Forest_Shadow_1");//测试临时放在这里，对接后删除；
-
             //读取战斗地图文件
             string[] strs = File.ReadAllLines(BattleMapPath);
             nstrs = new string[strs.Length][];
@@ -162,7 +171,6 @@ namespace BattleMap
                     battleArea.StoreBattleArea(area, new Vector2(x,y));//存储战区
                 }
             }
-
             UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1",_mapBlocks);//初始战斗地图上的单位
         }
 
