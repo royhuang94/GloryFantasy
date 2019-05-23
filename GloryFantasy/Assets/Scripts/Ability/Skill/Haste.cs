@@ -59,9 +59,9 @@ namespace Ability
                     unit = SummonUnits[i];
 
                 //让这只怪部署后可以移动
-                unit.restrain = false;
+                unit.canNotMove = false;
                 //让这只怪部署后可以攻击
-                unit.disarm = false;
+                unit.canNotAttack = false;
             }
         }
     }

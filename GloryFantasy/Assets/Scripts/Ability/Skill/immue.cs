@@ -7,26 +7,26 @@ using GamePlay;
 
 namespace Ability
 {
-    public class Fly : Ability
+    public class immue : Ability
     {
         Trigger trigger;
+        List<Ability> immueAbilities = new List<Ability>();
 
         private void Awake()
         {
-            //导入Fly异能的参数
-            InitialAbility("Fly");
+            //TODO 等策划更新JSON时 解注释
+            //InitialAbility("immue");
         }
 
         private void Start()
         {
-            //让这个技能的单位获得飞行
-            this.GetUnit(this).fly = true;
+
         }
 
         //这个技能被删除时要做反向操作
         private void OnDestroy()
         {
-            this.GetUnit(this).fly = false;
+
         }
 
     }

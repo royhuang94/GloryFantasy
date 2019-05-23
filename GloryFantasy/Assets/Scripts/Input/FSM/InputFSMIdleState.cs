@@ -26,7 +26,7 @@ namespace GamePlay.FSM
             base.OnPointerDownFriendly(unit, eventData);
 
             //如果单位可以移动
-            if (unit.restrain == false)
+            if (unit.canNotMove == false)
             {
                 //获得单位的位置
                 Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
@@ -36,7 +36,7 @@ namespace GamePlay.FSM
                 FSM.PushState(new InputFSMMoveState(this.FSM));
             }
             //如果单位已经不能移动，但是可以攻击
-            else if (unit.restrain == true && unit.disarm == false)
+            else if (unit.canNotMove == true && unit.canNotAttack == false)
             {
                 Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
                 GameUtility.UtilityHelper.Log("准备攻击，右键取消攻击.Unit position is " + pos, GameUtility.LogColor.RED);
