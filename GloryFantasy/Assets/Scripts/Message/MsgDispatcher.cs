@@ -70,6 +70,15 @@ namespace IMessage
         T GetUnit<T>() where T : MonoBehaviour;
     }
 
+    public class GlobalReceiver : MsgReceiver
+    {
+        T MsgReceiver.GetUnit<T>()
+        {
+            //不想被调用这个方法，所以写成显示接口，可以减少失误调用
+            throw new System.NotImplementedException();
+        }
+    }
+
     public delegate bool Condition();
     public delegate void Action();
 
@@ -113,6 +122,20 @@ namespace IMessage
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
 
+        static GlobalReceiver globalReceiver = new GlobalReceiver();
+
+        /// <summary>
+        /// 注册全局Trigger，没有特定的接收者，每场遭遇后清空
+        /// </summary>
+        /// <param name="msgName">注册的消息类型</param>
+        /// <param name="condition">条件函数</param>
+        /// <param name="action">执行函数</param>
+        /// <param name="TriggerName">Debug消息使用的别名</param>
+        /// <param name="DoOnce">该Trigger是否只执行一次，默认为false</param>
+        public static void RegisterMsg(int msgName, Condition condition, Action action, string TriggerName = "NoDefine", bool DoOnce = false)
+        {
+            RegisterMsg(globalReceiver, msgName, condition, action, TriggerName, DoOnce);
+        }
         /// <summary>
         /// 给msgReciver增加注册MSG的函数
         /// </summary>
