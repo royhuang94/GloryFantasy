@@ -38,7 +38,6 @@ public class BMBCollider
     /// <param name="unit">当前操作单位</param>
     public void OnUnitEnter(List<Unit> units)
     {
-
         enterUnits = units; //进入记录
         state = 0;
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位进入");
@@ -73,7 +72,8 @@ public class BMBCollider
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位驻足");
         if (GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.CurrentState is GamePlay.FSM.InputFSMSummonState)
             return;
-        GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.HandleAtkConfirm(colliderRange[0],BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(colliderRange[0]));
+        if(enterUnits[0].owner != GameUnit.OwnerEnum.Enemy)
+            GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.HandleAtkConfirm(colliderRange[0],BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(colliderRange[0]));
         //GamePlay.Gameplay.Instance().gamePlayInput.HandleAtkConfirm(colliderRange[0]);
     }
 }

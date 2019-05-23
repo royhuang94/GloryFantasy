@@ -51,7 +51,7 @@ public class BMBColliderManager :  MsgReceiver
             }
             else
             {
-                if (battleMapBlock.units_on_me.Count != 0 && battleMapBlock.units_on_me[0].owner != GameUnit.OwnerEnum.Enemy)
+                if (battleMapBlock.units_on_me.Count != 0/* && battleMapBlock.units_on_me[0].owner != GameUnit.OwnerEnum.Enemy*/)
                     collider.OnUnitEnter(units);
             }
         }

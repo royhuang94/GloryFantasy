@@ -115,6 +115,8 @@ namespace GameUnit
                 controller.hatredRecorder.Reset(unit);
                 GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
 
+                //部署成功
+                Gameplay.Instance().bmbColliderManager.Fresh(unit);
 
                 //TODO 血量显示 test版本, 此后用slider显示
                 var TextHp = _object.transform.GetComponentInChildren<Text>();
