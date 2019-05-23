@@ -83,6 +83,8 @@ namespace MainMap
     public class Monster:MapElement
     {
         private string monsterid;
+        private string BattleMapSceneName = "BattleMapTest";          // 战斗地图场景名，在此修改
+        private string MainMapSceneName = "MainMapTest1";
         protected override void Awake()
         {
             Debug.Log("怪物初始化");
@@ -91,7 +93,7 @@ namespace MainMap
         public override void ElementOnClick()
         {
            Debug.Log("怪物被点击");
-            //Todo:场景切换
+           SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
            //Todo:在这里把对接信息传给战斗系统，在战斗系统那边写一个类似的方法获取信息。
            // JumpToBattle(string id,battlemapdata data);
            //JumpToBattle(monsterid, Charactor.instance().battlemapdata);

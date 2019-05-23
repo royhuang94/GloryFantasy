@@ -46,6 +46,14 @@ namespace BattleMap
                MpEnd,
                "Mp End Trigger"
            );
+            
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.WIN,
+                () => { return true; },
+                exitBattleMap,
+                "Mp End Trigger"
+            );
         }
 
         /// <summary>
@@ -78,6 +86,12 @@ namespace BattleMap
         public void MpEnd()
         {
 
+        }
+
+        public void exitBattleMap()
+        {
+            Debug.Log("win, ready to exit");
+            SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
         }
 
         public void InitMap()
