@@ -55,7 +55,18 @@ namespace Ability
         Friendly,
         Field,
         All
-    };
+    }
+
+    /// <summary>
+    /// 非友方目标，战区主控制者类型
+    /// </summary>
+    public enum ControllerType
+    {
+        Enemy,    //敌人
+        Friendly, //友军
+        Neutral,  // 中立
+        All        //任意类型
+  }
 
     [Serializable]
     /// <summary>
@@ -64,8 +75,37 @@ namespace Ability
     public class AbilityTarget
     {
         public TargetType TargetType = TargetType.All;
+        /// <summary>
+        /// 若本目标为使用者，则ControllerType无用
+        /// </summary>
+        public ControllerType ControllerType = ControllerType.All;
         public bool IsSpeller = false;
         public bool IsTarget = false;
+
+        public List<string> color;
+        public List<string> tag;
+
+        public void SetControllerType(string controller)
+        {
+            switch (controller)
+            {
+                case "任意":
+                    ControllerType = ControllerType.All;
+                    break;
+                case "友军":
+                    ControllerType = ControllerType.Friendly;
+                    break;
+                case "中立":
+                    ControllerType = ControllerType.Neutral;
+                    break;
+                case "敌人":
+                    ControllerType = ControllerType.Enemy;
+                    break;
+                default:
+                    ControllerType = ControllerType.All;
+                    break;
+            }
+        }
 
         public AbilityTarget(string _targetType, bool _isSpeller, bool _isTarget)
         {
@@ -80,6 +120,9 @@ namespace Ability
             this.TargetType = targetType;
             this.IsSpeller = _isSpeller;
             this.IsTarget = _isTarget;
+
+            color = null;
+            tag = null;
         }
 
         public AbilityTarget(TargetType _targetType, bool _isSpeller, bool _isTarget)

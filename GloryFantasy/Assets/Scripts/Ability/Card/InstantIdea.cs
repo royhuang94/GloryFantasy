@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameCard;
 using UnityEngine;
 
 using IMessage;
@@ -29,6 +30,7 @@ namespace Ability
 
     public class TInstantIdea : Trigger
     {
+        private GameUnit.GameUnit unit;
         public TInstantIdea(MsgReceiver speller)
         {
             register = speller;
@@ -43,16 +45,24 @@ namespace Ability
         {
             //判断发动的卡是不是这个技能的注册者，并且这张卡是不是瞬发幻想
             if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "WInstant_1")
-                return true;
-            else
-                return false;
+            {
+                unit = (GameUnit.GameUnit) this.GetSelectingUnits()[0];
+                if (unit.tag.Contains("英雄"))
+                    return true;
+            }
+            
+            return false;
         }
 
         private void Action()
         {
             //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
-            GameUnit.GameUnit unit = (GameUnit.GameUnit) this.GetSelectingUnits()[0];
             //复制被选中友军的一次性战技入手牌
+            List<string> exCardId = CardManager.Instance().unitsExSkillCardDataBase[unit.id];
+            foreach (string id in exCardId)
+            {
+                CardManager.Instance().ArrangeExSkillCard(id, unit.gameObject.GetInstanceID());
+            }
         }
     }
 }

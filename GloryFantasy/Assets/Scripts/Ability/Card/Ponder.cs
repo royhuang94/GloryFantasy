@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using GameCard;
 using UnityEngine;
@@ -30,9 +31,14 @@ namespace Ability
     public class TPonder : Trigger
     {
         int Amount = 2;
+        private AbilityVariable _abilityVariable;
 
         public TPonder(MsgReceiver speller)
         {
+            _abilityVariable = AbilityDatabase.GetInstance().GetAbilityVariable("Ponder");
+            if (_abilityVariable == null)
+                throw new NotImplementedException();
+            
             register = speller;
             //初始化响应时点,为卡片使用时
             msgName = (int)MessageType.CastCard;
@@ -51,9 +57,8 @@ namespace Ability
 
         private void Action()
         {
-
             //TODO抽两张牌
-            CardManager.Instance().ExtractCards(2);
+            CardManager.Instance().ExtractCards(_abilityVariable.Draws.Value);
             //TODO选择手牌
             CardManager.Instance().selectingMode = true;
             CardManager.Instance().cb = OnSlectionOver;

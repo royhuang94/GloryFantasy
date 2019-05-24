@@ -37,6 +37,65 @@ namespace Ability
         }
 
         /// <summary>
+        /// 新版处理异能数据函数
+        /// </summary>
+        private void LoadAbilityData()
+        {
+            _abilityData = new Dictionary<string, AbilityFormat>();
+            JsonData jsonData =
+                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + JsonFilePath));
+
+            for (int i = 0; i < jsonData.Count; i++)
+            {
+                JsonData reference = jsonData[i];
+                AbilityFormat ability = new AbilityFormat(reference["AbilityID"].ToString());
+                ability.AbilityName = reference["AbilityName"].ToString();
+                ability.Description = reference["Description"].ToString();
+                
+                // 处理TargetList内数据解析
+                if (reference["TargetList"].Count > 0)
+                {
+                    foreach (JsonData data in reference["TargetList"])
+                    {
+                        AbilityTarget newTarget;
+                        // 如果是使用者的数据
+                        if ((int) data["is_speller"] == 1)
+                        {
+                            // 生成相应的目标类型，并加入list中
+                            newTarget = new AbilityTarget(data["type"].ToString(), true, false);
+                            if (data["color"].Count > 0)
+                            {
+                                newTarget.color = new List<string>();
+                                for (int j = 0; j < data["color"].Count; j++)
+                                    newTarget.color.Add(data["color"][j].ToString());
+                            }
+
+                            if (data["tag"].Count > 0)
+                            {
+                                newTarget.tag = new List<string>();
+                                for (int j = 0; j < data["tag"].Count; j++)
+                                    newTarget.tag.Add(data["tag"][j].ToString());
+                            }
+                        }
+                        else // 非使用者，即是目标
+                        {
+                            newTarget = new AbilityTarget(data["type"].ToString(), false, true);
+                            
+                            // 处理json数据中controller字段
+                            newTarget.SetControllerType(data["controler"].ToString());
+                        }
+                        ability.AbilityTargetList.Add(newTarget);
+                    }
+                    
+                }
+                // 调用接口读取相应变量并存储
+                FullAbilityVariable(ability.AbilityVariable, reference);
+                // 添加到字典
+                _abilityData[ability.AbilityID] = ability;
+            }
+        }
+
+        /// <summary>
         /// 初始化异能数据库
         /// </summary>
         private void InitAbilityDatabase()
@@ -62,6 +121,7 @@ namespace Ability
                     newAbility.Group = (int)tmp["Group"];
                     newAbility.AbilityName = tmp["AbilityName"].ToString();
                     newAbility.Description = tmp["Description"].ToString();
+                    
                     newAbility.TriggerID = tmp["TriggerID"].ToString();
 
                     //数据库中加入这个异能
@@ -88,7 +148,7 @@ namespace Ability
                 abilityVariable.Range = int.Parse(jsonData["Range"].ToString());
             if (jsonData["Damage"].ToString() != "")
                 abilityVariable.Damage = int.Parse(jsonData["Damage"].ToString());
-            if (jsonData["Amount"].ToString() != "")
+            if (jsonData["Amount"].ToString() != "") 
                 abilityVariable.Amount = int.Parse(jsonData["Amount"].ToString());
             if (jsonData["Draws"].ToString() != "")
                 abilityVariable.Draws =  int.Parse(jsonData["Draws"].ToString());
@@ -114,6 +174,15 @@ namespace Ability
                 return _abilityData[_abilityID];
             else
                 Debug.Log("Ability Database doesn't have _abilityID information.");
+            return null;
+        }
+
+        public AbilityVariable GetAbilityVariable(string _abilityID)
+        {
+            if (_abilityData.ContainsKey(_abilityID))
+                return _abilityData[_abilityID].AbilityVariable;
+            
+            Debug.Log("Ability Database doesn't have _abilityID information.");
             return null;
         }
     }
