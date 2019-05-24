@@ -93,6 +93,7 @@ namespace MainMap
         public override void ElementOnClick()
         {
            Debug.Log("怪物被点击");
+           BattleMap.BattleMap.Instance().GetEncounterIDFromMainMap(monsterid);
            SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
            //Todo:在这里把对接信息传给战斗系统，在战斗系统那边写一个类似的方法获取信息。
            // JumpToBattle(string id,battlemapdata data);

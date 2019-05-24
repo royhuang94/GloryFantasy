@@ -10,12 +10,15 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private string _currentScene;
 	private string _targetScene;
 	private AsyncOperation _asyncOperation;
-	private static GameObject cameraObject;
+	private static GameObject _MMapCameraObject;		// 大地图
+	private static GameObject _BMapCameraObject;		// 战斗地图
+	private string _mainMapSceneName = "MainMapTest1";
 	
 	void Start () {
 		SceneManager.sceneLoaded += this.OnSceneLoader;
 		SceneManager.sceneUnloaded += this.OnSceneUnloader;
-		cameraObject =GameObject.Find("Main Camera");
+		SceneManager.activeSceneChanged += this.OnSceneChanged;
+		_MMapCameraObject =GameObject.Find("Main Camera");
 	}
 	
 	// Update is called once per frame
@@ -30,7 +33,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// <param name="mode">加载模式</param>
 	private void OnSceneLoader(Scene scene, LoadSceneMode mode)
 	{
-		Debug.Log("Load scene: " + scene);
+//		Debug.Log("Load scene: " + scene.name);
 	}
 
 	
@@ -40,24 +43,46 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// <param name="scene">卸载的场景</param>
 	private void OnSceneUnloader(Scene scene)
 	{
-		Debug.Log("Hello Gary~");
+//		Debug.Log("Unload scene: " + scene.name);
 	}
-	
+
+
+	/// <summary>
+	/// 委托 —— 切换场景时收到通知，执行操作
+	/// </summary>
+	/// <param name="oldScene">旧场景</param>
+	/// <param name="newScene">新场景</param>
+	private void OnSceneChanged(Scene oldScene, Scene newScene)
+	{
+//		Debug.Log("change: old-" + oldScene.name + " new-" + newScene.name);
+//		if (oldScene.name.Equals("BattleMapTest"))
+//		{
+//			foreach (var go in newScene.GetRootGameObjects())
+//			{
+//				Debug.Log("go: " + go.name);
+//				if(go.name.Equals("BattleMap.BattleMap") || go.name.Equals("GameCard.CardManager"))
+//					Destroy(go);
+//			}
+//		}
+	}
 
 	/// <summary>
 	/// 开放接口，场景切换时调用此方法
 	/// </summary>
+	/// <param name="currentScene">当前场景</param>
 	/// <param name="targetScene">要切换的目标场景</param>
-	/// <param name="ecounterID">遭遇ID</param>
 	public void Switch(string currentScene, string targetScene)
 	{
-		if (currentScene.Equals("MainMapTest1"))
+		Debug.Log("current: " + currentScene);
+		
+		// 如果当前场景是大地图，则加载战斗场景，否则卸载战斗场景
+		if (_mainMapSceneName.Equals(currentScene))
 		{
-			StartCoroutine(LoadScene(targetScene)); // 异步加载场景
+			StartCoroutine(LoadScene(targetScene));			 // 异步加载场景
 		}
 		else
 		{
-			StopCoroutine(UnloadScene(targetScene));
+			StartCoroutine(UnloadScene(targetScene));		 // 异步卸载场景
 		}
 	}
 
@@ -80,24 +105,39 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	{
 		_asyncOperation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
 		yield return _asyncOperation;
-		setComponent();
+		SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetScene));
+		SwitchMMapCamera();
 	}
 
 
+	/// <summary>
+	/// 异步卸载场景
+	/// </summary>
+	/// <param name="targetScene">要卸载的目标场景，一般是战斗地图</param>
+	/// <returns></returns>
 	private IEnumerator UnloadScene(string targetScene)
 	{
+		Debug.Log("start to exit");
+		FGUIInterfaces.Instance().CloseAll();
 		_asyncOperation = SceneManager.UnloadSceneAsync(targetScene);
 		yield return _asyncOperation;
-		setComponent();
+//		SceneManager.SetActiveScene()
+		Resources.UnloadUnusedAssets();				// 删掉战斗地图所有未使用的资源，应该能减少一点资源使用
+		SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainMapTest1"));
+		SwitchMMapCamera();
 	}
 
-	private void setComponent()
+	
+	/// <summary>
+	/// 设置大地图相机的开关
+	/// </summary>
+	private void SwitchMMapCamera()
 	{
-		Camera mainCamera = cameraObject.GetComponent<Camera>();
-		if (mainCamera != null)
+		Camera mainMapCamera = _MMapCameraObject.GetComponent<Camera>();
+		if (mainMapCamera != null)
 		{
-			mainCamera.enabled = !mainCamera.enabled;			// 主相机得关掉，不然大地图会躺在战斗地图下面
-			AudioListener audioListener = mainCamera.GetComponent<AudioListener>();
+			mainMapCamera.enabled = !mainMapCamera.enabled;			// 主相机得关掉，不然大地图会躺在战斗地图下面
+			AudioListener audioListener = mainMapCamera.GetComponent<AudioListener>();
 			audioListener.enabled = !audioListener.enabled;		// 这个也得关，不然会弹上千条提示，bulabula的
 		}
 	}

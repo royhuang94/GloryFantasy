@@ -52,7 +52,15 @@ namespace BattleMap
                 (int)MessageType.WIN,
                 () => { return true; },
                 exitBattleMap,
-                "Mp End Trigger"
+                "Win to exit Trigger"
+            );
+            
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.LOSE,
+                () => { return true; },
+                exitBattleMap,
+                "Lose to exit Trigger"
             );
         }
 

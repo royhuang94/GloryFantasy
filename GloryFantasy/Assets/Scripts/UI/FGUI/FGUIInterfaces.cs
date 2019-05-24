@@ -478,6 +478,15 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	{
 		return this as T;
 	}
+
+	
+	/// <summary>
+	/// 关闭所有UI
+	/// </summary>
+	public void CloseAll()
+	{
+		_mainUI.Dispose();
+	}
 	
 }
 
