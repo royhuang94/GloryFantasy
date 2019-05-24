@@ -30,22 +30,29 @@ namespace BattleMap
         private void Start()
         {
             InitMap();
+        }
+
+
+        /// <summary>
+        /// 注册信息，以免第二次之后进来不注册
+        /// </summary>
+        public void RegisterMSG()
+        {
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.MPBegin,
+                canDoMPAction,
+                MpBegin,
+                "Mp Begin Trigger"
+            );
 
             MsgDispatcher.RegisterMsg(
-               this.GetMsgReceiver(),
-               (int)MessageType.MPBegin,
-               canDoMPAction,
-               MpBegin,
-               "Mp Begin Trigger"
-           );
-
-            MsgDispatcher.RegisterMsg(
-               this.GetMsgReceiver(),
-               (int)MessageType.MPEnd,
-               canDoMPEndAction,
-               MpEnd,
-               "Mp End Trigger"
-           );
+                this.GetMsgReceiver(),
+                (int)MessageType.MPEnd,
+                canDoMPEndAction,
+                MpEnd,
+                "Mp End Trigger"
+            );
             
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
@@ -63,7 +70,8 @@ namespace BattleMap
                 "Lose to exit Trigger"
             );
         }
-
+        
+        
         /// <summary>
         /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
         /// </summary>

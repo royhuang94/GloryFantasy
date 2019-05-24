@@ -105,6 +105,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	{
 		_asyncOperation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
 		yield return _asyncOperation;
+		BattleMap.BattleMap.Instance().RegisterMSG();
 		SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetScene));
 		SwitchMMapCamera();
 	}
@@ -134,11 +135,17 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private void SwitchMMapCamera()
 	{
 		Camera mainMapCamera = _MMapCameraObject.GetComponent<Camera>();
-		if (mainMapCamera != null)
+		if(_MMapCameraObject.activeInHierarchy)
+			_MMapCameraObject.SetActive(false);
+		else
 		{
-			mainMapCamera.enabled = !mainMapCamera.enabled;			// 主相机得关掉，不然大地图会躺在战斗地图下面
-			AudioListener audioListener = mainMapCamera.GetComponent<AudioListener>();
-			audioListener.enabled = !audioListener.enabled;		// 这个也得关，不然会弹上千条提示，bulabula的
+			_MMapCameraObject.SetActive(true);
 		}
+//		if (mainMapCamera != null)
+//		{
+//			mainMapCamera.enabled = !mainMapCamera.enabled;			// 主相机得关掉，不然大地图会躺在战斗地图下面
+//			AudioListener audioListener = mainMapCamera.GetComponent<AudioListener>();
+//			audioListener.enabled = !audioListener.enabled;		// 这个也得关，不然会弹上千条提示，bulabula的
+//		}
 	}
 }
