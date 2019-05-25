@@ -35,6 +35,14 @@ public class BMBColliderManager :  MsgReceiver, GameplayTool
             FreshDispose,
             "Fresh Collider Trigger"
         );
+        // 注册函数相应移动消息
+        MsgDispatcher.RegisterMsg(
+            this.GetMsgReceiver(),
+            (int)MessageType.Moved,
+            CanFreshCollider,
+            FreshDispose,
+            "Fresh Collider Trigger"
+        );
     }
 
     #region 监听Move与afterMove消息
