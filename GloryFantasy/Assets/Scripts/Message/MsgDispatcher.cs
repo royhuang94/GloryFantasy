@@ -58,7 +58,9 @@ namespace IMessage
         
         RoundsEnd,  //回合结束
         
-        Encounter // 遭遇战
+        Encounter, // 遭遇战
+
+        BattleSate//战区状态
     };
 
     public interface MsgReceiver

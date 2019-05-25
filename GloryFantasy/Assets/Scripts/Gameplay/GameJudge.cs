@@ -15,7 +15,7 @@ namespace GamePlay
         private void Start()
         {
             _battleAreaDictionary =
-                BattleMap.BattleMap.Instance().battleArea.BattleAreaDic;
+                BattleMap.BattleMap.Instance().battleAreaData.BattleAreaDic;
             
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),

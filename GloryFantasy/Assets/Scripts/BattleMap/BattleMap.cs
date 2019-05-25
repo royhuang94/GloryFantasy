@@ -22,7 +22,7 @@ namespace BattleMap
             _instance = this;
             IsColor = false;
             MapNavigator = new MapNavigator();
-            battleArea = new BattleArea();
+            battleAreaData = new BattleAreaData();
             debuffBM = new DebuffBattleMapBlovk();
             BattleMapPath = "Assets/Scripts/BattleMap/BattleMapData/";
         }
@@ -135,7 +135,7 @@ namespace BattleMap
         private BattleMapBlock[,] _mapBlocks; 
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
         public MapNavigator MapNavigator;//寻路类
-        public BattleArea battleArea;//战区类
+        public BattleAreaData battleAreaData;//战区类
         public DebuffBattleMapBlovk debuffBM;//异常地图快类
         private string[][] nstrs;//存战斗地图的数组
         [SerializeField]
@@ -183,7 +183,7 @@ namespace BattleMap
             battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
             _mapBlocks = new BattleMapBlock[columns, rows];
             GameObject instance = new GameObject();
-            battleArea.GetAreas(nstrs);//存储战区id;
+            battleAreaData.GetAreas(nstrs);//存储战区id;
             //实例地图块
             for (int y = 0; y < nstrs.Length; y++)
             {
@@ -203,10 +203,11 @@ namespace BattleMap
                     //初始化地图块儿的collider组件
                     _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
                     GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
-                    
-                    battleArea.StoreBattleArea(area, new Vector2(x,y));//存储战区
+
+                    battleAreaData.StoreBattleArea(area, new Vector2(x,y));//存储战区
                 }
             }
+            battleAreaData.InitBattleArea();//初始战区对象及状态；
             UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1",_mapBlocks);//初始战斗地图上的单位
         }
 
@@ -473,33 +474,34 @@ namespace BattleMap
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public bool WarZoneBelong(Vector3 position)
+        public BattleAreaSate WarZoneBelong(Vector3 position)
         {
-            return battleArea.WarZoneBelong(position, _mapBlocks);
+            int area = _mapBlocks[(int)position.x, (int)position.y].area;
+            return battleAreaData.WarZoneBelong(area);
         }
 
         //战区胜利条件之一：守卫战区指定回合数
         public bool ProtectBattleZooe(int area, int curRounds, int targetRounds)
         {
-            return battleArea.ProtectBattleZooe(area,curRounds,targetRounds);
+            return battleAreaData.ProtectBattleZooe(area,curRounds,targetRounds);
         }
 
         //战区胜利条件之一：将某单位护送到指定战区/某敌人进入指定战区
         public int ProjectUnit(int area, Unit player = null, Unit enemy = null)
         {
-            return battleArea.ProjectUnit(area,player,enemy);
+            return battleAreaData.ProjectUnit(area,player,enemy);
         }
 
         //显示战区
         public void ShowBattleZooe(Vector3 position)
         {
-            battleArea.ShowBattleZooe(position, _mapBlocks);
+            battleAreaData.ShowBattleZooe(position, _mapBlocks);
         }
 
         //隐藏战区
         public void HideBattleZooe(Vector2 position)
         {
-            battleArea.HideBattleZooe(position, _mapBlocks);
+            battleAreaData.HideBattleZooe(position, _mapBlocks);
         }
         /// <summary>
         /// 移除BattleBlock下的 unit
