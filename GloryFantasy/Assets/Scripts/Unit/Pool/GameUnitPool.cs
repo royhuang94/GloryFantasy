@@ -73,6 +73,23 @@ namespace GameUnit
             unit.SetActive(false);
             m_pool.Add(unit);
         }
+
+        /// <summary>
+        /// 通过单位ID检测对象池的对象是否死球
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>返回true表示该单位已经死球</returns>
+        public bool CheckDeathByID(string id)
+        {
+            GameUnit temp;
+            foreach (GameObject unitGO in m_pool)
+            {
+                temp = unitGO.GetComponent<GameUnit>();
+                if (!id.Equals(temp.id) && unitGO.activeSelf)
+                    return false;
+            }
+            return true;
+        }
     }
 
 }
