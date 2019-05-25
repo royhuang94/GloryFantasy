@@ -85,7 +85,7 @@ namespace GameUnit
             foreach (GameObject unitGO in m_pool)
             {
                 temp = unitGO.GetComponent<GameUnit>();
-                if (!id.Equals(temp.id) && unitGO.activeSelf)
+                if (!id.Equals(temp.id) || unitGO.activeSelf)
                     return false;
             }
             return true;
