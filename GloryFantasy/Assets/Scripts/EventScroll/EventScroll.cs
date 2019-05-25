@@ -27,6 +27,8 @@ namespace GamePlay.Event
         /// </summary>
         private List<EventModule> _eventModuleList = new List<EventModule>();
 
+        private List<int> _timeScroll = new List<int>();
+
         /// <summary>
         /// 添加一个事件模块进入仲裁器
         /// </summary>
@@ -91,6 +93,47 @@ namespace GamePlay.Event
             //在这之前记得给事件集合打上回合数的的标签
             newAssembly.ExcuteTurn = this.nowBigestTurn;
             _eventScroll.Add(newAssembly);
+
+            //添加回合数标签
+            _timeScroll.Add(Gameplay.Instance().roundProcessController.State.roundCounter);
+        }
+
+        /// <summary>
+        /// 生成的事件塞入到新的事件集合里
+        /// </summary>
+        /// <param name="newAssembly"></param>
+        /// <param name="eventAssembls"></param>
+        private void GetNewAssembly(EventAssembly newAssembly, List<EventModule> eventAssembls)
+        {
+            foreach (EventModule module in eventAssembls)
+            {
+                //按照权重随机选择事件
+                string selectedEvent = "";
+                //预计算权重的总值
+                int sum = 0;
+                for (int i = 0; i < module.EventList.Count; i++)
+                {
+                    sum += module.EventList[i].EventWeight;
+                }
+                var r = UnityEngine.Random.Range(0, sum) + 1;
+                int temp = 0;
+                for (int i = 0; i < module.EventList.Count; i++)
+                {
+                    temp += module.EventList[i].EventWeight;
+                    if (r <= temp)
+                    {
+                        selectedEvent = module.EventList[i].EventName;
+                    }
+                }
+                /*eg: GamePlay.Event.ReinforceArcher*/
+                //根据选中的事件的string生成对应的类
+                Type tempType = Type.GetType("GamePlay.Event." + selectedEvent);
+                Event tempEvent = Activator.CreateInstance(tempType) as Event;
+                //设置事件的源
+                tempEvent.Source = module.Source;
+                //将生成的事件塞入到新的事件集合里
+                newAssembly.Add(tempEvent);
+            }
         }
 
         /// <summary>
@@ -105,6 +148,42 @@ namespace GamePlay.Event
             foreach (EventAssembly assembly in _eventScroll)
             {
                 assembly.DeleteEvent(source);
+            }
+        }
+
+        /// <summary>
+        /// 以回合数作为坐标添加一个事件模块进入事件轴
+        /// 重载+1 
+        /// </summary>
+        /// <param name="round">当前回合数</param>
+        /// <param name="eventModule">事件模型</param>
+        public void InsertEventByRound(int round, EventModule eventModule)
+        {
+            List<EventModule> eventModules = new List<EventModule>();
+            eventModules.Add(eventModule);
+            InsertEventByRound(round, eventModules);
+        }
+        /// <summary>
+        /// 以回合数作为坐标添加一个事件模块进入事件轴
+        /// 重载+1 
+        /// </summary>
+        /// <param name="round">当前回合数</param>
+        /// <param name="eventModule">事件模型</param>
+        public void InsertEventByRound(int round, List<EventModule> eventModule)
+        {
+            EventAssembly newAssembly = new EventAssembly();
+            //使用这个方法生成事件集合会让计数+1
+            this.nowBigestTurn++;
+
+            for (int i = 0; i < _eventScroll.Count; i++)
+            {
+                if (i != round - 1)
+                    continue;
+                GetNewAssembly(newAssembly, eventModule);
+                //所有事件模块判定完后将新的事件集合塞入列表
+                //在这之前记得给事件集合打上回合数的的标签
+                newAssembly.ExcuteTurn = this.nowBigestTurn;
+                _eventScroll.Insert(i, newAssembly);
             }
         }
     }

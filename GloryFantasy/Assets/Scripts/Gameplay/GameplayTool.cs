@@ -280,6 +280,45 @@ namespace GamePlay
         }
         #endregion
 
+
+        public static void RelaseLocking(this GameplayTool self)
+        {
+            Info.locking = false;
+            Info.movingUnit = Info.otherMovingUnit;
+        }
+
+        /// <summary>
+        /// 设置正在移动的单位
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="gameUnit"></param>
+        public static void SetMovingUnit(this GameplayTool self, GameUnit.GameUnit gameUnit)
+        {
+            if(Info.locking == false)
+            {
+                Info.movingUnit = gameUnit;
+                Info.locking = true;
+            }
+            else
+            {
+                Info.otherMovingUnit = gameUnit;
+            }
+
+        }
+
+        /// <summary>
+        /// 获取正在移动的单位
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static GameUnit.GameUnit GetMovingUnit(this GameplayTool self)
+        {
+            //TODO 实现完整的加锁机制
+            if(Info.locking == false)
+                return Info.otherMovingUnit;
+            return Info.movingUnit;
+        }
+
         //public static void SetSelectingUnit(this GameplayTool self, GameUnit.GameUnit unit)
         //{
         //    Info.SelectingUnit = unit;
