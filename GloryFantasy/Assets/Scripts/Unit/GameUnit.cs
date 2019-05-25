@@ -200,7 +200,6 @@ namespace GameUnit
             private void Action()
             {
                 //处理单位移动消息
-
             }
         }
 
@@ -224,8 +223,7 @@ namespace GameUnit
 
             private void Action()
             {
-                //处理单位移动后消息
-
+                //处理单位驻足
             }
         }
 

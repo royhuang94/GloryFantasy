@@ -1,8 +1,10 @@
-﻿using LitJson;
+﻿using IMessage;
+using LitJson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using IMessage;
 
 /// <summary>
 /// 战区
@@ -10,48 +12,69 @@ using UnityEngine.UI;
 /// 
 namespace BattleMap
 {
-    public class BattleArea
+    public enum BattleAreaSate//战区所属状态
     {
-        private List<int> areas;//地图块所属战区区域id
-        private Dictionary<int, List<Vector2>> battleAreaDic;//战区id与战区相对应的字典
-        public  Dictionary<int, List<Vector2>> BattleAreaDic{ get{return battleAreaDic;}}
-        public Dictionary<int, string> battleAreaBelong;//战区归属,
+        Player,//属于玩家
+        Enmey,//属于敌人
+        Neutrality,//中立
+        Battle,//处于争夺
+    }
 
-        public BattleArea()
+    public class BattleArea : IMessage.MsgReceiver
+    {
+        private int _battleAreaID;//战区id
+        private BattleAreaSate _battleAreaSate;//战区状态
+        private List<Vector2> _battleArea;//该战区上的所有地图块坐标
+
+        Trigger trigger;
+
+        public BattleArea(int battleAreaID,BattleAreaSate battleAreaSate, List<Vector2> battleArea)
         {
-            areas = new List<int>();
-            battleAreaDic = new Dictionary<int, List<Vector2>>();
+            _battleAreaID = battleAreaID;
+            _battleArea = battleArea;
+            _battleAreaSate = battleAreaSate;
+
+            //创建Trigger实例
+            trigger = new BattleAreaTrigger(this.GetMsgReceiver());
+            //注册Trigger进消息中心
+            MsgDispatcher.RegisterMsg(trigger, "BattleState");
         }
 
-        //获取地图块所属战区,对接后删除
-        public void GetAreas(JsonData mapData)
+        public T GetUnit<T>() where T : MonoBehaviour
         {
-            int mapDataCount = mapData.Count;
-            for (int i = 0; i < mapDataCount; i++)
-            {
-                int area = (int)mapData[i]["area"];
-                areas.Add(area);
-            }
-            //移除重复元素
-            for (int i = 0; i < areas.Count; i++)
-            {
-                for (int j = areas.Count - 1; j > i; j--)
-                {
+            throw new System.NotImplementedException();
+        }
 
-                    if (areas[i] == areas[j])
-                    {
-                        areas.RemoveAt(j);
-                    }
-                }
+        public class BattleAreaTrigger : Trigger
+        {
+            public BattleAreaTrigger(MsgReceiver speller)
+            {
+                register = speller;
+                //初始化响应时点,为战区状态改变
+                msgName = (int)MessageType.BattleSate;//
+                //初始化条件函数和行为函数
+                condition = Condition;
+                action = Action;
             }
 
-            //动态增加战区数量,战区序号从-1开始
-            for (int i = -1; i < areas.Count - 1; i++)
+            private bool Condition()
             {
-                List<Vector2> battleArea = new List<Vector2>();//同一个战区上的所有地图块坐标
-                battleAreaDic.Add(i, battleArea);
+                return true;
+            }
+
+            private void Action()
+            {
             }
         }
+    }
+
+    public class BattleAreaData
+    {
+        private List<int> areas = new List<int>();
+        private Dictionary<int, List<Vector2>> battleAreaDic = new Dictionary<int, List<Vector2>>();//战区id与战区相对应的字典
+        public Dictionary<int, List<Vector2>> BattleAreaDic { get { return battleAreaDic; } }
+
+        public Dictionary<int, BattleArea> battleAreas = new Dictionary<int, BattleArea>();//存储的所有战区的id和对应的战区对象，尽量用这个，不用上面旧的那个
 
         //获取地图块所属战区
         public void GetAreas(string[][] nstrs)
@@ -86,20 +109,32 @@ namespace BattleMap
         }
 
         //存储战区
-        public void StoreBattleArea(int area,Vector2 mapPos)
+        public void StoreBattleArea(int area, Vector2 mapPos)
         {
             battleAreaDic[area].Add(mapPos);
         }
 
+        //
+        public void InitBattleArea()
+        {
+            foreach(int id in battleAreaDic.Keys)
+            {
+                List<Vector2> list = null;
+                battleAreaDic.TryGetValue(id, out list);
+                BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list);
+                battleAreas.Add(id, battleArea);
+            }
+        }
+
         //显示战区
-        public void ShowBattleZooe(Vector2 position,BattleMapBlock[,] mapBlock)
+        public void ShowBattleZooe(Vector2 position, BattleMapBlock[,] mapBlock)
         {
             int area = mapBlock[(int)position.x, (int)position.y].area;
             List<Vector2> battleAreas = null;
             battleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
             {
-                if (!WarZoneBelong(position, mapBlock))
+                if (WarZoneBelong(area) == BattleAreaSate.Battle || WarZoneBelong(area) == BattleAreaSate.Enmey)
                 {
                     mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.red;
                 }
@@ -107,7 +142,7 @@ namespace BattleMap
                 {
                     mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.yellow;
                 }
-                
+
             }
         }
 
@@ -124,11 +159,12 @@ namespace BattleMap
         }
 
         //战斗胜利条件之一：战区所属权
-        public bool WarZoneBelong(Vector3 position, BattleMapBlock[,] mapBlock)
+        public BattleAreaSate WarZoneBelong(int area)
         {
             int unitAmout = 0;//战区上单位的数量
             int enemyAmout = 0;//战区上敌方单位数量
-            int area = mapBlock[(int)position.x, (int)position.y].area;
+            int friendlyAmout = 0;//战区上我方单位数量
+            int neutralityAmout = 0;//战区上中立单位数量
             List<Vector2> battleAreas = null;
             battleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
@@ -138,31 +174,32 @@ namespace BattleMap
                 if (BattleMap.Instance().CheckIfHasUnits(pos))
                 {
                     unitAmout++;
-                    GameUnit.GameUnit unit = mapBlock[x, y].GetComponentInChildren<GameUnit.GameUnit>();
+                    GameUnit.GameUnit unit = BattleMap.Instance().GetUnitsOnMapBlock(new Vector2(x,y));
                     if (unit.owner == GameUnit.OwnerEnum.Enemy)
-                        enemyAmout++;   
+                        enemyAmout++;
+                    else if (unit.owner == GameUnit.OwnerEnum.Player)
+                        friendlyAmout++;
+                    else
+                        neutralityAmout++;
                 }
             }
-            if(unitAmout == 0)
+            if (unitAmout == 0)
             {
-                //该战区没有所属权
-                return true;
+                //中立状态，只存在于初始化
+                return BattleAreaSate.Neutrality;
             }
-            else if(enemyAmout == unitAmout)
+            if (enemyAmout == unitAmout - neutralityAmout)
             {
                 //该战区被敌方控制
-                return false;
+                return BattleAreaSate.Enmey;
             }
-            else if(enemyAmout < unitAmout && enemyAmout != 0)
-            {
-                //该战区处于争夺状态
-                return false;
-            }
-            else
+            else if (friendlyAmout == unitAmout - neutralityAmout)
             {
                 //该战区被玩家控制
-                return true;
+                return BattleAreaSate.Player;
             }
+            else
+                return BattleAreaSate.Battle;
         }
 
         /// <summary>
@@ -173,7 +210,7 @@ namespace BattleMap
         /// <param name="targetRounds">要守卫的目标回合数</param>
         /// <param name="mapBlock"></param>
         /// <returns></returns>
-        public bool ProtectBattleZooe(int area,int curRounds,int targetRounds)
+        public bool ProtectBattleZooe(int area, int curRounds, int targetRounds)
         {
             int unitAmout = 0;//该战区上我方单位数量
             List<Vector2> battleAreas = null;
@@ -183,13 +220,13 @@ namespace BattleMap
                 if (BattleMap.Instance().CheckIfHasUnits(pos))
                 {
                     GameUnit.GameUnit unit = BattleMap.Instance().GetUnitsOnMapBlock(pos);
-                    if(unit.owner == GameUnit.OwnerEnum.Player&& curRounds <= targetRounds)
+                    if (unit.owner == GameUnit.OwnerEnum.Player && curRounds <= targetRounds)
                     {
                         unitAmout++;
                     }
                 }
             }
-            if(unitAmout == 0)
+            if (unitAmout == 0)
             {
                 return false;
             }
@@ -206,7 +243,7 @@ namespace BattleMap
         /// <param name="player">哪个玩家的单位到达</param>
         /// /// <param name="enemy">哪个敌方单位到达</param>
         /// <returns></returns>
-        public int ProjectUnit(int area,GameUnit.GameUnit player,GameUnit.GameUnit enemy)//不好直接返回bool值，万一都还没见进入这个战区该返回什么？暂时就这样吧
+        public int ProjectUnit(int area, GameUnit.GameUnit player, GameUnit.GameUnit enemy)//不好直接返回bool值，万一都还没见进入这个战区该返回什么？暂时就这样吧
         {
             List<Vector2> battleAreas = null;
             battleAreaDic.TryGetValue(area, out battleAreas);
@@ -215,15 +252,15 @@ namespace BattleMap
                 if (BattleMap.Instance().CheckIfHasUnits(pos))
                 {
                     GameUnit.GameUnit tempUnit = BattleMap.Instance().GetUnitsOnMapBlock(pos);
-                    if(player != null&& tempUnit.id == player.id)
+                    if (player != null && tempUnit.id == player.id)
                     {
-                            return 0;//胜利
+                        return 0;//胜利
                     }
-                    
-                    else if(enemy!=null && tempUnit.id == enemy.id)
+
+                    else if (enemy != null && tempUnit.id == enemy.id)
                     {
                         return 1;//失败
-                    }    
+                    }
                 }
             }
             return -1;//都还没进入指定战区

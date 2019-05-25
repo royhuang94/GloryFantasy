@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BattleMap;
 using Unit = GameUnit.GameUnit;
+using IMessage;
 
 public class BMBCollider
 {
@@ -74,6 +75,6 @@ public class BMBCollider
             return;
         if(enterUnits[0].owner != GameUnit.OwnerEnum.Enemy)
             GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.HandleAtkConfirm(colliderRange[0],BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(colliderRange[0]));
-        //GamePlay.Gameplay.Instance().gamePlayInput.HandleAtkConfirm(colliderRange[0]);
+        MsgDispatcher.SendMsg((int)MessageType.BattleSate);
     }
 }
