@@ -58,6 +58,7 @@ public class BMBCollider
             disposeUnits = new List<Unit>();//覆盖
         state = -1;
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位离开");
+        MsgDispatcher.SendMsg((int)MessageType.BattleSate);
 
     }
 
@@ -70,10 +71,10 @@ public class BMBCollider
         state = 1;
         disposeUnits = enterUnits; //驻足记录
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位驻足");
+        MsgDispatcher.SendMsg((int)MessageType.BattleSate);
         if (GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.CurrentState is GamePlay.FSM.InputFSMSummonState)
             return;
         if(enterUnits[0].owner != GameUnit.OwnerEnum.Enemy)
-            GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.HandleAtkConfirm(colliderRange[0],BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(colliderRange[0]));
-        MsgDispatcher.SendMsg((int)MessageType.BattleSate);
+            GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.HandleAtkConfirm(colliderRange[0],BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(colliderRange[0])); 
     }
 }

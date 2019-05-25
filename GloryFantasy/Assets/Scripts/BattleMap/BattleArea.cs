@@ -35,7 +35,7 @@ namespace BattleMap
             _battleAreaSate = battleAreaSate;
 
             //创建Trigger实例
-            trigger = new BattleAreaTrigger(this.GetMsgReceiver());
+            trigger = new BattleAreaTrigger(this.GetMsgReceiver(), this._battleAreaID);
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(trigger, "BattleState");
         }
@@ -47,7 +47,8 @@ namespace BattleMap
 
         public class BattleAreaTrigger : Trigger
         {
-            public BattleAreaTrigger(MsgReceiver speller)
+            int id;
+            public BattleAreaTrigger(MsgReceiver speller,int _id)
             {
                 register = speller;
                 //初始化响应时点,为战区状态改变
@@ -55,6 +56,7 @@ namespace BattleMap
                 //初始化条件函数和行为函数
                 condition = Condition;
                 action = Action;
+                id = _id;
             }
 
             private bool Condition()
@@ -64,6 +66,17 @@ namespace BattleMap
 
             private void Action()
             {
+                BattleArea battleArea =null;
+                BattleMap.Instance().battleAreaData.battleAreas.TryGetValue(id, out battleArea);
+                if(battleArea._battleAreaID == (int)BattleMap.Instance().battleAreaData.WarZoneBelong(id))
+                {
+                    //该战区所属状态没改变
+                }
+                else
+                {
+                    battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
+                    //TODO 占领特定id的战区胜利或失败宣告
+                }
             }
         }
     }
@@ -165,6 +178,7 @@ namespace BattleMap
             int enemyAmout = 0;//战区上敌方单位数量
             int friendlyAmout = 0;//战区上我方单位数量
             int neutralityAmout = 0;//战区上中立单位数量
+            bool isNeutrality = true;
             List<Vector2> battleAreas = null;
             battleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
@@ -183,12 +197,13 @@ namespace BattleMap
                         neutralityAmout++;
                 }
             }
-            if (unitAmout == 0)
+            if (unitAmout == 0 && isNeutrality == true)
             {
                 //中立状态，只存在于初始化
+                isNeutrality = false;
                 return BattleAreaSate.Neutrality;
             }
-            if (enemyAmout == unitAmout - neutralityAmout)
+            else if (enemyAmout == unitAmout - neutralityAmout)
             {
                 //该战区被敌方控制
                 return BattleAreaSate.Enmey;

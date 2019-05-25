@@ -207,8 +207,9 @@ namespace BattleMap
                     battleAreaData.StoreBattleArea(area, new Vector2(x,y));//存储战区
                 }
             }
-            battleAreaData.InitBattleArea();//初始战区对象及状态；
             UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1",_mapBlocks);//初始战斗地图上的单位
+            battleAreaData.InitBattleArea();//初始战区对象及状态；
+
         }
 
         /// <summary>
