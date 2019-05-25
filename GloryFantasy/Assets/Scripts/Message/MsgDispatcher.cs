@@ -53,7 +53,7 @@ namespace IMessage
         #endregion
 
         Move, //开始移动
-        UnitMoving, //正在移动
+        Moved, //单位被移动
         Aftermove, //移动结束
         
         RoundsEnd,  //回合结束

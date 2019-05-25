@@ -72,7 +72,11 @@ namespace GamePlay.Input
             //Gameplay.Instance().gamePlayInput.HandleSkillConfim(_unit.CurPos, _maxJumpPower);
 
             if (Judge())
+            {
                 BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_targetPos, _unit);
+                MsgDispatcher.SendMsg((int)MessageType.Moved);
+            }
+
         }
 
         private GameUnit.GameUnit _unit;
