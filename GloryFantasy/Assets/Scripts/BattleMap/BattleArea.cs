@@ -68,14 +68,29 @@ namespace BattleMap
             {
                 BattleArea battleArea =null;
                 BattleMap.Instance().battleAreaData.battleAreas.TryGetValue(id, out battleArea);
-                if(battleArea._battleAreaID == (int)BattleMap.Instance().battleAreaData.WarZoneBelong(id))
+                Debug.Log(string.Format("战区：{0}，之前状态：{1}", id, battleArea._battleAreaSate));
+                if (battleArea._battleAreaSate == BattleMap.Instance().battleAreaData.WarZoneBelong(id))
                 {
                     //该战区所属状态没改变
                 }
                 else
                 {
-                    battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
-                    //TODO 占领特定id的战区胜利或失败宣告
+                    if(BattleMap.Instance().battleAreaData.WarZoneBelong(id) != BattleAreaSate.Neutrality)//中立就不更新
+                    {
+                        battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
+                    }                   
+                    Debug.Log(string.Format("战区：{0}，当前状态：{1}",id,battleArea._battleAreaSate));
+
+                    //占领特定id的战区胜利或失败宣告
+                    //TODO 获取那个特定id
+                    int testID = 1;//测试
+                    if(this.id == testID && battleArea._battleAreaSate == BattleAreaSate.Player)
+                    {
+                        Debug.Log("you win");
+                    }else if(this.id == testID && battleArea._battleAreaSate == BattleAreaSate.Enmey)
+                    {
+                        Debug.Log("you lose");
+                    }
                 }
             }
         }
@@ -155,7 +170,6 @@ namespace BattleMap
                 {
                     mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.yellow;
                 }
-
             }
         }
 
@@ -178,7 +192,6 @@ namespace BattleMap
             int enemyAmout = 0;//战区上敌方单位数量
             int friendlyAmout = 0;//战区上我方单位数量
             int neutralityAmout = 0;//战区上中立单位数量
-            bool isNeutrality = true;
             List<Vector2> battleAreas = null;
             battleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
@@ -197,16 +210,16 @@ namespace BattleMap
                         neutralityAmout++;
                 }
             }
-            if (unitAmout == 0 && isNeutrality == true)
+            if (unitAmout == 0)
             {
                 //中立状态，只存在于初始化
-                isNeutrality = false;
                 return BattleAreaSate.Neutrality;
             }
-            else if (enemyAmout == unitAmout - neutralityAmout)
+            if (enemyAmout == unitAmout - neutralityAmout)
             {
                 //该战区被敌方控制
                 return BattleAreaSate.Enmey;
+                
             }
             else if (friendlyAmout == unitAmout - neutralityAmout)
             {
