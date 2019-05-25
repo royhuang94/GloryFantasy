@@ -7,6 +7,7 @@ using UnityEngine;
 using IMessage;
 using GamePlay;
 using GameUnit;
+using UnityEngine.Networking;
 
 namespace Ability
 {
@@ -23,6 +24,7 @@ namespace Ability
         {
             String targetId = gameObject.GetComponent<GameUnit.GameUnit>().id;
             _trigger = new TWit(this.GetCardReceiver(this), targetId);
+            MsgDispatcher.RegisterMsg(_trigger, "Wit");
         }
     }
 
@@ -57,6 +59,7 @@ namespace Ability
 
         private void Action()
         {
+            int Count = 0;
             // 遍历冷却库
             foreach (cdObject cooldownCard in CardManager.Instance().cooldownCards)
             {
@@ -67,8 +70,14 @@ namespace Ability
                     cooldownCard.ReduceCd();
                     // 抹去使用者关键字，保证不重复减去冷却回合数
                     cooldownCard.ClearUserId();
+                    // 递增计数
+                    Count++;
                 }
             }
+            
+            // 若有修改CD时间，发送冷却列表变动信息
+            if(Count > 0)
+                MsgDispatcher.SendMsg((int)MessageType.CooldownlistChange);
         }
     }
 }
