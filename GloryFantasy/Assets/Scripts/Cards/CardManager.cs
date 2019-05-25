@@ -4,6 +4,7 @@ using System.IO;
 using IMessage;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using GameGUI;
 using GamePlay;
 using GamePlay.FSM;
@@ -255,9 +256,34 @@ namespace GameCard
         public void OnTriggerCurrentCard()
         {
             Player.Instance().ConsumeAp(_handcardsInstance[_currentSelectingPos].GetComponent<OrderCard>().cost);
-            MsgDispatcher.SendMsg((int)MessageType.CastCard);
+
+            string userId = null;
+            // 获取卡牌使用者信息，如果目标列表长度不为0，则说明可以获取到使用者（这个逻辑和策划确认过)
+            if (Gameplay.Instance().gamePlayInput.InputFSM.TargetList.Count > 0)
+            {
+                // 获取使用者坐标
+                Vector2 vec= Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0];
+                // 从地图中获取实际使用者的GameUnit引用
+                GameUnit.GameUnit userUnit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(vec);
+                // 如果获得的引用为空
+                if (userUnit == null)
+                {
+                    // 特殊情况，发动者位置与实际位置发生偏移或是这个单位居然没挂上GameUnit脚本
+                    // TODO：应对此种情况必要的提醒
+                    Debug.Log("找不到使用者，停止使用卡牌");
+                    return;
+                }
+                // 如果获取到无问题的GameUnit脚本，得到使用者id
+                userId = userUnit.id;
+                
+            }
+            
             // 从卡牌中移除当前手牌
-            RemoveCardToCd(_currentSelectingPos);
+            RemoveCardToCd(_currentSelectingPos,userId:userId);
+            
+            // 发送使用消息，会触发效果牌的trigger
+            MsgDispatcher.SendMsg((int)MessageType.CastCard);
+            
             _currentSelectingPos = -1;
             _currentSelectingCard = null;
         }
@@ -520,11 +546,18 @@ namespace GameCard
         /// </summary>
         /// <param name="cardIndex">手牌中要移除的卡牌的下标，函数内会进行检测</param>
         /// <param name="controlCd">控制cd值为-1表示按卡牌本身cd值进行冷却，否则按设定值进行冷却</param>
+        /// <param name="userId">是否指定使用者id，一般用于特殊情况</param>
         /// <exception cref="NotImplementedException">若卡牌下标异常则抛出此异常</exception>
-        public void RemoveCardToCd(int cardIndex, int controlCd = -1)
+        public void RemoveCardToCd(int cardIndex, int controlCd = -1, string userId = null)
         {
             // 调用接口完成所有从手牌中移除需要做的操作
             string cardId = RemoveFromHandCard(cardIndex);
+
+            // 如果指定使用者id参数不为空，将其加入卡牌id中
+            if (userId != null)
+            {
+                cardId += "@" + userId;
+            }
             
             // 将其加入冷却列表进行冷却，传递控制冷却信息
             CooldownCard(cardId, controlCd);
@@ -538,11 +571,17 @@ namespace GameCard
         /// </summary>
         /// <param name="cardInstance">要一处的卡牌的实例，函数内会进行检验</param>
         /// <param name="controlCd">控制cd值为-1表示按卡牌本身cd值进行冷却，否则按设定值进行冷却</param>
-        public void RemoveCardToCd(GameObject cardInstance, int controlCd = -1)
+        public void RemoveCardToCd(GameObject cardInstance, int controlCd = -1, string userId = null)
         {
             // 调用接口完成所有从手牌中移除需要做的操作
             string cardId = RemoveFromHandCard(cardInstance);
             
+            // 如果指定使用者id参数不为空，将其加入卡牌id中
+            if (userId != null)
+            {
+                cardId += "@" + userId;
+            }
+
             // 将其加入冷却列表进行冷却，传递控制冷却信息
             CooldownCard(cardId, controlCd);
             
@@ -681,8 +720,8 @@ namespace GameCard
             // 如果控制cd的参数值小于等于0，表示按卡牌cd值进行冷却
             if (controlCd <= 0)
             {
-                // 读取数据库得到冷却回合数
-                int roundAmount = (int)_cardsData[cardId]["cd"];
+                // 通过切割操作获取卡牌的id读取数据库得到冷却回合数
+                int roundAmount = (int)_cardsData[cardId.Split('@').First()]["cd"];
 
                 // 若卡牌自身的cd值为负数，则直接销毁，并进入弃牌堆
                 if (roundAmount < 0)
@@ -788,9 +827,43 @@ namespace GameCard
         {
             get { return _leftCd; }
         }
+
+        /// <summary>
+        /// 获取卡牌的使用者id，如果存在，不存在的话，则获得卡牌本身id
+        /// </summary>
+        public string userId
+        {
+            get
+            {
+                return _objectId.Split('@').Last();
+            }
+        }
+        
+        /// <summary>
+        /// 获得卡牌本身的id，不包含其他信息
+        /// </summary>
         public string objectId
         {
+            get
+            {
+                return _objectId.Split('@').First();
+            }
+        }
+
+        /// <summary>
+        /// 获得未经处理的，包含卡牌本身id和使用者id的字符串（如果有使用者信息的话）
+        /// </summary>
+        public string originId
+        {
             get { return _objectId; }
+        }
+
+        /// <summary>
+        /// 用于将id中的使用者关键字清除
+        /// </summary>
+        public void ClearUserId()
+        {
+            _objectId = objectId;
         }
 
         public cdObject(int cd, string id)

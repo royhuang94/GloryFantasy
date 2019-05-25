@@ -150,18 +150,23 @@ namespace GameUnit
             unit.abilities = new List<string>();
             for (int i = 0; i < unitJsonData["Ability"].Count; i++)
             {
-               if (unitJsonData["Ability"][i].ToString() == "") continue;
+                if (unitJsonData["Ability"][i].ToString() == "") continue;
                 unit.abilities.Add(unitJsonData["Ability"][i].ToString());
-               Component ability = unit.gameObject.AddComponent(System.Type.GetType("Ability." + unitJsonData["Ability"][i].ToString()));
-               if (ability != null)
+                Component ability =
+                    unit.gameObject.AddComponent(
+                        System.Type.GetType("Ability." + unitJsonData["Ability"][i].ToString()));
+                if (ability != null)
                 {
-                    GameUtility.UtilityHelper.Log("添加异能 " + unitJsonData["Ability"][i].ToString() + " 成功", GameUtility.LogColor.RED);
+                    GameUtility.UtilityHelper.Log("添加异能 " + unitJsonData["Ability"][i].ToString() + " 成功",
+                        GameUtility.LogColor.RED);
                 }
-               else
+                else
                 {
-                    GameUtility.UtilityHelper.Log("添加异能 " + unitJsonData["Ability"][i].ToString() + " 失败", GameUtility.LogColor.RED);
+                    GameUtility.UtilityHelper.Log("添加异能 " + unitJsonData["Ability"][i].ToString() + " 失败",
+                        GameUtility.LogColor.RED);
                 }
             }
+            
         }
         /// <summary>
         /// 根据给定UnitID，添加GameUnit的异能脚本
