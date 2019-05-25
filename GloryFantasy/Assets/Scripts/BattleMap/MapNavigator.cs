@@ -274,20 +274,19 @@ namespace BattleMap
                     
                     BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
                     unit.nextPos = paths[i];
-                    GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
+                    //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                     MsgDispatcher.SendMsg((int)MessageType.Aftermove);
                     isRetire = true;
                     break;
                 }
                 unit.nextPos = paths[i];
-                GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
+                //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
                 yield return new WaitForSeconds(0.4f); 
             }
             if (isRetire == false)
             {
                 MsgDispatcher.SendMsg((int)MessageType.Aftermove);
-                GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
             }
             if (callback != null)
                 callback();
@@ -317,17 +316,16 @@ namespace BattleMap
                 {
                     BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
                     unit.nextPos = paths[i].position;
-                    GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
+                    //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                     break;
                 }
                 unit.nextPos = paths[i].position;
-                GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
+                //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
                 yield return new WaitForSeconds(0.2f);
             }
             unit.canNotMove = true;
             MsgDispatcher.SendMsg((int)MessageType.Aftermove);
-            GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
         }
     }
 }

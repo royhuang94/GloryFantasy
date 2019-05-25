@@ -4,8 +4,9 @@ using UnityEngine;
 using BattleMap;
 using IMessage;
 using Unit = GameUnit.GameUnit;
+using GamePlay;
 
-public class BMBColliderManager :  MsgReceiver
+public class BMBColliderManager :  MsgReceiver, GameplayTool
 {
     private List<BMBCollider> bmbColliders;
 
@@ -17,7 +18,56 @@ public class BMBColliderManager :  MsgReceiver
     public BMBColliderManager()
     {
         bmbColliders = new List<BMBCollider>();
+
+        // 注册函数相应移动消息
+        MsgDispatcher.RegisterMsg(
+            this.GetMsgReceiver(),
+            (int)MessageType.Move,
+            CanFreshCollider,
+            FreshCollider,
+            "Fresh Collider Trigger"
+        );
+        // 注册函数相应移动消息
+        MsgDispatcher.RegisterMsg(
+            this.GetMsgReceiver(),
+            (int)MessageType.Aftermove,
+            CanFreshCollider,
+            FreshDispose,
+            "Fresh Collider Trigger"
+        );
     }
+
+    #region 监听Move与afterMove消息
+    /// <summary>
+    /// 判断是否可以触发更新函数
+    /// </summary>
+    /// <returns></returns>
+    public bool CanFreshCollider()
+    {
+        return true;
+    }
+
+    /// <summary>
+    /// 触发Fresh函数
+    /// </summary>
+    public void FreshCollider()
+    {
+        Fresh(this.GetMovingUnit());
+    }
+
+    /// <summary>
+    /// 触发Fresh函数
+    /// </summary>
+    public void FreshDispose()
+    {
+        Unit unit = this.GetMovingUnit();
+        BattleMapBlock battleMapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(unit.CurPos);
+        battleMapBlock.bmbCollider.OnUnitDispose();
+        this.RelaseLocking();
+    }
+    #endregion
+
+
 
     /// <summary>
     /// 单位坐标发生变化后，管理更新所有Collider

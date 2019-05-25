@@ -115,6 +115,8 @@ namespace GameUnit
                 controller.hatredRecorder.Reset(unit);
                 GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
 
+                //单位部署相当于单位驻足地图块儿
+                unit.nextPos = unit.CurPos;
                 //部署成功
                 Gameplay.Instance().bmbColliderManager.Fresh(unit);
 

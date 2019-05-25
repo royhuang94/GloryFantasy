@@ -91,7 +91,7 @@ namespace AI
             //找不到目标单位
             if (targetBattleUnit == null && battleUnit != null)
             {
-                return GameUnit.HeroActionState.Warn; ;
+                return GameUnit.HeroActionState.Warn;
             }
 
             UnitMoveAICommand unitMove;

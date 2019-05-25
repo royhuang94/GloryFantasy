@@ -43,7 +43,6 @@ public class BMBCollider
         Debug.Log("坐标：" + colliderRange[0] + " 地图块儿检测到单位进入");
         if (units[0].nextPos == units[0].CurPos)
             OnUnitDispose();
-
     }
     /// <summary>
     /// 单位退出，并更新enterUnits/disposeUnits，state

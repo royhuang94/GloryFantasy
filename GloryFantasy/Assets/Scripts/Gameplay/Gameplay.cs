@@ -47,6 +47,11 @@ namespace IMessage
         public int ATKDistance; //攻击者与被攻击者之间的距离
         #endregion
 
+
+        public bool locking = false;
+        public GameUnit.GameUnit movingUnit; //正在移动的单位
+        public GameUnit.GameUnit otherMovingUnit; //正在移动的单位
+
         /// <summary>
         /// 被UI选定的Unit单位
         /// </summary>

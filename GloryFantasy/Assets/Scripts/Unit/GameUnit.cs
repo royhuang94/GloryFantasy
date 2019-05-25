@@ -165,69 +165,73 @@ namespace GameUnit
         {
             return this as T;
         }
-        Trigger triggerMove;
-        Trigger triggerAFMove;
-        private void Start()
-        {
-            //创建Trigger实例
-            triggerMove = new TMoveStrike(GetComponent<GameUnit>().GetMsgReceiver(), this);
-            triggerAFMove = new TAFMoveStrike(GetComponent<GameUnit>().GetMsgReceiver(), this);
-            //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(triggerMove, "Move");
-            MsgDispatcher.RegisterMsg(triggerAFMove, "AFMove");
-        }
 
-        public class TMoveStrike : Trigger
-        {
-            GameUnit curUnit;
-            public TMoveStrike(MsgReceiver _speller,GameUnit gameUnit)
-            {
-                curUnit = gameUnit;
-                register = _speller;
-                msgName = (int)MessageType.Move;
-                condition = Condition;
-                action = Action;
-            }
 
-            private bool Condition()
-            {
-                if (this.curUnit.canNotMove == true)
-                    return false;
-                else
-                    return true;
-            }
+        //Trigger triggerMove;
+        //Trigger triggerAFMove;
+        //private void Start()
+        //{
+        //    //创建Trigger实例
+        //    triggerMove = new TMoveStrike(GetComponent<GameUnit>().GetMsgReceiver(), this);
+        //    triggerAFMove = new TAFMoveStrike(GetComponent<GameUnit>().GetMsgReceiver(), this);
+        //    //注册Trigger进消息中心
+        //    MsgDispatcher.RegisterMsg(triggerMove, "Move");
+        //    MsgDispatcher.RegisterMsg(triggerAFMove, "AFMove");
+        //}
 
-            private void Action()
-            {
-                //处理单位移动消息
+        #region 弃用
+        //public class TMoveStrike : Trigger
+        //{
+        //    GameUnit curUnit;
+        //    public TMoveStrike(MsgReceiver _speller,GameUnit gameUnit)
+        //    {
+        //        curUnit = gameUnit;
+        //        register = _speller;
+        //        msgName = (int)MessageType.Move;
+        //        condition = Condition;
+        //        action = Action;
+        //    }
 
-            }
-        }
+        //    private bool Condition()
+        //    {
+        //        if (this.curUnit.canNotMove == true)
+        //            return false;
+        //        else
+        //            return true;
+        //    }
 
-        
-        public class TAFMoveStrike : Trigger
-        {
-            GameUnit curUnit;
-            public TAFMoveStrike(MsgReceiver _speller,GameUnit gameUnit)
-            {
-                curUnit = gameUnit;
-                register = _speller;
-                msgName = (int)MessageType.Aftermove;
-                condition = Condition;
-                action = Action;
-            }
+        //    private void Action()
+        //    {
+        //        //处理单位移动消息
 
-            private bool Condition()
-            {
-                return true;
-            }
+        //    }
+        //}
 
-            private void Action()
-            {
-                //处理单位移动后消息
 
-            }
-        }
+        //public class TAFMoveStrike : Trigger
+        //{
+        //    GameUnit curUnit;
+        //    public TAFMoveStrike(MsgReceiver _speller,GameUnit gameUnit)
+        //    {
+        //        curUnit = gameUnit;
+        //        register = _speller;
+        //        msgName = (int)MessageType.Aftermove;
+        //        condition = Condition;
+        //        action = Action;
+        //    }
+
+        //    private bool Condition()
+        //    {
+        //        return true;
+        //    }
+
+        //    private void Action()
+        //    {
+        //        //处理单位移动后消息
+
+        //    }
+        //}
+        #endregion
 
         /// <summary>
         /// 判断单位有无死亡
