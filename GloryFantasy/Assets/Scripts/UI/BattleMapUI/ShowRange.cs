@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 using Unit = GameUnit.GameUnit;
 
@@ -14,10 +14,10 @@ namespace GameGUI
         public Unit BeforeUnit { get; set; }
        
         /// <summary>
-        /// ·µ»Øµ¥Î»¹¥»÷»òÒÆ¶¯·¶Î§ÄÚµØÍ¼¿ìµÄËùÓĞ×ø±ê
+        /// è¿”å›å•ä½æ”»å‡»æˆ–ç§»åŠ¨èŒƒå›´å†…åœ°å›¾å¿«çš„æ‰€æœ‰åæ ‡
         /// </summary>
-        /// <param name="position">µ¥Î»×ø±ê</param>
-        /// <param name="ManhattanDistance">·¶Î§</param>
+        /// <param name="position">å•ä½åæ ‡</param>
+        /// <param name="ManhattanDistance">èŒƒå›´</param>
         /// <returns></returns>
         private List<Vector2> GetPositionsWithinCertainMd(Vector2 position, int ManhattanDistance)
         {
@@ -36,7 +36,7 @@ namespace GameGUI
             return reslist;
         }
 
-        //forµ¥Î»µÄÒÆ¶¯»ò¹¥»÷·¶Î§
+        //forå•ä½çš„ç§»åŠ¨æˆ–æ”»å‡»èŒƒå›´
         private void RecrusiveBody(int x, int y, int leftManhattanDistance, List<Vector2> reslist)
         {
             int columns = BattleMap.BattleMap.Instance().Columns;
@@ -51,7 +51,7 @@ namespace GameGUI
             RecrusiveBody(x, y - 1, leftManhattanDistance - 1, reslist);
         }
 
-        //forµ¥Î»µÄ¼¼ÄÜ·¶Î§
+        //forå•ä½çš„æŠ€èƒ½èŒƒå›´
         private void RecrusiveBody2(int x, int y, int range, List<Vector2> reslist)
         {
             int columns = BattleMap.BattleMap.Instance().Columns;
@@ -72,12 +72,12 @@ namespace GameGUI
 
 
         /// <summary>
-        /// ÒÆ³ıµØÍ¼¿éÉÏÓĞµ¥Î»µÄµØÍ¼¿é
+        /// ç§»é™¤åœ°å›¾å—ä¸Šæœ‰å•ä½çš„åœ°å›¾å—
         /// </summary>
         /// <param name="reslist"></param>
         private void RemoveMapBlokHasUnit(List<Vector2> reslist)
         {
-            //ÒÆ³ıÖØ¸´µÄÔªËØ
+            //ç§»é™¤é‡å¤çš„å…ƒç´ 
             for (int i = 0; i < reslist.Count; i++)
             {
                 for (int j = reslist.Count - 1; j > i; j--)
@@ -105,7 +105,7 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// »ñÈ¡Òò¿¨Î»²»ÄÜµ½´ïµÄµØÍ¼¿éµÄ×ø±ê
+        /// è·å–å› å¡ä½ä¸èƒ½åˆ°è¾¾çš„åœ°å›¾å—çš„åæ ‡
         /// </summary>
         /// <param name="starPos"></param>
         /// <param name="vector2s"></param>
@@ -124,7 +124,7 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// »ñÈ¡µ¥Î»¼¼ÄÜ·¶Î§ÄÚµÄËùÓĞµØÍ¼¿é×ø±ê
+        /// è·å–å•ä½æŠ€èƒ½èŒƒå›´å†…çš„æ‰€æœ‰åœ°å›¾å—åæ ‡
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -162,7 +162,7 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// µÃµ½Ö®Ç°È¾É«µÄµ¥Î»£¬ÒÔ·Àµ¥Î»×ø±ê¸Ä±ä»òËÀÍöºóµ¥Î»¿ÕÖ¸Õë
+        /// å¾—åˆ°ä¹‹å‰æŸ“è‰²çš„å•ä½ï¼Œä»¥é˜²å•ä½åæ ‡æ”¹å˜æˆ–æ­»äº¡åå•ä½ç©ºæŒ‡é’ˆ
         /// </summary>
         /// <param name="unit"></param>
         /// <returns></returns>
@@ -177,10 +177,10 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// ·µ»Ø¼¼ÄÜ·¶Î§ÄÚµÄËùÓĞµØÍ¼¿ìµÄ×ø±êµÄÁĞ±í
+        /// è¿”å›æŠ€èƒ½èŒƒå›´å†…çš„æ‰€æœ‰åœ°å›¾å¿«çš„åæ ‡çš„åˆ—è¡¨
         /// </summary>
-        /// <param name="position">ÖĞĞÄ×ø±ê</param>
-        /// <param name="range">·¶Î§£¨1-6£©</param>
+        /// <param name="position">ä¸­å¿ƒåæ ‡</param>
+        /// <param name="range">èŒƒå›´ï¼ˆ1-6ï¼‰</param>
         /// <returns></returns>
         public List<Vector2> GetSkillRnage(Vector2 position, int range)
         {
@@ -190,9 +190,9 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// ¸ßÁÁµ¥Î»ÒÆ¶¯·¶Î§
+        /// é«˜äº®å•ä½ç§»åŠ¨èŒƒå›´
         /// </summary>
-        /// <param name="target">µ¥Î»×ø±ê</param>
+        /// <param name="target">å•ä½åæ ‡</param>
         public void MarkMoveRange(Vector2 target, Unit unit)
         {
             unitMove = true;
@@ -206,9 +206,9 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// ¸ßÁÁµ¥Î»¹¥»÷·¶Î§
+        /// é«˜äº®å•ä½æ”»å‡»èŒƒå›´
         /// </summary>
-        /// <param name="target">µ¥Î»×ø±ê</param>
+        /// <param name="target">å•ä½åæ ‡</param>
         public void MarkAttackRange(Vector2 target,Unit unit)
         {
             SetBeforeUnit(unit);
@@ -217,7 +217,7 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// È¡Ïûµ¥Î»ÒÆ¶¯·¶Î§¸ßÁÁ
+        /// å–æ¶ˆå•ä½ç§»åŠ¨èŒƒå›´é«˜äº®
         /// </summary>
         /// <param name="target"></param>
         public void CancleMoveRangeMark(Vector2 target)
@@ -229,7 +229,7 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// È¡Ïûµ¥Î»¹¥»÷·¶Î§¸ßÁÁ
+        /// å–æ¶ˆå•ä½æ”»å‡»èŒƒå›´é«˜äº®
         /// </summary>
         /// <param name="target"></param>
         public void CancleAttackRangeMark(Vector2 target)
@@ -240,10 +240,10 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// ¸ßÁÁ¼¼ÄÜ·¶Î§
+        /// é«˜äº®æŠ€èƒ½èŒƒå›´
         /// </summary>
-        /// <param name="target">µ¥Î»×ø±ê</param>
-        /// <param name="range">¼¼ÄÜ·¶Î§£¨·¶Î§µÈ¼¶£¨1-6£©£©</param>
+        /// <param name="target">å•ä½åæ ‡</param>
+        /// <param name="range">æŠ€èƒ½èŒƒå›´ï¼ˆèŒƒå›´ç­‰çº§ï¼ˆ1-6ï¼‰ï¼‰</param>
         public void MarkSkillRange(Vector2 target, int range)
         {
             BattleMap.BattleMap.Instance().ColorMapBlocks(
@@ -251,10 +251,10 @@ namespace GameGUI
         }
 
         /// <summary>
-        /// È¡Ïû¼¼ÄÜ·¶Î§¸ßÁÁ
+        /// å–æ¶ˆæŠ€èƒ½èŒƒå›´é«˜äº®
         /// </summary>
-        /// <param name="target">µ¥Î»×ø±ê</param>
-        /// <param name="range">¼¼ÄÜ·¶Î§£¨·¶Î§µÈ¼¶£¨1-6£©£©</param>
+        /// <param name="target">å•ä½åæ ‡</param>
+        /// <param name="range">æŠ€èƒ½èŒƒå›´ï¼ˆèŒƒå›´ç­‰çº§ï¼ˆ1-6ï¼‰ï¼‰</param>
         public void CancleSkillRangeMark(Vector2 target,int range)
         {
             BattleMap.BattleMap.Instance().ColorMapBlocks(

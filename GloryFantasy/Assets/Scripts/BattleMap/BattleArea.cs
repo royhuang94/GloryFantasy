@@ -1,10 +1,7 @@
 ﻿using IMessage;
-using LitJson;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using IMessage;
 
 /// <summary>
 /// 战区
@@ -44,7 +41,7 @@ namespace BattleMap
 
         public T GetUnit<T>() where T : MonoBehaviour
         {
-            throw new System.NotImplementedException();
+            return this as T;
         }
 
         public class BattleAreaTrigger : Trigger
@@ -154,14 +151,14 @@ namespace BattleMap
         //
         public void InitBattleArea()
         {
+            Debug.Log("fdsaf");
             foreach(int id in battleAreaDic.Keys)
             {
                 List<Vector2> list = null;
                 battleAreaDic.TryGetValue(id, out list);
                 string[] trrigers = null;
-                trrigers = GamePlay.Encounter.EncouterData.Instance().GetEncounterByRegionID(id); 
-                if(trrigers == null) {
-}
+                trrigers = GamePlay.Encounter.EncouterData.Instance().GetEncounterByRegionID(id);
+                Debug.Log("fdaf");
                 BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list,trrigers);
                 battleAreas.Add(id, battleArea);
             }

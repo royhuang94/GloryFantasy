@@ -114,12 +114,12 @@ namespace BattleMap
         {
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter();
+            //初始战区状态；
+            battleAreaData.InitBattleArea();
             //初始化地图
             InitAndInstantiateMapBlocks();
             //初始战区事件
-            EncouterData.Instance().InitBattleFieldEvent("Forest_Shadow_1");//TODO等待对接
-            //初始战区状态；
-            battleAreaData.InitBattleArea();
+            EncouterData.Instance().InitBattleFieldEvent("Forest_Shadow_1");//TODO等待对接  
         }
 
         //初始化地图的地址
@@ -184,7 +184,7 @@ namespace BattleMap
             this.columns = nstrs[0].Length;
             battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
             _mapBlocks = new BattleMapBlock[columns, rows];
-            GameObject instance = new GameObject();
+            GameObject instance = null;
             battleAreaData.GetAreas(nstrs);//存储战区id;
             //实例地图块
             for (int y = 0; y < nstrs.Length; y++)
@@ -222,7 +222,7 @@ namespace BattleMap
         public GameObject SetMapBlockType(int type,int x,int y)
         {
             //TODO添加跟多类型地格
-            GameObject instance = new GameObject();
+            GameObject instance = null;
             switch (type)
             {
                 case 1://平地
