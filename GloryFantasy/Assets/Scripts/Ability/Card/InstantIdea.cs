@@ -61,7 +61,7 @@ namespace Ability
             List<string> exCardId = CardManager.Instance().unitsExSkillCardDataBase[unit.id];
             foreach (string id in exCardId)
             {
-                CardManager.Instance().ArrangeExSkillCard(id, unit.gameObject.GetInstanceID());
+                CardManager.Instance().ArrangeExSkillCard(id, unit.gameObject.GetInstanceID(), true);
             }
         }
     }

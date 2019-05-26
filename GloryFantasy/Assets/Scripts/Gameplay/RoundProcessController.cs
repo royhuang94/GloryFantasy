@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GamePlay.Event;
 using IMessage;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ namespace GamePlay.Round
             State = RoundState.RestoreApPhase;
             // 初始化状态后手动调用以进行当前状态的工作
             EnteringCurrentState();
+            
+            
         }
 
         /// <summary>
@@ -106,7 +109,7 @@ namespace GamePlay.Round
         }
 
         public virtual void HandleInput(RoundProcessController roundProcessController, RoundInput input) { }
-        public void Update(RoundProcessController roundProcessController) { }
+        public virtual void Update(RoundProcessController roundProcessController) { }
         public virtual void Enter(RoundProcessController roundProcessController) { }
         public virtual void Exit(RoundProcessController roundProcessController) { }
         public virtual void NextState(RoundProcessController roundProcessController)
@@ -139,7 +142,7 @@ namespace GamePlay.Round
 
         public override void Enter(RoundProcessController roundProcessController)
         {
-            base.NextState(roundProcessController);
+            base.Enter(roundProcessController);
             // 发送更新资源点消息
             MsgDispatcher.SendMsg((int)MessageType.UpdateSource);
         }
@@ -158,12 +161,15 @@ namespace GamePlay.Round
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
-            roundProcessController.State = RoundState.ExtractCardsPhase;
+            roundProcessController.State = ExtractCardsPhase;
+            roundProcessController.State.Enter(roundProcessController);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
         {
             base.Enter(roundProcessController);
+            // 回合开始就处理事件轴内任务
+            Gameplay.Instance().eventScroll.ProcessFirstEventModule();
             MsgDispatcher.SendMsg((int)MessageType.BP);
         }
 
@@ -206,6 +212,7 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.mainPhase;
+            roundProcessController.State.Enter(roundProcessController);
         }
 
         public override void Enter(RoundProcessController roundProcessController)

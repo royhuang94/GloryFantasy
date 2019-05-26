@@ -19,6 +19,7 @@ namespace GameCard
         #region 变量
         // 空物体的引用
         public GameObject emptyObject;
+        public GameObject cardInstanceHolder;
         public int cardsUpperLimit;                   // 手牌数量上限
         public int extractCardsUpperLimit;            // 抽牌数量上限
         public bool cancelCheck;                      // 是否取消抽卡检查，在本行注释存在的情况下请不要修改值
@@ -157,8 +158,8 @@ namespace GameCard
         /// </summary>
         /// <param name="cardId">要加入的卡牌的Id</param>
         /// <param name="instanceId">战技牌挂载的单位实例id</param>
-        /// <param name="intoHandCard">加入手牌还是牌库</param>
-        public void ArrangeExSkillCard(string cardId, int instanceId, bool intoHandCard = true)
+        /// <param name="intoHandCard">加入手牌还是牌库,为true则加入手牌否则进入牌库</param>
+        public void ArrangeExSkillCard(string cardId, int instanceId, bool intoHandCard = false)
         {
             // 重新组装字符串
             cardId = cardId + "#" + instanceId;
@@ -659,6 +660,7 @@ namespace GameCard
         {
             // 实例化卡牌到不可见区域，并绑定脚本再初始化
             GameObject cardInstance = Instantiate(emptyObject);
+            cardInstance.transform.SetParent(cardInstanceHolder.transform);
             
             // 更新手牌list
             _handcards.Add(cardId);

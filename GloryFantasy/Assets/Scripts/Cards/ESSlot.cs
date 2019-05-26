@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Ability;
+using IMessage;
 using UnityEngine;
 
 namespace GameCard
@@ -11,7 +13,7 @@ namespace GameCard
         public List<string> ExSkillCards { get { return _exSkillCardsList; } }
 
 
-        public void Start()
+        public void Awake()
         {
             _exSkillCardsList = new List<string>();
             
@@ -21,11 +23,21 @@ namespace GameCard
             {
                 InsertESCard(exSkillCardId);
             }
+        }
+
+
+        public void Start()
+        {
+            // 如果有活绪的战技，就不执行放入牌库操作了，由QuickArt代为执行
+            if (gameObject.GetComponent<QuickArk>() != null)
+            {
+                return;
+            }
 
             // TODO： 这只是DEMO中使用，直接把所有的战技牌放入手牌中
             for (int i = _exSkillCardsList.Count - 1; i >= 0; i--)
             {
-                SettleESCard(i, true);
+                SettleESCard(i, false);
             }
         }
 
