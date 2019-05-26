@@ -13,9 +13,10 @@ namespace Ability
         private void Awake()
         {
             InitialAbility("QuickArk");
-            //_trigger = new TQuickArk(this.GetCardReceiver(this), gameObject);
             _trigger = new TQuickArk(this.GetUnitReceiver(this), gameObject);
             MsgDispatcher.RegisterMsg(_trigger, "QuickArk");
+            //_trigger = new TQuickArk(this.GetCardReceiver(this), gameObject);
+            
         }
 
 //        private void Start()

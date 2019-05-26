@@ -13,7 +13,7 @@ namespace GameCard
         public List<string> ExSkillCards { get { return _exSkillCardsList; } }
 
 
-        public void Start()
+        public void Awake()
         {
             _exSkillCardsList = new List<string>();
             
@@ -23,7 +23,11 @@ namespace GameCard
             {
                 InsertESCard(exSkillCardId);
             }
+        }
 
+
+        public void Start()
+        {
             // 如果有活绪的战技，就不执行放入牌库操作了，由QuickArt代为执行
             if (gameObject.GetComponent<QuickArk>() != null)
             {
