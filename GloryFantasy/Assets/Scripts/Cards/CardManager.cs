@@ -157,8 +157,8 @@ namespace GameCard
         /// </summary>
         /// <param name="cardId">要加入的卡牌的Id</param>
         /// <param name="instanceId">战技牌挂载的单位实例id</param>
-        /// <param name="intoHandCard">加入手牌还是牌库</param>
-        public void ArrangeExSkillCard(string cardId, int instanceId, bool intoHandCard = true)
+        /// <param name="intoHandCard">加入手牌还是牌库,为true则加入手牌否则进入牌库</param>
+        public void ArrangeExSkillCard(string cardId, int instanceId, bool intoHandCard = false)
         {
             // 重新组装字符串
             cardId = cardId + "#" + instanceId;
