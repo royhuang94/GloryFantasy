@@ -19,6 +19,7 @@ namespace GameCard
         #region 变量
         // 空物体的引用
         public GameObject emptyObject;
+        public GameObject cardInstanceHolder;
         public int cardsUpperLimit;                   // 手牌数量上限
         public int extractCardsUpperLimit;            // 抽牌数量上限
         public bool cancelCheck;                      // 是否取消抽卡检查，在本行注释存在的情况下请不要修改值
@@ -659,6 +660,7 @@ namespace GameCard
         {
             // 实例化卡牌到不可见区域，并绑定脚本再初始化
             GameObject cardInstance = Instantiate(emptyObject);
+            cardInstance.transform.SetParent(cardInstanceHolder.transform);
             
             // 更新手牌list
             _handcards.Add(cardId);
