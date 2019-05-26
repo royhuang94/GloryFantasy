@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using GameCard;
-using UnityEngine;
-
 using IMessage;
 using GamePlay;
 using GameUnit;
-using UnityEngine.Networking;
 
 namespace Ability
 {
@@ -59,25 +54,8 @@ namespace Ability
 
         private void Action()
         {
-            int Count = 0;
-            // 遍历冷却库
-            foreach (cdObject cooldownCard in CardManager.Instance().cooldownCards)
-            {
-                // 找到使用绑定的使用者使用过的卡牌
-                if(cooldownCard.userId.Equals(_targetId))
-                {
-                    // 减去冷却回合数
-                    cooldownCard.ReduceCd();
-                    // 抹去使用者关键字，保证不重复减去冷却回合数
-                    cooldownCard.ClearUserId();
-                    // 递增计数
-                    Count++;
-                }
-            }
-            
-            // 若有修改CD时间，发送冷却列表变动信息
-            if(Count > 0)
-                MsgDispatcher.SendMsg((int)MessageType.CooldownlistChange);
+            // 填充参数调用接口，完成指定用户使用卡牌cd减少指定回合cd功能
+            CardManager.Instance().HandleCooldownEvent(_targetId, _abilityVariable.Amount.Value);
         }
     }
 }

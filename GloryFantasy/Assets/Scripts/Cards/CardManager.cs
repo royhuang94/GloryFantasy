@@ -102,7 +102,7 @@ namespace GameCard
                 this.GetMsgReceiver(),
                 (int)MessageType.EP,
                 canDoCoolDownAction,
-                HandleCooldownEvent,
+                () => { HandleCooldownEvent(); },
                 "Cooldown cards Trigger"
             );
             
@@ -742,17 +742,44 @@ namespace GameCard
         }
 
         /// <summary>
-        /// 冷却处理函数，响应EP消息，处理卡牌冷却，根据情况产生冷却池变动消息，卡牌堆变动消息
+        /// 冷却处理函数，响应EP消息时，处理卡牌冷却，请勿手动调用除非清楚用法
+        /// 根据情况产生冷却池变动消息，卡牌堆变动消息
         /// </summary>
-        public void HandleCooldownEvent()
+        public void HandleCooldownEvent(string userId = null, int amount = 1)
         {
             List<cdObject> toRemove = new List<cdObject>();
-            for (int i = 0; i < _cooldownCards.Count; i++)
+            if (userId != null)
             {
-                int leftRounds = _cooldownCards[i].ReduceCd();
-                if (leftRounds == 0)
+                int count = 0;
+                for (int i = 0; i < _cooldownCards.Count; i++)
                 {
-                    toRemove.Add(_cooldownCards[i]);
+                    // 如果冷却卡牌的使用者为指定使用者
+                    if (_cooldownCards[i].userId.Equals(userId))
+                    {
+                        // 清除使用者信息
+                        _cooldownCards[i].ClearUserId();
+                        // 减少指定回合数
+                        if (_cooldownCards[i].ReduceCd(amount) == 0)
+                        {
+                            // 添加到待移除集合
+                            toRemove.Add(_cooldownCards[i]);
+                        }
+                        // 递增计数
+                        count++;
+                    }
+                }
+                
+                if (count == 0)
+                    amount = 0;
+            }
+            else
+            {
+                for (int i = 0; i < _cooldownCards.Count; i++)
+                {
+                    if (_cooldownCards[i].ReduceCd() == 0)
+                    {
+                        toRemove.Add(_cooldownCards[i]);
+                    }
                 }
             }
 
@@ -765,8 +792,9 @@ namespace GameCard
                 _cooldownCards.Remove(toRemove[i]);
             }
 
-            // 发送冷却池变动消息
-            MsgDispatcher.SendMsg((int)MessageType.CooldownlistChange);
+            if(amount > 0)
+                // 发送冷却池变动消息
+                MsgDispatcher.SendMsg((int)MessageType.CooldownlistChange);
             
             if (toRemove.Count > 0)
                 // 发送卡牌堆变动消息
@@ -877,9 +905,12 @@ namespace GameCard
             return _leftCd == 0;
         }
 
-        public int ReduceCd()
+        public int ReduceCd(int amount= 1)
         {
-            return --_leftCd;
+            if (_leftCd < amount)
+                _leftCd = 0;
+            else _leftCd -= amount;
+            return _leftCd;
         }
     }
 }
