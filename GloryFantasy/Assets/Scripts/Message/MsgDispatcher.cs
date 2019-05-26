@@ -10,6 +10,7 @@ namespace IMessage
     enum MessageType
     {
         UpdateSource, //？
+        RoundEnd,    // 阶段结束消息
         BP, //开始阶段
         MPBegin, //主要阶段开始
         MPEnd, //主要阶段结束
