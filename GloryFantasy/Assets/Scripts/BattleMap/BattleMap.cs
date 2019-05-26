@@ -118,6 +118,8 @@ namespace BattleMap
             InitAndInstantiateMapBlocks();
             //初始战区事件
             EncouterData.Instance().InitBattleFieldEvent("Forest_Shadow_1");//TODO等待对接
+            //初始战区状态；
+            battleAreaData.InitBattleArea();
         }
 
         //初始化地图的地址
@@ -207,9 +209,7 @@ namespace BattleMap
                     battleAreaData.StoreBattleArea(area, new Vector2(x,y));//存储战区
                 }
             }
-            UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1",_mapBlocks);//初始战斗地图上的单位
-            battleAreaData.InitBattleArea();//初始战区对象及状态；
-
+            UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1",_mapBlocks);//初始战斗地图上的单位           
         }
 
         /// <summary>

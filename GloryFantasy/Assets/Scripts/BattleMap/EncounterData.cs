@@ -47,12 +47,14 @@ namespace GamePlay.Encounter
         public int regionID;
         public Dictionary<string, int> eventDic;//战区事件，key为事件id（名字），value为权重
         public string[] buff;
+        public string[] triggers;
 
-        public BattlefieldMessage(int id, Dictionary<string, int> dic, string[] buff)
+        public BattlefieldMessage(int id, Dictionary<string, int> dic, string[] _buff,string[] _triggers)
         {
             regionID = id;
             eventDic = dic;
-            this.buff = buff;
+            buff = _buff;
+            triggers = _triggers;
         }
     }
 
@@ -100,11 +102,14 @@ namespace GamePlay.Encounter
                     int regionID = (int)battleFieldData[j]["RegionID"];
                     JsonData eventData = battleFieldData[j]["EventList"];
                     JsonData buffData = battleFieldData[j]["Buff"];
+                    JsonData triggersData = battleFieldData[j]["Trigger"];
                     Dictionary<string, int> messageDic = new Dictionary<string, int>();
                     messageDic = JsonToDictionary(eventData);
                     string[] buff = null;
+                    string[] triggers = null;
                     buff = JsonToArray(buffData);
-                    battlefieldMessage = new BattlefieldMessage(regionID, messageDic, buff);
+                    triggers = JsonToArray(triggersData);
+                    battlefieldMessage = new BattlefieldMessage(regionID, messageDic, buff,triggers);
                     encounter.battleFieldMessageList.Add(battlefieldMessage);
                 }
 
@@ -163,6 +168,29 @@ namespace GamePlay.Encounter
             return _event;
         }
 
+        /// <summary>
+        /// 通过战区id获取战区里的trigger
+        /// </summary>
+        /// <param name="regionID"></param>
+        /// <returns></returns>
+        public string[] GetEncounterByRegionID(int regionID)
+        {
+            Encounter encounter = null;
+            string[] triggers = null;
+            _encounterData.TryGetValue("Forest_Shadow_1", out encounter);
+            for(int i =0;i<encounter.battleFieldMessageList.Count;i++)
+            {
+                BattlefieldMessage battlefieldMessage = encounter.battleFieldMessageList[i];
+                if(regionID == battlefieldMessage.regionID)
+                {
+                    triggers = battlefieldMessage.triggers;
+                }
+            }
+            if(triggers != null)
+                return triggers;
+            return null;
+        }
+
         #region
         /// <summary>
         /// Json转字典，只支持{"a":1,"b":1,"c":1}格式,其中a为key，1为value
@@ -190,7 +218,7 @@ namespace GamePlay.Encounter
         {
             string[] array = new string[a.Count];
             string b = a.ToJson();
-            string c = b.Replace("[", "").Replace("]", "");
+            string c = b.Replace("[", "").Replace("]", "").Replace("\"", "");
             string[] d = c.Split(',');
             return d;
         }

@@ -25,17 +25,19 @@ namespace BattleMap
         private int _battleAreaID;//战区id
         private BattleAreaSate _battleAreaSate;//战区状态
         private List<Vector2> _battleArea;//该战区上的所有地图块坐标
+        private string[] _TID;//该战区的triggerID
 
         Trigger trigger;
 
-        public BattleArea(int battleAreaID,BattleAreaSate battleAreaSate, List<Vector2> battleArea)
+        public BattleArea(int battleAreaID,BattleAreaSate battleAreaSate, List<Vector2> battleArea,string[] tid)
         {
             _battleAreaID = battleAreaID;
             _battleArea = battleArea;
             _battleAreaSate = battleAreaSate;
+            _TID = tid;
 
             //创建Trigger实例
-            trigger = new BattleAreaTrigger(this.GetMsgReceiver(), this._battleAreaID);
+            trigger = new BattleAreaTrigger(this.GetMsgReceiver(), this._battleAreaID,tid);
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(trigger, "BattleState");
         }
@@ -47,16 +49,18 @@ namespace BattleMap
 
         public class BattleAreaTrigger : Trigger
         {
-            int id;
-            public BattleAreaTrigger(MsgReceiver speller,int _id)
+            int id;//战区id
+            string[] trrigerIDs;
+            public BattleAreaTrigger(MsgReceiver speller,int _id,string[] _trrigerIDs)
             {
                 register = speller;
                 //初始化响应时点,为战区状态改变
-                msgName = (int)MessageType.BattleSate;//
+                msgName = (int)MessageType.BattleSate;
                 //初始化条件函数和行为函数
                 condition = Condition;
                 action = Action;
                 id = _id;
+                trrigerIDs = _trrigerIDs;
             }
 
             private bool Condition()
@@ -81,16 +85,20 @@ namespace BattleMap
                     }                   
                     Debug.Log(string.Format("战区：{0}，当前状态：{1}",id,battleArea._battleAreaSate));
 
-                    //占领特定id的战区胜利或失败宣告
-                    //TODO 获取那个特定id
-                    int testID = 1;//测试
-                    if(this.id == testID && battleArea._battleAreaSate == BattleAreaSate.Player)
+                    if(trrigerIDs != null)
                     {
-                        Debug.Log("you win");
-                    }else if(this.id == testID && battleArea._battleAreaSate == BattleAreaSate.Enmey)
-                    {
-                        Debug.Log("you lose");
-                    }
+                        for (int i = 0; i < trrigerIDs.Length; i++)
+                        {
+                            if (trrigerIDs[i] == "MainBF_Friendly" && battleArea._battleAreaSate == BattleAreaSate.Player)
+                            {
+                                Debug.Log("you win");
+                            }
+                            else if (trrigerIDs[i] == "MainBF_Enemy" && battleArea._battleAreaSate == BattleAreaSate.Enmey)
+                            {
+                                Debug.Log("you lose");
+                            }
+                        }
+                    }   
                 }
             }
         }
@@ -98,10 +106,11 @@ namespace BattleMap
 
     public class BattleAreaData
     {
+        #region
         private List<int> areas = new List<int>();
         private Dictionary<int, List<Vector2>> battleAreaDic = new Dictionary<int, List<Vector2>>();//战区id与战区相对应的字典
         public Dictionary<int, List<Vector2>> BattleAreaDic { get { return battleAreaDic; } }
-
+        #endregion
         public Dictionary<int, BattleArea> battleAreas = new Dictionary<int, BattleArea>();//存储的所有战区的id和对应的战区对象，尽量用这个，不用上面旧的那个
 
         //获取地图块所属战区
@@ -149,7 +158,11 @@ namespace BattleMap
             {
                 List<Vector2> list = null;
                 battleAreaDic.TryGetValue(id, out list);
-                BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list);
+                string[] trrigers = null;
+                trrigers = GamePlay.Encounter.EncouterData.Instance().GetEncounterByRegionID(id); 
+                if(trrigers == null) {
+}
+                BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list,trrigers);
                 battleAreas.Add(id, battleArea);
             }
         }
@@ -185,7 +198,7 @@ namespace BattleMap
             }
         }
 
-        //战斗胜利条件之一：战区所属权
+        //战区所属权
         public BattleAreaSate WarZoneBelong(int area)
         {
             int unitAmout = 0;//战区上单位的数量
