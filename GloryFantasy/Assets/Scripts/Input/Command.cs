@@ -40,6 +40,7 @@ namespace GamePlay.Input
         {
             //更新本此召唤的怪物（覆盖方式）
             this.SetSummonUnit(_units);
+            MsgDispatcher.SendMsg((int)MessageType.Summon);
 
             //更新仇恨列表
             Gameplay.Instance().autoController.UpdateAllHatredList(null, _units);
