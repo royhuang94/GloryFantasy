@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using LitJson;
 using GamePlay.Event;
+using EventModel = GamePlay.Event.EventModule.EventWithWeight;
 
 
 namespace GamePlay.Encounter
@@ -62,7 +63,7 @@ namespace GamePlay.Encounter
     {
         public string EncounterPath = "/Scripts/BattleMap/BattleMapData/encounter.json";//遭遇事件文件路径
         public Dictionary<string, Encounter> _encounterData;//遭遇对象
-        public Dictionary<int,Event.EventModule.EventWithWeight> events = new Dictionary<int, EventModule.EventWithWeight>();//战区里的事件
+        public Dictionary<int, List<EventModel>> battleAreaEventsDic = new Dictionary<int, List<EventModel>>();//遭遇中文件中战区事件
         
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace GamePlay.Encounter
         }
 
         /// <summary>
-        /// 初始遭遇中的战区事件
+        /// 读取遭遇中的战区事件,
         /// </summary>
         /// <param name="encounterID">遭遇id</param>
         public void InitBattleFieldEvent(string encounterID)
@@ -142,15 +143,15 @@ namespace GamePlay.Encounter
                 
                 BattlefieldMessage battlefieldMessage = battlefieldMessages[i];
                 int reginID = battlefieldMessage.regionID;
-
-
+                List<EventModel> eventModes = new List<EventModel>();
                 foreach (string eventID in battlefieldMessage.eventDic.Keys)
                 {
                     int weight = 0;
                     battlefieldMessage.eventDic.TryGetValue(eventID, out weight);
-                    Event.EventModule.EventWithWeight _event = new EventModule.EventWithWeight(eventID, weight);
-                    events.Add(reginID, _event);
+                    EventModel _eventModel = new EventModel(eventID, weight);
+                    eventModes.Add(_eventModel);                   
                 }
+                battleAreaEventsDic.Add(reginID, eventModes);
             }
             
         }
@@ -159,11 +160,19 @@ namespace GamePlay.Encounter
         /// 通过战区id获取战区里的事件Model
         /// </summary>
         /// <param name="regionID"></param>
-        public Event.EventModule.EventWithWeight GetBattleFieldEvent(int regionID)
+        public List<EventModel> GetBattleFieldEvent(int regionID)
         {
-            Event.EventModule.EventWithWeight eventModel;
-            events.TryGetValue(regionID, out eventModel);
-            return eventModel;
+            List<EventModel> models = null;
+            if (battleAreaEventsDic.ContainsKey(regionID))
+            {
+                battleAreaEventsDic.TryGetValue(regionID, out models);
+            }
+            else
+            {
+                Debug.Log(string.Format("战区{0}：该战区没有事件",regionID));
+                return null;
+            }
+            return models;
         }
 
         /// <summary>
@@ -171,7 +180,7 @@ namespace GamePlay.Encounter
         /// </summary>
         /// <param name="regionID"></param>
         /// <returns></returns>
-        public string[] GetEncounterByRegionID(int regionID)
+        public string[] GetBattleAreaTriggerByRegionID(int regionID)
         {
             Encounter encounter = null;
             string[] triggers = null;
