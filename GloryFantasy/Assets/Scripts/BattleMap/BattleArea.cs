@@ -151,14 +151,12 @@ namespace BattleMap
         //
         public void InitBattleArea()
         {
-            Debug.Log("fdsaf");
             foreach(int id in battleAreaDic.Keys)
             {
                 List<Vector2> list = null;
                 battleAreaDic.TryGetValue(id, out list);
                 string[] trrigers = null;
                 trrigers = GamePlay.Encounter.EncouterData.Instance().GetEncounterByRegionID(id);
-                Debug.Log("fdaf");
                 BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list,trrigers);
                 battleAreas.Add(id, battleArea);
             }
@@ -302,6 +300,18 @@ namespace BattleMap
                 }
             }
             return -1;//都还没进入指定战区
+        }
+
+        /// <summary>
+        /// 通过战区id获取该战区对象
+        /// </summary>
+        /// <param name="reginID"></param>
+        /// <returns></returns>
+        public BattleArea GetBattleAreaByID(int reginID)
+        {
+            BattleArea battleArea = null;
+            battleAreas.TryGetValue(reginID, out battleArea);
+            return battleArea;
         }
     }
 }

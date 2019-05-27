@@ -62,7 +62,7 @@ namespace GamePlay.Encounter
     {
         public string EncounterPath = "/Scripts/BattleMap/BattleMapData/encounter.json";//遭遇事件文件路径
         public Dictionary<string, Encounter> _encounterData;//遭遇对象
-        public Dictionary<int,Event.Event> events = new Dictionary<int,Event.Event>();//战区里的事件
+        public Dictionary<int,Event.EventModule.EventWithWeight> events = new Dictionary<int, EventModule.EventWithWeight>();//战区里的事件
         
 
         /// <summary>
@@ -139,33 +139,31 @@ namespace GamePlay.Encounter
             List<BattlefieldMessage> battlefieldMessages = encounter.battleFieldMessageList;
             for(int i = 0; i < battlefieldMessages.Count; i++)
             {
+                
                 BattlefieldMessage battlefieldMessage = battlefieldMessages[i];
-                Event.Event _event = new Event.Event();
-                foreach(string eventID in battlefieldMessage.eventDic.Keys)
+                int reginID = battlefieldMessage.regionID;
+
+
+                foreach (string eventID in battlefieldMessage.eventDic.Keys)
                 {
-                    if (eventID == "Empty")
-                    {
-                        events.Add(battlefieldMessage.regionID,null);//不触发事件
-                    }
-                    else if(_event.source_type == "战区")
-                    {
-                        EventDataBase.Instance().GetEventProperty(eventID, _event);
-                        events.Add(battlefieldMessage.regionID,_event);
-                    }     
+                    int weight = 0;
+                    battlefieldMessage.eventDic.TryGetValue(eventID, out weight);
+                    Event.EventModule.EventWithWeight _event = new EventModule.EventWithWeight(eventID, weight);
+                    events.Add(reginID, _event);
                 }
             }
             
         }
 
         /// <summary>
-        /// 通过战区id获取战区里的事件
+        /// 通过战区id获取战区里的事件Model
         /// </summary>
         /// <param name="regionID"></param>
-        public Event.Event GetBattleFieldEvent(int regionID)
+        public Event.EventModule.EventWithWeight GetBattleFieldEvent(int regionID)
         {
-            Event.Event _event = null;
-            events.TryGetValue(regionID, out _event);
-            return _event;
+            Event.EventModule.EventWithWeight eventModel;
+            events.TryGetValue(regionID, out eventModel);
+            return eventModel;
         }
 
         /// <summary>
