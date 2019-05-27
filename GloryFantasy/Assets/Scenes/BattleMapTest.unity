@@ -940,7 +940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae39d10159c0ac04180bb93ff529df3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JsonFilePath: /Scripts/EventScroll/Event.json
+  JsonFilePath: /Scripts/EventScroll/EventDataBase.json
 --- !u!1 &1423073803
 GameObject:
   m_ObjectHideFlags: 0

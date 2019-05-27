@@ -167,6 +167,13 @@ namespace BattleMap
                 List<EventModule.EventWithWeight> models = EncouterData.Instance().GetBattleFieldEvent(id);
                 BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list,trrigers,models);
                 battleAreas.Add(id, battleArea);
+
+                if (battleArea._modules == null)
+                    return;
+                EventModule eventModule = new EventModule(battleArea);
+                eventModule.AddEvent(models);
+
+                GamePlay.Gameplay.Instance().eventScroll.AddEventModule(eventModule);
             }
         }
 

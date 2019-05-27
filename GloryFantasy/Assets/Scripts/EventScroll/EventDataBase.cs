@@ -39,7 +39,7 @@ namespace GamePlay.Event
         //事件表存储对象
         private Dictionary<string, EventVariable> _eventData;
         //Json文件的路径
-        public string JsonFilePath = "/Scripts/EventScroll/Event.json";
+        public string JsonFilePath = "/Scripts/EventScroll/EventDataBase.json";
 
         private void Awake()
         {
@@ -59,22 +59,28 @@ namespace GamePlay.Event
             for (int i = 0; i < abilitiesJsonData.Count; i++)
             {
                 //如果数据库里还没有这个事件的数据
-                if (!_eventData.ContainsKey(abilitiesJsonData[i]["id"].ToString()))
+                if (!_eventData.ContainsKey(abilitiesJsonData[i]["ID"].ToString()))
                 {
                     JsonData tmp = abilitiesJsonData[i];
-                    EventVariable newEvent = new EventVariable(tmp["id"].ToString());
+                    EventVariable newEvent = new EventVariable(tmp["ID"].ToString());
 
                     newEvent.amount = (int)tmp["amount"];
                     newEvent.effect = tmp["effect"].ToString();
-                    newEvent.factor = tmp["factor"].ToString();
+                    //newEvent.factor = tmp["factor"].ToString();
                     newEvent.name = tmp["name"].ToString();
                     newEvent.source_type = tmp["source_type"].ToString();
                     newEvent.strenth = (int)tmp["strenth"];
-                    newEvent.type = JsonMapper.ToObject<List<string>>(tmp["type"].ToJson());
-                    newEvent.weight = (int)tmp["weight"];
+                    //newEvent.type = JsonMapper.ToObject<List<string>>(tmp["type"].ToJson());
+                    //newEvent.weight = (int)tmp["weight"];
+                    newEvent.type = new List<string>();
+                    for (int j = 0; j < tmp["type"].Count; j++)
+                    {
+                        newEvent.type.Add(tmp["type"][j].ToString());
+                    }
+
 
                     //事件数据库中加入这个事件
-                    _eventData.Add(tmp["AbilityID"].ToString(), newEvent);
+                    _eventData.Add(tmp["ID"].ToString(), newEvent);
                 }
                 else
                 {

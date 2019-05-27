@@ -1,0 +1,413 @@
+[
+    {
+        "ID": "Bumblebee_SummonKins",
+        "amount": 0,
+        "effect": "升级来源单位同一战区的迅雷毒蜂。随后在来源单位周围部署{strenth}个迅雷毒蜂（CR 1）。",
+        "name": "召唤胞群",
+        "source_type": "单位",
+        "strenth": 1,
+        "type": [
+            "战技",
+            "增援"
+        ]
+    },
+    {
+        "ID": "Chomper_Animate",
+        "amount": 0,
+        "effect": "获得一个随机眩晕中的敌方单位的控制权并结束其眩晕状态，{strenth}回合后消解。",
+        "name": "迷乱花毒",
+        "source_type": "单位",
+        "strenth": 1,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Chomper_SummonBees",
+        "amount": 0,
+        "effect": "在来源单位周围部署{strenth}个迅雷毒蜂（CR 1）。",
+        "name": "释出蜂群",
+        "source_type": "单位",
+        "strenth": 2,
+        "type": [
+            "战技",
+            "增援"
+        ]
+    },
+    {
+        "ID": "Chomper_Swallow",
+        "amount": 0,
+        "effect": "来源单位缩入地里后移动至多6格，随后冒出将其上的单位吞噬，2回合后吐出到随机位置并对其造成2点伤害。该单位陷入晕眩，一回合后消解。",
+        "name": "吞噬",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Cou_Counter",
+        "amount": 0,
+        "effect": "玩家落败。",
+        "name": "终焉之声",
+        "source_type": "无",
+        "strenth": 0,
+        "type": [
+            "灾难"
+        ]
+    },
+    {
+        "ID": "Devil_DarkReinforce",
+        "amount": 0,
+        "effect": "在来源单位周围部署2个黑影（CR {strenth}）。",
+        "name": "渊罪行进",
+        "source_type": "单位",
+        "strenth": 2,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Devil_DashSwing",
+        "amount": 0,
+        "effect": "来源单位移动至多4格，然后对一个1格内的单位造成7点伤害并使其眩晕，2回合后消解",
+        "name": "挥击",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Devil_HerartSmash",
+        "amount": 0,
+        "effect": "玩家随机弃一张牌。",
+        "name": "心灵创击",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Devil_MarshReinforce",
+        "amount": 0,
+        "effect": "在来源单位周围部署2个深沼泥人（CR {strenth}）。",
+        "name": "邪林援护",
+        "source_type": "单位",
+        "strenth": 2,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Devil_Proliferative",
+        "amount": 0,
+        "effect": "在来源单位所在战区随机部署2个幽暗触手（CR={strenth}）",
+        "name": "增殖",
+        "source_type": "单位",
+        "strenth": 2,
+        "type": [
+            "战技",
+            "增援"
+        ]
+    },
+    {
+        "ID": "Devil_SandReinforce",
+        "amount": 0,
+        "effect": "在来源单位周围部署2个巨鄂沙蚁（CR {strenth}）。",
+        "name": "沙之恶从",
+        "source_type": "单位",
+        "strenth": 2,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Devil_Voidshock",
+        "amount": 0,
+        "effect": "来源单位对同一战区的敌方单位造成5点伤害。死页增加1。",
+        "name": "邪星爆发",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "FacelessVoid_Blink",
+        "amount": 0,
+        "effect": "来源单位获得“此单位受到的伤害减半”，一回合后消解。",
+        "name": "灵体扭曲",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Gargoyle_MurderousSand",
+        "amount": 0,
+        "effect": "来源单位所在战区的敌方单位受到{strenth}点伤害并获得滞击，2回合后消解。",
+        "name": "尘沙杀戮",
+        "source_type": "单位",
+        "strenth": 2,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Gargoyle_Upgrade",
+        "amount": 0,
+        "effect": "来源单位提升为高一级的形态（保留他受到的伤害）。",
+        "name": "战意高昂",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Hostling",
+        "amount": 0,
+        "effect": "抽一张牌。",
+        "name": "整备",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Ocu_Counter",
+        "amount": 0,
+        "effect": "敌方事件部署量+1，强度+1。",
+        "name": "灾厄涌现",
+        "source_type": "无",
+        "strenth": 0,
+        "type": [
+            "灾难"
+        ]
+    },
+    {
+        "ID": "ReinforceArcher",
+        "amount": 1,
+        "effect": "在来源战区中随机部署{amount}个弓手之影(CR {strenth})",
+        "name": "增援：弓手之影",
+        "source_type": "战区",
+        "strenth": 1,
+        "type": [
+            "增援"
+        ]
+    },
+    {
+        "ID": "ReinforceBee",
+        "amount": 2,
+        "effect": "在来源战区随机部署{amount}个迅雷毒蜂（CR {strenth}）",
+        "name": "增援：迅雷毒蜂",
+        "source_type": "战区",
+        "strenth": 1,
+        "type": [
+            "增援"
+        ]
+    },
+    {
+        "ID": "ReinforceFireant",
+        "amount": 2,
+        "effect": "在来源战区随机部署{amount}个巨颚沙蚁（CR {strenth}）",
+        "name": "增援：巨颚沙蚁",
+        "source_type": "战区",
+        "strenth": 1,
+        "type": [
+            "增援"
+        ]
+    },
+    {
+        "ID": "ReinforceWarrior",
+        "amount": 1,
+        "effect": "在来源战区中随机部署{amount}个黑影(CR {strenth})",
+        "name": "增援：黑影",
+        "source_type": "战区",
+        "strenth": 1,
+        "type": [
+            "增援"
+        ]
+    },
+    {
+        "ID": "ReinforceWolf",
+        "amount": 2,
+        "effect": "在来源战区中随机部署{amount}个狼影(CR {strenth})",
+        "name": "增援：狼影",
+        "source_type": "战区",
+        "strenth": 1,
+        "type": [
+            "增援"
+        ]
+    },
+    {
+        "ID": "Rou_Conuter",
+        "amount": 0,
+        "effect": "死页加1。",
+        "name": "智慧流失",
+        "source_type": "无",
+        "strenth": 0,
+        "type": [
+            "灾难"
+        ]
+    },
+    {
+        "ID": "Sandworm_Breath",
+        "amount": 0,
+        "effect": "来源单位移动至多4格，然后烧灼自己为出发点的4级射线区域内的地块，一回合后消解，并对其上的单位造成{strenth}点伤害。",
+        "name": "喷吐武器",
+        "source_type": "单位",
+        "strenth": 4,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Sandworm_Burrow",
+        "amount": 0,
+        "effect": "来源单位对自己身为中心的{strenth}级爆发区域内的其他单位造成2点伤害，他们获得目盲，一回合后消解。",
+        "name": "扬尘",
+        "source_type": "单位",
+        "strenth": 4,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Sandworm_Pounce",
+        "amount": 0,
+        "effect": "来源单位猛扑向离他最近的敌方单位的周围并对其造成5点伤害，随后没入沙中露出尾部。",
+        "name": "猛扑",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "ShadowKnight_ShadowOrder",
+        "amount": 0,
+        "effect": "在来源单位周围部署{strenth}个影之迅骑的复制，他们有一半最大生命值，且没有复活能力。",
+        "name": "暗影骑士团",
+        "source_type": "单位",
+        "strenth": 2,
+        "type": [
+            "战技",
+            "增援"
+        ]
+    },
+    {
+        "ID": "ShadowWarlock_Lightning",
+        "amount": 0,
+        "effect": "对4格以内一个敌方单位造成{strenth}点伤害。",
+        "name": "暗影闪电",
+        "source_type": "单位",
+        "strenth": 4,
+        "type": [
+            "战技",
+            "增援"
+        ]
+    },
+    {
+        "ID": "ShadowWarlock_Storm",
+        "amount": 0,
+        "effect": "对所有敌方单位造成{strenth}点伤害。",
+        "name": "暗影雷暴",
+        "source_type": "单位",
+        "strenth": 3,
+        "type": [
+            "战技",
+            "增援"
+        ]
+    },
+    {
+        "ID": "Crash",
+        "amount": 0,
+        "effect": "来源单位溃退。",
+        "name": "消解",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": []
+    },
+    {
+        "ID": "LastDevil_MindShock",
+        "amount": 0,
+        "effect": "玩家将其所有手牌送入冷却区冷却{strenth}回合。",
+        "name": "思绪崩毁",
+        "source_type": "单位",
+        "strenth": 2,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "LastDevil_WindsOfAbandon",
+        "amount": 0,
+        "effect": "随机使5个格子及其上的单位消失，2回合后返回。",
+        "name": "逐放之岚",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "LastDevil_WindsOfAbandon",
+        "amount": 0,
+        "effect": "清除事件轴上所有来源不为灾厄之影也非灾难的事件，随后令死页+1。",
+        "name": "命途悲叹",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            "战技"
+        ]
+    },
+    {
+        "ID": "Desert_Storm",
+        "amount": 0,
+        "effect": "此区域的单位获得目盲，一回合后消解。",
+        "name": "沙尘暴",
+        "source_type": "战区",
+        "strenth": 0,
+        "type": [
+            ""
+        ]
+    },
+    {
+        "ID": "Forest_Bless",
+        "amount": 0,
+        "effect": "此区域的单位获得4点治疗。",
+        "name": "森林祝福",
+        "source_type": "战区",
+        "strenth": 0,
+        "type": [
+            ""
+        ]
+    },
+    {
+        "ID": "Shadow_Flamenco",
+        "amount": 0,
+        "effect": "与来源单位同处一个战区的友方单位于下一回合获得额外的一次进攻机会。",
+        "name": "邪恶之影的弗拉门戈",
+        "source_type": "单位",
+        "strenth": 0,
+        "type": [
+            ""
+        ]
+    },
+    {
+        "ID": "Random_Strenthen",
+        "amount": 0,
+        "effect": "此战区的单位获得+1攻击力，一回合后消解。",
+        "name": "白热化战斗",
+        "source_type": "战区",
+        "strenth": 0,
+        "type": [
+            ""
+        ]
+    }
+]
