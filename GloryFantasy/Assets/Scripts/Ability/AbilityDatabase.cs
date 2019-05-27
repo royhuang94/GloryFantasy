@@ -12,7 +12,7 @@ namespace Ability
         //技能表存储对象
         private Dictionary<string, AbilityFormat> _abilityData;
         //Json文件的路径
-        public string JsonFilePath = "/Scripts/Ability/AbilityList.json";
+        public string JsonFilePath = "/Scripts/Ability/AbilityDatabase.json";
 
         protected static AbilityDatabase _instance = null;
 
@@ -33,7 +33,8 @@ namespace Ability
 
         private void Awake()
         {
-            InitAbilityDatabase();
+            //InitAbilityDatabase();
+            LoadAbilityData();
         }
 
         /// <summary>
@@ -43,53 +44,55 @@ namespace Ability
         {
             _abilityData = new Dictionary<string, AbilityFormat>();
             JsonData jsonData =
-                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + JsonFilePath));
+                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Ability/AbilityDatabase.json"));
 
             for (int i = 0; i < jsonData.Count; i++)
             {
                 JsonData reference = jsonData[i];
-                AbilityFormat ability = new AbilityFormat(reference["AbilityID"].ToString());
-                ability.AbilityName = reference["AbilityName"].ToString();
+                Debug.Log(reference["ID"].ToString());
+                AbilityFormat ability = new AbilityFormat(reference["ID"].ToString());
+                ability.AbilityName = reference["Name"].ToString();
                 ability.Description = reference["Description"].ToString();
                 
                 // 处理TargetList内数据解析
                 if (reference["TargetList"].Count > 0)
                 {
-                    foreach (JsonData data in reference["TargetList"])
+                    for (int k =0 ; k<reference["TargetList"].Count;k++)
                     {
                         AbilityTarget newTarget;
                         // 如果是使用者的数据
-                        if ((int) data["is_speller"] == 1)
+                        if ((int) reference["TargetList"][k]["is_speller"] == 1)
                         {
                             // 生成相应的目标类型，并加入list中
-                            newTarget = new AbilityTarget(data["type"].ToString(), true, false);
-                            if (data["color"].Count > 0)
+                            newTarget = new AbilityTarget(reference["TargetList"][k]["type"].ToString(), true, false);
+                            if (reference["TargetList"][k]["color"].Count > 0)
                             {
                                 newTarget.color = new List<string>();
-                                for (int j = 0; j < data["color"].Count; j++)
-                                    newTarget.color.Add(data["color"][j].ToString());
+                                for (int j = 0; j < reference["TargetList"][k]["color"].Count; j++)
+                                    newTarget.color.Add(reference["TargetList"][j]["color"][j].ToString());
                             }
 
-                            if (data["tag"].Count > 0)
+                            if (reference["TargetList"][k]["tag"].Count > 0)
                             {
                                 newTarget.tag = new List<string>();
-                                for (int j = 0; j < data["tag"].Count; j++)
-                                    newTarget.tag.Add(data["tag"][j].ToString());
+                                for (int j = 0; j < reference["TargetList"][j]["tag"].Count; j++)
+                                    newTarget.tag.Add(reference["TargetList"][j]["tag"][j].ToString());
                             }
                         }
                         else // 非使用者，即是目标
                         {
-                            newTarget = new AbilityTarget(data["type"].ToString(), false, true);
+                            newTarget = new AbilityTarget(reference["TargetList"][k]["type"].ToString(), false, true);
                             
-                            // 处理json数据中controller字段
-                            newTarget.SetControllerType(data["controler"].ToString());
+                            if(reference["TargetList"][k]["type"].ToString().Equals("地形"))
+                                // 处理json数据中controller字段
+                                newTarget.SetControllerType(reference["TargetList"][k]["controler"].ToString());
                         }
                         ability.AbilityTargetList.Add(newTarget);
                     }
                     
                 }
                 // 调用接口读取相应变量并存储
-                FullAbilityVariable(ability.AbilityVariable, reference);
+                FillAbilityVariable(ability.AbilityVariable, reference);
                 // 添加到字典
                 _abilityData[ability.AbilityID] = ability;
             }
@@ -154,13 +157,25 @@ namespace Ability
                 abilityVariable.Draws =  int.Parse(jsonData["Draws"].ToString());
             if (jsonData["Turns"].ToString() != "")
                 abilityVariable.Turns = int.Parse(jsonData["Turns"].ToString());
-            if (jsonData["Area"].ToString() != "")
-            {
-                string[] area = jsonData["Area"].ToString().Split('*');
-                abilityVariable.Area = new Vector2(int.Parse(area[0]), int.Parse(area[1]));
-            }
+//            if (jsonData["Area"].ToString() != "")
+//            {
+//                string[] area = jsonData["Area"].ToString().Split('*');
+//                abilityVariable.Area = new Vector2(int.Parse(area[0]), int.Parse(area[1]));
+//            }
             if (jsonData["Curing"].ToString() != "")
                 abilityVariable.Curing = int.Parse(jsonData["Curing"].ToString());
+        }
+
+
+        private void FillAbilityVariable(AbilityVariable abilityVariable, JsonData jsonData)
+        {
+            abilityVariable.Range = (int) jsonData["Range"];
+            abilityVariable.Damage = (int) jsonData["Damage"];
+            abilityVariable.Amount = (int) jsonData["Amount"];
+            abilityVariable.Draws = (int) jsonData["Draws"];
+            abilityVariable.Turns = (int) jsonData["Turns"];
+            abilityVariable.Curing = (int) jsonData["Curing"];
+            abilityVariable.Area = (int) jsonData["Area"];
         }
 
         /// <summary>
