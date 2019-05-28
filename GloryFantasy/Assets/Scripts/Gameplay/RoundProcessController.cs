@@ -98,7 +98,7 @@ namespace GamePlay.Round
 
     public class RoundState
     {
-        private int _roundCounter = 0;
+        protected int _roundCounter = 0;
 
         public int roundCounter
         {
@@ -176,6 +176,7 @@ namespace GamePlay.Round
                 }
             }
 
+            _roundCounter++;
             Gameplay.Instance().eventScroll.CreateNewEventAssembly();
             Gameplay.Instance().eventScroll.ProcessFirstEventModule();
             MsgDispatcher.SendMsg((int)MessageType.BP);
