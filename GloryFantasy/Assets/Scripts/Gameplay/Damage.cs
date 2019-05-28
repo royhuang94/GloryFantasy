@@ -131,9 +131,12 @@ namespace GamePlay
                 Gameplay.Instance().autoController.UpdateAllHatredList();
 
                 //删除对应的事件模型
-                _attackedUnit.EventModule.DeleteThisModule();
-                _attackedUnit.EventModule = null;
-                _attackedUnit.eventsInfo.Clear();
+                if (_attackedUnit.EventModule != null)
+                {
+                    _attackedUnit.EventModule.DeleteThisModule();
+                    _attackedUnit.EventModule = null;
+                    _attackedUnit.eventsInfo.Clear();
+                }
 
                 MsgDispatcher.SendMsg((int)MessageType.Kill);
                 MsgDispatcher.SendMsg((int)MessageType.Dead);
@@ -175,9 +178,12 @@ namespace GamePlay
                 Gameplay.Instance().autoController.UpdateAllHatredList();
 
                 //删除对应的事件模型
-                _attackedUnit.EventModule.DeleteThisModule();
-                _attackedUnit.EventModule = null;
-                _attackedUnit.eventsInfo.Clear();
+                if(_attackedUnit.EventModule != null)
+                {
+                    _attackedUnit.EventModule.DeleteThisModule();
+                    _attackedUnit.EventModule = null;
+                    _attackedUnit.eventsInfo.Clear();
+                }
 
                 MsgDispatcher.SendMsg((int)MessageType.Kill);
                 MsgDispatcher.SendMsg((int)MessageType.Dead);
@@ -198,11 +204,14 @@ namespace GamePlay
                 Gameplay.Instance().autoController.UpdateAllHatredList();
 
                 //删除对应的事件模型
-                _attackedUnit.EventModule.DeleteThisModule();
-                _attackedUnit.EventModule = null;
-                _attackedUnit.eventsInfo.Clear();
+                if (_attackedUnit.EventModule != null)
+                {
+                    _attackedUnit.EventModule.DeleteThisModule();
+                    _attackedUnit.EventModule = null;
+                    _attackedUnit.eventsInfo.Clear();
+                }
 
-                MsgDispatcher.SendMsg((int)MessageType.Kill);
+                MsgDispatcher.SendMsg((int)MessageType.Kill); 
                 MsgDispatcher.SendMsg((int)MessageType.Dead);
             }
             else

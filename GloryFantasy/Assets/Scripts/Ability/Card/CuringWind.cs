@@ -66,6 +66,7 @@ namespace Ability
             foreach (GameUnit.GameUnit unit in gameUnits)
             {
                 unit.hp += _curing;
+                Gameplay.Instance().gamePlayInput.UpdateHp(unit);
             }
         }
     }

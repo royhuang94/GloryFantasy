@@ -64,6 +64,18 @@ namespace GameUnit
             AddEventModule(gameUnit);
             Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
 
+            if(gameUnit.owner == OwnerEnum.Enemy)
+            {
+                AI.SingleController controller;
+                //初始化AI控制器与携带的仇恨列表
+                if (BattleMap.BattleMap.Instance().UnitsList.Count %2 != 0)
+                    controller = new AI.SingleAutoControllerAtker(gameUnit); //无脑型
+                else
+                    controller = new AI.SingleAutoControllerDefender(gameUnit);//防守型
+                controller.hatredRecorder.Reset(gameUnit);
+                GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
+            }
+
             if (gameUnit.tag.Contains("英雄"))
                 temp.AddComponent<ESSlot>();
         }
