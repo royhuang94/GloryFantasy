@@ -93,7 +93,7 @@
     {
         "ID": "GCuringwind_3",
         "ability_id": [
-            "CuringWind_3"
+            "CuringWind_2"
         ],
         "cd": 2,
         "color": "G",
@@ -110,7 +110,7 @@
     {
         "ID": "GJump_1",
         "ability_id": [
-            "Jump_1"
+            "Jump"
         ],
         "cd": 4,
         "color": "G",
@@ -127,7 +127,7 @@
     {
         "ID": "GJump_2",
         "ability_id": [
-            "Jump_2"
+            "Jump"
         ],
         "cd": 3,
         "color": "G",
@@ -144,7 +144,7 @@
     {
         "ID": "GJump_3",
         "ability_id": [
-            "Jump_3"
+            "Jump"
         ],
         "cd": 3,
         "color": "G",

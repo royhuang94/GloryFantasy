@@ -13,32 +13,39 @@ namespace Ability
     {
         Trigger trigger;
 
-        private void Awake()
-        {
-            //导入Ponder异能的参数
-            InitialAbility("Ponder");
-        }
+//        private void Awake()
+//        {
+//            //导入Ponder异能的参数
+//            InitialAbility("Ponder");
+//        }
+//
+//        private void Start()
+//        {
+//            //创建Trigger实例，传入技能的发动者
+//            trigger = new TPonder(this.GetCardReceiver(this));
+//            //注册Trigger进消息中心
+//            MsgDispatcher.RegisterMsg(trigger, "Ponder");
+//        }
 
-        private void Start()
+        public override void Init(string abilityId)
         {
-            //创建Trigger实例，传入技能的发动者
-            trigger = new TPonder(this.GetCardReceiver(this));
-            //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "Ponder");
+            base.Init(abilityId);
+            trigger = new TPonder(this.GetCardReceiver(this), AbilityVariable.Amount.Value, AbilityVariable.Draws.Value, abilityId);
+            MsgDispatcher.RegisterMsg(trigger, abilityId);
         }
     }
 
     public class TPonder : Trigger
     {
-        int Amount = 2;
-        private AbilityVariable _abilityVariable;
-
-        public TPonder(MsgReceiver speller)
+        private int _amount;
+        private int _draws;
+        private string _abilityId;
+        
+        public TPonder(MsgReceiver speller, int amount, int draws, string abilityId)
         {
-            _abilityVariable = AbilityDatabase.GetInstance().GetAbilityVariable("Ponder");
-            if (_abilityVariable == null)
-                throw new NotImplementedException();
-            
+            _amount = 2;
+            _draws = draws;
+            _abilityId = abilityId;
             register = speller;
             //初始化响应时点,为卡片使用时
             msgName = (int)MessageType.CastCard;
@@ -49,7 +56,7 @@ namespace Ability
 
         private bool Condition()
         {
-            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "WPonder_1")
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().ability_id.Contains(_abilityId))
                 return true;
             else
                 return false;
@@ -58,7 +65,7 @@ namespace Ability
         private void Action()
         {
             //TODO抽两张牌
-            CardManager.Instance().ExtractCards(_abilityVariable.Draws.Value);
+            CardManager.Instance().ExtractCards(_draws);
             //TODO选择手牌
             CardManager.Instance().selectingMode = true;
             CardManager.Instance().cb = OnSlectionOver;
@@ -70,7 +77,7 @@ namespace Ability
             CardManager.Instance().selectingMode = false;
             
             //TODO将选择的冷却两回合
-            CardManager.Instance().RemoveCardToCd(card.gameObject, 2);
+            CardManager.Instance().RemoveCardToCd(card.gameObject, _amount);
         }
     }
 }

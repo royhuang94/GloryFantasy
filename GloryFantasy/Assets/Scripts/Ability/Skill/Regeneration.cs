@@ -11,20 +11,27 @@ namespace Ability
     {
         Trigger trigger;
 
-        private void Awake()
-        {
-            //导入Regeneration异能的参数
-            InitialAbility("Regeneration");
-        }
+//        private void Awake()
+//        {
+//            //导入Regeneration异能的参数
+//            InitialAbility("Regeneration");
+//        }
+//
+//        private void Start()
+//        {
+//            //创建Trigger实例，传入技能的发动者
+//            trigger = new TRegeneration(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+//            //注册Trigger进消息中心
+//            MsgDispatcher.RegisterMsg(trigger, "Regeneration");
+//        }
 
-        private void Start()
+        public override void Init(string abilityId)
         {
-            //创建Trigger实例，传入技能的发动者
+            base.Init(abilityId);
             trigger = new TRegeneration(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(trigger, "Regeneration");
         }
-
     }
 
     public class TRegeneration : Trigger

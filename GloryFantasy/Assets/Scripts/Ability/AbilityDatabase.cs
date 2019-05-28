@@ -49,7 +49,6 @@ namespace Ability
             for (int i = 0; i < jsonData.Count; i++)
             {
                 JsonData reference = jsonData[i];
-                Debug.Log(reference["ID"].ToString());
                 AbilityFormat ability = new AbilityFormat(reference["ID"].ToString());
                 ability.AbilityName = reference["Name"].ToString();
                 ability.Description = reference["Description"].ToString();

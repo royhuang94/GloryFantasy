@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using LitJson;
 using Unit = GameUnit.GameUnit;
@@ -154,11 +155,13 @@ namespace GameUnit
                 unit.abilities.Add(unitJsonData["Ability"][i].ToString());
                 Component ability =
                     unit.gameObject.AddComponent(
-                        System.Type.GetType("Ability." + unitJsonData["Ability"][i].ToString()));
+                        System.Type.GetType("Ability." + unitJsonData["Ability"][i].ToString().Split('_').First()));
                 if (ability != null)
                 {
                     GameUtility.UtilityHelper.Log("添加异能 " + unitJsonData["Ability"][i].ToString() + " 成功",
                         GameUtility.LogColor.RED);
+                    Ability.Ability a = ability as Ability.Ability;
+                    a.Init(unitJsonData["Ability"][i].ToString());
                 }
                 else
                 {

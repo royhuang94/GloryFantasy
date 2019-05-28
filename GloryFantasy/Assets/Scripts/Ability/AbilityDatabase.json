@@ -636,11 +636,24 @@
         "Damage": 0,
         "Description": "所有的友方单位获得{Curing}点生命。",
         "Draws": 0,
-        "ID": "CuringWind",
+        "ID": "CuringWind_1",
         "Name": "治愈之风",
         "Range": 0,
         "TargetList": [],
         "Turns": 0
+    },
+    {
+    "Amount": 0,
+    "Area": 0,
+    "Curing": 7,
+    "Damage": 0,
+    "Description": "所有的友方单位获得{Curing}点生命。",
+    "Draws": 0,
+    "ID": "CuringWind_2",
+    "Name": "治愈之风",
+    "Range": 0,
+    "TargetList": [],
+    "Turns": 0
     },
     {
         "Amount": 0,
