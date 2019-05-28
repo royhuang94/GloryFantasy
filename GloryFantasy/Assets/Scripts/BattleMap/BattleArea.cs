@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GamePlay.Event;
+using GamePlay.Encounter;
 
 /// <summary>
 /// 战区
@@ -19,19 +21,21 @@ namespace BattleMap
 
     public class BattleArea : IMessage.MsgReceiver
     {
-        private int _battleAreaID;//战区id
-        private BattleAreaSate _battleAreaSate;//战区状态
-        private List<Vector2> _battleArea;//该战区上的所有地图块坐标
-        private string[] _TID;//该战区的triggerID
+        public int _battleAreaID;//战区id
+        public BattleAreaSate _battleAreaSate;//战区状态
+        public List<Vector2> _battleArea;//该战区上的所有地图块坐标
+        public string[] _TID;//该战区的triggerID
+        public List<EventModule.EventWithWeight> _modules;//该战区的事件
 
         Trigger trigger;
 
-        public BattleArea(int battleAreaID,BattleAreaSate battleAreaSate, List<Vector2> battleArea,string[] tid)
+        public BattleArea(int battleAreaID,BattleAreaSate battleAreaSate, List<Vector2> battleArea,string[] tid,List<EventModule.EventWithWeight> modules)
         {
             _battleAreaID = battleAreaID;
             _battleArea = battleArea;
             _battleAreaSate = battleAreaSate;
             _TID = tid;
+            _modules = modules;
 
             //创建Trigger实例
             trigger = new BattleAreaTrigger(this.GetMsgReceiver(), this._battleAreaID,tid);
@@ -108,7 +112,7 @@ namespace BattleMap
         private Dictionary<int, List<Vector2>> battleAreaDic = new Dictionary<int, List<Vector2>>();//战区id与战区相对应的字典
         public Dictionary<int, List<Vector2>> BattleAreaDic { get { return battleAreaDic; } }
         #endregion
-        public Dictionary<int, BattleArea> battleAreas = new Dictionary<int, BattleArea>();//存储的所有战区的id和对应的战区对象，尽量用这个，不用上面旧的那个
+        public Dictionary<int, BattleArea> battleAreas;//存储的所有战区的id和对应的战区对象，尽量用这个，不用上面旧的那个
 
         //获取地图块所属战区
         public void GetAreas(string[][] nstrs)
@@ -148,17 +152,28 @@ namespace BattleMap
             battleAreaDic[area].Add(mapPos);
         }
 
-        //
+        /// <summary>
+        /// 初始战区对象
+        /// </summary>
         public void InitBattleArea()
         {
-            foreach(int id in battleAreaDic.Keys)
+            battleAreas = new Dictionary<int, BattleArea>();
+            foreach (int id in battleAreaDic.Keys)
             {
                 List<Vector2> list = null;
                 battleAreaDic.TryGetValue(id, out list);
                 string[] trrigers = null;
-                trrigers = GamePlay.Encounter.EncouterData.Instance().GetEncounterByRegionID(id);
-                BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list,trrigers);
+                trrigers = GamePlay.Encounter.EncouterData.Instance().GetBattleAreaTriggerByRegionID(id);
+                List<EventModule.EventWithWeight> models = EncouterData.Instance().GetBattleFieldEvent(id);
+                BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list,trrigers,models);
                 battleAreas.Add(id, battleArea);
+
+                if (battleArea._modules == null)
+                    return;
+                EventModule eventModule = new EventModule(battleArea);
+                eventModule.AddEvent(models);
+
+                GamePlay.Gameplay.Instance().eventScroll.AddEventModule(eventModule);
             }
         }
 
@@ -309,8 +324,17 @@ namespace BattleMap
         /// <returns></returns>
         public BattleArea GetBattleAreaByID(int reginID)
         {
-            BattleArea battleArea = null;
-            battleAreas.TryGetValue(reginID, out battleArea);
+            BattleArea battleArea;
+            if (battleAreas.ContainsKey(reginID))
+            {
+                battleAreas.TryGetValue(reginID, out battleArea);
+            }
+            else
+            {
+                Debug.Log("该战区不存在");
+                return null;
+            }
+            //Debug.Log(battleArea._modules[0].EventName);
             return battleArea;
         }
     }

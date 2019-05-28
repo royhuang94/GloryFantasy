@@ -22,8 +22,6 @@ namespace GamePlay.Round
             State = RoundState.RestoreApPhase;
             // 初始化状态后手动调用以进行当前状态的工作
             EnteringCurrentState();
-            
-            
         }
 
         /// <summary>
@@ -158,6 +156,7 @@ namespace GamePlay.Round
     /// </summary>
     public class StartPhase : RoundState
     {
+        bool isFirstEnter = true;
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
@@ -168,11 +167,19 @@ namespace GamePlay.Round
         public override void Enter(RoundProcessController roundProcessController)
         {
             base.Enter(roundProcessController);
-            // 回合开始就处理事件轴内任务
+            if (isFirstEnter)
+            {
+                for (int i = 0; i < Gameplay.Instance().eventScroll.EventScrollCount; i++)
+                {
+                    Gameplay.Instance().eventScroll.CreateNewEventAssembly();
+                    isFirstEnter = false;
+                }
+            }
+
+            Gameplay.Instance().eventScroll.CreateNewEventAssembly();
             Gameplay.Instance().eventScroll.ProcessFirstEventModule();
             MsgDispatcher.SendMsg((int)MessageType.BP);
         }
-
         public override string ToString()
         {
             return "开始阶段";

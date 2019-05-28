@@ -36,10 +36,12 @@ namespace Ability
         /// 回合数
         /// </summary>
         public Nullable<Int32> Turns;
+
         /// <summary>
         /// 范围大小
         /// </summary>
-        public Nullable<Vector2> Area;
+        public Nullable<Int32> Area;
+        //public Nullable<Vector2> Area;
         /// <summary>
         /// 治疗量
         /// </summary>
