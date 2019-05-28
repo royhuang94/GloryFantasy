@@ -140,7 +140,6 @@ namespace MainMap
             if (ChangeStep(step))
             {
                 charactordata.charactorstate = MoveState.Start;
-                // this.GetComponent<Transform>().position = charactordata.playerlocate.Normal_vector;
                 StartCoroutine(MoveAction(newtransform, MoveSpeed));
             }
             else

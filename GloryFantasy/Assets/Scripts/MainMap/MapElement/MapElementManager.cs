@@ -29,7 +29,6 @@ namespace MainMap
     /// <param name="mapunit"></param>
         public void InstalizeElement(string[] elementtype, GameObject mapunit)
         {
-//#if UNITY_EDITOR
             switch (elementtype[1])
             {
                 case "monster":
@@ -49,7 +48,6 @@ namespace MainMap
                     Debug.Log("地格上层元素读取错误");
                     break;
             }
-//#endif
         }
         /// <summary>设置传入的地图上层元素的父节点
         /// 
@@ -95,9 +93,6 @@ namespace MainMap
            Debug.Log("怪物被点击");
            BattleMap.BattleMap.Instance().GetEncounterIDFromMainMap(monsterid);
            SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
-           //Todo:在这里把对接信息传给战斗系统，在战斗系统那边写一个类似的方法获取信息。
-           // JumpToBattle(string id,battlemapdata data);
-           //JumpToBattle(monsterid, Charactor.instance().battlemapdata);
         }
         public void SetID(string id)
         {
