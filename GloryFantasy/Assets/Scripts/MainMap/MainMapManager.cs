@@ -246,6 +246,8 @@ private void ReadMap()
 /// </summary>
 public abstract class MapUnit:MonoBehaviour
 {
+    protected List<MapUnit> unitcheck = new List<MapUnit>();
+    protected static bool isverify = true;
     public HexVector hexVector = new HexVector();
     public Button btn;
     /// <summary>初始化地格，获得所在实例的按钮组件并监听事件
@@ -309,8 +311,15 @@ public class Plane : MapUnit
     /// </summary>
     public override void OnClick()
     {
+
             if  (Charactor.Instance().aroundlist.ContainsValue(this))
         {
+                if(!isverify)
+                {
+                    isverify = true;
+                    //todo:添加确认点击的ux
+                    Debug.Log("点击确认");
+                }
                 ChangePosition(1);
         }
         else

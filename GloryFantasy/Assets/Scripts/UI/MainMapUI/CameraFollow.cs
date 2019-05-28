@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
     private Vector3 offset;
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         offset = target.position - this.transform.position;
 
