@@ -143,6 +143,7 @@ namespace BattleMap
         /// </summary>
         public void DrawLine()
         {
+            Debug.Log("fdaf");
             GetBattleBlockAllPosiotn();
             Dictionary<int, List<Grid>> gridsDic = battleGridDic;
             DrawBattleArea drawBattleArea = BattleMap.Instance().drawBattleArea;

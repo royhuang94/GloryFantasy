@@ -86,7 +86,7 @@ namespace GamePlay.FSM
         {
             if (BattleMap.BattleMap.Instance().IsColor == true)
             {
-                BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
+                //BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
             }
         }
     }

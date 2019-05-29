@@ -506,7 +506,7 @@ namespace BattleMap
         }
 
         //隐藏战区
-        public void HideBattleZooe(Vector2 position)
+        public void HideBattleZooe()
         {
             battleAreaData.HideBattleZooe();
         }

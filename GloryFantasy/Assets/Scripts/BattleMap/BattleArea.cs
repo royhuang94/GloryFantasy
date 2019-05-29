@@ -84,7 +84,7 @@ namespace BattleMap
                     if(BattleMap.Instance().battleAreaData.WarZoneBelong(id) != BattleAreaSate.Neutrality)//中立就不更新
                     {
                         battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
-                        BattleMap.Instance().ShowAndUpdataBattleZooe();//更新战区显示
+                        //BattleMap.Instance().ShowAndUpdataBattleZooe();//更新战区显示
                     }                   
                     Debug.Log(string.Format("战区：{0}，当前状态：{1}",id,battleArea._battleAreaSate));
 
@@ -180,6 +180,7 @@ namespace BattleMap
             }
 
             //生成战区内边框
+            Debug.Log("dfs");
             BattleMap.Instance().drawBattleArea.DrawLine();
         }
 
