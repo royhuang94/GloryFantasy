@@ -11,26 +11,37 @@ namespace Ability
     {
         Trigger trigger;
 
-        private void Awake()
-        {
-            //导入Courage异能的参数
-            InitialAbility("Courage");
-        }
+//        private void Awake()
+//        {
+//            //导入Courage异能的参数
+//            InitialAbility("Courage");
+//        }
+//
+//        private void Start()
+//        {
+//            //创建Trigger实例，传入技能的发动者
+//            trigger = new TCourage(this.GetCardReceiver(this));
+//            //注册Trigger进消息中心
+//            MsgDispatcher.RegisterMsg(trigger, "Courage");
+//        }
 
-        private void Start()
+        public override void Init(string abilityId)
         {
-            //创建Trigger实例，传入技能的发动者
-            trigger = new TCourage(this.GetCardReceiver(this));
-            //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "Courage");
+            base.Init(abilityId);
+            trigger = new TCourage(this.GetCardReceiver(this), AbilityVariable.Turns.Value, abilityId);
+            MsgDispatcher.RegisterMsg(trigger, abilityId);
         }
-
     }
 
     public class TCourage : Trigger
     {
-        public TCourage(MsgReceiver speller)
+        private int _turns;
+        private string _abilityId;
+        
+        public TCourage(MsgReceiver speller, int turns, string abilityId)
         {
+            _turns = turns;
+            _abilityId = abilityId;
             register = speller;
             //初始化响应时点,为卡片使用时
             msgName = (int)MessageType.CastCard;
@@ -42,7 +53,7 @@ namespace Ability
         private bool Condition()
         {
             //判断发动的卡是不是这个技能的注册者，并且这张卡是不是热血律动
-            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "RCourage_1")
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().ability_id.Contains(_abilityId))
                 return true;
             else
                 return false;

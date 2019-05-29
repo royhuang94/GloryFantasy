@@ -10,13 +10,21 @@ namespace Ability
     {
         private Trigger _trigger;
 
-        private void Awake()
-        {
-            InitialAbility("Wit");
-        }
+//        private void Awake()
+//        {
+//            InitialAbility("Wit");
+//        }
+//
+//        private void Start()
+//        {
+//            String targetId = gameObject.GetComponent<GameUnit.GameUnit>().id;
+//            _trigger = new TWit(this.GetCardReceiver(this), targetId);
+//            MsgDispatcher.RegisterMsg(_trigger, "Wit");
+//        }
 
-        private void Start()
+        public override void Init(string abilityId)
         {
+            base.Init(abilityId);
             String targetId = gameObject.GetComponent<GameUnit.GameUnit>().id;
             _trigger = new TWit(this.GetCardReceiver(this), targetId);
             MsgDispatcher.RegisterMsg(_trigger, "Wit");

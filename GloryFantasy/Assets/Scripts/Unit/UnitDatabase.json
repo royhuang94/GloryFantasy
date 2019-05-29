@@ -201,27 +201,6 @@
         ],
         "Effort": "滞击。可能触发【灵体扭曲】。",
         "Event": {
-            "Empty": 3,
-            "FacelessVoid_Blink": 1
-        },
-        "HasCD": 0,
-        "Hp": 12,
-        "ID": "FacelessVoid_1",
-        "Mov": 1,
-        "Name": "异空虚灵",
-        "Prt": 0,
-        "Rng": 2,
-        "Tag": []
-    },
-    {
-        "Ability": [],
-        "Atk": 8,
-        "CardID": "",
-        "Color": [
-            "P"
-        ],
-        "Effort": "滞击。可能触发【灵体扭曲】。",
-        "Event": {
             "Empty": 2,
             "FacelessVoid_Blink": 1
         },
@@ -416,7 +395,7 @@
     },
     {
         "Ability": [
-            "Heal"
+            "Heal_1"
         ],
         "Atk": 3,
         "CardID": "GWoodfolk_1",
@@ -438,7 +417,7 @@
     },
     {
         "Ability": [
-            "Heal"
+            "Heal_2"
         ],
         "Atk": 3,
         "CardID": "GWoodfolk_2",
@@ -460,7 +439,7 @@
     },
     {
         "Ability": [
-            "Heal"
+            "Heal_3"
         ],
         "Atk": 3,
         "CardID": "GWoodfolk_3",
@@ -1342,7 +1321,7 @@
     },
     {
         "Ability": [
-            "Armor"
+            "Armor_2"
         ],
         "Atk": 4,
         "CardID": "",
@@ -1362,7 +1341,7 @@
     },
     {
         "Ability": [
-            "Armor"
+            "Armor_2"
         ],
         "Atk": 4,
         "CardID": "",
@@ -1382,7 +1361,7 @@
     },
     {
         "Ability": [
-            "Armor",
+            "Armor_1",
             "ImmueBurn",
             "Shadow_FireEnchantment"
         ],
@@ -1407,7 +1386,7 @@
     },
     {
         "Ability": [
-            "Armor",
+            "Armor_1",
             "ImmueBurn",
             "Shadow_FireEnchantment"
         ],
@@ -1835,7 +1814,7 @@
     },
     {
         "Ability": [
-            "Armor"
+            "Armor_1"
         ],
         "Atk": 3,
         "CardID": "WArmour_1",
@@ -1858,7 +1837,7 @@
     },
     {
         "Ability": [
-            "Armor"
+            "Armor_1"
         ],
         "Atk": 3,
         "CardID": "WArmour_2",
@@ -1881,14 +1860,14 @@
     },
     {
         "Ability": [
-            "Armor"
+            "Armor_2"
         ],
         "Atk": 3,
         "CardID": "WArmour_3",
         "Color": [
             "W"
         ],
-        "Effort": "护甲1",
+        "Effort": "护甲2",
         "Event": {},
         "HasCD": 1,
         "Hp": 12,

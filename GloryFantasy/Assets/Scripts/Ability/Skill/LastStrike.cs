@@ -10,20 +10,27 @@ namespace Ability
     public class LastStrike : Ability
     {
         Trigger trigger;
-        bool isActive = false;
+//        bool isActive = false;
+//
+//        private void Awake()
+//        {
+//            //导入FirstStrike异能的参数
+//            InitialAbility("LastStrike");
+//        }
+//
+//        private void Start()
+//        {
+//            //创建Trigger实例，传入技能的发动者
+//            trigger = new TLastStrike(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+//            //注册Trigger进消息中心
+//            MsgDispatcher.RegisterMsg(trigger, "LastStrike");
+//        }
 
-        private void Awake()
+        public override void Init(string abilityId)
         {
-            //导入FirstStrike异能的参数
-            InitialAbility("LastStrike");
-        }
-
-        private void Start()
-        {
-            //创建Trigger实例，传入技能的发动者
+            base.Init(abilityId);
             trigger = new TLastStrike(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
-            //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "LastStrike");
+            MsgDispatcher.RegisterMsg(trigger, abilityId);
         }
 
         //这个技能被删除时要做反向操作

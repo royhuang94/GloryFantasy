@@ -29,7 +29,7 @@ namespace GamePlay.FSM
             FSM.selectedCard = null;
             //关闭鼠标所在战区的高光显示
             BattleMap.BattleMap.Instance().IsColor = false;
-            BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
+            //BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
             //创建部署指令并执行
             BattleDispositionCommand unitDispose = new BattleDispositionCommand(mapBlock.units_on_me);
             unitDispose.Excute();

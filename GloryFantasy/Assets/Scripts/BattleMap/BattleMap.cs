@@ -24,6 +24,7 @@ namespace BattleMap
             MapNavigator = new MapNavigator();
             battleAreaData = new BattleAreaData();
             debuffBM = new DebuffBattleMapBlovk();
+            drawBattleArea = new DrawBattleArea();
             BattleMapPath = "Assets/Scripts/BattleMap/BattleMapData/";
         }
 
@@ -125,7 +126,6 @@ namespace BattleMap
             //初始战斗地图上的单位 
             UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1", _mapBlocks);
 
-            battleAreaData.GetBattleAreaByID(1);
         }
 
         //初始化地图的地址
@@ -142,12 +142,13 @@ namespace BattleMap
         public bool IsColor { get; set; }//控制是否高亮战区
         private BattleMapBlock[,] _mapBlocks; 
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
+        public Transform battleCanvas;
         public MapNavigator MapNavigator;//寻路类
         public BattleAreaData battleAreaData;//战区类
         public DebuffBattleMapBlovk debuffBM;//异常地图快类
+        public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
-        [SerializeField]
-        private GameObject battlePanel;//战斗地图，用于初始战斗地图大小
+        public GameObject battlePanel;//战斗地图，用于初始战斗地图大小
         private string encounterID;//遭遇id
 
         #region 各种类型地格
@@ -499,16 +500,17 @@ namespace BattleMap
         }
 
         //显示战区
-        public void ShowBattleZooe(Vector3 position)
+        public void ShowAndUpdataBattleZooe()
         {
-            battleAreaData.ShowBattleZooe(position, _mapBlocks);
+            battleAreaData.ShowAndUpdataBattleZooe();
         }
 
         //隐藏战区
-        public void HideBattleZooe(Vector2 position)
+        public void HideBattleZooe()
         {
-            battleAreaData.HideBattleZooe(position, _mapBlocks);
+            battleAreaData.HideBattleZooe();
         }
+
         /// <summary>
         /// 移除BattleBlock下的 unit
         /// </summary>

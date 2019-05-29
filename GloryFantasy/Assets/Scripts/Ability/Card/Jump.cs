@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using IMessage;
@@ -12,26 +13,37 @@ namespace Ability
     {
         Trigger trigger;
 
-        private void Awake()
-        {
-            //导入Jump异能的参数
-            InitialAbility("Jump");
-        }
+//        private void Awake()
+//        {
+//            //导入Jump异能的参数
+//            InitialAbility("Jump");
+//        }
+//
+//        private void Start()
+//        {
+//            //创建Trigger实例，传入技能的发动者
+//            trigger = new TJump(this.GetCardReceiver(this));
+//            //注册Trigger进消息中心
+//            MsgDispatcher.RegisterMsg(trigger, "Jump");
+//        }
 
-        private void Start()
+        public override void Init(string abilityId)
         {
-            //创建Trigger实例，传入技能的发动者
-            trigger = new TJump(this.GetCardReceiver(this));
-            //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "Jump");
+            base.Init(abilityId);
+            trigger = new TJump(this.GetCardReceiver(this), AbilityVariable.Range.Value, abilityId);
+            MsgDispatcher.RegisterMsg(trigger, abilityId);
         }
 
     }
 
     public class TJump : Trigger
     {
-        public TJump(MsgReceiver speller)
+        private int _jumpRange;
+        private string _abilityId;
+        public TJump(MsgReceiver speller, int range, string abilityId)
         {
+            _jumpRange = range;
+            _abilityId = abilityId;
             register = speller;
             //初始化响应时点,为卡片使用时
             msgName = (int)MessageType.CastCard;
@@ -43,7 +55,7 @@ namespace Ability
         private bool Condition()
         {
             //判断发动的卡是不是这个技能的注册者，并且这张卡是不是轻身飞跃
-            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().id == "GJump_1")
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().ability_id.Contains(_abilityId))
                 return true;
             else
                 return false;
@@ -57,7 +69,7 @@ namespace Ability
             
 
             //将该单位移动到三格内一格
-            SkillJumpCommand skillJumpCommand = new SkillJumpCommand(unit, battleMapBlock.position, 3);
+            SkillJumpCommand skillJumpCommand = new SkillJumpCommand(unit, battleMapBlock.position, _jumpRange);
             skillJumpCommand.Excute();
         }
     }

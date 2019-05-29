@@ -261,5 +261,14 @@ namespace Ability
             this.Description = abilityFormat.Description;
             this.TriggerID = abilityFormat.TriggerID;
         }
+
+        /// <summary>
+        /// 所有异能必须重写此方法，在此方法内实现初始化
+        /// </summary>
+        /// <param name="abilityId">异能id</param>
+        public virtual void Init(string abilityId)
+        {
+            InitialAbility(abilityId);
+        }
     }
 }

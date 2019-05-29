@@ -69,7 +69,7 @@ namespace GamePlay.FSM
         {
             if (BattleMap.BattleMap.Instance().IsColor == true)
             {
-                BattleMap.BattleMap.Instance().ShowBattleZooe(mapBlock.GetSelfPosition());
+                //BattleMap.BattleMap.Instance().ShowBattleZooe(mapBlock.GetSelfPosition());
             }
             //TODO显示技能伤害的范围
         }
@@ -82,7 +82,7 @@ namespace GamePlay.FSM
         {
             if (BattleMap.BattleMap.Instance().IsColor == true)
             {
-                BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
+                //BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
             }
             //TODO
         }
