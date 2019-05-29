@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -541,14 +541,14 @@ RectTransform:
   m_GameObject: {fileID: 1154925226}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999984, y: 0.9999984, z: 0.9999984}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2019484360}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 175, y: 24.8}
+  m_AnchoredPosition: {x: 175, y: 0}
   m_SizeDelta: {x: -350, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1154925228
@@ -676,6 +676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tilesHolder: {fileID: 1154925227}
+  battleCanvas: {fileID: 2019484360}
   battlePanel: {fileID: 1154925226}
   flat: {fileID: 1272249320738762, guid: 3278c5af73bddaf4a94cc9cfc021f1e9, type: 2}
   firing: {fileID: 21300000, guid: 85df88302a3531d49b994cfa94f2c47b, type: 3}

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using GamePlay.Event;
 using GamePlay.Encounter;
+using Vectrosity;
 
 /// <summary>
 /// 战区
@@ -83,6 +84,7 @@ namespace BattleMap
                     if(BattleMap.Instance().battleAreaData.WarZoneBelong(id) != BattleAreaSate.Neutrality)//中立就不更新
                     {
                         battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
+                        BattleMap.Instance().ShowAndUpdataBattleZooe();//更新战区显示
                     }                   
                     Debug.Log(string.Format("战区：{0}，当前状态：{1}",id,battleArea._battleAreaSate));
 
@@ -113,6 +115,7 @@ namespace BattleMap
         public Dictionary<int, List<Vector2>> BattleAreaDic { get { return battleAreaDic; } }
         #endregion
         public Dictionary<int, BattleArea> battleAreas;//存储的所有战区的id和对应的战区对象，尽量用这个，不用上面旧的那个
+        private bool isBattleAreaShow = true;
 
         //获取地图块所属战区
         public void GetAreas(string[][] nstrs)
@@ -168,9 +171,12 @@ namespace BattleMap
                 BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list,trrigers,models);
                 battleAreas.Add(id, battleArea);
             }
+
+            //生成战区内边框
+            BattleMap.Instance().drawBattleArea.DrawLine();
         }
 
-        //显示战区
+        #region 显示隐藏战区,格子显示的方式，被弃用了
         public void ShowBattleZooe(Vector2 position, BattleMapBlock[,] mapBlock)
         {
             int area = mapBlock[(int)position.x, (int)position.y].area;
@@ -180,6 +186,8 @@ namespace BattleMap
             {
                 if (WarZoneBelong(area) == BattleAreaSate.Battle || WarZoneBelong(area) == BattleAreaSate.Enmey)
                 {
+                    Image image = mapBlock[(int)pos.x, (int)pos.y].transform.Find("boderImage").GetComponent<Image>();
+                    image.color = Color.black;
                     mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.red;
                 }
                 else
@@ -188,6 +196,7 @@ namespace BattleMap
                 }
             }
         }
+
 
         //隐藏战区
         public void HideBattleZooe(Vector2 position, BattleMapBlock[,] mapBlock)
@@ -198,6 +207,42 @@ namespace BattleMap
             foreach (Vector2 pos in battleAreas)
             {
                 mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.white;
+            }
+        }
+        #endregion
+
+        //新的显示战区，内边框显示方式
+        public void ShowAndUpdataBattleZooe()
+        {
+            foreach(int id in battleAreaDic.Keys)
+            {
+                VectorLine vectorLine = BattleMap.Instance().drawBattleArea.GetLineByID(id);
+                if (WarZoneBelong(id) == BattleAreaSate.Enmey)
+                {
+                    vectorLine.SetColor(new Color(255,0,0,255));
+                }
+                else if(WarZoneBelong(id) == BattleAreaSate.Battle)
+                {
+                    vectorLine.SetColor(new Color(255, 125, 0, 255));
+                }
+                else if(WarZoneBelong(id) == BattleAreaSate.Player)
+                {
+                    vectorLine.SetColor(new Color(0,255,0,255));
+                }
+                else if(isBattleAreaShow && WarZoneBelong(id) == BattleAreaSate.Neutrality)
+                {
+                    vectorLine.SetColor(new Color(255, 255, 255, 255));
+                }
+            }
+            isBattleAreaShow = false;
+        }
+
+        public void HideBattleZooe()
+        {
+            foreach (int id in battleAreaDic.Keys)
+            {
+                VectorLine vectorLine = BattleMap.Instance().drawBattleArea.GetLineByID(id);
+                vectorLine.SetColor(new Color(255, 255, 255, 0));
             }
         }
 

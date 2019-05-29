@@ -74,7 +74,7 @@ namespace GamePlay.FSM
             Debug.Log(mapBlock.GetSelfPosition());
             if (BattleMap.BattleMap.Instance().IsColor == true)
             {
-                BattleMap.BattleMap.Instance().ShowBattleZooe(mapBlock.GetSelfPosition());
+                //BattleMap.BattleMap.Instance().ShowBattleZooe(mapBlock.GetSelfPosition());方格显示战区方式，弃用
             }
         }
         /// <summary>
