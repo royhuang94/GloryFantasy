@@ -109,6 +109,7 @@ namespace GamePlay.Event
                     if (r <= temp)
                     {
                         selectedEvent = module.EventList[i].EventName;
+                        break;
                     }
                 }
                 /*eg: GamePlay.Event.ReinforceArcher*/
@@ -128,6 +129,7 @@ namespace GamePlay.Event
             _eventScroll.Add(newAssembly);
             Debug.Log("count: " + EventScrollListCount);
             //添加回合数标签
+            Debug.Log("当前回合数: " + Gameplay.Instance().roundProcessController.State.roundCounter);
             _timeScroll.Add(Gameplay.Instance().roundProcessController.State.roundCounter);
         }
 
@@ -188,7 +190,7 @@ namespace GamePlay.Event
         /// 以回合数作为坐标添加一个事件模块进入事件轴
         /// 重载+1 
         /// </summary>
-        /// <param name="round">当前回合数</param>
+        /// <param name="round">插入回合数</param>
         /// <param name="eventModule">事件模型</param>
         public void InsertEventByRound(int round, EventModule eventModule)
         {
@@ -200,7 +202,7 @@ namespace GamePlay.Event
         /// 以回合数作为坐标添加一个事件模块进入事件轴
         /// 重载+1 
         /// </summary>
-        /// <param name="round">当前回合数</param>
+        /// <param name="round">插入回合数</param>
         /// <param name="eventModule">事件模型</param>
         public void InsertEventByRound(int round, List<EventModule> eventModule)
         {
