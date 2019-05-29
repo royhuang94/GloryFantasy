@@ -93,7 +93,7 @@
     {
         "ID": "GCuringwind_3",
         "ability_id": [
-            "CuringWind_2"
+            "CuringWind_3"
         ],
         "cd": 2,
         "color": "G",
@@ -110,7 +110,7 @@
     {
         "ID": "GJump_1",
         "ability_id": [
-            "Jump"
+            "Jump_1"
         ],
         "cd": 4,
         "color": "G",
@@ -132,7 +132,7 @@
         "cd": 3,
         "color": "G",
         "cost": 1,
-        "effect": "使用者：友方单位。使用者跳跃到3格内的一格。",
+        "effect": "使用者：友方单位。使用者跳跃到4格内的一格。",
         "flavor_text": "",
         "name": "轻身飞跃",
         "related_token": "",
@@ -149,7 +149,7 @@
         "cd": 3,
         "color": "G",
         "cost": 1,
-        "effect": "使用者：友方单位。使用者跳跃到4格内的一格。",
+        "effect": "使用者：友方单位。使用者跳跃到5格内的一格。",
         "flavor_text": "",
         "name": "轻身飞跃",
         "related_token": "",
@@ -159,9 +159,9 @@
         "type": "Order"
     },
     {
-        "ID": "GSummonwolf_1",
+        "ID": "GSummonwilf_1",
         "ability_id": [
-            "Summonwolf_1"
+            "Summonwilf_1"
         ],
         "cd": -1,
         "color": "G",
@@ -176,9 +176,9 @@
         "type": "Order"
     },
     {
-        "ID": "GSummonwolf_2",
+        "ID": "GSummonwilf_2",
         "ability_id": [
-            "Summonwolf_2"
+            "Summonwilf_2"
         ],
         "cd": -1,
         "color": "G",
@@ -193,9 +193,9 @@
         "type": "Order"
     },
     {
-        "ID": "GSummonwolf_3",
+        "ID": "GSummonwilf_3",
         "ability_id": [
-            "Summonwolf_3"
+            "Summonwilf_3"
         ],
         "cd": -1,
         "color": "G",
@@ -318,14 +318,14 @@
         "type": "Unit"
     },
     {
-        "ID": "GWoodfolk_2",
+        "ID": "GWoodfolk2",
         "ability_id": [
-            "Heal"
+            "Heal_2"
         ],
         "cd": 3,
         "color": "G",
         "cost": 2,
-        "effect": "此单位部署时，其治疗同一战区内的目标友方单位4点生命。",
+        "effect": "此单位部署时，其治疗同一战区内的目标友方单位7点生命。",
         "flavor_text": "",
         "name": "翠林旅伴",
         "related_token": "",
@@ -339,7 +339,7 @@
     {
         "ID": "GWoodfolk_1",
         "ability_id": [
-            "Heal"
+            "Heal_1"
         ],
         "cd": 3,
         "color": "G",
@@ -358,12 +358,12 @@
     {
         "ID": "GWoodfolk_3",
         "ability_id": [
-            "Heal"
+            "Heal_3"
         ],
         "cd": 3,
         "color": "G",
         "cost": 2,
-        "effect": "此单位部署时，其治疗同一战区内的目标友方单位4点生命。",
+        "effect": "此单位部署时，其治疗同一战区内的目标友方单位10点生命。",
         "flavor_text": "",
         "name": "翠林旅伴",
         "related_token": "",
@@ -586,7 +586,7 @@
     {
         "ID": "PAnthem_2",
         "ability_id": [
-            "Anthem_1"
+            "Anthem_2"
         ],
         "cd": 4,
         "color": "P",
@@ -646,7 +646,7 @@
         "cd": 2,
         "color": "R",
         "cost": 2,
-        "effect": "使用者：友方红色单位。其所在战区的友方单位获得+2/0直到回合结束。",
+        "effect": "使用者：友方红色单位。其所在战区的友方单位获得+2点攻击力直到回合结束。",
         "flavor_text": "",
         "name": "战嚎",
         "related_token": "",
@@ -663,7 +663,7 @@
         "cd": 2,
         "color": "R",
         "cost": 1,
-        "effect": "使用者：友方红色单位。其所在战区的友方单位获得+2/0直到回合结束。",
+        "effect": "使用者：友方红色单位。其所在战区的友方单位获得+2点攻击力直到回合结束。",
         "flavor_text": "",
         "name": "战嚎",
         "related_token": "",
@@ -675,12 +675,12 @@
     {
         "ID": "RCourage_1",
         "ability_id": [
-            "Courage"
+            "Courage_1"
         ],
         "cd": 2,
         "color": "G",
         "cost": 3,
-        "effect": "使用者：友方单位。使用者获得获得+3攻击力和+3最大生命上限，持续2个回合。",
+        "effect": "使用者：友方单位。使用者获得获得+2攻击力和+4最大生命上限，持续2个回合。",
         "flavor_text": "",
         "name": "热血律动",
         "related_token": "",
@@ -692,12 +692,12 @@
     {
         "ID": "RCourage_2",
         "ability_id": [
-            "Courage"
+            "Courage_2"
         ],
         "cd": 2,
         "color": "G",
         "cost": 3,
-        "effect": "使用者：友方单位。使用者获得+3/+3，持续两个回合。",
+        "effect": "使用者：友方单位。使用者获得+3攻击力和+5最大生命上限，持续2个回合。",
         "flavor_text": "",
         "name": "热血律动",
         "related_token": "",
@@ -709,12 +709,12 @@
     {
         "ID": "RCourage_3",
         "ability_id": [
-            "Courage"
+            "Courage_3"
         ],
         "cd": 2,
         "color": "G",
         "cost": 2,
-        "effect": "使用者：友方单位。使用者获得+3/+3，持续两个回合。",
+        "effect": "使用者：友方单位。使用者获得+4攻击力和+6最大生命上限，持续2个回合。",
         "flavor_text": "",
         "name": "热血律动",
         "related_token": "",
@@ -957,7 +957,7 @@
     {
         "ID": "URLunastrike_1",
         "ability_id": [
-            "LunaStrike"
+            "Lunastrike"
         ],
         "cd": 3,
         "color": "UR",
@@ -976,12 +976,12 @@
     {
         "ID": "URLunastrike_2",
         "ability_id": [
-            "LunaStrike"
+            "Lunastrike"
         ],
         "cd": 3,
         "color": "UR",
         "cost": 1,
-        "effect": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。使用者对目标格子上的单位造成5点伤害。",
+        "effect": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。使用者对目标格子上的单位造成6点伤害。",
         "flavor_text": "",
         "name": "月之裁决",
         "related_token": "",
@@ -995,12 +995,12 @@
     {
         "ID": "URLunastrike_3",
         "ability_id": [
-            "LunaStrike"
+            "Lunastrike"
         ],
         "cd": 2,
         "color": "UR",
         "cost": 1,
-        "effect": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。使用者对目标格子上的单位造成5点伤害。",
+        "effect": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。使用者对目标格子上的单位造成7点伤害。",
         "flavor_text": "",
         "name": "月之裁决",
         "related_token": "",
@@ -1068,7 +1068,7 @@
     {
         "ID": "WArmour_1",
         "ability_id": [
-            "Armor"
+            "Armor_1"
         ],
         "cd": 3,
         "color": "W",
@@ -1088,7 +1088,7 @@
     {
         "ID": "WArmour_2",
         "ability_id": [
-            "Armor"
+            "Armor_1"
         ],
         "cd": 3,
         "color": "W",
@@ -1108,12 +1108,12 @@
     {
         "ID": "WArmour_3",
         "ability_id": [
-            "Armor"
+            "Armor_2"
         ],
         "cd": 3,
         "color": "W",
         "cost": 2,
-        "effect": "护甲1",
+        "effect": "护甲2",
         "flavor_text": "",
         "name": "红眼MK-I",
         "related_token": "",
@@ -1130,9 +1130,9 @@
         "ability_id": [
             "InstantIdea_1"
         ],
-        "cd": 3,
+        "cd": 4,
         "color": "W",
-        "cost": 1,
+        "cost": 0,
         "effect": "使用者：友方单位。创建其携带战技的临时复制置入你的手牌中。（临时复制使用后销毁。）",
         "flavor_text": "",
         "name": "瞬发创想",
@@ -1145,7 +1145,7 @@
     {
         "ID": "WInstantidea_2",
         "ability_id": [
-            "InstantIdea_1"
+            "InstantIdea_2"
         ],
         "cd": 3,
         "color": "W",
@@ -1196,7 +1196,7 @@
     {
         "ID": "WMist_2",
         "ability_id": [
-            "Mist_1"
+            "Mist_2"
         ],
         "cd": 3,
         "color": "W",
@@ -1247,7 +1247,7 @@
     {
         "ID": "WPonder_2",
         "ability_id": [
-            "Ponder_2"
+            "Ponder_1"
         ],
         "cd": 2,
         "color": "W",
@@ -1269,7 +1269,7 @@
         "cd": 2,
         "color": "W",
         "cost": 1,
-        "effect": "抓3张牌，随后选择2张手牌洗回牌库",
+        "effect": "抓3张牌，随后选择1张手牌洗回牌库",
         "flavor_text": "",
         "name": "谋定而动",
         "related_token": "",
