@@ -47,7 +47,6 @@ namespace GameGUI
         private GList transferlist;
         private GTextField _abstractText;
         private GTextField _storyText;
-        private GLoader _iconLoader;
         private GLoader _picLoader;
         #endregion
         /// <summary>对CardCollection的引用
@@ -90,7 +89,6 @@ namespace GameGUI
             _cardDisplayer = cardcollectUI.GetChild("cardDisplayer").asCom;
             _abstractText = _cardDisplayer.GetChild("abstractText").asTextField;
             _storyText = _cardDisplayer.GetChild("storyText").asTextField;
-            _iconLoader = _cardDisplayer.GetChild("iconLoader").asLoader;
             _picLoader = _cardDisplayer.GetChild("cardPicLoader").asLoader;
             #endregion
             Debug.Log("ui初始化");
@@ -214,9 +212,9 @@ namespace GameGUI
         /// </summary>
         public void ShowCardCollect()
         {
+            MapUnit.CleanList();
             cardcollect_UI.Show();
             Debug.Log("展示卡牌收藏");
-            //TODO：隐藏地格渲染
             mapcamera.SetActive(false);
             cardcollectionlist.RemoveChildren(0, -1, true);
 

@@ -59,9 +59,9 @@ public class MainMapManager : UnitySingleton<MainMapManager>
 {
     public Mesh mesh;
     public TextAsset textAsset;
-/// <summary>全部地格材质
-/// 
-/// </summary>
+    public AnimationClip gridclip;
+    public AnimationClip stop;
+#region 全部地格材质
     public Sprite test;
     public Sprite mountainsprite;
     public Sprite planesplite;
@@ -77,9 +77,10 @@ public class MainMapManager : UnitySingleton<MainMapManager>
     public Sprite cursestonesprite;
     public Sprite bonepitsprite;
     public Sprite obsidiansprite;
+#endregion
 /// <summary>初始化，设定
-/// 
-/// </summary>
+        /// 
+        /// </summary>
 void Awake()
     {
      Screen.SetResolution(960, 540, false);
@@ -103,6 +104,10 @@ private void ReadMap()
                         GameObject mapunit = new GameObject("test" + i.ToString() + j.ToString());
                         mapunit.transform.parent = GameObject.Find("Map").transform;
                         mapunit.AddComponent<Button>();
+                        Animation anim = mapunit.AddComponent<Animation>();
+                        anim.AddClip(gridclip,"ClickCheck");
+                        anim.playAutomatically = false;
+                        anim.AddClip(stop, "Stop");
                         switch (upper[0])
                         {
                             case "plane":
@@ -246,8 +251,7 @@ private void ReadMap()
 /// </summary>
 public abstract class MapUnit:MonoBehaviour
 {
-    protected List<MapUnit> unitcheck = new List<MapUnit>();
-    protected static bool isverify = true;
+    protected static List<MapUnit> unitcheck = new List<MapUnit>();
     public HexVector hexVector = new HexVector();
     public Button btn;
     /// <summary>初始化地格，获得所在实例的按钮组件并监听事件
@@ -256,12 +260,49 @@ public abstract class MapUnit:MonoBehaviour
     public virtual void MapUnitInstalize()
     {
         btn = gameObject.GetComponent<Button>();
-        btn.onClick.AddListener(OnClick);
+        btn.onClick.AddListener(CheckClick);
     }
-    /// <summary>点击事件抽象方法，需要每类地格具体实现
-    /// 
-    /// </summary>
-    public abstract void OnClick();
+    public void CheckClick()
+        {
+            if (Charactor.Instance().aroundlist.ContainsValue(this))
+            {
+                if (unitcheck.Contains(this))
+                {
+                    OnClick();
+                    CleanList();
+                }
+                else
+                {
+                    CleanList();
+                    unitcheck.Add(this);
+                    Debug.Log("checking");
+                    GetComponent<Animation>().Play("ClickCheck");
+                    //todo:临近地格点击的ux
+                }
+            }
+            else
+            {
+                //Todo:非临近地格点击的ux
+            }
+
+
+        }
+    public static void CleanList()
+        {
+            foreach(MapUnit unit in unitcheck)
+            {
+                unit.GetComponent<Animation>().Stop();
+                unit.GetComponent<Animation>().Play("Stop");
+            }
+            unitcheck.Clear();
+            
+
+
+        }
+        /// <summary>点击事件抽象方法，需要每类地格具体实现
+        /// 
+        /// </summary>
+        public abstract void OnClick();
     /// <summary>移动地图角色的方法，改变角色位置并调用charactor里的方法重写字典值，图书馆传送和普通移动都会调用这个方法
     /// 
     /// </summary>
@@ -278,9 +319,9 @@ public abstract class MapUnit:MonoBehaviour
             }
 
           }
-        /// <summary>charactor中人物移动完成后会调用这个函数，用于响应地格上事件
-        /// 
-        /// </summary>
+    /// <summary>charactor中人物移动完成后会调用这个函数，用于响应地格上事件
+    /// 
+    /// </summary>
     public virtual void ChangePositionOver()
         {
             Debug.Log("移动结束");
@@ -314,12 +355,6 @@ public class Plane : MapUnit
 
             if  (Charactor.Instance().aroundlist.ContainsValue(this))
         {
-                if(!isverify)
-                {
-                    isverify = true;
-                    //todo:添加确认点击的ux
-                    Debug.Log("点击确认");
-                }
                 ChangePosition(1);
         }
         else
