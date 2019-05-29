@@ -36,10 +36,12 @@ namespace Ability
         /// 回合数
         /// </summary>
         public Nullable<Int32> Turns;
+
         /// <summary>
         /// 范围大小
         /// </summary>
-        public Nullable<Vector2> Area;
+        public Nullable<Int32> Area;
+        //public Nullable<Vector2> Area;
         /// <summary>
         /// 治疗量
         /// </summary>
@@ -258,6 +260,15 @@ namespace Ability
             this.AbilityName = abilityFormat.AbilityName;
             this.Description = abilityFormat.Description;
             this.TriggerID = abilityFormat.TriggerID;
+        }
+
+        /// <summary>
+        /// 所有异能必须重写此方法，在此方法内实现初始化
+        /// </summary>
+        /// <param name="abilityId">异能id</param>
+        public virtual void Init(string abilityId)
+        {
+            InitialAbility(abilityId);
         }
     }
 }

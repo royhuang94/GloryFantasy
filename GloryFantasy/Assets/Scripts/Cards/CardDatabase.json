@@ -1,0 +1,1332 @@
+[
+    {
+        "ID": "GArrowrain_1",
+        "ability_id": [
+            "Arrowrain_1"
+        ],
+        "cd": 3,
+        "color": "G",
+        "cost": 2,
+        "effect": "要求携带者：弓手。使用者：携带者。消耗动作次数。选择4格以内的格子。使用者对其周围3级爆发范围的敌方单位造成4点伤害。",
+        "flavor_text": "",
+        "name": "箭雨",
+        "related_token": "",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GArrowrain_2",
+        "ability_id": [
+            "Arrowrain_2"
+        ],
+        "cd": 2,
+        "color": "G",
+        "cost": 2,
+        "effect": "要求携带者：弓手。使用者：携带者。消耗动作次数。选择5格以内的格子。使用者对其周围3级爆发范围的敌方单位造成4点伤害。",
+        "flavor_text": "",
+        "name": "箭雨",
+        "related_token": "",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GArrowrain_3",
+        "ability_id": [
+            "Arrowrain_3"
+        ],
+        "cd": 2,
+        "color": "G",
+        "cost": 2,
+        "effect": "要求携带者：弓手。使用者：携带者。消耗动作次数。选择5格以内的格子。使用者对其周围3级爆发范围的敌方单位造成6点伤害。",
+        "flavor_text": "",
+        "name": "箭雨",
+        "related_token": "",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GCuringwind_1",
+        "ability_id": [
+            "CuringWind_1"
+        ],
+        "cd": 3,
+        "color": "G",
+        "cost": 2,
+        "effect": "所有友方单位获得5点生命。",
+        "flavor_text": "",
+        "name": "治愈之风",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GCuringwind_2",
+        "ability_id": [
+            "CuringWind_2"
+        ],
+        "cd": 3,
+        "color": "G",
+        "cost": 2,
+        "effect": "所有友方单位获得7点生命。",
+        "flavor_text": "",
+        "name": "治愈之风",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GCuringwind_3",
+        "ability_id": [
+            "CuringWind_2"
+        ],
+        "cd": 2,
+        "color": "G",
+        "cost": 2,
+        "effect": "所有友方单位获得7点生命。",
+        "flavor_text": "",
+        "name": "治愈之风",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GJump_1",
+        "ability_id": [
+            "Jump"
+        ],
+        "cd": 4,
+        "color": "G",
+        "cost": 1,
+        "effect": "使用者：友方单位。使用者跳跃到3格内的一格。",
+        "flavor_text": "",
+        "name": "轻身飞跃",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GJump_2",
+        "ability_id": [
+            "Jump"
+        ],
+        "cd": 3,
+        "color": "G",
+        "cost": 1,
+        "effect": "使用者：友方单位。使用者跳跃到3格内的一格。",
+        "flavor_text": "",
+        "name": "轻身飞跃",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GJump_3",
+        "ability_id": [
+            "Jump"
+        ],
+        "cd": 3,
+        "color": "G",
+        "cost": 1,
+        "effect": "使用者：友方单位。使用者跳跃到4格内的一格。",
+        "flavor_text": "",
+        "name": "轻身飞跃",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GSummonwolf_1",
+        "ability_id": [
+            "Summonwolf_1"
+        ],
+        "cd": -1,
+        "color": "G",
+        "cost": 3,
+        "effect": "部署两个幼小的霜狼。",
+        "flavor_text": "",
+        "name": "唤狼之笛",
+        "related_token": "GWinterwolf_1",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GSummonwolf_2",
+        "ability_id": [
+            "Summonwolf_2"
+        ],
+        "cd": -1,
+        "color": "G",
+        "cost": 3,
+        "effect": "在指定区域部署两个成熟的霜狼。",
+        "flavor_text": "",
+        "name": "唤狼之笛",
+        "related_token": "GWinterwolf_2",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GSummonwolf_3",
+        "ability_id": [
+            "Summonwolf_3"
+        ],
+        "cd": -1,
+        "color": "G",
+        "cost": 3,
+        "effect": "在指定区域部署两个强大的霜狼。",
+        "flavor_text": "",
+        "name": "唤狼之笛",
+        "related_token": "GWinterwolf_3",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GWall_1",
+        "ability_id": [
+            "Wall_1"
+        ],
+        "cd": 3,
+        "color": "G",
+        "cost": 2,
+        "effect": "使用者：友方单位。消耗动作次数。在使用者4格范围之内创建三面易碎的墙体，2回合后消解。",
+        "flavor_text": "",
+        "name": "城墙术",
+        "related_token": "GWall_1",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GWall_2",
+        "ability_id": [
+            "Wall_2"
+        ],
+        "cd": 4,
+        "color": "G",
+        "cost": 2,
+        "effect": "使用者：友方单位。消耗动作次数。在使用者4格范围之内创建三面朴素的墙体，2回合后消解。",
+        "flavor_text": "",
+        "name": "城墙术",
+        "related_token": "GWall_2",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GWall_3",
+        "ability_id": [
+            "Wall_3"
+        ],
+        "cd": 5,
+        "color": "G",
+        "cost": 2,
+        "effect": "使用者：友方单位。消耗动作次数。在使用者4格范围之内创建三面朴素的墙体，2回合后消解。",
+        "flavor_text": "",
+        "name": "城墙术",
+        "related_token": "GWall_3",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "GWinterwolf_1",
+        "ability_id": [
+            "Haste"
+        ],
+        "cd": 2,
+        "color": "G",
+        "cost": 2,
+        "effect": "迅捷。",
+        "flavor_text": "",
+        "name": "霜狼",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "野兽"
+        ],
+        "tokenID": "GWinterwolf_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "GWinterwolf_2",
+        "ability_id": [
+            "Haste"
+        ],
+        "cd": 2,
+        "color": "G",
+        "cost": 2,
+        "effect": "迅捷。",
+        "flavor_text": "",
+        "name": "霜狼",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "野兽"
+        ],
+        "tokenID": "GWinterwolf_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "GWinterwolf_3",
+        "ability_id": [
+            "Haste"
+        ],
+        "cd": 2,
+        "color": "G",
+        "cost": 2,
+        "effect": "迅捷。",
+        "flavor_text": "",
+        "name": "霜狼",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "野兽"
+        ],
+        "tokenID": "GWinterwolf_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "GWoodfolk_2",
+        "ability_id": [
+            "Heal"
+        ],
+        "cd": 3,
+        "color": "G",
+        "cost": 2,
+        "effect": "此单位部署时，其治疗同一战区内的目标友方单位4点生命。",
+        "flavor_text": "",
+        "name": "翠林旅伴",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "叶族"
+        ],
+        "tokenID": "GWoodfolk_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "GWoodfolk_1",
+        "ability_id": [
+            "Heal"
+        ],
+        "cd": 3,
+        "color": "G",
+        "cost": 2,
+        "effect": "此单位部署时，其治疗同一战区内的目标友方单位4点生命。",
+        "flavor_text": "",
+        "name": "翠林旅伴",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "叶族"
+        ],
+        "tokenID": "GWoodfolk_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "GWoodfolk_3",
+        "ability_id": [
+            "Heal"
+        ],
+        "cd": 3,
+        "color": "G",
+        "cost": 2,
+        "effect": "此单位部署时，其治疗同一战区内的目标友方单位4点生命。",
+        "flavor_text": "",
+        "name": "翠林旅伴",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "叶族"
+        ],
+        "tokenID": "GWoodfolk_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "HElf_1",
+        "ability_id": [],
+        "cd": 3,
+        "color": "RG",
+        "cost": 3,
+        "effect": "",
+        "flavor_text": "",
+        "name": "琳",
+        "related_token": "",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "弓手",
+            "叶族"
+        ],
+        "tokenID": "HElf_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "HElf_2",
+        "ability_id": [],
+        "cd": 3,
+        "color": "RG",
+        "cost": 3,
+        "effect": "可能进行【整备】",
+        "flavor_text": "",
+        "name": "琳",
+        "related_token": "",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "弓手",
+            "叶族"
+        ],
+        "tokenID": "HElf_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "HElf_3",
+        "ability_id": [],
+        "cd": 3,
+        "color": "RG",
+        "cost": 3,
+        "effect": "可能进行【整备】",
+        "flavor_text": "",
+        "name": "琳",
+        "related_token": "",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "弓手",
+            "叶族"
+        ],
+        "tokenID": "HElf_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "HKnight_1",
+        "ability_id": [
+            "Haste"
+        ],
+        "cd": 3,
+        "color": "RP",
+        "cost": 3,
+        "effect": "迅捷",
+        "flavor_text": "",
+        "name": "道格拉斯",
+        "related_token": "",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "骑手",
+            "人类"
+        ],
+        "tokenID": "HKnight_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "HKnight_2",
+        "ability_id": [
+            "FirstStrike",
+            "Haste"
+        ],
+        "cd": 3,
+        "color": "RP",
+        "cost": 3,
+        "effect": "迅捷，迅击",
+        "flavor_text": "",
+        "name": "道格拉斯",
+        "related_token": "",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "骑手",
+            "人类"
+        ],
+        "tokenID": "HKnight_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "HKnight_3",
+        "ability_id": [
+            "QuickPlat",
+            "FirstStrike",
+            "Haste"
+        ],
+        "cd": 3,
+        "color": "RP",
+        "cost": 3,
+        "effect": "即时备战。迅捷，迅击",
+        "flavor_text": "",
+        "name": "道格拉斯",
+        "related_token": "",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "骑手",
+            "人类"
+        ],
+        "tokenID": "HKnight_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "HLunamage_1",
+        "ability_id": [
+            "QuickArk",
+            "Wit"
+        ],
+        "cd": 3,
+        "color": "UR",
+        "cost": 2,
+        "effect": "活绪。此单位使用的效果牌CD减1（最小为1）。",
+        "flavor_text": "",
+        "name": "蔻蔻",
+        "related_token": "",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "施法者",
+            "门卡"
+        ],
+        "tokenID": "HLunamage_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "HLunamage_2",
+        "ability_id": [
+            "QuickArk",
+            "Wit"
+        ],
+        "cd": 3,
+        "color": "UR",
+        "cost": 2,
+        "effect": "活绪。此单位使用的效果牌CD减1（最小为1）。",
+        "flavor_text": "",
+        "name": "蔻蔻",
+        "related_token": "",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "施法者",
+            "门卡"
+        ],
+        "tokenID": "HLunamage_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "HLunamage_3",
+        "ability_id": [
+            "QuickArk",
+            "QuickPlat",
+            "Wit"
+        ],
+        "cd": 3,
+        "color": "UR",
+        "cost": 2,
+        "effect": "即时备战。活绪。此单位使用的效果牌CD减1（最小为1）。",
+        "flavor_text": "",
+        "name": "蔻蔻",
+        "related_token": "",
+        "slot": "1",
+        "tag": [
+            "英雄",
+            "施法者",
+            "门卡"
+        ],
+        "tokenID": "HLunamage_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "PAnthem_1",
+        "ability_id": [
+            "Anthem_1"
+        ],
+        "cd": 3,
+        "color": "P",
+        "cost": 2,
+        "effect": "要求携带者：紫色单位。使用者：携带者。使用者获得“4级范围以内的其他友方单位获得+2攻击力和+2最大生命上限。”和移动力-1，持续2回合。",
+        "flavor_text": "",
+        "name": "号令之声",
+        "related_token": "",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "PAnthem_2",
+        "ability_id": [
+            "Anthem_1"
+        ],
+        "cd": 4,
+        "color": "P",
+        "cost": 2,
+        "effect": "要求携带者：紫色单位。使用者：携带者。使用者获得“两格以内的其他友方单位获得+2攻击力和+2最大生命上限。”和移动力-1，持续3回合。",
+        "flavor_text": "",
+        "name": "号令之声",
+        "related_token": "",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "PAnthem_3",
+        "ability_id": [
+            "Anthem_3"
+        ],
+        "cd": 4,
+        "color": "P",
+        "cost": 2,
+        "effect": "要求携带者：紫色单位。使用者：携带者。使用者获得“4级范围以内的其他友方单位获得+2攻击力和+2最大生命上限。”，持续3回合。",
+        "flavor_text": "",
+        "name": "号令之声",
+        "related_token": "",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "RBattlecry_1",
+        "ability_id": [
+            "Battlecry"
+        ],
+        "cd": 3,
+        "color": "R",
+        "cost": 2,
+        "effect": "使用者：友方红色单位。其所在战区的友方单位获得+2点攻击力直到回合结束。",
+        "flavor_text": "",
+        "name": "战嚎",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "RBattlecry_2",
+        "ability_id": [
+            "Battlecry"
+        ],
+        "cd": 2,
+        "color": "R",
+        "cost": 2,
+        "effect": "使用者：友方红色单位。其所在战区的友方单位获得+2/0直到回合结束。",
+        "flavor_text": "",
+        "name": "战嚎",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "RBattlecry_3",
+        "ability_id": [
+            "Battlecry"
+        ],
+        "cd": 2,
+        "color": "R",
+        "cost": 1,
+        "effect": "使用者：友方红色单位。其所在战区的友方单位获得+2/0直到回合结束。",
+        "flavor_text": "",
+        "name": "战嚎",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "RCourage_1",
+        "ability_id": [
+            "Courage"
+        ],
+        "cd": 2,
+        "color": "G",
+        "cost": 3,
+        "effect": "使用者：友方单位。使用者获得获得+3攻击力和+3最大生命上限，持续2个回合。",
+        "flavor_text": "",
+        "name": "热血律动",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "RCourage_2",
+        "ability_id": [
+            "Courage"
+        ],
+        "cd": 2,
+        "color": "G",
+        "cost": 3,
+        "effect": "使用者：友方单位。使用者获得+3/+3，持续两个回合。",
+        "flavor_text": "",
+        "name": "热血律动",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "RCourage_3",
+        "ability_id": [
+            "Courage"
+        ],
+        "cd": 2,
+        "color": "G",
+        "cost": 2,
+        "effect": "使用者：友方单位。使用者获得+3/+3，持续两个回合。",
+        "flavor_text": "",
+        "name": "热血律动",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "RFiresuli_1",
+        "ability_id": [
+            "ImmueBurn"
+        ],
+        "cd": 4,
+        "color": "R",
+        "cost": 3,
+        "effect": "免疫烧灼。你的回合结束时，此单位烧灼其周围3*3的格子，一回合后消解，并对其上的单位造成2点伤害。",
+        "flavor_text": "",
+        "name": "闷燃火灵",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "元素"
+        ],
+        "tokenID": "RFiresuli_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "RFiresuli_2",
+        "ability_id": [
+            "ImmueBurn"
+        ],
+        "cd": 4,
+        "color": "R",
+        "cost": 3,
+        "effect": "免疫烧灼。你的回合结束时，此单位烧灼其周围3*3的格子，一回合后消解，并对其上的单位造成3点伤害。",
+        "flavor_text": "",
+        "name": "闷燃火灵",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "元素"
+        ],
+        "tokenID": "RFiresuli_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "RFiresuli_3",
+        "ability_id": [
+            "ImmueBurn"
+        ],
+        "cd": 4,
+        "color": "R",
+        "cost": 3,
+        "effect": "免疫烧灼。你的回合结束时，此单位烧灼其周围3*3的格子，一回合后消解，并对其上的单位造成4点伤害。",
+        "flavor_text": "",
+        "name": "闷燃火灵",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "元素"
+        ],
+        "tokenID": "RFiresuli_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "RKnight_1",
+        "ability_id": [
+            "Haste"
+        ],
+        "cd": 3,
+        "color": "R",
+        "cost": 3,
+        "effect": "迅捷。",
+        "flavor_text": "",
+        "name": "流浪骑士",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "骑手",
+            "人类"
+        ],
+        "tokenID": "RKnight_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "RKnight_2",
+        "ability_id": [
+            "Haste"
+        ],
+        "cd": 3,
+        "color": "R",
+        "cost": 3,
+        "effect": "迅捷。",
+        "flavor_text": "",
+        "name": "流浪骑士",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "骑手",
+            "人类"
+        ],
+        "tokenID": "RKnight_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "RKnight_3",
+        "ability_id": [
+            "Haste"
+        ],
+        "cd": 3,
+        "color": "R",
+        "cost": 3,
+        "effect": "迅捷。",
+        "flavor_text": "",
+        "name": "流浪骑士",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "骑手",
+            "人类"
+        ],
+        "tokenID": "RKnight_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "RPhoenix_1",
+        "ability_id": [
+            "Haste",
+            "ImmueDispose"
+        ],
+        "cd": 4,
+        "color": "R",
+        "cost": 3,
+        "effect": "迅捷。免疫粘滞。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。",
+        "flavor_text": "",
+        "name": "赤火之翼",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "元素",
+            "野兽"
+        ],
+        "tokenID": "RPhoenix_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "RPhoenix_2",
+        "ability_id": [
+            "Haste",
+            "ImmueDispose"
+        ],
+        "cd": 4,
+        "color": "R",
+        "cost": 3,
+        "effect": "迅捷。免疫粘滞。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。",
+        "flavor_text": "",
+        "name": "赤火之翼",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "元素",
+            "野兽"
+        ],
+        "tokenID": "RPhoenix_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "RPhoenix_3",
+        "ability_id": [
+            "Haste",
+            "ImmueDispose"
+        ],
+        "cd": 4,
+        "color": "R",
+        "cost": 3,
+        "effect": "迅捷。免疫粘滞。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。",
+        "flavor_text": "",
+        "name": "赤火之翼",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "元素",
+            "野兽"
+        ],
+        "tokenID": "RPhoenix_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "RThrow_1",
+        "ability_id": [
+            "Throw_1"
+        ],
+        "cd": 2,
+        "color": "R",
+        "cost": 2,
+        "effect": "使用者：友方单位。将其2格内的一个敌方单位投掷到4格内的一格中。",
+        "flavor_text": "",
+        "name": "念动投掷",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "RThrow_2",
+        "ability_id": [
+            "Throw_2"
+        ],
+        "cd": 2,
+        "color": "R",
+        "cost": 2,
+        "effect": "使用者：友方单位。将其2格内的一个敌方单位投掷到4格内的一格中，并对其造成2点伤害。",
+        "flavor_text": "",
+        "name": "念动投掷",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "RThrow_3",
+        "ability_id": [
+            "Throw_3"
+        ],
+        "cd": 2,
+        "color": "R",
+        "cost": 2,
+        "effect": "使用者：友方单位。将其2格内的一个敌方单位投掷到4格内的一格中，并对其造成2点伤害，并对其落点周围2级范围内的低档单位造成2点伤害。",
+        "flavor_text": "",
+        "name": "念动投掷",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "URLunastrike_1",
+        "ability_id": [
+            "LunaStrike"
+        ],
+        "cd": 3,
+        "color": "UR",
+        "cost": 2,
+        "effect": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。使用者对目标格子上的单位造成5点伤害。",
+        "flavor_text": "",
+        "name": "月之裁决",
+        "related_token": "",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "URLunastrike_2",
+        "ability_id": [
+            "LunaStrike"
+        ],
+        "cd": 3,
+        "color": "UR",
+        "cost": 1,
+        "effect": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。使用者对目标格子上的单位造成5点伤害。",
+        "flavor_text": "",
+        "name": "月之裁决",
+        "related_token": "",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "URLunastrike_3",
+        "ability_id": [
+            "LunaStrike"
+        ],
+        "cd": 2,
+        "color": "UR",
+        "cost": 1,
+        "effect": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。使用者对目标格子上的单位造成5点伤害。",
+        "flavor_text": "",
+        "name": "月之裁决",
+        "related_token": "",
+        "slot": "",
+        "tag": [
+            "战技"
+        ],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WArcher_1",
+        "ability_id": [],
+        "cd": 2,
+        "color": "W",
+        "cost": 2,
+        "effect": "滞击",
+        "flavor_text": "",
+        "name": "密林卫士",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "弓手",
+            "叶族"
+        ],
+        "tokenID": "WArcher_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "WArcher_2",
+        "ability_id": [],
+        "cd": 2,
+        "color": "W",
+        "cost": 2,
+        "effect": "滞击",
+        "flavor_text": "",
+        "name": "密林卫士",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "弓兵",
+            "叶族"
+        ],
+        "tokenID": "WArcher_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "WArcher_3",
+        "ability_id": [],
+        "cd": 2,
+        "color": "W",
+        "cost": 2,
+        "effect": "",
+        "flavor_text": "",
+        "name": "密林卫士",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "弓兵",
+            "叶族"
+        ],
+        "tokenID": "WArcher_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "WArmour_1",
+        "ability_id": [
+            "Armor"
+        ],
+        "cd": 3,
+        "color": "W",
+        "cost": 2,
+        "effect": "护甲1",
+        "flavor_text": "",
+        "name": "红眼MK-I",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "机甲",
+            "门卡"
+        ],
+        "tokenID": "WArmour_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "WArmour_2",
+        "ability_id": [
+            "Armor"
+        ],
+        "cd": 3,
+        "color": "W",
+        "cost": 2,
+        "effect": "护甲1",
+        "flavor_text": "",
+        "name": "红眼MK-I",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "机甲",
+            "门卡"
+        ],
+        "tokenID": "WArmour_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "WArmour_3",
+        "ability_id": [
+            "Armor"
+        ],
+        "cd": 3,
+        "color": "W",
+        "cost": 2,
+        "effect": "护甲1",
+        "flavor_text": "",
+        "name": "红眼MK-I",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "机甲",
+            "门卡"
+        ],
+        "tokenID": "WArmour_3",
+        "type": "Unit"
+    },
+    {
+        "ID": "WInstantidea_1",
+        "ability_id": [
+            "InstantIdea_1"
+        ],
+        "cd": 3,
+        "color": "W",
+        "cost": 1,
+        "effect": "使用者：友方单位。创建其携带战技的临时复制置入你的手牌中。（临时复制使用后销毁。）",
+        "flavor_text": "",
+        "name": "瞬发创想",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WInstantidea_2",
+        "ability_id": [
+            "InstantIdea_1"
+        ],
+        "cd": 3,
+        "color": "W",
+        "cost": 0,
+        "effect": "使用者：友方单位。创建其携带战技的临时复制置入你的手牌中。（临时复制使用后销毁。）",
+        "flavor_text": "",
+        "name": "瞬发创想",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WInstantidea_3",
+        "ability_id": [
+            "InstantIdea_3"
+        ],
+        "cd": 3,
+        "color": "W",
+        "cost": 0,
+        "effect": "使用者：友方单位。创建其携带战技的两张临时复制置入你的手中。（临时复制使用后销毁。）",
+        "flavor_text": "",
+        "name": "瞬发创想",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WMist_1",
+        "ability_id": [
+            "Mist_1"
+        ],
+        "cd": 3,
+        "color": "W",
+        "cost": 2,
+        "effect": "使用者：友方单位。使用者所在区域的敌方单位获得滞击，两回合后消解。",
+        "flavor_text": "",
+        "name": "隐雾术",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WMist_2",
+        "ability_id": [
+            "Mist_1"
+        ],
+        "cd": 3,
+        "color": "W",
+        "cost": 2,
+        "effect": "使用者：友方单位。使用者所在区域的敌方单位获得滞击，两回合后消解。",
+        "flavor_text": "",
+        "name": "隐雾术",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WMist_3",
+        "ability_id": [
+            "Mist_3"
+        ],
+        "cd": 3,
+        "color": "W",
+        "cost": 1,
+        "effect": "使用者：友方单位。使用者所在区域的敌方单位获得目盲，两回合后消解。",
+        "flavor_text": "",
+        "name": "隐雾术",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WPonder_1",
+        "ability_id": [
+            "Ponder_1"
+        ],
+        "cd": 2,
+        "color": "W",
+        "cost": 1,
+        "effect": "抓2张牌，随后选择1张手牌冷却两回合。",
+        "flavor_text": "",
+        "name": "谋定而动",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WPonder_2",
+        "ability_id": [
+            "Ponder_2"
+        ],
+        "cd": 2,
+        "color": "W",
+        "cost": 1,
+        "effect": "抓2张牌，随后选择1张手牌洗回牌库。",
+        "flavor_text": "",
+        "name": "谋定而动",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WPonder_3",
+        "ability_id": [
+            "Ponder_3"
+        ],
+        "cd": 2,
+        "color": "W",
+        "cost": 1,
+        "effect": "抓3张牌，随后选择2张手牌洗回牌库",
+        "flavor_text": "",
+        "name": "谋定而动",
+        "related_token": "",
+        "slot": "",
+        "tag": [],
+        "tokenID": "",
+        "type": "Order"
+    },
+    {
+        "ID": "WSoldier_1",
+        "ability_id": [],
+        "cd": 2,
+        "color": "W",
+        "cost": 2,
+        "effect": "",
+        "flavor_text": "",
+        "name": "征召战士",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "人类"
+        ],
+        "tokenID": "WSoldier_1",
+        "type": "Unit"
+    },
+    {
+        "ID": "WSoldier_2",
+        "ability_id": [],
+        "cd": 2,
+        "color": "W",
+        "cost": 2,
+        "effect": "",
+        "flavor_text": "",
+        "name": "征召战士",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "人类"
+        ],
+        "tokenID": "WSoldier_2",
+        "type": "Unit"
+    },
+    {
+        "ID": "WSoldier_3",
+        "ability_id": [],
+        "cd": 2,
+        "color": "W",
+        "cost": 2,
+        "effect": "",
+        "flavor_text": "",
+        "name": "征召战士",
+        "related_token": "",
+        "slot": "0",
+        "tag": [
+            "人类"
+        ],
+        "tokenID": "WSoldier_3",
+        "type": "Unit"
+    }
+]

@@ -10,19 +10,21 @@ namespace Ability
     {
         private Trigger _trigger;
 
-        private void Awake()
-        {
-            InitialAbility("QuickArk");
-            _trigger = new TQuickArk(this.GetUnitReceiver(this), gameObject);
-            MsgDispatcher.RegisterMsg(_trigger, "QuickArk");
-            //_trigger = new TQuickArk(this.GetCardReceiver(this), gameObject);
-            
-        }
-
-//        private void Start()
+//        private void Awake()
 //        {
+//            InitialAbility("QuickArk");
+//            _trigger = new TQuickArk(this.GetUnitReceiver(this), gameObject);
+//            MsgDispatcher.RegisterMsg(_trigger, "QuickArk");
+//            //_trigger = new TQuickArk(this.GetCardReceiver(this), gameObject);
 //            
 //        }
+
+        public override void Init(string abilityId)
+        {
+            base.Init(abilityId);
+            _trigger = new TQuickArk(this.GetUnitReceiver(this), gameObject);
+            MsgDispatcher.RegisterMsg(_trigger, "QuickArk");
+        }
     }
 
     public class TQuickArk : Trigger

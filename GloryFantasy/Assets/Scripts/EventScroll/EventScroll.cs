@@ -30,6 +30,37 @@ namespace GamePlay.Event
         private List<int> _timeScroll = new List<int>();
 
         /// <summary>
+        /// 获取事件模块列表数量
+        /// </summary>
+        public int EventModuleListCount
+        {
+            get
+            {
+                return _eventModuleList.Count;
+            }
+        }
+        /// <summary>
+        /// 获取事件集合列表数量
+        /// </summary>
+        public int EventScrollListCount
+        {
+            get
+            {
+                return _eventScroll.Count;
+            }
+        }
+        /// <summary>
+        /// 获取事件轴的队列个数，目前默认为3
+        /// </summary>
+        public int EventScrollCount
+        {
+            get
+            {
+                return 3;
+            }
+        }
+
+        /// <summary>
         /// 添加一个事件模块进入仲裁器
         /// </summary>
         /// <param name="eventModule"></param>
@@ -83,6 +114,8 @@ namespace GamePlay.Event
                 /*eg: GamePlay.Event.ReinforceArcher*/
                 //根据选中的事件的string生成对应的类
                 Type tempType = Type.GetType("GamePlay.Event." + selectedEvent);
+                if (tempType == null)
+                    continue;
                 Event tempEvent = Activator.CreateInstance(tempType) as Event;
                 //设置事件的源
                 tempEvent.Source = module.Source;
@@ -93,7 +126,7 @@ namespace GamePlay.Event
             //在这之前记得给事件集合打上回合数的的标签
             newAssembly.ExcuteTurn = this.nowBigestTurn;
             _eventScroll.Add(newAssembly);
-
+            Debug.Log("count: " + EventScrollListCount);
             //添加回合数标签
             _timeScroll.Add(Gameplay.Instance().roundProcessController.State.roundCounter);
         }

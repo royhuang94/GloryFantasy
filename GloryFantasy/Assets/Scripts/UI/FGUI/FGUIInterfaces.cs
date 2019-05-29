@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using GamePlay;
 using FairyGUI;
@@ -202,14 +203,6 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		if (!Gameplay.Instance().roundProcessController.IsPlayerRound())
 			return;
 
-//		int index = _handcardList.GetChildIndex(context.data as GObject);
-//		BaseCard baseCardReference = handcardInstanceList[index].GetComponent<BaseCard>();
-//		if (!Player.Instance().CanConsumeAp(baseCardReference.cost))
-//		{
-//			Debug.Log("Ran out of AP, cant use this one");
-//			return;
-//		}
-		
 		GObject item = context.data as GObject;
 		
 		// 确认当前点击的卡牌和上次点击的不同，此时表明用户想使用这张卡牌
@@ -242,28 +235,6 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		
 		CardManager.Instance().OnUseCurrentCard();
 		
-//		// 若是效果牌
-//		if (baseCardReference.type.Equals("Order"))
-//		{
-////			// 判断使用结果
-////			if (baseCardReference.Use())
-////			{
-////				// 使用成功则移除手牌
-////				CardManager.Instance().RemoveCardToCd(index);
-////				return;
-////			}
-//
-//			baseCardReference.Use();
-//			
-//		}
-//		else
-//		{
-//			if (Gameplay.Instance().gamePlayInput.IsSelectingCard == false)
-//			{
-//				Gameplay.Instance().gamePlayInput. OnPointerDownUnitCard(handcardInstanceList[index]);
-//				BattleMap.BattleMap.Instance().IsColor = true;
-//			}
-//		}
 	}
 
 	/// <summary>
@@ -328,12 +299,12 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		{
 			GObject item = UIPackage.CreateObject(pkgName, "cardsSetsItem");
 			if(!cardId.Contains("#"))
-				item.icon = UIPackage.GetItemURL(cardsetsAssets,cardId);
+				item.icon = UIPackage.GetItemURL(cardsetsAssets,cardId.Split('_').First());
 			else
 			{
 				// 若带有'#'，则说明此id包含instanceid，需要重新解析
 				string nid = cardId.Substring(0, cardId.IndexOf('#'));
-				item.icon = UIPackage.GetItemURL(cardsetsAssets,nid);
+				item.icon = UIPackage.GetItemURL(cardsetsAssets,nid.Split('_').First());
 			}
 			_cardsSetsList.AddChild(item);
 		}
@@ -358,8 +329,8 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			{
 				nid = cardId;
 			}
-			
-			item.icon = UIPackage.GetItemURL(handcardAssets, nid);
+
+			item.icon = UIPackage.GetItemURL(handcardAssets, nid.Split('_').First());
 			item.SetPivot(0.5f, 1f);
 			_handcardList.AddChild(item);
 			string id = string.Copy(nid);
@@ -466,7 +437,8 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		{
 			GObject item = UIPackage.CreateObject(pkgName, "cooldownItem");
 			item.icon = UIPackage.GetItemURL(numsPkg, "cdNum" + cooldownCard.leftCd);
-			item.asCom.GetChild("n2").asLoader.url = UIPackage.GetItemURL(cooldowncardAssets, cooldownCard.objectId);
+			item.asCom.GetChild("n2").asLoader.url = UIPackage.GetItemURL(cooldowncardAssets,
+				cooldownCard.objectId.Split('_').First());
 			_cooldownList.AddChild(item);
 		}
 	}

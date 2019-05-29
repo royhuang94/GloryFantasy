@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,9 +14,9 @@ namespace GamePlay.Event
      //   "strenth": 1,
      //   "type": "增援",
      //   "weight": 0
-    public class ReinforceArcher : Event
+    public class Empty : Event
     {
-        public ReinforceArcher()
+        public Empty()
         {
             //从数据库读取属性，id名不能错
             EventDataBase.Instance().GetEventProperty("ReinforceArcher", this);
@@ -35,12 +34,12 @@ namespace GamePlay.Event
 
         void selfAction()
         {
-            //"在来源战区中随机部署X个弓手之影(CR Y)",
 
+            Debug.Log("测试事件触发");
+            //"在来源战区中随机部署X个弓手之影(CR Y)",
+            
             //来源
             //this.Source as GameUnit.GameUnit
-            int sourceID = 1;
-            BattleMap.BattleArea battleArea = BattleMap.BattleMap.Instance().battleAreaData.GetBattleAreaByID(sourceID);
 
             //X个
             //this.amount

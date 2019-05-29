@@ -100,6 +100,7 @@ namespace GamePlay
             buffManager = new BuffManager();
             autoController = new AI.AutoController();
             singleBattle = new AI.BattleField();
+            eventScroll = new EventScroll();
 
 
             _phaseNameText = GameObject.Find("phaseNameText").GetComponentInChildren<Text>();

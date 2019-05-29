@@ -61,8 +61,22 @@ namespace GameUnit
 
             //部署成功
             Gameplay.Instance().bmbColliderManager.Fresh(gameUnit);
+            AddEventModule(gameUnit);
+            Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
 
-            if(gameUnit.tag.Contains("英雄"))
+            if(gameUnit.owner == OwnerEnum.Enemy)
+            {
+                AI.SingleController controller;
+                //初始化AI控制器与携带的仇恨列表
+                if (BattleMap.BattleMap.Instance().UnitsList.Count %2 != 0)
+                    controller = new AI.SingleAutoControllerAtker(gameUnit); //无脑型
+                else
+                    controller = new AI.SingleAutoControllerDefender(gameUnit);//防守型
+                controller.hatredRecorder.Reset(gameUnit);
+                GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
+            }
+
+            if (gameUnit.tag.Contains("英雄"))
                 temp.AddComponent<ESSlot>();
         }
 
@@ -70,10 +84,10 @@ namespace GameUnit
         /// 初始战斗地图上的单位
         /// </summary>
         /// <param name="encounterID">遭遇id</param>
-        public static void InitAndInstantiateGameUnit(string encounterID,BattleMapBlock[,] _mapBlocks)
+        public static void InitAndInstantiateGameUnit(string encounterID, BattleMapBlock[,] _mapBlocks)
         {
             Encounter encounter = null;
-            EncouterData.Instance()._encounterData.TryGetValue(encounterID,out encounter);
+            EncouterData.Instance()._encounterData.TryGetValue(encounterID, out encounter);
             if (encounter == null)
                 return;
 
@@ -108,7 +122,7 @@ namespace GameUnit
 
                 AI.SingleController controller;
                 //初始化AI控制器与携带的仇恨列表
-                if (_unitsList.Count == 1 || _unitsList.Count == 3 || _unitsList.Count == 5) 
+                if (_unitsList.Count == 1 || _unitsList.Count == 3 || _unitsList.Count == 5)
                     controller = new AI.SingleAutoControllerAtker(unit); //无脑型
                 else
                     controller = new AI.SingleAutoControllerDefender(unit);//防守型
@@ -127,7 +141,10 @@ namespace GameUnit
                 float maxHp = gameUnit.MaxHP;
                 float hpDivMaxHp = hp / maxHp * 100;
                 TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
+
+                AddEventModule(gameUnit);
             }
+            Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
         }
 
         /// <summary>
@@ -137,8 +154,20 @@ namespace GameUnit
         /// <returns></returns>
         public static List<GameUnit> GetUnitFromBattleMapBlock(Vector2 position)
         {
-            BattleMap.BattleMapBlock mapBlock =  BattleMap.BattleMap.Instance().GetSpecificMapBlock(position);
+            BattleMap.BattleMapBlock mapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(position);
             return mapBlock.units_on_me;
+        }
+
+
+        /// <summary>
+        /// 读取每个事件模块中的信息
+        /// </summary>
+        private static void AddEventModule(GameUnit unit)
+        {
+            if (unit.EventModule != null)
+            {
+                Gameplay.Instance().eventScroll.AddEventModule(unit.EventModule);
+            }
         }
     }
 }

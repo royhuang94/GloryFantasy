@@ -246,6 +246,8 @@ private void ReadMap()
 /// </summary>
 public abstract class MapUnit:MonoBehaviour
 {
+    protected List<MapUnit> unitcheck = new List<MapUnit>();
+    protected static bool isverify = true;
     public HexVector hexVector = new HexVector();
     public Button btn;
     /// <summary>初始化地格，获得所在实例的按钮组件并监听事件
@@ -309,8 +311,15 @@ public class Plane : MapUnit
     /// </summary>
     public override void OnClick()
     {
+
             if  (Charactor.Instance().aroundlist.ContainsValue(this))
         {
+                if(!isverify)
+                {
+                    isverify = true;
+                    //todo:添加确认点击的ux
+                    Debug.Log("点击确认");
+                }
                 ChangePosition(1);
         }
         else
@@ -350,23 +359,6 @@ public class Library : MapUnit
         {
             ChangePosition(1);                    
         }
-    #region 弃用的代码
-            //else if (ReadyToTrans == true)
-            //{
-
-            //    if (isActive == false)
-            //    {
-            //        Debug.Log("所选图书馆未激活。");
-            //    }
-            //    else
-            //    {
-            //        Debug.Log("指令合法，开始传送");
-            //        transfer();
-            //        ReadyToTrans = false;
-            //        Debug.Log("传送完成");
-            //    }
-            //}
-            #endregion
         else
         {
             Debug.Log("你不在这个图书馆");
@@ -382,23 +374,6 @@ public class Library : MapUnit
                 activelibrarylist.Add(this);
             }
             MainMapUI.Instance().ShowlibraryUI(this);
-
-            #region 弃用的代码
-            ////如果放弃传送移动到图书馆相邻格子会重新把readytotrans设置为false,这里实现的很蠢，等结合UI就可以通过按钮监听canceltrans了0.0
-            //foreach (MapUnit unit in Charactor.Instance().aroundlist.Values)
-            //{
-
-            //    if (unit != null)
-            //    {
-            //        unit.gameObject.GetComponent<Button>().onClick.AddListener(CancelTrans);
-
-            //    }
-            //    else
-            //    {
-
-            //    }
-            //}
-            #endregion
         }
         public static void PrepareTrans()
         {

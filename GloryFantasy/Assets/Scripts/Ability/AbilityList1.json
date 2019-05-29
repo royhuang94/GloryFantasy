@@ -551,7 +551,7 @@
     "Curing": 0
   },
   {
-    "AbilityID": "SummonWolf",
+    "AbilityID": "Curingwind",
     "AbilityName": "治愈之风",
     "Description": "所有的友方单位获得{Curing}点生命。",
     "TargetList": [],

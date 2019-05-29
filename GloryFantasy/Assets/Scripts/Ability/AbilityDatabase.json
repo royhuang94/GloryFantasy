@@ -1,0 +1,848 @@
+[
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "要求携带者：紫色单位。使用者：携带者。使用者获得“4级范围以内的其他友方单位获得+2攻击力和+2最大生命上限。”和移动力-1，持续{Turns}回合。",
+        "Draws": 0,
+        "ID": "Anthem_1",
+        "Name": "号令之声",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 2
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "要求携带者：紫色单位。使用者：携带者。使用者获得“4级范围以内的其他友方单位获得+2攻击力和+2最大生命上限。”，持续{Turns}回合。",
+        "Draws": 0,
+        "ID": "Anthem_3",
+        "Name": "号令之声",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 3
+    },
+    {
+        "Amount": 1,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位每回合获得一个{Amount}点的护甲用以抵挡伤害。",
+        "Draws": 0,
+        "ID": "Armor",
+        "Name": "护甲",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 3,
+        "Curing": 0,
+        "Damage": 4,
+        "Description": "要求携带者：弓手。使用者：携带者。消耗动作次数。选择{Range}以内的格子。使用者对其及周围{Area}格内的单位造成{Damage}点伤害。",
+        "Draws": 0,
+        "ID": "Arrowrain",
+        "Name": "箭雨",
+        "Range": 4,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：友方红色单位。其所在战区的友方单位获得+2点攻击力直到回合结束。",
+        "Draws": 0,
+        "ID": "Battlecry",
+        "Name": "战嚎",
+        "Range": 0,
+        "TargetList": [
+            {
+                "color": [
+                    "R"
+                ],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "受到此单位伤害的单位获得目盲，一回合后消解。",
+        "Draws": 0,
+        "ID": "Blind",
+        "Name": "恍惚之毒",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：友方单位。使用者获得获得+3攻击力和+3最大生命上限，持续{Turns}个回合。",
+        "Draws": 0,
+        "ID": "Courage",
+        "Name": "热血律动",
+        "Range": 0,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
+        "Turns": 2
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位会于部署后{Turns}消解。",
+        "Draws": 0,
+        "ID": "Crash",
+        "Name": "消解",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 2
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "迅击（此单位战斗时较先造成伤害）",
+        "Draws": 0,
+        "ID": "FirstStrike",
+        "Name": "迅击",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：友方单位。消耗动作次数。将其2格内的一个敌方单位投掷到{Range}格内的一格中。",
+        "Draws": 0,
+        "ID": "Throw_1",
+        "Name": "念动投掷",
+        "Range": 4,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "敌人"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 4,
+        "Description": "使用者：友方单位。消耗动作次数。将其2格内的一个敌方单位投掷到{Range}格内的一格中并对其造成{Damage}点伤害。",
+        "Draws": 0,
+        "ID": "Throw_2",
+        "Name": "念动投掷",
+        "Range": 4,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "敌人"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 2,
+        "Curing": 0,
+        "Damage": 4,
+        "Description": "使用者：友方单位。消耗动作次数。将其2格内的一个敌方单位投掷到{Range}格内的一格中并对其周围{Area}级范围内的敌方单位造成{Damage}点伤害。",
+        "Draws": 0,
+        "ID": "Throw_3",
+        "Name": "念动投掷",
+        "Range": 4,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "敌人"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位将于{Turns}后苏醒。",
+        "Draws": 0,
+        "ID": "Gargoyle_Awake",
+        "Name": "石像苏醒",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 4
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "溃退时转化为石像。",
+        "Draws": 0,
+        "ID": "Gargoyle_Sleep",
+        "Name": "石像蓄能",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "迅捷（此单位部署后可以直接进攻）",
+        "Draws": 0,
+        "ID": "Haste",
+        "Name": "迅捷",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 1,
+        "Area": 0,
+        "Curing": 6,
+        "Damage": 0,
+        "Description": "此单位部署时，其治疗同一战区内的目标友方单位{Curing}点生命。",
+        "Draws": 0,
+        "ID": "Heal",
+        "Name": "疗愈",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位不会陷入绊足状态。",
+        "Draws": 0,
+        "ID": "ImmueBurn",
+        "Name": "免疫烧灼",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位不会陷入卸武状态。",
+        "Draws": 0,
+        "ID": "ImmueDisarm",
+        "Name": "免疫卸武",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位不会陷入粘滞状态。",
+        "Draws": 0,
+        "ID": "ImmueDispose",
+        "Name": "免疫粘滞",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位不会陷入晕眩状态。",
+        "Draws": 0,
+        "ID": "ImmueDizzy",
+        "Name": "免疫晕眩",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位不会陷入目盲状态。",
+        "Draws": 0,
+        "ID": "ImmueBlind",
+        "Name": "免疫目盲",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：携带有战技的友方单位。创建使用者携带的战技的临时复制置入你的手中（临时复制使用后销毁）",
+        "Draws": 0,
+        "ID": "InstantIdea_1",
+        "Name": "瞬发创想",
+        "Range": 0,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：携带有战技的友方单位。创建使用者携带的战技的两张临时复制置入你的手中（临时复制使用后销毁）",
+        "Draws": 0,
+        "ID": "InstantIdea_3",
+        "Name": "瞬发创想",
+        "Range": 0,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：友方单位。使用者跳跃到{Range}格内的一格。",
+        "Draws": 0,
+        "ID": "Jump",
+        "Name": "轻身飞跃",
+        "Range": 4,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "滞击（此单位战斗时较后造成伤害）",
+        "Draws": 0,
+        "ID": "LastStrike",
+        "Name": "滞击",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 5,
+        "Description": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。消耗动作次数。使用者对目标格子上的单位造成{Damage}点伤害。",
+        "Draws": 0,
+        "ID": "LunaStrike",
+        "Name": "月之裁决",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：友方单位。使用者所在区域的敌方单位获得滞击，{Turns}回合后消解。",
+        "Draws": 0,
+        "ID": "Mist_1",
+        "Name": "隐雾术",
+        "Range": 0,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：友方单位。使用者所在区域的敌方单位获得目盲，{Turns}回合后消解。",
+        "Draws": 0,
+        "ID": "Mist_3",
+        "Name": "隐雾术",
+        "Range": 0,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 1,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "溃退时在其1级{Area}爆发范围产生粘滞地块，2回合{Turns}后消解。",
+        "Draws": 0,
+        "ID": "Ooze_ViscousBoom",
+        "Name": "粘液爆发",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 2
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "抓{Draws}张牌，随后选择1张手牌冷却两回合。",
+        "Draws": 2,
+        "ID": "Ponder_1",
+        "Name": "谋定而动",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "抓{Draws}张牌，随后选择1张手牌洗回牌库。",
+        "Draws": 2,
+        "ID": "Ponder_2",
+        "Name": "谋定而动",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "抓{Draws}张牌，随后选择2张手牌洗回牌库。",
+        "Draws": 3,
+        "ID": "Ponder_3",
+        "Name": "谋定而动",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位携带的战技在部署时不去牌库，改为直接置入手中",
+        "Draws": 0,
+        "ID": "QuickArk",
+        "Name": "活绪",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位会被立即部署。",
+        "Draws": 0,
+        "ID": "QuickPlat",
+        "Name": "即时备战",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位溃退时，将其重新部署并保留最大生命值一般的生命。随后此单位失去此能力。",
+        "Draws": 0,
+        "ID": "Regeneration",
+        "Name": "复活",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 1,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "溃退时会重新露出头部。",
+        "Draws": 0,
+        "ID": "Sandworm_Awake",
+        "Name": "钻出！",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 2
+    },
+    {
+        "Amount": 0,
+        "Area": 3,
+        "Curing": 0,
+        "Damage": 2,
+        "Description": "你的回合结束时，此单位烧灼其周围{Area}级范围，并对其上的单位造成{Damage}点伤害。",
+        "Draws": 0,
+        "ID": "SelfBlasting",
+        "Name": "自身爆发",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "同一战区的友方单位获得+1攻击力和+3最大生命值。",
+        "Draws": 0,
+        "ID": "Shadow_Courage",
+        "Name": "暗影鼓舞",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 3,
+        "Curing": 0,
+        "Damage": 1,
+        "Description": "攻击时会烧灼周围{Area}级区域的格子，一回合后消解，并对其上的单位造成{Damage}的伤害。",
+        "Draws": 0,
+        "ID": "Shadow_FireEnchantment",
+        "Name": "邪火附魔",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 4,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位受到伤害时，MOV变为{Amount}直到下一个你的回合结束。",
+        "Draws": 0,
+        "ID": "Shadow_Revange",
+        "Name": "暗影索命",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 5,
+        "Damage": 0,
+        "Description": "所有的友方单位获得{Curing}点生命。",
+        "Draws": 0,
+        "ID": "CuringWind_1",
+        "Name": "治愈之风",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    },
+    {
+    "Amount": 0,
+    "Area": 0,
+    "Curing": 7,
+    "Damage": 0,
+    "Description": "所有的友方单位获得{Curing}点生命。",
+    "Draws": 0,
+    "ID": "CuringWind_2",
+    "Name": "治愈之风",
+    "Range": 0,
+    "TargetList": [],
+    "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "部署两个幼小的霜狼。",
+        "Draws": 0,
+        "ID": "SummonWolf_1",
+        "Name": "唤狼之笛",
+        "Range": 0,
+        "TargetList": [
+            {
+                "controler": "友军",
+                "is_speller": 0,
+                "type": "地形"
+            },
+            {
+                "controler": "友军",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "部署两个成熟的霜狼。",
+        "Draws": 0,
+        "ID": "SummonWolf_2",
+        "Name": "唤狼之笛",
+        "Range": 0,
+        "TargetList": [
+            {
+                "controler": "友军",
+                "is_speller": 0,
+                "type": "地形"
+            },
+            {
+                "controler": "友军",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "部署两个强大的霜狼。",
+        "Draws": 0,
+        "ID": "SummonWolf_3",
+        "Name": "唤狼之笛",
+        "Range": 0,
+        "TargetList": [
+            {
+                "controler": "友军",
+                "is_speller": 0,
+                "type": "地形"
+            },
+            {
+                "controler": "友军",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：友方单位。在使用者{Range}格范围之内创建3面易碎的墙体，{Turns}回合后消解。",
+        "Draws": 0,
+        "ID": "Wall_1",
+        "Name": "城墙术",
+        "Range": 4,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 2
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：友方单位。在使用者{Range}格范围之内创建3面朴素的墙体，{Turns}回合后消解。",
+        "Draws": 0,
+        "ID": "Wall_2",
+        "Name": "城墙术",
+        "Range": 4,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 2
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "使用者：友方单位。在使用者{Range}格范围之内创建3面坚实的墙体，{Turns}回合后消解。",
+        "Draws": 0,
+        "ID": "Wall_3",
+        "Name": "城墙术",
+        "Range": 4,
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 2
+    },
+    {
+        "Amount": 1,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "此单位使用的指令牌减少{Amount}回合的冷却。",
+        "Draws": 0,
+        "ID": "Wit",
+        "Name": "聪慧",
+        "Range": 0,
+        "TargetList": [],
+        "Turns": 0
+    }
+]

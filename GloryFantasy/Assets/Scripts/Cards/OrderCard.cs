@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using LitJson;
 using UnityEngine;
 
@@ -32,7 +34,16 @@ namespace GameCard
             base.Init(cardId, cardData);
             foreach (string abilityName in ability_id)
             {
-                gameObject.AddComponent(System.Type.GetType("Ability." +abilityName));
+                gameObject.AddComponent(System.Type.GetType("Ability." +abilityName.Split('_').First()));
+                Ability.Ability toInit = gameObject.GetComponent<Ability.Ability>();
+                try
+                {
+                    toInit.Init(abilityName);
+                }
+                catch (NullReferenceException)
+                {
+                    Debug.Log(abilityName + " Has not been completed. Cant init.");
+                }
             }
             
             // 根据tag中是否有含有战技关键字设置变量

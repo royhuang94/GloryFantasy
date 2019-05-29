@@ -10,30 +10,38 @@ namespace Ability
     public class Armor1 : Ability
     {
         Trigger trigger;
-        public int armor = 1;
+//        public int armor = 1;
+//
+//        private void Awake()
+//        {
+//            //导入Armor异能的参数
+//            InitialAbility("Armor");
+//        }
+//
+//        private void Start()
+//        {
+//            //获得这个技能的持有者，并修改其护甲恢复值
+//            GetComponent<GameUnit.GameUnit>().armorRestore = armor;
+//            //创建Trigger实例，传入技能的发动者和护甲恢复值
+//            trigger = new TArmor(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
+//            //注册Trigger进消息中心
+//            MsgDispatcher.RegisterMsg(trigger, "Armor");
+//        }
 
-        private void Awake()
+        public override void Init(string abilityId)
         {
-            //导入Armor异能的参数
-            InitialAbility("Armor");
+            base.Init(abilityId);
+            trigger = new TArmor(GetComponent<GameUnit.GameUnit>().GetMsgReceiver(), AbilityVariable.Amount.Value);
+            MsgDispatcher.RegisterMsg(trigger, abilityId);
         }
-
-        private void Start()
-        {
-            //获得这个技能的持有者，并修改其护甲恢复值
-            GetComponent<GameUnit.GameUnit>().armorRestore = armor;
-            //创建Trigger实例，传入技能的发动者和护甲恢复值
-            trigger = new TArmor(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
-            //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "Armor");
-        }
-
     }
 
     public class TArmor : Trigger
     {
 
-        public TArmor(MsgReceiver _speller)
+        private int _armor;
+        
+        public TArmor(MsgReceiver _speller, int armor)
         {
             register = _speller;
             msgName = (int)MessageType.BP;
