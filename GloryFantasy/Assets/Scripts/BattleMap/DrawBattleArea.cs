@@ -311,13 +311,16 @@ namespace BattleMap
         public Dictionary<int, List<Image>> BattleAreaRenderDic = new Dictionary<int, List<Image>>();
         private bool isBattleAreaShow = true;
 
+        /// <summary>
+        /// 获取格子边框图片，不是必要的情况下，请不要点开，我自己都要吐了
+        /// </summary>
         public void GetBattleAreaBorder()//1
         {
             Vector2 TopOff = new Vector2(0, -1);
             Vector2 BottomOff = new Vector2(0, 1);
             Vector2 LeftOff = new Vector2(-1, 0);
             Vector2 RightOff = new Vector2(1, 0);
-            int padding = 3;
+            int padding = 2;
 
             foreach (int k in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
             {
@@ -358,6 +361,42 @@ namespace BattleMap
                         Image image = battleMapBlock.transform.Find("Right").GetComponent<Image>();
                         transform.anchoredPosition += new Vector2(-padding, 0);
                         images.Add(image);
+                    }
+
+                    if (!HasBorderUpon(k, battleAreas[i] + TopOff) && HasBorderUpon(k, battleAreas[i] + BottomOff))//如果上面有格子,下面没有格子
+                    {
+                        if (!HasBorderUpon(k, battleAreas[i] + LeftOff) && HasBorderUpon(k, battleAreas[i] + LeftOff + TopOff))//如果左边有格子,左上角还不能有格子，我自己都要吐了 呕！
+                        {
+                            RectTransform transform = battleMapBlock.transform.Find("LeftTopRangle").GetComponent<RectTransform>();
+                            Image image = battleMapBlock.transform.Find("LeftTopRangle").GetComponent<Image>();
+                            transform.anchoredPosition += new Vector2(padding, -padding);
+                            images.Add(image);
+                        }
+                        else if (!HasBorderUpon(k, battleAreas[i] + RightOff) && HasBorderUpon(k, battleAreas[i] + RightOff + TopOff))//右边有格子
+                        {
+                            RectTransform transform = battleMapBlock.transform.Find("RightopRangle").GetComponent<RectTransform>();
+                            Image image = battleMapBlock.transform.Find("RightopRangle").GetComponent<Image>();
+                            transform.anchoredPosition += new Vector2(-padding, -padding);
+                            images.Add(image);
+                        }
+                    }
+
+                    if (HasBorderUpon(k, battleAreas[i] + TopOff) && !HasBorderUpon(k, battleAreas[i] + BottomOff))//如果上面没有格子,下面有格子
+                    {
+                        if (!HasBorderUpon(k, battleAreas[i] + LeftOff) && HasBorderUpon(k, battleAreas[i] + LeftOff + BottomOff))//如果左边有格子，右上角没有格子
+                        {
+                            RectTransform transform = battleMapBlock.transform.Find("LeftBottomRangle").GetComponent<RectTransform>();
+                            Image image = battleMapBlock.transform.Find("LeftBottomRangle").GetComponent<Image>();
+                            transform.anchoredPosition += new Vector2(padding, padding);
+                            images.Add(image);
+                        }
+                        else if (!HasBorderUpon(k, battleAreas[i] + RightOff) && HasBorderUpon(k, battleAreas[i] + RightOff + BottomOff))//右边有格子
+                        {
+                            RectTransform transform = battleMapBlock.transform.Find("RightBottomRangle").GetComponent<RectTransform>();
+                            Image image = battleMapBlock.transform.Find("RightBottomRangle").GetComponent<Image>();
+                            transform.anchoredPosition += new Vector2(-padding, padding);
+                            images.Add(image);
+                        }
                     }
                 }
                 BattleAreaRenderDic.Add(k, images);
@@ -417,6 +456,22 @@ namespace BattleMap
                 }
             }
             isBattleAreaShow = false;
+        }
+
+        /// <summary>
+        /// 隐藏战区
+        /// </summary>
+        public void HideBattleArea()
+        {
+            foreach (int id in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
+            {
+                List<Image> images = new List<Image>();
+                BattleAreaRenderDic.TryGetValue(id, out images);
+                for (int i = 0; i < images.Count; i++)
+                {
+                    images[i].color = new Color(255, 255, 255, 0);
+                }
+            }
         }
     }
 }

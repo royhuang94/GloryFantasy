@@ -504,12 +504,6 @@ namespace BattleMap
             drawBattleArea.ShowAndUpdateBattleArea();
         }
 
-        //隐藏战区
-        public void HideBattleZooe()
-        {
-            //battleAreaData.HideBattleZooe();
-        }
-
         /// <summary>
         /// 移除BattleBlock下的 unit
         /// </summary>
