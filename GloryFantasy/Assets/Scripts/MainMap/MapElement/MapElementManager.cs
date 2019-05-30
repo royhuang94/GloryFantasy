@@ -35,14 +35,22 @@ namespace MainMap
                     Debug.Log("生成怪物");
                     GameObject monster = (GameObject)Instantiate(Resources.Load("MMtestPrefab/monster", typeof(GameObject)));
                     ElementSet(monster,mapunit);
-                    monster.AddComponent<Monster>();
-                    monster.GetComponent<Monster>().SetID(elementtype[2]);
+                    Monster m = monster.AddComponent<Monster>();
+                    m.SetID(elementtype[2]);
+                    m.SetTexture();
+
                     break;
                 case "randomevent":
                     Debug.Log("生成随机事件");
                     GameObject randomevent = (GameObject)Instantiate(Resources.Load("MMtestPrefab/randomevent", typeof(GameObject)));
                     ElementSet(randomevent,mapunit);
                     randomevent.AddComponent<RandomEvent>();
+                    break;
+                case "treasure":
+                    Debug.Log("生成宝箱");
+                    GameObject treasure = (GameObject)Instantiate(Resources.Load("MMtestPrefab/treasure", typeof(GameObject)));
+                    ElementSet(treasure, mapunit);
+                    treasure.AddComponent<Treasure>();
                     break;
                 default:
                     Debug.Log("地格上层元素读取错误");
@@ -57,8 +65,8 @@ namespace MainMap
         public void ElementSet(GameObject mapelement,GameObject mapunit)
         {
             mapelement.transform.parent = mapunit.transform;
-            mapelement.transform.position = mapunit.transform.position;
-
+            mapelement.transform.position = mapunit.transform.position + new Vector3(0,0,-0.05f);
+            
         }
     }
     /// <summary>地图元素抽象类
@@ -99,6 +107,11 @@ namespace MainMap
             monsterid = id;
             Debug.Log("ID设置成功");
         }
+        public  void SetTexture()
+        {
+            this.GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("MMtesttexture/" + monsterid,typeof(Sprite));
+            Debug.Log("根据id添加材质");
+        }
     }
     /// <summary>随机事件
     /// 
@@ -115,6 +128,18 @@ namespace MainMap
                 Debug.Log("随机事件被点击");
         }
     }
+    public class Treasure : MapElement
+    {
+        protected override void Awake()
+        {
+            Debug.Log("宝箱初始化");
+        }
+        public override void ElementOnClick()
+        {
+            Debug.Log("宝箱被点击");
+        }
+    }
+
 
 }
 
