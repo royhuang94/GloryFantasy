@@ -20,8 +20,15 @@ namespace Mediator
 
         public List<BattleMapBlock> GetMapBlocksWithinRange(Vector2 cordinate, int range)
         {
-            // TODO: 完成实现
-            return null;
+            List<BattleMapBlock> battleMapBlocks = new List<BattleMapBlock>();
+            BattleMapBlock battleMapBlock = null;
+            List <Vector2> vector2s = GameGUI.ShowRange.Instance().GetSkillRnage(cordinate, range);
+            for(int i = 0;i < vector2s.Count; i++)
+            {
+                battleMapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(vector2s[i]);
+                battleMapBlocks.Add(battleMapBlock);
+            }
+            return battleMapBlocks;
         }
         
         public List<GameUnit.GameUnit> GetGameUnitsWithinRange(Vector2 cordinate, int range)

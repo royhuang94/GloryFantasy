@@ -156,8 +156,11 @@ namespace GameGUI
             }
             if(range == 5)
             {
-                //TODO
                 RecrusiveBody2(x, y, range, reslist);
+                reslist.Remove(reslist[24]);
+                reslist.Remove(reslist[20]);
+                reslist.Remove(reslist[4]);
+                reslist.Remove(reslist[0]);
             }
         }
 
