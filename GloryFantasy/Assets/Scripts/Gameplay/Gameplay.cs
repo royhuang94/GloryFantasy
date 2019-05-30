@@ -169,7 +169,6 @@ namespace GamePlay
             if (roundProcessController.roundInput != roundInput)
             {
                 yield return new WaitForSeconds(waitTime);
-                print("WaitAndPrint " + Time.time);
                 roundProcessController.roundInput = roundInput;
                 StartCoroutine(RoundUpdate());
             }
@@ -211,7 +210,6 @@ namespace GamePlay
                     Debug.Log("EndPhase");
                     break;
                 case GamePlay.Round.RoundInput.AIPhase:
-                    yield return StartCoroutine(SwitchPhaseHandler());
                     Debug.Log("AIPhase");
                     break;
                 default:

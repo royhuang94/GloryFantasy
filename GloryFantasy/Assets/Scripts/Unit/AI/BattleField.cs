@@ -28,7 +28,7 @@ namespace AI
         {
             battleState = BattleState.Ready;
 
-            AIBattleController.Instance().PlayBattle(Fight);
+            AIBattleController.Instance().PlayBattle(AIBattleController.Instance().AIFightConditon);
         }
 
         /// <summary>
@@ -37,42 +37,7 @@ namespace AI
         private void Fight()
         {
             battleState = BattleState.Fighting;
-
-            foreach (Unit unit in BattleMap.BattleMap.Instance().UnitsList)
-            {
-                //只获取敌人
-                if (unit.owner != GameUnit.OwnerEnum.Enemy && battleState == BattleState.End)
-                    break;
-
-                if (!unit.IsDead())
-                {
-                    AI.SingleController controller = GamePlay.Gameplay.Instance().autoController.GetSingleControllerByID(unit.CurPos);
-                    if(controller != null)
-                    {
-                        GameUnit.HeroActionState state = controller.AutoAction();
-
-                        //TODO 状态切换
-                        //目前没有切换，之后添加
-                        switch (state)
-                        {
-                            case GameUnit.HeroActionState.WaitForPlayerChoose:
-                                battleState = BattleState.WaitForPlayer;
-                                break;
-                            case GameUnit.HeroActionState.BattleEnd:
-                                battleState = BattleState.End;
-                                break;
-                            case GameUnit.HeroActionState.Error:
-                                battleState = BattleState.Exception;
-                                break;
-                            case GameUnit.HeroActionState.Warn:
-                                battleState = BattleState.Exception;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
+            AIBattleController.Instance().PlayBattle(AIBattleController.Instance().AIFightConditon);
         }
 
         /// <summary>
