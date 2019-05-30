@@ -225,13 +225,10 @@ namespace MainMap
         }
         public void Onclick()
         {
+            //todo：这个方法是干嘛的来着？貌似没什么用 2019.5.29
             Debug.Log("onclick");
         }
-        void Awake()
-        {
 
-            //  mapmanager = GameObject.Find("Map").GetComponent<MainMapManager>();
-        }
         /// <summary>实现移动的携程
         /// 
         /// </summary>
