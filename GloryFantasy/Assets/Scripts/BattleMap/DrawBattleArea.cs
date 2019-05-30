@@ -6,37 +6,40 @@ using Vectrosity;
 
 namespace BattleMap
 {
-    public class Grid
-    {
-        public Vector2 LeftTop = new Vector2();
-        public Vector2 RightTop = new Vector2();
-        public Vector2 LeftBottom = new Vector2();
-        public Vector2 RightBottom = new Vector2();
-
-        public Grid(Vector2 LT,Vector2 RT,Vector2 LB,Vector2 RB)
-        {
-            LeftTop = LT;
-            RightTop = RT;
-            LeftBottom = LB;
-            RightBottom = RB;
-        }
-    }
 
     public class DrawBattleArea
     {
+        #region 画的放出显示战区框，弃用qwq
+
         //战斗地图块边长
         int side = (int)BattleMap.Instance().battlePanel.GetComponent<GridLayoutGroup>().cellSize.x;
         public Dictionary<int, List<Grid>> battleGridDic = new Dictionary<int, List<Grid>>();
         Dictionary<int, VectorLine> LinesDic = new Dictionary<int, VectorLine>();//所有战区外边框
-        int offx = 430;
-        int offy = 500;
+        int offx = 0;
+        int offy = 0;
+
+        public class Grid
+        {
+            public Vector2 LeftTop = new Vector2();
+            public Vector2 RightTop = new Vector2();
+            public Vector2 LeftBottom = new Vector2();
+            public Vector2 RightBottom = new Vector2();
+
+            public Grid(Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB)
+            {
+                LeftTop = LT;
+                RightTop = RT;
+                LeftBottom = LB;
+                RightBottom = RB;
+            }
+        }
 
         /// <summary>
         /// 获取每个格子的每个顶点，生成格子对象，保存在字典中
         /// </summary>
         public void GetBattleBlockAllPosiotn()
         {
-            foreach(int k in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
+            foreach (int k in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
             {
                 List<Vector2> lis = new List<Vector2>();
                 BattleMap.Instance().battleAreaData.BattleAreaDic.TryGetValue(k, out lis);
@@ -50,8 +53,8 @@ namespace BattleMap
                 {
                     LeftTop = new Vector2((int)lis[i].x * side + offx, (int)lis[i].y * -side + offy);
                     RightTop = new Vector2(((int)lis[i].x + 1) * side + offx, (int)lis[i].y * -side + offy);
-                    LeftBottom = new Vector2((int)lis[i].x  * side + offx, ((int)lis[i].y +1) * -side + offy);
-                    RightBottom = new Vector2(((int)lis[i].x + 1) * side + offx, ((int)lis[i].y+1) * -side + offy);
+                    LeftBottom = new Vector2((int)lis[i].x * side + offx, ((int)lis[i].y + 1) * -side + offy);
+                    RightBottom = new Vector2(((int)lis[i].x + 1) * side + offx, ((int)lis[i].y + 1) * -side + offy);
                     Grid grid = new Grid(LeftTop, RightTop, LeftBottom, RightBottom);
                     grids.Add(grid);
                 }
@@ -72,7 +75,7 @@ namespace BattleMap
 
             List<Vector2> allPositons = new List<Vector2>();
 
-            for (int i = 0;i< lis.Count; i++)
+            for (int i = 0; i < lis.Count; i++)
             {
                 LeftTop = lis[i];
                 RightTop = lis[i] + new Vector2(1, 0);
@@ -88,62 +91,10 @@ namespace BattleMap
         }
 
         /// <summary>
-        /// 移除并获取交点坐标
-        /// </summary>
-        /// <param name="reslist"></param>
-        public List<Vector2> RemovetAndGetNodicals(List<Vector2> reslist)
-        {
-            List<Vector2> nodicalPositons = new List<Vector2>();
-            for (int i = 0; i < reslist.Count; i++)
-            {
-                for (int j = reslist.Count - 1; j > i; j--)
-                {
-                    if (reslist[i] == reslist[j])
-                    {
-                        nodicalPositons.Add(reslist[i]);
-                        reslist.RemoveAt(j);    
-                    }
-                }
-            }
-            return nodicalPositons;
-        }
-
-        /// <summary>
-        /// 坐标调整一下
-        /// </summary>
-        /// <param name="list"></param>
-        private void DealPoiston(List<Vector2> list)
-        {
-            for(int i = 0; i< list.Count; i++)
-            {
-                list[i] = new Vector2((int)list[i].x * side + offx, (int)list[i].y * -side  +offy);
-            }
-        }
-
-        /// <summary>
-        /// 判断该点是否是交点坐标
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="targgleList"></param>
-        /// <returns></returns>
-        public bool IsNodicalPosition(Vector2 pos,List<Vector2> targgleList)
-        {
-            foreach(Vector2 k in targgleList)
-            {
-                if(k == pos)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
         /// 画战区外边框
         /// </summary>
         public void DrawLine()
         {
-            Debug.Log("fdaf");
             GetBattleBlockAllPosiotn();
             Dictionary<int, List<Grid>> gridsDic = battleGridDic;
             DrawBattleArea drawBattleArea = BattleMap.Instance().drawBattleArea;
@@ -286,6 +237,57 @@ namespace BattleMap
         }
 
         /// <summary>
+        /// 移除并获取交点坐标
+        /// </summary>
+        /// <param name="reslist"></param>
+        public List<Vector2> RemovetAndGetNodicals(List<Vector2> reslist)
+        {
+            List<Vector2> nodicalPositons = new List<Vector2>();
+            for (int i = 0; i < reslist.Count; i++)
+            {
+                for (int j = reslist.Count - 1; j > i; j--)
+                {
+                    if (reslist[i] == reslist[j])
+                    {
+                        nodicalPositons.Add(reslist[i]);
+                        reslist.RemoveAt(j);
+                    }
+                }
+            }
+            return nodicalPositons;
+        }
+
+        /// <summary>
+        /// 坐标调整一下
+        /// </summary>
+        /// <param name="list"></param>
+        private void DealPoiston(List<Vector2> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i] = new Vector2((int)list[i].x * side + offx, (int)list[i].y * -side + offy);
+            }
+        }
+
+        /// <summary>
+        /// 判断该点是否是交点坐标
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="targgleList"></param>
+        /// <returns></returns>
+        public bool IsNodicalPosition(Vector2 pos, List<Vector2> targgleList)
+        {
+            foreach (Vector2 k in targgleList)
+            {
+                if (k == pos)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 通过战区id获取战区边框；
         /// </summary>
         /// <param name="reginID"></param>
@@ -303,6 +305,118 @@ namespace BattleMap
                 Debug.Log("该战区不存在");
                 return null;
             }
+        }
+        #endregion
+
+        public Dictionary<int, List<Image>> BattleAreaRenderDic = new Dictionary<int, List<Image>>();
+        private bool isBattleAreaShow = true;
+
+        public void GetBattleAreaBorder()//1
+        {
+            Vector2 TopOff = new Vector2(0, -1);
+            Vector2 BottomOff = new Vector2(0, 1);
+            Vector2 LeftOff = new Vector2(-1, 0);
+            Vector2 RightOff = new Vector2(1, 0);
+            int padding = 3;
+
+            foreach (int k in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
+            {
+                List<Vector2> battleAreas = null;
+                BattleMap.Instance().battleAreaData.BattleAreaDic.TryGetValue(k,out battleAreas);
+
+                List<Image> images = new List<Image>();
+                for (int i = 0;i < battleAreas.Count; i++)
+                {
+                    BattleMapBlock battleMapBlock = BattleMap.Instance().GetSpecificMapBlock(battleAreas[i]);
+                    
+                    
+                    //判断它周围还有没有格子，有格子就不用管了
+                    if (HasBorderUpon(k,battleAreas[i] + TopOff))//上面没有格子
+                    {
+                        RectTransform transform = battleMapBlock.transform.Find("Top").GetComponent<RectTransform>();
+                        Image image = battleMapBlock.transform.Find("Top").GetComponent<Image>();
+                        transform.anchoredPosition += new Vector2(0, -padding);
+                        images.Add(image);
+                    }
+                    if (HasBorderUpon(k, battleAreas[i] + BottomOff))//下面没有格子
+                    {
+                        RectTransform transform = battleMapBlock.transform.Find("Bottom").GetComponent<RectTransform>();
+                        Image image = battleMapBlock.transform.Find("Bottom").GetComponent<Image>();
+                        transform.anchoredPosition += new Vector2(0, padding);
+                        images.Add(image);
+                    }
+                    if (HasBorderUpon(k, battleAreas[i] + LeftOff))//左边没有格子
+                    {
+                        RectTransform transform = battleMapBlock.transform.Find("Left").GetComponent<RectTransform>();
+                        Image image = battleMapBlock.transform.Find("Left").GetComponent<Image>();
+                        transform.anchoredPosition += new Vector2(padding, 0);
+                        images.Add(image);
+                    }
+                    if (HasBorderUpon(k, battleAreas[i] + RightOff))//右边没有格子
+                    {
+                        RectTransform transform = battleMapBlock.transform.Find("Right").GetComponent<RectTransform>();
+                        Image image = battleMapBlock.transform.Find("Right").GetComponent<Image>();
+                        transform.anchoredPosition += new Vector2(-padding, 0);
+                        images.Add(image);
+                    }
+                }
+                BattleAreaRenderDic.Add(k, images);
+            }
+        }
+
+        /// <summary>
+        /// 判断周围有无相邻格子
+        /// </summary>
+        /// <param name="reginID"></param>
+        /// <param name="vector2"></param>
+        /// <returns></returns>
+        private bool HasBorderUpon(int reginID,Vector2 vector2)
+        {
+            List<Vector2> battleAreas = new List<Vector2>();
+            BattleMap.Instance().battleAreaData.BattleAreaDic.TryGetValue(reginID, out battleAreas);
+            for(int a = 0;a <battleAreas.Count;a++)
+            {
+                if (vector2 == battleAreas[a])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 显示战区内边框
+        /// </summary>
+        public void ShowAndUpdateBattleArea()//2
+        {
+            foreach (int id in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
+            {
+                List<Image> images = new List<Image>();
+                BattleAreaRenderDic.TryGetValue(id, out images);
+                if (BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Enmey)
+                {
+                    for (int i = 0; i < images.Count; i++)
+                        images[i].color = new Color(255, 0, 0, 255);
+                }
+                else if (BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Battle)
+                {
+                    for (int i = 0; i < images.Count; i++)
+                        images[i].color = new Color(255, 125, 0, 255);
+                }
+                else if (BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Player)
+                {
+                    for (int i = 0; i < images.Count; i++)
+                        images[i].color = new Color(0, 255, 0, 255);
+                }
+                else if (isBattleAreaShow && BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Neutrality)
+                {
+                    for (int i = 0; i < images.Count; i++)
+                    {
+                        images[i].color = new Color(255, 255, 255, 255);
+                    }
+                }
+            }
+            isBattleAreaShow = false;
         }
     }
 }

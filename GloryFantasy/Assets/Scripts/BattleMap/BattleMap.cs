@@ -118,14 +118,13 @@ namespace BattleMap
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter();            
             //初始化地图
-            InitAndInstantiateMapBlocks();
+            InitAndInstantiateMapBlocks();//
             //初始战区事件
             EncouterData.Instance().InitBattleFieldEvent("Forest_Shadow_1");//TODO等待对接
             //初始战区状态，战区对象并添加事件模块进入仲裁器；
             battleAreaData.InitBattleArea();           
             //初始战斗地图上的单位 
             UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1", _mapBlocks);
-
         }
 
         //初始化地图的地址
@@ -211,9 +210,9 @@ namespace BattleMap
                     _mapBlocks[x, y].blockType = EMapBlockType.normal;
                     //初始化地图块儿的collider组件
                     _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
+                    
                     GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
-
-                    battleAreaData.StoreBattleArea(area, new Vector2(x,y));//存储战区
+                    battleAreaData.StoreBattleArea(area, new Vector2(x, y));//存储战区
                 }
             }         
         }
@@ -502,13 +501,13 @@ namespace BattleMap
         //显示战区
         public void ShowAndUpdataBattleZooe()
         {
-            battleAreaData.ShowAndUpdataBattleZooe();
+            drawBattleArea.ShowAndUpdateBattleArea();
         }
 
         //隐藏战区
         public void HideBattleZooe()
         {
-            battleAreaData.HideBattleZooe();
+            //battleAreaData.HideBattleZooe();
         }
 
         /// <summary>

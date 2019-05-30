@@ -48,7 +48,7 @@ namespace BattleMap
         public void AddUnit(Unit unit, bool isSetUnitsOnMe = true)
         {
             //Debug.Log("MapBlocks--Added unit:" + unit.ToString());
-            if(isSetUnitsOnMe)
+            if (isSetUnitsOnMe)
                 units_on_me.Add(unit);
             //在Hierarchy中，还需要把单位添加到Block下
             //修改单位的父级对象
@@ -241,6 +241,12 @@ namespace BattleMap
         public int area { get; set; }
         public int x { get; set; }
         public int y { get; set; }
+
+        internal void FindChild(string v)
+        {
+            throw new NotImplementedException();
+        }
+
         public string type { get; set; }
         public List<Unit> units_on_me = new List<Unit>();
         public EMapBlockType blockType { get; set; }

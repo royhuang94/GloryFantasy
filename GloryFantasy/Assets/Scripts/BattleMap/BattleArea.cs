@@ -84,7 +84,7 @@ namespace BattleMap
                     if(BattleMap.Instance().battleAreaData.WarZoneBelong(id) != BattleAreaSate.Neutrality)//中立就不更新
                     {
                         battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
-                        //BattleMap.Instance().ShowAndUpdataBattleZooe();//更新战区显示
+                        BattleMap.Instance().ShowAndUpdataBattleZooe();
                     }                   
                     Debug.Log(string.Format("战区：{0}，当前状态：{1}",id,battleArea._battleAreaSate));
 
@@ -111,8 +111,7 @@ namespace BattleMap
     {
         #region
         private List<int> areas = new List<int>();
-        private Dictionary<int, List<Vector2>> battleAreaDic = new Dictionary<int, List<Vector2>>();//战区id与战区相对应的字典
-        public Dictionary<int, List<Vector2>> BattleAreaDic { get { return battleAreaDic; } }
+        public Dictionary<int, List<Vector2>> BattleAreaDic = new Dictionary<int, List<Vector2>>();
         #endregion
         public Dictionary<int, BattleArea> battleAreas;//存储的所有战区的id和对应的战区对象，尽量用这个，不用上面旧的那个
         private bool isBattleAreaShow = true;
@@ -145,14 +144,14 @@ namespace BattleMap
             for (int i = 1; i <= areas.Count; i++)
             {
                 List<Vector2> battleArea = new List<Vector2>();//同一个战区上的所有地图块坐标
-                battleAreaDic.Add(i, battleArea);
+                BattleAreaDic.Add(i, battleArea);
             }
         }
 
         //存储战区
         public void StoreBattleArea(int area, Vector2 mapPos)
         {
-            battleAreaDic[area].Add(mapPos);
+            BattleAreaDic[area].Add(mapPos);
         }
 
         /// <summary>
@@ -161,10 +160,10 @@ namespace BattleMap
         public void InitBattleArea()
         {
             battleAreas = new Dictionary<int, BattleArea>();
-            foreach (int id in battleAreaDic.Keys)
+            foreach (int id in BattleAreaDic.Keys)
             {
                 List<Vector2> list = null;
-                battleAreaDic.TryGetValue(id, out list);
+                BattleAreaDic.TryGetValue(id, out list);
                 string[] trrigers = null;
                 trrigers = GamePlay.Encounter.EncouterData.Instance().GetBattleAreaTriggerByRegionID(id);
                 List<EventModule.EventWithWeight> models = EncouterData.Instance().GetBattleFieldEvent(id);
@@ -172,16 +171,14 @@ namespace BattleMap
                 battleAreas.Add(id, battleArea);
 
                 if (battleArea._modules == null)
-                    return;
+                    continue;
                 EventModule eventModule = new EventModule(battleArea);
                 eventModule.AddEvent(models);
 
                 GamePlay.Gameplay.Instance().eventScroll.AddEventModule(eventModule);
             }
-
-            //生成战区内边框
-            Debug.Log("dfs");
-            BattleMap.Instance().drawBattleArea.DrawLine();
+            //生成战区内框
+            BattleMap.Instance().drawBattleArea.GetBattleAreaBorder();
         }
 
         #region 显示隐藏战区,格子显示的方式，被弃用了
@@ -189,7 +186,7 @@ namespace BattleMap
         {
             int area = mapBlock[(int)position.x, (int)position.y].area;
             List<Vector2> battleAreas = null;
-            battleAreaDic.TryGetValue(area, out battleAreas);
+            BattleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
             {
                 if (WarZoneBelong(area) == BattleAreaSate.Battle || WarZoneBelong(area) == BattleAreaSate.Enmey)
@@ -211,33 +208,33 @@ namespace BattleMap
         {
             int area = mapBlock[(int)position.x, (int)position.y].area;
             List<Vector2> battleAreas = null;
-            battleAreaDic.TryGetValue(area, out battleAreas);
+            BattleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
             {
                 mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.white;
             }
         }
-        #endregion
 
-        //新的显示战区，内边框显示方式
+        //新的显示战区，内边框显示方式，也被弃用了qwq
         public void ShowAndUpdataBattleZooe()
         {
-            foreach(int id in battleAreaDic.Keys)
+            foreach (int id in BattleAreaDic.Keys)
             {
                 VectorLine vectorLine = BattleMap.Instance().drawBattleArea.GetLineByID(id);
+
                 if (WarZoneBelong(id) == BattleAreaSate.Enmey)
                 {
-                    vectorLine.SetColor(new Color(255,0,0,255));
+                    vectorLine.SetColor(new Color(255, 0, 0, 255));
                 }
-                else if(WarZoneBelong(id) == BattleAreaSate.Battle)
+                else if (WarZoneBelong(id) == BattleAreaSate.Battle)
                 {
                     vectorLine.SetColor(new Color(255, 125, 0, 255));
                 }
-                else if(WarZoneBelong(id) == BattleAreaSate.Player)
+                else if (WarZoneBelong(id) == BattleAreaSate.Player)
                 {
-                    vectorLine.SetColor(new Color(0,255,0,255));
+                    vectorLine.SetColor(new Color(0, 255, 0, 255));
                 }
-                else if(isBattleAreaShow && WarZoneBelong(id) == BattleAreaSate.Neutrality)
+                else if (isBattleAreaShow && WarZoneBelong(id) == BattleAreaSate.Neutrality)
                 {
                     vectorLine.SetColor(new Color(255, 255, 255, 255));
                 }
@@ -247,12 +244,14 @@ namespace BattleMap
 
         public void HideBattleZooe()
         {
-            foreach (int id in battleAreaDic.Keys)
+            foreach (int id in BattleAreaDic.Keys)
             {
                 VectorLine vectorLine = BattleMap.Instance().drawBattleArea.GetLineByID(id);
                 vectorLine.SetColor(new Color(255, 255, 255, 0));
             }
         }
+        #endregion
+      
 
         //战区所属权
         public BattleAreaSate WarZoneBelong(int area)
@@ -262,7 +261,7 @@ namespace BattleMap
             int friendlyAmout = 0;//战区上我方单位数量
             int neutralityAmout = 0;//战区上中立单位数量
             List<Vector2> battleAreas = null;
-            battleAreaDic.TryGetValue(area, out battleAreas);
+            BattleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
             {
                 int x = (int)pos.x;
@@ -311,7 +310,7 @@ namespace BattleMap
         {
             int unitAmout = 0;//该战区上我方单位数量
             List<Vector2> battleAreas = null;
-            battleAreaDic.TryGetValue(area, out battleAreas);
+            BattleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
             {
                 if (BattleMap.Instance().CheckIfHasUnits(pos))
@@ -343,7 +342,7 @@ namespace BattleMap
         public int ProjectUnit(int area, GameUnit.GameUnit player, GameUnit.GameUnit enemy)//不好直接返回bool值，万一都还没见进入这个战区该返回什么？暂时就这样吧
         {
             List<Vector2> battleAreas = null;
-            battleAreaDic.TryGetValue(area, out battleAreas);
+            BattleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
             {
                 if (BattleMap.Instance().CheckIfHasUnits(pos))

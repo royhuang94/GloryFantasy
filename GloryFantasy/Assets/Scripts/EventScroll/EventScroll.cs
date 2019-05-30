@@ -126,7 +126,7 @@ namespace GamePlay.Event
             //在这之前记得给事件集合打上回合数的的标签
             newAssembly.ExcuteTurn = this.nowBigestTurn;
             _eventScroll.Add(newAssembly);
-            Debug.Log("count: " + EventScrollListCount);
+            //Debug.Log("count: " + EventScrollListCount);
             //添加回合数标签
             _timeScroll.Add(Gameplay.Instance().roundProcessController.State.roundCounter);
         }
