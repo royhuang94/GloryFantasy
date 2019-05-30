@@ -21,6 +21,7 @@ namespace IMessage
         Prepare,//准备阶段
         Discard,//弃牌阶段
         AI,     //敌人行动阶段
+        AIEnd,  // 敌人行动结束阶段
         
         WIN,    // 胜利消息
         LOSE,    // 失败消息
@@ -137,11 +138,12 @@ namespace IMessage
         /// <summary>
         /// 给msgReciver增加注册MSG的函数
         /// </summary>
-        /// <param name="trigger"></param>
-        /// <param name="TriggerName"></param>
-        public static void RegisterMsg(Trigger trigger, string TriggerName = "NoDefine")
+        /// <param name="trigger">触发器实例</param>
+        /// <param name="TriggerName">触发器名字</param>
+        /// <param name="DoOnce">是否只执行一次</param>
+        public static void RegisterMsg(Trigger trigger, string TriggerName = "NoDefine", bool DoOnce = false)
         {
-            RegisterMsg(trigger.register, trigger.msgName, trigger.condition, trigger.action, TriggerName);
+            RegisterMsg(trigger.register, trigger.msgName, trigger.condition, trigger.action, TriggerName, DoOnce);
         }
         /// <summary>
         /// 给msgReciver增加注册MSG的函数

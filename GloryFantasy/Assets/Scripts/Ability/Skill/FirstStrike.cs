@@ -31,6 +31,7 @@ namespace Ability
             base.Init(abilityId);
             trigger = new TFirstStrike(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
             MsgDispatcher.RegisterMsg(trigger, abilityId);
+            
         }
 
         //这个技能被删除时要做反向操作
