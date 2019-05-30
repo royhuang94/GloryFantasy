@@ -3,6 +3,7 @@ using GameCard;
 using IMessage;
 using GamePlay;
 using GameUnit;
+using Mediator;
 
 namespace Ability
 {
@@ -26,22 +27,20 @@ namespace Ability
         {
             base.Init(abilityId);
             String targetId = gameObject.GetComponent<GameUnit.GameUnit>().id;
-            _trigger = new TWit(this.GetCardReceiver(this), targetId);
+            _trigger = new TWit(this.GetCardReceiver(this), targetId, AbilityVariable.Amount.Value);
             MsgDispatcher.RegisterMsg(_trigger, "Wit");
         }
     }
 
     public class TWit : Trigger
     {
-        private AbilityVariable _abilityVariable;
         private string _targetId;
+        private int _amount;
 
-        public TWit(MsgReceiver speller, string targetId)
+        public TWit(MsgReceiver speller, string targetId, int amount)
         {
-            _abilityVariable = AbilityDatabase.GetInstance().GetAbilityVariable("Wit");
-            if (_abilityVariable == null)
-                throw new NotImplementedException();
             _targetId = targetId;
+            _amount = amount;
             
             register = speller;
             //初始化响应时点,为卡片使用时
@@ -57,13 +56,13 @@ namespace Ability
         /// <returns>没有死亡就是true</returns>
         private bool Condition()
         {
-            return !GameUnitPool.Instance().CheckDeathByID(_targetId);
+            return !AbilityMediator.Instance().CheckUnitDeathById(_targetId);
         }
 
         private void Action()
         {
-            // 填充参数调用接口，完成指定用户使用卡牌cd减少指定回合cd功能
-            CardManager.Instance().HandleCooldownEvent(_targetId, _abilityVariable.Amount.Value);
+            // 完成指定用户使用卡牌cd减少指定回合cd功能
+            AbilityMediator.Instance().ReduceSpecificCardCd(_targetId, _amount);
         }
     }
 }

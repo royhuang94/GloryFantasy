@@ -399,6 +399,15 @@ namespace GamePlay.Round
             Gameplay.Instance().singleBattle.battleState = AI.BattleState.Prepare;
             Gameplay.Instance().singleBattle.Run();
         }
+        
+        
+        public override void Exit(RoundProcessController roundProcessController)
+        {
+            base.Exit(roundProcessController);
+            MsgDispatcher.SendMsg((int)MessageType.AIEnd);
+        }
+
+        
         public override string ToString()
         {
             return "AI阶段";
