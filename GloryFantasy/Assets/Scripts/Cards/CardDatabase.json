@@ -159,7 +159,7 @@
         "type": "Order"
     },
     {
-        "ID": "GSummonwilf_1",
+        "ID": "GSummonwolf_1",
         "ability_id": [
             "Summonwilf_1"
         ],
@@ -176,7 +176,7 @@
         "type": "Order"
     },
     {
-        "ID": "GSummonwilf_2",
+        "ID": "GSummonwolf_2",
         "ability_id": [
             "Summonwilf_2"
         ],
@@ -193,7 +193,7 @@
         "type": "Order"
     },
     {
-        "ID": "GSummonwilf_3",
+        "ID": "GSummonwolf_3",
         "ability_id": [
             "Summonwilf_3"
         ],
@@ -318,7 +318,7 @@
         "type": "Unit"
     },
     {
-        "ID": "GWoodfolk2",
+        "ID": "GWoodfolk_2",
         "ability_id": [
             "Heal_2"
         ],
