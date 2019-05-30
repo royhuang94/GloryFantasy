@@ -262,6 +262,9 @@ public abstract class MapUnit:MonoBehaviour
         btn = gameObject.GetComponent<Button>();
         btn.onClick.AddListener(CheckClick);
     }
+ /// <summary>根据策划需求，添加了ux以后的地格点击事件
+ /// 
+ /// </summary>
     public void CheckClick()
         {
             if (Charactor.Instance().aroundlist.ContainsValue(this))
@@ -277,12 +280,11 @@ public abstract class MapUnit:MonoBehaviour
                     unitcheck.Add(this);
                     Debug.Log("checking");
                     GetComponent<Animation>().Play("ClickCheck");
-                    //todo:临近地格点击的ux
                 }
             }
             else
             {
-                //Todo:非临近地格点击的ux
+                    CleanList();
             }
 
 
@@ -299,7 +301,7 @@ public abstract class MapUnit:MonoBehaviour
 
 
         }
-        /// <summary>点击事件抽象方法，需要每类地格具体实现
+        /// <summary>确认移动后调用的抽象方法，需要每类地格具体实现
         /// 
         /// </summary>
         public abstract void OnClick();
