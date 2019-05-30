@@ -213,6 +213,7 @@ namespace GamePlay
 
                 MsgDispatcher.SendMsg((int)MessageType.Kill); 
                 MsgDispatcher.SendMsg((int)MessageType.Dead);
+                MsgDispatcher.SendMsg((int)MessageType.BattleSate);//单位死亡更新战区所属状态
             }
             else
             {
