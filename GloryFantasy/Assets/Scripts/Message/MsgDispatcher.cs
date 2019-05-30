@@ -45,12 +45,7 @@ namespace IMessage
         #endregion
 
         #region 状态
-        SIdleToSPerpareMove,//idle -> PerpareMove
-        SPerpareMoveToSIdle,//PerpareMove -> Idle
-        SIdleToSStartMove,//Idle -> StartMove
-        SStartMoveToSIdle,
-        SIdleToAtk,
-        SAtkToSIdle,
+        HpChanged,
         #endregion
 
         Move, //开始移动

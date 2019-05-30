@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using GamePlay.Event;
 using IMessage;
@@ -6,11 +7,31 @@ using UnityEngine;
 
 namespace GamePlay.Round
 {
-
+    //TOOD 使用switch控制new出不同的对象
     public enum RoundInput
     {
+        None = -1,
 
+        RestoreApPhase,
+        StartPhase,
+        ExtractCardsPhase,
+        PreparePhase,
+        MainPhase,
+        DiscardPhase,
+        EndPhase,
+        AIPhase
     };
+
+    //public static RestoreApPhase RestoreApPhase = new RestoreApPhase();
+    //public static StartPhase startPhase = new StartPhase();
+    //public static ExtractCardsPhase ExtractCardsPhase = new ExtractCardsPhase();
+    //public static PreparePhase PreparePhase = new PreparePhase();
+    //public static MainPhase mainPhase = new MainPhase();
+    //public static DiscardPhase discardPhase = new DiscardPhase();
+    //public static EndPhase endPhase = new EndPhase();
+    //public static AIPhase AiPhase = new AIPhase();
+    //public static WinState WinState = new WinState();
+    //public static LoseState LoseState = new LoseState();
 
     /// <summary>
     /// 回合流程控制器
@@ -27,11 +48,23 @@ namespace GamePlay.Round
         /// <summary>
         /// 切换到下一个状态要做的工作，现暂时使用按钮进行调用，后面由动画队列空消息触发
         /// </summary>
-        public void StepIntoNextState()
+        public void StepIntoNextStateByButton()
         {
             State.Exit(this);
             State.NextState(this);
             EnteringCurrentState();
+        }
+
+        /// <summary>
+        /// 切换到下一个状态要做的工作，现暂时使用按钮进行调用，后面由动画队列空消息触发
+        /// </summary>
+        public IEnumerator StepIntoNextState()
+        {
+            State.Exit(this);
+            State.NextState(this);
+            EnteringCurrentState();
+
+            yield return null;
         }
 
         /// <summary>
@@ -49,7 +82,7 @@ namespace GamePlay.Round
         /// <returns>若为玩家可操作的主要阶段，则返回true，否则返回false</returns>
         public bool IsPlayerRound()
         {
-            return State == RoundState.mainPhase;
+            return (State == RoundState.mainPhase || State == RoundState.discardPhase || State == RoundState.endPhase);
         }
 
 
@@ -61,7 +94,7 @@ namespace GamePlay.Round
         {
             if (State != RoundState.WinState || State != RoundState.LoseState)
                 return false;
-            
+
             return true;
         }
 
@@ -94,6 +127,8 @@ namespace GamePlay.Round
         }
 
         public RoundState State;
+        public RoundInput roundInput = RoundInput.None;
+        public Action<RoundInput, float> action;
     }
 
     public class RoundState
@@ -102,7 +137,7 @@ namespace GamePlay.Round
 
         public int roundCounter
         {
-            set { _roundCounter = value;}
+            set { _roundCounter = value; }
             get { return _roundCounter; }
         }
 
@@ -136,6 +171,8 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.startPhase;
+            //roundProcessController.roundInput = RoundInput.StartPhase;
+            roundProcessController.action(RoundInput.StartPhase, 1.8f);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
@@ -161,6 +198,8 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = ExtractCardsPhase;
+            //roundProcessController.roundInput = RoundInput.ExtractCardsPhase;
+            roundProcessController.action(RoundInput.ExtractCardsPhase, 3.0f);
             roundProcessController.State.Enter(roundProcessController);
         }
 
@@ -197,6 +236,8 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.PreparePhase;
+            //roundProcessController.roundInput = RoundInput.PreparePhase;
+            roundProcessController.action(RoundInput.PreparePhase, 2.0f);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
@@ -220,6 +261,8 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.mainPhase;
+            //roundProcessController.roundInput = RoundInput.MainPhase;
+            roundProcessController.action(RoundInput.MainPhase, 1.8f);
             roundProcessController.State.Enter(roundProcessController);
         }
 
@@ -230,7 +273,7 @@ namespace GamePlay.Round
 
             foreach (GameUnit.GameUnit unit in BattleMap.BattleMap.Instance().UnitsList)
             {
-                if(unit.owner == GameUnit.OwnerEnum.Player)
+                if (unit.owner == GameUnit.OwnerEnum.Player)
                 {
                     unit.canNotMove = false;
                     unit.canNotAttack = false;
@@ -254,6 +297,8 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.discardPhase;
+            roundProcessController.action(RoundInput.DiscardPhase, 1.0f);
+            //roundProcessController.roundInput = RoundInput.None;
         }
 
         /// <summary>
@@ -278,7 +323,7 @@ namespace GamePlay.Round
 
         public override string ToString()
         {
-            return "主要阶段及主要阶段结束阶段";
+            return "我方回合/主要阶段";
         }
     }
 
@@ -292,6 +337,7 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.endPhase;
+            roundProcessController.action(RoundInput.EndPhase, 1.0f);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
@@ -304,7 +350,7 @@ namespace GamePlay.Round
 
         public override string ToString()
         {
-            return "弃牌阶段";
+            return "我方回合/弃牌阶段";
         }
     }
 
@@ -318,6 +364,8 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.AiPhase;
+            //roundProcessController.roundInput = RoundInput.AIPhase;
+            roundProcessController.action(RoundInput.AIPhase, 2.8f);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
@@ -338,6 +386,8 @@ namespace GamePlay.Round
         {
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.RestoreApPhase;
+            //roundProcessController.roundInput = RoundInput.RestoreApPhase;
+            roundProcessController.action(RoundInput.RestoreApPhase, 1.8f);
             base.roundCounter += 1;
         }
 
@@ -382,5 +432,5 @@ namespace GamePlay.Round
             return "败北";
         }
     }
-   
+
 }

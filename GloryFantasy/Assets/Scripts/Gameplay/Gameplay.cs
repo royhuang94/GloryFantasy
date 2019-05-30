@@ -107,9 +107,15 @@ namespace GamePlay
             _phaseNameText.color = Color.red;
             _phaseNameText.text = roundProcessController.State.ToString();
         }
-        private void Update()
-        {
-        }
+        //private void Update()
+        //{
+        //    if(roundProcessController.roundInput != RoundInput.None)
+        //    {
+        //        IEnumerator coroutine;
+        //        coroutine = WaitAndPrint(8.0f);
+        //        StartCoroutine(coroutine);
+        //    }
+        //}
 
         public static Info Info = new Info();
         public RoundProcessController roundProcessController; 
@@ -119,7 +125,6 @@ namespace GamePlay
         public  AI.BattleField singleBattle;
         public AI.AutoController autoController;
         public EventScroll eventScroll;
-
         private Text _phaseNameText;
         
         /// <summary>
@@ -127,10 +132,96 @@ namespace GamePlay
         /// </summary>
         public void switchPhaseHandler()
         {
-            roundProcessController.StepIntoNextState();
-            
+            roundProcessController.StepIntoNextStateByButton();
         }
 
+        #region 回合自流动
+        /// <summary>
+        /// 启动回合自流动控制器
+        /// </summary>
+        private void Start()
+        {
+            roundProcessController.action = BackUpdateRound;
+            //StartCoroutine(RoundUpdate());
+            BackUpdateRound(RoundInput.RestoreApPhase);
+        }
+        /// <summary>
+        /// 提供给场景中阶段切换的按钮
+        /// </summary>
+        public IEnumerator SwitchPhaseHandler()
+        {
+            yield return StartCoroutine(roundProcessController.StepIntoNextState());
+        }
+        /// <summary>
+        /// 回调函数
+        /// </summary>
+        private void BackUpdateRound(RoundInput roundInput, float waitTime = 0.0f)
+        {
+            if(waitTime <= 0.0f)
+                StartCoroutine(WaitAndPrint(roundInput));
+            else
+                StartCoroutine(WaitAndPrint(roundInput, waitTime));
+        }
+
+        // every 2 seconds perform the print()
+        private IEnumerator WaitAndPrint(RoundInput roundInput, float waitTime = 1.8f)
+        {
+            if (roundProcessController.roundInput != roundInput)
+            {
+                yield return new WaitForSeconds(waitTime);
+                print("WaitAndPrint " + Time.time);
+                roundProcessController.roundInput = roundInput;
+                StartCoroutine(RoundUpdate());
+            }
+        }
+
+        private IEnumerator RoundUpdate()
+        {
+            switch (GamePlay.Gameplay.Instance().roundProcessController.roundInput)
+            {
+                case GamePlay.Round.RoundInput.None:
+                    Debug.Log("None");
+                    yield return null;
+                    break;
+                case GamePlay.Round.RoundInput.RestoreApPhase:
+                    Debug.Log("RestoreApPhase");
+                    yield return StartCoroutine(SwitchPhaseHandler());
+                    break;
+                case GamePlay.Round.RoundInput.StartPhase:
+                    Debug.Log("StartPhase");
+                    yield return StartCoroutine(SwitchPhaseHandler());
+                    break;
+                case GamePlay.Round.RoundInput.ExtractCardsPhase:
+                    Debug.Log("ExtractCardsPhase");
+                    yield return StartCoroutine(SwitchPhaseHandler());
+                    break;
+                case GamePlay.Round.RoundInput.PreparePhase:
+                    Debug.Log("PreparePhase");
+                    yield return StartCoroutine(SwitchPhaseHandler());
+                    break;
+                case GamePlay.Round.RoundInput.MainPhase:
+                    Debug.Log("MainPhase");
+                    yield return StartCoroutine(SwitchPhaseHandler());
+                    break;
+                case GamePlay.Round.RoundInput.DiscardPhase:
+                    Debug.Log("DiscardPhase");
+                    yield return StartCoroutine(SwitchPhaseHandler());
+                    break;
+                case GamePlay.Round.RoundInput.EndPhase:
+                    Debug.Log("EndPhase");
+                    break;
+                case GamePlay.Round.RoundInput.AIPhase:
+                    yield return StartCoroutine(SwitchPhaseHandler());
+                    Debug.Log("AIPhase");
+                    break;
+                default:
+                    Debug.Log("None");
+                    yield return null;
+                    break;
+            }
+
+        }
+        #endregion
         private void LateUpdate()
         {
             _phaseNameText.text = roundProcessController.State.ToString();
