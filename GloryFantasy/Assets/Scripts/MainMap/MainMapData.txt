@@ -1,5 +1,5 @@
-sandworm,desert,desert,bonepit,bonepit,desert,desert,desert:treasure,bonepit,desert,desert,desert,desert,desert,desert:randomevent,desert,bush,bush,deadtree,deadtree,deadtree,bush:treasure,deadtree,deadtree,deadtree,deadtree,deadtree,post
-post,desert,desert,desert,desert,desert,desert,bonepit,bonepit,desert,desert,desert,desert,desert,bush,bush,deadtree,deadtree,deadtree,bush,post,bush:treasure,bush,bush,bush,chomper,bush
+desert:sandworm,desert,desert,bonepit,bonepit,desert,desert,desert:treasure,bonepit,desert,desert,desert,desert,desert,desert:randomevent,desert,bush,bush,deadtree,deadtree,deadtree,bush:treasure,deadtree,deadtree,deadtree,deadtree,deadtree,post
+post,desert,desert,desert,desert,desert,desert,bonepit,bonepit,desert,desert,desert,desert,desert,bush,bush,deadtree,deadtree,deadtree,bush,post,bush:treasure,bush,bush,bush,bush:chomper,bush
 desert,desert,desert,desert,desert,desert,desert,bonepit,post,desert,desert,desert,desert,desert,bush,bush,deadtree,deadtree,bush,bush,deadtree,deadtree,bush,bush,bush,bush,null
 desert,desert:monster:id,desert,desert,desert:randomevent,desert,desert,desert,desert,desert,desert,desert,bush,bush,post,bush,bush,bush:monster:id,bush,deadtree,deadtree,bush,bush,bush,bush,null,null
 desert:treasure,bonepit,desert,desert,desert,desert,desert,desert:monster:id,desert,desert,plane,bush,bush,bush,bush,bush,bush,bush,bush,bush,bush:monster:id,bush,post,bush,null,null,null
@@ -32,7 +32,7 @@ cursestone
 
 
 
-,null,null,null,null,null,null,null,null,null,null,desert,bonepit,null,null,null,null
+null,null,null,null,null,null,null,null,null,null,desert,bonepit,null,null,null,null
 null,null,null,null,null,null,null,bonepit,null,null,desert,desert,oasis,null,null,null,null
 null,null,null,null,null,null,plane,plane:monster:id,desert:monster:id,desert,desert,desert:monster:id,desert,null,null,null,null,null
 null,null,null,null,null,null,plane,plane,plane,desert:randomevent,desert,oasis,mountain,desert,null,bonepit,null,null
