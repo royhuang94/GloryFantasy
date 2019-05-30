@@ -22,15 +22,15 @@ namespace Mediator
         {
             List<BattleMapBlock> battleMapBlocks = new List<BattleMapBlock>();
             BattleMapBlock battleMapBlock = null;
-            List <Vector2> vector2s = GameGUI.ShowRange.Instance().GetSkillRnage(cordinate, range);
-            for(int i = 0;i < vector2s.Count; i++)
+            List<Vector2> vector2s = GameGUI.ShowRange.Instance().GetSkillRnage(cordinate, range);
+            for (int i = 0; i < vector2s.Count; i++)
             {
                 battleMapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(vector2s[i]);
                 battleMapBlocks.Add(battleMapBlock);
             }
             return battleMapBlocks;
         }
-        
+
         public List<GameUnit.GameUnit> GetGameUnitsWithinRange(Vector2 cordinate, int range)
         {
             List<BattleMapBlock> blocks = GetMapBlocksWithinRange(cordinate, range);
@@ -40,7 +40,7 @@ namespace Mediator
 
             foreach (BattleMapBlock mapBlock in blocks)
             {
-                if(mapBlock.units_on_me.Count > 0)
+                if (mapBlock.units_on_me.Count > 0)
                     units.AddRange(mapBlock.units_on_me);
             }
             return units;
@@ -48,7 +48,14 @@ namespace Mediator
 
         public void CaseDamageToEnemy(string unitId, int damage)
         {
-            // TODO: 完成实现，并将这个接口集成到应有的位置
+            foreach (GameUnit.GameUnit unit in BattleMap.BattleMap.Instance().UnitsList)
+            {
+                if (unit.id == unitId)
+                {
+                    GamePlay.Damage.TakeDamage(unit, GamePlay.Damage.GetDamage(unit));
+                    GamePlay.Gameplay.Instance().gamePlayInput.UpdateHp(unit);
+                }
+            }
         }
     }
 }
