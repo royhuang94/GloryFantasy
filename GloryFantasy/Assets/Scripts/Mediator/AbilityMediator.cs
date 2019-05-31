@@ -57,5 +57,38 @@ namespace Mediator
                 }
             }
         }
+
+        public List<BattleMapBlock> GetMapBlockInSpecificBattleArea(Vector2 pos)
+        {
+            // TODO: 完成实现
+            return null;
+        }
+
+        public List<GameUnit.GameUnit> GetGameUnitsInBattleArea(Vector2 pos)
+        {
+            List<BattleMapBlock> blocks = GetMapBlockInSpecificBattleArea(pos);
+            if (blocks == null)
+            {
+                return null;
+            }
+            List<GameUnit.GameUnit> units = new List<GameUnit.GameUnit>();
+
+            foreach (BattleMapBlock mapBlock in blocks)
+            {
+                if (mapBlock.units_on_me.Count > 0)
+                    units.AddRange(mapBlock.units_on_me);
+            }
+            return units;
+        }
+
+        public void RecoverUnitsHp(string unitId, int amount)
+        {
+            // TODO : 完成实现
+        }
+
+        public void SendUnitToDeath(string unitId)
+        {
+            // TODO: 完成实现
+        }
     }
 }

@@ -1,7 +1,10 @@
 using System;
 using GamePlay;
+using GameUnit;
 using IMessage;
-using UnityEngine; 
+using Mediator;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Ability
 {
@@ -15,7 +18,11 @@ namespace Ability
         public override void Init(string abilityId)
         {
             base.Init(abilityId);
-            _trigger = new TMist(this.GetCardReceiver(this), AbilityVariable.Turns.Value, gameObject, abilityId);
+            _trigger = new TMist(
+                this.GetCardReceiver(this),
+                AbilityVariable.Turns.Value, 
+                GetComponent<GameUnit.GameUnit>().CurPos,
+                abilityId);
             MsgDispatcher.RegisterMsg(_trigger, abilityId);
         }
     }
@@ -24,13 +31,13 @@ namespace Ability
     {
         private int _turns;
         private string _abilityId;
-        private GameObject _obj;
-        public TMist(MsgReceiver speller, int turns, GameObject obj, string abilityId)
+        private Vector2 _currentPos;
+        
+        public TMist(MsgReceiver speller, int turns, Vector2 pos, string abilityId)
         {
             _turns = turns;
             _abilityId = abilityId;
-            _obj = obj;
-
+            _currentPos = pos;
             register = speller;
             msgName = (int) MessageType.CastCard;
             condition = Condition;
@@ -47,38 +54,32 @@ namespace Ability
 
         private void Action()
         {
-            if (_abilityId.Contains("_3"))
+            foreach (GameUnit.GameUnit unit in AbilityMediator.Instance().GetGameUnitsInBattleArea(_currentPos))
             {
-                Ability a = _obj.AddComponent<Blind>();
-                a.Init("Blind");
-                
-                Trigger dt = new DelayedTrigger(
-                    register,
-                    _turns,
-                    (int)MessageType.MPEnd,
-                    () =>
+                if (unit.owner == OwnerEnum.Enemy)
+                {
+                    Ability a;
+                    if (_abilityId.Contains("_3"))
                     {
-                        GameObject.Destroy(_obj.GetComponent<Blind>());
-                    });
-                
-                MsgDispatcher.RegisterMsg(dt, _abilityId, true);
-            }
-            else
-            {
-                Ability a = _obj.AddComponent<LastStrike>();
-                a.Init("LastStrike");
+                        a = unit.gameObject.AddComponent<Blind>();
+                        a.Init("Blind");
+                    }
+                    else
+                    {
+                        a = unit.gameObject.AddComponent<LastStrike>();
+                        a.Init("LastStrike");
+                    }
 
-                Trigger dt = new DelayedTrigger(
-                    register,
-                    _turns,
-                    (int) MessageType.MPEnd,
-                    ()=>
-                    {
-                        GameObject.Destroy(_obj.GetComponent<LastStrike>());
-                    });
-                
-                MsgDispatcher.RegisterMsg(dt, _abilityId, true);
+                    Trigger dt = new DelayedTrigger(
+                        register,
+                        _turns,
+                        (int) MessageType.MPEnd,
+                        () => { Object.Destroy(a); });
+
+                    MsgDispatcher.RegisterMsg(dt, _abilityId + "--DT", true);
+                }
             }
+            
         }
     }
 }
