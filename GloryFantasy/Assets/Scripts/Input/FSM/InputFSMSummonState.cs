@@ -11,6 +11,9 @@ namespace GamePlay.FSM
 {
     public class InputFSMSummonState : InputFSMState
     {
+        private static readonly int RimColor = Shader.PropertyToID("_RimColor");
+        private static readonly int MainColor = Shader.PropertyToID("_MainColor");
+
         public InputFSMSummonState(InputFSM fsm) : base(fsm)
         { }
 
@@ -35,6 +38,29 @@ namespace GamePlay.FSM
             unitDispose.Excute();
             //状态机压入静止状态
             this.FSM.PushState(new InputFSMIdleState(FSM));
+        }
+
+        public override void OnPointerEnter(BattleMapBlock mapBlock, PointerEventData eventData)
+        {
+            Shader shader = Shader.Find("Sprites/2DOutline");
+            Material material = mapBlock.GetComponent<Renderer>().material;
+            if(FSM.selectedCard == null)
+                return;
+            if (shader != null)
+            {
+//                Debug.Log("ready to high light block");
+//                Debug.Log("before: " + material.name + " " + material.color);
+//                material.shader = shader;
+//                Debug.Log("after: " + material.name + " " + material.color);
+//                material.SetColor(RimColor, Color.yellow);
+//                material.SetColor(MainColor, Color.red);
+//                mapBlock.GetComponent<Renderer>().material.color = Color.red;
+            }
+            
+            else
+            {
+                Debug.Log("shader is null");
+            }
         }
     }
 }

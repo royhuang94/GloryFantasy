@@ -18,7 +18,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		SceneManager.sceneLoaded += this.OnSceneLoader;
 		SceneManager.sceneUnloaded += this.OnSceneUnloader;
 		SceneManager.activeSceneChanged += this.OnSceneChanged;
-		_MMapCameraObject =GameObject.Find("Main Camera");
+		_MMapCameraObject = GameObject.Find("Main Camera");
 	}
 	
 	// Update is called once per frame

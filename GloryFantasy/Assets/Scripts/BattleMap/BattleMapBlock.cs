@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using Unit = GameUnit.GameUnit;
 using UnityEngine.EventSystems;
 
+using UnityEngine.UI;
+
+
 using GamePlay;
+using GameUnit;
 
 
 //TODO 通过 自身 this.transform.position与第一块儿地图块儿坐标(298.8)的差，的几倍关系得到具体为(0, 0) -> (7, 7)得物体坐标
@@ -50,9 +54,17 @@ namespace BattleMap
             //Debug.Log("MapBlocks--Added unit:" + unit.ToString());
             if (isSetUnitsOnMe)
                 units_on_me.Add(unit);
+
             //在Hierarchy中，还需要把单位添加到Block下
             //修改单位的父级对象
-                unit.gameObject.transform.SetParent(this.transform);
+            unit.gameObject.transform.SetParent(this.transform);
+            
+            // 无法移动的单位变暗，简单实现，等移动点数出来改
+            if (unit.owner == OwnerEnum.Player && unit.canNotMove)
+            {
+                Debug.Log("here become gray");
+//                unit.gameObject.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            }
         }
         /// <summary>
         /// 向方块上增加GameUnit

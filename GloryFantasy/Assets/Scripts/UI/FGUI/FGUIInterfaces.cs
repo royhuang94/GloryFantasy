@@ -17,6 +17,9 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	private GButton _endRoundButton;
 	private GButton _cardSetsButton;
 	private GTextField _APText;
+
+	private bool _canShowArrow = false;
+	private Vector3 _startPos;
 	
 	#region 卡牌书内变量
 	private Window _cardBookWindow;
@@ -189,8 +192,19 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		_cardsSetsList.onClickItem.Add(OnClickCardInCardSets);
 	}
 
-	private void LateUpdate()
+	private void FixedUpdate()
 	{
+//		ArrowManager.Instance().MakeArrowFlow(Input.mousePosition);
+//		if(_canShowArrow)
+//			ArrowManager.Instance().OnDrag(Input.mousePosition);
+		if (_canShowArrow)
+		{
+			Debug.Log("sp: " + _startPos + " mp: " + Input.mousePosition);
+			Vector3 vector3 = GameObject.Find("Main Camera").GetComponent<Camera>().WorldToScreenPoint(_startPos);
+			Debug.Log("sp: " + vector3 + " mp: " + Input.mousePosition);
+			ArrowMesh.Instance().UpdatePosition(_startPos, Input.mousePosition);
+		}
+
 		_APText.text = Player.Instance().ap.ToString();
 	}
 
@@ -204,7 +218,8 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			return;
 
 		GObject item = context.data as GObject;
-		
+		_startPos = Input.mousePosition;
+		_canShowArrow = true;
 		// 确认当前点击的卡牌和上次点击的不同，此时表明用户想使用这张卡牌
 		if (item != lastClicked)
 		{
@@ -338,18 +353,23 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			{
 				// 切换当前鼠标防治上的卡牌最最上
 				_handcardList.apexIndex = _handcardList.GetChildIndex(item);
-				
 				// 获取并展示数据
 				JsonData data = CardManager.Instance().GetCardJsonData(id);
 				_title.text = data["name"].ToString();
 				_effect.text = data["effect"].ToString();
 				_value.text = "冷却：" + data["cd"] + "    " + "专注值：" + data["cost"] + "\n" + data["type"];
+				int costAp = int.Parse(""+data["cost"]);
+				if (Player.Instance().CanConsumeAp(costAp))			// 可使用单位才放大
+				{
+					StartCoroutine(FancyHandCardEffect(item, 1.3f));
+				}
 				
 				_cardDescribeWindow.Show();
 			});
 
 			item.onRollOut.Add(() =>
 			{
+				StartCoroutine(FancyHandCardEffect(item, 1.0f));
 				_cardDescribeWindow.Hide();
 			});
 		}
@@ -386,31 +406,32 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 
 	private void DoSpecialEffect(GObject item)
 	{
-		int index = _handcardList.GetChildIndex(item);
-		for (int i = 0; i < _handcardList.numChildren; i++)
-		{  
-			if (i == index)
-			{
-				StartCoroutine(FancyHandCardEffect(item, 1.5f));
-				continue;
-			}
-			
-			GObject childItem = _handcardList.GetChildAt(i);
-			
-			float distance = Mathf.Abs(i - index);
+//		int index = _handcardList.GetChildIndex(item);
+//		for (int i = 0; i < _handcardList.numChildren; i++)
+//		{  
+//			if (i == index)
+//			{
+//				StartCoroutine(FancyHandCardEffect(item, 1.3f));
+//				continue;
+//			}
+//			
+//			GObject childItem = _handcardList.GetChildAt(i);
+//			
+//			float distance = Mathf.Abs(i - index);
+//
+//			float distanceRange = 1.25f - 0.5f / 6.0f * distance;
+//			
+//			StartCoroutine(FancyHandCardEffect(childItem, distanceRange));
+//
+//		}
+		StartCoroutine(FancyHandCardEffect(item, 1.3f));
 
-			float distanceRange = 1.25f - 0.5f / 6.0f * distance;
-			
-			StartCoroutine(FancyHandCardEffect(childItem, distanceRange));
-
-		}
-		
 	}
 
 
 	private IEnumerator FancyHandCardEffect(GObject item, float finalScale)
 	{
-		int frameCount = 18;
+		int frameCount = 15;
 		
 		float range = item.scaleX;
 
