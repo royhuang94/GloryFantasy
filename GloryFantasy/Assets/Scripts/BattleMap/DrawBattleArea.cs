@@ -9,7 +9,7 @@ namespace BattleMap
 
     public class DrawBattleArea
     {
-        #region 画的放出显示战区框，弃用qwq
+        #region 画的方式显示战区框，弃用qwq
 
         //战斗地图块边长
         int side = (int)BattleMap.Instance().battlePanel.GetComponent<GridLayoutGroup>().cellSize.x;
@@ -320,7 +320,7 @@ namespace BattleMap
             Vector2 BottomOff = new Vector2(0, 1);
             Vector2 LeftOff = new Vector2(-1, 0);
             Vector2 RightOff = new Vector2(1, 0);
-            int padding = 2;
+            int padding = 0;
 
             foreach (int k in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
             {
