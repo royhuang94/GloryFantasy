@@ -1,4 +1,5 @@
 using System;
+using Ability.Buff;
 using GamePlay;
 using GameUnit;
 using IMessage;
@@ -58,25 +59,13 @@ namespace Ability
             {
                 if (unit.owner == OwnerEnum.Enemy)
                 {
-                    Ability a;
+                    unit.gameObject.AddComponent<BConfused>();
+                    unit.gameObject.GetComponent<BConfused>().SetLife((float)_turns);
                     if (_abilityId.Contains("_3"))
                     {
-                        a = unit.gameObject.AddComponent<Blind>();
-                        a.Init("Blind");
+                        unit.gameObject.AddComponent<BBlind>();
+                        unit.gameObject.GetComponent<BBlind>().SetLife((float)_turns);
                     }
-                    else
-                    {
-                        a = unit.gameObject.AddComponent<LastStrike>();
-                        a.Init("LastStrike");
-                    }
-
-                    Trigger dt = new DelayedTrigger(
-                        register,
-                        _turns,
-                        (int) MessageType.MPEnd,
-                        () => { Object.Destroy(a); });
-
-                    MsgDispatcher.RegisterMsg(dt, _abilityId + "--DT", true);
                 }
             }
             

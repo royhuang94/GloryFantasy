@@ -1,55 +1,88 @@
 using GamePlay;
 using IMessage;
-
-
+using GameUnit;
+using Mediator;
 using Ability.Buff;
+using UnityEngine;
+
 namespace Ability
 {
+    /// <summary>
+    /// ä½¿ç”¨è€…æ‰€åœ¨åŒºåŸŸçš„å‹æ–¹å•ä½è·å¾—+2æ”»å‡»åŠ›ç›´åˆ°å›åˆç»“æŸã€‚
+    /// </summary>
     public class Battlecry : Ability
     {
         private Trigger _trigger;
-        private GameUnit.GameUnit _unit;
 
         public override void Init(string abilityId)
         {
             base.Init(abilityId);
-            
-            _unit = GetComponent<GameUnit.GameUnit>();
-            gameObject.AddComponent<BattlecryBuff>();
-            //_trigger = new DelayedTrigger(
-            //    this.GetCardReceiver(this),
-            //    0,
-            //    (int)MessageType.MPEnd,
-            //    () => { _unit.atk -= 2; }
-            //    );
-            //MsgDispatcher.RegisterMsg(_trigger, abilityId + "--DT", true);
-            //_unit.atk += 2;
+            _trigger = new TBattlecry(
+                this.GetCardReceiver(this),
+                GetComponent<GameUnit.GameUnit>().CurPos,
+                abilityId);
+            MsgDispatcher.RegisterMsg(_trigger, abilityId);
         }
-        
-        
     }
 
-    //ÒªÓÃµÄBuff
+    public class TBattlecry : Trigger
+    {
+        private int _turns;
+        private string _abilityId;
+        private Vector2 _currentPos;
+        
+        public TBattlecry(MsgReceiver speller, Vector2 pos, string abilityId)
+        {
+            _abilityId = abilityId;
+            _currentPos = pos;
+            register = speller;
+            msgName = (int) MessageType.CastCard;
+            condition = Condition;
+            action = Action;
+        }
+
+        private bool Condition()
+        {
+            if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().ability_id.Contains(_abilityId))
+                return true;
+            else
+                return false;
+        }
+
+        private void Action()
+        {
+            foreach (GameUnit.GameUnit unit in AbilityMediator.Instance().GetGameUnitsInBattleArea(_currentPos))
+            {
+                if (unit.owner == OwnerEnum.Enemy)
+                {
+                    unit.gameObject.AddComponent<BConfused>();
+                }
+            }
+            
+        }
+    }
+
+    //è¦ç”¨çš„Buff
     public class BattlecryBuff : Buff.Buff
     {
-        //Éè¶¨BuffµÄ³õÊ¼»¯
+        //è®¾å®šBuffçš„åˆå§‹åŒ–
         protected override void InitialBuff()
         {
-            //Éè¶¨BuffµÄÉúÃüÖÜÆÚ£¬Á½ÖÖĞ´·¨,½¨ÒéÊ¹ÓÃµÚ¶şÖÖ£¬±È½ÏÖ±¹Û
+            //è®¾å®šBuffçš„ç”Ÿå‘½å‘¨æœŸï¼Œä¸¤ç§å†™æ³•,å»ºè®®ä½¿ç”¨ç¬¬äºŒç§ï¼Œæ¯”è¾ƒç›´è§‚
             SetLife(2f);
 
-            //BuffÒª×öµÄÊÂÇé£¬¿ÉÒÔÏñAbilityÒ»ÑùÒ²Ğ´Trigger£¬Ò²¿ÉÒÔÖ»ÊÇ×öÒ»Ğ©ÊıÖµ²Ù×÷¡£ºÍAbilityÒ»Ñù¹«ÓÃÒ»Ì×¹¤¾ßº¯Êı¿â
+            //Buffè¦åšçš„äº‹æƒ…ï¼Œå¯ä»¥åƒAbilityä¸€æ ·ä¹Ÿå†™Triggerï¼Œä¹Ÿå¯ä»¥åªæ˜¯åšä¸€äº›æ•°å€¼æ“ä½œã€‚å’ŒAbilityä¸€æ ·å…¬ç”¨ä¸€å¥—å·¥å…·å‡½æ•°åº“
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
             unit.atk += 2;
         }
 
-        //Éè¶¨Buff CD¼õÉÙÊ±µÄ²Ù×÷
+        //è®¾å®šBuff æŒç»­å›åˆå‡å°‘æ—¶çš„æ“ä½œ
         public override void OnSubtractBuffLife()
         {
-            //ÎŞÊÂ¿É×ö
+            //æ— äº‹å¯åš
         }
 
-        //Éè¶¨BuffÏûÊ§Ê±µÄÄæ²Ù×÷
+        //è®¾å®šBuffæ¶ˆå¤±æ—¶çš„é€†æ“ä½œ
         protected override void OnDisappear()
         {
             GetComponent<GameUnit.GameUnit>().atk -= 2;
