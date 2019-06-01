@@ -30,6 +30,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: "\u68CB\u5B50up"
     second: {fileID: 2100000, guid: 6508869da388e154aa67e20dc29e1748, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: "\u98DF\u4EBA\u82B1"
+    second: {fileID: 2800000, guid: 9a567e3c6dc00324e8943cb2171ee202, type: 3}
   materials:
     importMaterials: 1
     materialName: 0
