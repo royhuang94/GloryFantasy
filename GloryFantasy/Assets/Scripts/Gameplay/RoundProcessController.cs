@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace GamePlay.Round
 {
-    //TOOD 使用switch控制new出不同的对象
     public enum RoundInput
     {
         None = -1,

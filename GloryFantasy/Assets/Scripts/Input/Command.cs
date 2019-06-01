@@ -104,7 +104,8 @@ namespace GamePlay.Input
         {
             Debug.Log("Moving Command excusing");
             this.SetMovingUnit(_unit);
-            BattleMap.BattleMap.Instance().AIMoveUnitToCoordinate(_unit, toTargetPath, callback);
+            BattleMap.BattleMap.Instance().AIMoveCondition(_unit, toTargetPath, callback);
+            //BattleMap.BattleMap.Instance().AIMoveUnitToCoordinate(_unit, toTargetPath, callback);
         }
 
 

@@ -418,6 +418,34 @@ namespace BattleMap
             }
             return false;
         }
+
+
+        #region AI优化
+        /// <summary>
+        /// 让正准备移动的单位等待一阵后移动
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="targetPosition"></param>
+        /// <param name="callback"></param>
+        /// <param name="waitTime"></param>
+        /// <returns></returns>
+        private IEnumerator WaitAndPrint(Unit unit, List<Vector2> targetPosition, System.Action callback,float waitTime = 0.2f)
+        {
+            yield return new WaitForSeconds(waitTime);
+            yield return AIMoveUnitToCoordinate(unit, targetPosition, callback);
+        }
+        /// <summary>
+        /// 同步调用协程WaitAndPrint
+        /// 让正准备移动的单位等待一阵后移动
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="targetPosition"></param>
+        /// <param name="callback"></param>
+        public void AIMoveCondition(Unit unit, List<Vector2> targetPosition, System.Action callback)
+        {
+            StartCoroutine(WaitAndPrint(unit, targetPosition, callback));
+        }
+        #endregion
         /// <summary>
         /// AI移动
         /// </summary>
@@ -425,7 +453,7 @@ namespace BattleMap
         /// <param name="targetPosition">最优路径</param>
         /// <param name="callback">攻击回调</param>
         /// <returns></returns>
-        public bool AIMoveUnitToCoordinate(Unit unit, List<Vector2> targetPosition, System.Action callback)
+        public IEnumerator AIMoveUnitToCoordinate(Unit unit, List<Vector2> targetPosition, System.Action callback)
         {
             foreach (Unit gameUnit in _unitsList)
             {
@@ -436,13 +464,13 @@ namespace BattleMap
                     {
                         unit.mapBlockBelow = _mapBlocks[(int)targetPosition[0].x, (int)targetPosition[0].y];
                     }
-                    StartCoroutine(MapNavigator.moveStepByStepAI(unit, targetPosition, callback));                    
-                    return true;
+                    yield return StartCoroutine(MapNavigator.moveStepByStepAI(unit, targetPosition, callback));                    
+                    //return true;
                 }
             }
-            return false;
+            yield return new WaitForSeconds(.2f);
+            //return false;
         }
-
         /// <summary>
         /// 地图方块染色接口
         /// </summary>

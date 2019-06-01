@@ -71,6 +71,8 @@ namespace GamePlay.FSM
             {
                 //BattleMap.BattleMap.Instance().ShowBattleZooe(mapBlock.GetSelfPosition());
             }
+            
+            StateStack.Peek().OnPointerEnter(mapBlock, eventData);
             //TODO显示技能伤害的范围
         }
         /// <summary>
