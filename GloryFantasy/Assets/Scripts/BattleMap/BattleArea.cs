@@ -88,17 +88,17 @@ namespace BattleMap
                     }                   
                     Debug.Log(string.Format("战区：{0}，当前状态：{1}",id,battleArea._battleAreaSate));
 
-                    if(trrigerIDs != null)
+                    if(battleArea._TID != null)
                     {
-                        for (int i = 0; i < trrigerIDs.Length; i++)
+                        for (int i = 0; i < battleArea._TID.Length; i++)
                         {
-                            if (trrigerIDs[i] == "MainBF_Friendly" && battleArea._battleAreaSate == BattleAreaSate.Player)
-                            {
-                                Debug.Log("you win");
-                            }
-                            else if (trrigerIDs[i] == "MainBF_Enemy" && battleArea._battleAreaSate == BattleAreaSate.Enmey)
+                            if (battleArea._TID[i] == "MainBF_Friendly" && battleArea._battleAreaSate == BattleAreaSate.Enmey)
                             {
                                 Debug.Log("you lose");
+                            }
+                            else if (battleArea._TID[i] == "MainBF_Enemy" && battleArea._battleAreaSate == BattleAreaSate.Player)
+                            {
+                                Debug.Log("you win");
                             }
                         }
                     }   
@@ -381,6 +381,26 @@ namespace BattleMap
             }
             //Debug.Log(battleArea._modules[0].EventName);
             return battleArea;
+        }
+
+        /// <summary>
+        /// 通过战区id获取该战区中的地图块坐标
+        /// </summary>
+        /// <param name="reginID"></param>
+        /// <returns></returns>
+        public List<Vector2> GetBattleAreaAllPosByID(int reginID)
+        {
+            List<Vector2> vector2s = new List<Vector2>();
+            if (BattleAreaDic.ContainsKey(reginID))
+            {
+                BattleAreaDic.TryGetValue(reginID, out vector2s);
+            }
+            else
+            {
+                Debug.Log("该战区不存在");
+                return null;
+            }
+            return vector2s;
         }
     }
 }

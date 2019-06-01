@@ -137,7 +137,11 @@ namespace GameGUI
             if (x < 0 || y < 0 || x >= columns || y >= rows) return;
             reslist.Add(new Vector2(x, y));
             if (range == 0) return;
-            if(range == 2 || range == 4)
+            else if(range == 1)
+            {
+                reslist.Add(new Vector2(x, y));
+            }
+            else if(range == 2 || range == 4)
             {
                 if(range == 2)
                 {
@@ -149,17 +153,19 @@ namespace GameGUI
                 }
                 RecrusiveBody(x, y, range, reslist);
             }
-            if(range == 3 || range == 6)
+            else if(range == 3 || range == 6)
             {
                 if (range == 6) range = range - 1;
                 RecrusiveBody2(x, y, range, reslist);
             }
-            if(range == 5)
+            else if(range == 5)
             {
                 RecrusiveBody2(x, y, range, reslist);
-                reslist.Remove(reslist[24]);
-                reslist.Remove(reslist[20]);
-                reslist.Remove(reslist[4]);
+                Debug.Log(reslist.Count);
+                reslist.Remove(reslist[25]);
+                reslist.Remove(reslist[21]);
+                reslist.Remove(reslist[5]);
+                reslist.Remove(reslist[1]);
                 reslist.Remove(reslist[0]);
             }
         }

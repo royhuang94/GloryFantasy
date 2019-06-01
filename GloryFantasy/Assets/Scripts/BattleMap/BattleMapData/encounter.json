@@ -24,7 +24,7 @@
           "Empty": 1
         },
         "Buff": [],
-        "Trigger": [ "MainBF_Friendly" ]
+        "Trigger": [ "MainBF_Enemy" ]
       },
       {
         "RegionID": 2,
@@ -41,7 +41,7 @@
           "Empty": 1
         },
         "Buff": [],
-        "Trigger": ["MainBF_Enemy"]
+        "Trigger": ["MainBF_Friendly"]
       }
     ],
     "MapID": "Forest_1"

@@ -8,6 +8,24 @@ namespace Mediator
 {
     public class AbilityMediator : UnitySingleton<AbilityMediator>, AbilityMediatorInterface
     {
+        /// <summary>
+        /// 移除重复元素
+        /// </summary>
+        /// <param name="reslist"></param>
+        private void RemoveRepeat(List<Vector2> reslist)
+        {
+            for (int i = 0; i < reslist.Count; i++)
+            {
+                for (int j = reslist.Count - 1; j > i; j--)
+                {
+                    if (reslist[i] == reslist[j])
+                    {
+                        reslist.RemoveAt(j);
+                    }
+                }
+            }
+        }
+
         public bool CheckUnitDeathById(string unitId)
         {
             return GameUnitPool.Instance().CheckDeathByID(unitId);
@@ -22,11 +40,14 @@ namespace Mediator
         {
             List<BattleMapBlock> battleMapBlocks = new List<BattleMapBlock>();
             BattleMapBlock battleMapBlock = null;
+
             List<Vector2> vector2s = GameGUI.ShowRange.Instance().GetSkillRnage(cordinate, range);
+            RemoveRepeat(vector2s);//去重
             for (int i = 0; i < vector2s.Count; i++)
             {
                 battleMapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(vector2s[i]);
-                battleMapBlocks.Add(battleMapBlock);
+                if (battleMapBlock != null)
+                    battleMapBlocks.Add(battleMapBlock);
             }
             return battleMapBlocks;
         }
@@ -60,8 +81,20 @@ namespace Mediator
 
         public List<BattleMapBlock> GetMapBlockInSpecificBattleArea(Vector2 pos)
         {
-            // TODO: 完成实现
-            return null;
+            //获取战区id
+            BattleMapBlock _mapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos);
+            int area = _mapBlock.area;
+
+            BattleMapBlock mapBlock = null;
+            List<BattleMapBlock> battleMapBlocks = new List<BattleMapBlock>();
+
+            List<Vector2> vector2s = BattleMap.BattleMap.Instance().battleAreaData.GetBattleAreaAllPosByID(area);
+            foreach(Vector2 v in vector2s)
+            {
+                mapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(v);
+                battleMapBlocks.Add(mapBlock);
+            }
+            return battleMapBlocks;
         }
 
         public List<GameUnit.GameUnit> GetGameUnitsInBattleArea(Vector2 pos)
