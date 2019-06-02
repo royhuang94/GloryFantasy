@@ -362,10 +362,10 @@ namespace GamePlay
         }
 
         /// <summary>
-        /// 复活某个单位
+        /// 重生为某个单位。
         /// </summary>
-        /// <param name="name"></param>被复活单位的名字
-        /// <param name="position"></param>单位被复活在哪个地形上
+        /// <param name="name"></param>重生为的单位id。
+        /// <param name="position"></param>单位被复活在哪个地格上
         /// <returns></returns>
         public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, Vector2 position)
         {

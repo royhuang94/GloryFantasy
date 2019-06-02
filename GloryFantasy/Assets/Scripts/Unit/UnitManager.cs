@@ -76,6 +76,7 @@ namespace GameUnit
                 GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
             }
 
+            MsgDispatcher.SendMsg((int)MessageType.Summon);
             if (gameUnit.tag.Contains("英雄"))
                 temp.AddComponent<ESSlot>();
         }
