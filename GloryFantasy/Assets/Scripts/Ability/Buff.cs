@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using GamePlay;
+using System.IO;
 
 namespace Ability.Buff
 {
@@ -43,6 +44,21 @@ namespace Ability.Buff
 
     public class Buff : MonoBehaviour, GameplayTool
     {
+        //从异能获取到的变量集合
+        protected AbilityVariable _buffVariable = new AbilityVariable();
+        /// <summary>
+        /// 填充变量集合
+        /// </summary>
+        /// <param name="otherAbilityVariable"></param>
+        private void FillBuffVariable(AbilityVariable otherAbilityVariable)
+        {
+            //用序列化拷贝AbilityVariable
+            Stream stream = GameUtility.Serializer.InstanceDataToMemory(otherAbilityVariable);
+            stream.Position = 0;
+            this._buffVariable = (AbilityVariable)GameUtility.Serializer.MemoryToInstanceData(stream);
+        }
+
+
         /// <summary>
         /// Buff的声明周期，0.5等于半个回合，1等于自己+PC完整的一个回合
         /// </summary>
@@ -56,8 +72,6 @@ namespace Ability.Buff
         {
             //将自己加入到BuffManager
             Gameplay.Instance().buffManager.AddBuff(this);
-            //初始化Buff要做的事情
-            InitialBuff();
         }
 
         private void OnDestroy()
@@ -78,7 +92,7 @@ namespace Ability.Buff
         /// <summary>
         /// 设定Buff被赋予时要做的事情
         /// </summary>
-        virtual protected void InitialBuff() { }
+        virtual public void InitialBuff() { }
 
         /// <summary>
         /// 设定buff的CD在回合结束根据规则减少时触发的效果
@@ -98,6 +112,10 @@ namespace Ability.Buff
         /// <summary>
         /// 对于需要使用异能变量的buff重载这个方法来进行书写。参数AbilityVariable。
         /// </summary>
-        virtual public void setVariable(AbilityVariable variable) { }
+        virtual public void setVariable(AbilityVariable variable)
+        {
+            FillBuffVariable(variable);
+            InitialBuff();
+        }
     }
 }

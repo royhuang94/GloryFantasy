@@ -6,6 +6,7 @@ using GamePlay.Input;
 using GameUnit;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GamePlay.FSM
 {
@@ -20,6 +21,8 @@ namespace GamePlay.FSM
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             base.OnPointerDownBlock(mapBlock, eventData);
+            mapBlock.GetComponent<Image>().color = Color.white;
+            
             //把这张手牌从手牌里删掉
             CardManager.Instance().RemoveCardToMapList(FSM.selectedCard.gameObject);
             // 扣除消耗的Ap值
@@ -38,9 +41,11 @@ namespace GamePlay.FSM
         public override void OnPointerEnter(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             Shader shader = Shader.Find("Sprites/2DOutline");
-            Material material = mapBlock.GetComponent<Renderer>().material;
-            if(FSM.selectedCard == null)
+//            Material material = mapBlock.GetComponent<Renderer>().material;
+            // 没有选择卡牌或者该地格已有单位，则不高亮
+            if(FSM.selectedCard == null || BattleMap.BattleMap.Instance().CheckIfHasUnits(mapBlock.position))
                 return;
+            mapBlock.GetComponent<Image>().color = new Color(0f, 1f, 0f, 0.3f);
             if (shader != null)
             {
 //                Debug.Log("ready to high light block");
@@ -56,6 +61,15 @@ namespace GamePlay.FSM
             {
                 Debug.Log("shader is null");
             }
+        }
+
+
+        public override void OnPointerExit(BattleMapBlock mapBlock, PointerEventData eventData)
+        {
+//            Material material = mapBlock.GetComponent<Renderer>().material;
+            if(FSM.selectedCard == null)
+                return;
+            mapBlock.GetComponent<Image>().color = Color.white;
         }
     }
 }

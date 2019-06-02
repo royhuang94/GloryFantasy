@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using GamePlay;
+using GamePlay.Input;
 
 namespace GameUnit
 {
@@ -12,11 +13,16 @@ namespace GameUnit
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (Gameplay.Instance().gamePlayInput.InputFSM.selectedCard != null)
+                Debug.Log("该地格已有友方单位，不可部署");
             //Gameplay.Instance().gamePlayInput.OnPointerDownFriendly(this, eventData);
             Gameplay.Instance().gamePlayInput.OnPointerDownFriendly(this, eventData);
         }
 
-
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            Gameplay.Instance().gamePlayInput.OnPointerEnter(this.mapBlockBelow, eventData);
+        }
 
     }
 }

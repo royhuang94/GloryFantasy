@@ -12,7 +12,8 @@ namespace BattleMap
         #region 画的方式显示战区框，弃用qwq
 
         //战斗地图块边长
-        int side = (int)BattleMap.Instance().battlePanel.GetComponent<GridLayoutGroup>().cellSize.x;
+        //int side = (int)BattleMap.Instance().battlePanel.GetComponent<GridLayoutGroup>().cellSize.x;
+        int side = (int)BattleMap.Instance().flat.GetComponent<SpriteRenderer>().size.x;
         public Dictionary<int, List<Grid>> battleGridDic = new Dictionary<int, List<Grid>>();
         Dictionary<int, VectorLine> LinesDic = new Dictionary<int, VectorLine>();//所有战区外边框
         int offx = 0;

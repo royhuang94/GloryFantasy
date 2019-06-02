@@ -77,19 +77,20 @@ namespace Ability
         private int _deltahp = 4;
         private int _deltaatk = 2;
         //设定Buff的初始化
-        protected override void InitialBuff()
+        public override void InitialBuff()
         {
+            _deltaatk = _buffVariable.Amount.Value;
+            _deltahp = _buffVariable.Amount.Value + 2;
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.atk += _deltaatk;
+            unit.MaxHP += _deltahp;
+            unit.hp += _deltahp;
             SetLife(2f);
         }
 
         public override void setVariable(AbilityVariable variable)
         {
-            _deltaatk = variable.Amount.Value;
-            _deltahp = variable.Amount.Value + 2;
-            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.atk += _deltaatk;
-            unit.MaxHP += _deltahp;
-            unit.hp += _deltahp;
+            base.setVariable(variable);
         }
 
         protected override void OnDisappear()

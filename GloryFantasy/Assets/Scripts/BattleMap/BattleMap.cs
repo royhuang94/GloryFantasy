@@ -141,13 +141,12 @@ namespace BattleMap
         public bool IsColor { get; set; }//控制是否高亮战区
         private BattleMapBlock[,] _mapBlocks; 
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
-        public Transform battleCanvas;
         public MapNavigator MapNavigator;//寻路类
         public BattleAreaData battleAreaData;//战区类
         public DebuffBattleMapBlovk debuffBM;//异常地图快类
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
-        public GameObject battlePanel;//战斗地图，用于初始战斗地图大小
+        public Transform battlePanel;//战斗地图根对象
         private string encounterID;//遭遇id
 
         #region 各种类型地格
@@ -188,7 +187,9 @@ namespace BattleMap
 
             this.rows = nstrs.Length;
             this.columns = nstrs[0].Length;
-            battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
+            float flatSize = this.flat.GetComponent<SpriteRenderer>().size.x; //获得地砖的图片边长
+            Vector2 _leftTopPos = new Vector2((-columns+1) / 2f * flatSize, (-rows-1) / 2f * flatSize);
+            //battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
             _mapBlocks = new BattleMapBlock[columns, rows];
             GameObject instance = null;
             battleAreaData.GetAreas(nstrs);//存储战区id;
@@ -198,7 +199,7 @@ namespace BattleMap
                 for(int x = 0;x <nstrs[y].Length; x++)
                 {
                     int mapBlockType = int.Parse(nstrs[y][x].Split('-')[0]);
-                    instance = SetMapBlockType(mapBlockType, x, y);
+                    instance = SetMapBlockType(mapBlockType, _leftTopPos.x + x * flatSize, _leftTopPos.y + (nstrs.Length - y) * flatSize);
                     instance.transform.SetParent(_tilesHolder);
                     instance.gameObject.AddComponent<BattleMapBlock>();
                     //初始化mapBlock成员
@@ -224,7 +225,7 @@ namespace BattleMap
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public GameObject SetMapBlockType(int type,int x,int y)
+        public GameObject SetMapBlockType(int type,float x, float y)
         {
             //TODO添加跟多类型地格
             GameObject instance = null;
