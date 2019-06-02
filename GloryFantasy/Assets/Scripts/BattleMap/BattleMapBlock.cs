@@ -58,6 +58,7 @@ namespace BattleMap
             //在Hierarchy中，还需要把单位添加到Block下
             //修改单位的父级对象
             unit.gameObject.transform.SetParent(this.transform);
+            unit.transform.localPosition = Vector3.zero;
             
             // 无法移动的单位变暗，简单实现，等移动点数出来改
             if (unit.owner == OwnerEnum.Player && unit.canNotMove)
@@ -251,8 +252,8 @@ namespace BattleMap
 
         private Vector3 coordinate;//该地图块的世界坐标
         public int area { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
+        [SerializeField] public int x { get; set; }
+        [SerializeField] public int y { get; set; }
 
         internal void FindChild(string v)
         {

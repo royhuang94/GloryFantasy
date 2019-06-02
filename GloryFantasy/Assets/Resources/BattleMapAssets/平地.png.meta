@@ -42,11 +42,11 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 8, y: 8, z: 9, w: 7}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -83,10 +83,14 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: -100, y: -100}
+      - {x: -100, y: 100}
+      - {x: 100, y: 100}
+      - {x: 100, y: -100}
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 638a7fe3afe2d704d8dcb8576620e678
     vertices: []
     indices: 
     edges: []

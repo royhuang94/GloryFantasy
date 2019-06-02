@@ -113,9 +113,9 @@ namespace GameUnit
 
                 GameUnit unit = _object.GetComponent<GameUnit>();
                 //修改单位对象的父级为地图方块
+                Debug.Log(string.Format("Add Unit on Map:({0},{1})", x, y));
                 _mapBlocks[x, y].AddUnit(unit);
-                // _object.transform.SetParent(_mapBlocks[x, y].transform); 
-                //_object.transform.localPosition = Vector3.zero;
+
                 List<GameUnit> _unitsList = BattleMap.BattleMap.Instance().UnitsList;
                 _unitsList.Add(unit);
                 unit.mapBlockBelow = _mapBlocks[x, y];
