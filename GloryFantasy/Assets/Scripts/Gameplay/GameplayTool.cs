@@ -384,7 +384,7 @@ namespace GamePlay
         public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, BattleMap.BattleMapBlock block)
         {
             DispositionCommand unitDispose = new DispositionCommand(name, GameUnit.OwnerEnum.Player, block);
-            return null;
+            return block.units_on_me[0];
         }
         /// <summary>
         /// 获取某个单位的坐标
