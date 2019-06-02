@@ -28,6 +28,35 @@ namespace GameUnit
     /// </summary>
     public class UnitManager : GameplayTool
     {
+      
+        /// <summary>
+        /// 击杀单位。击杀者为空时单表示单位死亡。
+        /// </summary>
+        /// <param name="killer">击杀者，可以为null。</param>
+        /// <param name="beKilled">死亡者。</param>
+        public static void Kill(GameUnit killer, GameUnit beKilled)
+        {
+            UnitManager _unitManager = new UnitManager();
+            _unitManager.SetKiller(killer);
+            _unitManager.SetKilledAndDeadUnit(beKilled);
+            //死亡单位回收到对象池
+            Gameplay.Instance().gamePlayInput.UnitBackPool(killer);
+
+            //删除对应controller中的死亡单位
+            Gameplay.Instance().autoController.UpdateAllHatredList();
+
+            //删除对应的事件模型
+            if (beKilled.EventModule != null)
+            {
+                beKilled.EventModule.DeleteThisModule();
+                beKilled.EventModule = null;
+                beKilled.eventsInfo.Clear();
+            }
+            if (killer != null)
+                MsgDispatcher.SendMsg((int)MessageType.Kill);
+            MsgDispatcher.SendMsg((int)MessageType.Dead);
+            MsgDispatcher.SendMsg((int)MessageType.BattleSate);//单位死亡更新战区所属状态
+        }
         //角色从卡牌初始化到地图上
         public static void InstantiationUnit(string cardID, OwnerEnum owner, BattleMapBlock battleMapBlock)
         {
@@ -75,6 +104,7 @@ namespace GameUnit
                 GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
             }
 
+            MsgDispatcher.SendMsg((int)MessageType.Summon);
             if (gameUnit.tag.Contains("英雄"))
                 temp.AddComponent<ESSlot>();
         }
