@@ -21,7 +21,7 @@ namespace GamePlay.FSM
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             base.OnPointerDownBlock(mapBlock, eventData);
-            mapBlock.GetComponent<Image>().color = Color.white;
+            mapBlock.GetComponent<SpriteRenderer>().color = Color.white;
             
             //把这张手牌从手牌里删掉
             CardManager.Instance().RemoveCardToMapList(FSM.selectedCard.gameObject);
@@ -50,7 +50,7 @@ namespace GamePlay.FSM
             // 没有选择卡牌或者该地格已有单位，则不高亮
             if(FSM.selectedCard == null || BattleMap.BattleMap.Instance().CheckIfHasUnits(mapBlock.position))
                 return;
-            mapBlock.GetComponent<Image>().color = new Color(0f, 1f, 0f, 0.3f);
+            mapBlock.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
             if (shader != null)
             {
 //                Debug.Log("ready to high light block");
@@ -74,7 +74,7 @@ namespace GamePlay.FSM
 //            Material material = mapBlock.GetComponent<Renderer>().material;
             if(FSM.selectedCard == null)
                 return;
-            mapBlock.GetComponent<Image>().color = Color.white;
+            mapBlock.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 }

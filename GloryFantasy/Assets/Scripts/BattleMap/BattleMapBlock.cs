@@ -23,7 +23,6 @@ namespace BattleMap
         isInCloseList
     }
 
-
     public enum EMapBlockType
     {
         normal,   //普通地图块儿
@@ -45,7 +44,7 @@ namespace BattleMap
             get
             {
                 if(_unit == null)
-                    _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
+                    _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetCoordinate());
                 return _unit;
             }
         }
@@ -54,7 +53,7 @@ namespace BattleMap
         private void Awake()
         {
             setMapBlackPosition();
-            _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
+            _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetCoordinate());
             _fguiInterfaces = FGUIInterfaces.Instance();
         }
 
@@ -77,7 +76,7 @@ namespace BattleMap
             if (unit.owner == OwnerEnum.Player && unit.canNotMove)
             {
                 Debug.Log("here become gray");
-//                unit.gameObject.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+//                unit.gameObject.GetComponent<SpriteRender>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
             }
         }
         /// <summary>
@@ -110,15 +109,7 @@ namespace BattleMap
         /// <returns></returns>
         public Vector3 GetCoordinate()
         {
-            return new Vector3(this.x, this.y, 0f);
-        }
-        /// <summary>
-        /// 获取该地图块自身的世界坐标
-        /// </summary>
-        /// <returns></returns>
-        public Vector3 GetSelfPosition()
-        {
-            return coordinate;
+            return new Vector3(this.position.x, this.position.y, 0f);
         }
         /// <summary>
         /// update地图块的世界坐标
@@ -142,11 +133,17 @@ namespace BattleMap
             Show();
             if (_unit != null)
             {
-//                _unit.GetComponent<Image>().color = new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f);
+//                _unit.GetComponent<SpriteRender>().color = new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f);
                 UnitManager.ColorUnitOnBlock(this.position, new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f));
                 _fguiInterfaces.setDescribeWindowShow();        // 显示
             }
         }
+
+        //public void OnMouseEnter()
+        //{
+        //    Debug.Log("FUXK YOU!FUCK YOU!");
+        //}
+
         //隐藏战区
         public void OnPointerExit(PointerEventData eventData)
         {
@@ -154,7 +151,7 @@ namespace BattleMap
             //show();
             if (_unit != null)
             {
-//                _unit.GetComponent<Image>().color = Color.white;
+//                _unit.GetComponent<SpriteRender>().color = Color.white;
                 UnitManager.ColorUnitOnBlock(this.position, Color.white);
                 if(Gameplay.Instance().gamePlayInput.InputFSM.selectedCard)
                 _fguiInterfaces.setDescribeWindowHide();        // 隐藏
@@ -170,7 +167,7 @@ namespace BattleMap
             // 分隔符
             string separator = " / ";
             
-            _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
+            _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetCoordinate());
             if(_unit == null)
                 return;
             // 多个tag, 一起显示，/ 隔开
