@@ -4,6 +4,7 @@ using UnityEngine;
 
 using IMessage;
 using GamePlay;
+using GameUnit;
 
 namespace GamePlay
 {
@@ -122,29 +123,13 @@ namespace GamePlay
             Gameplay.Instance().autoController.RecordedHatred(_attacker, _attackedUnit);
             if (_attackedUnit.IsDead())
             {
-                this.SetKiller(_attacker);
-                this.SetKilledAndDeadUnit(_attackedUnit);               
-                //死亡单位回收到对象池
-                Gameplay.Instance().gamePlayInput.UnitBackPool(_attackedUnit);
-
-                //删除对应controller中的死亡单位
-                Gameplay.Instance().autoController.UpdateAllHatredList();
-
-                //删除对应的事件模型
-                if (_attackedUnit.EventModule != null)
-                {
-                    _attackedUnit.EventModule.DeleteThisModule();
-                    _attackedUnit.EventModule = null;
-                    _attackedUnit.eventsInfo.Clear();
-                }
-
-                MsgDispatcher.SendMsg((int)MessageType.Kill);
-                MsgDispatcher.SendMsg((int)MessageType.Dead);
+                UnitManager.Kill(_attacker, _attackedUnit);
             }
             else
             {
                 Gameplay.Instance().gamePlayInput.UpdateHp(_attackedUnit);
             }
+            
         }
 
         /// <summary>
@@ -169,24 +154,7 @@ namespace GamePlay
             Gameplay.Instance().autoController.RecordedHatred(_attackedUnit, _attacker);
             if (_attacker.IsDead())
             {
-                this.SetKiller(_attackedUnit); this.SetKilledAndDeadUnit(_attacker);
-
-                //死亡单位回收到对象池
-                Gameplay.Instance().gamePlayInput.UnitBackPool(_attacker);
-
-                //删除对应controller中的死亡单位
-                Gameplay.Instance().autoController.UpdateAllHatredList();
-
-                //删除对应的事件模型
-                if(_attackedUnit.EventModule != null)
-                {
-                    _attackedUnit.EventModule.DeleteThisModule();
-                    _attackedUnit.EventModule = null;
-                    _attackedUnit.eventsInfo.Clear();
-                }
-
-                MsgDispatcher.SendMsg((int)MessageType.Kill);
-                MsgDispatcher.SendMsg((int)MessageType.Dead);
+                UnitManager.Kill(_attackedUnit, _attacker);
             }
             else
             {
@@ -196,29 +164,13 @@ namespace GamePlay
 
             if (_attackedUnit.IsDead())
             {
-                this.SetKiller(_attacker); this.SetKilledAndDeadUnit(_attackedUnit);
-                //死亡单位回收到对象池
-                Gameplay.Instance().gamePlayInput.UnitBackPool(_attackedUnit);
-
-                //删除对应controller中的死亡单位
-                Gameplay.Instance().autoController.UpdateAllHatredList();
-
-                //删除对应的事件模型
-                if (_attackedUnit.EventModule != null)
-                {
-                    _attackedUnit.EventModule.DeleteThisModule();
-                    _attackedUnit.EventModule = null;
-                    _attackedUnit.eventsInfo.Clear();
-                }
-
-                MsgDispatcher.SendMsg((int)MessageType.Kill); 
-                MsgDispatcher.SendMsg((int)MessageType.Dead);
-                MsgDispatcher.SendMsg((int)MessageType.BattleSate);//单位死亡更新战区所属状态
+                UnitManager.Kill(_attacker, _attackedUnit);
             }
             else
             {
                 Gameplay.Instance().gamePlayInput.UpdateHp(_attackedUnit);
             }
+            
         }
 
         //private Damage _damage;
