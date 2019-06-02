@@ -15,11 +15,22 @@ namespace GameUnit
     public class GameUnit : MonoBehaviour, IMessage.MsgReceiver
     {
         //文件数量超过两位数的数据不要使用ScriptableObject实现
-
         /// <summary>
-        /// 单位属性，决定废弃，请勿使用
+        /// 增减单位的攻击力。
         /// </summary>
-        //public NBearUnit.UnitAttribute UnitAttribute;
+        /// <param name="delta">增加量，负数时为减少。</param>
+        public void changeATK(int delta)
+        {
+            atk += delta;
+        }
+        /// <summary>
+        /// 设置单位的攻击力。
+        /// </summary>
+        /// <param name="newNum">新的攻击力。</param>
+        public void setATK(int newNum)
+        {
+            atk = newNum;
+        }
 
         /// <summary>
         /// 单位的所有者

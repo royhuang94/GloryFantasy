@@ -28,7 +28,7 @@ namespace GamePlay.FSM
             // 扣除消耗的Ap值
             Player.Instance().ConsumeAp(FSM.selectedCard.GetComponent<BaseCard>().cost);  
             //执行部署指令在对应MapBlock生成单位
-            DispositionCommand unitDispose = new DispositionCommand(FSM.selectedCard.id, OwnerEnum.Player, mapBlock);
+            DispositionCommand unitDispose = new DispositionCommand(FSM.selectedCard.tokenID, OwnerEnum.Player, mapBlock);
             unitDispose.Excute();
             //删掉对应手牌槽的引用
             FSM.selectedCard = null;

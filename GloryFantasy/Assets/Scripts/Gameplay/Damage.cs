@@ -12,7 +12,7 @@ namespace GamePlay
     /// <summary>
     /// 伤害类，存储伤害的信息和伤害公式
     /// </summary>
-    public class Damage
+    public class Damage : GameplayTool
     {
 
         public int damageValue { get; set; }
@@ -34,15 +34,37 @@ namespace GamePlay
         }
 
         /// <summary>
-        /// 单位接受攻击
+        /// 单位承受伤害。
         /// </summary>
-        /// <param name="unit">被攻击单位</param>
+        /// <param name="unit">承受伤害的单位。</param>
         /// <param name="damage">伤害</param>
         public static void TakeDamage(GameUnit.GameUnit unit, Damage damage)
         {
             Debug.Log(damage.damageValue);
             unit.hp -= damage.damageValue;
             Debug.Log(unit.name + "收到伤害，当前剩余生命值" + unit.hp);
+        }
+
+        /// <summary>
+        /// 造成伤害的方法。
+        /// </summary>
+        /// <param name="source">伤害来源单位。可以为空（eg 烧灼地形造成的伤害）。</param>
+        /// <param name="taker">伤害承受者。</param>
+        /// <param name="damage">伤害。</param>
+        public static void DealDamage(GameUnit.GameUnit source, GameUnit.GameUnit taker, Damage damage)
+        {
+            Damage.TakeDamage(taker, damage);
+            damage.SetInjurer(source); damage.SetInjuredUnit(taker);
+            if (source != null)
+            {
+                MsgDispatcher.SendMsg((int)MessageType.Damage);
+                Gameplay.Instance().autoController.RecordedHatred(source, taker);
+            }
+            MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
+            if (taker.IsDead())
+            {
+                UnitManager.Kill(source, taker);
+            }
         }
     }
 
@@ -103,33 +125,8 @@ namespace GamePlay
         /// </summary>
         public void Excute()
         {
-            //TODO 如果单位死亡则不能反击
-            Damage.TakeDamage(_attackedUnit, Damage.GetDamage(_attacker));
-            this.SetInjurer(_attacker); this.SetInjuredUnit(_attackedUnit);
-            MsgDispatcher.SendMsg((int)MessageType.Damage);
-            MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
-
-            /*  TODO 时点处理
-                BeAttacked,
-                Damage,
-                BeDamaged,
-                Kill,
-                BeKilled,
-                Dead,
-                ToBeKilled,    
-             */
-
-            //只会执行_attacker为play的情况
-            Gameplay.Instance().autoController.RecordedHatred(_attacker, _attackedUnit);
-            if (_attackedUnit.IsDead())
-            {
-                UnitManager.Kill(_attacker, _attackedUnit);
-            }
-            else
-            {
-                Gameplay.Instance().gamePlayInput.UpdateHp(_attackedUnit);
-            }
-            
+            Damage _damage = Damage.GetDamage(_attacker);
+            Damage.DealDamage(_attacker, _attackedUnit, _damage);
         }
 
         /// <summary>

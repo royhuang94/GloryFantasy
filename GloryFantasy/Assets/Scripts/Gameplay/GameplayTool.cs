@@ -365,14 +365,25 @@ namespace GamePlay
         }
 
         /// <summary>
+        /// 造成伤害的方法。
+        /// </summary>
+        /// <param name="source">伤害来源单位。可以为空（eg 烧灼地形造成的伤害）。</param>
+        /// <param name="taker">伤害承受者。</param>
+        /// <param name="damage">伤害。</param>
+        public static void DealDamage(GameUnit.GameUnit source, GameUnit.GameUnit taker, Damage damage)
+        {
+            Damage.DealDamage(source, taker, damage);
+        }
+
+        /// <summary>
         /// 重生为某个单位。
         /// </summary>
         /// <param name="name"></param>重生为的单位id。
         /// <param name="position"></param>单位被复活在哪个地格上
         /// <returns></returns>
-        public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, Vector2 position)
+        public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, BattleMap.BattleMapBlock block)
         {
-            //TODO:没写完的复活功能
+            DispositionCommand unitDispose = new DispositionCommand(name, GameUnit.OwnerEnum.Player, block);
             return null;
         }
         /// <summary>
