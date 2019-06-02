@@ -59,12 +59,10 @@ namespace Ability
             {
                 if (unit.owner == OwnerEnum.Enemy)
                 {
-                    unit.gameObject.AddComponent<BConfused>();
-                    unit.gameObject.GetComponent<BConfused>().SetLife((float)_turns);
+                    unit.gameObject.AddBuff<BConfused>((float)_turns);
                     if (_abilityId.Contains("_3"))
                     {
-                        unit.gameObject.AddComponent<BBlind>();
-                        unit.gameObject.GetComponent<BBlind>().SetLife((float)_turns);
+                        unit.gameObject.AddBuff<BBlind>((float)_turns);
                     }
                 }
             }

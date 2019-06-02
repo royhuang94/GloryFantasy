@@ -145,7 +145,7 @@
         "Damage": 0,
         "Description": "受到此单位伤害的单位获得目盲，一回合后消解。",
         "Draws": 0,
-        "ID": "Blind",
+        "ID": "BlindPoison",
         "Name": "恍惚之毒",
         "Range": 0,
         "TargetList": [],

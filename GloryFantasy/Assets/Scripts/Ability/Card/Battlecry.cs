@@ -55,7 +55,7 @@ namespace Ability
             {
                 if (unit.owner == OwnerEnum.Enemy)
                 {
-                    unit.gameObject.AddComponent<BConfused>();
+                    unit.gameObject.AddBuff<BBattlecry>(0.5f);
                 }
             }
             
@@ -63,7 +63,7 @@ namespace Ability
     }
 
     //要用的Buff
-    public class BattlecryBuff : Buff.Buff
+    public class BBattlecry : Buff.Buff
     {
         //设定Buff的初始化
         protected override void InitialBuff()

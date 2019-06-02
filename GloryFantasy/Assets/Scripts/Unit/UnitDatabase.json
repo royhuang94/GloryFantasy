@@ -45,7 +45,7 @@
     {
         "Ability": [
             "Haste",
-            "Blind"
+            "BlindPoison"
         ],
         "Atk": 4,
         "CardID": "",
@@ -66,7 +66,7 @@
     {
         "Ability": [
             "Haste",
-            "Blind"
+            "BlindPoison"
         ],
         "Atk": 5,
         "CardID": "",

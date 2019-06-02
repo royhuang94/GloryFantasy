@@ -23,8 +23,32 @@ namespace GamePlay
     public static class GameplayToolExtend
     {
         private static Info Info = Gameplay.Info;
+        public static T AddBuff<T>(this GameObject gameObject, float life) where T : Buff
+        {
+            return addBuff<T>(gameObject, life);
+        }
 
+        public static T AddBuff<T>(this Transform transform, float life) where T : Buff
+        {
+            return addBuff<T>(transform.gameObject, life);
+        }
 
+        private static T addBuff<T>(GameObject target, float life) where T : Buff
+        {
+            T temp = target.GetComponent<T>();
+            if (temp == null)
+            {
+                temp = target.AddComponent<T>();
+                target.GetComponent<T>().SetLife(life);
+            }
+            else
+            {
+                float rest = target.GetComponent<T>().Life;
+                if (rest < life)
+                    target.GetComponent<T>().SetLife(life);
+            }
+            return temp;
+        }
         public static void SetRoundOwned(this GameplayTool self, PlayerEnum player)
         {
             Gameplay.Info.RoundOwned = player;
