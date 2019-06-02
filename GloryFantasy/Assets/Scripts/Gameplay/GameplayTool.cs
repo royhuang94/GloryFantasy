@@ -49,6 +49,9 @@ namespace GamePlay
             if (buffVariable != null)
             {
                 target.GetComponent<T>().setVariable(buffVariable);
+            } else
+            {
+                target.GetComponent<T>().InitialBuff();
             }
             return temp;
         }
