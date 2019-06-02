@@ -169,5 +169,11 @@ namespace GameUnit
                 Gameplay.Instance().eventScroll.AddEventModule(unit.EventModule);
             }
         }
+
+        public static void ColorUnitOnBlock(Vector3 position, Color color)
+        {
+            GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(position);
+            unit.GetComponent<Image>().color = color;
+        }
     }
 }

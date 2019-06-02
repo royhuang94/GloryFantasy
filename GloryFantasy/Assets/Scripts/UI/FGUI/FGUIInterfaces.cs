@@ -190,6 +190,9 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		_handcardList.onClickItem.Add(OnClickHandCard);
 		
 		_cardsSetsList.onClickItem.Add(OnClickCardInCardSets);
+		
+//		_cooldownList.onClickItem.Add(OnClickCardInCoolDownSets);				// 添加左键点击冷却牌
+		_cooldownList.onRightClickItem.Add(OnClickCardInCoolDownSets);			// 添加右键点击冷却牌
 	}
 
 	private void FixedUpdate()
@@ -219,7 +222,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 
 		GObject item = context.data as GObject;
 		_startPos = Input.mousePosition;
-		_canShowArrow = true;
+//		_canShowArrow = true;
 		// 确认当前点击的卡牌和上次点击的不同，此时表明用户想使用这张卡牌
 		if (item != lastClicked)
 		{
@@ -281,6 +284,41 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		
 	}
 
+
+	/// <summary>
+	/// 响应冷却堆内卡牌右键点击事件的函数
+	/// </summary>
+	/// <param name="context"></param>
+	public void OnClickCardInCoolDownSets(EventContext context)
+	{
+		// 现在用的展示界面和手牌及已部署单位是同一个界面。
+		if (!_cardDescribeWindow.isShowing)
+		{
+			// 获取冷却列表点击下标
+			int index = _cooldownList.GetChildIndex(context.data as GObject);
+
+			// 根据点击下标获取对应冷却牌
+			cdObject cooldownCard = cooldownList[index];
+			
+			// 冷却牌ID
+			string cardID = cooldownCard.objectId;
+
+			// 获取展示数据
+			JsonData data = CardManager.Instance().GetCardJsonData(cardID);
+
+			_title.text = data["name"].ToString();
+			_effect.text = data["effect"].ToString();
+			_value.text = "总冷却：" + data["cd"] + "     剩余冷却：" + cooldownCard.leftCd;
+		
+			_cardDescribeWindow.Show();
+		}
+		else
+		{
+			_cardDescribeWindow.Hide();
+		}
+	}
+	
+	
 	/// <summary>
 	/// 临时处理函数，用于协调UGUI和FGUI的显示与隐藏关系
 	/// </summary>
