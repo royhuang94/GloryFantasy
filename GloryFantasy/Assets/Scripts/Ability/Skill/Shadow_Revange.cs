@@ -31,7 +31,6 @@ namespace Ability
     public class TShadow_Revange : Trigger
     {
         private int _amount;
-        private int _mov;
         private GameUnit.GameUnit _unit;
         private string _abilityId;
 
@@ -40,7 +39,6 @@ namespace Ability
             _amount = amount;
             _unit = unit;
             _abilityId = abilityId;
-            _mov = unit.mov;
             register = speller;
             msgName = (int) MessageType.BeDamaged;
             condition = Condition;
@@ -58,15 +56,30 @@ namespace Ability
 
         private void Action()
         {
-            Trigger dt = new DelayedTrigger(
-                register,
-                1,
-                (int)MessageType.MPEnd,
-                () => { _unit.mov = _mov; });
-            
-            MsgDispatcher.RegisterMsg(dt, _abilityId + "--DT", true);
+            _unit.gameObject.AddBuff<BShadow_Revenge>(1f);
+        }
+    }
 
-            _unit.mov = _amount;
+    public class BShadow_Revenge : Buff.Buff
+    {
+        private int _mov;
+        //设定Buff的初始化
+        protected override void InitialBuff()
+        {
+            //设定Buff的生命周期，两种写法,建议使用第二种，比较直观
+            SetLife(2f);
+
+            //Buff要做的事情，可以像Ability一样也写Trigger，也可以只是做一些数值操作。和Ability一样公用一套工具函数库
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            _mov = unit.mov;
+        }
+
+        
+        //设定Buff消失时的逆操作
+        protected override void OnDisappear()
+        {
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.mov = _mov;
         }
     }
 }

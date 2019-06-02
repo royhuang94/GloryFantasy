@@ -8,8 +8,8 @@ namespace Ability.Buff
 {
     public class BBlind : Buff
     {
-        private int _rng;
-        private int _mov;
+        private int _deltarng;
+        private int _deltamov;
         //设定Buff的初始化
         protected override void InitialBuff()
         {
@@ -19,20 +19,20 @@ namespace Ability.Buff
 
             //Buff要做的事情，可以像Ability一样也写Trigger，也可以只是做一些数值操作。和Ability一样公用一套工具函数库
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            
-            _rng = unit.rng;
-            _mov = unit.mov;
 
-            unit.rng = 1;
-            unit.mov = 1;
+            _deltarng = unit.rng - 1;
+            _deltamov = unit.mov - 1;
+
+            unit.rng -= _deltarng;
+            unit.mov -= _deltamov;
         }
 
         //设定Buff消失时的逆操作
         protected override void OnDisappear()
         {
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.rng = _rng;
-            unit.mov = _mov;
+            unit.rng += _deltarng;
+            unit.mov += _deltamov;
         }
     }
 }

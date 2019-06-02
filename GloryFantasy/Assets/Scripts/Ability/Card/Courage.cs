@@ -64,7 +64,91 @@ namespace Ability
             //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
             GameUnit.GameUnit unit = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
             //加buff
-            unit.GetComponent("Couragebuff_1");
+            switch (_abilityId)
+            {
+                case "Courage_1":
+                    unit.gameObject.AddBuff<BCourage_1>((float)_turns);
+                    break;
+                case "Courage_2":
+                    unit.gameObject.AddBuff<BCourage_2>((float)_turns);
+                    break;
+                case "Courage_3":
+                    unit.gameObject.AddBuff<BCourage_3>((float)_turns);
+                    break;
+            }
+        }
+    }
+
+    public class BCourage_1 : Buff.Buff
+    {
+        private int _mov;
+        //设定Buff的初始化
+        protected override void InitialBuff()
+        {
+            SetLife(2f);
+
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.atk += 2;
+            unit.MaxHP += 4;
+            unit.hp += 4;
+        }
+
+
+        protected override void OnDisappear()
+        {
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.atk -= 2;
+            unit.MaxHP -= 4;
+            if (unit.hp > unit.MaxHP)
+                unit.hp = unit.MaxHP;
+        }
+    }
+
+    public class BCourage_2 : Buff.Buff
+    {
+        private int _mov;
+        protected override void InitialBuff()
+        {
+            SetLife(2f);
+
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.atk += 3;
+            unit.MaxHP += 5;
+            unit.hp += 5;
+        }
+
+
+        protected override void OnDisappear()
+        {
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.atk -= 3;
+            unit.MaxHP -= 5;
+            if (unit.hp > unit.MaxHP)
+                unit.hp = unit.MaxHP;
+        }
+    }
+
+    public class BCourage_3 : Buff.Buff
+    {
+        private int _mov;
+        protected override void InitialBuff()
+        {
+            SetLife(2f);
+
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.atk += 4;
+            unit.MaxHP += 6;
+            unit.hp += 6;
+        }
+
+
+        protected override void OnDisappear()
+        {
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.atk -= 4;
+            unit.MaxHP -= 6;
+            if (unit.hp > unit.MaxHP)
+                unit.hp = unit.MaxHP;
         }
     }
 }

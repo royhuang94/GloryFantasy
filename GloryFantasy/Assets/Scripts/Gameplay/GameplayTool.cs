@@ -35,18 +35,15 @@ namespace GamePlay
 
         private static T addBuff<T>(GameObject target, float life) where T : Buff
         {
-            T temp = target.GetComponent<T>();
-            if (temp == null)
-            {
-                temp = target.AddComponent<T>();
-                target.GetComponent<T>().SetLife(life);
-            }
-            else
+            if (target.GetComponent<T>() != null)
             {
                 float rest = target.GetComponent<T>().Life;
                 if (rest < life)
-                    target.GetComponent<T>().SetLife(life);
+                    life = rest;
+                GameObject.Destroy(target.GetComponent<T>());
             }
+            T temp = target.AddComponent<T>();
+            target.GetComponent<T>().SetLife(life);
             return temp;
         }
         public static void SetRoundOwned(this GameplayTool self, PlayerEnum player)

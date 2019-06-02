@@ -8,6 +8,9 @@ using Ability.Buff;
 
 namespace Ability
 {
+    /// <summary>
+    /// 受到此单位伤害的生物获得目盲，一回合后消解。
+    /// </summary>
     public class BlindPoison : Ability
     {
         Trigger trigger;

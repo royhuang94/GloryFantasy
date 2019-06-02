@@ -814,7 +814,7 @@
         "Area": 0,
         "Curing": 0,
         "Damage": 0,
-        "Description": "此单位受到伤害时，MOV变为{Amount}直到下一个你的回合结束。",
+        "Description": "此单位受到伤害时，MOV变为{Amount}，持续一回合。",
         "Draws": 0,
         "ID": "Shadow_Revange",
         "Name": "暗影索命",

@@ -33,6 +33,7 @@ namespace Ability.Buff
                 //如果buff时间小于等于0，删除并触发删除效果
                 if (buff.Life <= 0)
                 {
+                    buff.OnComplete();
                     BuffList.Remove(buff);
                     GameObject.Destroy(buff);
                 }
@@ -88,5 +89,10 @@ namespace Ability.Buff
         /// 设定Buff消失时要做的事情（暂时不区分被净化和达到时限的区别）
         /// </summary>
         virtual protected void OnDisappear() { }
+
+        /// <summary>
+        /// 设定Buff按照回合数读完发生的事情（eg 吟唱）
+        /// </summary>
+        virtual public void OnComplete() { }
     }
 }
