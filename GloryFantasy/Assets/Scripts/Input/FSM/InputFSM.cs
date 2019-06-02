@@ -86,6 +86,8 @@ namespace GamePlay.FSM
             {
                 //BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
             }
+            
+            StateStack.Peek().OnPointerExit(mapBlock, eventData);
             //TODO
         }
         /// <summary>

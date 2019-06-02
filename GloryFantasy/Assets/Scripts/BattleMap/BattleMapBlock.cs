@@ -1,4 +1,4 @@
-        using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Unit = GameUnit.GameUnit;
@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 
 using GamePlay;
+using GamePlay.FSM;
 using GameUnit;
 
 
@@ -38,10 +39,22 @@ namespace BattleMap
         private bool _showUnitMsg = false;        //判断能否展示单位信息
         private Unit _unit;                        //地图上单位
         private FGUIInterfaces _fguiInterfaces;
+
+        public Unit unit
+        {
+            get
+            {
+                if(_unit == null)
+                    _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
+                return _unit;
+            }
+        }
+
+        
         private void Awake()
         {
             setMapBlackPosition();
-            
+            _unit = BattleMap.Instance().GetUnitsOnMapBlock(GetSelfPosition());
             _fguiInterfaces = FGUIInterfaces.Instance();
         }
 
@@ -129,6 +142,8 @@ namespace BattleMap
             Show();
             if (_unit != null)
             {
+//                _unit.GetComponent<Image>().color = new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f);
+                UnitManager.ColorUnitOnBlock(this.position, new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f));
                 _fguiInterfaces.setDescribeWindowShow();        // 显示
             }
         }
@@ -139,13 +154,16 @@ namespace BattleMap
             //show();
             if (_unit != null)
             {
+//                _unit.GetComponent<Image>().color = Color.white;
+                UnitManager.ColorUnitOnBlock(this.position, Color.white);
+                if(Gameplay.Instance().gamePlayInput.InputFSM.selectedCard)
                 _fguiInterfaces.setDescribeWindowHide();        // 隐藏
             }
         }
 
         
         /// <summary>
-        /// 获取单位即信息，用于fgui显示
+        /// 获取单位信息，用于fgui显示
         /// </summary>
         private void Show()
         {
