@@ -23,17 +23,19 @@ namespace GamePlay
     public static class GameplayToolExtend
     {
         private static Info Info = Gameplay.Info;
-        public static T AddBuff<T>(this GameObject gameObject, float life) where T : Buff
+        public static T AddBuff<T>(this GameObject gameObject, float life, AbilityVariable buffVariable = null) where T : Buff
         {
             return addBuff<T>(gameObject, life);
         }
 
-        public static T AddBuff<T>(this Transform transform, float life) where T : Buff
+        public static T AddBuff<T>(this Transform transform, float life, AbilityVariable buffVariable = null) where T : Buff
         {
             return addBuff<T>(transform.gameObject, life);
         }
-
-        private static T addBuff<T>(GameObject target, float life) where T : Buff
+        /// <summary>
+        /// 添加buff。参数life不可缺省，buff的持续时间；参数buffVariable可缺省，同异能改变量。
+        /// </summary>
+        private static T addBuff<T>(GameObject target, float life, AbilityVariable buffVariable = null) where T : Buff
         {
             if (target.GetComponent<T>() != null)
             {
@@ -44,6 +46,10 @@ namespace GamePlay
             }
             T temp = target.AddComponent<T>();
             target.GetComponent<T>().SetLife(life);
+            if (buffVariable != null)
+            {
+                target.GetComponent<T>().setVariable(buffVariable);
+            }
             return temp;
         }
         public static void SetRoundOwned(this GameplayTool self, PlayerEnum player)

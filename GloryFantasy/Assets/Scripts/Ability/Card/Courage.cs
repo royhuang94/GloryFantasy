@@ -28,7 +28,7 @@ namespace Ability
         public override void Init(string abilityId)
         {
             base.Init(abilityId);
-            trigger = new TCourage(this.GetCardReceiver(this), AbilityVariable.Turns.Value, abilityId);
+            trigger = new TCourage(this.GetCardReceiver(this), AbilityVariable, abilityId);
             MsgDispatcher.RegisterMsg(trigger, abilityId);
         }
     }
@@ -37,10 +37,11 @@ namespace Ability
     {
         private int _turns;
         private string _abilityId;
+        private AbilityVariable _abilityVariable;
         
-        public TCourage(MsgReceiver speller, int turns, string abilityId)
+        public TCourage(MsgReceiver speller, AbilityVariable abilityVariable, string abilityId)
         {
-            _turns = turns;
+            _turns = abilityVariable.Turns.Value;
             _abilityId = abilityId;
             register = speller;
             //初始化响应时点,为卡片使用时
@@ -64,89 +65,38 @@ namespace Ability
             //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
             GameUnit.GameUnit unit = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
             //加buff
-            switch (_abilityId)
-            {
-                case "Courage_1":
-                    unit.gameObject.AddBuff<BCourage_1>((float)_turns);
-                    break;
-                case "Courage_2":
-                    unit.gameObject.AddBuff<BCourage_2>((float)_turns);
-                    break;
-                case "Courage_3":
-                    unit.gameObject.AddBuff<BCourage_3>((float)_turns);
-                    break;
-            }
+            
+            unit.gameObject.AddBuff<BCourage>((float)_turns, _abilityVariable);             
+            
         }
     }
 
-    public class BCourage_1 : Buff.Buff
+    public class BCourage : Buff.Buff
     {
         private int _mov;
+        private int _deltahp = 4;
+        private int _deltaatk = 2;
         //设定Buff的初始化
         protected override void InitialBuff()
         {
             SetLife(2f);
-
-            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.atk += 2;
-            unit.MaxHP += 4;
-            unit.hp += 4;
         }
 
+        public override void setVariable(AbilityVariable variable)
+        {
+            _deltaatk = variable.Amount.Value;
+            _deltahp = variable.Amount.Value + 2;
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.atk += _deltaatk;
+            unit.MaxHP += _deltahp;
+            unit.hp += _deltahp;
+        }
 
         protected override void OnDisappear()
         {
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.atk -= 2;
-            unit.MaxHP -= 4;
-            if (unit.hp > unit.MaxHP)
-                unit.hp = unit.MaxHP;
-        }
-    }
-
-    public class BCourage_2 : Buff.Buff
-    {
-        private int _mov;
-        protected override void InitialBuff()
-        {
-            SetLife(2f);
-
-            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.atk += 3;
-            unit.MaxHP += 5;
-            unit.hp += 5;
-        }
-
-
-        protected override void OnDisappear()
-        {
-            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.atk -= 3;
-            unit.MaxHP -= 5;
-            if (unit.hp > unit.MaxHP)
-                unit.hp = unit.MaxHP;
-        }
-    }
-
-    public class BCourage_3 : Buff.Buff
-    {
-        private int _mov;
-        protected override void InitialBuff()
-        {
-            SetLife(2f);
-
-            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.atk += 4;
-            unit.MaxHP += 6;
-            unit.hp += 6;
-        }
-
-
-        protected override void OnDisappear()
-        {
-            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.atk -= 4;
-            unit.MaxHP -= 6;
+            unit.atk -= _deltaatk;
+            unit.MaxHP -= _deltahp;
             if (unit.hp > unit.MaxHP)
                 unit.hp = unit.MaxHP;
         }

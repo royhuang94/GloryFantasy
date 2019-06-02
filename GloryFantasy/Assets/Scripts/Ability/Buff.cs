@@ -94,5 +94,10 @@ namespace Ability.Buff
         /// 设定Buff按照回合数读完发生的事情（eg 吟唱）
         /// </summary>
         virtual public void OnComplete() { }
+
+        /// <summary>
+        /// 对于需要使用异能变量的buff重载这个方法来进行书写。参数AbilityVariable。
+        /// </summary>
+        virtual public void setVariable(AbilityVariable variable) { }
     }
 }

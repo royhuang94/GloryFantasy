@@ -152,11 +152,11 @@
         "Turns": 0
     },
     {
-        "Amount": 0,
+        "Amount": 2,
         "Area": 0,
         "Curing": 0,
         "Damage": 0,
-        "Description": "使用者：友方单位。使用者获得获得+2攻击力和+4最大生命上限，持续{Turns}个回合。",
+        "Description": "使用者：友方单位。使用者获得获得+{Amount}攻击力和+{Amount}+2最大生命上限，持续{Turns}个回合。",
         "Draws": 0,
         "ID": "Courage_1",
         "Name": "热血律动",
@@ -172,11 +172,11 @@
         "Turns": 2
     },
     {
-        "Amount": 0,
+        "Amount": 3,
         "Area": 0,
         "Curing": 0,
         "Damage": 0,
-        "Description": "使用者：友方单位。使用者获得获得+3攻击力和+5最大生命上限，持续{Turns}个回合。",
+        "Description": "使用者：友方单位。使用者获得获得+{Amount}攻击力和+{Amount}+2最大生命上限，持续{Turns}个回合。",
         "Draws": 0,
         "ID": "Courage_2",
         "Name": "热血律动",
@@ -192,11 +192,11 @@
         "Turns": 2
     },
     {
-        "Amount": 0,
+        "Amount": 4,
         "Area": 0,
         "Curing": 0,
         "Damage": 0,
-        "Description": "使用者：友方单位。使用者获得+4攻击力和+6最大生命上限，持续{Turns}个回合。",
+        "Description": "使用者：友方单位。使用者获得+{Amount}攻击力和+{Amount}+2最大生命上限，持续{Turns}个回合。",
         "Draws": 0,
         "ID": "Courage_3",
         "Name": "热血律动",

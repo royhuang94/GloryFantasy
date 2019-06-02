@@ -62,7 +62,7 @@ namespace Ability
 
     public class BShadow_Revenge : Buff.Buff
     {
-        private int _mov;
+        private int _deltamov;
         //设定Buff的初始化
         protected override void InitialBuff()
         {
@@ -71,7 +71,8 @@ namespace Ability
 
             //Buff要做的事情，可以像Ability一样也写Trigger，也可以只是做一些数值操作。和Ability一样公用一套工具函数库
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            _mov = unit.mov;
+            _deltamov = unit.mov - 4;
+            unit.mov -= _deltamov;
         }
 
         
@@ -79,7 +80,7 @@ namespace Ability
         protected override void OnDisappear()
         {
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.mov = _mov;
+            unit.mov += _deltamov;
         }
     }
 }
