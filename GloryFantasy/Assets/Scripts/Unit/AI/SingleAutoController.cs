@@ -131,7 +131,7 @@ namespace AI
         /// <returns>攻击范围</returns>
         protected int AtkStopDistance()
         {
-            return battleUnit.rng;
+            return battleUnit.getRNG();
         }
 
         protected int Distance(Unit unit1, Unit unit2)

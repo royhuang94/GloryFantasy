@@ -92,18 +92,18 @@ namespace GameUnit
             //先删除异能再初始化数值
             //初始化数值,记得和GameUnit的成员保持一致
             unit.owner = owner;
-            unit.atk = int.Parse(data["Atk"].ToString());
+            unit.setATK(int.Parse(data["Atk"].ToString()));
             unit.id = data["CardID"].ToString();
             unit.Color = data["Color"][0].ToString();
             unit.Effort = data["Effort"].ToString();
             unit.CD = int.Parse(data["HasCD"].ToString());
-            unit.MaxHP = int.Parse(data["Hp"].ToString()); unit.hp = unit.MaxHP - damage;
+            unit.setMHP(int.Parse(data["Hp"].ToString())); unit.hp = unit.getMHP() - damage;
             unit.id = data["ID"].ToString();
-            unit.mov = int.Parse(data["Mov"].ToString());
+            unit.setMOV(int.Parse(data["Mov"].ToString()));
             unit.name = data["Name"].ToString();
             unit.priority = new List<int>();
             unit.priority.Add(int.Parse(data["Prt"].ToString()));
-            unit.rng = int.Parse(data["Rng"].ToString());
+            unit.setRNG(int.Parse(data["Rng"].ToString()));
             unit.tag = new List<string>();
             for (int i = 0; i < data["Tag"].Count; i++)
             {

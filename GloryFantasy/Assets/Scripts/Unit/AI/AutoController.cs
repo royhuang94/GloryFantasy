@@ -63,7 +63,7 @@ namespace AI
             //当敌方单位是玩家单位时，触发更新
             if(enemyUnit.owner == GameUnit.OwnerEnum.Player)
             {
-                GetSingleControllerByID(hostUnit.CurPos).hatredRecorder.RecordedHatred(enemyUnit.id, enemyUnit.atk);
+                GetSingleControllerByID(hostUnit.CurPos).hatredRecorder.RecordedHatred(enemyUnit.id, enemyUnit.getATK());
             }
         }
     }

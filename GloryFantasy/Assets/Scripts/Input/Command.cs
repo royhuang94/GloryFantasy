@@ -205,7 +205,7 @@ namespace GamePlay.Input
             Vector2 unit1 = _unitPosition;
             Vector2 unit2 = _targetPosition;
             int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
-            if (MAN_HA_DUN <= _unit.mov)
+            if (MAN_HA_DUN <= _unit.getMOV())
                 return true;
             //BattleMap.BattleMap.Instance().MapNavigator
             return false;
@@ -246,7 +246,7 @@ namespace GamePlay.Input
             Vector2 unit1 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_Attacker);
             Vector2 unit2 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_AttackedUnit);
             int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
-            if (MAN_HA_DUN <= _Attacker.rng)
+            if (MAN_HA_DUN <= _Attacker.getRNG())
                 return true;
 
             return false;
@@ -259,7 +259,7 @@ namespace GamePlay.Input
             Vector2 unit1 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_AttackedUnit);
             Vector2 unit2 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_Attacker); 
             int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
-            if (MAN_HA_DUN <= _AttackedUnit.rng)
+            if (MAN_HA_DUN <= _AttackedUnit.getRNG())
                 return true;
 
             return false;

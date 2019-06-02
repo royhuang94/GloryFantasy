@@ -23,7 +23,7 @@ namespace Ability
         {
             base.Init(abilityId);
             _trigger = new TQuickArk(this.GetUnitReceiver(this), gameObject);
-            MsgDispatcher.RegisterMsg(_trigger, "QuickArk");
+            MsgDispatcher.RegisterMsg(_trigger, abilityId);
         }
     }
 

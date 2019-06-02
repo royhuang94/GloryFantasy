@@ -163,14 +163,14 @@ namespace AI
                 canAtk = false;
                 return null;
             }
-            else if (PathCount - 1 <= battleUnit.mov)
+            else if (PathCount - 1 <= battleUnit.getMOV())
             {
                 canAtk = true;
                 return toTargetPath;
             }
 
 
-            toTargetPath = toTargetPath.GetRange(toTargetPath.Count - battleUnit.mov - 1, battleUnit.mov + 1);
+            toTargetPath = toTargetPath.GetRange(toTargetPath.Count - battleUnit.getMOV() - 1, battleUnit.getMOV() + 1);
             canAtk = false;
             return toTargetPath;
         }

@@ -28,7 +28,7 @@ namespace Ability
             base.Init(abilityId);
             String targetId = gameObject.GetComponent<GameUnit.GameUnit>().id;
             _trigger = new TWit(this.GetCardReceiver(this), targetId, AbilityVariable.Amount.Value);
-            MsgDispatcher.RegisterMsg(_trigger, "Wit");
+            MsgDispatcher.RegisterMsg(_trigger, abilityId);
         }
     }
 

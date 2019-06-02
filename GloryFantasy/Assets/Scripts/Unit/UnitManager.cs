@@ -81,7 +81,7 @@ namespace GameUnit
             var hpTest = temp.transform.GetChild(0);
             hpTest.gameObject.SetActive(true);
             float hp = (temp.GetComponent<GameUnit>().hp = temp.GetComponent<GameUnit>().hp);
-            float hpDivMaxHp = hp / temp.GetComponent<GameUnit>().MaxHP * 100;
+            float hpDivMaxHp = hp / temp.GetComponent<GameUnit>().getMHP() * 100;
             //格式化血量的显示
             hpTest.GetComponent<Text>().text = string.Format("HP: {0}%", hpDivMaxHp);
 
@@ -168,7 +168,7 @@ namespace GameUnit
                 var TextHp = _object.transform.GetComponentInChildren<Text>();
                 var gameUnit = _object.GetComponent<GameUnit>();
                 float hp = gameUnit.hp/* - Random.Range(2, 6)*/;
-                float maxHp = gameUnit.MaxHP;
+                float maxHp = gameUnit.getMHP();
                 float hpDivMaxHp = hp / maxHp * 100;
                 TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
 

@@ -207,7 +207,7 @@ namespace GameGUI
             unitMove = true;
             SetBeforeUnit(unit);
             BattleMap.BattleMap.Instance().ColorMapBlocks(
-               GetPositionsWithinCertainMd(target, unit.mov), Color.green);
+               GetPositionsWithinCertainMd(target, unit.getMOV()), Color.green);
             if(cannotArrivePoss.Count != 0)
             {
                 BattleMap.BattleMap.Instance().ColorMapBlocks(cannotArrivePoss, Color.red);
@@ -222,7 +222,7 @@ namespace GameGUI
         {
             SetBeforeUnit(unit);
             BattleMap.BattleMap.Instance().ColorMapBlocks(
-                GetPositionsWithinCertainMd(target, unit.rng), Color.red);
+                GetPositionsWithinCertainMd(target, unit.getRNG()), Color.red);
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace GameGUI
             unitMove = false;
             Unit unit = GetBeforeUnit();
             BattleMap.BattleMap.Instance().ColorMapBlocks(
-                 GetPositionsWithinCertainMd(target, unit.mov), Color.white);   
+                 GetPositionsWithinCertainMd(target, unit.getMOV()), Color.white);   
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace GameGUI
         {
             Unit unit = GetBeforeUnit();
             BattleMap.BattleMap.Instance().ColorMapBlocks(
-                 GetPositionsWithinCertainMd(target, unit.rng), Color.white);
+                 GetPositionsWithinCertainMd(target, unit.getRNG()), Color.white);
         }
 
         /// <summary>

@@ -17,14 +17,14 @@ namespace Ability.Buff
 
             //Buff要做的事情，可以像Ability一样也写Trigger，也可以只是做一些数值操作。和Ability一样公用一套工具函数库
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.MaxHP += 2;
-            unit.hp += 2;
+            //unit.MaxHP += 2;
+            //unit.hp += 2;
         }
 
         //设定Buff消失时的逆操作
         protected override void OnDisappear()
         {
-            GetComponent<GameUnit.GameUnit>().MaxHP -= 2;
+            //GetComponent<GameUnit.GameUnit>().MaxHP -= 2;
         }
     }
 }

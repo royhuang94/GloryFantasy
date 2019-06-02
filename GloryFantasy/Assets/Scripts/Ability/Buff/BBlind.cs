@@ -20,19 +20,19 @@ namespace Ability.Buff
             //Buff要做的事情，可以像Ability一样也写Trigger，也可以只是做一些数值操作。和Ability一样公用一套工具函数库
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
 
-            _deltarng = unit.rng - 1;
-            _deltamov = unit.mov - 1;
+            _deltarng = unit.getRNG() - 1;
+            _deltamov = unit.getMOV() - 1;
 
-            unit.rng -= _deltarng;
-            unit.mov -= _deltamov;
+            unit.changeRNG(-_deltarng);
+            unit.changeMOV(-_deltamov);
         }
 
         //设定Buff消失时的逆操作
         protected override void OnDisappear()
         {
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.rng += _deltarng;
-            unit.mov += _deltamov;
+            unit.changeRNG(_deltarng);
+            unit.changeMOV(_deltamov);
         }
     }
 }

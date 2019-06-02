@@ -232,7 +232,7 @@ namespace BattleMap
             Unit gameUnit = BattleMap.Instance().GetUnitsOnMapBlock(startPos);
 
             //Debug.Log(gameUnit.name + "行动力为 " + gameUnit.mov);
-            if (paths.Count - 1 > gameUnit.mov)
+            if (paths.Count - 1 > gameUnit.getMOV())
             {
                 Debug.Log("超过移动力，无法移动到指定目标");
                 return true;

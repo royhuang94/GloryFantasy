@@ -19,7 +19,7 @@ namespace Ability
             base.Init(abilityId);
             trigger = new TGargole_sleep(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
             //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "Regeneration");
+            MsgDispatcher.RegisterMsg(trigger, abilityId);
         }
     }
 
@@ -39,9 +39,9 @@ namespace Ability
             //保存死掉的怪
             GameUnit.GameUnit deadUnit = this.GetDead();
             //复活死掉的怪并保存
-            GameUnit.GameUnit newUnit = this.Regenerate("Gargoyle_0", this.GetUnitPosition(deadUnit));
+            GameUnit.GameUnit newUnit = this.Regenerate("Gargoyle_0", deadUnit.mapBlockBelow);
             //删除这只怪的复活技能
-            this.DeleteUnitAbility(newUnit, "Regeneration");
+            this.DeleteUnitAbility(newUnit, "Gargole_sleep");
         }
 
         private bool Condition()

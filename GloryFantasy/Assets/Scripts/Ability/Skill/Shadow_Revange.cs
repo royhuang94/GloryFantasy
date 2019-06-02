@@ -71,8 +71,8 @@ namespace Ability
 
             //Buff要做的事情，可以像Ability一样也写Trigger，也可以只是做一些数值操作。和Ability一样公用一套工具函数库
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            _deltamov = unit.mov - 4;
-            unit.mov -= _deltamov;
+            _deltamov = unit.getMOV() - 4;
+            unit.changeMOV(-_deltamov);
         }
 
         
@@ -80,7 +80,7 @@ namespace Ability
         protected override void OnDisappear()
         {
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.mov += _deltamov;
+            unit.changeMOV(_deltamov);
         }
     }
 }

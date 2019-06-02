@@ -149,7 +149,7 @@ namespace GamePlay.Input
         /// <param name="attackedUnit">受攻击单位</param>
        internal void UpdateHp(GameUnit.GameUnit attackedUnit)
         {
-            float hpDivMaxHp = (float)attackedUnit.hp / attackedUnit.MaxHP * 100;
+            float hpDivMaxHp = (float)attackedUnit.hp / attackedUnit.getMHP() * 100;
             if (hpDivMaxHp > 100)
                 hpDivMaxHp = 100;
             var textHp = attackedUnit.transform.GetComponentInChildren<Text>();

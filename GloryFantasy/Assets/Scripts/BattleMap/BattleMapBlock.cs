@@ -198,8 +198,8 @@ namespace BattleMap
             }
            
             // 单位基础信息
-            string valueInfo = "颜色： " + _unit.Color + "    生命：  " + _unit.hp + "\n攻击： " + _unit.atk 
-                               + "    范围： " + _unit.rng + "\n移动： " + _unit.mov + "    优先级： " + priorityInTotal;
+            string valueInfo = "颜色： " + _unit.Color + "    生命：  " + _unit.hp + "\n攻击： " + _unit.getATK() 
+                               + "    范围： " + _unit.getRNG() + "\n移动： " + _unit.getMOV() + "    优先级： " + priorityInTotal;
             
             // 标签及效果信息，可能过长显示截断
             string effectInfo = tagInTotal + "  " + _unit.Effort;

@@ -30,7 +30,7 @@ namespace Ability
             base.Init(abilityId);
             trigger = new TRegeneration(GetComponent<GameUnit.GameUnit>().GetMsgReceiver());
             //注册Trigger进消息中心
-            MsgDispatcher.RegisterMsg(trigger, "Regeneration");
+            MsgDispatcher.RegisterMsg(trigger, abilityId);
         }
     }
 

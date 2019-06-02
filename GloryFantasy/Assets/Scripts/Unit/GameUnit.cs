@@ -31,7 +31,104 @@ namespace GameUnit
         {
             atk = newNum;
         }
-
+        /// <summary>
+        /// 获取单位的攻击力。
+        /// </summary>
+        public int getATK()
+        {
+            if (atk < 0)
+                return 0;
+            return atk;
+        }
+        /// <summary>
+        /// 增减单位的最大生命值，减少到0或以下时死亡。
+        /// </summary>
+        /// <param name="delta">增加量，负数时为减少。</param>
+        public void changeMHP(int delta)
+        {
+            MaxHP += delta;
+            if (MaxHP <= 0)
+            {
+                UnitManager.Kill(null, this);
+            }
+            if (hp > MaxHP)
+            {
+                hp = MaxHP;
+            }
+        }
+        /// <summary>
+        /// 设置单位的最大生命值。设置为0或以下时死亡。
+        /// </summary>
+        /// <param name="newNum">新的最大生命值。</param>
+        public void setMHP(int newNum)
+        {
+            MaxHP = newNum;
+            if (MaxHP < 0)
+            {
+                UnitManager.Kill(null, this);
+            }
+            if (hp > MaxHP)
+            {
+                hp = MaxHP;
+            }
+        }
+        /// <summary>
+        /// 获取单位的最大生命值。
+        /// </summary>
+        public int getMHP()
+        {
+            return MaxHP;
+        }
+        /// <summary>
+        /// 增减单位的移动力。
+        /// </summary>
+        /// <param name="delta">增加量，负数时为减少。</param>
+        public void changeMOV(int delta)
+        {
+            mov += delta;
+        }
+        /// <summary>
+        /// 设置单位的移动力。
+        /// </summary>
+        /// <param name="newNum">新的移动力。</param>
+        public void setMOV(int newNum)
+        {
+            mov = newNum;
+        }
+        /// <summary>
+        /// 获取单位的移动力。
+        /// </summary>
+        public int getMOV()
+        {
+            if (mov < 0)
+                return 0;
+            return mov;
+        }
+        /// <summary>
+        /// 增减单位的攻击范围。
+        /// </summary>
+        /// <param name="delta">增加量，负数时为减少。</param>
+        public void changeRNG(int delta)
+        {
+            rng += delta;
+        }
+        /// <summary>
+        /// 设置单位的攻击范围。
+        /// </summary>
+        /// <param name="newNum">新的攻击范围。</param>
+        public void setRNG(int newNum)
+        {
+            rng = newNum;
+        }
+        /// <summary>
+        /// 获取单位的攻击范围。
+        /// </summary>
+        public int getRNG()
+        {
+            if (rng < 0)
+                return 0;
+            return rng;
+        }
         /// <summary>
         /// 单位的所有者
         /// </summary>
@@ -39,7 +136,7 @@ namespace GameUnit
         /// <summary>
         /// 单位攻击力
         /// </summary>
-        public int atk { get; set; }
+        private int atk { get; set; }
         /// <summary>
         /// 单位对应的那张牌的ID
         /// </summary>
@@ -59,7 +156,7 @@ namespace GameUnit
         /// <summary>
         /// 单位的生命值上限
         /// </summary>
-        public int MaxHP { get; set; }
+        private int MaxHP { get; set; }
         /// <summary>
         /// 单位生命值
         /// </summary>
@@ -71,7 +168,7 @@ namespace GameUnit
         /// <summary>
         /// 单位移动力
         /// </summary>
-        public int mov { get; set; }
+        private int mov { get; set; }
         /// <summary>
         /// 单位的中文名
         /// </summary>
@@ -83,7 +180,7 @@ namespace GameUnit
         /// <summary>
         /// 单位的射程
         /// </summary>
-        public int rng { get; set; }
+        private int rng { get; set; }
         /// <summary>
         /// 单位的标签
         /// </summary>

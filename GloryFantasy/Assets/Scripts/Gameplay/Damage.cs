@@ -29,7 +29,7 @@ namespace GamePlay
         /// <returns></returns>
         public static Damage GetDamage(GameUnit.GameUnit unit)
         {
-            Damage damage = new Damage(unit.atk);
+            Damage damage = new Damage(unit.getATK());
             return damage;
         }
 

@@ -82,8 +82,8 @@ namespace Ability
             _deltaatk = _buffVariable.Amount.Value;
             _deltahp = _buffVariable.Amount.Value + 2;
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.atk += _deltaatk;
-            unit.MaxHP += _deltahp;
+            unit.changeATK(_deltaatk);
+            unit.changeMHP(_deltahp);
             unit.hp += _deltahp;
             SetLife(2f);
         }
@@ -96,10 +96,9 @@ namespace Ability
         protected override void OnDisappear()
         {
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            unit.atk -= _deltaatk;
-            unit.MaxHP -= _deltahp;
-            if (unit.hp > unit.MaxHP)
-                unit.hp = unit.MaxHP;
+            unit.changeATK(-_deltaatk);
+            unit.changeMHP(-_deltahp);
+            
         }
     }
 }
