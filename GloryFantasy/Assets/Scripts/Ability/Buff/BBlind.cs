@@ -11,7 +11,7 @@ namespace Ability.Buff
         private int _deltarng;
         private int _deltamov;
         //设定Buff的初始化
-        protected override void InitialBuff()
+        public override void InitialBuff()
         {
             //设定Buff的生命周期，两种写法,建议使用第二种，比较直观
             //this.Life = 2f;
