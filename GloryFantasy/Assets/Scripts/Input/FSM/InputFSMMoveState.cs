@@ -25,7 +25,7 @@ namespace GamePlay.FSM
             //创建移动指令
             Vector2 startPos = FSM.TargetList[0];
             Vector2 endPos = mapBlock.position;
-            UnitMoveCommand unitMove = new UnitMoveCommand(unit, startPos, endPos, mapBlock.GetSelfPosition());
+            UnitMoveCommand unitMove = new UnitMoveCommand(unit, startPos, endPos, mapBlock.GetCoordinate());
             //如果移动指令合法
             if (unitMove.Judge() && BattleMap.BattleMap.Instance().MapNavigator.PathSearch(startPos, endPos))
             {

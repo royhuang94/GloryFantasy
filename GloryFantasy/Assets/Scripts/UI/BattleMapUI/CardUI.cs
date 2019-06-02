@@ -10,14 +10,14 @@ namespace GameGUI
     public class CardUI : MonoBehaviour, IPointerDownHandler
     {
         #region UI Component
-        private Image m_itemImage;
-        private Image ItemImage
+        private SpriteRenderer m_itemImage;
+        private SpriteRenderer ItemImage
         {
             get
             {
                 if (m_itemImage == null)
                 {
-                    m_itemImage = GetComponent<Image>();
+                    m_itemImage = GetComponent<SpriteRenderer>();
                 }
                 return m_itemImage;
             }

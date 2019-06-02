@@ -19,7 +19,7 @@ namespace BattleMap
             {
                 bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
                 bm.blockType = EMapBlockType.Burnning;
-                Image upLayer = bm.transform.Find("upLayer").GetComponent<Image>();
+                SpriteRenderer upLayer = bm.transform.Find("upLayer").GetComponent<SpriteRenderer>();
                 upLayer.sprite = BattleMap.Instance().firing;
                 upLayer.color = new Color(255, 255, 255, 255);
             }
@@ -33,7 +33,7 @@ namespace BattleMap
             {
                 bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
                 bm.blockType = EMapBlockType.Retire;
-                Image upLayer = bm.transform.Find("upLayer").GetComponent<Image>();
+                SpriteRenderer upLayer = bm.transform.Find("upLayer").GetComponent<SpriteRenderer>();
                 upLayer.sprite = BattleMap.Instance().viscous;
                 upLayer.color = new Color(255, 255, 255, 255);
             }

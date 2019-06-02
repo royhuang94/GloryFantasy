@@ -131,25 +131,25 @@ public class ArrowManager : UnitySingleton<ArrowManager>
             _initialIndex = (int)(_visibleLen/100f);
             if (i <= 2)
             {
-                _tempNodeTfm.GetComponent<Image> ().color = Color.Lerp (_tempNodeTfm.GetComponent<Image> ().color, new Color (1, 1, 1, (60 * i + 60) / 255f), Time.fixedDeltaTime * 5f);
+                _tempNodeTfm.GetComponent<SpriteRenderer> ().color = Color.Lerp (_tempNodeTfm.GetComponent<SpriteRenderer> ().color, new Color (1, 1, 1, (60 * i + 60) / 255f), Time.fixedDeltaTime * 5f);
             }
             else if (i <= (_initialIndex + 3) && i >= (_initialIndex - 3))
             {
                 int diff = i - (_initialIndex - 3);
-                _tempNodeTfm.GetComponent<Image> ().color = Color.Lerp (_tempNodeTfm.GetComponent<Image> ().color, new Color (1, 1, 1, (255f - 40f * diff) / 255f), Time.fixedDeltaTime * 5f);
+                _tempNodeTfm.GetComponent<SpriteRenderer> ().color = Color.Lerp (_tempNodeTfm.GetComponent<SpriteRenderer> ().color, new Color (1, 1, 1, (255f - 40f * diff) / 255f), Time.fixedDeltaTime * 5f);
             }
             else if (i > (_initialIndex + 3))
             {
-                _tempNodeTfm.GetComponent<Image> ().color = new Color (1, 1, 1, 0);
+                _tempNodeTfm.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0);
             }
             else
             {
-                _tempNodeTfm.GetComponent<Image> ().color = Color.white;
+                _tempNodeTfm.GetComponent<SpriteRenderer> ().color = Color.white;
             }
 
             if (_tempNodeTfm.localPosition.y > -100f)
             {
-                _tempNodeTfm.GetComponent<Image>().color = Color.white;
+                _tempNodeTfm.GetComponent<SpriteRenderer>().color = Color.white;
                 _tempNodeTfm.localPosition = new Vector3(0f,-100 + _nodesContainerTfm.GetChild(_nodesContainerTfm.childCount-1).localPosition.y,0f);
                 _tempNodeTfm.SetAsLastSibling();
             }

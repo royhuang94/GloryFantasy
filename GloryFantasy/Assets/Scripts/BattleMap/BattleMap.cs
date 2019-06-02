@@ -483,7 +483,7 @@ namespace BattleMap
             {
                 if (position.x < columns && position.y < rows && position.x >= 0 && position.y >= 0)
                 {
-                    _mapBlocks[(int)position.x, (int)position.y].gameObject.GetComponent<Image>().color = color;
+                    _mapBlocks[(int)position.x, (int)position.y].gameObject.GetComponent<SpriteRenderer>().color = color;
                 }
             }
         }
@@ -528,10 +528,10 @@ namespace BattleMap
         }
 
         //显示战区
-        public void ShowAndUpdataBattleZooe()
-        {
-            drawBattleArea.ShowAndUpdateBattleArea();
-        }
+        //public void ShowAndUpdataBattleZooe()
+        //{
+        //    drawBattleArea.ShowAndUpdateBattleArea();
+        //}
 
         /// <summary>
         /// 移除BattleBlock下的 unit

@@ -84,7 +84,7 @@ namespace BattleMap
                     if(BattleMap.Instance().battleAreaData.WarZoneBelong(id) != BattleAreaSate.Neutrality)//中立就不更新
                     {
                         battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
-                        BattleMap.Instance().ShowAndUpdataBattleZooe();
+                        //BattleMap.Instance().ShowAndUpdataBattleZooe();
                     }                   
                     Debug.Log(string.Format("战区：{0}，当前状态：{1}",id,battleArea._battleAreaSate));
 
@@ -178,7 +178,7 @@ namespace BattleMap
                 GamePlay.Gameplay.Instance().eventScroll.AddEventModule(eventModule);
             }
             //生成战区内框
-            BattleMap.Instance().drawBattleArea.GetBattleAreaBorder();
+            //BattleMap.Instance().drawBattleArea.GetBattleAreaBorder();
         }
 
         #region 显示隐藏战区,格子显示的方式，被弃用了
@@ -191,13 +191,13 @@ namespace BattleMap
             {
                 if (WarZoneBelong(area) == BattleAreaSate.Battle || WarZoneBelong(area) == BattleAreaSate.Enmey)
                 {
-                    Image image = mapBlock[(int)pos.x, (int)pos.y].transform.Find("boderImage").GetComponent<Image>();
+                    SpriteRenderer image = mapBlock[(int)pos.x, (int)pos.y].transform.Find("boderImage").GetComponent<SpriteRenderer>();
                     image.color = Color.black;
-                    mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.red;
+                    mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
                 }
                 else
                 {
-                    mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.yellow;
+                    mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
                 }
             }
         }
@@ -211,7 +211,7 @@ namespace BattleMap
             BattleAreaDic.TryGetValue(area, out battleAreas);
             foreach (Vector2 pos in battleAreas)
             {
-                mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<Image>().color = Color.white;
+                mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
 

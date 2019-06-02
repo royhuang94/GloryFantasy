@@ -75,7 +75,6 @@ namespace GameUnit
             //修改单位的本地坐标系坐标
             temp.transform.localPosition = Vector3.zero;
             //修改单位卡图的射线拦截设置
-            temp.GetComponent<Image>().raycastTarget = true;
 
             //TODO 暂时用Text标识血量，以后改为slider
             var hpTest = temp.transform.GetChild(0);
@@ -203,7 +202,7 @@ namespace GameUnit
         public static void ColorUnitOnBlock(Vector3 position, Color color)
         {
             GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(position);
-            unit.GetComponent<Image>().color = color;
+            unit.GetComponent<SpriteRenderer>().color = color;
         }
     }
 }
