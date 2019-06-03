@@ -114,9 +114,15 @@ namespace Mediator
             return units;
         }
 
+        /// <summary>
+        /// 治疗某一个单位特定的血量（负值治疗量不会生效）。
+        /// </summary>
+        /// <param name="unit">被治疗的单位</param>
+        /// <param name="amount">治疗量</param>
         public void RecoverUnitsHp(GameUnit.GameUnit unit, int amount)
         {
-            unit.changeHP(amount);
+            if (amount > 0)
+                unit.changeHP(amount);
         }
 
         public void SendUnitToDeath(string unitId)
