@@ -153,7 +153,7 @@ namespace BattleMap
             {
 //                _unit.GetComponent<SpriteRender>().color = Color.white;
                 UnitManager.ColorUnitOnBlock(this.position, Color.white);
-                if(Gameplay.Instance().gamePlayInput.InputFSM.selectedCard)
+                //if(Gameplay.Instance().gamePlayInput.InputFSM.selectedCard)
                 _fguiInterfaces.setDescribeWindowHide();        // 隐藏
             }
         }

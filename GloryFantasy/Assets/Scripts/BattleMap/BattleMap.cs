@@ -23,7 +23,7 @@ namespace BattleMap
             IsColor = false;
             MapNavigator = new MapNavigator();
             battleAreaData = new BattleAreaData();
-            debuffBM = new DebuffBattleMapBlovk();
+            debuffBM = new DebuffBattleMapBlock();
             drawBattleArea = new DrawBattleArea();
             BattleMapPath = "Assets/Scripts/BattleMap/BattleMapData/";
         }
@@ -143,7 +143,7 @@ namespace BattleMap
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
         public MapNavigator MapNavigator;//寻路类
         public BattleAreaData battleAreaData;//战区类
-        public DebuffBattleMapBlovk debuffBM;//异常地图快类
+        public DebuffBattleMapBlock debuffBM;//异常地图快类
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
         public Transform battlePanel;//战斗地图根对象
