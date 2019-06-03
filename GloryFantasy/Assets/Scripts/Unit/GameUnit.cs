@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using BattleMap;
+using GamePlay;
 using IMessage;
 
 namespace GameUnit
@@ -135,6 +136,10 @@ namespace GameUnit
         public void changeHP(int delta)
         {
             hp += delta;
+            
+            // 变动后更新血条数值
+            Gameplay.Instance().gamePlayInput.UpdateHp(this);
+            
             if (hp > MaxHP)
                 hp = MaxHP;
             if (hp <= 0)

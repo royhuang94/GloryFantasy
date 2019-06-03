@@ -71,7 +71,7 @@ namespace Ability
 
             //Buff要做的事情，可以像Ability一样也写Trigger，也可以只是做一些数值操作。和Ability一样公用一套工具函数库
             GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
-            _deltamov = unit.getMOV() - 4;
+            _deltamov = unit.getMOV() - AbilityDatabase.GetInstance().GetAbilityVariable("Shadow_Revange").Amount.Value;
             unit.changeMOV(-_deltamov);
         }
 
