@@ -258,7 +258,12 @@ namespace GameUnit
         /// 事件具体效果实施的次数
         /// 强化/弱化
         /// </summary>
-        public int delta_x_amount { get; set; }
+        public int delta_x_amount { get; set; }                    
+        /// <summary>
+        /// 事件具体效果实施的强度
+        /// 强化/弱化
+        /// </summary>
+        public int delta_y_strenth { get; set; }
 
         public BattleMapBlock mapBlockBelow;
 
