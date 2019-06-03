@@ -24,9 +24,7 @@ namespace GamePlay.Event
             //实例化该事件的 触发条件 和 效果
             this.Condition = selfCondition;
             this.Action = selfAction;
-            //以下两个属性暂时无处读取，设为0   需要从源读取
-            this.delta_x_amount = 0;
-            this.delta_y_strenth = 0;
+
             //
         }
 
@@ -39,8 +37,10 @@ namespace GamePlay.Event
 
         void selfAction()
         {
+                        //获取和事件源有关的信息
             BattleMap.BattleArea battleArea = this.Source as BattleMap.BattleArea;
-
+            this.delta_x_amount = battleArea.delta_x_amount;
+            this.delta_x_amount = battleArea.delta_y_strenth;
 
             //X次效果 最终值为读取的初始值与delta值的加和
             this.amount += delta_x_amount;

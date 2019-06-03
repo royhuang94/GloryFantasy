@@ -363,19 +363,13 @@ namespace GamePlay.Event
         /// </summary>
         public object Source;
         /// <summary>
-        /// 事件源的x属性
+        /// 事件源的x属性——现在直接由事件向源获取 用处不大了
         /// </summary>
         public int x_of_Source;
         /// <summary>
-        /// 事件源的y属性
+        /// 事件源的y属性——现在直接由事件向源获取 用处不大了
         /// </summary>
         public int y_of_Source;
-        public void get_x_and_y_from_Source()
-        {
-            //todo：从Source处获取x和y参数的值
-            //x_of_Source =
-            //y_of_Source =
-        }
 
         /// <summary>
         /// 事件模块的事件列表，包含事件名，和权重
@@ -389,6 +383,11 @@ namespace GamePlay.Event
         public EventModule(object _Source)
         {
             this.Source = _Source;
+
+            //获取事件源的 强化/弱化 参数 x 和 y
+            System.Type tempType = Source.GetType();
+
+
         }
 
         /// <summary>
@@ -454,6 +453,11 @@ namespace GamePlay.Event
             this.EventName = _EventName;
             this.turn_into_EventScroll = _Expect_Turn;
             this.Source = _Source;
+            //获取事件源的强化/弱化 参数 x 和 y
+            GameUnit.GameUnit Unit_message = this.Source as GameUnit.GameUnit;
+            this.x_of_Source = Unit_message.delta_x_amount;
+            this.y_of_Source = Unit_message.delta_y_strenth;
+
         }
         public int Get_Expect_Turn()    //获取事件的入轴回合
         {

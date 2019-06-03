@@ -78,5 +78,6 @@ namespace GamePlay.Event
                 return false;
             }
         }
+        //public void Get_Source_Message() { }         想搞个获取 x 和 y 的基类方法，省的每个事件再去重载了    先放着
     }
 }
