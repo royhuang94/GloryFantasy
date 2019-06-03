@@ -286,7 +286,7 @@ namespace BattleMap
         /// <summary>
         /// collider组件
         /// </summary>
-        public BMBCollider bmbCollider = new BMBCollider();
+        //public BMBCollider bmbCollider = new BMBCollider();
 
 
     }

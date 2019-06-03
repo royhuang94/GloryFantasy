@@ -88,7 +88,7 @@ namespace GameUnit
             gameUnit.nextPos = gameUnit.CurPos;
 
             //部署成功
-            Gameplay.Instance().bmbColliderManager.Fresh(gameUnit);
+            Gameplay.Instance().bmbColliderManager.Fresh();
             AddEventModule(gameUnit);
             Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
 
@@ -161,7 +161,7 @@ namespace GameUnit
                 //单位部署相当于单位驻足地图块儿
                 unit.nextPos = unit.CurPos;
                 //部署成功
-                Gameplay.Instance().bmbColliderManager.Fresh(unit);
+                Gameplay.Instance().bmbColliderManager.Fresh();
 
                 //TODO 血量显示 test版本, 此后用slider显示
                 var TextHp = _object.transform.GetComponentInChildren<Text>();

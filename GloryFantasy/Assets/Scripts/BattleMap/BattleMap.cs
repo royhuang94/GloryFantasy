@@ -210,9 +210,9 @@ namespace BattleMap
                     _mapBlocks[x, y].y = y;
                     _mapBlocks[x, y].blockType = EMapBlockType.normal;
                     //初始化地图块儿的collider组件
-                    _mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
+                    //_mapBlocks[x, y].bmbCollider.init(_mapBlocks[x, y]);
                     
-                    GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
+                    //GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
                     battleAreaData.StoreBattleArea(area, new Vector2(x, y));//存储战区
                 }
             }         

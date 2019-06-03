@@ -6,7 +6,7 @@ using IMessage;
 using Unit = GameUnit.GameUnit;
 using GamePlay;
 
-public class BMBColliderManager :  MsgReceiver, GameplayTool
+public class BMBColliderManager : MsgReceiver, GameplayTool
 {
     private List<BMBCollider> bmbColliders;
 
@@ -19,14 +19,14 @@ public class BMBColliderManager :  MsgReceiver, GameplayTool
     {
         bmbColliders = new List<BMBCollider>();
 
-        // 注册函数相应移动消息
-        MsgDispatcher.RegisterMsg(
-            this.GetMsgReceiver(),
-            (int)MessageType.Move,
-            CanFreshCollider,
-            FreshCollider,
-            "Fresh Collider Trigger"
-        );
+        //// 注册函数相应移动消息
+        //MsgDispatcher.RegisterMsg(
+        //    this.GetMsgReceiver(),
+        //    (int)MessageType.Move,
+        //    CanFreshCollider,
+        //    FreshCollider,
+        //    "Fresh Collider Trigger"
+        //);
         // 注册函数相应移动消息
         MsgDispatcher.RegisterMsg(
             this.GetMsgReceiver(),
@@ -35,14 +35,14 @@ public class BMBColliderManager :  MsgReceiver, GameplayTool
             FreshDispose,
             "Fresh Collider Trigger"
         );
-        // 注册函数相应移动消息
-        MsgDispatcher.RegisterMsg(
-            this.GetMsgReceiver(),
-            (int)MessageType.Moved,
-            CanFreshCollider,
-            FreshDispose,
-            "Fresh Collider Trigger"
-        );
+        //// 注册函数相应移动消息
+        //MsgDispatcher.RegisterMsg(
+        //    this.GetMsgReceiver(),
+        //    (int)MessageType.Moved,
+        //    CanFreshCollider,
+        //    FreshDispose,
+        //    "Fresh Collider Trigger"
+        //);
     }
 
     #region 监听Move与afterMove消息
@@ -60,7 +60,7 @@ public class BMBColliderManager :  MsgReceiver, GameplayTool
     /// </summary>
     public void FreshCollider()
     {
-        Fresh(this.GetMovingUnit());
+        Fresh();
     }
 
     /// <summary>
@@ -70,50 +70,70 @@ public class BMBColliderManager :  MsgReceiver, GameplayTool
     {
         Unit unit = this.GetMovingUnit();
         BattleMapBlock battleMapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(unit.CurPos);
-        battleMapBlock.bmbCollider.OnUnitDispose();
+        //battleMapBlock.bmbCollider.OnUnitDispose();
         this.RelaseLocking();
     }
     #endregion
 
 
 
-    /// <summary>
-    /// 单位坐标发生变化后，管理更新所有Collider
-    /// </summary>
-    public void Fresh(Unit unit, List<Unit> units = null)
+    public void Fresh()
     {
-        //1. 单位发生移动，召唤，死亡后更新
-        //2. 如何更新？
-            //a. 遍历collider，获取当前collider的范围值
-            //b. 上一次更新保存好的在自己范围内的单位的引用，再搜一遍自己的范围
-            //c. 最后对比出哪个Exit，哪个Enter
-        if(units == null)
+        foreach (BMBCollider collider in bmbColliders)
         {
-            units = new List<Unit>();
-            units.Add(unit);
-        }
+            //1. 单位发生移动，召唤，死亡后更新
+            //2. 如何更新？
+                //a. 遍历collider，获取当前collider的范围值
+                //b. 上一次更新保存好的在自己范围内的单位的引用，再搜一遍自己的范围
+                //c. 最后对比出哪个Exit，哪个Enter
 
-        foreach(BMBCollider collider in bmbColliders)
-        {
-            //获取当前地图块儿 （collider.colliderRange[0] 地图块儿地址)
-            BattleMapBlock battleMapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(collider.colliderRange[0]);
-            //先确认上一次自己范围内是否保存得有单位的引用
-            if (collider.enterUnits.Count != 0 || collider.disposeUnits.Count != 0)
-            {
-                if(battleMapBlock.units_on_me.Count == 0)
-                {
-                    //单位坐标发生变化
-                    //MsgDispatcher.SendMsg((int)MessageType.UnitExit);
-                    collider.OnUnitExit();
-                }
-            }
-            else
-            {
-                if (battleMapBlock.units_on_me.Count != 0/* && battleMapBlock.units_on_me[0].owner != GameUnit.OwnerEnum.Enemy*/)
-                    collider.OnUnitEnter(units);
-            }
+            
+            List<Unit> oldList = collider.disposeUnits;
+            //更新collider的范围
+            collider.UpdateColliderRange();
+            //更新collider的三个列表
+            collider.fresh(oldList);
         }
     }
+
+    #region 主程看不懂
+    ///// <summary>
+    ///// 单位坐标发生变化后，管理更新所有Collider
+    ///// </summary>
+    //public void Fresh(Unit unit, List<Unit> units = null)
+    //{
+    //    //1. 单位发生移动，召唤，死亡后更新
+    //    //2. 如何更新？
+    //        //a. 遍历collider，获取当前collider的范围值
+    //        //b. 上一次更新保存好的在自己范围内的单位的引用，再搜一遍自己的范围
+    //        //c. 最后对比出哪个Exit，哪个Enter
+    //    if(units == null)
+    //    {
+    //        units = new List<Unit>();
+    //        units.Add(unit);
+    //    }
+
+    //    foreach(BMBCollider collider in bmbColliders)
+    //    {
+    //        //获取当前地图块儿 （collider.colliderRange[0] 地图块儿地址)
+    //        BattleMapBlock battleMapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(collider.colliderRange[0]);
+    //        //先确认上一次自己范围内是否保存得有单位的引用
+    //        if (collider.enterUnits.Count != 0 || collider.disposeUnits.Count != 0)
+    //        {
+    //            if(battleMapBlock.units_on_me.Count == 0)
+    //            {
+    //                //单位坐标发生变化
+    //                collider.OnUnitExit();
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (battleMapBlock.units_on_me.Count != 0)
+    //                collider.OnUnitEnter(units);
+    //        }
+    //    }
+    //}
+    #endregion
 
     /// <summary>
     /// 仿照主程写的写的接口
