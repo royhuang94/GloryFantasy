@@ -473,7 +473,7 @@ namespace GamePlay
 
         public static List<BattleMap.BattleMapBlock> getAreaByBlock(int level, BattleMap.BattleMapBlock center)
         {
-            return getAreaByPos(level, new Vector2(center.x, center.y));
+            return getAreaByPos(level, new Vector2(center.position.x, center.position.y));
         }
 
         /// <summary>
