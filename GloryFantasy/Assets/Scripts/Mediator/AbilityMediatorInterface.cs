@@ -63,7 +63,7 @@ namespace Mediator
         /// </summary>
         /// <param name="unitId">要恢复的单位id</param>
         /// <param name="amount">血量数值</param>
-        void RecoverUnitsHp(string unitId, int amount);
+        void RecoverUnitsHp(GameUnit.GameUnit unit, int amount);
 
         /// <summary>
         /// 将指定单位从地图上抹去，也就是使之死亡
