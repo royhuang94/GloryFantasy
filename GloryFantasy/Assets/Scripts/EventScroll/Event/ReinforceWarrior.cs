@@ -80,7 +80,11 @@ namespace GamePlay.Event
                 //随机选择一个可行坐标，在此地格上生成单位
                 int pos = UnityEngine.Random.Range(0, blocks.Count - 1);//
                 BattleMap.BattleMapBlock battleMapBlock = blocks[pos];
-                GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                //GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);    原来的召唤方法
+                GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock, true);
+                //Command.set(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                Command.Excute();//执行
+
                 blocks.RemoveAt(pos);
                 i++;
             }
