@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GamePlay.Input;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace GamePlay.Event
         public ReinforceWolf()
         {
             //从数据库读取属性，id名不能错
-            EventDataBase.Instance().GetEventProperty("ReinforceWarrior", this);
+            EventDataBase.Instance().GetEventProperty("ReinforceWolf", this);
             //实例化该事件的 触发条件 和 效果
             this.Condition = selfCondition;
             this.Action = selfAction;
@@ -58,6 +59,7 @@ namespace GamePlay.Event
 
         private void RandomPosSummonMonster(List<Vector2> battleMapBlocks, int amount, String Unit_id)//参数意义： 允许生成单位的地图范围、生成单位的数量、生成单位的ID
         {
+            Debug.Log("狼影部署。");
             List<BattleMap.BattleMapBlock> blocks = new List<BattleMap.BattleMapBlock>();
             foreach (Vector2 pos in battleMapBlocks)    //遍历给出的每一个二维坐标
             {
@@ -74,7 +76,9 @@ namespace GamePlay.Event
                 //随机选择一个可行坐标，在此地格上生成单位
                 int pos = UnityEngine.Random.Range(0, blocks.Count - 1);//
                 BattleMap.BattleMapBlock battleMapBlock = blocks[pos];
-                GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                //GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                DispositionCommand dispositionCommand = new DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                dispositionCommand.Excute();
                 blocks.RemoveAt(pos);
                 i++;
             }

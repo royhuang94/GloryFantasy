@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GamePlay.Input;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,7 +81,9 @@ namespace GamePlay.Event
                 //随机选择一个可行坐标，在此地格上生成单位
                 int pos = UnityEngine.Random.Range(0, blocks.Count - 1);//
                 BattleMap.BattleMapBlock battleMapBlock = blocks[pos];
-                GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                //GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                DispositionCommand dispositionCommand = new DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                dispositionCommand.Excute();
                 blocks.RemoveAt(pos);
                 i++;
             }

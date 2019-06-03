@@ -62,12 +62,13 @@ namespace GamePlay.Input
             UnitManager.InstantiationUnit(_unitID, _owner, _battleMapBlock);
             if (_post)
             {
+                Debug.Log(_battleMapBlock.units_on_me.ToString());
                 this.SetSummonUnit(_battleMapBlock.units_on_me);
                 MsgDispatcher.SendMsg((int)MessageType.Summon);
             }
 
             //更新仇恨列表
-            Gameplay.Instance().autoController.UpdateAllHatredList(null, _battleMapBlock.units_on_me);
+            //Gameplay.Instance().autoController.UpdateAllHatredList(null, _battleMapBlock.units_on_me);
         }
 
         private string _unitID;
