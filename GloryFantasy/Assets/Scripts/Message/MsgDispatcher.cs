@@ -33,6 +33,7 @@ namespace IMessage
         AddInHand, //加入手牌
         AnnounceAttack, //攻击宣言
         ActiveAbility, //异能发动
+        SelectionOver, // InputFSMSelectState结束消息
         
         
         #region ATK 时点部分

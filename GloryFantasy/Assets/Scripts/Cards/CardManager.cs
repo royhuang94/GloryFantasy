@@ -695,12 +695,12 @@ namespace GameCard
         /// <summary>
         /// 用于将手牌中的卡牌移回抽牌牌库，产生牌堆变动、手牌变动消息
         /// </summary>
-        /// <param name="cardIndex">要移除的卡牌在手牌中的位置</param>
+        /// <param name="cardInstance">要移除的卡牌在手牌中的位置</param>
         /// <exception cref="NotImplementedException">若下标位置异常则抛出异常</exception>
-        public void MoveBackToCardSets(int cardIndex)
+        public void MoveBackToCardSets(GameObject cardInstance)
         {
             // 调用接口完成所有从手牌中移除需要做的操作
-            string cardId = RemoveFromHandCard(cardIndex);
+            string cardId = RemoveFromHandCard(cardInstance);
             
             // 将其加入cardSets
             _cardsSets.Add(cardId);

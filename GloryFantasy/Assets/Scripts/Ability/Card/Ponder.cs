@@ -75,9 +75,18 @@ namespace Ability
         {
             BaseCard card = Gameplay.Instance().gamePlayInput.InputFSM.selectedCard;
             CardManager.Instance().selectingMode = false;
+
+            if (_abilityId.Contains("_1"))
+            {
+                //将选择的冷却两回合
+                CardManager.Instance().RemoveCardToCd(card.gameObject, _amount);
+            }
+            else
+            {
+                // 将选择的卡牌放入牌库
+                CardManager.Instance().MoveBackToCardSets(card.gameObject);
+            }
             
-            //TODO将选择的冷却两回合
-            CardManager.Instance().RemoveCardToCd(card.gameObject, _amount);
         }
     }
 }
