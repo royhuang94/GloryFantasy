@@ -8,6 +8,9 @@ using GamePlay;
 
 namespace Ability
 {
+    /// <summary>
+    /// 使用者：携带有战技的友方单位。创建使用者携带的 1/1/2 张战技的临时复制置入你的手中（临时复制使用后销毁）
+    /// </summary>
     public class InstantIdea : Ability
     {
         Trigger trigger;
@@ -70,6 +73,12 @@ namespace Ability
             foreach (string id in exCardId)
             {
                 CardManager.Instance().ArrangeExSkillCard(id, unit.gameObject.GetInstanceID(), true);
+                
+                // 如果是是InstantIdea_3，就再复制一张
+                if (_abilityId.Contains("_3"))
+                {
+                    CardManager.Instance().ArrangeExSkillCard(id, unit.gameObject.GetInstanceID(), true);
+                }
             }
         }
     }

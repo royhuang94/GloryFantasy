@@ -4,9 +4,9 @@ using UnityEngine;
 
 using Ability.Buff;
 
-namespace Ability.Buff
+namespace Ability.Debuff
 {
-    public class BBlind : Buff
+    public class BBlind : Buff.Buff
     {
         private int _deltarng;
         private int _deltamov;
