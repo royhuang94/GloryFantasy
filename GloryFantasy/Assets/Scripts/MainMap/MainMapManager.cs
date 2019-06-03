@@ -77,6 +77,10 @@ public class MainMapManager : UnitySingleton<MainMapManager>
     public Sprite cursestonesprite;
     public Sprite bonepitsprite;
     public Sprite obsidiansprite;
+	public Sprite boundary1;
+	public Sprite boundary2;
+	public Sprite boundary3;
+	public Sprite boundary4;
 #endregion
 /// <summary>初始化，设定
         /// 
@@ -194,6 +198,31 @@ private void ReadMap()
                                 mapunit.AddComponent<SpriteRenderer>();
                                 mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
                                 break;
+							//There are 4 kinds of boundaries
+							case "boundary1":
+								mapunit.AddComponent<Plane>();
+								mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+								mapunit.AddComponent<SpriteRenderer>();
+								mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
+								break;
+							case "boundary2":
+								mapunit.AddComponent<Plane>();
+								mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+								mapunit.AddComponent<SpriteRenderer>();
+								mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
+								break;
+							case "boundary3":
+								mapunit.AddComponent<Plane>();
+								mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+								mapunit.AddComponent<SpriteRenderer>();
+								mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
+								break;
+							case "boundary4":
+								mapunit.AddComponent<Plane>();
+								mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
+								mapunit.AddComponent<SpriteRenderer>();
+								mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
+								break;
                             //这里用的是默认的地格素材，
                             case "post":
                                 MapUnit post = mapunit.AddComponent<Library>();

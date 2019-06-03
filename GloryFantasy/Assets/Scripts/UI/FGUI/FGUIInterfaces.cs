@@ -238,7 +238,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			// 恢复原大小
 			foreach (GObject litem in _handcardList.GetChildren())
 			{
-				StartCoroutine(FancyHandCardEffect(litem, 1));
+				StartCoroutine(FancyHandCardEffect(litem, 1.0f));
 			}
 			
 			// 重置上次选择项
@@ -475,8 +475,8 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 
 		float step = (range - finalScale) / frameCount;
 
-		float judge = Mathf.Abs(step / 2 + step);
-		
+//		float judge = Mathf.Abs(step / 2 + step);
+		const float judge = 0.0001f;        // 用于判断是否满足规定大小，不能用MinValue, 会越来越大或者小到不见了，谁用谁知道
 		while (Mathf.Abs(range - finalScale) > judge)
 		{
 			range -= step;
