@@ -301,6 +301,20 @@ namespace GamePlay.Event
         /// 事件的事件源
         /// </summary>
         public object Source;
+        /// <summary>
+        /// 事件源的x属性
+        /// </summary>
+        public int x_of_Source;
+        /// <summary>
+        /// 事件源的y属性
+        /// </summary>
+        public int y_of_Source;
+        public void get_x_and_y_from_Source()
+        {
+            //todo：从Source处获取x和y参数的值
+            //x_of_Source =
+            //y_of_Source =
+        }
 
         /// <summary>
         /// 事件模块的事件列表，包含事件名，和权重
