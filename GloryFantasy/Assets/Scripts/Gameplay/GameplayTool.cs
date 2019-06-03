@@ -384,8 +384,7 @@ namespace GamePlay
         public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, BattleMap.BattleMapBlock block)
         {
             DispositionCommand unitDispose = new DispositionCommand(name, GameUnit.OwnerEnum.Player, block);
-            unitDispose.Excute();
-            return block.units_on_me[0];
+            return null;
         }
         /// <summary>
         /// 获取某个单位的坐标
@@ -434,6 +433,44 @@ namespace GamePlay
         public static IMessage.MsgReceiver GetCardReceiver(this GameplayTool self, MonoBehaviour script)
         {
             return script.GetComponent<BaseCard>().GetMsgReceiver();
+        }
+
+        /// <summary>
+        /// 该指令作用：创建一个 直接事件对象 并将它加入到事件系统中
+        /// </summary>
+        /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
+        /// <param name="EventID">该事件的事件ID</param>
+        public static int Creat_DirectEvent_to_EventSystem(int expect_trun, string EventID)
+        {   //return 值代表插入事件的几种不同结果
+            int _turn;
+            string _EventID;
+
+            _turn = expect_trun;
+            _EventID = EventID;
+            GamePlay.Event.DirectEvent _DirectEvent;
+            _DirectEvent = new GamePlay.Event.DirectEvent(EventID, expect_trun);    // 生成 直接事件对象 类
+            //—————————————以下部分为具体操作执行
+            int now_biggest_turn = Gameplay.Instance().eventScroll.nowBigestTurn;   //获取事件轴的最大回合数
+                                                                                    //
+            int delta_turn = now_biggest_turn - _turn;
+            if (delta_turn <= Gameplay.Instance().eventScroll.EventScrollCount - 1 && delta_turn >= 0)  //期望插入的回合已经抽象出了事件队列::此情况下该 直接事件 直接入轴
+            {
+                Gameplay.Instance().eventScroll.AddDirectEvent_to_Scroll(_DirectEvent);//封装好的：插入 事件轴 函数
+                return 1;
+            }
+            else if (delta_turn < 0)                                                                  //期望插入的回合暂未抽象出事件队列::此情况下 直接事件 进入仲裁器中 直接事件队列 进行等待
+            {
+                Gameplay.Instance().eventScroll.AddDirectEvent_to_Judge(_DirectEvent);//封装好的：插入 直接事件队列 函数
+                return 2;
+            }
+            else                                                                                       //这种情况是 想要插入已经“过期的事件”导致的 如在最大回合数为100的事件轴中插入第2回合触发的事件
+            {
+                //todo:加入错误提示
+                return 0;
+            }
+            {
+
+            }
         }
 
     }

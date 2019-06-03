@@ -1,4 +1,5 @@
 using GamePlay;
+using GamePlay.Input;
 using GameUnit;
 using IMessage;
 using Mediator;
@@ -11,29 +12,26 @@ namespace Ability
     /// </summary>
     public class Heal : Ability
     {
-        private Trigger _trigger;
-
         public override void Init(string abilityId)
         {
             base.Init(abilityId);
-            _trigger = new THeal(
-                this.GetUnitReceiver(this), 
-                AbilityVariable.Curing.Value, 
-                gameObject.GetComponent<GameUnit.GameUnit>().CurPos);
-            MsgDispatcher.RegisterMsg(_trigger, abilityId, true);
+            MsgDispatcher.RegisterMsg(
+                new THeal(this.GetUnitReceiver(this), AbilityVariable.Curing.Value, this),
+                abilityId,
+                true);
         }
     }
 
     public class THeal : Trigger
     {
         private int _curing;
-        private Vector2 _currentPos;
-
-        public THeal(MsgReceiver speller, int curing, Vector2 currentPos)
+        private bool _ifHeal;
+        private Ability _srcAbility;
+        
+        public THeal(MsgReceiver speller, int curing, Ability srcAbility)
         {
             _curing = curing;
-            _currentPos = currentPos;
-
+            _srcAbility = srcAbility;
             register = speller;
             msgName = (int) MessageType.Summon;
             condition = Condition;
@@ -48,11 +46,32 @@ namespace Ability
 
         private void Action()
         {
-            foreach (GameUnit.GameUnit gameUnit in AbilityMediator.Instance().GetGameUnitsInBattleArea(_currentPos))
+            // 如果是被Summon消息触发
+            if (!_ifHeal)
             {
-                if(gameUnit.owner == OwnerEnum.Player)
-                    AbilityMediator.Instance().RecoverUnitsHp(gameUnit, _curing);
+                // 改变当前trigger的响应方式
+                msgName = (int) MessageType.SelectionOver;
+                // 修改状态以改变下次响应的行为
+                _ifHeal = true;
+                // 重新注册，保持单次执行
+                MsgDispatcher.RegisterMsg(this, "Heal subMsgSender", true);
+                
+                // 调整输入状态到选择模式
+                Gameplay.Instance().gamePlayInput.OnEnterSelectState(_srcAbility);
+                
+                // 直接结束执行
+                return;
             }
+            
+            // 以下是被SelectionOver消息触发后的动作
+            GameUnit.GameUnit gameUnit = (GameUnit.GameUnit) this.GetSelectingUnits()[0];
+            if (gameUnit == null)
+            {
+                Debug.Log("要治愈的单位指定错误，请检查");
+                return;
+            }
+            
+            AbilityMediator.Instance().RecoverUnitsHp(gameUnit, _curing);
         }
     }
 }

@@ -325,7 +325,14 @@
         "ID": "Heal_1",
         "Name": "疗愈",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
         "Turns": 0
     },
     {
@@ -338,7 +345,14 @@
         "ID": "Heal_2",
         "Name": "疗愈",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
         "Turns": 0
     },
     {
