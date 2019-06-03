@@ -30,6 +30,17 @@ namespace BattleMap
 
         Trigger trigger;
 
+        /// <summary>
+        /// 事件具体效果实施的次数
+        /// 强化/弱化
+        /// </summary>
+        public int delta_x_amount { get; set; }
+        /// <summary>
+        /// 事件具体效果实施的强度
+        /// 强化/弱化
+        /// </summary>
+        public int delta_y_strenth { get; set; }
+
         public BattleArea(int battleAreaID,BattleAreaSate battleAreaSate, List<Vector2> battleArea,string[] tid,List<EventModule.EventWithWeight> modules)
         {
             _battleAreaID = battleAreaID;
