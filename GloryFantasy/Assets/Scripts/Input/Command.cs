@@ -38,7 +38,7 @@ namespace GamePlay.Input
     /// <param name="owner">部属单位的操控者。</param>
     /// <param name="battleMapBlock">部署在的地格。</param>
     /// <param name="post">是否需要发送部署消息，可缺省，默认为是。请在特殊情况下才设置为否。</param>
-   
+
     public class DispositionCommand : Command
     {
         public DispositionCommand(string unitID, OwnerEnum owner, BattleMapBlock battleMapBlock, bool post = true)  //构造函数
@@ -106,7 +106,7 @@ namespace GamePlay.Input
 
         public bool Judge()
         {
-            foreach(BattleMapBlock block in _blocks)
+            foreach (BattleMapBlock block in _blocks)
             {
                 if (block.units_on_me.Count > 0)
                     return false;
@@ -266,7 +266,7 @@ namespace GamePlay.Input
         public bool JudgeStrikeBack()
         {
             Vector2 unit1 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_AttackedUnit);
-            Vector2 unit2 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_Attacker); 
+            Vector2 unit2 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_Attacker);
             int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
             if (MAN_HA_DUN <= _AttackedUnit.getRNG())
                 return true;
@@ -299,7 +299,7 @@ namespace GamePlay.Input
                 {
                     DamageRequestList[i].Excute();
                 }
-                else if(!_AttackedUnit.IsDead() && !_Attacker.IsDead() && !JudgeStrikeBack()) //距离不够，无法进行反击
+                else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead() && !JudgeStrikeBack()) //距离不够，无法进行反击
                 {
                     DamageRequestList[i].Excute();
                     i++;
@@ -319,7 +319,7 @@ namespace GamePlay.Input
 
     public class ReleaseSkillCommand : Command
     {
-        public ReleaseSkillCommand(GameUnit.GameUnit skillMaker, int range,Vector2 makerPosition,Vector2 targetPosition)
+        public ReleaseSkillCommand(GameUnit.GameUnit skillMaker, int range, Vector2 makerPosition, Vector2 targetPosition)
         {
             _skillMaker = skillMaker;
             _range = range;
@@ -346,48 +346,6 @@ namespace GamePlay.Input
         private int _range;//技能范围
         private Vector2 _targetPosition;//释放技能的目标点(中心点)
         private Vector2 _makerPosition;//释放者坐标
-    }
-    /// <summary>
-    /// 指令类：创建一个 直接事件对象 并将它加入到事件系统中
-    /// </summary>
-
-    public class Command_Creat_DirectEvent : Command
-    {
-        public int _turn;
-        public string _EventID;
-        public GamePlay.Event.DirectEvent _DirectEvent;
-        /// <summary>
-        /// 该指令类的构造函数：创建一个 直接事件对象 并将它加入到事件系统中
-        /// </summary>
-        /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
-        /// <param name="EventID">该事件的事件ID</param>
-        public Command_Creat_DirectEvent(int expect_trun, string EventID) //构造函数
-        {
-            this._turn = expect_trun;
-            this._EventID = EventID;
-            _DirectEvent = new GamePlay.Event.DirectEvent(EventID, expect_trun);    // 生成 直接事件对象 类
-        }
-        public override void Excute()   //触发函数
-        {
-            int now_biggest_turn = Gameplay.Instance().eventScroll.nowBigestTurn;   //获取事件轴的最大回合数
-            //
-            int delta_turn = now_biggest_turn - _turn;    
-            if(delta_turn <= Gameplay.Instance().eventScroll.EventScrollCount - 1 && delta_turn >= 0)  //期望插入的回合已经抽象出了事件队列::此情况下该 直接事件 直接入轴
-            {
-                Gameplay.Instance().eventScroll.AddDirectEvent_to_Scroll(_DirectEvent);//封装好的：插入 事件轴 函数
-            }
-            else  if(delta_turn < 0)                                                                  //期望插入的回合暂未抽象出事件队列::此情况下 直接事件 进入仲裁器中 直接事件队列 进行等待
-            {
-                Gameplay.Instance().eventScroll.AddDirectEvent_to_Judge(_DirectEvent);//封装好的：插入 直接事件队列 函数
-            }
-            else                                                                                       //这种情况是 想要插入已经“过期的事件”导致的 如在最大回合数为100的事件轴中插入第2回合触发的事件
-            {
-                //todo:加入错误提示
-            }
-            {
-
-            }
-        }
     }
 
 }
