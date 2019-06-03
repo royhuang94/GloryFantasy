@@ -384,6 +384,7 @@ namespace GamePlay
         public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, BattleMap.BattleMapBlock block)
         {
             DispositionCommand unitDispose = new DispositionCommand(name, GameUnit.OwnerEnum.Player, block);
+            unitDispose.Excute();
             return block.units_on_me[0];
         }
         /// <summary>
