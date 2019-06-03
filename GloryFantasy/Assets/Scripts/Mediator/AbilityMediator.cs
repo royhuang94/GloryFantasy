@@ -129,5 +129,9 @@ namespace Mediator
         {
             // TODO: 完成实现
         }
+
+        public void RecoverUnitsHp(string unitId, int amount)
+        {
+        }
     }
 }

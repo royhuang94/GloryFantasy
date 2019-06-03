@@ -528,10 +528,16 @@ namespace BattleMap
         }
 
         //显示战区
-        //public void ShowAndUpdataBattleZooe()
-        //{
-        //    drawBattleArea.ShowAndUpdateBattleArea();
-        //}
+        public void ShowAndUpdataBattleZooe()
+        {
+            drawBattleArea.ShowAndUpdateBattleArea();
+        }
+
+        //隐藏战区
+        public void HideBattleZooe()
+        {
+            drawBattleArea.HideBattleArea();
+        }
 
         /// <summary>
         /// 移除BattleBlock下的 unit
