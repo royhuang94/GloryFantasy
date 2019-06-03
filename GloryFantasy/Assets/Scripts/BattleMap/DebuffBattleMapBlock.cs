@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 namespace BattleMap
 {
-    public class DebuffBattleMapBlovk
+    public class DebuffBattleMapBlock
     {
         /// <summary>
         /// 创造灼烧块
