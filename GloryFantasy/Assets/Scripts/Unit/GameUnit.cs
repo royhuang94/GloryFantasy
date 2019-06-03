@@ -253,6 +253,17 @@ namespace GameUnit
         /// 单位的护甲值
         /// </summary>
         public int armor { get; set; }
+                    
+        /// <summary>
+        /// 事件具体效果实施的次数
+        /// 强化/弱化
+        /// </summary>
+        public int delta_x_amount { get; set; }                    
+        /// <summary>
+        /// 事件具体效果实施的次数
+        /// 强化/弱化
+        /// </summary>
+        public int delta_x_amount { get; set; }
 
         public BattleMapBlock mapBlockBelow;
 
