@@ -49,7 +49,8 @@ namespace GamePlay
             if (buffVariable != null)
             {
                 target.GetComponent<T>().setVariable(buffVariable);
-            } else
+            }
+            else
             {
                 target.GetComponent<T>().InitialBuff();
             }
@@ -324,7 +325,7 @@ namespace GamePlay
         /// <param name="gameUnit"></param>
         public static void SetMovingUnit(this GameplayTool self, GameUnit.GameUnit gameUnit)
         {
-            if(Info.locking == false)
+            if (Info.locking == false)
             {
                 Info.movingUnit = gameUnit;
                 Info.locking = true;
@@ -344,7 +345,7 @@ namespace GamePlay
         public static GameUnit.GameUnit GetMovingUnit(this GameplayTool self)
         {
             //TODO 实现完整的加锁机制
-            if(Info.locking == false)
+            if (Info.locking == false)
                 return Info.otherMovingUnit;
             return Info.movingUnit;
         }
@@ -440,8 +441,9 @@ namespace GamePlay
         /// </summary>
         /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
         /// <param name="EventID">该事件的事件ID</param>
+        /// <returns>插入事件的几种不同结果</returns>
         public static int Creat_DirectEvent_to_EventSystem(int expect_trun, string EventID)
-        {   //return 值代表插入事件的几种不同结果
+        {
             int _turn;
             string _EventID;
 
@@ -468,9 +470,66 @@ namespace GamePlay
                 //todo:加入错误提示
                 return 0;
             }
-            {
+        }
 
+        public static List<BattleMap.BattleMapBlock> getAreaByBlock(int level, BattleMap.BattleMapBlock center)
+        {
+            return getAreaByPos(level, new Vector2(center.x, center.y));
+        }
+
+        /// <summary>
+        /// 指定中心块获得以其为中心的爆发区域。
+        /// </summary>
+        /// <param name="level">爆发区域等级</param>
+        /// <param name="pos">中心块坐标</param>
+        /// <returns></returns>
+        public static List<BattleMap.BattleMapBlock> getAreaByPos(int level, Vector2 pos)
+        {
+            List<BattleMap.BattleMapBlock> res = new List<BattleMap.BattleMapBlock>();
+            if (level >= 1)
+            {
+                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos));
+                if (level >= 2)
+                {
+                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y)));
+                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y)));
+                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y + 1)));
+                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y - 1)));
+                    if (level >= 3)
+                    {
+                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y + 1)));
+                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y - 1)));
+                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y + 1)));
+                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y - 1)));
+                        if (level >= 4)
+                        {
+                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y)));
+                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y)));
+                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y + 2)));
+                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y - 2)));
+                            if (level >= 5)
+                            {
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y + 1)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y + 1)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y + 2)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y - 2)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y - 1)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y - 1)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y + 2)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y - 2)));
+                                if (level >= 6)
+                                {
+                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y + 2)));
+                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y - 2)));
+                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y + 2)));
+                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y - 2)));
+                                }
+                            }
+                        }
+                    }
+                }
             }
+            return res;
         }
         /// <summary>
         /// 该指令作用：设置一个 事件源 的X与Y属性（这两个参数影响事件强度）
@@ -478,7 +537,7 @@ namespace GamePlay
         /// <param name="x_amount">设置该事件源的X属性</param>
         /// <param name="y_strength">设置该事件源的Y属性</param>
         /// <param name="Source">该事件源：object类型</param>
-        public static void Set_Unit_or_ARea_XandY(int x_amount,int y_strength,ref object Source)
+        public static void Set_Unit_or_ARea_XandY(int x_amount, int y_strength, ref object Source)
         {//!!!需要验证下在使用引用参数时会不会出现指针错误的情况，应该是没问题
 
 
@@ -492,7 +551,7 @@ namespace GamePlay
                 Unit.delta_y_strenth = y_strength;
                 Source = Unit;
             }
-            if(tempType.ToString() == "BattleMap.BattleArea")   //若此 源 是一个战区
+            if (tempType.ToString() == "BattleMap.BattleArea")   //若此 源 是一个战区
             {
                 BattleMap.BattleArea battleArea = Source as BattleMap.BattleArea;
                 battleArea.delta_x_amount = x_amount;
@@ -500,6 +559,5 @@ namespace GamePlay
                 Source = battleArea;
             }
         }
-
     }
 }
