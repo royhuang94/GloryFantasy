@@ -106,10 +106,21 @@ namespace GamePlay.FSM
         public void OnCastCard(Ability.Ability ability)
         {
             this.ability = ability;
-            this.PushState(new InputFSMCastState(this));
             this.TargetList.Clear();
+            this.PushState(new InputFSMCastState(this));
         }
 
+
+        /// <summary>
+        /// 处理进入选择模式
+        /// </summary>
+        /// <param name="ability">需要选定的异能的引用，因为需要核对target是否符合</param>
+        public void OnSelectState(Ability.Ability ability)
+        {
+            this.ability = ability;
+            TargetList.Clear();
+            PushState(new InputFSMSelectState(this));
+        }
 
         //移动范围染色
         public void HandleMovConfirm(Vector2 target,GameUnit.GameUnit unit)

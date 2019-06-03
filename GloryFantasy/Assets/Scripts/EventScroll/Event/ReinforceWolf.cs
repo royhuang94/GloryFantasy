@@ -1,5 +1,4 @@
-﻿using GamePlay.Input;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,7 +58,6 @@ namespace GamePlay.Event
 
         private void RandomPosSummonMonster(List<Vector2> battleMapBlocks, int amount, String Unit_id)//参数意义： 允许生成单位的地图范围、生成单位的数量、生成单位的ID
         {
-            Debug.Log("狼影部署。");
             List<BattleMap.BattleMapBlock> blocks = new List<BattleMap.BattleMapBlock>();
             foreach (Vector2 pos in battleMapBlocks)    //遍历给出的每一个二维坐标
             {
@@ -77,8 +75,9 @@ namespace GamePlay.Event
                 int pos = UnityEngine.Random.Range(0, blocks.Count - 1);//
                 BattleMap.BattleMapBlock battleMapBlock = blocks[pos];
                 //GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
-                DispositionCommand dispositionCommand = new DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
-                dispositionCommand.Excute();
+                GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock, true);
+                //Command.set(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                Command.Excute();//执行
                 blocks.RemoveAt(pos);
                 i++;
             }

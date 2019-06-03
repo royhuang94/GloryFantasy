@@ -84,7 +84,7 @@ namespace BattleMap
                     if(BattleMap.Instance().battleAreaData.WarZoneBelong(id) != BattleAreaSate.Neutrality)//中立就不更新
                     {
                         battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
-                        //BattleMap.Instance().ShowAndUpdataBattleZooe();
+                        BattleMap.Instance().ShowAndUpdataBattleZooe();
                     }                   
                     Debug.Log(string.Format("战区：{0}，当前状态：{1}",id,battleArea._battleAreaSate));
 
@@ -178,7 +178,7 @@ namespace BattleMap
                 GamePlay.Gameplay.Instance().eventScroll.AddEventModule(eventModule);
             }
             //生成战区内框
-            //BattleMap.Instance().drawBattleArea.GetBattleAreaBorder();
+            BattleMap.Instance().drawBattleArea.GetBattleAreaBorder();
         }
 
         #region 显示隐藏战区,格子显示的方式，被弃用了

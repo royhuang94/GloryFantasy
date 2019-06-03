@@ -101,6 +101,15 @@ namespace GamePlay.Input
         }
 
         /// <summary>
+        /// 响应进入选择模式
+        /// </summary>
+        /// <param name="ability">需要选定的异能的引用，因为需要核对target是否符合</param>
+        public void OnEnterSelectState(Ability.Ability ability)
+        {
+            InputFSM.OnSelectState(ability);
+        }
+
+        /// <summary>
         /// 处理地图方块的鼠标进入
         /// </summary>
         /// <param name="mapBlock"></param>

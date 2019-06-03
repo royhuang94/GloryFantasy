@@ -27,7 +27,7 @@ namespace IMessage
         public PlayerEnum Caster; //施放者
         public BaseCard CastingCard; //施放的牌
         public PlayerEnum SummonersController; //召唤单位的控制者
-        public List<GameUnit.GameUnit> SummonUnit; //召唤的单位
+        public List<GameUnit.GameUnit> SummonUnit = new List<GameUnit.GameUnit>(); //召唤的单位
         public PlayerEnum Drawer; //抓牌者
         public List<BaseCard> CaughtCard; //抓的牌
         public PlayerEnum HandAdder; //加手者
