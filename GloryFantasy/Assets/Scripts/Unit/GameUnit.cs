@@ -1,4 +1,4 @@
-using UnityEngine;
+eusing UnityEngine;
 using System;
 using System.Collections.Generic;
 using BattleMap;
@@ -254,11 +254,6 @@ namespace GameUnit
         /// </summary>
         public int armor { get; set; }
                     
-        /// <summary>
-        /// 事件具体效果实施的次数
-        /// 强化/弱化
-        /// </summary>
-        public int delta_x_amount { get; set; }                    
         /// <summary>
         /// 事件具体效果实施的次数
         /// 强化/弱化
