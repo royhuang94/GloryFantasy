@@ -440,8 +440,9 @@ namespace GamePlay
         /// </summary>
         /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
         /// <param name="EventID">该事件的事件ID</param>
+        /// <returns>插入事件的几种不同结果</returns>
         public static int Creat_DirectEvent_to_EventSystem(int expect_trun, string EventID)
-        {   //return 值代表插入事件的几种不同结果
+        {  
             int _turn;
             string _EventID;
 
@@ -468,10 +469,66 @@ namespace GamePlay
                 //todo:加入错误提示
                 return 0;
             }
-            {
-
-            }
         }
 
+        public static List<BattleMap.BattleMapBlock> getAreaByBlock(int level, BattleMap.BattleMapBlock center)
+        {
+            return getAreaByPos(level, new Vector2(center.x, center.y));
+        }
+
+        /// <summary>
+        /// 指定中心块获得以其为中心的爆发区域。
+        /// </summary>
+        /// <param name="level">爆发区域等级</param>
+        /// <param name="pos">中心块坐标</param>
+        /// <returns></returns>
+        public static List<BattleMap.BattleMapBlock> getAreaByPos(int level, Vector2 pos)
+        {
+            List < BattleMap.BattleMapBlock > res = new List<BattleMap.BattleMapBlock>();
+            if (level >= 1)
+            {
+                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos));
+                if (level >= 2)
+                {
+                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y)));
+                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y)));
+                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y + 1)));
+                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y - 1)));
+                    if (level >= 3)
+                    {
+                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y + 1)));
+                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y - 1)));
+                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y + 1)));
+                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y - 1)));
+                        if (level >= 4)
+                        {
+                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y)));
+                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y)));
+                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y + 2)));
+                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y - 2)));
+                            if (level >= 5)
+                            {
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y + 1)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y + 1)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y + 2)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y - 2)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y - 1)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y - 1)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y + 2)));
+                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y - 2)));
+                                if (level >= 6)
+                                {
+                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y + 2)));
+                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y - 2)));
+                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y + 2)));
+                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y - 2)));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return res;
+        }
     }
 }

@@ -42,6 +42,10 @@ namespace GamePlay
         {
             Debug.Log(damage.damageValue);
             unit.hp -= damage.damageValue;
+            
+            // 更新unit的血量
+            Gameplay.Instance().gamePlayInput.UpdateHp(unit);
+            
             Debug.Log(unit.name + "收到伤害，当前剩余生命值" + unit.hp);
         }
 
