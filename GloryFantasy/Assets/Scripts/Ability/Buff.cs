@@ -27,16 +27,20 @@ namespace Ability.Buff
         {
             foreach (Buff buff in BuffList)
             {
-                //减少buff持续时间
-                buff.SetLife(buff.Life - 0.5f);
                 //触发buff减少cd时的效果
                 buff.OnSubtractBuffLife();
-                //如果buff时间小于等于0，删除并触发删除效果
-                if (buff.Life <= 0)
+                //非负生命周期
+                if (!buff.isParmament)
                 {
-                    buff.OnComplete();
-                    BuffList.Remove(buff);
-                    GameObject.Destroy(buff);
+                    //减少buff持续时间
+                    buff.SetLife(buff.Life - 0.5f);
+                    //如果buff时间小于等于0，删除并触发删除效果
+                    if (buff.Life <= 0)
+                    {
+                        buff.OnComplete();
+                        BuffList.Remove(buff);
+                        GameObject.Destroy(buff);
+                    }
                 }
             }
         }
@@ -64,6 +68,10 @@ namespace Ability.Buff
         /// </summary>
         public float Life { get; private set; }
         /// <summary>
+        /// Buff的声明周期，0.5等于半个回合，1等于自己+PC完整的一个回合
+        /// </summary>
+        public bool isParmament { get; private set; }
+        /// <summary>
         /// 仅用作增加错误信息，无实际用途
         /// </summary>
         public string BuffName = "Buff:NoDefine";
@@ -87,6 +95,11 @@ namespace Ability.Buff
         public void SetLife(float life)
         {
             this.Life = life;
+            if (life < 0)
+                this.isParmament = true;
+            else
+                this.isParmament = false;
+            
         }
 
         /// <summary>

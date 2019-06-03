@@ -27,6 +27,11 @@ namespace GamePlay.Event
         /// </summary>
         private List<EventModule> _eventModuleList = new List<EventModule>();
 
+        /// <summary>
+        /// 待显示的直接事件来源列表
+        /// </summary>
+        private List<DirectEvent> _DirectEventList = new List<DirectEvent>();
+
         private List<int> _timeScroll = new List<int>();
 
         /// <summary>
@@ -50,6 +55,16 @@ namespace GamePlay.Event
             }
         }
         /// <summary>
+        /// 获取待显示的直接事件来源列表数量
+        /// </summary>
+        public int DirectEventListCount
+        {
+            get
+            {
+                return _DirectEventList.Count;
+            }
+        }
+        /// <summary>
         /// 获取事件轴的队列个数，目前默认为3
         /// </summary>
         public int EventScrollCount
@@ -68,7 +83,32 @@ namespace GamePlay.Event
         {
             _eventModuleList.Add(eventModule);
         }
-
+        /// <summary>
+        /// 添加一个 待显示的直接事件对象 进入 仲裁器
+        /// </summary>
+        public void AddDirectEvent_to_Judge(DirectEvent _DirectEvent)
+        {
+            _DirectEventList.Add(_DirectEvent);
+        }
+        /// <summary>
+        /// 添加一个 可显示的直接事件对象 直接进入 事件轴
+        /// </summary>
+        public void AddDirectEvent_to_Scroll(DirectEvent _DirectEvent)      //在判断到 直接事件对象 应立即入轴时，执行此函数
+        {
+            //
+            int _expect_turn = _DirectEvent.Get_Expect_Turn();
+            string _select_event = _DirectEvent.Get_Event_name();
+            int No_of_Expect_EventAssembly =(EventScrollListCount-1) - (this.nowBigestTurn - _expect_turn) ;   //计算该 事件 应当加入的 已有事件集合 的编号
+                                                                                                               //根据选中的事件的string生成对应的类
+            Type tempType = Type.GetType("GamePlay.Event." + _select_event);
+            //if (tempType == null)
+                //continue;
+            Event tempEvent = Activator.CreateInstance(tempType) as Event;
+            //设置事件的源
+            tempEvent.Source = _DirectEvent.Source;
+            //将 事件 加入 相应事件队列
+            _eventScroll[No_of_Expect_EventAssembly].Add(tempEvent); 
+        }
         /// <summary>
         /// 执行事件列表的头
         /// </summary>
@@ -83,14 +123,14 @@ namespace GamePlay.Event
         }
 
         /// <summary>
-        /// 根据已存在事件模块增加新的事件集合列表
+        /// 根据已存在事件模块和直接事件对象增加新的事件集合列表：：此函数在每个回合开始时调用,调用此函数会使 事件轴的最大回合计数+1
         /// </summary>
         public void CreateNewEventAssembly()
         {
             EventAssembly newAssembly = new EventAssembly();
             //使用这个方法生成事件集合会让计数+1
             this.nowBigestTurn++;
-
+            //将来源于 事件模块 的 事件 入轴
             foreach (EventModule module in _eventModuleList)
             {
                 //按照权重随机选择事件
@@ -123,6 +163,25 @@ namespace GamePlay.Event
                 //将生成的事件塞入到新的事件集合里
                 newAssembly.Add(tempEvent);
             }
+            //将来源于 直接事件对象 的 事件 入轴
+            foreach (DirectEvent Dir in _DirectEventList)
+            {
+                string selectedEvent = "";
+                if(Dir.Get_Expect_Turn() == nowBigestTurn)      //若某在 待显示的直接事件列表 中的 直接事件对象代表的事件 应该在此回合入轴
+                {
+                    selectedEvent = Dir.Get_Event_name();
+                    //根据选中的事件的string生成对应的类
+                    Type tempType = Type.GetType("GamePlay.Event." + selectedEvent);
+                    if (tempType == null)
+                        continue;//暂不设错误提示
+                    Event tempEvent = Activator.CreateInstance(tempType) as Event;
+                    //设置事件的源
+                    tempEvent.Source = Dir.Source;
+                    //将生成的事件塞入到新的事件集合里
+                    newAssembly.Add(tempEvent);
+                }
+
+            }
             //所有事件模块判定完后将新的事件集合塞入列表
             //在这之前记得给事件集合打上回合数的的标签
             newAssembly.ExcuteTurn = this.nowBigestTurn;
@@ -130,7 +189,7 @@ namespace GamePlay.Event
             //Debug.Log("count: " + EventScrollListCount);
             //添加回合数标签
             Debug.Log("当前回合数: " + Gameplay.Instance().roundProcessController.State.roundCounter);
-            _timeScroll.Add(Gameplay.Instance().roundProcessController.State.roundCounter);
+            _timeScroll.Add(Gameplay.Instance().roundProcessController.State.roundCounter);     //这个数值暂时没有用到
         }
 
         /// <summary>
@@ -166,8 +225,10 @@ namespace GamePlay.Event
                 Event tempEvent = Activator.CreateInstance(tempType) as Event;
                 //设置事件的源
                 tempEvent.Source = module.Source;
-                //将生成的事件塞入到新的事件集合里
+                //将生成的事件塞入到新的事件集合里——来源为事件模块
                 newAssembly.Add(tempEvent);
+                //将事件塞入到新的事件集合里——来源为直接事件对象
+                //todo
             }
         }
 
@@ -302,19 +363,13 @@ namespace GamePlay.Event
         /// </summary>
         public object Source;
         /// <summary>
-        /// 事件源的x属性
+        /// 事件源的x属性——现在直接由事件向源获取 用处不大了
         /// </summary>
         public int x_of_Source;
         /// <summary>
-        /// 事件源的y属性
+        /// 事件源的y属性——现在直接由事件向源获取 用处不大了
         /// </summary>
         public int y_of_Source;
-        public void get_x_and_y_from_Source()
-        {
-            //todo：从Source处获取x和y参数的值
-            //x_of_Source =
-            //y_of_Source =
-        }
 
         /// <summary>
         /// 事件模块的事件列表，包含事件名，和权重
@@ -328,6 +383,11 @@ namespace GamePlay.Event
         public EventModule(object _Source)
         {
             this.Source = _Source;
+
+            //获取事件源的 强化/弱化 参数 x 和 y
+            System.Type tempType = Source.GetType();
+
+
         }
 
         /// <summary>
@@ -350,6 +410,70 @@ namespace GamePlay.Event
         public void DeleteThisModule()
         {
             Gameplay.Instance().eventScroll.DeleteOneModule(this);
+        }
+    }
+    /// <summary>
+    /// 直接事件对象
+    /// </summary>
+    public class DirectEvent
+    {
+
+        /// <summary>
+        /// 直接事件的事件ID
+        /// </summary>
+        public string EventName;
+        /// <summary>
+        /// 直接事件的事件源
+        /// </summary>
+        public object Source;
+        /// <summary>
+        /// 事件源的x属性
+        /// </summary>
+        public int x_of_Source;
+        /// <summary>
+        /// 事件源的y属性
+        /// </summary>
+        public int y_of_Source;
+        public void get_x_and_y_from_Source()
+        {
+            //todo：从Source处获取x和y参数的值
+            //x_of_Source =
+            //y_of_Source =
+        }
+        /// <summary>
+        /// 决定直接事件在哪回合入轴
+        /// </summary>
+        public int turn_into_EventScroll;
+        /// <summary>
+        /// 直接事件对象的构造函数
+        /// </summary>
+        /// <param name="_Source">事件源</param>
+        public DirectEvent(string _EventName,int _Expect_Turn, object _Source = null )
+        {
+            this.EventName = _EventName;
+            this.turn_into_EventScroll = _Expect_Turn;
+            this.Source = _Source;
+            //获取事件源的强化/弱化 参数 x 和 y
+            GameUnit.GameUnit Unit_message = this.Source as GameUnit.GameUnit;
+            this.x_of_Source = Unit_message.delta_x_amount;
+            this.y_of_Source = Unit_message.delta_y_strenth;
+
+        }
+        public int Get_Expect_Turn()    //获取事件的入轴回合
+        {
+            return this.turn_into_EventScroll;
+        }
+        public string Get_Event_name()  //获取事件的名称
+        {
+            return this.EventName;
+        }
+
+        /// <summary>
+        /// 删除该直接事件来源
+        /// </summary>
+        public void DeleteThisDirectEvent()         //此函数不需要调用，暂留。
+        {
+           //
         }
     }
 }

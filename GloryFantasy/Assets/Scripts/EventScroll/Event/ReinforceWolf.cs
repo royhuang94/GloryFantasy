@@ -20,13 +20,11 @@ namespace GamePlay.Event
         public ReinforceWolf()
         {
             //从数据库读取属性，id名不能错
-            EventDataBase.Instance().GetEventProperty("ReinforceWarrior", this);
+            EventDataBase.Instance().GetEventProperty("ReinforceWolf", this);
             //实例化该事件的 触发条件 和 效果
             this.Condition = selfCondition;
             this.Action = selfAction;
-            //以下两个属性暂时无处读取，设为0   需要从源读取
-            this.delta_x_amount = 0;
-            this.delta_y_strenth = 0;
+
             //
         }
 
@@ -39,8 +37,10 @@ namespace GamePlay.Event
 
         void selfAction()
         {
+                        //获取和事件源有关的信息
             BattleMap.BattleArea battleArea = this.Source as BattleMap.BattleArea;
-
+            this.delta_x_amount = battleArea.delta_x_amount;
+            this.delta_x_amount = battleArea.delta_y_strenth;
 
             //X次效果 最终值为读取的初始值与delta值的加和
             this.amount += delta_x_amount;
@@ -74,7 +74,10 @@ namespace GamePlay.Event
                 //随机选择一个可行坐标，在此地格上生成单位
                 int pos = UnityEngine.Random.Range(0, blocks.Count - 1);//
                 BattleMap.BattleMapBlock battleMapBlock = blocks[pos];
-                GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                //GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock, true);
+                //Command.set(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
+                Command.Excute();//执行
                 blocks.RemoveAt(pos);
                 i++;
             }

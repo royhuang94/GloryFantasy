@@ -7,6 +7,9 @@ using GamePlay;
 
 namespace Ability
 {
+    /// <summary>
+    /// 所有的友方单位获得{Curing}点生命。
+    /// </summary>
     public class CuringWind : Ability
     {
         Trigger trigger;
@@ -65,8 +68,7 @@ namespace Ability
             List<GameUnit.GameUnit> gameUnits = BattleMap.BattleMap.Instance().GetFriendlyUnitsList();
             foreach (GameUnit.GameUnit unit in gameUnits)
             {
-                unit.hp += _curing;
-                Gameplay.Instance().gamePlayInput.UpdateHp(unit);
+                unit.changeHP(_curing);
             }
         }
     }

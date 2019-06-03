@@ -38,10 +38,18 @@ namespace GamePlay.Input
     /// <param name="owner">部属单位的操控者。</param>
     /// <param name="battleMapBlock">部署在的地格。</param>
     /// <param name="post">是否需要发送部署消息，可缺省，默认为是。请在特殊情况下才设置为否。</param>
-   
+
     public class DispositionCommand : Command
     {
-        public DispositionCommand(string unitID, OwnerEnum owner, BattleMapBlock battleMapBlock, bool post = true)
+        public DispositionCommand(string unitID, OwnerEnum owner, BattleMapBlock battleMapBlock, bool post = true)  //构造函数
+        {
+            _unitID = unitID;
+            _owner = owner;
+            _battleMapBlock = battleMapBlock;
+            _post = post;
+        }
+
+        public void set(string unitID, OwnerEnum owner, BattleMapBlock battleMapBlock, bool post = true)    //创建对象后通过此方法修改参数
         {
             _unitID = unitID;
             _owner = owner;
@@ -62,12 +70,13 @@ namespace GamePlay.Input
             UnitManager.InstantiationUnit(_unitID, _owner, _battleMapBlock);
             if (_post)
             {
+                Debug.Log(_battleMapBlock.units_on_me.ToString());
                 this.SetSummonUnit(_battleMapBlock.units_on_me);
                 MsgDispatcher.SendMsg((int)MessageType.Summon);
             }
 
             //更新仇恨列表
-            Gameplay.Instance().autoController.UpdateAllHatredList(null, _battleMapBlock.units_on_me);
+            //Gameplay.Instance().autoController.UpdateAllHatredList(null, _battleMapBlock.units_on_me);
         }
 
         private string _unitID;
@@ -97,7 +106,7 @@ namespace GamePlay.Input
 
         public bool Judge()
         {
-            foreach(BattleMapBlock block in _blocks)
+            foreach (BattleMapBlock block in _blocks)
             {
                 if (block.units_on_me.Count > 0)
                     return false;
@@ -257,7 +266,7 @@ namespace GamePlay.Input
         public bool JudgeStrikeBack()
         {
             Vector2 unit1 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_AttackedUnit);
-            Vector2 unit2 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_Attacker); 
+            Vector2 unit2 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_Attacker);
             int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
             if (MAN_HA_DUN <= _AttackedUnit.getRNG())
                 return true;
@@ -290,7 +299,7 @@ namespace GamePlay.Input
                 {
                     DamageRequestList[i].Excute();
                 }
-                else if(!_AttackedUnit.IsDead() && !_Attacker.IsDead() && !JudgeStrikeBack()) //距离不够，无法进行反击
+                else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead() && !JudgeStrikeBack()) //距离不够，无法进行反击
                 {
                     DamageRequestList[i].Excute();
                     i++;
@@ -310,7 +319,7 @@ namespace GamePlay.Input
 
     public class ReleaseSkillCommand : Command
     {
-        public ReleaseSkillCommand(GameUnit.GameUnit skillMaker, int range,Vector2 makerPosition,Vector2 targetPosition)
+        public ReleaseSkillCommand(GameUnit.GameUnit skillMaker, int range, Vector2 makerPosition, Vector2 targetPosition)
         {
             _skillMaker = skillMaker;
             _range = range;
@@ -338,4 +347,5 @@ namespace GamePlay.Input
         private Vector2 _targetPosition;//释放技能的目标点(中心点)
         private Vector2 _makerPosition;//释放者坐标
     }
+
 }

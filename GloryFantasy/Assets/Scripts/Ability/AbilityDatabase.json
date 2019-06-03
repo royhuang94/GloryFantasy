@@ -325,7 +325,14 @@
         "ID": "Heal_1",
         "Name": "疗愈",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
         "Turns": 0
     },
     {
@@ -338,7 +345,14 @@
         "ID": "Heal_2",
         "Name": "疗愈",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "友军"
+            }
+        ],
         "Turns": 0
     },
     {
@@ -611,7 +625,7 @@
         "Area": 0,
         "Curing": 0,
         "Damage": 0,
-        "Description": "使用者：友方单位。使用者所在区域的敌方单位获得滞击，{Turns}回合后消解。",
+        "Description": "使用者：友方单位。使用者所在区域的敌方单位获得迟疑，{Turns}回合后消解。",
         "Draws": 0,
         "ID": "Mist_1",
         "Name": "隐雾术",
@@ -631,7 +645,7 @@
         "Area": 0,
         "Curing": 0,
         "Damage": 0,
-        "Description": "使用者：友方单位。使用者所在区域的敌方单位获得滞击，{Turns}回合后消解。",
+        "Description": "使用者：友方单位。使用者所在区域的敌方单位获得迟疑，{Turns}回合后消解。",
         "Draws": 0,
         "ID": "Mist_2",
         "Name": "隐雾术",
