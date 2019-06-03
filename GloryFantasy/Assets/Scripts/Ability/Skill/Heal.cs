@@ -51,7 +51,7 @@ namespace Ability
             foreach (GameUnit.GameUnit gameUnit in AbilityMediator.Instance().GetGameUnitsInBattleArea(_currentPos))
             {
                 if(gameUnit.owner == OwnerEnum.Player)
-                    AbilityMediator.Instance().RecoverUnitsHp(gameUnit.id, _curing);
+                    AbilityMediator.Instance().RecoverUnitsHp(gameUnit, _curing);
             }
         }
     }

@@ -130,6 +130,17 @@ namespace GameUnit
             return rng;
         }
         /// <summary>
+        /// 修改单位血量，修改到0或以下的时候会导致单位死亡（造成伤害时不要用此方法，会无法追溯伤害来源）。
+        /// </summary>
+        public void changeHP(int delta)
+        {
+            hp += delta;
+            if (hp > MaxHP)
+                hp = MaxHP;
+            if (hp <= 0)
+                UnitManager.Kill(null, this);
+        }
+        /// <summary>
         /// 单位的所有者
         /// </summary>
         public OwnerEnum owner;

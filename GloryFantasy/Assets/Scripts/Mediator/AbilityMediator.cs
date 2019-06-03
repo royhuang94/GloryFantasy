@@ -114,9 +114,9 @@ namespace Mediator
             return units;
         }
 
-        public void RecoverUnitsHp(string unitId, int amount)
+        public void RecoverUnitsHp(GameUnit.GameUnit unit, int amount)
         {
-            // TODO : 完成实现
+            unit.changeHP(amount);
         }
 
         public void SendUnitToDeath(string unitId)
