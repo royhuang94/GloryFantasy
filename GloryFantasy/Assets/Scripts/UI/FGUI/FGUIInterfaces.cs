@@ -268,7 +268,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		string cardId = cardSetsList[index];
 		
 		// 测试，直接把卡牌放入手牌中
-		CardManager.Instance().InsertIntoHandCard(cardId);
+		//CardManager.Instance().InsertIntoHandCard(cardId);
 		
 		
 		// 向数据库查询展示数据
