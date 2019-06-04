@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Ability.Buff;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,6 +58,15 @@ namespace GameUnit
                 {
                     m_pool.Remove(_unit);
                     _unit.SetActive(true);
+                    //清除单位的原有异能和buff
+                    foreach (Buff _buff in _unit.GetComponents<Buff>())
+                    {
+                        Destroy(_buff);
+                    }
+                    foreach (Ability.Ability _ability in _unit.GetComponents<Ability.Ability>())
+                    {
+                        Destroy(_ability);
+                    }
                     //从单位数据库将新单位初始化
                     UnitDataBase.Instance().InitGameUnit(_unit, unitId, owner, Damage);
                     return _unit;
