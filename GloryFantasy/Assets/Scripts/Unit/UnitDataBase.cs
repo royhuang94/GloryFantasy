@@ -65,11 +65,15 @@ namespace GameUnit
         {
             if (unit.GetComponent<Unit>() != null)
             {
-                InitGameUnit(unit.GetComponent<Unit>(), id, owner, damage);
+                //把GameUnit清除掉，等于把trigger洗掉
+                Destroy(unit.GetComponent<Unit>());
+
+                InitGameUnit(unit.AddComponent<Unit>(), id, owner, damage);
             }
             else
             {
-                Debug.Log("In UnitDataBase: " + unit.name + " doesn't have GameUnit.Can;t be Initial.");
+                InitGameUnit(unit.AddComponent<Unit>(), id, owner, damage);
+                //Debug.Log("In UnitDataBase: " + unit.name + " doesn't have GameUnit.Can;t be Initial.");
             }
         }
 

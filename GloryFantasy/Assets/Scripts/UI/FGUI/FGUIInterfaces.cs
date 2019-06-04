@@ -132,12 +132,10 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	// Use this for initialization
 	void Start () {
 		#region 处理其他UI
-		_battleMapBlockAndUnits = GameObject.Find("MainPanel");
 		_roundStateText = GameObject.Find("phaseNameText");
 		
 		_uiToHide = new List<GameObject>();
 
-		_uiToHide.Add(_battleMapBlockAndUnits);
 		_uiToHide.Add(_roundStateText);
 		#endregion
 
@@ -268,7 +266,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		string cardId = cardSetsList[index];
 		
 		// 测试，直接把卡牌放入手牌中
-		CardManager.Instance().InsertIntoHandCard(cardId);
+		//CardManager.Instance().InsertIntoHandCard(cardId);
 		
 		
 		// 向数据库查询展示数据

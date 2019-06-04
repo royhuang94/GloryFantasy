@@ -30,9 +30,9 @@ public class BMBColliderManager : MsgReceiver, GameplayTool
         // 注册函数相应移动消息
         MsgDispatcher.RegisterMsg(
             this.GetMsgReceiver(),
-            (int)MessageType.Aftermove,
+            (int)MessageType.ColliderChange,
             CanFreshCollider,
-            FreshDispose,
+            FreshCollider,
             "Fresh Collider Trigger"
         );
         //// 注册函数相应移动消息
@@ -61,17 +61,6 @@ public class BMBColliderManager : MsgReceiver, GameplayTool
     public void FreshCollider()
     {
         Fresh();
-    }
-
-    /// <summary>
-    /// 触发Fresh函数
-    /// </summary>
-    public void FreshDispose()
-    {
-        Unit unit = this.GetMovingUnit();
-        BattleMapBlock battleMapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(unit.CurPos);
-        //battleMapBlock.bmbCollider.OnUnitDispose();
-        this.RelaseLocking();
     }
     #endregion
 

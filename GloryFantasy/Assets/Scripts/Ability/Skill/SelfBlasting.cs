@@ -53,7 +53,7 @@ namespace Ability
         /// <returns></returns>
         private bool Condition()
         {
-            return !AbilityMediator.Instance().CheckUnitDeathById(_unitId);
+            return !GameplayToolExtend.checkDeath(_unit);
         }
 
         private void Action()

@@ -35,6 +35,7 @@ namespace IMessage
         ActiveAbility, //异能发动
         SelectionOver, // InputFSMSelectState结束消息
         
+        RegionChange, //战区归属权变更消息
         
         #region ATK 时点部分
         BeAttacked, //被攻击
@@ -50,6 +51,11 @@ namespace IMessage
         HpChanged,
         #endregion
 
+        #region 复合信息
+        ColliderChange, // 碰撞器状态变化
+        AfterColliderChange, // 碰撞器状态更新完成后
+        #endregion
+
         Move, //开始移动
         Moved, //单位被移动
         Aftermove, //移动结束
@@ -59,6 +65,8 @@ namespace IMessage
         Encounter, // 遭遇战
 
         BattleSate//战区状态
+
+        
     };
 
     public interface MsgReceiver
@@ -119,6 +127,42 @@ namespace IMessage
                     receiver = null;
             }
         }
+        
+        private static Dictionary<int, List<int>> Inverse(Dictionary<int, List<int>> keyValuePairs)
+        {
+            Dictionary<int, List<int>> res = new Dictionary<int, List<int>>();
+            foreach (KeyValuePair<int, List<int> >keyValuePair in keyValuePairs)
+            {
+                foreach (int i in keyValuePair.Value)
+                {
+                    if (!res.ContainsKey(i))
+                        res.Add(i, new List<int>());
+                    res[i].Add(keyValuePair.Key);
+
+                }
+            }
+            return res;
+        }
+
+        private static Dictionary<int, List<int>> ComplexMsgType = Inverse(new Dictionary<int, List<int>>
+        {
+            {
+                (int)MessageType.ColliderChange, new List<int>
+                {
+                    (int)MessageType.Aftermove,
+                    (int)MessageType.Dead,
+                    (int)MessageType.Summon,
+                    (int)MessageType.Moved,
+                }
+            },
+            {
+                (int)MessageType.AfterColliderChange, new List<int>
+                {
+                    (int)MessageType.ColliderChange
+                }
+            }
+            
+        });
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
 
@@ -209,7 +253,24 @@ namespace IMessage
                 return;
             }
 
-            var handlers = MsgHandlerDict[msgName];
+            List<int> queue = new List<int> { msgName };
+            int pointer = 0;
+            List<MsgHandler> handlers = new List<MsgHandler>();
+            while (queue.Count > pointer)
+            {
+                handlers.AddRange(MsgHandlerDict[queue[pointer]]);
+                if (ComplexMsgType.ContainsKey(queue[pointer]))
+                {
+                    foreach(int i in ComplexMsgType[queue[pointer]])
+                    {
+                        if (!(queue.Contains(i)))
+                            queue.Add(i);
+                           
+                    }
+                }
+
+                pointer += 1;
+            }
             var handlerCount = handlers.Count;
 
             for (int index = handlerCount - 1; index >= 0; index --)
