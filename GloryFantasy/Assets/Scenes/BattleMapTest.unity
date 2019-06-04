@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c7280f750344bf8fd3b945f665257e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DataBasePath: /Scripts/Unit/UnitDatabase.json
+  DataBasePath: /Resources/Scripts/Unit/UnitDatabase.json
 --- !u!1 &1112531075
 GameObject:
   m_ObjectHideFlags: 0
