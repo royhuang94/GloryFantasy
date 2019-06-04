@@ -28,6 +28,7 @@ namespace BattleMap
         public string[] _TID;//该战区的triggerID
         public List<EventModule.EventWithWeight> _modules;//该战区的事件
 
+<<<<<<< HEAD:GloryFantasy/Assets/Scripts/BattleMap/BattleArea.cs
 <<<<<<< HEAD
         Trigger trigger;
 
@@ -35,15 +36,23 @@ namespace BattleMap
         Trigger trigger;
 
 >>>>>>> parent of 7300859... 稍微修改Msgreceiver
+=======
+        Trigger trigger;
+
+>>>>>>> parent of 646da86... 迁移代码文件到Resources文件内:GloryFantasy/Assets/Scripts/BattleMap/BattleArea.cs
         /// <summary>
         /// 事件具体效果实施的次数
         /// 强化/弱化
         /// </summary>
+<<<<<<< HEAD:GloryFantasy/Assets/Scripts/BattleMap/BattleArea.cs
 <<<<<<< HEAD
         public int delta_x_amount { get; set; }
 =======
         public int delta_x_amount { get; set; }
 >>>>>>> parent of 7300859... 稍微修改Msgreceiver
+=======
+        public int delta_x_amount { get; set; }
+>>>>>>> parent of 646da86... 迁移代码文件到Resources文件内:GloryFantasy/Assets/Scripts/BattleMap/BattleArea.cs
         /// <summary>
         /// 事件具体效果实施的强度
         /// 强化/弱化
