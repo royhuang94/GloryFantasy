@@ -55,7 +55,7 @@ namespace BattleMap
             MsgDispatcher.RegisterMsg(trigger, "BattleState");
         }
 
-        public T GetUnit<T>() where T : MonoBehaviour
+        public T GetUnit<T>() where T : class
         {
             return this as T;
         }
