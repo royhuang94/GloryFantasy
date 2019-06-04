@@ -77,6 +77,7 @@ namespace BattleMap
             {
                 Debug.Log("here become gray");
 //                unit.gameObject.GetComponent<SpriteRender>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                UnitManager.ColorUnitOnBlock(this.position, new Color(0.5f, 0.5f, 0.5f, 0.5f));
             }
         }
         /// <summary>
@@ -133,7 +134,6 @@ namespace BattleMap
             Show();
             if (_unit != null)
             {
-//                _unit.GetComponent<SpriteRender>().color = new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f);
                 UnitManager.ColorUnitOnBlock(this.position, new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f));
                 _fguiInterfaces.setDescribeWindowShow();        // 显示
             }
@@ -151,9 +151,7 @@ namespace BattleMap
             //show();
             if (_unit != null)
             {
-//                _unit.GetComponent<SpriteRender>().color = Color.white;
                 UnitManager.ColorUnitOnBlock(this.position, Color.white);
-                //if(Gameplay.Instance().gamePlayInput.InputFSM.selectedCard)
                 _fguiInterfaces.setDescribeWindowHide();        // 隐藏
             }
         }
