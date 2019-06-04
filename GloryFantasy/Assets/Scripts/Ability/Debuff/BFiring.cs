@@ -11,6 +11,8 @@ namespace Ability.Debuff
     public class BFiring : Buff.Buff
     {
         private bool _isViscous;
+        private bool _isOnUnit;
+        private GameUnit.GameUnit _unit;
         private BattleMapBlock _battleMapBlock;
         private Trigger _trigger;
         private GlobalReceiver _globalReceiver;
@@ -19,45 +21,62 @@ namespace Ability.Debuff
         {
             base.InitialBuff();
 
+            _isOnUnit = (_unit = GetComponent<GameUnit.GameUnit>()) != null;
+            
             // 清除掉其上的粘滞地块。
             _isViscous = _battleMapBlock.gameObject.GetComponent<BViscous>() != null;
             if (_isViscous)
             {
                 GameObject.Destroy(_battleMapBlock.gameObject.GetComponent<BViscous>());
             }
-            // 对此时在此上的单位造成1点伤害。
-            foreach (GameUnit.GameUnit unit in _battleMapBlock.units_on_me)
+            
+            //如果被挂在了单位上
+            if (_isOnUnit)
             {
-                GameplayToolExtend.DealDamage(null, unit, new Damage(1+(_isViscous?1:0)));
+                GameplayToolExtend.DealDamage(null, _unit, new Damage(1+(_isViscous?1:0)));
+                // 弄完伤害后自我毁灭
+                GameObject.Destroy(this);
             }
+            else
+            {
+                // 对此时在此上的单位造成1点伤害。
+                foreach (GameUnit.GameUnit unit in _battleMapBlock.units_on_me)
+                {
+                    // 通过向单位上挂载buff的方式去造成伤害
+                    unit.gameObject.AddBuff<BFiring>(0.5f);
+                }
 
-            _globalReceiver = new GlobalReceiver();
+                _globalReceiver = new GlobalReceiver();
 
-            // 注册Trigger监听移动消息，如果有单位移动到当前地图块则造成伤害
-            _trigger = new TFiring_1(_globalReceiver, _battleMapBlock);
-            MsgDispatcher.RegisterMsg(_trigger, "BFiring On Block aftermove");
+                // 注册Trigger监听移动消息，如果有单位移动到当前地图块则造成伤害
+                _trigger = new TFiring_1(_globalReceiver, _battleMapBlock);
+                MsgDispatcher.RegisterMsg(_trigger, "BFiring On Block aftermove");
 
-            // 注册Trigger监听回合开始信息，回合开始时对其上的单位造成伤害
-            _trigger = new TFiring_2(_globalReceiver, _battleMapBlock);
-            MsgDispatcher.RegisterMsg(_trigger, "BFiring On Block at BP");
+                // 注册Trigger监听回合开始信息，回合开始时对其上的单位造成伤害
+                _trigger = new TFiring_2(_globalReceiver, _battleMapBlock);
+                MsgDispatcher.RegisterMsg(_trigger, "BFiring On Block at BP");
+            }
         }
 
-        protected override void OnDisappear()
-        {
-            base.OnDisappear();
-
-            // 移除当前地图块上仍存在单位的debuff脚本
-            foreach (GameUnit.GameUnit unit in _battleMapBlock.units_on_me)
-            {
-                Destroy(unit.GetComponent<BFiring>());
-            }
-
-            // 删除receiver，使已注册的trigger被删除
-            _globalReceiver = null;
-
-            // 结束执行
-            return;
-        }
+        // 因为造成伤害的动作是直接在挂载到单位身上的时候进行的，并且在单位身上造成伤害后即刻失效，所以不需要再干其他的事
+//        protected override void OnDisappear()
+//        {
+//            base.OnDisappear();
+//
+//            if (!_isOnUnit)
+//            {
+//                // 移除当前地图块上仍存在单位的debuff脚本
+//                foreach (GameUnit.GameUnit unit in _battleMapBlock.units_on_me)
+//                {
+//                    Destroy(unit.GetComponent<BFiring>());
+//                }
+//
+//                // 删除receiver，使已注册的trigger被删除
+//                _globalReceiver = null;
+//
+//            }
+//                
+//        }
     }
     
     public class TFiring_1 : Trigger
@@ -82,7 +101,8 @@ namespace Ability.Debuff
         private void Action()
         {
             // 给移动到当前地图块上的单位造成1点伤害。
-            GameplayToolExtend.DealDamage(null, Gameplay.Info.movingUnit, new Damage(1));
+            Gameplay.Info.movingUnit.gameObject.AddBuff<BFiring>(0.5f);
+            //GameplayToolExtend.DealDamage(null, Gameplay.Info.movingUnit, new Damage(1));
         }
     }
 
@@ -110,7 +130,8 @@ namespace Ability.Debuff
             // 给移动到当前地图块上的单位造成1点伤害。
             foreach (GameUnit.GameUnit unit in _specificBlock.units_on_me)
             {
-                GameplayToolExtend.DealDamage(null, unit, new Damage(1));
+                unit.gameObject.AddBuff<BFiring>(0.5f);
+                //GameplayToolExtend.DealDamage(null, unit, new Damage(1));
             }
         }
     }

@@ -40,6 +40,10 @@ namespace GamePlay
             if (target.GetComponent<T>() != null)
             {
                 float rest = target.GetComponent<T>().Life;
+                // 如果已有相同脚本，且其生命周期为永久，则不添加新buff
+                if (rest < 0)
+                    return target.GetComponent<T>();
+                
                 if (rest < life)
                     life = rest;
                 GameObject.Destroy(target.GetComponent<T>());
@@ -529,6 +533,8 @@ namespace GamePlay
                     }
                 }
             }
+
+            res.RemoveAll(it => it == null);
             return res;
         }
         /// <summary>
