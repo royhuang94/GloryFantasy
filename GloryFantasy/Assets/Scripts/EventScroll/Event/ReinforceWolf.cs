@@ -37,22 +37,26 @@ namespace GamePlay.Event
 
         void selfAction()
         {
-                        //获取和事件源有关的信息
-            BattleMap.BattleArea battleArea = this.Source as BattleMap.BattleArea;
-            this.delta_x_amount = battleArea.delta_x_amount;
-            this.delta_x_amount = battleArea.delta_y_strenth;
-
-            //X次效果 最终值为读取的初始值与delta值的加和
-            this.amount += delta_x_amount;
-            //Y为效果强度 最终值为读取的初始值与delta值的加和
-            this.strenth += delta_y_strenth;
-            //根据X和Y的最终值决定召唤结果
-            switch (strenth)
+            int source_type_flag = this.Get_Source_Message();       //函数内部进行信息获取。返回值用于错误控制
+            if (source_type_flag == 2)
             {
-                case 1: RandomPosSummonMonster(battleArea._battleArea, this.amount, "ShadowWolf_1"); break;
-                case 2: RandomPosSummonMonster(battleArea._battleArea, this.amount, "ShadowWolf_2"); break;
-                case 3: RandomPosSummonMonster(battleArea._battleArea, this.amount, "ShadowWolf_3"); break;
-                default: break;
+                //X次效果 最终值为读取的初始值与delta值的加和
+                this.amount += delta_x_amount;
+                //Y为效果强度 最终值为读取的初始值与delta值的加和
+                this.strenth += delta_y_strenth;
+                if (this.strenth > 3) this.strenth = 3;
+                //根据X和Y的最终值决定召唤结果
+                switch (strenth)
+                {
+                    case 1: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_1"); break;
+                    case 2: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_2"); break;
+                    case 3: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_3"); break;
+                    default: break;
+                }
+            }
+            else
+            {
+                //output：：源错误
             }
         }
 

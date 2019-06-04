@@ -24,7 +24,7 @@ namespace GamePlay.Event
             //实例化该事件的 触发条件 和 效果
             this.Condition = selfCondition ;
             this.Action = selfAction;
-            //以下两个属性暂时无处读取，设为0   需要从源读取
+            //以下两个属性初始化为0
             this.delta_x_amount = 0;
             this.delta_y_strenth = 0;
             //
@@ -43,28 +43,30 @@ namespace GamePlay.Event
 
             //来源
             //this.Source as GameUnit.GameUnit
-            //获取和事件源有关的信息
-            BattleMap.BattleArea battleArea = this.Source as BattleMap.BattleArea;
-            this.delta_x_amount = battleArea.delta_x_amount;
-            this.delta_x_amount = battleArea.delta_y_strenth;
-
-
-            //X次效果 最终值为读取的初始值与delta值的加和
-            this.amount += delta_x_amount;
-            //Y为效果强度 最终值为读取的初始值与delta值的加和
-            this.strenth += delta_y_strenth;
-            //根据X和Y的最终值决定召唤结果
-            switch(strenth){
-                case 1: RandomPosSummonMonster(battleArea._battleArea, this.amount, "Shadow_1"); break;
-                case 2: RandomPosSummonMonster(battleArea._battleArea, this.amount, "Shadow_2"); break;
-                case 3: RandomPosSummonMonster(battleArea._battleArea, this.amount, "Shadow_3"); break;
-                default: break;
+            int source_type_flag = this.Get_Source_Message();       //函数内部进行信息获取。返回值用于错误控制
+            if(source_type_flag == 2)
+            {
+                //X次效果 最终值为读取的初始值与delta值的加和
+                this.amount += delta_x_amount;
+                //Y为效果强度 最终值为读取的初始值与delta值的加和
+                this.strenth += delta_y_strenth;
+                if (this.strenth > 3) this.strenth = 3;
+                //根据X和Y的最终值决定召唤结果
+                switch (strenth)
+                {
+                    case 1: SummonMonster_in_Area(this.Source, this.amount, "Shadow_1"); break;
+                    case 2: SummonMonster_in_Area(this.Source, this.amount, "Shadow_2"); break;
+                    case 3: SummonMonster_in_Area(this.Source, this.amount, "Shadow_3"); break;
+                    default: break;
+                }
+            }
+            else
+            {
+                //output：：源错误
             }
 
-            //RandomPosSummonMonster(battleArea._battleArea, this.amount, "Shadow_1");
-
         }
-
+        /*-----方法原型，现已封装进基类
         private void RandomPosSummonMonster(List<Vector2> battleMapBlocks, int amount, String Unit_id)//参数意义： 允许生成单位的地图范围、生成单位的数量、生成单位的ID
         {
             List<BattleMap.BattleMapBlock> blocks = new List<BattleMap.BattleMapBlock>();
@@ -93,5 +95,7 @@ namespace GamePlay.Event
             }
 
         }
+        */
+
     }
 }
