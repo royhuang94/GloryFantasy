@@ -17,6 +17,7 @@ public class BMBCollider
     public List<Unit> disposeUnits = new List<Unit>();
 
     public List<Vector2> _bound = new List<Vector2> { Vector2.zero };
+    private bool _isBMA = false; 
     private GameUnit.GameUnit _gameUnit;
     private BattleMapBlock _battleMapBlock;
 
@@ -26,6 +27,13 @@ public class BMBCollider
         _bound = bound;
         GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(this);
         UpdateColliderRange();
+        foreach (Vector2 pos in colliderRange)
+        {
+            GameUnit.GameUnit unitInRange = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos);
+            if (unitInRange == null)
+                continue;
+            disposeUnits.Add(unitInRange);
+        }
     }
 
     public BMBCollider(BattleMapBlock mapBlock, List<Vector2> bound)
@@ -34,8 +42,28 @@ public class BMBCollider
         _bound = bound;
         GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(this);
         UpdateColliderRange();
+        foreach (Vector2 pos in colliderRange)
+        {
+            GameUnit.GameUnit unitInRange = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos);
+            if (unitInRange == null)
+                continue;
+            disposeUnits.Add(unitInRange);
+        }
     }
-
+    public BMBCollider(GameUnit.GameUnit unit, bool isBMA)
+    {
+        _gameUnit = unit;
+        _isBMA = isBMA;
+        GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(this);
+        UpdateColliderRange();
+        foreach (Vector2 pos in colliderRange)
+        {
+            GameUnit.GameUnit unitInRange = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos);
+            if (unitInRange == null)
+                continue;
+            disposeUnits.Add(unitInRange);
+        }
+    }
     /// <summary>
     /// 更新collider的检测范围
     /// </summary>
@@ -56,9 +84,21 @@ public class BMBCollider
             pos = _battleMapBlock.GetCoordinate();
         }
         colliderRange.Clear();
-        foreach (Vector2 v in _bound)
+        if (_isBMA)
         {
-            colliderRange.Add(new Vector2(pos.x + v.x, pos.y + v.y));
+            int regionID = BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos).area;
+            List<Vector2> BA = BattleMap.BattleMap.Instance().battleAreaData.GetBattleAreaAllPosByID(regionID);
+            foreach(Vector2 v in BA)
+            {
+                colliderRange.Add(v);
+            }
+        }
+        else
+        {
+            foreach (Vector2 v in _bound)
+            {
+                colliderRange.Add(new Vector2(pos.x + v.x, pos.y + v.y));
+            }
         }
         #region 弃用
         //Vector2 pos = Vector2.zero;
@@ -113,7 +153,7 @@ public class BMBCollider
                 disposeUnits.Add(unit);
             }
         }
-        //老列表没有，新列表有的，那就是离开了
+        //老列表有的，新列表没有，那就是离开了
         foreach (Unit unit in oldDisposeUnits)
         {
             if (!disposeUnits.Contains(unit))

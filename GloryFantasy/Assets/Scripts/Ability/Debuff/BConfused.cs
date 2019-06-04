@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Ability.Buff;
+using Ability.Debuff;
 
-namespace Ability.Buff
+namespace Ability.Debuff
 {
-    public class BConfused : Buff
+    public class BConfused : Buff.Buff
     {
         //设定Buff的初始化
         public override void InitialBuff()

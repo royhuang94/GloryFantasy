@@ -537,7 +537,7 @@ namespace GamePlay
             return res;
         }
         /// <summary>
-        /// 各等级的爆发区域。
+        /// 各等级的爆发区域。偏移量列表的列表。如Area[2]为2级爆发区域的偏移量列表。
         /// </summary>
         public static List<List<Vector2>> Area = new List<List<Vector2>>
         {
