@@ -29,6 +29,7 @@
       {
         "RegionID": 2,
         "EventList": {
+          "ReinforceWolf": 2,
           "Empty": 1
         },
         "Buff": [],
@@ -37,7 +38,6 @@
       {
         "RegionID": 3,
         "EventList": {
-          "ReinforceWolf": 2,
           "Empty": 1
         },
         "Buff": [],
