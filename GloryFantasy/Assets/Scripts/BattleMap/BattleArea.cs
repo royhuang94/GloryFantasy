@@ -28,13 +28,22 @@ namespace BattleMap
         public string[] _TID;//该战区的triggerID
         public List<EventModule.EventWithWeight> _modules;//该战区的事件
 
+<<<<<<< HEAD
         Trigger trigger;
 
+=======
+        Trigger trigger;
+
+>>>>>>> parent of 7300859... 稍微修改Msgreceiver
         /// <summary>
         /// 事件具体效果实施的次数
         /// 强化/弱化
         /// </summary>
+<<<<<<< HEAD
         public int delta_x_amount { get; set; }
+=======
+        public int delta_x_amount { get; set; }
+>>>>>>> parent of 7300859... 稍微修改Msgreceiver
         /// <summary>
         /// 事件具体效果实施的强度
         /// 强化/弱化
@@ -55,7 +64,11 @@ namespace BattleMap
             MsgDispatcher.RegisterMsg(trigger, "BattleState");
         }
 
+<<<<<<< HEAD
         public T GetUnit<T>() where T : class
+=======
+        public T GetUnit<T>() where T : MonoBehaviour
+>>>>>>> parent of 7300859... 稍微修改Msgreceiver
         {
             return this as T;
         }

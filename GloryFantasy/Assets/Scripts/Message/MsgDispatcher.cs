@@ -73,7 +73,7 @@ namespace IMessage
         /// 返回接收者接口所依附的基类,注意一定要保证请求的基类是正确的
         /// </summary>
         /// <returns></returns>
-        T GetUnit<T>() where T : class;
+        T GetUnit<T>() where T : MonoBehaviour;
     }
 
     public class GlobalReceiver : MsgReceiver
