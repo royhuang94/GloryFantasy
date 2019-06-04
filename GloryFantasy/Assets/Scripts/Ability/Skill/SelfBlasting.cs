@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Ability.Debuff;
+using GamePlay;
 using GameUnit;
 using IMessage;
 using Mediator;
@@ -56,14 +58,23 @@ namespace Ability
 
         private void Action()
         {
-            List<GameUnit.GameUnit> units = AbilityMediator.Instance().GetGameUnitsWithinRange(_unit.CurPos, _area);
-            if (units == null)
-                return;
-
-            foreach (GameUnit.GameUnit unit in units)
+            List<BattleMap.BattleMapBlock> blocks = GamePlay.GameplayToolExtend.getAreaByPos(_area, _unit.CurPos);
+            foreach(BattleMap.BattleMapBlock block in blocks)
             {
-                AbilityMediator.Instance().CaseDamageToEnemy(unit.id, _damage);
+                block.gameObject.AddBuff<BFiring>(2f);
+                foreach(GameUnit.GameUnit unit in block.units_on_me)
+                {
+                    GameplayToolExtend.DealDamage(null, unit, new Damage(_damage));
+                }
             }
+            //List<GameUnit.GameUnit> units = AbilityMediator.Instance().GetGameUnitsWithinRange(_unit.CurPos, _area);
+            //if (units == null)
+            //    return;
+            //
+            //foreach (GameUnit.GameUnit unit in units)
+            //{
+            //    AbilityMediator.Instance().CaseDamageToEnemy(unit.id, _damage);
+            //}
 
         }
     }
