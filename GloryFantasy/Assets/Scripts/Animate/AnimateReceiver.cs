@@ -9,7 +9,7 @@ namespace Animate
     public class AnimateReceiver : MonoBehaviour
     {
         private Animator _animator;
-        private void Start()
+        private void Awake()
         {
             _animator = GetComponent<Animator>();
         }
@@ -18,6 +18,11 @@ namespace Animate
         public void Attack()
         {
             _animator.SetTrigger("attack");
+        }
+
+        public void StateUp()
+        {
+            _animator.SetTrigger("stateUp1");
         }
 
         //暴露给动画指令的回调句柄，一个Receiver一次只能使用一个句柄
