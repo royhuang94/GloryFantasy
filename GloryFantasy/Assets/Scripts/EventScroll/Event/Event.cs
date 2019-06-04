@@ -150,5 +150,30 @@ namespace GamePlay.Event
             }
 
         }
+
+        /// <summary>
+        /// 在指定单位周围（3爆发范围）召唤指定编号的单位
+        /// </summary>  
+        /// <param name="target_unit">一个实质是 单位 的抽象object</param>
+        /// <param name="amount">召唤数量</param>
+        /// <param name="Unit_id">希望召唤的单位的ID</param>
+        public void SummonMonster_in_Unit_Around(object target_unit,int amount, String Unit_id)
+        {
+            GameUnit.GameUnit Unit = target_unit as GameUnit.GameUnit;
+            Vector2 Unit_Pos = Unit.CurPos;
+            List<BattleMap.BattleMapBlock> AroundBlocks;
+            AroundBlocks = GameplayToolExtend.getBlocksByBound(Unit_Pos,GameplayToolExtend.Area[2]);
+            for (int i = 0; i < amount && AroundBlocks.Count > 0;)
+            {
+                //随机选择一个可行坐标，在此地格上生成单位
+                int pos = UnityEngine.Random.Range(0, AroundBlocks.Count - 1);//
+                BattleMap.BattleMapBlock battleMapBlock = AroundBlocks[pos];
+                GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock, true);
+                Command.Excute();//执行
+
+                AroundBlocks.RemoveAt(pos);
+                i++;
+            }
+        }
     }
 }
