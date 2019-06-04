@@ -62,17 +62,6 @@ public class BMBColliderManager : MsgReceiver, GameplayTool
     {
         Fresh();
     }
-
-    /// <summary>
-    /// 触发Fresh函数
-    /// </summary>
-    public void FreshDispose()
-    {
-        Unit unit = this.GetMovingUnit();
-        BattleMapBlock battleMapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(unit.CurPos);
-        //battleMapBlock.bmbCollider.OnUnitDispose();
-        this.RelaseLocking();
-    }
     #endregion
 
 

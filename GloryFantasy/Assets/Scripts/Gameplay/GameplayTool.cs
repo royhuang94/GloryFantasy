@@ -475,7 +475,12 @@ namespace GamePlay
                 return 0;
             }
         }
-
+        /// <summary>
+        /// 指定中心块获得以其为中心的爆发区域。
+        /// </summary>
+        /// <param name="level">爆发区域等级</param>
+        /// <param name="center">中心块地格</param>
+        /// <returns>地格列表</returns>
         public static List<BattleMap.BattleMapBlock> getAreaByBlock(int level, BattleMap.BattleMapBlock center)
         {
             return getAreaByPos(level, new Vector2(center.position.x, center.position.y));
@@ -486,57 +491,93 @@ namespace GamePlay
         /// </summary>
         /// <param name="level">爆发区域等级</param>
         /// <param name="pos">中心块坐标</param>
-        /// <returns></returns>
+        /// <returns>地格列表</returns>
         public static List<BattleMap.BattleMapBlock> getAreaByPos(int level, Vector2 pos)
         {
+            if (level < 0)
+                level = 0;
+            if (level > 6)
+                level = 6;
+
+            return getBlocksByBound(pos, Area[level]);
+        }
+        /// <summary>
+        /// 获取以pos为中心，偏移量约束为bound的地格列表。
+        /// </summary>
+        /// <param name="pos">中心坐标</param>
+        /// <param name="bound">偏移量向量列表</param>
+        /// <returns>地格列表</returns>
+        public static List<BattleMap.BattleMapBlock> getBlocksByBound(Vector2 pos, List<Vector2> bound)
+        {
             List<BattleMap.BattleMapBlock> res = new List<BattleMap.BattleMapBlock>();
-            if (level >= 1)
+            foreach (Vector2 v in bound)
             {
-                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos));
-                if (level >= 2)
-                {
-                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y)));
-                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y)));
-                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y + 1)));
-                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y - 1)));
-                    if (level >= 3)
-                    {
-                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y + 1)));
-                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y - 1)));
-                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y + 1)));
-                        res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y - 1)));
-                        if (level >= 4)
-                        {
-                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y)));
-                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y)));
-                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y + 2)));
-                            res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x, pos.y - 2)));
-                            if (level >= 5)
-                            {
-                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y + 1)));
-                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y + 1)));
-                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y + 2)));
-                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 1, pos.y - 2)));
-                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y - 1)));
-                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y - 1)));
-                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y + 2)));
-                                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 1, pos.y - 2)));
-                                if (level >= 6)
-                                {
-                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y + 2)));
-                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y - 2)));
-                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x - 2, pos.y + 2)));
-                                    res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + 2, pos.y - 2)));
-                                }
-                            }
-                        }
-                    }
-                }
+                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(new Vector2(pos.x + v.x, pos.y + v.y)));
             }
 
             res.RemoveAll(it => it == null);
             return res;
         }
+        /// <summary>
+        /// 获取一个矩形区域，返回一个以左上角的点为中心的偏移量列表
+        /// </summary>
+        /// <param name="x_len">x轴跨度</param>
+        /// <param name="y_len">y轴跨度</param>
+        /// <returns>偏移量列表</returns>
+        public static List<Vector2> generateSquare(int x_len, int y_len)
+        {
+            List<Vector2> res = new List<Vector2>();
+            for (int i = (int)0; i < x_len; i++)
+            {
+                for (int j = (int)0; j< y_len; j++)
+                {
+                    res.Add(new Vector2(i, j));
+                }
+            }
+            return res;
+        }
+        /// <summary>
+        /// 各等级的爆发区域。
+        /// </summary>
+        public static List<List<Vector2>> Area = new List<List<Vector2>>
+        {
+            new List<Vector2>
+            {
+                new Vector2(0, 0)
+            },
+            new List<Vector2>
+            {
+                new Vector2(0, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 0), new Vector2(-1, 0)
+            },
+            new List<Vector2>
+            {
+                new Vector2(0, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 0), new Vector2(-1, 0),
+                new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1)
+            },
+            new List<Vector2>
+            {
+                new Vector2(0, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 0), new Vector2(-1, 0),
+                new Vector2(0, 2), new Vector2(0, -2), new Vector2(2, 0), new Vector2(-2, 0),
+                new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1)
+            },
+            new List<Vector2>
+            {
+                new Vector2(0, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 0), new Vector2(-1, 0),
+                new Vector2(0, 2), new Vector2(0, -2), new Vector2(2, 0), new Vector2(-2, 0),
+                new Vector2(1, 2), new Vector2(1, -2), new Vector2(2, 1), new Vector2(-2, 1),
+                new Vector2(-1, 2), new Vector2(-1, -2), new Vector2(2, -1), new Vector2(-2, -1),
+                new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1)
+            },
+            new List<Vector2>
+            {
+                new Vector2(0, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 0), new Vector2(-1, 0),
+                new Vector2(0, 2), new Vector2(0, -2), new Vector2(2, 0), new Vector2(-2, 0),
+                new Vector2(1, 2), new Vector2(1, -2), new Vector2(2, 1), new Vector2(-2, 1),
+                new Vector2(-1, 2), new Vector2(-1, -2), new Vector2(2, -1), new Vector2(-2, -1),
+                new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1),
+                new Vector2(2, 2), new Vector2(-2, -2), new Vector2(2, -2), new Vector2(-2, 2)
+            }
+        };
         /// <summary>
         /// 该指令作用：设置一个 事件源 的X与Y属性（这两个参数影响事件强度）
         /// </summary>
