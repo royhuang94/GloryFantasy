@@ -438,11 +438,11 @@ namespace BattleMap
                     for (int i = 0; i < images.Count; i++)
                         images[i].color = new Color(255, 0, 0, 255);
                 }
-                else if (BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Battle)
-                {
-                    for (int i = 0; i < images.Count; i++)
-                        images[i].color = new Color(255, 125, 0, 255);
-                }
+                //else if (BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Battle)
+                //{
+                //    for (int i = 0; i < images.Count; i++)
+                //        images[i].color = new Color(255, 125, 0, 255);
+                //}
                 else if (BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Player)
                 {
                     for (int i = 0; i < images.Count; i++)

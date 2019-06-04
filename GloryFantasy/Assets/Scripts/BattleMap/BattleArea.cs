@@ -20,7 +20,7 @@ namespace BattleMap
         Player,//属于玩家
         Enmey,//属于敌人
         Neutrality,//中立
-        Battle,//处于争夺
+        //Battle,//处于争夺
     }
 
     public class BattleArea : IMessage.MsgReceiver
@@ -50,16 +50,18 @@ namespace BattleMap
             _battleAreaSate = battleAreaSate;
             _TID = tid;
             _modules = modules;
-            _collider = new BMBCollider(_battleAreaID);
-            foreach (string id in _TID)
-            {
-                Type tempType = Type.GetType("BMTrigger." + id);
-                Trigger temptrigger = Activator.CreateInstance(tempType, this, this) as Trigger ;
-                MsgDispatcher.RegisterMsg(temptrigger, id);
-            }
+            _collider = new BMBCollider(_battleArea);
+            if (_TID != null)
+                foreach (string id in _TID)
+                {
+                    Type tempType = Type.GetType("BMTrigger." + id);
+                    // TODO: 动态添加Trigger。
+                    //Trigger temptrigger = Activator.CreateInstance(tempType, this) as Trigger ;
+                    //MsgDispatcher.RegisterMsg(temptrigger, id);
+                }
 
             //创建Trigger实例
-            Trigger trigger = new BattleAreaTrigger(this.GetMsgReceiver(), this._battleAreaID,tid);
+            Trigger trigger = new BattleAreaTrigger(this.GetMsgReceiver(), this._battleAreaID, tid);
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(trigger, "BattleState");
         }
@@ -179,7 +181,7 @@ namespace BattleMap
                 string[] trrigers = null;
                 trrigers = GamePlay.Encounter.EncouterData.Instance().GetBattleAreaTriggerByRegionID(id);
                 List<EventModule.EventWithWeight> models = EncouterData.Instance().GetBattleFieldEvent(id);
-                BattleArea battleArea = new BattleArea(id, WarZoneBelong(id), list,trrigers,models);
+                BattleArea battleArea = new BattleArea(id, BattleAreaSate.Neutrality, list,trrigers,models);
                 battleAreas.Add(id, battleArea);
 
                 if (battleArea._modules == null)
@@ -194,25 +196,25 @@ namespace BattleMap
         }
 
         #region 显示隐藏战区,格子显示的方式，被弃用了
-        public void ShowBattleZooe(Vector2 position, BattleMapBlock[,] mapBlock)
-        {
-            int area = mapBlock[(int)position.x, (int)position.y].area;
-            List<Vector2> battleAreas = null;
-            BattleAreaDic.TryGetValue(area, out battleAreas);
-            foreach (Vector2 pos in battleAreas)
-            {
-                if (WarZoneBelong(area) == BattleAreaSate.Battle || WarZoneBelong(area) == BattleAreaSate.Enmey)
-                {
-                    SpriteRenderer image = mapBlock[(int)pos.x, (int)pos.y].transform.Find("boderImage").GetComponent<SpriteRenderer>();
-                    image.color = Color.black;
-                    mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-                }
-                else
-                {
-                    mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
-                }
-            }
-        }
+        //public void ShowBattleZooe(Vector2 position, BattleMapBlock[,] mapBlock)
+        //{
+        //    int area = mapBlock[(int)position.x, (int)position.y].area;
+        //    List<Vector2> battleAreas = null;
+        //    BattleAreaDic.TryGetValue(area, out battleAreas);
+        //    foreach (Vector2 pos in battleAreas)
+        //    {
+        //        if (WarZoneBelong(area) == BattleAreaSate.Battle || WarZoneBelong(area) == BattleAreaSate.Enmey)
+        //        {
+        //            SpriteRenderer image = mapBlock[(int)pos.x, (int)pos.y].transform.Find("boderImage").GetComponent<SpriteRenderer>();
+        //            image.color = Color.black;
+        //            mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        //        }
+        //        else
+        //        {
+        //            mapBlock[(int)pos.x, (int)pos.y].gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+        //        }
+        //    }
+        //}
 
 
         //隐藏战区
@@ -238,10 +240,10 @@ namespace BattleMap
                 {
                     vectorLine.SetColor(new Color(255, 0, 0, 255));
                 }
-                else if (WarZoneBelong(id) == BattleAreaSate.Battle)
-                {
-                    vectorLine.SetColor(new Color(255, 125, 0, 255));
-                }
+                //else if (WarZoneBelong(id) == BattleAreaSate.Battle)
+                //{
+                //    vectorLine.SetColor(new Color(255, 125, 0, 255));
+                //}
                 else if (WarZoneBelong(id) == BattleAreaSate.Player)
                 {
                     vectorLine.SetColor(new Color(0, 255, 0, 255));
@@ -272,7 +274,12 @@ namespace BattleMap
             int enemyAmout = 0;//战区上敌方单位数量
             int friendlyAmout = 0;//战区上我方单位数量
             int neutralityAmout = 0;//战区上中立单位数量
-            List<GameUnit.GameUnit> units = battleAreas[area]._collider.disposeUnits;
+            BattleArea temp = GetBattleAreaByID(area);
+            if (temp == null)
+            {
+                return BattleAreaSate.Neutrality;
+            }
+            List<GameUnit.GameUnit> units = temp._collider.disposeUnits;
             unitAmout = units.Count;
             foreach(GameUnit.GameUnit unit in units)
             {
@@ -312,7 +319,7 @@ namespace BattleMap
             {
                 //该战区被敌方控制
                 return BattleAreaSate.Enmey;
-                
+
             }
             else if (friendlyAmout == unitAmout - neutralityAmout)
             {
@@ -320,7 +327,7 @@ namespace BattleMap
                 return BattleAreaSate.Player;
             }
             else
-                return BattleAreaSate.Battle;
+                return temp._battleAreaSate;
         }
 
         /// <summary>

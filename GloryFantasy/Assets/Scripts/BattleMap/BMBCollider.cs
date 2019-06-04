@@ -20,7 +20,7 @@ public class BMBCollider
     private bool _isBMA = false; 
     private GameUnit.GameUnit _gameUnit;
     private BattleMapBlock _battleMapBlock;
-    private int _regionID = -1;
+    private bool _isStatic = false;
 
     public BMBCollider(GameUnit.GameUnit unit, List<Vector2> bound)
     {
@@ -65,10 +65,11 @@ public class BMBCollider
             disposeUnits.Add(unitInRange);
         }
     }
-    public BMBCollider(int regionID)
+    public BMBCollider(List<Vector2> battleArea)
     {
-        _regionID = regionID;
+        _isStatic = true;
         _isBMA = true;
+        colliderRange = battleArea;
         GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(this);
         UpdateColliderRange();
         foreach (Vector2 pos in colliderRange)
@@ -86,32 +87,24 @@ public class BMBCollider
     /// <param name="y"></param>
     public void UpdateColliderRange()
     {
+        if (_isStatic)
+            return ;
+        
         Vector2 pos = Vector2.zero;
         if (_gameUnit != null)
         {
             pos = _gameUnit.CurPos;
-            if (_isBMA)
-            {
-                _regionID = BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos).area;
-                //检查单位的状态是否正常，例如是否已经死亡离开地图
-                //if (BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos) != _gameUnit)
-                //    return;
-            }
+            
         }
         else if (_battleMapBlock != null)
         {
             pos = _battleMapBlock.GetCoordinate();
-            if (_isBMA)
-            {
-                _regionID = BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos).area;
-                //检查单位的状态是否正常，例如是否已经死亡离开地图
-                //if (BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos) != _gameUnit)
-                //    return;
-            }
+            
         }
         colliderRange.Clear();
         if (_isBMA)
         {
+            int _regionID = BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos).area;
             List<Vector2> BA = BattleMap.BattleMap.Instance().battleAreaData.GetBattleAreaAllPosByID(_regionID);
             foreach (Vector2 v in BA)
             {
