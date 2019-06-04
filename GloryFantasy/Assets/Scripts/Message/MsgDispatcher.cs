@@ -50,6 +50,10 @@ namespace IMessage
         HpChanged,
         #endregion
 
+        #region 复合信息
+        ColliderChange,
+        #endregion
+
         Move, //开始移动
         Moved, //单位被移动
         Aftermove, //移动结束
@@ -59,6 +63,8 @@ namespace IMessage
         Encounter, // 遭遇战
 
         BattleSate//战区状态
+
+        
     };
 
     public interface MsgReceiver
@@ -119,6 +125,19 @@ namespace IMessage
                     receiver = null;
             }
         }
+
+        private static Dictionary<int, List<int>> ComplexMsgType = new Dictionary<int, List<int>>
+        {
+            {
+                (int)MessageType.ColliderChange,new List<int>
+                {
+                    (int)MessageType.Aftermove,
+                    (int)MessageType.Dead,
+                    (int)MessageType.Summon
+                }
+            }
+            
+        };
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
 
@@ -209,7 +228,14 @@ namespace IMessage
                 return;
             }
 
-            var handlers = MsgHandlerDict[msgName];
+            List<int> queue = new List<int> { msgName };
+            List<MsgHandler> handlers = new List<MsgHandler>();
+            while (queue.Count > 0)
+            {
+                handlers.AddRange(MsgHandlerDict[queue[0]]);
+                queue.AddRange(ComplexMsgType[queue[0]]);
+                queue.RemoveAt(0);
+            }
             var handlerCount = handlers.Count;
 
             for (int index = handlerCount - 1; index >= 0; index --)
