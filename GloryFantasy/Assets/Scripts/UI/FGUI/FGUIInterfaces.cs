@@ -132,12 +132,10 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	// Use this for initialization
 	void Start () {
 		#region 处理其他UI
-		_battleMapBlockAndUnits = GameObject.Find("MainPanel");
 		_roundStateText = GameObject.Find("phaseNameText");
 		
 		_uiToHide = new List<GameObject>();
 
-		_uiToHide.Add(_battleMapBlockAndUnits);
 		_uiToHide.Add(_roundStateText);
 		#endregion
 
