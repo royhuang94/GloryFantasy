@@ -105,7 +105,7 @@ private void ReadMap()
                   if (element[j] != "null")//如果字符串不为null,则生成地格挂载脚本。
                     {
                         string[] upper = element[j].Split(new char[] { ':' }, option);
-                        GameObject mapunit = new GameObject("test" + i.ToString() + j.ToString());
+                        GameObject mapunit = new GameObject("test" + i.ToString() + "," + j.ToString());
                         mapunit.transform.parent = GameObject.Find("Map").transform;
                         mapunit.AddComponent<Button>();
                         Animation anim = mapunit.AddComponent<Animation>();
