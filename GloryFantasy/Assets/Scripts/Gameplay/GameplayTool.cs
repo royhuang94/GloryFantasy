@@ -60,6 +60,27 @@ namespace GamePlay
             }
             return temp;
         }
+        /// <summary>
+        /// 获取战区内所有的单位。
+        /// </summary>
+        /// <param name="ba">战区</param>
+        /// <returns>单位组成的List。</returns>
+        public static List<GameUnit.GameUnit> getUnitsInRegion(BattleMap.BattleArea ba)
+        {
+            return ba._collider.disposeUnits;
+        }
+        /// <summary>
+        /// 获取战区内所有的单位。
+        /// </summary>
+        /// <param name="regionID">战区ID</param>
+        /// <returns>单位组成的List。</returns>
+        public static List<GameUnit.GameUnit> getUnitsInRegion(int regionID)
+        {
+            BattleMap.BattleArea ba = BattleMap.BattleMap.Instance().battleAreaData.GetBattleAreaByID(regionID);
+            if (ba == null)
+                return null;
+            return ba._collider.disposeUnits;
+        }
         public static void SetChangedBA(this GameplayTool self, BattleMap.BattleArea _changedBA)
         {
             Gameplay.Info.changedBA = _changedBA;
