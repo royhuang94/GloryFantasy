@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -347,6 +347,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &752201222
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400002, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.29004046
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.13789642
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.52571726
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 24c23b52537b6924fb45f74e57569433, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1f571839a022a9d42823e8ffc17f2481, type: 3}
+  m_IsPrefabAsset: 0
 --- !u!1 &769245430
 GameObject:
   m_ObjectHideFlags: 0
