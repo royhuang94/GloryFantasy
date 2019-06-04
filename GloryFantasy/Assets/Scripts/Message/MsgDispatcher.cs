@@ -125,8 +125,24 @@ namespace IMessage
                     receiver = null;
             }
         }
+        
+        private static Dictionary<int, List<int>> Inverse(Dictionary<int, List<int>> keyValuePairs)
+        {
+            Dictionary<int, List<int>> res = new Dictionary<int, List<int>>();
+            foreach (KeyValuePair<int, List<int> >keyValuePair in keyValuePairs)
+            {
+                foreach (int i in keyValuePair.Value)
+                {
+                    if (!res.ContainsKey(i))
+                        res.Add(i, new List<int>());
+                    res[i].Add(keyValuePair.Key);
 
-        private static Dictionary<int, List<int>> ComplexMsgType = new Dictionary<int, List<int>>
+                }
+            }
+            return res;
+        }
+
+        private static Dictionary<int, List<int>> ComplexMsgType = Inverse(new Dictionary<int, List<int>>
         {
             {
                 (int)MessageType.ColliderChange,new List<int>
@@ -137,7 +153,7 @@ namespace IMessage
                 }
             }
             
-        };
+        });
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
 
@@ -229,12 +245,22 @@ namespace IMessage
             }
 
             List<int> queue = new List<int> { msgName };
+            int pointer = 0;
             List<MsgHandler> handlers = new List<MsgHandler>();
-            while (queue.Count > 0)
+            while (queue.Count > pointer)
             {
-                handlers.AddRange(MsgHandlerDict[queue[0]]);
-                queue.AddRange(ComplexMsgType[queue[0]]);
-                queue.RemoveAt(0);
+                handlers.AddRange(MsgHandlerDict[queue[pointer]]);
+                if (ComplexMsgType.ContainsKey(queue[pointer]))
+                {
+                    foreach(int i in ComplexMsgType[queue[pointer]])
+                    {
+                        if (!(queue.Contains(i)))
+                            queue.Add(i);
+                           
+                    }
+                }
+
+                pointer += 1;
             }
             var handlerCount = handlers.Count;
 
