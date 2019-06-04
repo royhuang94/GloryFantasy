@@ -77,10 +77,10 @@ public class MainMapManager : UnitySingleton<MainMapManager>
     public Sprite cursestonesprite;
     public Sprite bonepitsprite;
     public Sprite obsidiansprite;
-	public Sprite boundary1;
-	public Sprite boundary2;
-	public Sprite boundary3;
-	public Sprite boundary4;
+	public Sprite boundarysprite1;
+	public Sprite boundarysprite2;
+	public Sprite boundarysprite3;
+	public Sprite boundarysprite4;
 #endregion
 /// <summary>初始化，设定
         /// 
@@ -203,25 +203,25 @@ private void ReadMap()
 								mapunit.AddComponent<Plane>();
 								mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
 								mapunit.AddComponent<SpriteRenderer>();
-								mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
+								mapunit.GetComponent<SpriteRenderer>().sprite = boundarysprite1;
 								break;
 							case "boundary2":
 								mapunit.AddComponent<Plane>();
 								mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
 								mapunit.AddComponent<SpriteRenderer>();
-								mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
+								mapunit.GetComponent<SpriteRenderer>().sprite = boundarysprite2;
 								break;
 							case "boundary3":
 								mapunit.AddComponent<Plane>();
 								mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
 								mapunit.AddComponent<SpriteRenderer>();
-								mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
+								mapunit.GetComponent<SpriteRenderer>().sprite = boundarysprite3;
 								break;
 							case "boundary4":
 								mapunit.AddComponent<Plane>();
 								mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
 								mapunit.AddComponent<SpriteRenderer>();
-								mapunit.GetComponent<SpriteRenderer>().sprite = obsidiansprite;
+								mapunit.GetComponent<SpriteRenderer>().sprite = boundarysprite4;
 								break;
                             //这里用的是默认的地格素材，
                             case "post":
