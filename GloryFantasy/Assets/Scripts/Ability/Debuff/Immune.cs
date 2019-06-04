@@ -29,12 +29,16 @@ namespace Ability.Debuff
         }
     }
 
-    public class FiringImmune : Buff.Buff
+    public class FiringImmune : BFiring
     {
         public override void InitialBuff()
         {
-            base.InitialBuff();
             SetLife(-1f);
+        }
+        
+        protected override void OnDisappear()
+        {
+            // 就是复写一遍，避免使用到原来的逆操作
         }
     }
 
