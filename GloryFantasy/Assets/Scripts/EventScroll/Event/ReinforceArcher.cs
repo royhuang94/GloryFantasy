@@ -59,32 +59,6 @@ namespace GamePlay.Event
                 //output：：源错误
             }
         }
-        private void RandomPosSummonMonster(List<Vector2> battleMapBlocks, int amount, String Unit_id)//参数意义： 允许生成单位的地图范围、生成单位的数量、生成单位的ID
-        {
-            List<BattleMap.BattleMapBlock> blocks = new List<BattleMap.BattleMapBlock>();
-            foreach (Vector2 pos in battleMapBlocks)    //遍历给出的每一个二维坐标
-            {
-                //BattleMapBlock 指的是战斗地图中的一个地格
-                BattleMap.BattleMapBlock block = BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos);
-                if (block.units_on_me.Count != 0)
-                    continue;
 
-                blocks.Add(block);
-            }
-
-            for (int i = 0; i < amount && blocks.Count > 0;)
-            {
-                //随机选择一个可行坐标，在此地格上生成单位
-                int pos = UnityEngine.Random.Range(0, blocks.Count - 1);//
-                BattleMap.BattleMapBlock battleMapBlock = blocks[pos];
-                //GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
-                GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock, true);
-                //Command.set(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
-                Command.Excute();//执行
-                blocks.RemoveAt(pos);
-                i++;
-            }
-
-        }
     }
 }

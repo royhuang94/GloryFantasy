@@ -140,17 +140,7 @@ namespace GamePlay.Input
         {
             ShowRange.Instance().CancleSkillRangeMark(target, range);
         }
-        /// <summary>
-        /// 单位回收
-        /// </summary>
-        /// <param name="deadUnit"></param>
-        internal void UnitBackPool(GameUnit.GameUnit deadUnit)
-        {
-            //回收单位
-            GameUnitPool.Instance().PushUnit(deadUnit.gameObject);
-            //移除对应地图块儿下的死亡单位
-            BattleMap.BattleMap.Instance().RemoveUnitOnBlock(deadUnit);
-        }
+        
 
         /// <summary>
         /// 更新血条HP
