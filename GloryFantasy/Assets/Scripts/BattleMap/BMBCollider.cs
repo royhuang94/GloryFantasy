@@ -16,22 +16,22 @@ public class BMBCollider
     //驻足单位
     public List<Unit> disposeUnits = new List<Unit>();
 
-    public Vector2 bound = Vector2.zero;
+    public List<Vector2> _bound = new List<Vector2> { Vector2.zero };
     private GameUnit.GameUnit _gameUnit;
     private BattleMapBlock _battleMapBlock;
 
-    public BMBCollider(GameUnit.GameUnit unit, int x, int y)
+    public BMBCollider(GameUnit.GameUnit unit, List<Vector2> bound)
     {
         _gameUnit = unit;
-        bound = new Vector2(x, y);
+        _bound = bound;
         GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(this);
         UpdateColliderRange();
     }
 
-    public BMBCollider(BattleMapBlock mapBlock, int x, int y)
+    public BMBCollider(BattleMapBlock mapBlock, List<Vector2> bound)
     {
         _battleMapBlock = mapBlock;
-        bound = new Vector2(x, y);
+        _bound = bound;
         GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(this);
         UpdateColliderRange();
     }
@@ -55,18 +55,37 @@ public class BMBCollider
         {
             pos = _battleMapBlock.GetCoordinate();
         }
-        int _leftTopX = (int)pos.x - (int)bound.x / 2;
-        int _leftTopY = (int)pos.y - (int)bound.y / 2;
-        int _rightButtomX = (int)pos.x + ((int)bound.x - (int)bound.x / 2 - 1);
-        int _rightButtomY = (int)pos.y + ((int)bound.y - (int)bound.y / 2 - 1);
         colliderRange.Clear();
-        for (int i = _leftTopX; i <= _rightButtomX; i++)
+        foreach (Vector2 v in _bound)
         {
-            for (int j = _leftTopY; j <= _rightButtomY; j++)
-            {
-                colliderRange.Add(new Vector2(i, j));
-            }
+            colliderRange.Add(new Vector2(pos.x + v.x, pos.y + v.y));
         }
+        #region 弃用
+        //Vector2 pos = Vector2.zero;
+        //if (_gameUnit != null)
+        //{
+        //    pos = _gameUnit.CurPos;
+        //    //检查单位的状态是否正常，例如是否已经死亡离开地图
+        //    //if (BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos) != _gameUnit)
+        //    //    return;
+        //}
+        //else if (_battleMapBlock != null)
+        //{
+        //    pos = _battleMapBlock.GetCoordinate();
+        //}
+        //int _leftTopX = (int)pos.x - (int)bound.x / 2;
+        //int _leftTopY = (int)pos.y - (int)bound.y / 2;
+        //int _rightButtomX = (int)pos.x + ((int)bound.x - (int)bound.x / 2 - 1);
+        //int _rightButtomY = (int)pos.y + ((int)bound.y - (int)bound.y / 2 - 1);
+        //colliderRange.Clear();
+        //for (int i = _leftTopX; i <= _rightButtomX; i++)
+        //{
+        //    for (int j = _leftTopY; j <= _rightButtomY; j++)
+        //    {
+        //        colliderRange.Add(new Vector2(i, j));
+        //    }
+        //}
+        #endregion
     }
 
     public void fresh(List<Unit> oldDisposeUnits)

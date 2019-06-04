@@ -32,7 +32,7 @@ public class BMBColliderManager : MsgReceiver, GameplayTool
             this.GetMsgReceiver(),
             (int)MessageType.ColliderChange,
             CanFreshCollider,
-            FreshDispose,
+            FreshCollider,
             "Fresh Collider Trigger"
         );
         //// 注册函数相应移动消息
