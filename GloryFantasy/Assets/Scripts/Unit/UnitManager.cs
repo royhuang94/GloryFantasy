@@ -55,7 +55,6 @@ namespace GameUnit
             if (killer != null)
                 MsgDispatcher.SendMsg((int)MessageType.Kill);
             MsgDispatcher.SendMsg((int)MessageType.Dead);
-            MsgDispatcher.SendMsg((int)MessageType.BattleSate);//单位死亡更新战区所属状态
         }
         //角色从卡牌初始化到地图上
         public static void InstantiationUnit(string cardID, OwnerEnum owner, BattleMapBlock battleMapBlock)
