@@ -1,12 +1,12 @@
 null,boundary1,boundary1,boundary1,boundary2,boundary1,boundary3,null,boundary1,boundary1,boundary1,null,null,boundary2,boundary1,boundary4,boundary1,boundary4,null,null,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1
-boundary1,desert:monster:sandworm,boundary1,desert,bonepit,bonepit,boundary1,boundary1,desert:treasure,bonepit,boundary1,null,boundary1,desert,desert,desert:randomevent,desert,bush,bush,boundary1,null,boundary1,bush:treasure,deadtree,deadtree,deadtree,deadtree,deadtree,post,boundary1
-boundary1,post,desert,desert,desert,desert,desert,desert,bonepit,bonepit,boundary1,boundary1,desert,desert,desert,bush,bush,boundary3,boundary1,deadtree,bush,post,bush:treasure,bush,bush,bush,bush:monster:chomper,bush,boundary1
+boundary1,cursestone:monster:id,boundary1,desert,bonepit,bonepit,boundary1,boundary1,desert:treasure,bonepit,boundary1,null,boundary1,desert,desert,desert:randomevent,desert,bush,bush,boundary1,null,boundary1,bush:treasure,deadtree,deadtree,deadtree,deadtree,deadtree,post,boundary1
+boundary1,post,desert,desert,desert,desert,desert,desert,bonepit,bonepit,boundary1,boundary1,desert,desert,desert,bush,bush,boundary3,boundary1,deadtree,bush,post,bush:treasure,bush,bush,bush,cursestone:monster:id,bush,boundary1
 boundary4,desert,desert,desert,desert,desert,desert,desert,bonepit,post,desert,desert,desert,desert,desert,bush,bush,deadtree,deadtree,bush,bush,deadtree,deadtree,null,null,bush,bush,boundary4
 boundary1,desert,desert:monster:id,desert,desert,desert:randomevent,null,null,desert,desert,desert,desert,desert,bush,bush,post,bush,bush,bush:monster:id,bush,deadtree,deadtree,null,null,bush,bush,boundary3
 boundary2,desert:treasure,bonepit,desert,desert,null,null,null,desert:monster:id,desert,desert,plane,null,null,bush,bush,bush,bush,bush,bush,bush,bush:monster:id,bush,post,bush,boundary1
 boundary1,bonepit,bonepit,post,desert,desert,desert,desert,desert,plane,plane,plane,null,bush,plane,bush,bush,bush,bush:randomevent,bush,bush,bush,bush,bush,boundary1
 boundary3,bonepit,desert,desert,desert:randomevent,desert,desert,desert,plane,plane,plane,post,plane,plane,plane,plane,bush,bush,bush,bush,bush,bush,bush,boundary2
-boundary1,null,desert,desert,desert,desert,desert,desert,plane,plane,mountain,mountain,plane:treasure,plane:randomevent,plane,plane,plane,bush,bush,bush,bush:randomevent,bush,boundary3
+boundary1,boundary2,desert,desert,desert,desert,desert,desert,plane,plane,mountain,mountain,plane:treasure,plane:randomevent,plane,plane,plane,bush,bush,bush,bush:randomevent,bush,boundary3
 null,boundary1,desert,desert,desert,desert,post,plane,plane,mountain,mountain,mountain,plane,plane,plane,post,plane,bush,bush,bush,bush,boundary3
 boundary3,desert,desert:treasure,desert:monster:id,desert,desert,plane:monster:id,plane,plane:randomevent,mountain,mountain,plane,plane,plane,plane,null,null,bush:monster:id,post,bush,boundary2
 boundary3,desert,desert,desert,desert,plane,plane,null,plane,plane,plane:monster:id,plane,plane,plane:treasure,mountain,null,null,bush,bush,boundary1
@@ -26,7 +26,7 @@ boundary1,obsidian,obsidian,obsidian,bloodstone,bloodstone,boundary4
 boundary3,obsidian,obsidian:monster:id,obsidian,bloodstone,boundary3
 boundary1,obsidian,obsidian,obsidian,boundary1
 boundary4,obsidian:treasure,post,boundary1
-boundary2,cursestone,boundary4
+boundary2,cursestone:monster:id,boundary4
 boundary1,boundary3
 
 
