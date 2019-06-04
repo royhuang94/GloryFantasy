@@ -536,6 +536,10 @@ namespace GamePlay
             }
             return res;
         }
+        public static bool checkDeath(GameUnit.GameUnit unit)
+        {
+            return GameUnit.GameUnitPool.Instance().CheckDeath(unit);
+        }
         /// <summary>
         /// 各等级的爆发区域。偏移量列表的列表。如Area[2]为2级爆发区域的偏移量列表。
         /// </summary>

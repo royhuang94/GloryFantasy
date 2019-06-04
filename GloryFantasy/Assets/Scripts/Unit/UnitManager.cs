@@ -40,7 +40,7 @@ namespace GameUnit
             _unitManager.SetKiller(killer);
             _unitManager.SetKilledAndDeadUnit(beKilled);
             //死亡单位回收到对象池
-            Gameplay.Instance().gamePlayInput.UnitBackPool(beKilled);
+            GameUnitPool.Instance().UnitBackPool(beKilled);
 
             //删除对应controller中的死亡单位
             Gameplay.Instance().autoController.UpdateAllHatredList();

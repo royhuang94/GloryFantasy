@@ -26,20 +26,20 @@ namespace Ability
         public override void Init(string abilityId)
         {
             base.Init(abilityId);
-            String targetId = gameObject.GetComponent<GameUnit.GameUnit>().id;
-            _trigger = new TWit(this.GetCardReceiver(this), targetId, AbilityVariable.Amount.Value);
+            GameUnit.GameUnit unit = gameObject.GetComponent<GameUnit.GameUnit>();
+            _trigger = new TWit(this.GetCardReceiver(this), unit, AbilityVariable.Amount.Value);
             MsgDispatcher.RegisterMsg(_trigger, abilityId);
         }
     }
 
     public class TWit : Trigger
     {
-        private string _targetId;
+        private GameUnit.GameUnit _unit;
         private int _amount;
 
-        public TWit(MsgReceiver speller, string targetId, int amount)
+        public TWit(MsgReceiver speller, GameUnit.GameUnit unit, int amount)
         {
-            _targetId = targetId;
+            _unit = unit;
             _amount = amount;
             
             register = speller;
@@ -56,13 +56,13 @@ namespace Ability
         /// <returns>没有死亡就是true</returns>
         private bool Condition()
         {
-            return !AbilityMediator.Instance().CheckUnitDeathById(_targetId);
+            return !GameplayToolExtend.checkDeath(_unit);
         }
 
         private void Action()
         {
             // 完成指定用户使用卡牌cd减少指定回合cd功能
-            AbilityMediator.Instance().ReduceSpecificCardCd(_targetId, _amount);
+            //AbilityMediator.Instance().ReduceSpecificCardCd(_targetId, _amount);
         }
     }
 }

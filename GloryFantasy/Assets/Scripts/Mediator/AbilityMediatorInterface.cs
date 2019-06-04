@@ -11,7 +11,7 @@ namespace Mediator
         /// </summary>
         /// <param name="unitId">要查询的unit的id</param>
         /// <returns>若单位死亡，返回true，否则返回false</returns>
-        bool CheckUnitDeathById(string unitId);
+        //bool CheckUnitDeathById(string unitId);
 
         /// <summary>
         /// 减少指定指定使用者id使用的卡牌的cd指定回合数

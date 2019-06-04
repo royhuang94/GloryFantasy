@@ -39,7 +39,17 @@ namespace GameUnit
             m_pool = new List<GameObject>();
         }
 
-
+        /// <summary>
+        /// 单位回收
+        /// </summary>
+        /// <param name="deadUnit"></param>
+        internal void UnitBackPool(GameUnit deadUnit)
+        {
+            //回收单位
+            GameUnitPool.Instance().PushUnit(deadUnit.gameObject);
+            //移除对应地图块儿下的死亡单位
+            BattleMap.BattleMap.Instance().RemoveUnitOnBlock(deadUnit);
+        }
         /// <summary>
         /// 实现返回GameObject的函数，GetInst(string id)
         /// </summary>
@@ -74,20 +84,27 @@ namespace GameUnit
             m_pool.Add(unit);
         }
 
-        /// <summary>
-        /// 通过单位ID检测对象池的对象是否死球
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>返回true表示该单位已经死球</returns>
-        public bool CheckDeathByID(string id)
+        ///// <summary>
+        ///// 通过单位ID检测对象池的对象是否死球
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns>返回true表示该单位已经死球</returns>
+        //public bool CheckDeathByID(string id)
+        //{
+        //    GameUnit temp;
+        //    foreach (GameObject unitGO in m_pool)
+        //    {
+        //        temp = unitGO.GetComponent<GameUnit>();
+        //        if (!id.Equals(temp.id) || unitGO.activeSelf)
+        //            return false;
+        //    }
+        //    return true;
+        //}
+
+        public bool CheckDeath(GameUnit unit)
         {
-            GameUnit temp;
-            foreach (GameObject unitGO in m_pool)
-            {
-                temp = unitGO.GetComponent<GameUnit>();
-                if (!id.Equals(temp.id) || unitGO.activeSelf)
-                    return false;
-            }
+            if (unit.gameObject.activeSelf)
+                return false;
             return true;
         }
     }

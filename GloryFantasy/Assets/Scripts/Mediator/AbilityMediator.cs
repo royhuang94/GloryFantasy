@@ -26,10 +26,10 @@ namespace Mediator
             }
         }
 
-        public bool CheckUnitDeathById(string unitId)
-        {
-            return GameUnitPool.Instance().CheckDeathByID(unitId);
-        }
+        //public bool CheckUnitDeathById(string unitId)
+        //{
+        //    return GameUnitPool.Instance().CheckDeathByID(unitId);
+        //}
 
         public void ReduceSpecificCardCd(string unitId, int amount)
         {
