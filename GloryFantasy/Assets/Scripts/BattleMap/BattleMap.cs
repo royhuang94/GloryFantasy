@@ -25,7 +25,7 @@ namespace BattleMap
             battleAreaData = new BattleAreaData();
             debuffBM = new DebuffBattleMapBlock();
             drawBattleArea = new DrawBattleArea();
-            BattleMapPath = "Assets/Resources/Scripts/BattleMap/BattleMapData/";
+            BattleMapPath = "Assets/Scripts/BattleMap/BattleMapData/";
         }
 
         private void Start()

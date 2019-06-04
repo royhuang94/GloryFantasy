@@ -39,7 +39,7 @@ namespace GamePlay.Event
         //事件表存储对象
         private Dictionary<string, EventVariable> _eventData;
         //Json文件的路径
-        public string JsonFilePath = "/Resources/Scripts/EventScroll/EventDataBase.json";
+        public string JsonFilePath = "/Scripts/EventScroll/EventDataBase.json";
 
         private void Awake()
         {
@@ -54,7 +54,7 @@ namespace GamePlay.Event
             _eventData = new Dictionary<string, EventVariable>();
 
             JsonData abilitiesJsonData =
-                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Resources/Scripts/EventScroll/EventDataBase.json"));
+                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + JsonFilePath));
 
             for (int i = 0; i < abilitiesJsonData.Count; i++)
             {

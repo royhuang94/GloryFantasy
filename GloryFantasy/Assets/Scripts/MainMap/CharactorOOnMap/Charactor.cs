@@ -98,7 +98,7 @@ namespace MainMap
             this.SetMessage(HP, MaxStep);
             this.charactordata.charactorstate = MoveState.MotionLess;
             Vector3 vect = charactordata.playerlocate.Hex_vector;
-            charactordata.underfeet = GameObject.Find("test" + charactordata.VecToString(vect.x) +","+ charactordata.VecToString(vect.y));
+            charactordata.underfeet = GameObject.Find("test" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y));
             setaround(charactordata.underfeet);
             Debug.Log("角色初始化完成");
         }
@@ -175,9 +175,9 @@ namespace MainMap
             MapUnit playeraround;
             int x = (int)onclk.GetComponent<MapUnit>().hexVector.Hex_vector.x + a;
             int y = (int)onclk.GetComponent<MapUnit>().hexVector.Hex_vector.y + b;
-            if (GameObject.Find("test" + x.ToString() + "," + y.ToString()) != null)
+            if (GameObject.Find("test" + x.ToString() + y.ToString()) != null)
             {
-                playeraround = GameObject.Find("test" + x.ToString() + "," + y.ToString()).GetComponent<MapUnit>();
+                playeraround = GameObject.Find("test" + x.ToString() + y.ToString()).GetComponent<MapUnit>();
             }
             else
             {
@@ -250,8 +250,8 @@ namespace MainMap
                 charactordata.charactorstate = MoveState.Stop;
                 Debug.Log("移动结束");
                 Vector3 vect = charactordata.playerlocate.ChangeToHexVect(target);
-                setaround(GameObject.Find("test" + charactordata.VecToString(vect.x) + "," + charactordata.VecToString(vect.y)));
-                charactordata.underfeet = GameObject.Find("test" + charactordata.VecToString(vect.x) + "," + charactordata.VecToString(vect.y));
+                setaround(GameObject.Find("test" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y)));
+                charactordata.underfeet = GameObject.Find("test" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y));
                 Debug.Log("角色移动至：" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y));
                 charactordata.charactorstate = MoveState.MotionLess;
                 charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();

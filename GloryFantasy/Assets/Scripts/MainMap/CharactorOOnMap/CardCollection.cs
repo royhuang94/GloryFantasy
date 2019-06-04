@@ -58,10 +58,8 @@ namespace PlayerCollection
         /// </summary>
         public void GetCards()
         {
-            
-            // TODO : 这个json文件被删掉了，尽快查看新文件，并更新代码
             JsonData cardsJsonData =
-            JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Resources/Scripts/Cards/cardSample.1.json"));
+            JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Cards/cardSample.1.json"));
             int dataAmount = cardsJsonData.Count;
             int num1 = Random.Range(0, dataAmount);
             int num2 = Random.Range(0, dataAmount);
