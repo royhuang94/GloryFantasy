@@ -57,12 +57,20 @@ namespace BattleMap
             
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
+                (int)MessageType.BP,
+                () => { return true; },
+                PBegin,
+                "Phase Begin Trigger"
+            );
+            
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
                 (int)MessageType.WIN,
                 () => { return true; },
                 exitBattleMap,
                 "Win to exit Trigger"
             );
-            
+           
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.LOSE,
@@ -105,6 +113,21 @@ namespace BattleMap
 
         }
 
+        /// <summary>
+        /// 回合开始
+        /// </summary>
+        public void PBegin()
+        {
+            List<Unit> friendlyUnits = GetFriendlyUnitsList();
+            foreach (Unit unit in friendlyUnits)
+            {
+                UnitManager.ColorUnitOnBlock(unit.mapBlockBelow.position, Color.white);
+            }
+        }
+        
+        /// <summary>
+        /// 退出战斗地图
+        /// </summary>
         public void exitBattleMap()
         {
             Debug.Log("win, ready to exit");
