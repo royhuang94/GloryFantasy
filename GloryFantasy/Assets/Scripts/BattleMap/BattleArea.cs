@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using GamePlay.Event;
 using GamePlay.Encounter;
 using Vectrosity;
+using GamePlay;
+using System.Reflection;
+using System;
 
 /// <summary>
 /// 战区
@@ -27,8 +30,7 @@ namespace BattleMap
         public List<Vector2> _battleArea;//该战区上的所有地图块坐标
         public string[] _TID;//该战区的triggerID
         public List<EventModule.EventWithWeight> _modules;//该战区的事件
-
-        Trigger trigger;
+        public BMBCollider _collider;
 
         /// <summary>
         /// 事件具体效果实施的次数
@@ -48,9 +50,16 @@ namespace BattleMap
             _battleAreaSate = battleAreaSate;
             _TID = tid;
             _modules = modules;
+            _collider = new BMBCollider(_battleAreaID);
+            foreach (string id in _TID)
+            {
+                Type tempType = Type.GetType("BMTrigger." + id);
+                Trigger temptrigger = Activator.CreateInstance(tempType, this, this) as Trigger ;
+                MsgDispatcher.RegisterMsg(temptrigger, id);
+            }
 
             //创建Trigger实例
-            trigger = new BattleAreaTrigger(this.GetMsgReceiver(), this._battleAreaID,tid);
+            Trigger trigger = new BattleAreaTrigger(this.GetMsgReceiver(), this._battleAreaID,tid);
             //注册Trigger进消息中心
             MsgDispatcher.RegisterMsg(trigger, "BattleState");
         }
@@ -68,7 +77,7 @@ namespace BattleMap
             {
                 register = speller;
                 //初始化响应时点,为战区状态改变
-                msgName = (int)MessageType.BattleSate;
+                msgName = (int)MessageType.AfterColliderChange;
                 //初始化条件函数和行为函数
                 condition = Condition;
                 action = Action;
@@ -83,36 +92,28 @@ namespace BattleMap
 
             private void Action()
             {
-                BattleArea battleArea =null;
+                BattleArea battleArea = null;
                 BattleMap.Instance().battleAreaData.battleAreas.TryGetValue(id, out battleArea);
                 Debug.Log(string.Format("战区：{0}，之前状态：{1}", id, battleArea._battleAreaSate));
-                if (battleArea._battleAreaSate == BattleMap.Instance().battleAreaData.WarZoneBelong(id))
+                BattleAreaSate newBattleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);
+
+                if (battleArea._battleAreaSate == newBattleAreaSate)
                 {
                     //该战区所属状态没改变
                 }
                 else
                 {
-                    if(BattleMap.Instance().battleAreaData.WarZoneBelong(id) != BattleAreaSate.Neutrality)//中立就不更新
+                    if (newBattleAreaSate != BattleAreaSate.Neutrality)//中立就不更新
                     {
-                        battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
-                        BattleMap.Instance().ShowAndUpdataBattleZooe();
-                    }                   
-                    Debug.Log(string.Format("战区：{0}，当前状态：{1}",id,battleArea._battleAreaSate));
+                        this.SetChangedBA(battleArea);
+                        this.SetExOwner(battleArea._battleAreaSate);
+                        this.SetNewOwner(newBattleAreaSate);
 
-                    if(battleArea._TID != null)
-                    {
-                        for (int i = 0; i < battleArea._TID.Length; i++)
-                        {
-                            if (battleArea._TID[i] == "MainBF_Friendly" && battleArea._battleAreaSate == BattleAreaSate.Enmey)
-                            {
-                                Debug.Log("you lose");
-                            }
-                            else if (battleArea._TID[i] == "MainBF_Enemy" && battleArea._battleAreaSate == BattleAreaSate.Player)
-                            {
-                                Debug.Log("you win");
-                            }
-                        }
-                    }   
+                        battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
+                        MsgDispatcher.SendMsg((int)MessageType.RegionChange);
+                        BattleMap.Instance().ShowAndUpdataBattleZooe();
+                    }
+                    Debug.Log(string.Format("战区：{0}，当前状态：{1}", id, battleArea._battleAreaSate));
                 }
             }
         }
@@ -271,24 +272,37 @@ namespace BattleMap
             int enemyAmout = 0;//战区上敌方单位数量
             int friendlyAmout = 0;//战区上我方单位数量
             int neutralityAmout = 0;//战区上中立单位数量
-            List<Vector2> battleAreas = null;
-            BattleAreaDic.TryGetValue(area, out battleAreas);
-            foreach (Vector2 pos in battleAreas)
+            List<GameUnit.GameUnit> units = battleAreas[area]._collider.disposeUnits;
+            unitAmout = units.Count;
+            foreach(GameUnit.GameUnit unit in units)
             {
-                int x = (int)pos.x;
-                int y = (int)pos.y;
-                if (BattleMap.Instance().CheckIfHasUnits(pos))
-                {
-                    unitAmout++;
-                    GameUnit.GameUnit unit = BattleMap.Instance().GetUnitsOnMapBlock(new Vector2(x,y));
-                    if (unit.owner == GameUnit.OwnerEnum.Enemy)
-                        enemyAmout++;
-                    else if (unit.owner == GameUnit.OwnerEnum.Player)
-                        friendlyAmout++;
-                    else
-                        neutralityAmout++;
-                }
+                if (unit.owner == GameUnit.OwnerEnum.Enemy)
+                    enemyAmout++;
+                else if (unit.owner == GameUnit.OwnerEnum.Player)
+                    friendlyAmout++;
+                else
+                    neutralityAmout++;
             }
+            #region 过去没有用碰撞器的方法
+            //List<Vector2> battleAreas = null;
+            //BattleAreaDic.TryGetValue(area, out battleAreas);
+            //foreach (Vector2 pos in battleAreas)
+            //{
+            //    int x = (int)pos.x;
+            //    int y = (int)pos.y;
+            //    if (BattleMap.Instance().CheckIfHasUnits(pos))
+            //    {
+            //        unitAmout++;
+            //        GameUnit.GameUnit unit = BattleMap.Instance().GetUnitsOnMapBlock(new Vector2(x,y));
+            //        if (unit.owner == GameUnit.OwnerEnum.Enemy)
+            //            enemyAmout++;
+            //        else if (unit.owner == GameUnit.OwnerEnum.Player)
+            //            friendlyAmout++;
+            //        else
+            //            neutralityAmout++;
+            //    }
+            //}
+            #endregion
             if (unitAmout == 0)
             {
                 //中立状态，只存在于初始化

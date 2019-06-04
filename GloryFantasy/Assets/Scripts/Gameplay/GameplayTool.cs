@@ -60,6 +60,30 @@ namespace GamePlay
             }
             return temp;
         }
+        public static void SetChangedBA(this GameplayTool self, BattleMap.BattleArea _changedBA)
+        {
+            Gameplay.Info.changedBA = _changedBA;
+        }
+        public static BattleMap.BattleArea GetChangedBA(this GameplayTool self)
+        {
+            return Gameplay.Info.changedBA;
+        }
+        public static void SetNewOwner(this GameplayTool self, BattleMap.BattleAreaSate _newOwner)
+        {
+            Gameplay.Info.newOwner = _newOwner;
+        }
+        public static BattleMap.BattleAreaSate GetNewOwner(this GameplayTool self)
+        {
+            return Gameplay.Info.newOwner;
+        }
+        public static void SetExOwner(this GameplayTool self, BattleMap.BattleAreaSate _exOwner)
+        {
+            Gameplay.Info.exOwner = _exOwner;
+        }
+        public static BattleMap.BattleAreaSate GetExOwner(this GameplayTool self)
+        {
+            return Gameplay.Info.exOwner;
+        }
         public static void SetRoundOwned(this GameplayTool self, PlayerEnum player)
         {
             Gameplay.Info.RoundOwned = player;

@@ -35,6 +35,7 @@ namespace IMessage
         ActiveAbility, //异能发动
         SelectionOver, // InputFSMSelectState结束消息
         
+        RegionChange, //战区归属权变更消息
         
         #region ATK 时点部分
         BeAttacked, //被攻击
@@ -51,7 +52,8 @@ namespace IMessage
         #endregion
 
         #region 复合信息
-        ColliderChange,
+        ColliderChange, // 碰撞器状态变化
+        AfterColliderChange, // 碰撞器状态更新完成后
         #endregion
 
         Move, //开始移动
@@ -145,11 +147,18 @@ namespace IMessage
         private static Dictionary<int, List<int>> ComplexMsgType = Inverse(new Dictionary<int, List<int>>
         {
             {
-                (int)MessageType.ColliderChange,new List<int>
+                (int)MessageType.ColliderChange, new List<int>
                 {
                     (int)MessageType.Aftermove,
                     (int)MessageType.Dead,
-                    (int)MessageType.Summon
+                    (int)MessageType.Summon,
+                    (int)MessageType.Moved,
+                }
+            },
+            {
+                (int)MessageType.AfterColliderChange, new List<int>
+                {
+                    (int)MessageType.ColliderChange
                 }
             }
             

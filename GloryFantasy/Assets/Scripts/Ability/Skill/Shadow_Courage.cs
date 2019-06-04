@@ -141,7 +141,7 @@ namespace Ability
             {
                 _halo = halo;
                 register = speller;
-                msgName = (int)MessageType.ColliderChange;
+                msgName = (int)MessageType.AfterColliderChange;
                 condition = Condition;
                 action = Action;
                 _judge = judge;
