@@ -54,7 +54,8 @@ namespace BattleMap
             if (_TID != null)
                 foreach (string id in _TID)
                 {
-
+                    if (id == "")
+                        continue;
                     Type tempType = Type.GetType("BattleMap." + id);
                     // TODO: 动态添加Trigger。
                     object[] _arglist = new object[] { this };
