@@ -430,10 +430,12 @@ namespace GamePlay
         /// </summary>
         /// <param name="name"></param>重生为的单位id。
         /// <param name="position"></param>单位被复活在哪个地格上
+        /// <param name="Owner"></param>单位所属
         /// <returns></returns>
-        public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, BattleMap.BattleMapBlock block)
+        public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, BattleMap.BattleMapBlock block, GameUnit.OwnerEnum Owner)
         {
-            DispositionCommand unitDispose = new DispositionCommand(name, GameUnit.OwnerEnum.Player, block);
+            DispositionCommand unitDispose = new DispositionCommand(name, Owner, block);
+            unitDispose.Excute();
             return null;
         }
         /// <summary>
