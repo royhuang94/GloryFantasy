@@ -185,5 +185,30 @@ namespace GamePlay.Event
                 i++;
             }
         }
+        /// <summary>
+        /// 升级指定的单位
+        /// </summary>  
+        /// <param name="Unit">希望升级的 单位实体 </param>
+        /// <param name="Unit">若希望事件源转换为 升级后新单位 则置1 </param>
+        public void Unit_Upgrade(GameUnit.GameUnit Unit,int flag)     
+        {
+            string _CR = Unit.id.Substring(Unit.id.Length - 1, 1);
+            string Unit_Type = Unit.id.Substring(0, Unit.id.Length - 2);
+            if (Convert.ToInt32(_CR) <= 2)
+            {
+                _CR = Convert.ToString(Convert.ToInt32(_CR) + 1);   //_CR的值+1
+                GameUnit.UnitManager.Kill(null, this.Source as GameUnit.GameUnit);
+                GameUnit.GameUnit newUnit = this.Regenerate("SandwormHead_" + _CR, Unit.mapBlockBelow,Unit.owner);
+                if (flag == 1)
+                {
+                    this.Source = newUnit;
+                }
+            }
+            else
+            {
+                //等级已经到头了，啥都不发生
+            }
+
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace Ability
             GameUnit.GameUnit deadUnit = this.GetDead();
             //复活死掉的怪并保存
             string _CR = deadUnit.id.Substring(deadUnit.id.Length - 1, 1);
-            GameUnit.GameUnit newUnit = this.Regenerate("SandwormHead_" + _CR, deadUnit.mapBlockBelow);
+            GameUnit.GameUnit newUnit = this.Regenerate("SandwormHead_" + _CR, deadUnit.mapBlockBelow,deadUnit.owner);
             //删除这只怪的复活技能
             this.DeleteUnitAbility(newUnit, "Sandworm_Awake");
         }
