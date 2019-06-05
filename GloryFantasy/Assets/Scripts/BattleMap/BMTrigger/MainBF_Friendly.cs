@@ -9,15 +9,15 @@ namespace BattleMap
     class MainBF_Friendly : Trigger
     {
         private BattleArea _battleArea;
-        public MainBF_Friendly(MsgReceiver speller, BattleArea battleArea)
+        public MainBF_Friendly(MsgReceiver battleArea)
         {
-            register = speller;
+            register = battleArea;
             //初始化响应时点,为战区状态改变
             msgName = (int)MessageType.AfterColliderChange;
             //初始化条件函数和行为函数
             condition = Condition;
             action = Action;
-            _battleArea = battleArea;
+            _battleArea = (BattleArea) battleArea;
         }
 
         private bool Condition()
