@@ -18,7 +18,7 @@ namespace GameUnit
         }
 
         #region 变量
-       [SerializeField]private string DataBasePath;
+       //[SerializeField]private string DataBasePath;
         private Dictionary<string, JsonData> _unitsData;
         private List<string> _unitsDataIDs;
         #endregion
@@ -32,7 +32,11 @@ namespace GameUnit
             this._unitsDataIDs = new List<string>();
 
             // 从制定路劲加载json文件并映射成字典
-            JsonData unitsTemplate = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + DataBasePath));
+            //JsonData unitsTemplate = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + DataBasePath));
+            
+            TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/UnitDatabase");
+            JsonData unitsTemplate = JsonMapper.ToObject(json.text);
+            
             // 获取总模板数量
             int dataAmount = unitsTemplate.Count;
             // 依次添加数据到相应数据集中

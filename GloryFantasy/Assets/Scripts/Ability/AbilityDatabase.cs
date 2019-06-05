@@ -43,8 +43,10 @@ namespace Ability
         private void LoadAbilityData()
         {
             _abilityData = new Dictionary<string, AbilityFormat>();
-            JsonData jsonData =
-                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Ability/AbilityDatabase.json"));
+            
+            //    JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Ability/AbilityDatabase.json"));
+            TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/AbilityDatabase");
+            JsonData jsonData = JsonMapper.ToObject(json.text);
 
             for (int i = 0; i < jsonData.Count; i++)
             {

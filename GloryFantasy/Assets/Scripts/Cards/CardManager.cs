@@ -297,8 +297,10 @@ namespace GameCard
         {
             _cardsData = new Dictionary<string, JsonData>();
 
-            JsonData cardsJsonData =
-                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Cards/CardDatabase.json"));
+//            JsonData cardsJsonData =
+//                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Cards/CardDatabase.json"));
+            TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/CardDatabase");
+            JsonData cardsJsonData = JsonMapper.ToObject(json.text);
 
             int dataAmount = cardsJsonData.Count;
             for (int i = 0; i < dataAmount; i++)

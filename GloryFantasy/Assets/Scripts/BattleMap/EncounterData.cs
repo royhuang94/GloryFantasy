@@ -61,7 +61,7 @@ namespace GamePlay.Encounter
 
     public class EncouterData : UnitySingleton<EncouterData>
     {
-        public string EncounterPath = "/Scripts/BattleMap/BattleMapData/encounter.json";//遭遇事件文件路径
+        //public string EncounterPath = "/Scripts/BattleMap/BattleMapData/encounter.json";//遭遇事件文件路径
         public Dictionary<string, Encounter> _encounterData;//遭遇对象
         public Dictionary<int, List<EventModel>> battleAreaEventsDic = new Dictionary<int, List<EventModel>>();//遭遇中文件中战区事件
         
@@ -71,7 +71,10 @@ namespace GamePlay.Encounter
         /// </summary>
         public void InitEncounter()
         {
-            JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
+            //JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
+            TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/encounter");
+            JsonData data = JsonMapper.ToObject(json.text);
+            
             _encounterData = new Dictionary<string, Encounter>();
 
             int dataCount = data.Count;
