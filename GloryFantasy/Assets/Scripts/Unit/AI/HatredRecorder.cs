@@ -149,7 +149,6 @@ namespace AI
         {
             //简单的排序
             hatredList.Sort(delegate (HatredItem h1, HatredItem h2) { return h1.hatred.CompareTo(h2.hatred); });
-            Debug.Log("sort ended");
         }
 
         /// <summary>
