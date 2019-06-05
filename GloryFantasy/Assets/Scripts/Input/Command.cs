@@ -76,7 +76,8 @@ namespace GamePlay.Input
             }
 
             //更新仇恨列表
-            //Gameplay.Instance().autoController.UpdateAllHatredList(null, _battleMapBlock.units_on_me);
+            if(_battleMapBlock.units_on_me[0].owner != OwnerEnum.Enemy)
+                Gameplay.Instance().autoController.UpdateAllHatredList(null, _battleMapBlock.units_on_me);
         }
 
         private string _unitID;

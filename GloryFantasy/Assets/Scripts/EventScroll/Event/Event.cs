@@ -168,8 +168,18 @@ namespace GamePlay.Event
                 //随机选择一个可行坐标，在此地格上生成单位
                 int pos = UnityEngine.Random.Range(0, AroundBlocks.Count - 1);//
                 BattleMap.BattleMapBlock battleMapBlock = AroundBlocks[pos];
-                GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock, true);
-                Command.Excute();//执行
+                //召唤单位的所属为 源的所属
+                if (Unit.owner == GameUnit.OwnerEnum.Enemy)     
+                {
+                    GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock, true);
+                    Command.Excute();//执行
+                }
+                if (Unit.owner == GameUnit.OwnerEnum.Player)
+                {
+                    GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Player, battleMapBlock, true);
+                    Command.Excute();//执行
+                }
+
 
                 AroundBlocks.RemoveAt(pos);
                 i++;

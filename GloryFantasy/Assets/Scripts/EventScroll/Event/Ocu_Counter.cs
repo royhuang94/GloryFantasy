@@ -10,6 +10,7 @@ namespace GamePlay.Event
     {
         public Ocu_Counter()
         {
+            //敌方事件部署量+1，强度+1。
             //从数据库读取属性，id名不能错
             EventDataBase.Instance().GetEventProperty("Ocu_Counter", this);
             //实例化该事件的 触发条件 和 效果
