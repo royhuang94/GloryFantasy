@@ -3,22 +3,16 @@
     "EncounterID": "Forest_Shadow_1",
     "UnitMessage": [
       {
-        "UnitID": "Shadow_1",
-        "Pos_X": 0,
-        "Pos_Y": 0,
-        "UnitControler": 1
-
-      },
-      {
-        "UnitID": "Shadow_1",
-        "Pos_X": 3,
-        "Pos_Y": 3,
+        "UnitID": "ShadowKnight_1",
+        "Pos_X": 1,
+        "Pos_Y": 1,
         "UnitControler": 1
       }
     ],
     "BattlefieldMessage": [
       {
         "RegionID": 1,
+        "Owner": "Enemy",
         "EventList": {
           "ReinforceWarrior": 1,
           "Empty": 1
@@ -28,6 +22,7 @@
       },
       {
         "RegionID": 2,
+        "Owner": "Neutrality",
         "EventList": {
           "ReinforceWolf": 2,
           "Empty": 1
@@ -37,6 +32,7 @@
       },
       {
         "RegionID": 3,
+        "Owner": "Player",
         "EventList": {
           "Empty": 1
         },
