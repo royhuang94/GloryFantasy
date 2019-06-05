@@ -4,6 +4,7 @@ using UnityEngine;
 using LitJson;
 using System.IO;
 using GameCard;
+using System.Linq;
 
 namespace PlayerCollection
 {
@@ -14,6 +15,9 @@ namespace PlayerCollection
     /// </summary>
     public class CardCollection : UnitySingleton<CardCollection>
     {
+        #region 一堆变量和引用
+        TextAsset json;
+        JsonData cardsJsonData;
         /// <summary>
         /// 角色的卡牌收藏
         /// </summary>
@@ -30,7 +34,17 @@ namespace PlayerCollection
         /// 
         /// </summary>
         public string choosecardID;
+        /// <summary>
+        /// 图书馆展示的最大卡牌张数
+        /// </summary>
+        private static int librarylength = 3;
         public int choosecardindex;
+        #endregion
+        private void Awake()
+        {
+            json = Resources.Load<TextAsset>("DatabaseJsonFiles/CardDatabase");
+            cardsJsonData = JsonMapper.ToObject(json.text);
+        }
         /// <summary>
         /// 通过卡牌ID向收藏中添加卡牌时调用，添加成功返回true
         /// </summary>
@@ -58,15 +72,20 @@ namespace PlayerCollection
         /// </summary>
         public void GetCards()
         {
-            JsonData cardsJsonData =
-            JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Cards/cardSample.1.json"));
             int dataAmount = cardsJsonData.Count;
-            int num1 = Random.Range(0, dataAmount);
-            int num2 = Random.Range(0, dataAmount);
-            int num3 = Random.Range(0, dataAmount);
-            librarylist.Add(cardsJsonData[num1]["id"].ToString());
-            librarylist.Add(cardsJsonData[num2]["id"].ToString());
-            librarylist.Add(cardsJsonData[num3]["id"].ToString());
+            for(int i=0; i<librarylength;i++)
+            {
+                librarylist.Add(GetCardID(Random.Range(0, dataAmount)));
+            }
+        }
+        /// <summary>
+        /// 根据传入的jsoncount得到卡牌id
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        private string GetCardID(int num)
+        {
+            return cardsJsonData[num]["ID"].ToString().Split('_').First();
         }
     }
 }

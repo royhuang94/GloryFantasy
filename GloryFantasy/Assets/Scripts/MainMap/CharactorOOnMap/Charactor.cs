@@ -40,10 +40,7 @@ namespace MainMap
             public HexVector playerlocate;
             public GameObject underfeet;
             public MoveState charactorstate;
-            public string VecToString(float i)
-            {
-                return (System.Convert.ToInt32(i)).ToString();
-            }
+
 
         }
         /// <summary>传给战斗系统的相关数据
@@ -98,7 +95,7 @@ namespace MainMap
             this.SetMessage(HP, MaxStep);
             this.charactordata.charactorstate = MoveState.MotionLess;
             Vector3 vect = charactordata.playerlocate.Hex_vector;
-            charactordata.underfeet = GameObject.Find("test" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y));
+            charactordata.underfeet = FindObject(vect.x,vect.y);
             setaround(charactordata.underfeet);
             Debug.Log("角色初始化完成");
         }
@@ -175,9 +172,9 @@ namespace MainMap
             MapUnit playeraround;
             int x = (int)onclk.GetComponent<MapUnit>().hexVector.Hex_vector.x + a;
             int y = (int)onclk.GetComponent<MapUnit>().hexVector.Hex_vector.y + b;
-            if (GameObject.Find("test" + x.ToString() + y.ToString()) != null)
+            if (FindObject(x,y) != null)
             {
-                playeraround = GameObject.Find("test" + x.ToString() + y.ToString()).GetComponent<MapUnit>();
+                playeraround = FindObject(x, y).GetComponent<MapUnit>();
             }
             else
             {
@@ -228,7 +225,18 @@ namespace MainMap
             //todo：这个方法是干嘛的来着？貌似没什么用 2019.5.29
             Debug.Log("onclick");
         }
-
+        /// <summary>根据传入的浮点值找到对应的object
+        /// 
+        /// </summary>
+        /// <param name="_x"></param>
+        /// <param name="_y"></param>
+        /// <returns></returns>
+        private static GameObject FindObject(float _x, float _y)
+        {
+            string x = (System.Convert.ToInt32(_x)).ToString();
+            string y = (System.Convert.ToInt32(_y)).ToString();
+            return GameObject.Find("test" + x + "," + y);
+        }
         /// <summary>实现移动的携程
         /// 
         /// </summary>
@@ -250,9 +258,9 @@ namespace MainMap
                 charactordata.charactorstate = MoveState.Stop;
                 Debug.Log("移动结束");
                 Vector3 vect = charactordata.playerlocate.ChangeToHexVect(target);
-                setaround(GameObject.Find("test" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y)));
-                charactordata.underfeet = GameObject.Find("test" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y));
-                Debug.Log("角色移动至：" + charactordata.VecToString(vect.x) + charactordata.VecToString(vect.y));
+                setaround(FindObject(vect.x,vect.y));
+                charactordata.underfeet =FindObject(vect.x,vect.y);
+                Debug.Log("角色移动至：" + charactordata.underfeet);
                 charactordata.charactorstate = MoveState.MotionLess;
                 charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();
 
