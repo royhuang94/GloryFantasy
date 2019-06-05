@@ -54,10 +54,12 @@ namespace BattleMap
             if (_TID != null)
                 foreach (string id in _TID)
                 {
-                    Type tempType = Type.GetType("BMTrigger." + id);
+
+                    Type tempType = Type.GetType("BattleMap." + id);
                     // TODO: 动态添加Trigger。
-                    //Trigger temptrigger = Activator.CreateInstance(tempType, this) as Trigger ;
-                    //MsgDispatcher.RegisterMsg(temptrigger, id);
+                    object[] _arglist = new object[] { this };
+                    Trigger temptrigger = Activator.CreateInstance(tempType, _arglist) as Trigger;
+                    MsgDispatcher.RegisterMsg(temptrigger, id);
                 }
 
             //创建Trigger实例
