@@ -9,7 +9,7 @@ namespace Mediator
     public class AbilityMediator : UnitySingleton<AbilityMediator>, AbilityMediatorInterface
     {
         /// <summary>
-        /// 移除重复元素
+        /// 移除重复元素 done.
         /// </summary>
         /// <param name="reslist"></param>
         private void RemoveRepeat(List<Vector2> reslist)
@@ -28,14 +28,14 @@ namespace Mediator
 
         //public bool CheckUnitDeathById(string unitId)
         //{
-        //    return GameUnitPool.Instance().CheckDeathByID(unitId);
+        //    return GameUnitPool.Instance().CheckDeathByID(unitId); done.
         //}
 
         public void ReduceSpecificCardCd(string unitId, int amount)
         {
             CardManager.Instance().HandleCooldownEvent(unitId, amount);
         }
-
+        //done.
         public List<BattleMapBlock> GetMapBlocksWithinRange(Vector2 cordinate, int range)
         {
             List<BattleMapBlock> battleMapBlocks = new List<BattleMapBlock>();

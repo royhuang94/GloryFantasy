@@ -43,7 +43,7 @@ namespace GamePlay
                 // 如果已有相同脚本，且其生命周期为永久，则不添加新buff
                 if (rest < 0)
                     return target.GetComponent<T>();
-                
+
                 if (rest < life)
                     life = rest;
                 GameObject.Destroy(target.GetComponent<T>());
@@ -574,7 +574,7 @@ namespace GamePlay
             List<Vector2> res = new List<Vector2>();
             for (int i = (int)0; i < x_len; i++)
             {
-                for (int j = (int)0; j< y_len; j++)
+                for (int j = (int)0; j < y_len; j++)
                 {
                     res.Add(new Vector2(i, j));
                 }
@@ -654,6 +654,106 @@ namespace GamePlay
                 battleArea.delta_y_strenth = y_strength;
                 Source = battleArea;
             }
+        }
+        /// <summary>
+        /// 移除重复元素
+        /// </summary>
+        /// <param name="reslist"></param>
+        private static void RemoveRepeat(List<Vector2> reslist)
+        {
+            for (int i = 0; i < reslist.Count; i++)
+            {
+                for (int j = reslist.Count - 1; j > i; j--)
+                {
+                    if (reslist[i] == reslist[j])
+                    {
+                        reslist.RemoveAt(j);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 依照unitid减少冷却中的牌的cd。
+        /// </summary>
+        /// <param name="unitId"></param>
+        /// <param name="amount"></param>
+        public static void ReduceSpecificCardCd(string unitId, int amount)
+        {
+            CardManager.Instance().HandleCooldownEvent(unitId, amount);
+        }
+
+        /// <summary>
+        /// 获取指定中心和range的所有格子。返回偏移量列表。
+        /// </summary>
+        /// <param name="cordinate"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public static List<Vector2> GetBoundWithinRange(Vector2 center, int range)
+        {
+
+            List<Vector2> vector2s = GameGUI.ShowRange.Instance().GetSkillRnage(center, range);
+            List<Vector2> res = new List<Vector2>();
+            RemoveRepeat(vector2s);//去重
+            foreach (Vector2 v in vector2s)
+            {
+                res.Add(new Vector2(v.x - center.x, v.y - center.y));
+            }
+            return res;
+        }
+        /// <summary>
+        /// 获取指定地格的所属战区。
+        /// </summary>
+        /// <param name="pos">地格坐标</param>
+        /// <returns></returns>
+        public static int GetRegion(Vector2 pos)
+        {
+            //获取战区id
+            BattleMap.BattleMapBlock _mapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos);
+            return _mapBlock.area;
+        }
+        /// <summary>
+        /// 获取指定地格的所属战区。
+        /// </summary>
+        /// <param name="block">地格</param>
+        /// <returns></returns>
+        public static int GetRegion(BattleMap.BattleMapBlock block)
+        {
+            return block.area;
+        }
+        /// <summary>
+        /// 获取指定单位的所属战区。
+        /// </summary>
+        /// <param name="unit">单位</param>
+        /// <returns></returns>
+        public static int GetRegion(GameUnit.GameUnit unit)
+        {
+            return unit.mapBlockBelow.area;
+        }
+        /// <summary>
+        /// 获取战区内所有的地格
+        /// </summary>
+        /// <param name="RegionId">战区id</param>
+        /// <returns></returns>
+        public static List<BattleMap.BattleMapBlock> GetBlocksInRegion(int RegionId)
+        {
+            BattleMap.BattleArea battleArea = BattleMap.BattleMap.Instance().battleAreaData.GetBattleAreaByID(RegionId);
+            if (battleArea == null)
+                return null;
+            return GetBlocksInRegion(battleArea);
+        }
+        /// <summary>
+        /// 获取战区内所有的地格
+        /// </summary>
+        /// <param name="ba">战区/param>
+        /// <returns></returns>
+        public static List<BattleMap.BattleMapBlock> GetBlocksInRegion(BattleMap.BattleArea ba)
+        {
+            List<BattleMap.BattleMapBlock> res = new List<BattleMap.BattleMapBlock>();
+            foreach (Vector2 v in ba._battleArea)
+            {
+                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(v));
+            }
+            return res;
         }
     }
 }
