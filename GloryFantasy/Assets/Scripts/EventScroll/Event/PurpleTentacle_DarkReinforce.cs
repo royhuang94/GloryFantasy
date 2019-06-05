@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace GamePlay.Event
 {
-
-    public class Hostling : Event
+    //在来源单位周围部署2个黑影（CR Y）。
+    public class PurpleTentacle_DarkReinforce : Event
     {
-        public Hostling()
+        public PurpleTentacle_DarkReinforce()
         {
             //从数据库读取属性，id名不能错
-            EventDataBase.Instance().GetEventProperty("Hostling", this);
+            EventDataBase.Instance().GetEventProperty("PurpleTentacle_DarkReinforce", this);
             //实例化该事件的 触发条件 和 效果
             this.Condition = selfCondition;
             this.Action = selfAction;
@@ -26,14 +26,20 @@ namespace GamePlay.Event
 
         void selfAction()
         {
-            //"我方立即抽一张牌。",
 
             int source_type_flag = this.Get_Source_Message();       //函数内部进行信息获取。返回值用于错误控制
                                                                     //X次效果 最终值为读取的初始值与delta值的加和
             this.amount += delta_x_amount;
             //Y为效果强度 最终值为读取的初始值与delta值的加和
             this.strenth += delta_y_strenth;
-            IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.DrawCard);     //发送抽卡消息
+            //在源单位的周围放置制定怪物
+            switch (strenth)
+            {
+                case 1: SummonMonster_in_Unit_Around(this.Source, this.amount, "Shadow_1"); break;
+                case 2: SummonMonster_in_Unit_Around(this.Source, this.amount, "Shadow_2"); break;
+                case 3: SummonMonster_in_Unit_Around(this.Source, this.amount, "Shadow_3"); break;
+                default: break;
+            }
 
         }
     }

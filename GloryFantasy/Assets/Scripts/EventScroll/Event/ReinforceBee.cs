@@ -5,22 +5,14 @@ using UnityEngine;
 
 namespace GamePlay.Event
 {
-    //     增援：狼影
-    //   "amount": 1,
-    //   "effect": "在来源战区中随机部署X个狼影(CR Y)",
-    //   "factor": "",
-    //   "id": "ReinforceWolf",
-    //   "name": "增援：狼影",
-    //   "source_type": "战区",
-    //   "strenth": 1,
-    //   "type": "增援",
-    //   "weight": 0
-    public class ReinforceWolf : Event
+
+    public class ReinforceBee : Event
     {
-        public ReinforceWolf()
+        public ReinforceBee()
         {
+            //在来源战区随机部署X个迅雷毒蜂（CR Y）
             //从数据库读取属性，id名不能错
-            EventDataBase.Instance().GetEventProperty("ReinforceWolf", this);
+            EventDataBase.Instance().GetEventProperty("ReinforceBee", this);
             //实例化该事件的 触发条件 和 效果
             this.Condition = selfCondition;
             this.Action = selfAction;
@@ -48,9 +40,9 @@ namespace GamePlay.Event
                 //根据X和Y的最终值决定召唤结果
                 switch (strenth)
                 {
-                    case 1: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_1"); break;
-                    case 2: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_2"); break;
-                    case 3: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_3"); break;
+                    case 1: SummonMonster_in_Area(this.Source, this.amount, "Bumblebee_1"); break;
+                    case 2: SummonMonster_in_Area(this.Source, this.amount, "Bumblebee_2"); break;
+                    case 3: SummonMonster_in_Area(this.Source, this.amount, "Bumblebee_3"); break;
                     default: break;
                 }
             }
