@@ -76,7 +76,8 @@ ModelImporter:
       - time: 0.5881007
         functionName: OnFinish
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: 95330aceb171ba34f814e978e1c79387,
+          type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

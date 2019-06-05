@@ -60,4 +60,21 @@ namespace Animate
             //可能还有位移等需要处理
         }
     }
+
+    public class StateUp1Animate : AnimateCommand
+    {
+        public StateUp1Animate(GameUnit.GameUnit _speller)
+        {
+            _animateReceiver = _speller.GetComponentInChildren<AnimateReceiver>();
+        }
+
+        //开始播放动画，并且将结束回调委托与模型动画的结束挂钩
+        protected override void StartPlayAnimate()
+        {
+            base.StartPlayAnimate();
+            _animateReceiver.OnFinishAnimate = OnFinished;
+            //播放动画
+            _animateReceiver.StateUp();
+        }
+    }
 }

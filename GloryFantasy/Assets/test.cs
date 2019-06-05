@@ -22,6 +22,8 @@ public class test : MonoBehaviour {
         //AnimateQueue.Instance().AddPlay(task1);
 
         AttackAnimate _attackAnimate = new AttackAnimate(GetComponent<GameUnit.GameUnit>(), null);
+        StateUp1Animate _stateUp1Animate = new StateUp1Animate(GetComponent<GameUnit.GameUnit>());
+        AnimateQueue.Instance().AddPlay(_stateUp1Animate);
         AnimateQueue.Instance().AddPlay(_attackAnimate);
     }
 
