@@ -8,6 +8,7 @@ using FairyGUI;
 using GameCard;
 using IMessage;
 using LitJson;
+using Random = UnityEngine.Random;
 
 
 public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
@@ -20,6 +21,36 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 
 	private bool _canShowArrow = false;
 	private Vector3 _startPos;
+	
+	#region 事件轴icon素材
+	public const string greenEventIcon = "greenEvent";
+	public const string redEventIcon = "redEvent";
+	public const string yellowEventIcon = "yellowEvent";
+	public const string blueEventIcon = "blueEvent";
+
+	public string[] eventIcons = {
+		"greenEvent",
+		"yellowEvent",
+		"blueEvent",
+		"redEvent"
+	};
+
+	#endregion
+	
+	#region 事件轴弹窗变量
+
+	/// <summary>
+	/// 事件轴上图标点击后展示的说明窗口
+	/// </summary>
+	private Window _eventDescribeWindow;
+	
+	private GComponent _eventDescribeFrame;
+	/// <summary>
+	/// 事件轴图标说明窗口内放具体说明文字的list
+	/// </summary>
+	private GList _eventDescribeList;
+
+	#endregion
 	
 	#region 卡牌书内变量
 	private Window _cardBookWindow;
@@ -36,6 +67,11 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	private GList _handcardList;
 	
 	private GList _cooldownList;
+
+	/// <summary>
+	/// 事件轴list引用
+	/// </summary>
+	private GList _eventScrollList;
 
 	private GObject lastClicked;
 
@@ -55,13 +91,13 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 
 	#region 资源包定义
 	private const string path = "BattleMapFGUIPkg/";
-	private const string pkgName = "20190507";
+	private const string pkgName = "20190603";
 	private const string numsPkg = "cdNums";
 
-	private const string handcardAssets = "handcardFake";
-	private const string cooldowncardAssets = "handcardFake";
-	private const string cardsetsAssets = "handcardFake";
-	private const string cardBookPicAssets = "handcardFake";
+	private const string handcardAssets = "fakeHandcard";
+	private const string cooldowncardAssets = "fakeHandcard";
+	private const string cardsetsAssets = "fakeHandcard";
+	private const string cardBookPicAssets = "fakeHandcard";
 	#endregion
 
 	#region 卡牌管理器内列表引用
@@ -107,6 +143,14 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		_cardBookWindow.CenterOn(GRoot.inst, true);
 		#endregion
 		
+		#region 事件轴相关内容初始化
+		_eventDescribeWindow = new Window();
+		_eventDescribeFrame = UIPackage.CreateObject(pkgName, "eventDescribeFrame").asCom;
+		_eventDescribeWindow.contentPane = _eventDescribeFrame;
+		_eventDescribeList = _eventDescribeFrame.GetChild("contentList").asList;
+		
+		#endregion
+		
 		// 初始化卡牌内容描述窗口
 		_cardDescribeWindow = new Window();
 		// 设定卡牌内容描述窗口内容
@@ -123,6 +167,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		// 从游戏场景获得各list的引用
 		_cooldownList = _mainUI.GetChild("cooldownList").asList;
 		_handcardList = _mainUI.GetChild("handcardList").asList;
+		_eventScrollList = _mainUI.GetChild("eventScrollList").asList;
 		_cardsSetsList = _cardBookFrame.GetChild("cardList").asList;
 		
 		// 从游戏主场景获取AP值展示的text
@@ -191,6 +236,17 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		
 //		_cooldownList.onClickItem.Add(OnClickCardInCoolDownSets);				// 添加左键点击冷却牌
 		_cooldownList.onRightClickItem.Add(OnClickCardInCoolDownSets);			// 添加右键点击冷却牌
+		
+		_eventScrollList.onClickItem.Add(OnclickEventIcon);
+		// 手动设置最后一个图标的大小
+		_eventScrollList._children[_eventScrollList._children.Count-1].SetScale(1.5f,1.5f);
+
+		// 随机改变icon的样式
+		for (int i = 0; i < _eventScrollList._children.Count; i++)
+		{
+			_eventScrollList._children[i].icon = UIPackage.GetItemURL(pkgName,
+				eventIcons[Random.Range(0, _eventScrollList._children.Count - 1)]);
+		}
 	}
 
 	private void FixedUpdate()
@@ -282,6 +338,31 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		
 	}
 
+	public void OnclickEventIcon(EventContext context)
+	{
+		if (_eventDescribeWindow.isShowing)
+		{
+			//_eventDescribeWindow.Hide();
+			
+			GRoot.inst.HidePopup(_eventDescribeWindow);
+		}
+		
+		// 	清除所有已加入的item
+		_eventDescribeList.RemoveChildren(0, -1, true);
+		
+		GComponent item = UIPackage.CreateObject(pkgName, "eventScrollItem").asCom;
+		item.GetChild("n0").asTextField.text = "这里放文字，以后会做图标，现在没有素材";
+
+		// 添加构造好的item，若要加多个，请根据需要数据添加
+		_eventDescribeList.AddChild(item);
+		
+		// 获取被点击的item
+		GObject obj = context.data as GObject;
+		// 设置窗口位置
+		_eventDescribeWindow.SetXY((obj.x+obj.size.x * 1.2f) * obj.scaleX, obj.y+obj.size.y * 2f, true);
+		// 设置窗口显示
+		GRoot.inst.ShowPopup(_eventDescribeWindow);
+	}
 
 	/// <summary>
 	/// 响应冷却堆内卡牌右键点击事件的函数
@@ -516,6 +597,26 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	{
 		_mainUI.Dispose();
 	}
+
 	
+	/// <summary>
+	/// 设置事件轴图标，若参数非法则直接结束运行
+	/// </summary>
+	/// <param name="pos">要设置的位置</param>
+	/// <param name="iconName">要设置的图标，目前一共四种分别是redEventIcon,blueEventIcon,redEventIcon,yellowEventIcon</param>
+	public void SetEventScrollIcon(int pos, string iconName)
+	{
+		if (pos < 0 || pos >= _eventScrollList._children.Count)
+			return;
+		try
+		{
+			_eventScrollList.GetChildAt(pos).icon = UIPackage.GetItemURL(pkgName, iconName);
+		}
+		catch (Exception e)
+		{
+			Debug.Log("选择icon错误，请检查");
+		}
+	}
+
 }
 
