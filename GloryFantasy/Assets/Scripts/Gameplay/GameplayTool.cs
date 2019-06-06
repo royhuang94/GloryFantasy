@@ -663,6 +663,34 @@ namespace GamePlay
                 new Vector2(2, 2), new Vector2(-2, -2), new Vector2(2, -2), new Vector2(-2, 2)
             }
         };
+        public static int distanceBetween(object a, object b)
+        {
+            Vector2 aPos = toVector2(a);
+            Vector2 bPos = toVector2(b);
+            
+            return (int)(Mathf.Abs(aPos.x - bPos.y) + Mathf.Abs(aPos.y - bPos.y));
+        }
+        private static Vector2 toVector2(object a)
+        {
+            Vector2 aPos;
+            if (a.GetType().ToString() == "GameUnit.GameUnit")
+            {
+                GameUnit.GameUnit aTemp = (GameUnit.GameUnit)a;
+                aPos = new Vector2(aTemp.mapBlockBelow.position.x, aTemp.mapBlockBelow.position.y);
+            }
+            else if (a.GetType().ToString() == "BattleMap.BattleMapBlock")
+            {
+                BattleMap.BattleMapBlock aTemp = (BattleMap.BattleMapBlock)a;
+                aPos = new Vector2(aTemp.position.x, aTemp.position.y);
+            }
+            else if (a.GetType().ToString() == "Vector2")
+            {
+                aPos = (Vector2)a;
+            }
+            else
+                aPos = Vector2.zero;
+            return aPos;
+        }
         /// <summary>
         /// 该指令作用：设置一个 事件源 的X与Y属性（这两个参数影响事件强度）
         /// </summary>
@@ -790,6 +818,17 @@ namespace GamePlay
                 res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(v));
             }
             return res;
+        }
+        public static List<GameUnit.GameUnit> GetUnitsByBlocks(List<BattleMap.BattleMapBlock> blocks)
+        {
+            List<GameUnit.GameUnit> gameUnits = new List<GameUnit.GameUnit>;
+            foreach(BattleMap.BattleMapBlock block in blocks)
+            {
+                GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(new Vector2(block.position.x, block.position.y));
+                if (unit != null)
+                    gameUnits.Add(unit);
+            }
+            return gameUnits;
         }
     }
 }
