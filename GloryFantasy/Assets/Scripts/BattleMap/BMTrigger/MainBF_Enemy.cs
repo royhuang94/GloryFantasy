@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using GamePlay;
 
 namespace BattleMap
 {
@@ -22,6 +23,7 @@ namespace BattleMap
 
         private bool Condition()
         {
+            
             return _battleArea._battleAreaSate == BattleAreaSate.Player;
         }
 

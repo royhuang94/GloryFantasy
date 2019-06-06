@@ -183,6 +183,10 @@ namespace Ability
     public class Ability : MonoBehaviour, GameplayTool
     {
         /// <summary>
+        /// Ability自行规定的Condition条件函数
+        /// </summary>
+        public List<Func<object, bool>> MyTargetConstraintList = new List<Func<object, bool>>();
+        /// <summary>
         /// 对象列表从表格获得的约束
         /// </summary>
         public List<AbilityTarget> AbilityTargetList;
@@ -253,7 +257,13 @@ namespace Ability
             stream = GameUtility.Serializer.InstanceDataToMemory(abilityFormat.AbilityVariable);
             stream.Position = 0;
             this.AbilityVariable = (AbilityVariable) GameUtility.Serializer.MemoryToInstanceData(stream);
-            //Debug.Log("Success copy AbilityVariable");
+            //用AbilityTargetList的长度来初始化MyTargetConstraintList
+            //初始化的lambda表达式表示无论输入的是什么，返回值都是true
+            foreach (AbilityTarget temp in AbilityTargetList)
+            {
+                MyTargetConstraintList.Add(
+                    (object other) => { return true; });
+            }
             //拷贝变量
             this.AbilityID = abilityFormat.AbilityID;
             this.Group = abilityFormat.Group;

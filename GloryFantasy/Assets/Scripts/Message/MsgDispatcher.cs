@@ -34,6 +34,7 @@ namespace IMessage
         AnnounceAttack, //攻击宣言
         ActiveAbility, //异能发动
         SelectionOver, // InputFSMSelectState结束消息
+        SelectOneTarget, //InputFSM 成功选择了一名目标（指已经条件判断完成并为真）后发出的消息
         
         RegionChange, //战区归属权变更消息
         
@@ -64,9 +65,9 @@ namespace IMessage
         
         Encounter, // 遭遇战
 
-        BattleSate//战区状态
+        BattleSate,//战区状态
 
-        
+        DeathPageIncrease //死页增加
     };
 
     public interface MsgReceiver
