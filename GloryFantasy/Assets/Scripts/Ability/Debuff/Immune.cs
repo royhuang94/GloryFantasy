@@ -54,6 +54,17 @@ namespace Ability.Debuff
             // 就是复写一遍，避免使用到原来的逆操作
         }
     }
-    
-    
+
+    public class ConfusedImmune : BConfused
+    {
+        public override void InitialBuff()
+        {
+            SetLife(-1f);
+        }
+
+        protected override void OnDisappear()
+        {
+            // 就是复写一遍，避免使用到原来的逆操作
+        }
+    }
 }
