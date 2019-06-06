@@ -16,18 +16,21 @@ namespace Ability
         {
             base.Init(abilityId);
             string id = GetComponent<GameUnit.GameUnit>().id;
+
+            //_trigger = new DelayedTrigger(
+            //    this.GetUnitReceiver(this),
+            //    AbilityVariable.Turns.Value,
+            //    (int)MessageType.MPEnd,
+            //    () =>
+            //    {
+            //        AbilityMediator.Instance().SendUnitToDeath(id);
+            //    }
+            //    );
+            //    MsgDispatcher.RegisterMsg(_trigger, abilityId + "--DT", true);
+            int turn = GameplayToolExtend.getTurnNum();
             
-            _trigger = new DelayedTrigger(
-                this.GetUnitReceiver(this),
-                AbilityVariable.Turns.Value,
-                (int)MessageType.MPEnd,
-                () =>
-                {
-                    AbilityMediator.Instance().SendUnitToDeath(id);
-                }
-                );
+
             
-            MsgDispatcher.RegisterMsg(_trigger, abilityId + "--DT", true);
         }
         
     }

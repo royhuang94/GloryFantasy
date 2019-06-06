@@ -67,13 +67,18 @@ namespace Ability
         private void Action()
         {
             //获取被选中的敌军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
-            GameUnit.GameUnit unit = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
-            BattleMap.BattleMapBlock battleMapBlock = (BattleMap.BattleMapBlock)this.GetSelectingUnits()[1];
+            GameUnit.GameUnit source = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
+            GameUnit.GameUnit unit = (GameUnit.GameUnit)this.GetSelectingUnits()[1];
+            BattleMap.BattleMapBlock battleMapBlock = (BattleMap.BattleMapBlock)this.GetSelectingUnits()[2];
 
 
             //将该单位移动到三格内一格
             SkillJumpCommand skillJumpCommand = new SkillJumpCommand(unit, battleMapBlock.position, _range);
             skillJumpCommand.Excute();
+            //if (_abilityId.Split('_')[1] == "2")
+            //{
+            //    GameplayToolExtend.DealDamage()
+            //}
         }
     }
 }

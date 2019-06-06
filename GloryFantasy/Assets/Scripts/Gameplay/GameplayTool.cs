@@ -505,7 +505,7 @@ namespace GamePlay
         /// <param name="EventID">该事件的事件ID</param>
         /// <returns>插入事件的几种不同结果</returns>
         /// <param name="Source">该事件的事件源</param>
-        public static int Creat_DirectEvent_to_EventSystem(int expect_trun, string EventID, object Source)
+        public static int creatDirectEventToEventSystem(int expect_trun, string EventID, object Source)
         {
             int _turn;
             string _EventID;
@@ -538,7 +538,7 @@ namespace GamePlay
         /// <summary>
         /// 该指令作用：获取 当前回合数
         /// </summary>
-        public static int Get_Turn_Num()
+        public static int getTurnNum()
         {
             return (Gameplay.Instance().eventScroll.nowBigestTurn - Gameplay.Instance().eventScroll.EventScrollCount + 1);//当前事件模块的最大触发回合数 - 事件队列个数 +1
         }
@@ -546,7 +546,7 @@ namespace GamePlay
         /// 该指令作用：抽 amount 张卡
         /// </summary>
         /// <param name="amount">抽牌数量</param>
-        public static void Draw_Cards(int amount)
+        public static void drawCards(int amount)
         {
             int i = amount;
             while (i >=1)
@@ -669,7 +669,7 @@ namespace GamePlay
         /// <param name="x_amount">设置该事件源的X属性</param>
         /// <param name="y_strength">设置该事件源的Y属性</param>
         /// <param name="Source">该事件源：object类型</param>
-        public static void Set_Unit_or_ARea_XandY(int x_amount, int y_strength, ref object Source)
+        public static void setUnitOrAReaXandY(int x_amount, int y_strength, ref object Source)
         {//!!!需要验证下在使用引用参数时会不会出现指针错误的情况，应该是没问题
 
 
