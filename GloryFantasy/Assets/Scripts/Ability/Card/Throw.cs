@@ -51,8 +51,9 @@ namespace Ability
         public bool Range_2(object target)
         {
             Vector2 userPos = GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0];
-
-            if (GameplayToolExtend.distanceBetween(userPos, target) <= AbilityVariable.Range.Value)
+            BattleMap.BattleMapBlock block = (BattleMap.BattleMapBlock)target;
+            GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(new Vector2(block.position.x, block.position.y));
+            if (GameplayToolExtend.distanceBetween(userPos, target) <= AbilityVariable.Range.Value && unit == null)
                 return true;
             return false;
         }
