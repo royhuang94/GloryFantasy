@@ -821,7 +821,7 @@ namespace GamePlay
         }
         public static List<GameUnit.GameUnit> GetUnitsByBlocks(List<BattleMap.BattleMapBlock> blocks)
         {
-            List<GameUnit.GameUnit> gameUnits = new List<GameUnit.GameUnit>;
+            List<GameUnit.GameUnit> gameUnits = new List<GameUnit.GameUnit>();
             foreach(BattleMap.BattleMapBlock block in blocks)
             {
                 GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(new Vector2(block.position.x, block.position.y));
