@@ -498,7 +498,14 @@ namespace GamePlay
         /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
         /// <param name="EventID">该事件的事件ID</param>
         /// <returns>插入事件的几种不同结果</returns>
-        public static int Creat_DirectEvent_to_EventSystem(int expect_trun, string EventID)
+        /// <summary>
+        /// 该指令作用：创建一个 直接事件对象 并将它加入到事件系统中
+        /// </summary>
+        /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
+        /// <param name="EventID">该事件的事件ID</param>
+        /// <returns>插入事件的几种不同结果</returns>
+        /// <param name="Source">该事件的事件源</param>
+        public static int Creat_DirectEvent_to_EventSystem(int expect_trun, string EventID, object Source)
         {
             int _turn;
             string _EventID;
@@ -507,6 +514,7 @@ namespace GamePlay
             _EventID = EventID;
             GamePlay.Event.DirectEvent _DirectEvent;
             _DirectEvent = new GamePlay.Event.DirectEvent(EventID, expect_trun);    // 生成 直接事件对象 类
+            _DirectEvent.Source = Source; //设置直接事件对象的源
             //—————————————以下部分为具体操作执行
             int now_biggest_turn = Gameplay.Instance().eventScroll.nowBigestTurn;   //获取事件轴的最大回合数
                                                                                     //
@@ -526,6 +534,27 @@ namespace GamePlay
                 //todo:加入错误提示
                 return 0;
             }
+        }
+        /// <summary>
+        /// 该指令作用：获取 当前回合数
+        /// </summary>
+        public static int Get_Turn_Num()
+        {
+            return (Gameplay.Instance().eventScroll.nowBigestTurn - Gameplay.Instance().eventScroll.EventScrollCount + 1);//当前事件模块的最大触发回合数 - 事件队列个数 +1
+        }
+        /// <summary>
+        /// 该指令作用：抽 amount 张卡
+        /// </summary>
+        /// <param name="amount">抽牌数量</param>
+        public static void Draw_Cards(int amount)
+        {
+            int i = amount;
+            while (i >=1)
+            {
+                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.DrawCard);     //发送抽卡消息
+                i--;
+            }
+
         }
         /// <summary>
         /// 指定中心块获得以其为中心的爆发区域。
