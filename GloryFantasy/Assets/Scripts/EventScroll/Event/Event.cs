@@ -91,6 +91,15 @@ namespace GamePlay.Event
         }
 
         /// <summary>
+        /// 获取事件信息，简单应用，后期可更改
+        /// </summary>
+        /// <returns></returns>
+        public string getEventMessage()
+        {
+            return name + "  " + effect;
+        }
+        
+        /// <summary>
         /// 从事件源获取其 X 与 Y 的值
         /// </summary>  
         public int Get_Source_Message()            //获取 x 和 y 的基类方法，省的每个事件再去重载了

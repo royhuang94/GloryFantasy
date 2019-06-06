@@ -282,6 +282,15 @@ namespace GamePlay.Event
                 _eventScroll.Insert(i, newAssembly);
             }
         }
+
+        /// <summary>
+        /// 获取事件集合
+        /// </summary>
+        /// <returns></returns>
+        public List<EventAssembly> GetEventAssemblies()
+        {
+            return _eventScroll;
+        }
     }
 
     /// <summary>
@@ -299,6 +308,22 @@ namespace GamePlay.Event
         /// </summary>
         private List<Event> eventList = new List<Event>();
 
+        /// <summary>
+        /// 获取时间集合的长度，即该集合里事件数量
+        /// </summary>
+        public int eventListCount
+        {
+            get { return eventList.Count; }
+        }
+
+        /// <summary>
+        /// 获取事件集合
+        /// </summary>
+        public List<Event> getEventList
+        {
+            get { return eventList;  }
+        }
+        
         /// <summary>
         /// 执行该事件集合里的所有事件
         /// </summary>

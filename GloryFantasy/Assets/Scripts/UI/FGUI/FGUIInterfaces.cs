@@ -6,6 +6,7 @@ using UnityEngine;
 using GamePlay;
 using FairyGUI;
 using GameCard;
+using GamePlay.Event;
 using IMessage;
 using LitJson;
 using Random = UnityEngine.Random;
@@ -74,6 +75,8 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	private GList _eventScrollList;
 
 	private GObject lastClicked;
+	private cdObject _lastClickedCoolDownCard;
+	private GObject _lastClickedEventIcon;
 
 	#region 描述窗内变量
 	private Window _cardDescribeWindow;
@@ -116,6 +119,8 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		//UIPackage.AddPackage(path + cardsetsAssets);
 		//UIPackage.AddPackage(path + cardBookPicAssets);
 		lastClicked = null;
+		_lastClickedCoolDownCard = null;
+		_lastClickedEventIcon = null;
 		
 		// 战斗场景UI
 		_mainUI = UIPackage.CreateObject(pkgName, "battleScene").asCom;
@@ -340,28 +345,52 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 
 	public void OnclickEventIcon(EventContext context)
 	{
-		if (_eventDescribeWindow.isShowing)
-		{
-			//_eventDescribeWindow.Hide();
-			
-			GRoot.inst.HidePopup(_eventDescribeWindow);
-		}
-		
-		// 	清除所有已加入的item
-		_eventDescribeList.RemoveChildren(0, -1, true);
-		
-		GComponent item = UIPackage.CreateObject(pkgName, "eventScrollItem").asCom;
-		item.GetChild("n0").asTextField.text = "这里放文字，以后会做图标，现在没有素材";
-
-		// 添加构造好的item，若要加多个，请根据需要数据添加
-		_eventDescribeList.AddChild(item);
-		
+		// TODO: 处理执行事件之后显示问题
 		// 获取被点击的item
 		GObject obj = context.data as GObject;
-		// 设置窗口位置
-		_eventDescribeWindow.SetXY((obj.x+obj.size.x * 1.2f) * obj.scaleX, obj.y+obj.size.y * 2f, true);
-		// 设置窗口显示
-		GRoot.inst.ShowPopup(_eventDescribeWindow);
+		if (obj != _lastClickedEventIcon && obj != null)
+		{
+			// 	清除所有已加入的item
+			_eventDescribeList.RemoveChildren(0, -1, true);
+
+			List<EventAssembly> eventAssemblyList = Gameplay.Instance().eventScroll.GetEventAssemblies();
+			
+			// 通过事件节点ID转换成对应下标，最下面是0，往上递增
+			int index = (24 - int.Parse(obj.id.Substring(obj.id.Length - 2))) / 2;
+			
+			if (index < eventAssemblyList.Count)
+			{
+				for (int i = 0; i < eventAssemblyList[index].eventListCount; i++)
+				{
+					GComponent item = UIPackage.CreateObject(pkgName, "eventScrollItem").asCom;
+					item.GetChild("n0").asTextField.text = eventAssemblyList[index].getEventList[i].getEventMessage();
+					// 添加构造好的item，若要加多个，请根据需要数据添加
+					_eventDescribeList.AddChild(item);
+				}
+			}
+			else
+			{
+				GComponent item = UIPackage.CreateObject(pkgName, "eventScrollItem").asCom;
+				item.GetChild("n0").asTextField.text = "暂无事件";
+				// 添加构造好的item，若要加多个，请根据需要数据添加
+				_eventDescribeList.AddChild(item);
+			}
+
+			// 更新上一次点击对象
+			_lastClickedEventIcon = obj;
+
+			// 设置窗口位置
+			_eventDescribeWindow.SetXY((obj.x+obj.size.x * 1.2f) * obj.scaleX, obj.y+obj.size.y * 2f, true);
+			// 设置窗口显示
+			GRoot.inst.ShowPopup(_eventDescribeWindow);
+
+		}
+		else
+		{
+			//_eventDescribeWindow.Hide();
+			_lastClickedEventIcon = null;
+			GRoot.inst.HidePopup(_eventDescribeWindow);
+		}
 	}
 
 	/// <summary>
@@ -370,29 +399,34 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	/// <param name="context"></param>
 	public void OnClickCardInCoolDownSets(EventContext context)
 	{
-		// 现在用的展示界面和手牌及已部署单位是同一个界面。
-		if (!_cardDescribeWindow.isShowing)
-		{
-			// 获取冷却列表点击下标
-			int index = _cooldownList.GetChildIndex(context.data as GObject);
+		// 获取冷却列表点击下标
+		int index = _cooldownList.GetChildIndex(context.data as GObject);
 
-			// 根据点击下标获取对应冷却牌
-			cdObject cooldownCard = cooldownList[index];
+		// 根据点击下标获取对应冷却牌
+		cdObject cooldownCard = cooldownList[index];
 			
-			// 冷却牌ID
-			string cardID = cooldownCard.objectId;
+		// 冷却牌ID
+		string cardID = cooldownCard.objectId;
 
-			// 获取展示数据
-			JsonData data = CardManager.Instance().GetCardJsonData(cardID);
-
+		// 获取展示数据
+		JsonData data = CardManager.Instance().GetCardJsonData(cardID);
+		
+		// 现在用的展示界面和手牌及已部署单位是同一个界面。
+		// 不等于上一个点击的冷却牌，则窗口显示其他冷却牌信息
+		if(cooldownCard != _lastClickedCoolDownCard)
+		{
 			_title.text = data["name"].ToString();
 			_effect.text = data["effect"].ToString();
 			_value.text = "总冷却：" + data["cd"] + "     剩余冷却：" + cooldownCard.leftCd;
+
+			_lastClickedCoolDownCard = cooldownCard; 		// 重置上一个点击的为当前点击冷却牌
 		
 			_cardDescribeWindow.Show();
 		}
 		else
 		{
+			// 相等则关闭显示框
+			_lastClickedCoolDownCard = null;
 			_cardDescribeWindow.Hide();
 		}
 	}
@@ -448,6 +482,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	public void UpdateHandcards()
 	{
 		// TODO: 完善此方法
+		StopAllCoroutines();			// 更新手牌时关闭所有正在改变大小的协程，以防空指针错误
 		_handcardList.RemoveChildren(0, -1, true);
 		foreach (string cardId in handcardList)
 		{
