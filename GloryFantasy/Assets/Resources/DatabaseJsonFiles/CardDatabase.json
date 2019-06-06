@@ -414,11 +414,13 @@
     },
     {
         "ID": "HElf_3",
-        "ability_id": [],
+        "ability_id": [
+            "QuickPlat"
+        ],
         "cd": 3,
         "color": "RG",
         "cost": 3,
-        "effect": "可能进行【整备】",
+        "effect": "即时备战。可能进行【整备】",
         "flavor_text": "",
         "name": "琳",
         "related_token": "",
