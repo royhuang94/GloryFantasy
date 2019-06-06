@@ -43,7 +43,7 @@ namespace GamePlay
                 // 如果已有相同脚本，且其生命周期为永久，则不添加新buff
                 if (rest < 0)
                     return target.GetComponent<T>();
-                
+
                 if (rest < life)
                     life = rest;
                 GameObject.Destroy(target.GetComponent<T>());
@@ -59,6 +59,51 @@ namespace GamePlay
                 target.GetComponent<T>().InitialBuff();
             }
             return temp;
+        }
+        /// <summary>
+        /// 获取战区内所有的单位。
+        /// </summary>
+        /// <param name="ba">战区</param>
+        /// <returns>单位组成的List。</returns>
+        public static List<GameUnit.GameUnit> getUnitsInRegion(BattleMap.BattleArea ba)
+        {
+            return ba._collider.disposeUnits;
+        }
+        /// <summary>
+        /// 获取战区内所有的单位。
+        /// </summary>
+        /// <param name="regionID">战区ID</param>
+        /// <returns>单位组成的List。</returns>
+        public static List<GameUnit.GameUnit> getUnitsInRegion(int regionID)
+        {
+            BattleMap.BattleArea ba = BattleMap.BattleMap.Instance().battleAreaData.GetBattleAreaByID(regionID);
+            if (ba == null)
+                return null;
+            return ba._collider.disposeUnits;
+        }
+        public static void SetChangedBA(this GameplayTool self, BattleMap.BattleArea _changedBA)
+        {
+            Gameplay.Info.changedBA = _changedBA;
+        }
+        public static BattleMap.BattleArea GetChangedBA(this GameplayTool self)
+        {
+            return Gameplay.Info.changedBA;
+        }
+        public static void SetNewOwner(this GameplayTool self, BattleMap.BattleAreaSate _newOwner)
+        {
+            Gameplay.Info.newOwner = _newOwner;
+        }
+        public static BattleMap.BattleAreaSate GetNewOwner(this GameplayTool self)
+        {
+            return Gameplay.Info.newOwner;
+        }
+        public static void SetExOwner(this GameplayTool self, BattleMap.BattleAreaSate _exOwner)
+        {
+            Gameplay.Info.exOwner = _exOwner;
+        }
+        public static BattleMap.BattleAreaSate GetExOwner(this GameplayTool self)
+        {
+            return Gameplay.Info.exOwner;
         }
         public static void SetRoundOwned(this GameplayTool self, PlayerEnum player)
         {
@@ -385,10 +430,12 @@ namespace GamePlay
         /// </summary>
         /// <param name="name"></param>重生为的单位id。
         /// <param name="position"></param>单位被复活在哪个地格上
+        /// <param name="Owner"></param>单位所属
         /// <returns></returns>
-        public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, BattleMap.BattleMapBlock block)
+        public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, BattleMap.BattleMapBlock block, GameUnit.OwnerEnum Owner)
         {
-            DispositionCommand unitDispose = new DispositionCommand(name, GameUnit.OwnerEnum.Player, block);
+            DispositionCommand unitDispose = new DispositionCommand(name, Owner, block);
+            unitDispose.Excute();
             return null;
         }
         /// <summary>
@@ -446,6 +493,12 @@ namespace GamePlay
         /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
         /// <param name="EventID">该事件的事件ID</param>
         /// <returns>插入事件的几种不同结果</returns>
+        /// <summary>
+        /// 该指令作用：创建一个 直接事件对象 并将它加入到事件系统中
+        /// </summary>
+        /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
+        /// <param name="EventID">该事件的事件ID</param>
+        /// <returns>插入事件的几种不同结果</returns>
         /// <param name="Source">该事件的事件源</param>
         public static int Creat_DirectEvent_to_EventSystem(int expect_trun, string EventID, object Source)
         {
@@ -482,11 +535,20 @@ namespace GamePlay
         /// </summary>
         public static int Get_Turn_Num()
         {
-            return (Gameplay.Instance().eventScroll.nowBigestTurn - Gameplay.Instance().eventScroll.EventScrollCount+ 1);//当前事件模块的最大触发回合数 - 事件队列个数 +1
+            return (Gameplay.Instance().eventScroll.nowBigestTurn - Gameplay.Instance().eventScroll.EventScrollCount + 1);//当前事件模块的最大触发回合数 - 事件队列个数 +1
         }
-
+        /// <summary>
+        /// 该指令作用：抽 amount 张卡
+        /// </summary>
+        /// <param name="amount">抽牌数量</param>
         public static void Draw_Cards(int amount)
         {
+            int i = amount;
+            while (i >=1)
+            {
+                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.DrawCard);     //发送抽卡消息
+                i--;
+            }
 
         }
         /// <summary>
@@ -543,7 +605,7 @@ namespace GamePlay
             List<Vector2> res = new List<Vector2>();
             for (int i = (int)0; i < x_len; i++)
             {
-                for (int j = (int)0; j< y_len; j++)
+                for (int j = (int)0; j < y_len; j++)
                 {
                     res.Add(new Vector2(i, j));
                 }
@@ -623,6 +685,106 @@ namespace GamePlay
                 battleArea.delta_y_strenth = y_strength;
                 Source = battleArea;
             }
+        }
+        /// <summary>
+        /// 移除重复元素
+        /// </summary>
+        /// <param name="reslist"></param>
+        private static void RemoveRepeat(List<Vector2> reslist)
+        {
+            for (int i = 0; i < reslist.Count; i++)
+            {
+                for (int j = reslist.Count - 1; j > i; j--)
+                {
+                    if (reslist[i] == reslist[j])
+                    {
+                        reslist.RemoveAt(j);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 依照unitid减少冷却中的牌的cd。
+        /// </summary>
+        /// <param name="unitId"></param>
+        /// <param name="amount"></param>
+        public static void ReduceSpecificCardCd(string unitId, int amount)
+        {
+            CardManager.Instance().HandleCooldownEvent(unitId, amount);
+        }
+
+        /// <summary>
+        /// 获取指定中心和range的所有格子。返回偏移量列表。
+        /// </summary>
+        /// <param name="cordinate"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public static List<Vector2> GetBoundWithinRange(Vector2 center, int range)
+        {
+
+            List<Vector2> vector2s = GameGUI.ShowRange.Instance().GetSkillRnage(center, range);
+            List<Vector2> res = new List<Vector2>();
+            RemoveRepeat(vector2s);//去重
+            foreach (Vector2 v in vector2s)
+            {
+                res.Add(new Vector2(v.x - center.x, v.y - center.y));
+            }
+            return res;
+        }
+        /// <summary>
+        /// 获取指定地格的所属战区。
+        /// </summary>
+        /// <param name="pos">地格坐标</param>
+        /// <returns></returns>
+        public static int GetRegion(Vector2 pos)
+        {
+            //获取战区id
+            BattleMap.BattleMapBlock _mapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos);
+            return _mapBlock.area;
+        }
+        /// <summary>
+        /// 获取指定地格的所属战区。
+        /// </summary>
+        /// <param name="block">地格</param>
+        /// <returns></returns>
+        public static int GetRegion(BattleMap.BattleMapBlock block)
+        {
+            return block.area;
+        }
+        /// <summary>
+        /// 获取指定单位的所属战区。
+        /// </summary>
+        /// <param name="unit">单位</param>
+        /// <returns></returns>
+        public static int GetRegion(GameUnit.GameUnit unit)
+        {
+            return unit.mapBlockBelow.area;
+        }
+        /// <summary>
+        /// 获取战区内所有的地格
+        /// </summary>
+        /// <param name="RegionId">战区id</param>
+        /// <returns></returns>
+        public static List<BattleMap.BattleMapBlock> GetBlocksInRegion(int RegionId)
+        {
+            BattleMap.BattleArea battleArea = BattleMap.BattleMap.Instance().battleAreaData.GetBattleAreaByID(RegionId);
+            if (battleArea == null)
+                return null;
+            return GetBlocksInRegion(battleArea);
+        }
+        /// <summary>
+        /// 获取战区内所有的地格
+        /// </summary>
+        /// <param name="ba">战区/param>
+        /// <returns></returns>
+        public static List<BattleMap.BattleMapBlock> GetBlocksInRegion(BattleMap.BattleArea ba)
+        {
+            List<BattleMap.BattleMapBlock> res = new List<BattleMap.BattleMapBlock>();
+            foreach (Vector2 v in ba._battleArea)
+            {
+                res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(v));
+            }
+            return res;
         }
     }
 }
