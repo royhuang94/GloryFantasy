@@ -41,7 +41,6 @@ namespace GamePlay.FSM
                 Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
                 GameUtility.UtilityHelper.Log("准备攻击，右键取消攻击.Unit position is " + pos, GameUtility.LogColor.RED);
                 FSM.TargetList.Add(pos);
-                FSM.HandleAtkConfirm(pos,BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos));
                 FSM.PushState(new InputFSMAttackState(this.FSM));
             }
         }

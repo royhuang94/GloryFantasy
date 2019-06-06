@@ -51,6 +51,7 @@ namespace Ability
         {
             if (_esSlot == null)
                 _esSlot = unit.GetComponent<ESSlot>();
+            //_esSlot还是null
             return  _esSlot.ExSkillCards.Count != 0;
         }
 
