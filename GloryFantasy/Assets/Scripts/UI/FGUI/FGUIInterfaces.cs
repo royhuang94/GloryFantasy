@@ -92,7 +92,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	#region 资源包定义
 	private const string path = "BattleMapFGUIPkg/";
 	private const string pkgName = "20190603";
-	private const string numsPkg = "cdNums";
+	private const string numsPkg = "newCdNums";
 
 	private const string handcardAssets = "fakeHandcard";
 	private const string cooldowncardAssets = "fakeHandcard";
