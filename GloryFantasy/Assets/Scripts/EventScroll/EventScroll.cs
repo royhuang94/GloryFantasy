@@ -291,6 +291,16 @@ namespace GamePlay.Event
         {
             return _eventScroll;
         }
+
+        /// <summary>
+        /// 获取事件信息集合
+        /// </summary>
+        /// <param name="i">获取指定的队列，默认为0即第一队列</param>
+        /// <returns></returns>
+        public List<EventAssembly.EventInfo> GetEventInfos(int i = 0)
+        {
+            return _eventScroll[i].GetEventInfos;
+        }
     }
 
     /// <summary>
@@ -298,6 +308,52 @@ namespace GamePlay.Event
     /// </summary>
     public class EventAssembly
     {
+        /// <summary>
+        /// 事件信息
+        /// </summary>
+        public struct EventInfo
+        {
+            /// <summary>
+            /// 事件名
+            /// </summary>
+            public string EventID;
+            /// <summary>
+            /// 数量
+            /// </summary>
+            public int Amount;
+            /// <summary>
+            /// 强度
+            /// </summary>
+            public int Strength;
+            /// <summary>
+            /// 类型
+            /// </summary>
+            public List<string> Type;
+
+            /// <summary>
+            /// 有参构造函数
+            /// (重构+1)
+            /// </summary>
+            /// <param name="_eventID"></param>
+            /// <param name="_amount"></param>
+            /// <param name="_strength"></param>
+            /// <param name="_type"></param>
+            public EventInfo(string _eventID, int _amount, int _strength, List<string> _type)
+            {
+                EventID = _eventID;
+                Amount = _amount;
+                Strength = _strength;
+                Type = _type;
+            }
+            public EventInfo(Event eve)
+            {
+                EventID = eve.id;
+                Amount = eve.amount;
+                Strength = eve.strenth;
+                Type = eve.type;
+            }
+        }
+
         /// <summary>
         /// 将在某个回合发动，用以在事件轴中的排序
         /// </summary>
@@ -307,6 +363,10 @@ namespace GamePlay.Event
         /// 事件集合里包含的事件
         /// </summary>
         private List<Event> eventList = new List<Event>();
+        /// <summary>
+        /// 事件信息集合
+        /// </summary>
+        private List<EventInfo> _eventInfos = new List<EventInfo>();
 
         /// <summary>
         /// 获取时间集合的长度，即该集合里事件数量
@@ -323,7 +383,15 @@ namespace GamePlay.Event
         {
             get { return eventList;  }
         }
-        
+        /// <summary>
+        /// 获取事件信息集合
+        /// </summary>
+        public List<EventInfo> GetEventInfos
+        {
+            get { return _eventInfos; }
+        }
+
+
         /// <summary>
         /// 执行该事件集合里的所有事件
         /// </summary>
@@ -342,6 +410,8 @@ namespace GamePlay.Event
         public void Add(Event otherEvent)
         {
             eventList.Add(otherEvent);
+            //添加事件信息
+            _eventInfos.Add(new EventInfo(otherEvent));
         }
 
         /// <summary>
