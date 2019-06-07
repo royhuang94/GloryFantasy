@@ -31,6 +31,7 @@ namespace BattleMap
         private void Start()
         {
             InitMap();
+            RegisterMSG();        // 注册信息，战斗地图调试用，从大地图切换过来时务必将此注释掉
         }
 
 
@@ -55,18 +56,11 @@ namespace BattleMap
                 "Mp End Trigger"
             );
             
-            MsgDispatcher.RegisterMsg(
-                this.GetMsgReceiver(),
-                (int)MessageType.BP,
-                () => { return true; },
-                PBegin,
-                "Phase Begin Trigger"
-            );
-            
+            // 先默认为false，否则每次都会卸载该场景，等整合大地图需改成true
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.WIN,
-                () => { return true; },
+                () => { return false; },
                 exitBattleMap,
                 "Win to exit Trigger"
             );
@@ -74,7 +68,7 @@ namespace BattleMap
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.LOSE,
-                () => { return true; },
+                () => { return false; },
                 exitBattleMap,
                 "Lose to exit Trigger"
             );
@@ -99,12 +93,19 @@ namespace BattleMap
         }
 
         /// <summary>
-        /// 主要阶段j开始
+        /// 主要阶段开始
         /// </summary>
         public void MpBegin()
         {
-
+            // 回合开始地图上所有单位可以移动，因此变亮
+            // 这个是监听玩家回合还是整体回合，待验证，也不清楚是整体回合开始就亮还是怎么的
+            List<Unit> friendlyUnits = GetFriendlyUnitsList();
+            foreach (Unit unit in friendlyUnits)
+            {
+                UnitManager.ColorUnitOnBlock(unit.mapBlockBelow.position, Color.white);
+            }
         }
+        
         /// <summary>
         /// 主要阶段结束
         /// </summary>
@@ -113,17 +114,6 @@ namespace BattleMap
 
         }
 
-        /// <summary>
-        /// 回合开始
-        /// </summary>
-        public void PBegin()
-        {
-            List<Unit> friendlyUnits = GetFriendlyUnitsList();
-            foreach (Unit unit in friendlyUnits)
-            {
-                UnitManager.ColorUnitOnBlock(unit.mapBlockBelow.position, Color.white);
-            }
-        }
         
         /// <summary>
         /// 退出战斗地图

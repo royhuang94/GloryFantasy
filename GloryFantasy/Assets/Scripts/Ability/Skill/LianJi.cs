@@ -41,7 +41,6 @@ namespace Ability
             if (GetComponent<GameUnit.GameUnit>().priority.Count == 2)
                 GetComponent<GameUnit.GameUnit>().priority.RemoveAt(2);
         }
-
     }
 
     public class TLianJi : Trigger

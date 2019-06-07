@@ -428,15 +428,20 @@ namespace GamePlay
         /// <summary>
         /// 重生为某个单位。
         /// </summary>
-        /// <param name="name"></param>重生为的单位id。
-        /// <param name="position"></param>单位被复活在哪个地格上
-        /// <param name="Owner"></param>单位所属
+        /// <param name="name">重生为的单位id。</param>
+        /// <param name="position">单位被复活在哪个地格上</param>
+        /// <param name="Owner">单位所属</param>
         /// <returns></returns>
         public static GameUnit.GameUnit Regenerate(this GameplayTool self, string name, BattleMap.BattleMapBlock block, GameUnit.OwnerEnum Owner)
         {
             DispositionCommand unitDispose = new DispositionCommand(name, Owner, block);
             unitDispose.Excute();
-            return null;
+            if (block.units_on_me.Count < 1)
+                return null;
+            GameUnit.GameUnit unit = block.units_on_me[0];
+            if (unit.id != name)
+                return null;
+            return unit;
         }
         /// <summary>
         /// 获取某个单位的坐标
@@ -493,7 +498,14 @@ namespace GamePlay
         /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
         /// <param name="EventID">该事件的事件ID</param>
         /// <returns>插入事件的几种不同结果</returns>
-        public static int Creat_DirectEvent_to_EventSystem(int expect_trun, string EventID)
+        /// <summary>
+        /// 该指令作用：创建一个 直接事件对象 并将它加入到事件系统中
+        /// </summary>
+        /// <param name="expect_trun">希望此事件在 expect_trun 回合生效</param>
+        /// <param name="EventID">该事件的事件ID</param>
+        /// <returns>插入事件的几种不同结果</returns>
+        /// <param name="Source">该事件的事件源</param>
+        public static int creatDirectEventToEventSystem(int expect_trun, string EventID, object Source)
         {
             int _turn;
             string _EventID;
@@ -502,6 +514,7 @@ namespace GamePlay
             _EventID = EventID;
             GamePlay.Event.DirectEvent _DirectEvent;
             _DirectEvent = new GamePlay.Event.DirectEvent(EventID, expect_trun);    // 生成 直接事件对象 类
+            _DirectEvent.Source = Source; //设置直接事件对象的源
             //—————————————以下部分为具体操作执行
             int now_biggest_turn = Gameplay.Instance().eventScroll.nowBigestTurn;   //获取事件轴的最大回合数
                                                                                     //
@@ -521,6 +534,27 @@ namespace GamePlay
                 //todo:加入错误提示
                 return 0;
             }
+        }
+        /// <summary>
+        /// 该指令作用：获取 当前回合数
+        /// </summary>
+        public static int getTurnNum()
+        {
+            return (Gameplay.Instance().eventScroll.nowBigestTurn - Gameplay.Instance().eventScroll.EventScrollCount + 1);//当前事件模块的最大触发回合数 - 事件队列个数 +1
+        }
+        /// <summary>
+        /// 该指令作用：抽 amount 张卡
+        /// </summary>
+        /// <param name="amount">抽牌数量</param>
+        public static void drawCards(int amount)
+        {
+            int i = amount;
+            while (i >=1)
+            {
+                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.DrawCard);     //发送抽卡消息
+                i--;
+            }
+
         }
         /// <summary>
         /// 指定中心块获得以其为中心的爆发区域。
@@ -629,13 +663,41 @@ namespace GamePlay
                 new Vector2(2, 2), new Vector2(-2, -2), new Vector2(2, -2), new Vector2(-2, 2)
             }
         };
+        public static int distanceBetween(object a, object b)
+        {
+            Vector2 aPos = toVector2(a);
+            Vector2 bPos = toVector2(b);
+            
+            return (int)(Mathf.Abs(aPos.x - bPos.y) + Mathf.Abs(aPos.y - bPos.y));
+        }
+        private static Vector2 toVector2(object a)
+        {
+            Vector2 aPos;
+            if (a.GetType().ToString() == "GameUnit.GameUnit")
+            {
+                GameUnit.GameUnit aTemp = (GameUnit.GameUnit)a;
+                aPos = new Vector2(aTemp.mapBlockBelow.position.x, aTemp.mapBlockBelow.position.y);
+            }
+            else if (a.GetType().ToString() == "BattleMap.BattleMapBlock")
+            {
+                BattleMap.BattleMapBlock aTemp = (BattleMap.BattleMapBlock)a;
+                aPos = new Vector2(aTemp.position.x, aTemp.position.y);
+            }
+            else if (a.GetType().ToString() == "Vector2")
+            {
+                aPos = (Vector2)a;
+            }
+            else
+                aPos = Vector2.zero;
+            return aPos;
+        }
         /// <summary>
         /// 该指令作用：设置一个 事件源 的X与Y属性（这两个参数影响事件强度）
         /// </summary>
         /// <param name="x_amount">设置该事件源的X属性</param>
         /// <param name="y_strength">设置该事件源的Y属性</param>
         /// <param name="Source">该事件源：object类型</param>
-        public static void Set_Unit_or_ARea_XandY(int x_amount, int y_strength, ref object Source)
+        public static void setUnitOrAReaXandY(int x_amount, int y_strength, ref object Source)
         {//!!!需要验证下在使用引用参数时会不会出现指针错误的情况，应该是没问题
 
 
@@ -756,6 +818,17 @@ namespace GamePlay
                 res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(v));
             }
             return res;
+        }
+        public static List<GameUnit.GameUnit> GetUnitsByBlocks(List<BattleMap.BattleMapBlock> blocks)
+        {
+            List<GameUnit.GameUnit> gameUnits = new List<GameUnit.GameUnit>();
+            foreach(BattleMap.BattleMapBlock block in blocks)
+            {
+                GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(new Vector2(block.position.x, block.position.y));
+                if (unit != null)
+                    gameUnits.Add(unit);
+            }
+            return gameUnits;
         }
     }
 }

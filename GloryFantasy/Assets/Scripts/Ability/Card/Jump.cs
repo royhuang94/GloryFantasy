@@ -6,6 +6,7 @@ using UnityEngine;
 using IMessage;
 using GamePlay;
 using GamePlay.Input;
+using Random = System.Random;
 
 namespace Ability
 {
@@ -32,6 +33,15 @@ namespace Ability
             base.Init(abilityId);
             trigger = new TJump(this.GetCardReceiver(this), AbilityVariable.Range.Value, abilityId);
             MsgDispatcher.RegisterMsg(trigger, abilityId);
+
+            MyTargetConstraintList[1] = Range_1;
+        }
+
+        public bool Range_1(object target)
+        {
+            return GameplayToolExtend.distanceBetween(
+                       Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0],
+                       target) <= AbilityVariable.Range.Value;
         }
 
     }

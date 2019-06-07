@@ -1,14 +1,17 @@
 [
   {
     "EncounterID": "Forest_Shadow_1",
+    "GlobalTrigger": [],
     "UnitMessage": [
       {
         "UnitID": "ShadowKnight_1",
         "Pos_X": 1,
         "Pos_Y": 1,
-        "UnitControler": 1
+        "UnitControler": 1,
+        "IsLeader": 0
       }
     ],
+    "DeathPage": -1,
     "BattlefieldMessage": [
       {
         "RegionID": 1,

@@ -161,7 +161,7 @@
     {
         "ID": "GSummonwolf_1",
         "ability_id": [
-            "Summonwilf_1"
+            "Summonwolf_1"
         ],
         "cd": -1,
         "color": "G",
@@ -178,7 +178,7 @@
     {
         "ID": "GSummonwolf_2",
         "ability_id": [
-            "Summonwilf_2"
+            "Summonwolf_2"
         ],
         "cd": -1,
         "color": "G",
@@ -195,7 +195,7 @@
     {
         "ID": "GSummonwolf_3",
         "ability_id": [
-            "Summonwilf_3"
+            "Summonwolf_3"
         ],
         "cd": -1,
         "color": "G",
@@ -414,11 +414,13 @@
     },
     {
         "ID": "HElf_3",
-        "ability_id": [],
+        "ability_id": [
+            "QuickPlat"
+        ],
         "cd": 3,
         "color": "RG",
         "cost": 3,
-        "effect": "可能进行【整备】",
+        "effect": "即时备战。可能进行【整备】",
         "flavor_text": "",
         "name": "琳",
         "related_token": "",

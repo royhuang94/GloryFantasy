@@ -33,11 +33,12 @@ namespace GamePlay.Event
             //Y为效果强度 最终值为读取的初始值与delta值的加和
             this.strenth += delta_y_strenth;
             //在源单位的周围放置制定怪物
+            if (this.strenth > 3) this.strenth = 3;
             switch (strenth)
             {
-                case 1: SummonMonster_in_Unit_Around(this.Source, this.amount, "Ooze_1"); break;
-                case 2: SummonMonster_in_Unit_Around(this.Source, this.amount, "Ooze_2"); break;
-                case 3: SummonMonster_in_Unit_Around(this.Source, this.amount, "Ooze_3"); break;
+                case 1: SummonMonster_in_Unit_Around(this.Source, this.strenth, "Ooze_1"); break;
+                case 2: SummonMonster_in_Unit_Around(this.Source, this.strenth, "Ooze_2"); break;
+                case 3: SummonMonster_in_Unit_Around(this.Source, this.strenth, "Ooze_3"); break;
                 default: break;
             }
 
