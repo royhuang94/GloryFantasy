@@ -210,7 +210,8 @@ namespace BattleMap
 
             this.rows = nstrs.Length;
             this.columns = nstrs[0].Length;
-            float flatSize = this.flat.GetComponent<SpriteRenderer>().size.x; //获得地砖的图片边长
+           
+            float flatSize = flat.GetComponent<SpriteRenderer>().size.x; //获得地砖的图片边长
             Vector2 _leftTopPos = new Vector2((-columns+1) / 2f * flatSize, (-rows-1) / 2f * flatSize);
             //battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
             _mapBlocks = new BattleMapBlock[columns, rows];
