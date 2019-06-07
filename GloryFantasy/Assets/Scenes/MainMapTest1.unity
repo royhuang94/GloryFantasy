@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e20cbb958efd341bf97993711eb903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locate: {x: 2, y: 2, z: 0}
+  locate: {x: 15, y: 8, z: 0}
   HP: 100
   Step: 0
   MaxStep: 100
@@ -895,10 +895,10 @@ MonoBehaviour:
   cursestonesprite: {fileID: 21300000, guid: 30e352de4b4ff19418433341d29e5298, type: 3}
   bonepitsprite: {fileID: 21300000, guid: 97988cba7776eb848aa3a3f3e2242ad4, type: 3}
   obsidiansprite: {fileID: 21300000, guid: 5e6764ce6ff9fa64b8e6c41a350d3ea8, type: 3}
-  boundary1: {fileID: 21300000, guid: 88194eaa5cd7a3f40a9a85c241bb1fbd, type: 3}
-  boundary2: {fileID: 21300000, guid: b316f3e049261f1489d0790ffc1bafc1, type: 3}
-  boundary3: {fileID: 21300000, guid: 3c8de427f670b894f8654891c1b28620, type: 3}
-  boundary4: {fileID: 21300000, guid: 1d8bc59abdb975d4c8b4d1461d6bc880, type: 3}
+  boundarysprite1: {fileID: 21300000, guid: 88194eaa5cd7a3f40a9a85c241bb1fbd, type: 3}
+  boundarysprite2: {fileID: 21300000, guid: b316f3e049261f1489d0790ffc1bafc1, type: 3}
+  boundarysprite3: {fileID: 21300000, guid: 3c8de427f670b894f8654891c1b28620, type: 3}
+  boundarysprite4: {fileID: 21300000, guid: 1d8bc59abdb975d4c8b4d1461d6bc880, type: 3}
 --- !u!114 &661397519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1047,7 +1047,7 @@ Camera:
   far clip plane: 1000
   field of view: 50
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 12
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
