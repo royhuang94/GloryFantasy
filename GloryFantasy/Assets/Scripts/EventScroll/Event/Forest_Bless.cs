@@ -5,14 +5,13 @@ using UnityEngine;
 
 namespace GamePlay.Event
 {
-
-    public class Devil_DashSwing : Event
+    //此区域的单位获得4点治疗。
+    public class Forest_Bless : Event
     {
-        public Devil_DashSwing()
+        public Forest_Bless()
         {
-            //在来源单位周围随机部署2个幽暗触手（CR=Y）
             //从数据库读取属性，id名不能错
-            EventDataBase.Instance().GetEventProperty("Devil_DashSwing", this);
+            EventDataBase.Instance().GetEventProperty("Forest_Bless", this);
             //实例化该事件的 触发条件 和 效果
             this.Condition = selfCondition;
             this.Action = selfAction;
@@ -33,8 +32,13 @@ namespace GamePlay.Event
             this.amount += delta_x_amount;
             //Y为效果强度 最终值为读取的初始值与delta值的加和
             this.strenth += delta_y_strenth;
-            //在源单位的周围放置制定怪物
-            SummonMonster_in_Unit_Around(this.Source, this.strenth, "Tentacle_1");
+
+            List<GameUnit.GameUnit> Unit_in_Source_Area = GameplayToolExtend.getUnitsInRegion(this.Source as BattleMap.BattleArea);
+            foreach (GameUnit.GameUnit unit in Unit_in_Source_Area)
+            {
+                unit.changeHP(4);   //治疗 4点生命值
+            }
+
 
         }
     }
