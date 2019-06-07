@@ -33,9 +33,15 @@ namespace GamePlay.Event
             this.amount += delta_x_amount;
             //Y为效果强度 最终值为读取的初始值与delta值的加和
             this.strenth += delta_y_strenth;
-            //在源单位的周围放置制定怪物
-            SummonMonster_in_Unit_Around(this.Source, this.strenth, "Tentacle_1");
 
+            GameUnit.GameUnit _Unit = this.Source as GameUnit.GameUnit;
+            int _hp = _Unit.hp;
+            GameUnit.GameUnit targetUnit = GameplayToolExtend.GetAttackUnit(_Unit, 4, UnityEngine.Random.Range(0, 2));
+            GameplayToolExtend.MoveToTargetUnit(_Unit, targetUnit);
+
+            Damage This_Damage = new Damage(7);
+            Damage.TakeDamage(targetUnit, This_Damage);   //使得敌方单位收到Y点伤害
+            targetUnit.gameObject.AddBuff<Ability.Debuff.BDizziness>(2f);   //使得此单位获得 眩晕 ,2回合后 消解
         }
     }
 }
