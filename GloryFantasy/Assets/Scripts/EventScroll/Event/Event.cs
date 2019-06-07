@@ -124,7 +124,7 @@ namespace GamePlay.Event
         }
 
         /// <summary>
-        /// 在指定战区召唤指定编号的单位
+        /// 在指定战区召唤指定编号的单位(敌方单位)
         /// </summary>  
         /// <param name="target_area">一个实质是 战区 的抽象object</param>
         /// <param name="amount">召唤数量</param>
@@ -161,7 +161,7 @@ namespace GamePlay.Event
         }
 
         /// <summary>
-        /// 在指定单位周围（3爆发范围）召唤指定编号的单位
+        /// 在指定单位周围（3爆发范围）召唤指定编号的单位：（我方或敌方单位）
         /// </summary>  
         /// <param name="target_unit">一个实质是 单位 的抽象object</param>
         /// <param name="amount">召唤数量</param>
@@ -172,11 +172,19 @@ namespace GamePlay.Event
             Vector2 Unit_Pos = Unit.CurPos;
             List<BattleMap.BattleMapBlock> AroundBlocks;
             AroundBlocks = GameplayToolExtend.getBlocksByBound(Unit_Pos,GameplayToolExtend.Area[2]);
-            for (int i = 0; i < amount && AroundBlocks.Count > 0;)
+            List<BattleMap.BattleMapBlock> UsefulBlocks = new List<BattleMap.BattleMapBlock>();
+            foreach (BattleMap.BattleMapBlock block in AroundBlocks)
+            {
+                if (block.units_on_me.Count == 0)   //没有单位
+
+                  UsefulBlocks.Add(block);
+            }
+
+            for (int i = 0; i < amount && UsefulBlocks.Count > 0;)
             {
                 //随机选择一个可行坐标，在此地格上生成单位
-                int pos = UnityEngine.Random.Range(0, AroundBlocks.Count - 1);//
-                BattleMap.BattleMapBlock battleMapBlock = AroundBlocks[pos];
+                int pos = UnityEngine.Random.Range(0, UsefulBlocks.Count - 1);//
+                BattleMap.BattleMapBlock battleMapBlock = UsefulBlocks[pos];
                 //召唤单位的所属为 源的所属
                 if (Unit.owner == GameUnit.OwnerEnum.Enemy)     
                 {
