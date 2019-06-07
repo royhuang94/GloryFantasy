@@ -6,7 +6,7 @@ using IMessage;
 
 namespace Ability
 {
-    public class Summonwolf : Ability
+    public class SummonWolf : Ability
     {
         private Trigger _trigger;
 
@@ -17,7 +17,7 @@ namespace Ability
         public override void Init(string abilityId)
         {
             base.Init(abilityId);
-            _trigger = new TSummonwolf(this.GetCardReceiver(this), abilityId);
+            _trigger = new TSummonWolf(this.GetCardReceiver(this), abilityId);
             MsgDispatcher.RegisterMsg(_trigger, abilityId);
             MyTargetConstraintList[1] = Range_1;
             MyTargetConstraintList[2] = Range_1;
@@ -25,22 +25,23 @@ namespace Ability
 
         public bool Range_1(object target)
         {
+            // 是mapblock啦
             // 如果目标类型不是GameUnit，直接返回false，为了防止后续强转出错
-            if (!target.GetType().ToString().Equals("GameUnit.GameUnit"))
+            if (!target.GetType().ToString().Equals("BattleMap.BattleMapBlock"))
             {
                 return false;
             }
 
             return BattleMap.BattleMap.Instance().GetMapblockBelong(
-                (target as GameUnit.GameUnit).CurPos).Equals(OwnerEnum.Player);
+                (target as BattleMap.BattleMapBlock).position).Equals(OwnerEnum.Player);
         }
     }
 
-    public class TSummonwolf : Trigger
+    public class TSummonWolf : Trigger
     {
         private string _abilityId;
 
-        public TSummonwolf(MsgReceiver speller, string abilityId)
+        public TSummonWolf(MsgReceiver speller, string abilityId)
         {
             _abilityId = abilityId;
 

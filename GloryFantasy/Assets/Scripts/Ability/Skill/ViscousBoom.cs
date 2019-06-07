@@ -51,7 +51,7 @@ namespace Ability
 
         private bool Condition()
         {
-            //判断死掉的怪是不是这个复活技能的注册者
+            
             if (this.GetDead().GetMsgReceiver() == register)
                 return true;
             else
