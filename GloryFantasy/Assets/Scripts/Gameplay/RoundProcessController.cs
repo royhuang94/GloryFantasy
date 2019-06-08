@@ -172,7 +172,7 @@ namespace GamePlay.Round
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.startPhase;
             //roundProcessController.roundInput = RoundInput.StartPhase;
-            roundProcessController.action(RoundInput.StartPhase, 1.8f);
+            roundProcessController.action(RoundInput.StartPhase, 1.0f);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
@@ -200,7 +200,7 @@ namespace GamePlay.Round
             base.NextState(roundProcessController);
             roundProcessController.State = ExtractCardsPhase;
             //roundProcessController.roundInput = RoundInput.ExtractCardsPhase;
-            roundProcessController.action(RoundInput.ExtractCardsPhase, 3.0f);
+            roundProcessController.action(RoundInput.ExtractCardsPhase, 1.0f);
             roundProcessController.State.Enter(roundProcessController);
         }
 
@@ -236,7 +236,7 @@ namespace GamePlay.Round
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.PreparePhase;
             //roundProcessController.roundInput = RoundInput.PreparePhase;
-            roundProcessController.action(RoundInput.PreparePhase, 2.0f);
+            roundProcessController.action(RoundInput.PreparePhase, 1.0f);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
@@ -261,7 +261,7 @@ namespace GamePlay.Round
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.mainPhase;
             //roundProcessController.roundInput = RoundInput.MainPhase;
-            roundProcessController.action(RoundInput.MainPhase, 1.8f);
+            roundProcessController.action(RoundInput.MainPhase, 1.0f);
             roundProcessController.State.Enter(roundProcessController);
         }
 
@@ -364,7 +364,7 @@ namespace GamePlay.Round
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.AiPhase;
             //roundProcessController.roundInput = RoundInput.AIPhase;
-            roundProcessController.action(RoundInput.AIPhase, 2.8f);
+            roundProcessController.action(RoundInput.AIPhase, 1.0f);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
@@ -386,7 +386,7 @@ namespace GamePlay.Round
             base.NextState(roundProcessController);
             roundProcessController.State = RoundState.RestoreApPhase;
             //roundProcessController.roundInput = RoundInput.RestoreApPhase;
-            roundProcessController.action(RoundInput.RestoreApPhase, 1.8f);
+            roundProcessController.action(RoundInput.RestoreApPhase, 1.0f);
         }
 
         public override void Enter(RoundProcessController roundProcessController)

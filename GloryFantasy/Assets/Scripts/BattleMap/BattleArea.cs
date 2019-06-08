@@ -99,7 +99,7 @@ namespace BattleMap
             {
                 BattleArea battleArea = null;
                 BattleMap.Instance().battleAreaData.battleAreas.TryGetValue(id, out battleArea);
-                Debug.Log(string.Format("战区：{0}，之前状态：{1}", id, battleArea._battleAreaSate));
+                //Debug.Log(string.Format("战区：{0}，之前状态：{1}", id, battleArea._battleAreaSate));
                 BattleAreaSate newBattleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);
 
                 if (battleArea._battleAreaSate == newBattleAreaSate)

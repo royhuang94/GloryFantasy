@@ -70,7 +70,7 @@ namespace GamePlay.Input
             UnitManager.InstantiationUnit(_unitID, _owner, _battleMapBlock);
             if (_post)
             {
-                Debug.Log(_battleMapBlock.units_on_me.ToString());
+                //Debug.Log(_battleMapBlock.units_on_me.ToString());
                 this.SetSummonUnit(_battleMapBlock.units_on_me);
                 MsgDispatcher.SendMsg((int)MessageType.Summon);
             }

@@ -113,7 +113,7 @@ namespace GameUnit
 
         public bool CheckDeath(GameUnit unit)
         {
-            if (unit.gameObject.activeSelf)
+            if (unit != null && unit.gameObject.activeSelf)
                 return false;
             return true;
         }
