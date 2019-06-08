@@ -132,7 +132,7 @@ namespace GamePlay.Round
 
     public class RoundState
     {
-        protected int _roundCounter = 0;
+        protected static int _roundCounter = 0;
 
         public int roundCounter
         {
@@ -142,6 +142,7 @@ namespace GamePlay.Round
 
         public virtual void HandleInput(RoundProcessController roundProcessController, RoundInput input) { }
         public virtual void Update(RoundProcessController roundProcessController) { }
+
         public virtual void Enter(RoundProcessController roundProcessController) { }
         public virtual void Exit(RoundProcessController roundProcessController) { }
         public virtual void NextState(RoundProcessController roundProcessController)
@@ -177,6 +178,7 @@ namespace GamePlay.Round
         public override void Enter(RoundProcessController roundProcessController)
         {
             base.Enter(roundProcessController);
+            _roundCounter += 1;
             // 发送更新资源点消息
             MsgDispatcher.SendMsg((int)MessageType.UpdateSource);
         }
@@ -213,8 +215,6 @@ namespace GamePlay.Round
                     isFirstEnter = false;
                 }
             }
-
-            _roundCounter++;
             Gameplay.Instance().eventScroll.CreateNewEventAssembly();
             Gameplay.Instance().eventScroll.ProcessFirstEventModule();
             MsgDispatcher.SendMsg((int)MessageType.BP);
@@ -387,7 +387,6 @@ namespace GamePlay.Round
             roundProcessController.State = RoundState.RestoreApPhase;
             //roundProcessController.roundInput = RoundInput.RestoreApPhase;
             roundProcessController.action(RoundInput.RestoreApPhase, 1.8f);
-            base.roundCounter += 1;
         }
 
         public override void Enter(RoundProcessController roundProcessController)
