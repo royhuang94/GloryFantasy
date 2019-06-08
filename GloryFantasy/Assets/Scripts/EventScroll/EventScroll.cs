@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using IMessage;
 
 namespace GamePlay.Event
 {
@@ -118,6 +119,8 @@ namespace GamePlay.Event
             {
                 _eventScroll[0].Execute();
             }
+
+            MsgDispatcher.SendMsg((int)MessageType.EventNodeChange);
             //执行完毕后删除事件列表的头
             _eventScroll.RemoveAt(0);
         }
@@ -316,7 +319,7 @@ namespace GamePlay.Event
             /// <summary>
             /// 事件名
             /// </summary>
-            public string EventID;
+            public string EventName;
             /// <summary>
             /// 数量
             /// </summary>
@@ -329,28 +332,42 @@ namespace GamePlay.Event
             /// 类型
             /// </summary>
             public List<string> Type;
+            /// <summary>
+            /// 事件源
+            /// </summary>
+            public object Source;
+            /// <summary>
+            /// 事件效果描述
+            /// </summary>
+            public string Effect;
 
             /// <summary>
             /// 有参构造函数
             /// (重构+1)
             /// </summary>
-            /// <param name="_eventID"></param>
+            /// <param name="_eventName"></param>
             /// <param name="_amount"></param>
             /// <param name="_strength"></param>
             /// <param name="_type"></param>
-            public EventInfo(string _eventID, int _amount, int _strength, List<string> _type)
+            /// <param name="_source"></param>
+            /// <param name="_effect"></param>
+            public EventInfo(string _eventName, int _amount, int _strength, List<string> _type, object _source, string _effect)
             {
-                EventID = _eventID;
+                EventName = _eventName;
                 Amount = _amount;
                 Strength = _strength;
                 Type = _type;
+                Source = _source;
+                Effect = _effect;
             }
             public EventInfo(Event eve)
             {
-                EventID = eve.id;
+                EventName = eve.name;
                 Amount = eve.amount;
                 Strength = eve.strenth;
                 Type = eve.type;
+                Source = eve.Source;
+                Effect = eve.effect;
             }
         }
 
@@ -426,6 +443,12 @@ namespace GamePlay.Event
                 {
                     eventList.Remove(oneEvent);
                 }
+            }
+
+            foreach (EventInfo eventInfo in _eventInfos)
+            {
+                if(eventInfo.Source == source)
+                    _eventInfos.Remove(eventInfo);
             }
         }
     }
