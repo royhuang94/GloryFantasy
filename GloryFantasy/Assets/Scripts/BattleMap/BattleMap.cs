@@ -281,6 +281,29 @@ namespace BattleMap
             }
             return neighbour;
         }
+        public List<BattleMapBlock> GetNeighbourBlock(BattleMapBlock battleMapBlock)
+        {
+            List<BattleMapBlock> neighbour = new List<BattleMapBlock>();
+            int x = (int)battleMapBlock.position.x;
+            int y = (int)battleMapBlock.position.y;
+            if (GetSpecificMapBlock(x - 1, y) != null && GetSpecificMapBlock(x - 1, y).units_on_me.Count == 0)
+            {
+                neighbour.Add(GetSpecificMapBlock(x - 1, y));
+            }
+            if (GetSpecificMapBlock(x + 1, y) != null && GetSpecificMapBlock(x + 1, y).units_on_me.Count == 0)
+            {
+                neighbour.Add(GetSpecificMapBlock(x + 1, y));
+            }
+            if (GetSpecificMapBlock(x, y - 1) != null && GetSpecificMapBlock(x, y - 1).units_on_me.Count == 0)
+            {
+                neighbour.Add(GetSpecificMapBlock(x, y - 1));
+            }
+            if (GetSpecificMapBlock(x, y + 1) != null && GetSpecificMapBlock(x, y + 1).units_on_me.Count == 0)
+            {
+                neighbour.Add(GetSpecificMapBlock(x, y + 1));
+            }
+            return neighbour;
+        }
 
         /// <summary>
         /// 传入坐标，获取对应的MapBlock。坐标不合法会返回null
@@ -583,6 +606,23 @@ namespace BattleMap
             }
 
             return friendlyUnits;
+        }
+        /// <summary>
+        /// 返回敌方所有单位
+        /// </summary>
+        /// <returns></returns>
+        public List<Unit> GetEnemyUnitsList()
+        {
+            List<Unit> enemiesUnits = new List<Unit>();
+            foreach (Unit unit in _unitsList)
+            {
+                if(unit.owner == OwnerEnum.Enemy)
+                {
+                    enemiesUnits.Add(unit);
+                }
+            }
+
+            return enemiesUnits;
         }
 
 

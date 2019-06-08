@@ -19,7 +19,7 @@ namespace GamePlay.Event
         public Empty()
         {
             //从数据库读取属性，id名不能错
-            EventDataBase.Instance().GetEventProperty("ReinforceArcher", this);
+            EventDataBase.Instance().GetEventProperty("Empty", this);
             //初始化条件函数和行动函数
             this.Condition = selfCondition ;
             this.Action = selfAction;

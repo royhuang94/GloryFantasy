@@ -108,7 +108,7 @@ namespace GamePlay.Event
             //设置事件的源
             tempEvent.Source = _DirectEvent.Source;
             //将 事件 加入 相应事件队列
-            _eventScroll[No_of_Expect_EventAssembly].Add(tempEvent); 
+            _eventScroll[No_of_Expect_EventAssembly].Add(tempEvent);
         }
         /// <summary>
         /// 执行事件列表的头
@@ -145,7 +145,7 @@ namespace GamePlay.Event
                     sum += module.EventList[i].EventWeight;
                 }
                 var r = UnityEngine.Random.Range(0, sum) + 1;
-                int temp = 0; 
+                int temp = 0;
                 for (int i = 0; i < module.EventList.Count; i++)
                 {
                     temp += module.EventList[i].EventWeight;
@@ -252,7 +252,7 @@ namespace GamePlay.Event
 
         /// <summary>
         /// 以回合数作为坐标添加一个事件模块进入事件轴
-        /// 重载+1 
+        /// 重载+1
         /// </summary>
         /// <param name="round">插入回合数</param>
         /// <param name="eventModule">事件模型</param>
@@ -264,7 +264,7 @@ namespace GamePlay.Event
         }
         /// <summary>
         /// 以回合数作为坐标添加一个事件模块进入事件轴
-        /// 重载+1 
+        /// 重载+1
         /// </summary>
         /// <param name="round">插入回合数</param>
         /// <param name="eventModule">事件模型</param>
@@ -508,6 +508,11 @@ namespace GamePlay.Event
 
         }
 
+        public void AddEvent(List<EventWithWeight> eventWithWeights)
+        {
+            EventList.AddRange(eventWithWeights);
+        }
+
         /// <summary>
         /// 向事件模块加入事件id以及该事件的权重
         /// </summary>
@@ -517,11 +522,6 @@ namespace GamePlay.Event
         {
             EventList.Add(new EventWithWeight(EventName, EventWeight));
         }
-        public void AddEvent(List<EventWithWeight> eventWithWeights)
-        {
-            EventList.AddRange(eventWithWeights);
-        }
-
         /// <summary>
         /// 删除该事件模块
         /// </summary>

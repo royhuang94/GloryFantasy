@@ -549,7 +549,7 @@ namespace GamePlay
         public static void drawCards(int amount)
         {
             int i = amount;
-            while (i >=1)
+            while (i >= 1)
             {
                 IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.DrawCard);     //发送抽卡消息
                 i--;
@@ -667,7 +667,7 @@ namespace GamePlay
         {
             Vector2 aPos = toVector2(a);
             Vector2 bPos = toVector2(b);
-            
+
             return (int)(Mathf.Abs(aPos.x - bPos.y) + Mathf.Abs(aPos.y - bPos.y));
         }
         private static Vector2 toVector2(object a)
@@ -822,7 +822,7 @@ namespace GamePlay
         public static List<GameUnit.GameUnit> GetUnitsByBlocks(List<BattleMap.BattleMapBlock> blocks)
         {
             List<GameUnit.GameUnit> gameUnits = new List<GameUnit.GameUnit>();
-            foreach(BattleMap.BattleMapBlock block in blocks)
+            foreach (BattleMap.BattleMapBlock block in blocks)
             {
                 GameUnit.GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(new Vector2(block.position.x, block.position.y));
                 if (unit != null)
@@ -830,5 +830,97 @@ namespace GamePlay
             }
             return gameUnits;
         }
+
+        /// <summary>
+        /// 索敌接口
+        /// 返回值会返回NULL， 使用后请判断返回值是否为空以防止空异常
+        /// </summary>
+        /// <param name="gameUnit"></param>
+        /// <param name="range"></param>
+        /// <param name="attackMethod"></param>
+        /// <returns>返回值会返回NULL， 使用后请判断返回值是否为空以防止空异常</returns>
+        public static GameUnit.GameUnit GetAttackUnit(GameUnit.GameUnit gameUnit, int range, int attackMethod)
+        {
+            List<GameUnit.GameUnit> gameUnits;
+            List<BattleMap.BattleMapBlock> battleMapBlocks = getBlocksByBound(gameUnit.CurPos, Area[range]); //获取 以单位为中心，range大小范围的地图块儿列表
+
+            if(gameUnit.owner == GameUnit.OwnerEnum.Enemy)
+                gameUnits = BattleMap.BattleMap.Instance().GetFriendlyUnitsList(); //获取我方所有单位
+            else
+                gameUnits = BattleMap.BattleMap.Instance().GetEnemyUnitsList(); //获取敌方所有单位
+
+            //防止出现数组越界
+            if (gameUnits.Count <= 0)//范围内没有敌对单位，事件触发失效
+                return null;
+
+
+            GameUnit.GameUnit tempUnit = gameUnits[0];
+            //移除未包含再范围内的敌对单位，且排序为距离又近到远的顺序
+            foreach (GameUnit.GameUnit unit in gameUnits)
+            {
+                if (!battleMapBlocks.Contains(BattleMap.BattleMap.Instance().GetSpecificMapBlock(gameUnit.CurPos)))
+                {
+                    gameUnits.Remove(unit);
+                    continue;
+                }
+
+                int a = Mathf.Abs((int)unit.CurPos.x - (int)gameUnit.CurPos.x) + Mathf.Abs((int)unit.CurPos.y - (int)gameUnit.CurPos.y);
+                int b = Mathf.Abs((int)gameUnit.CurPos.x - (int)tempUnit.CurPos.x) + Mathf.Abs((int)gameUnit.CurPos.y - (int)tempUnit.CurPos.y);
+                if (a < b) //代表当前unit离gameunit更近
+                {
+                    gameUnits.Remove(unit);
+                    gameUnits.Insert(0, unit);
+                }
+                tempUnit = unit;
+            }
+
+
+            switch (attackMethod)
+            {
+                case 0:
+                    //TODO 如何搜寻近的敌人 根据距离判断我方最近
+                    return gameUnits[0];
+                case 1:
+                    //TODO 如何搜寻远的敌人 根据距离判断我方最远
+                    return gameUnits[gameUnits.Count - 1];
+                default:
+                    //TODO 如何随机的敌人，通过UnitList获取我方敌人随机
+                    return gameUnits[Random.Range(0, gameUnits.Count - 1)];
+            }
+        }
+
+        /// <summary>
+        /// 索敌成功后的移动
+        /// </summary>
+        public static void MoveToTargetUnit(GameUnit.GameUnit gameUnit, GameUnit.GameUnit targetUnit)
+        {
+            //地图导航
+            BattleMap.MapNavigator mapNavigator = BattleMap.BattleMap.Instance().MapNavigator;
+
+            //获得A的周边MapBlock
+            List<BattleMap.BattleMapBlock> neighbourBlocks = BattleMap.BattleMap.Instance().GetNeighbourBlock(BattleMap.BattleMap.Instance().GetSpecificMapBlock(gameUnit.CurPos));
+            int prevPathCount = int.MaxValue;
+            BattleMap.BattleMapBlock neighbourBlock = neighbourBlocks[0];
+            
+            foreach (BattleMap.BattleMapBlock battleMapBlock in neighbourBlocks)
+            {
+                if (mapNavigator.PathSearch(gameUnit.CurPos, battleMapBlock.position))
+                {
+                    //找到对于ai单位的最短路径
+                    if (prevPathCount > mapNavigator.Paths.Count)
+                    {
+                        //更新最优路径
+                        neighbourBlock = battleMapBlock;
+                        prevPathCount = mapNavigator.Paths.Count;
+                    }
+                }
+            }
+            
+            //创建移动命令
+            UnitMoveCommand unitMove = new UnitMoveCommand(gameUnit, gameUnit.CurPos, neighbourBlock.position, Vector2.zero);
+            unitMove.Excute();
+        }
+
+
     }
 }
