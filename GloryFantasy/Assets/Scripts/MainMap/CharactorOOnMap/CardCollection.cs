@@ -5,6 +5,7 @@ using LitJson;
 using System.IO;
 using GameCard;
 using System.Linq;
+using MainMap;
 
 namespace PlayerCollection
 {
@@ -26,10 +27,6 @@ namespace PlayerCollection
         /// 英雄单位的战技牌，规则为英雄字符串-卡牌字符串
         /// </summary>
         public Dictionary<string, string> battleskill = new Dictionary<string, string>();
-        /// <summary>图书馆正销售的卡牌链表
-        /// 
-        /// </summary>
-        public List<string> librarylist = new List<string>();
         /// <summary>图书馆里被选中的卡牌0.0
         /// 
         /// </summary>
@@ -60,22 +57,22 @@ namespace PlayerCollection
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public bool BuyCard()
+        public bool BuyCard(Library library)
         {
             mycollection.Add(choosecardID);
             Debug.Log("购买成功！");
-            librarylist.Remove(choosecardID);
+            library.librarylist.Remove(choosecardID);
             return true;
         }
         /// <summary>获取三张卡牌信息,并写入librarylist;
         /// 
         /// </summary>
-        public void GetCards()
+        public void GetCards(Library library)
         {
             int dataAmount = cardsJsonData.Count;
             for(int i=0; i<librarylength;i++)
             {
-                librarylist.Add(GetCardID(Random.Range(0, dataAmount)));
+                library.librarylist.Add(GetCardID(Random.Range(0, dataAmount)));
             }
         }
         /// <summary>
