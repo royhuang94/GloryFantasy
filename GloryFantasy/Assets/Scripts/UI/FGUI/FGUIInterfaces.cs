@@ -10,6 +10,7 @@ using GamePlay.Event;
 using IMessage;
 using LitJson;
 using Random = UnityEngine.Random;
+using EventInfo = GamePlay.Event.EventAssembly.EventInfo;
 
 
 public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
@@ -50,6 +51,10 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	/// 事件轴图标说明窗口内放具体说明文字的list
 	/// </summary>
 	private GList _eventDescribeList;
+
+	private GTextField _textField;		// 事件信息文本框
+
+	private Dictionary<int, List<EventInfo>> _eventNodeDic;
 
 	#endregion
 	
@@ -125,6 +130,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		lastClicked = null;
 		_lastClickedCoolDownCard = null;
 		_lastClickedEventIcon = null;
+		_eventNodeDic = new Dictionary<int, List<EventInfo>>();
 		
 		// 战斗场景UI
 		_mainUI = UIPackage.CreateObject(pkgName, "battleScene").asCom;
@@ -276,10 +282,19 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			() => { _roundText.text = "抽牌阶段"; },
 			"Round text synchronize");
 		#endregion
+
+		MsgDispatcher.RegisterMsg(
+			this.GetMsgReceiver(),
+			(int)MessageType.EventNodeChange,
+			() => { return true;},
+			UpdateEventsMessage,
+			"EventNode observer"
+		);
 		
 		UpdateHandcards();
 		UpdateCardsSets();
 		UpdateCooldownList();
+		UpdateEventsMessage();
 		
 		_handcardList.onClickItem.Add(OnClickHandCard);
 		
@@ -415,11 +430,25 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			
 			if (index < eventAssemblyList.Count)
 			{
-				for (int i = 0; i < eventAssemblyList[index].eventListCount; i++)
+				foreach (string eventMsg in GetNodeInfo(index + 1))
 				{
 					GComponent item = UIPackage.CreateObject(pkgName, "eventScrollItem").asCom;
-					item.GetChild("n0").asTextField.text = eventAssemblyList[index].getEventList[i].getEventMessage();
+					
+					_textField = item.GetChild("n0").asTextField;
+					
+					int line = (eventMsg.Length + 31) / 32;				// 事件信息所占行数，32是试验出来的每行最大字符数，过程暴力
+					
+					item.SetSize(item.size.x, (line + 0.2f) * item.size.y);
+					_textField.SetSize(_textField.size.x, _textField.size.y * line);		// 设置文本框大小，高度为单行高度 * 行数
+					_textField.text = eventMsg;
+
 					// 添加构造好的item，若要加多个，请根据需要数据添加
+					_eventDescribeList.AddChild(item);
+				}
+				if(GetNodeInfo(index + 1).Count == 0)			// 事件权威Empty，即暂无事件
+				{
+					GComponent item = UIPackage.CreateObject(pkgName, "eventScrollItem").asCom;
+					item.GetChild("n0").asTextField.text = "暂无事件";
 					_eventDescribeList.AddChild(item);
 				}
 			}
@@ -427,7 +456,6 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			{
 				GComponent item = UIPackage.CreateObject(pkgName, "eventScrollItem").asCom;
 				item.GetChild("n0").asTextField.text = "暂无事件";
-				// 添加构造好的item，若要加多个，请根据需要数据添加
 				_eventDescribeList.AddChild(item);
 			}
 
@@ -445,6 +473,54 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			//_eventDescribeWindow.Hide();
 			_lastClickedEventIcon = null;
 			GRoot.inst.HidePopup(_eventDescribeWindow);
+		}
+	}
+
+
+	/// <summary>
+	/// 获取当前点击节点里的事件信息
+	/// </summary>
+	/// <param name="index">点击节点下标</param>
+	/// <returns>该节点处理过的所有事件信息集合</returns>
+	private List<string> GetNodeInfo(int index)
+	{
+		List<EventInfo> eventInfos;			// 事件信息集合
+		List<string> eventNodeInfo = new List<string>();		// 处理过的事件信息集合
+		if (_eventNodeDic.ContainsKey(index))
+		{
+			eventInfos = _eventNodeDic[index];					// 通过点击节点获取对应的事件信息
+			foreach (EventInfo eventInfo in eventInfos)
+			{
+				if("Empty".Equals(eventInfo.EventName))			// 事件名为Empty则不处理
+					continue;
+				string temp = eventInfo.Effect.Replace("{amount}", eventInfo.Amount.ToString());
+				string effect = temp.Replace("{strenth}", eventInfo.Strength.ToString());
+				eventNodeInfo.Add(eventInfo.EventName + "  " + effect);
+			}
+		}
+		return eventNodeInfo;
+	}
+	
+	/// <summary>
+	/// 更新事件信息字典
+	/// </summary>
+	private void UpdateEventsMessage()
+	{
+		List<EventAssembly> eventAssemblyList = Gameplay.Instance().eventScroll.GetEventAssemblies();		// 获取事件集合
+
+		int maxNodeAmount = 5 > eventAssemblyList.Count ? eventAssemblyList.Count : 5;		// 获取得到的节点数，取其和5之间的较小值
+
+		_eventNodeDic.Clear();
+		for (int i = 0; i < 5; i++)			// 5个节点
+		{
+			if (i < maxNodeAmount)
+			{
+				_eventNodeDic.Add(i + 1, eventAssemblyList[i].GetEventInfos);
+			}
+			else
+			{
+				_eventNodeDic.Add(i + 1, null);
+			}
 		}
 	}
 

@@ -108,7 +108,7 @@ namespace GamePlay.Event
             //设置事件的源
             tempEvent.Source = _DirectEvent.Source;
             //将 事件 加入 相应事件队列
-            _eventScroll[No_of_Expect_EventAssembly].Add(tempEvent); 
+            _eventScroll[No_of_Expect_EventAssembly].Add(tempEvent);
         }
         /// <summary>
         /// 执行事件列表的头
@@ -145,7 +145,7 @@ namespace GamePlay.Event
                     sum += module.EventList[i].EventWeight;
                 }
                 var r = UnityEngine.Random.Range(0, sum) + 1;
-                int temp = 0; 
+                int temp = 0;
                 for (int i = 0; i < module.EventList.Count; i++)
                 {
                     temp += module.EventList[i].EventWeight;
@@ -252,7 +252,7 @@ namespace GamePlay.Event
 
         /// <summary>
         /// 以回合数作为坐标添加一个事件模块进入事件轴
-        /// 重载+1 
+        /// 重载+1
         /// </summary>
         /// <param name="round">插入回合数</param>
         /// <param name="eventModule">事件模型</param>
@@ -264,7 +264,7 @@ namespace GamePlay.Event
         }
         /// <summary>
         /// 以回合数作为坐标添加一个事件模块进入事件轴
-        /// 重载+1 
+        /// 重载+1
         /// </summary>
         /// <param name="round">插入回合数</param>
         /// <param name="eventModule">事件模型</param>
@@ -332,21 +332,33 @@ namespace GamePlay.Event
             /// 类型
             /// </summary>
             public List<string> Type;
+            /// <summary>
+            /// 事件源
+            /// </summary>
+            public object Source;
+            /// <summary>
+            /// 事件效果描述
+            /// </summary>
+            public string Effect;
 
             /// <summary>
             /// 有参构造函数
             /// (重构+1)
             /// </summary>
-            /// <param name="_eventID"></param>
+            /// <param name="_eventName"></param>
             /// <param name="_amount"></param>
             /// <param name="_strength"></param>
             /// <param name="_type"></param>
-            public EventInfo(string _eventName, int _amount, int _strength, List<string> _type)
+            /// <param name="_source"></param>
+            /// <param name="_effect"></param>
+            public EventInfo(string _eventName, int _amount, int _strength, List<string> _type, object _source, string _effect)
             {
                 EventName = _eventName;
                 Amount = _amount;
                 Strength = _strength;
                 Type = _type;
+                Source = _source;
+                Effect = _effect;
             }
             public EventInfo(Event eve)
             {
@@ -354,6 +366,8 @@ namespace GamePlay.Event
                 Amount = eve.amount;
                 Strength = eve.strenth;
                 Type = eve.type;
+                Source = eve.Source;
+                Effect = eve.effect;
             }
         }
 
@@ -429,6 +443,12 @@ namespace GamePlay.Event
                 {
                     eventList.Remove(oneEvent);
                 }
+            }
+
+            foreach (EventInfo eventInfo in _eventInfos)
+            {
+                if(eventInfo.Source == source)
+                    _eventInfos.Remove(eventInfo);
             }
         }
     }

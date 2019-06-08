@@ -23,23 +23,23 @@ namespace IMessage
         Discard,//弃牌阶段
         AI,     //敌人行动阶段
         AIEnd,  // 敌人行动结束阶段
-        
+
         WIN,    // 胜利消息
         LOSE,    // 失败消息
-        
+
         HandcardChange,        // 手牌变动消息
         CardsetChange,         // 卡牌堆变动消息
         CooldownlistChange,    // 冷却列表变动消息
-        EventNodeChange,       
-        
+        EventNodeChange,       // 事件节点信息变动消息
+
         AddInHand, //加入手牌
         AnnounceAttack, //攻击宣言
         ActiveAbility, //异能发动
         SelectionOver, // InputFSMSelectState结束消息
         SelectOneTarget, //InputFSM 成功选择了一名目标（指已经条件判断完成并为真）后发出的消息
-        
+
         RegionChange, //战区归属权变更消息
-        
+
         #region ATK 时点部分
         BeAttacked, //被攻击
         Damage, //造成伤害
@@ -62,9 +62,9 @@ namespace IMessage
         Move, //开始移动
         Moved, //单位被移动
         Aftermove, //移动结束
-        
+
         RoundsEnd,  //回合结束
-        
+
         Encounter, // 遭遇战
 
         BattleSate,//战区状态
@@ -130,7 +130,7 @@ namespace IMessage
                     receiver = null;
             }
         }
-        
+
         private static Dictionary<int, List<int>> Inverse(Dictionary<int, List<int>> keyValuePairs)
         {
             Dictionary<int, List<int>> res = new Dictionary<int, List<int>>();
@@ -164,7 +164,7 @@ namespace IMessage
                     (int)MessageType.ColliderChange
                 }
             }
-            
+
         });
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
@@ -216,7 +216,7 @@ namespace IMessage
             {
                 Debug.Log("RegisterMsg: " + TriggerName + "'s action" + "is null");
             }
-            
+
             if (!MsgHandlerDict.ContainsKey(msgName))
             {
                 MsgHandlerDict[msgName] = new List<MsgHandler>();
@@ -268,7 +268,7 @@ namespace IMessage
                     {
                         if (!(queue.Contains(i)))
                             queue.Add(i);
-                           
+
                     }
                 }
 
