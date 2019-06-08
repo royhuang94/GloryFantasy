@@ -83,6 +83,10 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	private cdObject _lastClickedCoolDownCard;
 	private GObject _lastClickedEventIcon;
 
+	/// <summary>
+	/// 回合结束按钮上面那个说明文字
+	/// </summary>
+	private GTextField _roundText;
 	#region 描述窗内变量
 	private Window _cardDescribeWindow;
 	private GComponent _cardDescibeFrame;
@@ -183,6 +187,9 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		
 		// 从游戏主场景获取AP值展示的text
 		_APText = _mainUI.GetChild("APDisplayer").asCom.GetChild("APText").asTextField;
+		
+		// 获取回合展示信息
+		_roundText = _mainUI.GetChild("roundText").asTextField;
 	}
 
 	// Use this for initialization
@@ -237,6 +244,45 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			"Cooldown list observer"
 		);
 		
+		#region 回合信息展示
+
+		_roundText.text = "己方回合";
+		MsgDispatcher.RegisterMsg(
+			this.GetMsgReceiver(),
+			(int)MessageType.MPBegin,
+			() => { return true; },
+			ShowRoundInfo,
+			"Round text synchronize");
+		
+		MsgDispatcher.RegisterMsg(
+			this.GetMsgReceiver(),
+			(int)MessageType.AI,
+			() => { return true; },
+			() => { _roundText.text = "敌方回合";},
+			"Round text synchronize");
+		
+		MsgDispatcher.RegisterMsg(
+			this.GetMsgReceiver(),
+			(int)MessageType.AIEnd,
+			() => { return true;},
+			() => { _roundText.text = "己方回合";},
+			"Round text synchronize");
+		
+		MsgDispatcher.RegisterMsg(
+			this.GetMsgReceiver(),
+			(int)MessageType.UpdateSource,
+			() => { return true; },
+			() => { _roundText.text = "专注恢复"; },
+			"Round text synchronize");
+		
+		MsgDispatcher.RegisterMsg(
+			this.GetMsgReceiver(),
+			(int)MessageType.DrawCard,
+			() => { return true; },
+			() => { _roundText.text = "抽牌阶段"; },
+			"Round text synchronize");
+		#endregion
+
 		MsgDispatcher.RegisterMsg(
 			this.GetMsgReceiver(),
 			(int)MessageType.EventNodeChange,
@@ -267,6 +313,15 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			_eventScrollList._children[i].icon = UIPackage.GetItemURL(pkgName,
 				eventIcons[Random.Range(0, _eventScrollList._children.Count - 1)]);
 		}
+	}
+
+	public void ShowRoundInfo()
+	{
+		int round = Gameplay.Instance().roundProcessController.State.roundCounter;
+		string text = "第";
+		text += round;
+		text += "回合";
+		_roundText.text = text;
 	}
 
 	private void FixedUpdate()
