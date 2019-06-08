@@ -29,6 +29,7 @@ namespace IMessage
         HandcardChange,        // 手牌变动消息
         CardsetChange,         // 卡牌堆变动消息
         CooldownlistChange,    // 冷却列表变动消息
+        EventNodeChange,       
         
         AddInHand, //加入手牌
         AnnounceAttack, //攻击宣言

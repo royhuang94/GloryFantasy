@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using IMessage
 
 namespace GamePlay.Event
 {
@@ -118,6 +119,8 @@ namespace GamePlay.Event
             {
                 _eventScroll[0].Execute();
             }
+
+            MsgDispatcher.SendMsg((int)MessageType.EventNodeChange);
             //执行完毕后删除事件列表的头
             _eventScroll.RemoveAt(0);
         }
@@ -485,6 +488,11 @@ namespace GamePlay.Event
 
         }
 
+        public void AddEvent(List<EventWithWeight> eventWithWeights)
+        {
+            EventList.AddRange(eventWithWeights);
+        }
+
         /// <summary>
         /// 向事件模块加入事件id以及该事件的权重
         /// </summary>
@@ -494,11 +502,6 @@ namespace GamePlay.Event
         {
             EventList.Add(new EventWithWeight(EventName, EventWeight));
         }
-        public void AddEvent(List<EventWithWeight> eventWithWeights)
-        {
-            EventList.AddRange(eventWithWeights);
-        }
-
         /// <summary>
         /// 删除该事件模块
         /// </summary>
