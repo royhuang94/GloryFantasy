@@ -316,7 +316,7 @@ namespace GamePlay.Event
             /// <summary>
             /// 事件名
             /// </summary>
-            public string EventID;
+            public string EventName;
             /// <summary>
             /// 数量
             /// </summary>
@@ -338,16 +338,16 @@ namespace GamePlay.Event
             /// <param name="_amount"></param>
             /// <param name="_strength"></param>
             /// <param name="_type"></param>
-            public EventInfo(string _eventID, int _amount, int _strength, List<string> _type)
+            public EventInfo(string _eventName, int _amount, int _strength, List<string> _type)
             {
-                EventID = _eventID;
+                EventName = _eventName;
                 Amount = _amount;
                 Strength = _strength;
                 Type = _type;
             }
             public EventInfo(Event eve)
             {
-                EventID = eve.id;
+                EventName = eve.name;
                 Amount = eve.amount;
                 Strength = eve.strenth;
                 Type = eve.type;
