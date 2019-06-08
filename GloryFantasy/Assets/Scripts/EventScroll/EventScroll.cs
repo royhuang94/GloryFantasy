@@ -66,13 +66,13 @@ namespace GamePlay.Event
             }
         }
         /// <summary>
-        /// 获取事件轴的队列个数，目前默认为3
+        /// 获取事件轴的队列个数，目前默认为5
         /// </summary>
         public int EventScrollCount
         {
             get
             {
-                return 3;
+                return 5;
             }
         }
 

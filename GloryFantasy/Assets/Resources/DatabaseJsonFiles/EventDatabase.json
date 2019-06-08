@@ -79,7 +79,7 @@
     ]
   },
   {
-    "ID": "Devil_DashSwing",
+    "ID": "Devil_Swing",
     "amount": 0,
     "effect": "来源单位移动至多4格，然后对一个1格内的单位造成7点伤害并使其眩晕，2回合后消解",
     "name": "挥击",
@@ -112,7 +112,7 @@
     ]
   },
   {
-    "ID": "Devil_Proliferative",
+    "ID": "Devil_DashSwing",
     "amount": 0,
     "effect": "在来源单位所在战区随机部署2个幽暗触手（CR={strenth}）",
     "name": "增殖",
