@@ -7,6 +7,9 @@ using LitJson;
 using System.IO;
 using GameGUI;
 using UnityEditor;
+using PlayerCollection;
+
+
 namespace MainMap
 {
     /// <summary>定义六边形坐标的结构体，并处理坐标转换
@@ -369,7 +372,7 @@ namespace MainMap
         {
             //普通地格默认监听CheckAround,特殊地格会重新监听各自的新事件
             MapUnitInstalize();
-            Debug.Log("普通地面初始化.");
+          //  Debug.Log("普通地面初始化.");
 
         }
 
@@ -396,23 +399,23 @@ namespace MainMap
     public class Library : MapUnit
     {
         public static List<Library> activelibrarylist = new List<Library>();
-        /// <summary>角色踩在图书馆上会把ReadyToTrans设置为true
+        /// <summary>图书馆正销售的卡牌链表
         /// 
         /// </summary>
-        private static bool ReadyToTrans = false;
+        public List<string> librarylist = new List<string>();
         public void Awake()
         {
-            Debug.Log("图书馆初始化");
+         //   Debug.Log("图书馆初始化");
             MapUnitInstalize();
+            CardCollection.Instance().GetCards(this);
             //test
-            activelibrarylist.Add(this);
         }
         /// <summary>点击图书馆格子后触发的事件
         /// 
         /// </summary>
         public override void OnClick()
         {
-            if (Charactor.Instance().aroundlist.ContainsValue(this) && ReadyToTrans == false)
+            if (Charactor.Instance().aroundlist.ContainsValue(this))
             {
                 ChangePosition(1);
             }
@@ -423,18 +426,13 @@ namespace MainMap
         }
         public override void ChangePositionOver()
         {
-            Debug.Log("图书馆已激活");
             Debug.Log("进入图书馆");
             if (!activelibrarylist.Contains(this))
             {
                 activelibrarylist.Add(this);
+                Debug.Log("图书馆已激活");
             }
             MainMapUI.Instance().ShowlibraryUI(this);
-        }
-        public static void PrepareTrans()
-        {
-            ReadyToTrans = true;
-            Debug.Log("准备传送");
         }
         /// <summary>传送的具体实现
         /// 
@@ -442,11 +440,6 @@ namespace MainMap
         public void transfer()
         {
             ChangePosition(2);
-            ReadyToTrans = false;
-        }
-        public void CancelTrans()
-        {
-            ReadyToTrans = false;
         }
 
     }

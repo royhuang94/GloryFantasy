@@ -6,6 +6,7 @@ using GameGUI;
 using System.IO;
 using UnityEngine.EventSystems;
 using UnityEditor;
+using System.Linq;
 
 namespace MainMap
 {
@@ -89,11 +90,14 @@ namespace MainMap
     public class Monster:MapElement
     {
         private string monsterid;
+        private int level;
+        private static List<Monster> monsterlist = new List<Monster>();
         private string BattleMapSceneName = "BattleMapTest";          // 战斗地图场景名，在此修改
         private string MainMapSceneName = "MainMapTest1";
         protected override void Awake()
         {
             Debug.Log("怪物初始化");
+            monsterlist.Add(this);
             instalize();
         }
         public override void ElementOnClick()
@@ -102,15 +106,30 @@ namespace MainMap
            BattleMap.BattleMap.Instance().GetEncounterIDFromMainMap(monsterid);
            SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
         }
+        /// <summary>
+        /// 设置怪物遭遇id和等级信息
+        /// </summary>
+        /// <param name="id"></param>
         public void SetID(string id)
         {
             monsterid = id;
-            Debug.Log("ID设置成功");
+            level = int.Parse(id.Split('_').Last());
         }
-        public  void SetTexture()
+        public void SetTexture()
         {
-            this.GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("MMtesttexture/" + monsterid,typeof(Sprite));
-            Debug.Log("根据id添加材质");
+            this.GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + monsterid,typeof(Sprite));
+        }
+        /// <summary>
+        /// 升级所有怪物
+        /// </summary>
+        private void UpDateAllMonsters()
+        {
+            level++;
+            foreach(Monster m in monsterlist)
+            {
+                m.SetID(m.monsterid.Split('_').First()+"_"+level.ToString());
+                SetTexture();
+            }
         }
     }
     /// <summary>随机事件
