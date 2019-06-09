@@ -35,7 +35,7 @@ namespace GamePlay.Event
         void selfAction()
         {
 
-            Debug.Log("测试事件触发");
+            //Debug.Log("测试事件触发");
             //"在来源战区中随机部署X个弓手之影(CR Y)",
             
             //来源

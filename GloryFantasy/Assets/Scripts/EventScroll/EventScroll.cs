@@ -191,7 +191,7 @@ namespace GamePlay.Event
             _eventScroll.Add(newAssembly);
             //Debug.Log("count: " + EventScrollListCount);
             //添加回合数标签
-            Debug.Log("当前回合数: " + Gameplay.Instance().roundProcessController.State.roundCounter);
+            //Debug.Log("当前回合数: " + Gameplay.Instance().roundProcessController.State.roundCounter);
             _timeScroll.Add(Gameplay.Instance().roundProcessController.State.roundCounter);     //这个数值暂时没有用到
         }
 

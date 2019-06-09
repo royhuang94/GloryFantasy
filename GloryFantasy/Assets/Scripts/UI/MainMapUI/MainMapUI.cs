@@ -54,7 +54,7 @@ namespace GameGUI
         /// 
         /// </summary>
         private List<string> playercardlist;
-        private List<string> library_list;
+        private Library choosenlibrary;
         //URL
         private const string cardicons = "handcardFake";
         /// <summary>初始化
@@ -97,10 +97,8 @@ namespace GameGUI
         private void Start()
         {
             playercardlist = CardCollection.Instance().mycollection;
-            library_list = CardCollection.Instance().librarylist;
             cardcollectionlist.onClickItem.Add(OnClickCardInCardCollection);
             onsalelist.onClickItem.Add(OnClickCardInLibrary);
-            CardCollection.Instance().GetCards();
         }
         #region 图书馆相关代码
         /// <summary>点击图书馆地格后调用此方法展示图书馆UI并作初始化工作;
@@ -108,6 +106,7 @@ namespace GameGUI
         /// </summary>
         public void ShowlibraryUI(Library library)
         {
+            choosenlibrary = library;
             Library.activelibrarylist.Remove(library);
             GComponent transfermain = libraryUI.GetChild("TransferMain").asCom;
             transferlist = transfermain.GetChild("transferlist").asList;
@@ -122,7 +121,7 @@ namespace GameGUI
             Library.activelibrarylist.Add(library);
             mapcamera.SetActive(false);
             library_UI.Show();
-            ShowCard();
+            ShowCard(library);
             GButton closebtn = library_UI.contentPane.GetChild("Close").asButton;
             GButton transbtn = library_UI.contentPane.GetChild("TransferBtn").asButton;
             transbtn.onClick.Add(TransOnClick);
@@ -134,10 +133,7 @@ namespace GameGUI
         /// </summary>
         public  void TransOnClick()
         {
-
             transferlist.onClickItem.Add(trans);
-
-            Library.PrepareTrans();
         }
         public void trans(EventContext context)
         {
@@ -159,10 +155,10 @@ namespace GameGUI
         /// <summary>展示三张卡牌，
         /// 
         /// </summary>
-        public  void ShowCard()
+        public  void ShowCard(Library library)
         {
             onsalelist.RemoveChildren();
-            foreach (string cardID in library_list)
+            foreach (string cardID in library.librarylist)
             {
                 GObject item = UIPackage.CreateObject("Library", "CardItem");
                 item.icon = UIPackage.GetItemURL(cardicons, cardID);
@@ -176,7 +172,7 @@ namespace GameGUI
         public void OnClickCardInLibrary(EventContext context)
         {
             CardCollection.Instance().choosecardindex = onsalelist.GetChildIndex(context.data as GObject);
-            CardCollection.Instance().choosecardID = library_list[CardCollection.Instance().choosecardindex];
+            CardCollection.Instance().choosecardID = choosenlibrary.librarylist[CardCollection.Instance().choosecardindex];
             verify_UI.Show();
             buybtn = verify_UI.contentPane.GetChild("buybtn").asButton;
             cancelbtn = verify_UI.contentPane.GetChild("cancelbtn").asButton;
@@ -191,7 +187,7 @@ namespace GameGUI
         /// <param name="index"></param>
         public void BuyOnclick()
         {
-            CardCollection.Instance().BuyCard();
+            CardCollection.Instance().BuyCard(choosenlibrary);
             onsalelist.RemoveChildAt(CardCollection.Instance().choosecardindex, true);
             verify_UI.Hide();
             
@@ -255,8 +251,6 @@ namespace GameGUI
             _abstractText.text = "姓名：" + data["name"] + "\n" + "类型：" + data["type"];
 
             _storyText.text = "这里本来该有卡牌故事但是现在没有数据\n" + data["effect"];
-
-            // TODO: 根据策划案加载icon
 
             _picLoader.url = UIPackage.GetItemURL(cardicons, cardId);
 

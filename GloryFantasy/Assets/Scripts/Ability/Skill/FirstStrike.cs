@@ -78,8 +78,9 @@ namespace Ability
                 if (SummonUnits[i].GetMsgReceiver() == register)
                     unit = SummonUnits[i];
 
-                //让这只怪的SPD修正值+2
-                unit.priSPD += 2;
+                if(unit != null)
+                    //让这只怪的SPD修正值+2
+                    unit.priSPD += 2;
             }
         }
     }

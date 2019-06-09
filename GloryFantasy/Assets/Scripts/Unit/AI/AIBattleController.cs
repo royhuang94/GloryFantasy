@@ -35,13 +35,11 @@ namespace AI
         private IEnumerator Fight()
         {
             GamePlay.Gameplay.Instance().singleBattle.battleState = BattleState.Fighting;
-
             foreach (Unit unit in BattleMap.BattleMap.Instance().UnitsList)
             {
                 //只获取敌人
                 if (unit.owner != GameUnit.OwnerEnum.Enemy && GamePlay.Gameplay.Instance().singleBattle.battleState == BattleState.End)
                     break;
-
                 if (!unit.IsDead())
                 {
                     AI.SingleController controller = GamePlay.Gameplay.Instance().autoController.GetSingleControllerByID(unit.CurPos);

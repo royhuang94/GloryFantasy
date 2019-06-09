@@ -90,7 +90,7 @@ namespace GameUnit
             //部署成功
             Gameplay.Instance().bmbColliderManager.Fresh();
             AddEventModule(gameUnit);
-            Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
+            //Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
 
             if(gameUnit.owner == OwnerEnum.Enemy)
             {

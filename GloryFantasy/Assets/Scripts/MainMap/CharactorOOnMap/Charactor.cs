@@ -251,7 +251,6 @@ namespace MainMap
                 Debug.Log("移动开始");
                 while (GetComponent<Transform>().position != target)
                 {
-                    Debug.Log("移动中");
                     this.GetComponent<Transform>().position = Vector3.MoveTowards(GetComponent<Transform>().position, target, movespeed * Time.deltaTime);
                     yield return 0;
                 }
@@ -263,6 +262,11 @@ namespace MainMap
                 Debug.Log("角色移动至：" + charactordata.underfeet);
                 charactordata.charactorstate = MoveState.MotionLess;
                 charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();
+                if (charactordata.step == MainMapManager.Instance().Level1Step || charactordata.step == MainMapManager.Instance().Level2Step)
+                {
+                    Monster.UpDateAllMonsters();
+                }
+
 
             }
 

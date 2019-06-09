@@ -7,6 +7,9 @@ using LitJson;
 using System.IO;
 using GameGUI;
 using UnityEditor;
+using PlayerCollection;
+
+
 namespace MainMap
 {
     /// <summary>定义六边形坐标的结构体，并处理坐标转换
@@ -58,14 +61,16 @@ namespace MainMap
     /// </summary>
     public class MainMapManager : UnitySingleton<MainMapManager>
     {
+        public int Level1Step;
+        public int Level2Step;
         public Mesh mesh;
         public TextAsset textAsset;
         public AnimationClip gridclip;
         public AnimationClip stop;
         #region 全部地格材质
-        public Sprite test;
+		public Sprite postsprite;
         public Sprite mountainsprite;
-        public Sprite planesplite;
+        public Sprite planesprite;
         public Sprite deadtreesprite;
         public Sprite marshsprite;
         public Sprite bushsprite;
@@ -109,6 +114,7 @@ namespace MainMap
                         GameObject mapunit = new GameObject("test" + i.ToString() + "," + j.ToString());
                         mapunit.transform.parent = GameObject.Find("Map").transform;
                         mapunit.AddComponent<Button>();
+                        mapunit.layer = 10;
                         Animation anim = mapunit.AddComponent<Animation>();
                         anim.AddClip(gridclip, "ClickCheck");
                         anim.playAutomatically = false;
@@ -119,7 +125,7 @@ namespace MainMap
                                 mapunit.AddComponent<Plane>();
                                 mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
                                 mapunit.AddComponent<SpriteRenderer>();
-                                mapunit.GetComponent<SpriteRenderer>().sprite = planesplite;
+                                mapunit.GetComponent<SpriteRenderer>().sprite = planesprite;
                                 break;
                             case "mountain":
                                 mapunit.AddComponent<Plane>();
@@ -229,7 +235,7 @@ namespace MainMap
                                 MapUnit post = mapunit.AddComponent<Library>();
                                 mapunit.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
                                 mapunit.AddComponent<SpriteRenderer>();
-                                mapunit.GetComponent<SpriteRenderer>().sprite = test;
+								mapunit.GetComponent<SpriteRenderer>().sprite = postsprite;
                                 break;
                             default:
                                 Debug.Log("你文件写错了，回去看看");
@@ -353,7 +359,7 @@ namespace MainMap
             Debug.Log("移动结束");
             if (GetComponentInChildren<MapElement>() != null)
             {
-                GetComponentInChildren<MapElement>().ElementOnClick();
+                GetComponentInChildren<MapElement>().OnElementClick();
             }
         }
     }
@@ -369,7 +375,7 @@ namespace MainMap
         {
             //普通地格默认监听CheckAround,特殊地格会重新监听各自的新事件
             MapUnitInstalize();
-            Debug.Log("普通地面初始化.");
+          //  Debug.Log("普通地面初始化.");
 
         }
 
@@ -396,23 +402,23 @@ namespace MainMap
     public class Library : MapUnit
     {
         public static List<Library> activelibrarylist = new List<Library>();
-        /// <summary>角色踩在图书馆上会把ReadyToTrans设置为true
+        /// <summary>图书馆正销售的卡牌链表
         /// 
         /// </summary>
-        private static bool ReadyToTrans = false;
+        public List<string> librarylist = new List<string>();
         public void Awake()
         {
-            Debug.Log("图书馆初始化");
+         //   Debug.Log("图书馆初始化");
             MapUnitInstalize();
+            CardCollection.Instance().GetCards(this);
             //test
-            activelibrarylist.Add(this);
         }
         /// <summary>点击图书馆格子后触发的事件
         /// 
         /// </summary>
         public override void OnClick()
         {
-            if (Charactor.Instance().aroundlist.ContainsValue(this) && ReadyToTrans == false)
+            if (Charactor.Instance().aroundlist.ContainsValue(this))
             {
                 ChangePosition(1);
             }
@@ -423,18 +429,13 @@ namespace MainMap
         }
         public override void ChangePositionOver()
         {
-            Debug.Log("图书馆已激活");
             Debug.Log("进入图书馆");
             if (!activelibrarylist.Contains(this))
             {
                 activelibrarylist.Add(this);
+                Debug.Log("图书馆已激活");
             }
             MainMapUI.Instance().ShowlibraryUI(this);
-        }
-        public static void PrepareTrans()
-        {
-            ReadyToTrans = true;
-            Debug.Log("准备传送");
         }
         /// <summary>传送的具体实现
         /// 
@@ -442,11 +443,6 @@ namespace MainMap
         public void transfer()
         {
             ChangePosition(2);
-            ReadyToTrans = false;
-        }
-        public void CancelTrans()
-        {
-            ReadyToTrans = false;
         }
 
     }
