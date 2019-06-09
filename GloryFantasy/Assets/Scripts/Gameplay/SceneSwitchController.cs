@@ -104,6 +104,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	{
 		_asyncOperation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
 		yield return _asyncOperation;
+		BattleMap.BattleMap.Instance().InitMap();
 		BattleMap.BattleMap.Instance().RegisterMSG();
 		SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetScene));
 		SwitchMMapCamera();

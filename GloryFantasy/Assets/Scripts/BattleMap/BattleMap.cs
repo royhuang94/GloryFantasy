@@ -30,8 +30,9 @@ namespace BattleMap
 
         private void Start()
         {
-            InitMap();
-            RegisterMSG();        // 注册信息，战斗地图调试用，从大地图切换过来时务必将此注释掉
+//            切换需注释，单独调试战斗地图请取消注释
+//            InitMap();
+//            RegisterMSG();
         }
 
 
