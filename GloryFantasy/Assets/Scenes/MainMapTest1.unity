@@ -149,8 +149,8 @@ MonoBehaviour:
   Step: 0
   MaxStep: 100
   MoveSpeed: 3
-  iconhalfstep: 5
-  iconlessstep: 3
+  iconhalfstep: 60
+  iconlessstep: 20
   characterfront: {fileID: 21300000, guid: 8edb4338148e1284fab6dda3fc89321a, type: 3}
   characterback: {fileID: 21300000, guid: 5208f0c88bbbb9644b644ecebd970f6a, type: 3}
   chatacterleft: {fileID: 21300000, guid: b127270ee0881fb4583fd247f309c9bc, type: 3}
