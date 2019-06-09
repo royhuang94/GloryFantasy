@@ -68,9 +68,9 @@ namespace MainMap
         public AnimationClip gridclip;
         public AnimationClip stop;
         #region 全部地格材质
-        public Sprite test;
+		public Sprite postsprite;
         public Sprite mountainsprite;
-        public Sprite planesplite;
+        public Sprite planesprite;
         public Sprite deadtreesprite;
         public Sprite marshsprite;
         public Sprite bushsprite;
@@ -125,7 +125,7 @@ namespace MainMap
                                 mapunit.AddComponent<Plane>();
                                 mapunit.transform.position = mapunit.GetComponent<Plane>().hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
                                 mapunit.AddComponent<SpriteRenderer>();
-                                mapunit.GetComponent<SpriteRenderer>().sprite = planesplite;
+                                mapunit.GetComponent<SpriteRenderer>().sprite = planesprite;
                                 break;
                             case "mountain":
                                 mapunit.AddComponent<Plane>();
@@ -235,7 +235,7 @@ namespace MainMap
                                 MapUnit post = mapunit.AddComponent<Library>();
                                 mapunit.transform.position = post.hexVector.ChangeToNormalVect(new Vector3(i, j, 0));
                                 mapunit.AddComponent<SpriteRenderer>();
-                                mapunit.GetComponent<SpriteRenderer>().sprite = test;
+								mapunit.GetComponent<SpriteRenderer>().sprite = postsprite;
                                 break;
                             default:
                                 Debug.Log("你文件写错了，回去看看");

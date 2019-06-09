@@ -876,15 +876,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fcaf7ab6f610b24091f0209364d0061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level1Step: 98
-  Level2Step: 96
+  Level1Step: 80
+  Level2Step: 40
   mesh: {fileID: 4300000, guid: 470d50d339328b74da1197d550ec1284, type: 3}
   textAsset: {fileID: 4900000, guid: eef84f21a7096804e8157760dad8245d, type: 3}
   gridclip: {fileID: 7400000, guid: 5c21667f4e94bdf4cbc55d4d38da5dea, type: 2}
   stop: {fileID: 7400000, guid: 4e0714440985a1443980ccba1d7cf156, type: 2}
-  test: {fileID: 21300000, guid: 8af57e4d80485cc4f93004ad4977f046, type: 3}
+  postsprite: {fileID: 21300000, guid: e7e08382b110f7548bc2b73b8ebe6cb1, type: 3}
   mountainsprite: {fileID: 21300000, guid: 2b8149457700a8741a74d7996aeb8e37, type: 3}
-  planesplite: {fileID: 21300000, guid: b04fb324cebb0ae47b3534afae2a31af, type: 3}
+  planesprite: {fileID: 21300000, guid: 8af57e4d80485cc4f93004ad4977f046, type: 3}
   deadtreesprite: {fileID: 21300000, guid: 16f4858322ee6ce41a4eec5f59081616, type: 3}
   marshsprite: {fileID: 21300000, guid: 0d30c5d019af12c46a02004a08384c3e, type: 3}
   bushsprite: {fileID: 21300000, guid: 3b5ffe4b13de28a4e803c197fc12c262, type: 3}
@@ -1251,7 +1251,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 897925532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.886555, y: -5, z: 0}
+  m_LocalPosition: {x: 8.892989, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1578,7 +1578,7 @@ Transform:
   m_GameObject: {fileID: 1204614656}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.021008404, y: 0.021008404, z: 0.021008404}
+  m_LocalScale: {x: 0.036900368, y: 0.036900368, z: 0.036900368}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
