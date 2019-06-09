@@ -1,6 +1,6 @@
 null,boundary1,boundary1,boundary1,boundary2,boundary1,boundary3,null,boundary1,boundary1,boundary1,null,null,boundary2,boundary1,boundary4,boundary1,boundary4,boundary1,boundary4,null,null,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1,boundary1
-boundary1,cursestone:monster:id_0,boundary1,desert,bonepit,bonepit,boundary1,boundary1,desert:treasure,bonepit,boundary1,boundary3,boundary1,desert,desert,desert:randomevent,desert,bush,bush,boundary1,null,boundary1,bush:treasure,deadtree,deadtree,deadtree,deadtree,deadtree,post,boundary1
-boundary1,post,desert,desert,desert,desert,desert,desert,bonepit,bonepit,boundary1,boundary1,desert,desert,desert,bush,bush,bush,deadtree,deadtree,bush,post,bush:treasure,bush,bush,bush,cursestone:monster:id_0,bush,boundary1
+boundary1,cursestone:monster:sandworm_0,boundary1,desert,bonepit,bonepit,boundary1,boundary1,desert:treasure,bonepit,boundary1,boundary3,boundary1,desert,desert,desert:randomevent,desert,bush,bush,boundary1,null,boundary1,bush:treasure,deadtree,deadtree,deadtree,deadtree,deadtree,post,boundary1
+boundary1,post,desert,desert,desert,desert,desert,desert,bonepit,bonepit,boundary1,boundary1,desert,desert,desert,bush,bush,bush,deadtree,deadtree,bush,post,bush:treasure,bush,bush,bush,cursestone:monster:chomper_0,bush,boundary1
 boundary4,desert,desert,desert,desert,desert,desert,desert,bonepit,post,desert,desert,desert,desert,desert,bush,bush,deadtree,deadtree,bush,bush,deadtree,deadtree,null,null,bush,bush,boundary4
 boundary1,desert,desert:monster:id_0,desert,desert,desert:randomevent,null,null,desert,desert,desert,desert,desert,bush,bush,post,bush,bush,bush:monster:id_0,bush,deadtree,deadtree,null,null,bush,boundary4,boundary3
 boundary2,desert:treasure,bonepit,desert,desert,null,null,null,desert:monster:id_0,desert,desert,plane,null,null,bush,bush,bush,bush,bush,bush,bush,bush:monster:id_0,bush,post,boundary1
@@ -26,7 +26,7 @@ boundary1,obsidian,obsidian,obsidian,bloodstone,bloodstone,boundary4
 boundary3,obsidian,obsidian:monster:id_0,obsidian,bloodstone,boundary3
 boundary1,obsidian,obsidian,obsidian,boundary1
 boundary4,obsidian:treasure,post,boundary1
-boundary2,cursestone:monster:id_0_0,boundary4
+boundary2,cursestone:monster:Devil_0,boundary4
 boundary1,boundary3
 null
 null
