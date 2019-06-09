@@ -59,6 +59,10 @@ public class Arrow : UnitySingleton<Arrow>
 
     float _dist;
 
+    protected void Awake ()
+    {
+    }
+
     // Use this for initialization
     void Start ()
     {
