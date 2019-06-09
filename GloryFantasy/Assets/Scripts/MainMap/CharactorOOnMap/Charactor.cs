@@ -7,6 +7,7 @@ using PlayerCollection;
 //2019.4.25版
 namespace MainMap
 {
+
     /// <summary>角色的运动状态
     /// 
     /// </summary>
@@ -31,6 +32,13 @@ namespace MainMap
         /// <summary>储存角色信息的数据结构，考虑到未来可能有需求需要返回全部的数值，就写了这么个玩意。
         /// 
         /// </summary>
+		/// 
+		/// 四面贴图，待程序使用。备注格式我就不改了
+		public Sprite characterfront;
+		public Sprite characterback;
+		public Sprite chatacterleft;
+		public Sprite characterright;
+
         public struct CharactorData
         {
             public int hp;
@@ -40,8 +48,6 @@ namespace MainMap
             public HexVector playerlocate;
             public GameObject underfeet;
             public MoveState charactorstate;
-
-
         }
         /// <summary>传给战斗系统的相关数据
         /// 
