@@ -131,13 +131,14 @@ namespace MainMap
         /// <summary>
         /// 升级所有怪物
         /// </summary>
-        private void UpDateAllMonsters()
+        public static void UpDateAllMonsters()
         {
-            level++;
+            
             foreach (Monster m in monsterlist)
             {
-                m.SetID(m.monsterid.Split('_').First() + "_" + level.ToString());
-                SetTexture();
+                m.level++;
+                m.SetID(m.monsterid.Split('_').First() + "_" + m.level.ToString());
+                m.SetTexture();
             }
         }
         /// <summary>

@@ -61,6 +61,8 @@ namespace MainMap
     /// </summary>
     public class MainMapManager : UnitySingleton<MainMapManager>
     {
+        public int Level1Step;
+        public int Level2Step;
         public Mesh mesh;
         public TextAsset textAsset;
         public AnimationClip gridclip;
