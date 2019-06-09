@@ -25,7 +25,7 @@ namespace BattleMap
             battleAreaData = new BattleAreaData();
             debuffBM = new DebuffBattleMapBlock();
             drawBattleArea = new DrawBattleArea();
-            BattleMapPath = "Assets/Scripts/BattleMap/BattleMapData/";
+            BattleMapPath = "BattleMapData/";
         }
 
         private void Start()
@@ -183,7 +183,7 @@ namespace BattleMap
         /// <param name="mapID">地图名字</param>
         public void  InitBattleMapPath(string mapID)
         {
-            BattleMapPath = BattleMapPath + mapID + ".txt";
+            BattleMapPath = BattleMapPath + mapID; //+ ".txt";
         }
 
         //初始战斗地图
@@ -191,7 +191,8 @@ namespace BattleMap
         {
             EncouterData.Instance().InitEncounter("Forest_Shadow_1");
             //读取战斗地图文件
-            string[] strs = File.ReadAllLines(BattleMapPath);
+            string[] strs = Resources.Load<TextAsset>(BattleMapPath).text.Split('\n');
+            
             nstrs = new string[strs.Length][];
             for(int i = 0;i < nstrs.Length; i++)
             {
