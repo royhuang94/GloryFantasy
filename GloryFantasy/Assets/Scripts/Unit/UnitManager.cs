@@ -202,7 +202,8 @@ namespace GameUnit
         public static void ColorUnitOnBlock(Vector3 position, Color color)
         {
             GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(position);
-            unit.GetComponent<SpriteRenderer>().color = color;
+            if(unit != null)
+                unit.GetComponent<SpriteRenderer>().color = color;
         }
     }
 }
