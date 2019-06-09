@@ -356,7 +356,7 @@ namespace MainMap
             Debug.Log("移动结束");
             if (GetComponentInChildren<MapElement>() != null)
             {
-                GetComponentInChildren<MapElement>().ElementOnClick();
+                GetComponentInChildren<MapElement>().OnElementClick();
             }
         }
     }
