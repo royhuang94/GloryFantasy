@@ -61,7 +61,6 @@ public class Arrow : UnitySingleton<Arrow>
 
     protected void Awake ()
     {
-        instance = this;
     }
 
     // Use this for initialization

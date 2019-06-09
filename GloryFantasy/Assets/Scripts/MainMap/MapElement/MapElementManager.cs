@@ -112,6 +112,7 @@ namespace MainMap
         public override void OnClickDetail()
         {
             Debug.Log("怪物被点击");
+            MainMapUI.Instance().HideMain();
             BattleMap.BattleMap.Instance().GetEncounterIDFromMainMap(monsterid);
             SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
         }
@@ -131,14 +132,13 @@ namespace MainMap
         /// <summary>
         /// 升级所有怪物
         /// </summary>
-        public static void UpDateAllMonsters()
+        public static void UpDateAllMonsters(int i)
         {
             
             foreach (Monster m in monsterlist)
             {
-                m.level++;
-                m.SetID(m.monsterid.Split('_').First() + "_" + m.level.ToString());
-                m.SetTexture();
+                    m.SetID(m.monsterid.Split('_').First() + "_" + i.ToString());
+                    m.SetTexture();
             }
         }
         /// <summary>
@@ -146,6 +146,7 @@ namespace MainMap
         /// </summary>
         public static void AfterBattle()
         {
+            MainMapUI.Instance().ShowMain();
             if(true)//胜利，把怪物毁掉
             {
                 MapElementManager.DestroyElement();
