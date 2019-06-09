@@ -46,13 +46,18 @@ namespace GamePlay.Event
                 this.strenth += delta_y_strenth;
                 if (this.strenth > 3) this.strenth = 3;
                 //根据X和Y的最终值决定召唤结果
-                switch (strenth)
+                BattleMap.BattleArea _area = this.Source as BattleMap.BattleArea;
+                if (_area._battleAreaSate == BattleMap.BattleAreaSate.Enmey)
                 {
-                    case 1: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_1"); break;
-                    case 2: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_2"); break;
-                    case 3: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_3"); break;
-                    default: break;
+                    switch (strenth)
+                    {
+                        case 1: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_1"); break;
+                        case 2: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_2"); break;
+                        case 3: SummonMonster_in_Area(this.Source, this.amount, "ShadowWolf_3"); break;
+                        default: break;
+                    }
                 }
+
             }
             else
             {
