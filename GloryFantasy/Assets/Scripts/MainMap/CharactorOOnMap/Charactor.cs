@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using PlayerCollection;
+using GameGUI;
 
 //2019.4.25版
 namespace MainMap
@@ -29,6 +30,8 @@ namespace MainMap
         public int Step;//当前剩余步数，貌似不需要在外部修改，写在外面只是为了看见它。
         public int MaxStep;//最大步数
         public int MoveSpeed;//开放给策划用于调整人物角色移动速度
+        public int iconhalfstep;//步数条减半所需步数
+        public int iconlessstep;//步数条见底所需步数
         /// <summary>储存角色信息的数据结构，考虑到未来可能有需求需要返回全部的数值，就写了这么个玩意。
         /// 
         /// </summary>
@@ -103,6 +106,7 @@ namespace MainMap
             Vector3 vect = charactordata.playerlocate.Hex_vector;
             charactordata.underfeet = FindObject(vect.x,vect.y);
             setaround(charactordata.underfeet);
+            MainMapUI.Instance().UpDateSlider(0);
             Debug.Log("角色初始化完成");
         }
         /// <summary>游戏运行开始时初始化battlemapdata
@@ -202,6 +206,14 @@ namespace MainMap
 
                 charactordata.step = charactordata.step + value;
                 Step = charactordata.step;
+                if (charactordata.step == iconhalfstep)
+                {
+                    MainMapUI.Instance().UpDateSlider(1);
+                }
+                else if (charactordata.step == iconlessstep)
+                {
+                    MainMapUI.Instance().UpDateSlider(2);
+                }
                 if (charactordata.step < 0)
                 {
                     return false;
@@ -224,7 +236,7 @@ namespace MainMap
 
             Debug.Log("步数为负，角色累死了，返回起点");
             CharactorInitalize();
-
+            Monster.UpDateAllMonsters(0);
         }
         public void Onclick()
         {
@@ -268,9 +280,13 @@ namespace MainMap
                 Debug.Log("角色移动至：" + charactordata.underfeet);
                 charactordata.charactorstate = MoveState.MotionLess;
                 charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();
-                if (charactordata.step == MainMapManager.Instance().Level1Step || charactordata.step == MainMapManager.Instance().Level2Step)
+                if (charactordata.step == MainMapManager.Instance().Level1Step)
                 {
-                    Monster.UpDateAllMonsters();
+                    Monster.UpDateAllMonsters(1);
+                }
+                else if (charactordata.step == MainMapManager.Instance().Level2Step)
+                {                
+                    Monster.UpDateAllMonsters(2);
                 }
 
 

@@ -31,6 +31,7 @@ namespace GameGUI
         private GComponent libraryUI;
         private GComponent cardcollectUI;
         private GComponent verifyUI;
+        private Window main_mapUI;
         private Window cardcollect_UI;
         private Window library_UI;
         private Window verify_UI;
@@ -40,7 +41,6 @@ namespace GameGUI
         private GButton ccbtn;
         private GButton buybtn;
         private GButton cancelbtn;
-        //private GButton closebtn;
         private GLoader _cardloader;
         private GList cardcollectionlist;
         private GList onsalelist;
@@ -57,6 +57,7 @@ namespace GameGUI
         private Library choosenlibrary;
         //URL
         private const string cardicons = "handcardFake";
+        private const string MapPackage = "MainMapUI";
         /// <summary>初始化
         /// 
         /// </summary>
@@ -68,19 +69,23 @@ namespace GameGUI
             UIPackage.AddPackage(CardIconPackage);
             UIPackage.AddPackage(LibraryPackage);
             mainmapUI = UIPackage.CreateObject("MainMapUI", "Component2").asCom;
+            GRoot.inst.AddChild(mainmapUI);
             cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBookMain").asCom;
+            libraryUI = UIPackage.CreateObject("Library", "LibraryMain").asCom;
+            verifyUI = UIPackage.CreateObject("Library", "verifyUI").asCom;
+            main_mapUI = new Window();
+            main_mapUI.contentPane = mainmapUI;
+            main_mapUI.CenterOn(GRoot.inst, true);
+            main_mapUI.Show();
             cardcollect_UI = new Window();
             cardcollect_UI.contentPane = cardcollectUI;
             cardcollect_UI.CenterOn(GRoot.inst, true);
-            libraryUI = UIPackage.CreateObject("Library", "LibraryMain").asCom;
             library_UI = new Window();
             library_UI.contentPane = libraryUI;
             library_UI.CenterOn(GRoot.inst, true);
-            verifyUI = UIPackage.CreateObject("Library", "verifyUI").asCom;
             verify_UI = new Window();
             verify_UI.contentPane = verifyUI;
             verify_UI.CenterOn(GRoot.inst, true);
-            GRoot.inst.AddChild(mainmapUI);
             #region 初始化按钮装载器文本等
             ccbtn = mainmapUI.GetChild("CardCollectionBtn").asButton;
             ccbtn.onClick.Add(() => ShowCardCollect());
@@ -93,6 +98,38 @@ namespace GameGUI
             #endregion
             Debug.Log("ui初始化");
             
+        }
+        /// <summary>
+        /// 更新滑动条材质
+        /// </summary>
+        public void UpDateSlider(int i)
+        {
+            GProgressBar slider = mainmapUI.GetChild("StepShow").asProgress;
+            GObject content = slider.GetChild("content");
+            GObject sliderunder = slider.GetChild("slider");
+            switch (i)
+            {
+                case 0:
+                    content.icon = UIPackage.GetItemURL(MapPackage, "content-full");
+                    sliderunder.icon = UIPackage.GetItemURL(MapPackage, "slider-full");
+                    break;
+                case 1:
+                    content.icon = UIPackage.GetItemURL(MapPackage, "content-half");
+                    sliderunder.icon = UIPackage.GetItemURL(MapPackage, "slider-half");
+                    break;
+                case 2:
+                    content.icon = UIPackage.GetItemURL(MapPackage, "content-less");
+                    sliderunder.icon = UIPackage.GetItemURL(MapPackage, "slider-less");
+                    break;
+            }
+        }
+        public void HideMain()
+        {
+            main_mapUI.Hide();
+        }
+        public void ShowMain()
+        {
+            main_mapUI.Show();
         }
         private void Start()
         {

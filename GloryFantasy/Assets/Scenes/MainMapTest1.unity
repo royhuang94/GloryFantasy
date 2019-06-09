@@ -147,8 +147,10 @@ MonoBehaviour:
   locate: {x: 15, y: 8, z: 0}
   HP: 100
   Step: 0
-  MaxStep: 100
+  MaxStep: 10
   MoveSpeed: 3
+  iconhalfstep: 5
+  iconlessstep: 3
   characterfront: {fileID: 21300000, guid: 8edb4338148e1284fab6dda3fc89321a, type: 3}
   characterback: {fileID: 21300000, guid: 5208f0c88bbbb9644b644ecebd970f6a, type: 3}
   chatacterleft: {fileID: 21300000, guid: b127270ee0881fb4583fd247f309c9bc, type: 3}
@@ -880,8 +882,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fcaf7ab6f610b24091f0209364d0061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level1Step: 80
-  Level2Step: 40
+  Level1Step: 8
+  Level2Step: 4
   mesh: {fileID: 4300000, guid: 470d50d339328b74da1197d550ec1284, type: 3}
   textAsset: {fileID: 4900000, guid: eef84f21a7096804e8157760dad8245d, type: 3}
   gridclip: {fileID: 7400000, guid: 5c21667f4e94bdf4cbc55d4d38da5dea, type: 2}
@@ -1255,7 +1257,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 897925532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.892989, y: -5, z: 0}
+  m_LocalPosition: {x: 8.893617, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1582,7 +1584,7 @@ Transform:
   m_GameObject: {fileID: 1204614656}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.036900368, y: 0.036900368, z: 0.036900368}
+  m_LocalScale: {x: 0.021276595, y: 0.021276595, z: 0.021276595}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
