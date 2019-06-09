@@ -112,7 +112,7 @@ namespace MainMap
         public override void OnClickDetail()
         {
             Debug.Log("怪物被点击");
-            MainMapUI.Instance().HideMain();
+//            MainMapUI.Instance().HideMain();
             BattleMap.BattleMap.Instance().GetEncounterIDFromMainMap(monsterid);
             SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
         }
@@ -146,7 +146,7 @@ namespace MainMap
         /// </summary>
         public static void AfterBattle()
         {
-            MainMapUI.Instance().ShowMain();
+//            MainMapUI.Instance().ShowMain();
             if (true)//胜利，把怪物毁掉
             {
                 MapElementManager.DestroyElement();

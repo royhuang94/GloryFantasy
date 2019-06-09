@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameGUI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -122,7 +123,6 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		FGUIInterfaces.Instance().CloseAll();
 		_asyncOperation = SceneManager.UnloadSceneAsync(targetScene);
 		yield return _asyncOperation;
-//		SceneManager.SetActiveScene()
 		Resources.UnloadUnusedAssets();				// 删掉战斗地图所有未使用的资源，应该能减少一点资源使用
 		SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainMapTest1"));
 		SwitchMMapCamera();
@@ -135,17 +135,16 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private void SwitchMMapCamera()
 	{
 		Camera mainMapCamera = _MMapCameraObject.GetComponent<Camera>();
-		if(_MMapCameraObject.activeInHierarchy)
+		
+		if (_MMapCameraObject.activeInHierarchy)		// 隐藏大地图显示
+		{
+			MainMapUI.Instance().HideMain();
 			_MMapCameraObject.SetActive(false);
+		}
 		else
 		{
+			MainMapUI.Instance().ShowMain();
 			_MMapCameraObject.SetActive(true);
 		}
-//		if (mainMapCamera != null)
-//		{
-//			mainMapCamera.enabled = !mainMapCamera.enabled;			// 主相机得关掉，不然大地图会躺在战斗地图下面
-//			AudioListener audioListener = mainMapCamera.GetComponent<AudioListener>();
-//			audioListener.enabled = !audioListener.enabled;		// 这个也得关，不然会弹上千条提示，bulabula的
-//		}
 	}
 }
