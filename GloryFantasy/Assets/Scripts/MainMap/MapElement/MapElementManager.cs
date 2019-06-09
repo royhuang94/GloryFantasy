@@ -146,7 +146,15 @@ namespace MainMap
         /// </summary>
         public static void AfterBattle()
         {
-            MapElementManager.DestroyElement();
+            if(true)//胜利，把怪物毁掉
+            {
+                MapElementManager.DestroyElement();
+            }
+            else
+            {
+                //我也不知道要干嘛
+            }
+
         }
     }
     /// <summary>随机事件
