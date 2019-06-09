@@ -23,6 +23,8 @@ namespace GamePlay.FSM
             base.OnPointerDownBlock(mapBlock, eventData);
             mapBlock.GetComponent<SpriteRenderer>().color = Color.white;
             
+            ArrowManager.Instance().hideArrow();        // 关闭箭头显示
+            
             //把这张手牌从手牌里删掉
             CardManager.Instance().RemoveCardToMapList(FSM.selectedCard.gameObject);
             // 扣除消耗的Ap值

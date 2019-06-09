@@ -326,17 +326,6 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 
 	private void FixedUpdate()
 	{
-//		ArrowManager.Instance().MakeArrowFlow(Input.mousePosition);
-//		if(_canShowArrow)
-//			ArrowManager.Instance().OnDrag(Input.mousePosition);
-		if (_canShowArrow)
-		{
-			Debug.Log("sp: " + _startPos + " mp: " + Input.mousePosition);
-			Vector3 vector3 = GameObject.Find("Main Camera").GetComponent<Camera>().WorldToScreenPoint(_startPos);
-			Debug.Log("sp: " + vector3 + " mp: " + Input.mousePosition);
-			ArrowMesh.Instance().UpdatePosition(_startPos, Input.mousePosition);
-		}
-
 		_APText.text = Player.Instance().ap.ToString();
 	}
 
@@ -350,8 +339,12 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 			return;
 
 		GObject item = context.data as GObject;
+		
 		_startPos = Input.mousePosition;
-//		_canShowArrow = true;
+		_canShowArrow = true;
+		// TODO: 直接释放技能不显示箭头
+		ArrowManager.Instance().showArrow(_startPos);				// 箭头一
+//		Arrow.Instance().ready(_startPos, Input.mousePosition);		// 箭头二
 		// 确认当前点击的卡牌和上次点击的不同，此时表明用户想使用这张卡牌
 		if (item != lastClicked)
 		{
@@ -364,6 +357,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		}
 		else // 此时用户点击的牌和上次相同，表示用户想取消使用
 		{
+			ArrowManager.Instance().hideArrow();
 			// 恢复原大小
 			foreach (GObject litem in _handcardList.GetChildren())
 			{
