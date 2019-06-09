@@ -114,6 +114,7 @@ namespace MainMap
                         GameObject mapunit = new GameObject("test" + i.ToString() + "," + j.ToString());
                         mapunit.transform.parent = GameObject.Find("Map").transform;
                         mapunit.AddComponent<Button>();
+                        mapunit.layer = 10;
                         Animation anim = mapunit.AddComponent<Animation>();
                         anim.AddClip(gridclip, "ClickCheck");
                         anim.playAutomatically = false;

@@ -64,7 +64,7 @@ namespace MainMap
         {
             mapelement.transform.parent = mapunit.transform;
             mapelement.transform.position = mapunit.transform.position + new Vector3(0, 0, -0.05f);
-
+            mapelement.layer = 10;
         }
         /// <summary>
         /// 处理结束后摧毁地格上层元素
