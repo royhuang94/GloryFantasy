@@ -28,12 +28,12 @@ namespace BattleMap
             BattleMapPath = "BattleMapData/";
         }
 
-        private void Start()
-        {
-            //切换需注释，单独调试战斗地图请取消注释
-            InitMap();
-            RegisterMSG();
-        }
+        //private void Start()
+        //{
+        //    //切换需注释，单独调试战斗地图请取消注释
+        //    InitMap();
+        //    RegisterMSG();
+        //}
 
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace BattleMap
         }       
         /// <summary>
         /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
-        /// </summary>
+        /// </summary> 
         /// <returns>根据实际情况确定是否能进入主要阶段</returns>
         public bool canDoMPEndAction()
         {
