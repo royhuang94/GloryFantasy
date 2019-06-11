@@ -43,7 +43,7 @@ namespace BattleMap
         /// </summary>
         public int delta_y_strenth { get; set; }
 
-        public BattleArea(int battleAreaID,BattleAreaSate battleAreaSate, List<Vector2> battleArea,string[] tid,List<EventModule.EventWithWeight> modules)
+        public BattleArea(int battleAreaID,BattleAreaSate battleAreaSate, List<Vector2> battleArea,string[] tid,List<EventModule.EventWithWeight> modules,int dx,int dy)
         {
             _battleAreaID = battleAreaID;
             _battleArea = battleArea;
@@ -51,6 +51,8 @@ namespace BattleMap
             _TID = tid;
             _modules = modules;
             _collider = new BMBCollider(_battleArea);
+            delta_x_amount = dx;
+            delta_y_strenth = dy;
             if (_TID != null)
                 foreach (string id in _TID)
                 {
@@ -184,7 +186,8 @@ namespace BattleMap
                 string[] trrigers = null;
                 trrigers = GamePlay.Encounter.EncouterData.Instance().GetBattleAreaTriggerByRegionID(id);
                 List<EventModule.EventWithWeight> models = EncouterData.Instance().GetBattleFieldEvent(id);
-                BattleArea battleArea = new BattleArea(id, BattleAreaSate.Neutrality, list,trrigers,models);
+                BattlefieldMessage battlefieldMessage = EncouterData.Instance().GetBattlefieldMessagebyID(id);
+                BattleArea battleArea = new BattleArea(id, BattleAreaSate.Neutrality, list,trrigers,models,battlefieldMessage.Delta_X,battlefieldMessage.Delta_Y);
                 battleAreas.Add(id, battleArea);
 
                 if (battleArea._modules == null)

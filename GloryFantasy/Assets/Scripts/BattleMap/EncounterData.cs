@@ -43,19 +43,23 @@ namespace GamePlay.Encounter
     /// <summary>
     /// 遭遇中战区的结构体
     /// </summary>
-    public struct BattlefieldMessage
+    public class BattlefieldMessage
     {
         public int regionID;
         public Dictionary<string, int> eventDic;//战区事件，key为事件id（名字），value为权重
         public string[] buff;
         public string[] triggers;
+        public int Delta_X;
+        public int Delta_Y;
 
-        public BattlefieldMessage(int id, Dictionary<string, int> dic, string[] _buff,string[] _triggers)
+        public BattlefieldMessage(int id, Dictionary<string, int> dic, string[] _buff,string[] _triggers,int dx,int dy)
         {
             regionID = id;
             eventDic = dic;
             buff = _buff;
             triggers = _triggers;
+            Delta_X = dx;
+            Delta_Y = dy;
         }
     }
 
@@ -67,12 +71,13 @@ namespace GamePlay.Encounter
         
 
         /// <summary>
-        /// 初始遭遇
+        /// 读取遭遇文件
         /// </summary>
         public void InitEncounter()
         {
             //JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
-            TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/encounter");
+            string path = "DatabaseJsonFiles/Plain_Shadow_1";
+            TextAsset json = Resources.Load<TextAsset>(path);
             JsonData data = JsonMapper.ToObject(json.text);
             
             _encounterData = new Dictionary<string, Encounter>();
@@ -113,7 +118,9 @@ namespace GamePlay.Encounter
                     string[] triggers = null;
                     buff = JsonToArray(buffData);
                     triggers = JsonToArray(triggersData);
-                    battlefieldMessage = new BattlefieldMessage(regionID, messageDic, buff,triggers);
+                    int dx = (int)battleFieldData[j]["Delta_X"];
+                    int dy = (int)battleFieldData[j]["Delta_Y"];
+                    battlefieldMessage = new BattlefieldMessage(regionID, messageDic, buff,triggers,dx,dy);
                     encounter.battleFieldMessageList.Add(battlefieldMessage);
                 }
 
@@ -187,7 +194,7 @@ namespace GamePlay.Encounter
         {
             Encounter encounter = null;
             string[] triggers = null;
-            _encounterData.TryGetValue("Forest_Shadow_1", out encounter);
+            _encounterData.TryGetValue("Plain_Shadow_1", out encounter);
             for(int i =0;i<encounter.battleFieldMessageList.Count;i++)
             {
                 BattlefieldMessage battlefieldMessage = encounter.battleFieldMessageList[i];
@@ -198,6 +205,23 @@ namespace GamePlay.Encounter
             }
             if(triggers != null)
                 return triggers;
+            return null;
+        }
+
+        public BattlefieldMessage GetBattlefieldMessagebyID(int regionID)
+        {
+            Encounter encounter = null;
+            BattlefieldMessage battlefieldMessage = null;
+            _encounterData.TryGetValue("Plain_Shadow_1", out encounter);
+            for (int i = 0; i < encounter.battleFieldMessageList.Count; i++)
+            {
+                battlefieldMessage = encounter.battleFieldMessageList[i];
+                if (regionID == battlefieldMessage.regionID)
+                {
+                    return battlefieldMessage;
+                }
+            }
+            Debug.Log("null");
             return null;
         }
 

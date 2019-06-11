@@ -30,9 +30,9 @@ namespace BattleMap
 
         private void Start()
         {
-//            切换需注释，单独调试战斗地图请取消注释
-//            InitMap();
-//            RegisterMSG();
+            //切换需注释，单独调试战斗地图请取消注释
+            InitMap();
+            RegisterMSG();
         }
 
 
@@ -134,11 +134,11 @@ namespace BattleMap
             //初始化地图
             InitAndInstantiateMapBlocks();//
             //初始战区事件
-            EncouterData.Instance().InitBattleFieldEvent("Forest_Shadow_1");//TODO等待对接
+            EncouterData.Instance().InitBattleFieldEvent("Plain_Shadow_1");//TODO等待对接
             //初始战区状态，战区对象并添加事件模块进入仲裁器；
             battleAreaData.InitBattleArea();           
             //初始战斗地图上的单位 
-            UnitManager.InitAndInstantiateGameUnit("Forest_Shadow_1", _mapBlocks);
+            UnitManager.InitAndInstantiateGameUnit("Plain_Shadow_1", _mapBlocks);
         }
 
         //初始化地图的地址
@@ -161,7 +161,7 @@ namespace BattleMap
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
         public Transform battlePanel;//战斗地图根对象
-        private string encounterID;//遭遇id
+        public string encounterID = "Plain_Shadow_1";//遭遇id
 
         #region 各种类型地格
         public GameObject flat;//平地
@@ -190,7 +190,7 @@ namespace BattleMap
         //初始战斗地图
         private void InitAndInstantiateMapBlocks()
         {
-            EncouterData.Instance().InitEncounter("Forest_Shadow_1");
+            EncouterData.Instance().InitEncounter("Plain_Shadow_1");
             //读取战斗地图文件
             string[] strs = Resources.Load<TextAsset>(BattleMapPath).text.Split('\n');
             
