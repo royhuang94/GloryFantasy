@@ -21,7 +21,6 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 	private GButton _cardSetsButton;
 	private GTextField _APText;
 
-	private bool _canShowArrow = false;
 	private Vector3 _startPos;
 	
 	#region 事件轴icon素材
@@ -341,10 +340,8 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		GObject item = context.data as GObject;
 		
 		_startPos = Input.mousePosition;
-		_canShowArrow = true;
 		// TODO: 直接释放技能不显示箭头
-		ArrowManager.Instance().showArrow(_startPos);				// 箭头一
-//		Arrow.Instance().ready(_startPos, Input.mousePosition);		// 箭头二
+		ArrowManager.Instance().DrawArrow(_startPos, Input.mousePosition);		// 箭头二
 		// 确认当前点击的卡牌和上次点击的不同，此时表明用户想使用这张卡牌
 		if (item != lastClicked)
 		{
@@ -357,7 +354,7 @@ public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver
 		}
 		else // 此时用户点击的牌和上次相同，表示用户想取消使用
 		{
-			ArrowManager.Instance().hideArrow();
+			ArrowManager.Instance().HideArrow();
 			// 恢复原大小
 			foreach (GObject litem in _handcardList.GetChildren())
 			{
