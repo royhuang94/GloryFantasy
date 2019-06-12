@@ -13,20 +13,9 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private static GameObject _MMapCameraObject;		// 大地图
 	private static GameObject _BMapCameraObject;		// 战斗地图
 	private string _mainMapSceneName = "MainMapTest1";
+	private string _encounterID;
+	private List<string> _cardList;
 
-	public struct Data
-	{
-		public string encounterID;
-		public List<string> cardList;
-
-		public Data(string _encounterID, List<string> _cardList)
-		{
-			encounterID = _encounterID;
-			cardList = _cardList;
-		}
-	}
-
-	private Data _data;
 	
 	void Start () 
 	{
@@ -86,20 +75,29 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// </summary>
 	/// <param name="encounterId">遭遇ID</param>
 	/// <param name="cardList">卡组list</param>
-	public void setData(string encounterId, List<string> cardList)
+	public void SetData(string encounterId, List<string> cardList)
 	{
-		_data = new Data(encounterId, cardList);
+		_encounterID = encounterId;
+		_cardList = cardList;
 	}
 
 	/// <summary>
-	/// 获取数据，一般供战斗地图调用
+	/// 获取遭遇ID，一般供战斗地图调用
 	/// </summary>
-	/// <returns>type: Data。结构体，成员：encounterID, cardList</returns>
-	public Data getData()
+	/// <returns>_encounterID</returns>
+	public string GetEncounterId()
 	{
-		return _data;
+		return _encounterID;
 	}
-	
+
+	/// <summary>
+	/// 获取卡组，一般卡牌管理器调用
+	/// </summary>
+	/// <returns>_cardList</returns>
+	public List<string> GetCardList()
+	{
+		return _cardList;
+	}
 	
 	/// <summary>
 	/// 开放接口，场景切换时调用此方法
@@ -121,15 +119,6 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		}
 	}
 
-	/// <summary>
-	/// 传遭遇ID给战斗地图
-	/// </summary>
-	/// <param name="ecounterID">遭遇ID</param>
-	public void transferToBmap(string ecounterID)
-	{
-		BattleMap.BattleMap.Instance().GetEncounterIDFromMainMap(ecounterID);
-	}
-	
 	
 	/// <summary>
 	/// 异步加载场景
