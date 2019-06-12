@@ -13,8 +13,23 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private static GameObject _MMapCameraObject;		// 大地图
 	private static GameObject _BMapCameraObject;		// 战斗地图
 	private string _mainMapSceneName = "MainMapTest1";
+
+	public struct Data
+	{
+		public string encounterID;
+		public List<string> cardList;
+
+		public Data(string _encounterID, List<string> _cardList)
+		{
+			encounterID = _encounterID;
+			cardList = _cardList;
+		}
+	}
+
+	private Data _data;
 	
-	void Start () {
+	void Start () 
+	{
 		SceneManager.sceneLoaded += this.OnSceneLoader;
 		SceneManager.sceneUnloaded += this.OnSceneUnloader;
 		SceneManager.activeSceneChanged += this.OnSceneChanged;
@@ -66,6 +81,26 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 //		}
 	}
 
+	/// <summary>
+	/// 设置数据，一般供大地图调用
+	/// </summary>
+	/// <param name="encounterId">遭遇ID</param>
+	/// <param name="cardList">卡组list</param>
+	public void setData(string encounterId, List<string> cardList)
+	{
+		_data = new Data(encounterId, cardList);
+	}
+
+	/// <summary>
+	/// 获取数据，一般供战斗地图调用
+	/// </summary>
+	/// <returns>type: Data。结构体，成员：encounterID, cardList</returns>
+	public Data getData()
+	{
+		return _data;
+	}
+	
+	
 	/// <summary>
 	/// 开放接口，场景切换时调用此方法
 	/// </summary>

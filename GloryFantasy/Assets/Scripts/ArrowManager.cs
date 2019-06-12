@@ -1,107 +1,194 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+using System.Collections;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
-public class ArrowManager : UnitySingleton<ArrowManager> 
+public class ArrowManager : UnitySingleton<ArrowManager>
 {
-    //¼ä¸ôÊ±¼ä
-    [FormerlySerializedAs("_FixedTime")] [SerializeField]
-    private float fixedTime = 0.05f;
 
-    // ËÙ¶È  ±£Ö¤ËÙ¶È¾ùÔÈ£¬Â·¾¶Ô½³¤Ê±¼äÔ½³¤
-    [FormerlySerializedAs("_Speed")] [SerializeField]
-    private float speed = 10;
+    private GameObject _cameraObject;
 
-    private Vector3 offsetPos = new Vector3(-50f, -60f, 0f);
-    private Vector3 _startPos;
-    private bool _canShowArrow;
-    private GameObject _arrowCameraGameObject;
-    private GameObject _arrowMesh;
-    
-    public float Speed
+    /// <summary>
+    /// é®ç½©
+    /// </summary>
+    private Transform _arrowMaskTfm;
+
+    /// <summary>
+    /// èŠ‚ç‚¹å®¹å™¨
+    /// </summary>
+    private Transform _nodesContainerTfm;
+
+    /// <summary>
+    /// èµ·å§‹ç‚¹ä½ç½®
+    /// </summary>
+    private int _initialIndex;
+
+    private Transform _tempNodeTfm;
+
+    /// <summary>
+    /// ç®­å¤´å¯è§é•¿åº¦
+    /// </summary>
+    private float _visibleLen = 15f;
+
+    /// <summary>
+    /// ç®­å¤´æµåŠ¨é€Ÿåº¦
+    /// </summary>
+    [Range(1f,300f)]
+    public float flowSpeed = 15f;
+
+    private RectTransform _maskRect;
+
+    /// <summary>
+    /// èµ·å§‹ç‚¹åæ ‡
+    /// </summary>
+    private Vector2 _startPos;
+
+    [Range(0f,12f)]
+    public float offset = 0.5f;
+
+    public GameObject arrowNode;
+
+    /// <summary>
+    /// ç®­å¤´é«˜åº¦
+    /// </summary>
+    [Range(0f,12f)]
+    private const float MinHeight = 1f;
+
+    private bool _canShowArrow = false;
+
+    private float _dist;
+
+    // Use this for initialization
+    void Start ()
     {
-        set
-        {
-            speed = value;
-        }
-        get
-        {
-            return speed;
-        }
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
-    //¼ıÍ·µÄ¿í¶È
-    [FormerlySerializedAs("_ArrowWidth")] [SerializeField]
-    private float arrowWidth = 2.0f;
 
-    private MeshFilter _meshFilter;
-
-    private void Start()
+    void FixedUpdate()
     {
-        _canShowArrow = false;
-        _meshFilter = GetComponent<MeshFilter>();
-        _arrowCameraGameObject = GameObject.Find("ArrowCamera");
-        _arrowMesh = GameObject.Find("ArrowMesh");
-    }
+        if (_canShowArrow && Input.GetMouseButton(1))        // å³é”®å–æ¶ˆç®­å¤´æ˜¾ç¤º
+        {
+            HideArrow();
+        }
 
-    private void FixedUpdate()
-    {
         if (_canShowArrow)
         {
-            UpdateArrow(_startPos, Input.mousePosition);
+            UpdateArrow(Input.mousePosition);
         }
     }
 
     /// <summary>
-    /// Õ¹Ê¾¼ıÍ·
+    /// åˆå§‹åŒ–å„ç»„ä»¶
     /// </summary>
-    /// <param name="startPos">¼ıÍ·Æğµã</param>
-    public void showArrow(Vector3 startPos)
+    void Initialize()
     {
-        _startPos = startPos;
-        _canShowArrow = true;
-        _arrowMesh.SetActive(true);
+        _canShowArrow = false;
+        _cameraObject = GameObject.Find("Main Camera");
+        _arrowMaskTfm = transform.GetChild (0);
+        _maskRect = _arrowMaskTfm.GetComponent<RectTransform> ();
+        _nodesContainerTfm = _arrowMaskTfm.Find ("Container");
     }
 
     /// <summary>
-    /// Òş²Ø¼ıÍ·
+    /// ç®­èº«æµåŠ¨æ•ˆæœ
+    /// å…ˆä¸å®ç°äº†ï¼Œå› ä¸ºæ•ˆæœä¸å¥½ï¼Œç­‰ä¹‹åæœ‰æ—¶é—´å†çœ‹
     /// </summary>
-    public void hideArrow()
+    /// <param name="position"></param>
+    public void MakeArrowFlow(Vector3 position)
     {
-        _startPos = Vector3.zero;
-        _canShowArrow = false;
-        _meshFilter.mesh = null;
-        _arrowMesh.SetActive(false);
+        if (!this.gameObject.GetComponent<SpriteRenderer>().enabled)
+        {
+            ShowArrow();
+        }
+//       if (!_mActive)
+//           return;
+//       // æ”¹å˜ç®­å¤´å‰ç«¯é€æ˜åº¦
+//       for(int i =0;i<_nodesContainerTfm.childCount;i++)
+//       {
+//           _tempNodeTfm = _nodesContainerTfm.GetChild(i);
+//           _tempNodeTfm.localPosition = new Vector3(0f,_tempNodeTfm.localPosition.y+Time.fixedDeltaTime*flowSpeed,0f);
+//           // æ”¹å˜ç®­å¤´èµ·ç‚¹é€æ˜åº¦
+//           _initialIndex = (int)(_visibleLen/1f);
+//           if (i <= 2)
+//           {
+//               _tempNodeTfm.GetComponent<SpriteRenderer> ().color = Color.Lerp (_tempNodeTfm.GetComponent<SpriteRenderer> ().color, new Color (1, 1, 1, (60 * i + 60) / 255f), Time.fixedDeltaTime * 5f);
+//           }
+//           else if (i <= (_initialIndex + 3) && i >= (_initialIndex - 3))
+//           {
+//               int diff = i - (_initialIndex - 3);
+//               _tempNodeTfm.GetComponent<SpriteRenderer> ().color = Color.Lerp (_tempNodeTfm.GetComponent<SpriteRenderer> ().color, new Color (1, 1, 1, (255f - 40f * diff) / 255f), Time.fixedDeltaTime * 5f);
+//           }
+//           else if (i > (_initialIndex + 3))
+//           {
+//               _tempNodeTfm.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0);
+//           }
+//           else
+//           {
+//               _tempNodeTfm.GetComponent<SpriteRenderer> ().color = Color.white;
+//           }
+//
+//           if (_tempNodeTfm.localPosition.y > -100f)
+//           {
+//               _tempNodeTfm.GetComponent<SpriteRenderer>().color = Color.white;
+//               _tempNodeTfm.localPosition = new Vector3(0f,-100 + _nodesContainerTfm.GetChild(_nodesContainerTfm.childCount-1).localPosition.y,0f);
+//               _tempNodeTfm.SetAsLastSibling();
+//           }
+//
+//       }
+
+//        if (!_mActive || Mathf.Abs((position - _lastPos).magnitude) < 0.001f)
+//            return;
+        //æ”¹å˜ç®­å¤´å‰ç«¯çš„é€æ˜åº¦
+        if(!_canShowArrow)
+            return;
+        int nodeCount = _nodesContainerTfm.childCount;    // å½“å‰ç®­èº«èŠ‚ç‚¹ä¸ªæ•°
+        int len = (int) _visibleLen;                        // å¯æ˜¾ç¤ºé•¿åº¦
+        _nodesContainerTfm.GetComponent<RectTransform>().sizeDelta = new Vector2(3f, len);
+        // æ˜¾ç¤ºé•¿åº¦å¤§ï¼Œæ·»åŠ èŠ‚ç‚¹
+        if (nodeCount < len)
+        {
+            for (int j = nodeCount; j < len; j++)
+            {
+                GameObject arrowNodeInstance = Instantiate(arrowNode, new Vector3(1.5f, -j, 0), new Quaternion(0f, 0f, 0f, 0f), _nodesContainerTfm);
+                arrowNodeInstance.transform.localScale = new Vector3(1f, 1.3f, 1f);
+            }
+        }
+        // å¦åˆ™åˆ é™¤å¤šä½™èŠ‚ç‚¹
+        else
+        {
+            for (int j = len; j < nodeCount; j++)
+            {
+                Destroy(_nodesContainerTfm.GetChild(j).gameObject);
+            }
+        }
     }
-    
+
     /// <summary>
-    /// ¸ù¾İÁ½µã¸üĞÂ¼ıÍ·
+    /// ç”»ç®­å¤´ï¼Œå¤–éƒ¨è°ƒç”¨æ¥å£
     /// </summary>
     /// <param name="startPos"></param>
     /// <param name="endPos"></param>
-    public void UpdateArrow(Vector3 startPos, Vector3 endPos)
+    /// <returns></returns>
+    public void DrawArrow(Vector3 startPos, Vector3 endPos)
     {
-        if(!_meshFilter)
-            _meshFilter = GetComponent<MeshFilter>();
-//        endPos += offsetPos;
-//        startPos += offsetPos;
-        Vector3 startPosInWorld = screenToWorldPos(startPos);
-        Vector3 endPosInWorld = screenToWorldPos(endPos);
-        List<Vector3> posList = GetRadianPos(startPosInWorld, endPosInWorld);
-        CreateMesh(_meshFilter, posList);
+        Initialize();
+        _canShowArrow = true;
+        transform.localScale = Vector3.one;
+        transform.position = ScreenPosToWorldPos(endPos);
+        _startPos = ScreenPosToWorldPos(startPos);
     }
 
-
     /// <summary>
-    /// °ÑÆÁÄ»×ø±ê×ª»»³ÉÊÀ½ç×ø±ê
+    /// æŠŠå±å¹•ä¸Šçš„ç‚¹è½¬æ¢æˆä¸–ç•Œç©ºé—´
     /// </summary>
-    /// <param name="screenPos">ÆÁÄ»×ø±ê</param>
-    /// <returns>ÊÀ½ç×ø±ê</returns>
-    private Vector3 screenToWorldPos(Vector3 screenPos)
+    /// <param name="screenPos"></param>
+    /// <returns></returns>
+    private Vector3 ScreenPosToWorldPos(Vector3 screenPos)
     {
         screenPos.z = 5.0f;
-        Vector3 p1 = GameObject.Find("Main Camera").GetComponent<Camera>().ScreenToWorldPoint(screenPos);
-        Vector3 p0 = GameObject.Find("Main Camera").GetComponent<Camera>().transform.position;
+        Vector3 p1 = _cameraObject.GetComponent<Camera>().ScreenToWorldPoint(screenPos);
+        Vector3 p0 = _cameraObject.GetComponent<Camera>().transform.position;
         float h2 = 0.0f - p0.z;
         float h1 = p1.z - p0.z;
         Vector3 dir = p1 - p0;
@@ -112,100 +199,74 @@ public class ArrowManager : UnitySingleton<ArrowManager>
         p2.z = 0;
         return p2;
     }
-    
-    #region ´´½¨Ä£ĞÍ
+
     /// <summary>
-    /// ´´½¨Ä£ĞÍ
+    /// æ˜¾ç¤ºç®­å¤´
     /// </summary>
-    /// <param name="meshFilter"></param>
-    /// <param name="posList">Á½µãÖ®¼äµãµÄ¼¯ºÏ</param>
-    void CreateMesh(MeshFilter meshFilter, List<Vector3> posList)
+    public void ShowArrow()
     {
-        int num = posList.Count -1;
-        if (num < 1)
-            return;
-        float halfWidth = arrowWidth * 0.5f;
-        Vector3 dir = GetDir(posList[0], posList[num]);
-
-        Vector3[] vertices = new Vector3[num * 4];
-        Vector2[] uv = new Vector2[num * 4];
-        int[] triangle = new int[num * 6];
-        for (int i = 0; i < num; i++)
-        {
-            //¼ÆËã¶¥µãÎ»ÖÃ  
-            vertices[i * 4 + 0] = posList[i] + dir* halfWidth;
-            vertices[i * 4 + 1] = posList[i + 1] - dir * halfWidth ;
-            vertices[i * 4 + 2] = posList[i + 1] + dir * halfWidth ;
-            vertices[i * 4 + 3] = posList[i] - dir * halfWidth;
-
-            //¼ÆËãuvÎ»ÖÃ  
-            uv[i * 4 + 0] = new Vector2(0.0f, 0.0f);
-            uv[i * 4 + 1] = new Vector2(1.0f, 1.0f);
-            uv[i * 4 + 2] = new Vector2(1.0f, 0.0f);
-            uv[i * 4 + 3] = new Vector2(0.0f, 1.0f);
-        }
-
-        int verticeIndex = 0;
-
-        for (int i = 0; i < num; i++)
-        {
-            // µÚÒ»¸öÈı½ÇĞÎ  
-            triangle[verticeIndex++] = i * 4 + 0;
-            triangle[verticeIndex++] = i * 4 + 1;
-            triangle[verticeIndex++] = i * 4 + 2;
-            // µÚ¶ş¸öÈı½ÇĞÎ  
-            triangle[verticeIndex++] = i * 4 + 1;
-            triangle[verticeIndex++] = i * 4 + 0;
-            triangle[verticeIndex++] = i * 4 + 3;
-        }
-        Mesh newMesh = new Mesh();
-        newMesh.vertices = vertices;
-        newMesh.uv = uv;
-        newMesh.triangles = triangle;
-        meshFilter.mesh = newMesh;
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
-    #endregion
 
-    #region »ñÈ¡¼ıÍ·µÄ´¹Ö±ÏòÁ¿
     /// <summary>
-    /// 
+    /// éšè—ç®­å¤´
     /// </summary>
-    /// <param name="start"></param>
-    /// <param name="end"></param>
-    /// <returns></returns>
-    private Vector3 GetDir(Vector3 start,Vector3 end)
+    public void HideArrow()
     {
-        Vector3 dirValue = (end - start).normalized;
-        //ÒòÎª²»ĞèÒª¿¼ÂÇzÖáµÄÏòÁ¿£¬¼ÓÒ»¸öÌõ¼ş£¬¼´¿ÉµÃ³öÎ¨Ò»´¹Ö±ÏòÁ¿
-        Vector2 dir = new Vector2(Mathf.Abs(dirValue.y),-1.0f * Mathf.Sign(dirValue.x* dirValue.y) * Mathf.Abs(dirValue.x));
-        if (dirValue.y < 0)
-            dir *= -1.0f;
-        return dir;
-    }
-    #endregion
-
-    #region »ñÈ¡Á½µãÖ®¼äµÄµã
-    /// <summary>
-    /// »ñÈ¡Á½µãÖ®¼äµÄµã
-    /// </summary>
-    /// <param name="startPos">Æğµã</param>
-    /// <param name="endPos">ÖÕµã</param>
-    /// <returns>Á½µãÖ®¼äÖ±ÏßµÄµãµÄ¼¯ºÏ</returns>
-    private List<Vector3> GetRadianPos(Vector3 startPos, Vector3 endPos)
-    {
-        List<Vector3> posList = new List<Vector3>();
-
-        float lifeTime = Vector3.Distance(startPos, endPos) / speed;
-
-        Vector3 startSpeed = (endPos - startPos) / lifeTime;
-        for (float moveTime = 0.0f; moveTime <= lifeTime; moveTime += fixedTime)
+        for (int i = 0; i < _nodesContainerTfm.childCount; i++)
         {
-            if (moveTime > lifeTime)
-                moveTime = lifeTime;
-            Vector3 tempPos = startPos + startSpeed * moveTime;
-            posList.Add(tempPos);
+            Destroy(_nodesContainerTfm.GetChild(i).gameObject);        // åˆ é™¤å„ç®­èº«èŠ‚ç‚¹
         }
-        return posList;
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = false;    // éšè—ç®­å¤´
+        _canShowArrow = false;
     }
-    #endregion
+
+    /// <summary>
+    /// æ›´æ–°ç®­å¤´æ˜¾ç¤º
+    /// </summary>
+    /// <param name="position">å½“å‰é¼ æ ‡ä½ç½®</param>
+    public void UpdateArrow(Vector3 position)
+    {
+        Vector3 mousePos = ScreenPosToWorldPos(position);
+        transform.position = mousePos;
+        transform.rotation = CaculateRotation (mousePos,_startPos);
+        CaculateVisibleLen(mousePos);
+        _dist = _visibleLen + offset;
+        _dist = _dist >= MinHeight ? _dist : MinHeight;
+        _maskRect.sizeDelta = new Vector2 (1f, _dist);
+        MakeArrowFlow(position);
+    }
+
+
+    /// <summary>
+    /// è®¡ç®—å¯è§é•¿åº¦
+    /// </summary>
+    /// <param name="currentPos">Current position.</param>
+    void CaculateVisibleLen(Vector2 currentPos)
+    {
+        Vector2 dirVector = currentPos - _startPos;
+        _visibleLen = dirVector.magnitude;
+    }
+
+    /// <summary>
+    /// è¾“å…¥å½“å‰ä½ç½®ï¼Œè·å¾—æ­£ç¡®è½¬å‘
+    /// </summary>
+    /// <returns>The rotation.</returns>
+    /// <param name="currentPos">Current position.</param>
+    /// <param name="middlePos"></param>
+    Quaternion CaculateRotation(Vector2 currentPos,Vector2 middlePos)
+    {
+        Vector2 fromVector = Vector2.up;
+        Vector2 toVector = currentPos - middlePos;
+        float angle = Vector2.Angle (fromVector, toVector);
+        if (toVector.x > 0)
+        {
+            angle = 360f - angle;
+        }
+        // ç»„åˆå¾—åˆ°æ¬§æ‹‰è§’
+        Vector3 diff = new Vector3 (0f, 0f, angle);
+        // å°†æ¬§æ‹‰è§’è½¬æ¢æˆå››å…ƒæ•°
+        Quaternion rotation = Quaternion.Euler (diff);
+        return rotation;
+    }
 }
