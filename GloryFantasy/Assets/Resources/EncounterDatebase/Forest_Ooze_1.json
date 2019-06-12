@@ -1,0 +1,54 @@
+﻿[
+  {
+    "EncounterID": "Forest_Ooze_1",
+    "UnitMessage": [
+      {
+        "UnitID": "Ooze_1",
+        "Pos_X":1,
+        "Pos_Y":1,
+        "UnitControler":1
+
+      },
+      {
+        "UnitID": "Ooze_1",
+        "Pos_X":1,
+        "Pos_Y":2,
+        "UnitControler":1
+      }
+    ],
+    "BattlefieldMessage": [
+      {
+        "RegionID": 1,
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [ "MainBF_Enemy" ],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 2,
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 3,
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [ "MainBF_Friendly" ],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      }
+    ],
+    "MapID": "Forest_1"
+  }
+
+]

@@ -1,0 +1,61 @@
+﻿[
+  {
+    "EncounterID": "Plain_Hunter_1",
+    "UnitMessage": [
+      {
+        "UnitID": "ShadowArcher_2",
+        "Pos_X": 0,
+        "Pos_Y": 1,
+        "UnitControler": 1
+
+      },
+      {
+        "UnitID": "ShadowArcher_2",
+        "Pos_X": 0,
+        "Pos_Y": 2,
+        "UnitControler": 1
+      },
+      {
+        "UnitID": "ShadowWolf_1",
+        "Pos_X": 1,
+        "Pos_Y": 2,
+        "UnitControler": 1
+      }
+    ],
+    "BattlefieldMessage": [
+      {
+        "RegionID": 1,
+        "EventList": {
+          "Empty": 1,
+          "0ReinforceWolf": 1
+        },
+        "Buff": [],
+        "Trigger": [ "MainBF_Enemy" ],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 2,
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 3,
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [ "MainBF_Friendly" ],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      }
+    ],
+    "MapID": "Plain_1"
+  }
+
+]
