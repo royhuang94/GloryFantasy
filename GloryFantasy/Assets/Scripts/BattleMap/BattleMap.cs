@@ -128,7 +128,6 @@ namespace BattleMap
         public void InitMap()
         {
             //下面的初始顺序不能变
-            GetEncounterIDFromMainMap("Plain_Shadow_1");//从大地图获取的遭遇id，放在这里测试，对接后删除
 
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter();            
@@ -162,7 +161,7 @@ namespace BattleMap
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
         public Transform battlePanel;//战斗地图根对象
-        public string encounterID { get; private set; }
+        public string encounterID = "Plain_Shadow_1";
 
         #region 各种类型地格
         public GameObject flat;//平地

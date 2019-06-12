@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using LitJson;
-using GamePlay.Event;
 using EventModel = GamePlay.Event.EventModule.EventWithWeight;
-
+using IMessage;
 
 namespace GamePlay.Encounter
 {
@@ -14,7 +12,8 @@ namespace GamePlay.Encounter
         public string mapID;//战斗地图id（文件名）
         public List<UnitMessage> unitMessageList;//本场遭遇里需要初始的单位
         public List<BattlefieldMessage> battleFieldMessageList;//本场遭遇里需要初始的战区事件
-
+        public string[] globalTrigger;//判断胜负的全局Trigger
+        public int deathPage;//死页数
         public Encounter(string id)
         {
             encounterID = id;
@@ -24,19 +23,21 @@ namespace GamePlay.Encounter
     /// <summary>
     /// 遭遇中的单位的结构体
     /// </summary>
-    public struct UnitMessage
+    public class UnitMessage
     {
         public string unitID;
         public int pos_X;
         public int pos_Y;
         public int unitControler;
+        public int isLeader;
 
-        public UnitMessage(string id,int x,int y,int controler)
+        public UnitMessage(string id,int x,int y,int controler,int leader)
         {
             unitID = id;
             pos_X = x;
             pos_Y = y;
             unitControler = controler;
+            isLeader = leader;
         }
     }
 
@@ -76,7 +77,7 @@ namespace GamePlay.Encounter
         public void InitEncounter()
         {
             //JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
-            string path = "DatabaseJsonFiles/" + BattleMap.BattleMap.Instance().encounterID;
+            string path = "DatabaseJsonFiles/Plain_Shadow_1";
             TextAsset json = Resources.Load<TextAsset>(path);
             JsonData data = JsonMapper.ToObject(json.text);
             
@@ -89,6 +90,9 @@ namespace GamePlay.Encounter
                 Encounter encounter = new Encounter(tem["EncounterID"].ToString());
                 string encounterID = tem["EncounterID"].ToString();
                 encounter.mapID = tem["MapID"].ToString();
+                JsonData triggerData = tem["GlobalTrigger"];
+                encounter.globalTrigger = JsonToArray(triggerData);
+                encounter.deathPage = (int)tem["DeathPage"];
                 encounter.unitMessageList = new List<UnitMessage>();
                 encounter.battleFieldMessageList = new List<BattlefieldMessage>();
 
@@ -100,7 +104,8 @@ namespace GamePlay.Encounter
                     int x = (int)unitData[j]["Pos_X"];
                     int y = (int)unitData[j]["Pos_Y"];
                     int controler = (int)unitData[i]["UnitControler"];
-                    unitMessage = new UnitMessage(unitID, x, y, controler);
+                    int isLeader = (int)unitData[i]["IsLeader"];
+                    unitMessage = new UnitMessage(unitID, x, y, controler,isLeader);
                     encounter.unitMessageList.Add(unitMessage);
                 }
 
@@ -224,6 +229,7 @@ namespace GamePlay.Encounter
             Debug.Log("null");
             return null;
         }
+
 
         #region
         /// <summary>
