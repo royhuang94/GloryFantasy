@@ -15,7 +15,7 @@ namespace BattleMap
         /// <summary>
         /// 获取格子边框图片，不是必要的情况下，请不要点开，我自己都要吐了
         /// </summary>
-        public void GetBattleAreaBorder()//1
+        public void GetBattleAreaBorder()
         {
             Vector2 TopOff = new Vector2(0, -1);
             Vector2 BottomOff = new Vector2(0, 1);
@@ -37,29 +37,21 @@ namespace BattleMap
                     //判断它周围还有没有格子，有格子就不用管了
                     if (HasBorderUpon(k, battleAreas[i] + TopOff))//上面没有格子
                     {
-                        //RectTransform transform = battleMapBlock.transform.Find("Top").GetComponent<RectTransform>();
-                        //transform.anchoredPosition += new Vector2(0, -padding);
                         SpriteRenderer image = battleMapBlock.transform.Find("Top").GetComponent<SpriteRenderer>();
                         images.Add(image);
                     }
                     if (HasBorderUpon(k, battleAreas[i] + BottomOff))//下面没有格子
                     {
-                        //RectTransform transform = battleMapBlock.transform.Find("Bottom").GetComponent<RectTransform>();
-                        //transform.anchoredPosition += new Vector2(0, padding);
                         SpriteRenderer image = battleMapBlock.transform.Find("Bottom").GetComponent<SpriteRenderer>();
                         images.Add(image);
                     }
                     if (HasBorderUpon(k, battleAreas[i] + LeftOff))//左边没有格子
                     {
-                        //RectTransform transform = battleMapBlock.transform.Find("Left").GetComponent<RectTransform>();
-                        //transform.anchoredPosition += new Vector2(padding, 0);
                         SpriteRenderer image = battleMapBlock.transform.Find("Left").GetComponent<SpriteRenderer>();
                         images.Add(image);
                     }
                     if (HasBorderUpon(k, battleAreas[i] + RightOff))//右边没有格子
                     {
-                        //RectTransform transform = battleMapBlock.transform.Find("Right").GetComponent<RectTransform>();
-                        //transform.anchoredPosition += new Vector2(-padding, 0);
                         SpriteRenderer image = battleMapBlock.transform.Find("Right").GetComponent<SpriteRenderer>();
                         images.Add(image);
                     }
@@ -68,15 +60,11 @@ namespace BattleMap
                     {
                         if (!HasBorderUpon(k, battleAreas[i] + LeftOff) && HasBorderUpon(k, battleAreas[i] + LeftOff + TopOff))//如果左边有格子,左上角还不能有格子，我自己都要吐了 呕！
                         {
-                            //RectTransform transform = battleMapBlock.transform.Find("LeftTopRangle").GetComponent<RectTransform>();
-                            //transform.anchoredPosition += new Vector2(padding, -padding);
                             SpriteRenderer image = battleMapBlock.transform.Find("LeftTopRangle").GetComponent<SpriteRenderer>();
                             images.Add(image);
                         }
                         else if (!HasBorderUpon(k, battleAreas[i] + RightOff) && HasBorderUpon(k, battleAreas[i] + RightOff + TopOff))//右边有格子
                         {
-                            //RectTransform transform = battleMapBlock.transform.Find("RightopRangle").GetComponent<RectTransform>();
-                            //transform.anchoredPosition += new Vector2(-padding, -padding);
                             SpriteRenderer image = battleMapBlock.transform.Find("RightopRangle").GetComponent<SpriteRenderer>();
                             images.Add(image);
                         }
@@ -86,15 +74,11 @@ namespace BattleMap
                     {
                         if (!HasBorderUpon(k, battleAreas[i] + LeftOff) && HasBorderUpon(k, battleAreas[i] + LeftOff + BottomOff))//如果左边有格子，右上角没有格子
                         {
-                            //RectTransform transform = battleMapBlock.transform.Find("LeftBottomRangle").GetComponent<RectTransform>();
-                            //transform.anchoredPosition += new Vector2(padding, padding);
                             SpriteRenderer image = battleMapBlock.transform.Find("LeftBottomRangle").GetComponent<SpriteRenderer>();
                             images.Add(image);
                         }
                         else if (!HasBorderUpon(k, battleAreas[i] + RightOff) && HasBorderUpon(k, battleAreas[i] + RightOff + BottomOff))//右边有格子
                         {
-                            //RectTransform transform = battleMapBlock.transform.Find("RightBottomRangle").GetComponent<RectTransform>();
-                            //transform.anchoredPosition += new Vector2(-padding, padding);
                             SpriteRenderer image = battleMapBlock.transform.Find("RightBottomRangle").GetComponent<SpriteRenderer>();
                             images.Add(image);
                         }
@@ -127,7 +111,7 @@ namespace BattleMap
         /// <summary>
         /// 显示战区内边框
         /// </summary>
-        public void ShowAndUpdateBattleArea()//2
+        public void ShowAndUpdateBattleArea()
         {
             foreach (int id in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
             {

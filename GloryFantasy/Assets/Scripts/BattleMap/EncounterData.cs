@@ -76,7 +76,7 @@ namespace GamePlay.Encounter
         public void InitEncounter()
         {
             //JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
-            string path = "DatabaseJsonFiles/Plain_Shadow_1";
+            string path = "DatabaseJsonFiles/" + BattleMap.BattleMap.Instance().encounterID;
             TextAsset json = Resources.Load<TextAsset>(path);
             JsonData data = JsonMapper.ToObject(json.text);
             
@@ -194,7 +194,7 @@ namespace GamePlay.Encounter
         {
             Encounter encounter = null;
             string[] triggers = null;
-            _encounterData.TryGetValue("Plain_Shadow_1", out encounter);
+            _encounterData.TryGetValue(BattleMap.BattleMap.Instance().encounterID, out encounter);
             for(int i =0;i<encounter.battleFieldMessageList.Count;i++)
             {
                 BattlefieldMessage battlefieldMessage = encounter.battleFieldMessageList[i];
@@ -212,7 +212,7 @@ namespace GamePlay.Encounter
         {
             Encounter encounter = null;
             BattlefieldMessage battlefieldMessage = null;
-            _encounterData.TryGetValue("Plain_Shadow_1", out encounter);
+            _encounterData.TryGetValue(BattleMap.BattleMap.Instance().encounterID, out encounter);
             for (int i = 0; i < encounter.battleFieldMessageList.Count; i++)
             {
                 battlefieldMessage = encounter.battleFieldMessageList[i];

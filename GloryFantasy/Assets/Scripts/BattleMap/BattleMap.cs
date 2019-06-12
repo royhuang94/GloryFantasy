@@ -128,17 +128,18 @@ namespace BattleMap
         public void InitMap()
         {
             //下面的初始顺序不能变
+            GetEncounterIDFromMainMap("Plain_Shadow_1");//从大地图获取的遭遇id，放在这里测试，对接后删除
 
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter();            
             //初始化地图
             InitAndInstantiateMapBlocks();//
             //初始战区事件
-            EncouterData.Instance().InitBattleFieldEvent("Plain_Shadow_1");//TODO等待对接
+            EncouterData.Instance().InitBattleFieldEvent(encounterID);
             //初始战区状态，战区对象并添加事件模块进入仲裁器；
             battleAreaData.InitBattleArea();           
             //初始战斗地图上的单位 
-            UnitManager.InitAndInstantiateGameUnit("Plain_Shadow_1", _mapBlocks);
+            UnitManager.InitAndInstantiateGameUnit(encounterID, _mapBlocks);
         }
 
         //初始化地图的地址
@@ -161,7 +162,7 @@ namespace BattleMap
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
         public Transform battlePanel;//战斗地图根对象
-        public string encounterID = "Plain_Shadow_1";//遭遇id
+        public string encounterID { get; private set; }
 
         #region 各种类型地格
         public GameObject flat;//平地
@@ -190,7 +191,7 @@ namespace BattleMap
         //初始战斗地图
         private void InitAndInstantiateMapBlocks()
         {
-            EncouterData.Instance().InitEncounter("Plain_Shadow_1");
+            EncouterData.Instance().InitEncounter(encounterID);
             //读取战斗地图文件
             string[] strs = Resources.Load<TextAsset>(BattleMapPath).text.Split('\n');
             
