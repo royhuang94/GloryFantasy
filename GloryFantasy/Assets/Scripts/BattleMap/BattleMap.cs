@@ -28,12 +28,12 @@ namespace BattleMap
             BattleMapPath = "BattleMapData/";
         }
 
-        //private void Start()
-        //{
-        //    //切换需注释，单独调试战斗地图请取消注释
-        //    InitMap();
-        //    RegisterMSG();
-        //}
+        private void Start()
+        {
+            //切换需注释，单独调试战斗地图请取消注释
+            InitMap();
+            RegisterMSG();
+        }
 
 
         /// <summary>
