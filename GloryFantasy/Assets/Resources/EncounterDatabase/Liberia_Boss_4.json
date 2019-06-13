@@ -1,17 +1,21 @@
 ﻿[
   {
     "EncounterID": "Liberia_Boss_4",
+    "GlobalTrigger": [],
+    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "Devil_2",
         "Pos_X": 0,
         "Pos_Y": 2,
-        "UnitControler": 1
+        "UnitControler": 1,
+        "IsLeader": 0
       }
     ],
     "BattlefieldMessage": [
       {
         "RegionID": 1,
+        "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -23,6 +27,7 @@
       },
       {
         "RegionID": 2,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -34,6 +39,7 @@
       },
       {
         "RegionID": 3,
+        "Owner": "Player",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
