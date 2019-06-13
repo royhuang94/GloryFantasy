@@ -82,7 +82,7 @@ namespace GamePlay.Encounter
         public void InitEncounter()
         {
             //JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
-            string path = "EncounterDatabase/Plain_Shadow_1";
+            string path = "EncounterDatabase/" + BattleMap.BattleMap.Instance().GetEncounterID();
             TextAsset json = Resources.Load<TextAsset>(path);
             JsonData data = JsonMapper.ToObject(json.text);
             
@@ -205,7 +205,7 @@ namespace GamePlay.Encounter
         {
             Encounter encounter = null;
             string[] triggers = null;
-            _encounterData.TryGetValue(BattleMap.BattleMap.Instance().encounterID, out encounter);
+            _encounterData.TryGetValue(BattleMap.BattleMap.Instance().GetEncounterID(), out encounter);
             for(int i =0;i<encounter.battleFieldMessageList.Count;i++)
             {
                 BattlefieldMessage battlefieldMessage = encounter.battleFieldMessageList[i];
@@ -228,7 +228,7 @@ namespace GamePlay.Encounter
         {
             Encounter encounter = null;
             BattlefieldMessage battlefieldMessage = null;
-            _encounterData.TryGetValue(BattleMap.BattleMap.Instance().encounterID, out encounter);
+            _encounterData.TryGetValue(BattleMap.BattleMap.Instance().GetEncounterID(), out encounter);
             for (int i = 0; i < encounter.battleFieldMessageList.Count; i++)
             {
                 battlefieldMessage = encounter.battleFieldMessageList[i];
@@ -247,7 +247,7 @@ namespace GamePlay.Encounter
         /// <returns></returns>
         public Encounter GetEncounter()
         {
-            return _encounterData["Plain_Shadow_1"];
+            return _encounterData[BattleMap.BattleMap.Instance().GetEncounterID()];
         }
 
         /// <summary>
@@ -257,12 +257,12 @@ namespace GamePlay.Encounter
         /// <returns></returns>
         public string GetInitBattleAreaState(int reginID)
         {
-            int count = _encounterData["Plain_Shadow_1"].battleFieldMessageList.Count;
+            int count = _encounterData[BattleMap.BattleMap.Instance().GetEncounterID()].battleFieldMessageList.Count;
             for (int i = 0; i < count; i++)
             {
-                if(reginID == _encounterData["Plain_Shadow_1"].battleFieldMessageList[i].regionID)
+                if(reginID == _encounterData[BattleMap.BattleMap.Instance().GetEncounterID()].battleFieldMessageList[i].regionID)
                 {
-                    return _encounterData["Plain_Shadow_1"].battleFieldMessageList[i].Owner;
+                    return _encounterData[BattleMap.BattleMap.Instance().GetEncounterID()].battleFieldMessageList[i].Owner;
                 }
             }
             Debug.Log("该战区不存在");

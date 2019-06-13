@@ -132,7 +132,7 @@ namespace GamePlay.Event
         public void SummonMonster_in_Area(object target_area, int amount, String Unit_id)//参数意义： 允许生成单位的地图范围(现在只允许以一个战区为自然范围)、生成单位的数量、生成单位的ID
         {
             BattleMap.BattleArea battleArea = target_area as BattleMap.BattleArea;
-            List<Vector2> battleMapBlocks = battleArea._battleArea;
+            List<Vector2> battleMapBlocks = battleArea._battleAreas;
             List<BattleMap.BattleMapBlock> blocks = new List<BattleMap.BattleMapBlock>();
             foreach (Vector2 pos in battleMapBlocks)    //遍历给出的每一个二维坐标
             {

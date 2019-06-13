@@ -28,7 +28,7 @@ namespace BattleMap
     {
         public int _battleAreaID;//战区id
         public BattleAreaState _battleAreaSate;//战区状态
-        public List<Vector2> _battleArea;//该战区上的所有地图块坐标
+        public List<Vector2> _battleAreas;//该战区上的所有地图块坐标
         public string[] _TID;//该战区的triggerID
         public List<EventModule.EventWithWeight> _modules;//该战区的事件
         public BMBCollider _collider;
@@ -44,14 +44,14 @@ namespace BattleMap
         /// </summary>
         public int delta_y_strenth { get; set; }
 
-        public BattleArea(int battleAreaID,BattleAreaState battleAreaSate, List<Vector2> battleArea,string[] tid,List<EventModule.EventWithWeight> modules,int dx,int dy)
+        public BattleArea(int battleAreaID,BattleAreaState battleAreaSate, List<Vector2> battleAreas,string[] tid,List<EventModule.EventWithWeight> modules,int dx,int dy)
         {
             _battleAreaID = battleAreaID;
-            _battleArea = battleArea;
+            _battleAreas = battleAreas;
             _battleAreaSate = battleAreaSate;
             _TID = tid;
             _modules = modules;
-            _collider = new BMBCollider(_battleArea);
+            _collider = new BMBCollider(_battleAreas);
             delta_x_amount = dx;
             delta_y_strenth = dy;
             if (_TID != null)
@@ -104,7 +104,6 @@ namespace BattleMap
                 BattleMap.Instance().battleAreaData.battleAreas.TryGetValue(id, out battleArea);
                 //Debug.Log(string.Format("战区：{0}，之前状态：{1}", id, battleArea._battleAreaSate));
                 BattleAreaState newBattleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);
-
                 if (battleArea._battleAreaSate == newBattleAreaSate)
                 {
                     //该战区所属状态没改变
@@ -385,6 +384,29 @@ namespace BattleMap
                 return null;
             }
             return vector2s;
+        }
+
+        /// <summary>
+        /// 通过坐标获取该地图块所处的战区id
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public int GetReginIDByPos(Vector2 pos)
+        {
+            int reginID = 0;
+            foreach(int k in battleAreas.Keys)
+            {
+                foreach(Vector2 vector2 in battleAreas[k]._battleAreas)
+                {
+                    if (vector2 == pos)
+                    {
+                        reginID = k;
+                        return reginID;
+                    }
+                }
+            }
+            Debug.Log("该战区不存在");
+            return 0;
         }
     }
 }

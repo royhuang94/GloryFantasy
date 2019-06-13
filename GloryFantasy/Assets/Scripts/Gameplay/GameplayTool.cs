@@ -813,7 +813,7 @@ namespace GamePlay
         public static List<BattleMap.BattleMapBlock> GetBlocksInRegion(BattleMap.BattleArea ba)
         {
             List<BattleMap.BattleMapBlock> res = new List<BattleMap.BattleMapBlock>();
-            foreach (Vector2 v in ba._battleArea)
+            foreach (Vector2 v in ba._battleAreas)
             {
                 res.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(v));
             }

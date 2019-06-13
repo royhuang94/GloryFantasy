@@ -20,6 +20,10 @@ namespace GamePlay.FSM
 
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
+            //如果是地方战区则不能召唤
+            int reginID = BattleMap.BattleMap.Instance().battleAreaData.GetReginIDByPos(new Vector2(mapBlock.x, mapBlock.y));
+            if (BattleMap.BattleMap.Instance().battleAreaData.battleAreas[reginID]._battleAreaSate == BattleAreaState.Enmey) return;
+
             base.OnPointerDownBlock(mapBlock, eventData);
             mapBlock.GetComponent<SpriteRenderer>().color = Color.white;
             
