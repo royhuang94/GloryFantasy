@@ -15,8 +15,9 @@ using System;
 /// 
 namespace BattleMap
 {
-    public enum BattleAreaSate//战区所属状态
+    public enum BattleAreaState//战区所属状态
     {
+        Null,
         Player,//属于玩家
         Enmey,//属于敌人
         Neutrality,//中立
@@ -26,7 +27,7 @@ namespace BattleMap
     public class BattleArea : IMessage.MsgReceiver
     {
         public int _battleAreaID;//战区id
-        public BattleAreaSate _battleAreaSate;//战区状态
+        public BattleAreaState _battleAreaSate;//战区状态
         public List<Vector2> _battleArea;//该战区上的所有地图块坐标
         public string[] _TID;//该战区的triggerID
         public List<EventModule.EventWithWeight> _modules;//该战区的事件
@@ -43,7 +44,7 @@ namespace BattleMap
         /// </summary>
         public int delta_y_strenth { get; set; }
 
-        public BattleArea(int battleAreaID,BattleAreaSate battleAreaSate, List<Vector2> battleArea,string[] tid,List<EventModule.EventWithWeight> modules,int dx,int dy)
+        public BattleArea(int battleAreaID,BattleAreaState battleAreaSate, List<Vector2> battleArea,string[] tid,List<EventModule.EventWithWeight> modules,int dx,int dy)
         {
             _battleAreaID = battleAreaID;
             _battleArea = battleArea;
@@ -102,7 +103,7 @@ namespace BattleMap
                 BattleArea battleArea = null;
                 BattleMap.Instance().battleAreaData.battleAreas.TryGetValue(id, out battleArea);
                 //Debug.Log(string.Format("战区：{0}，之前状态：{1}", id, battleArea._battleAreaSate));
-                BattleAreaSate newBattleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);
+                BattleAreaState newBattleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);
 
                 if (battleArea._battleAreaSate == newBattleAreaSate)
                 {
@@ -110,7 +111,7 @@ namespace BattleMap
                 }
                 else
                 {
-                    if (newBattleAreaSate != BattleAreaSate.Neutrality)//中立就不更新
+                    if (newBattleAreaSate != BattleAreaState.Neutrality)//中立就不更新
                     {
                         this.SetChangedBA(battleArea);
                         this.SetExOwner(battleArea._battleAreaSate);
@@ -187,7 +188,23 @@ namespace BattleMap
                 trrigers = GamePlay.Encounter.EncouterData.Instance().GetBattleAreaTriggerByRegionID(id);
                 List<EventModule.EventWithWeight> models = EncouterData.Instance().GetBattleFieldEvent(id);
                 BattlefieldMessage battlefieldMessage = EncouterData.Instance().GetBattlefieldMessagebyID(id);
-                BattleArea battleArea = new BattleArea(id, BattleAreaSate.Neutrality, list,trrigers,models,battlefieldMessage.Delta_X,battlefieldMessage.Delta_Y);
+                string state = EncouterData.Instance().GetInitBattleAreaState(id);
+                BattleAreaState battleAreaState = BattleAreaState.Null;
+                switch (state)
+                {
+                    case "Enemy":
+                        battleAreaState = BattleAreaState.Enmey;
+                        break;
+                    case "Neutrality":
+                        battleAreaState = BattleAreaState.Neutrality;
+                        break;
+                    case "Player":
+                        battleAreaState = BattleAreaState.Player;
+                        break;
+                    default:
+                        break;
+                }
+                BattleArea battleArea = new BattleArea(id, battleAreaState, list,trrigers,models,battlefieldMessage.Delta_X,battlefieldMessage.Delta_Y);
                 battleAreas.Add(id, battleArea);
 
                 if (battleArea._modules == null)
@@ -203,7 +220,7 @@ namespace BattleMap
       
 
         //战区所属权
-        public BattleAreaSate WarZoneBelong(int area)
+        public BattleAreaState WarZoneBelong(int area)
         {
             int unitAmout = 0;//战区上单位的数量
             int enemyAmout = 0;//战区上敌方单位数量
@@ -212,7 +229,7 @@ namespace BattleMap
             BattleArea temp = GetBattleAreaByID(area);
             if (temp == null)
             {
-                return BattleAreaSate.Neutrality;
+                return BattleAreaState.Neutrality;
             }
             List<GameUnit.GameUnit> units = temp._collider.disposeUnits;
             unitAmout = units.Count;
@@ -248,18 +265,18 @@ namespace BattleMap
             if (unitAmout == 0)
             {
                 //中立状态，只存在于初始化
-                return BattleAreaSate.Neutrality;
+                return BattleAreaState.Neutrality;
             }
             if (enemyAmout == unitAmout - neutralityAmout)
             {
                 //该战区被敌方控制
-                return BattleAreaSate.Enmey;
+                return BattleAreaState.Enmey;
 
             }
             else if (friendlyAmout == unitAmout - neutralityAmout)
             {
                 //该战区被玩家控制
-                return BattleAreaSate.Player;
+                return BattleAreaState.Player;
             }
             else
                 return temp._battleAreaSate;

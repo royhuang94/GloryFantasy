@@ -51,8 +51,9 @@ namespace GamePlay.Encounter
         public string[] triggers;
         public int Delta_X;
         public int Delta_Y;
+        public string Owner;
 
-        public BattlefieldMessage(int id, Dictionary<string, int> dic, string[] _buff,string[] _triggers,int dx,int dy)
+        public BattlefieldMessage(int id, Dictionary<string, int> dic, string[] _buff,string[] _triggers,int dx,int dy,string owner)
         {
             regionID = id;
             eventDic = dic;
@@ -60,6 +61,7 @@ namespace GamePlay.Encounter
             triggers = _triggers;
             Delta_X = dx;
             Delta_Y = dy;
+            Owner = owner;
         }
     }
 
@@ -127,7 +129,8 @@ namespace GamePlay.Encounter
                     triggers = JsonToArray(triggersData);
                     int dx = (int)battleFieldData[j]["Delta_X"];
                     int dy = (int)battleFieldData[j]["Delta_Y"];
-                    battlefieldMessage = new BattlefieldMessage(regionID, messageDic, buff,triggers,dx,dy);
+                    string owner = battleFieldData[j]["Owner"].ToString();
+                    battlefieldMessage = new BattlefieldMessage(regionID, messageDic, buff,triggers,dx,dy,owner);
                     encounter.battleFieldMessageList.Add(battlefieldMessage);
                 }
 
@@ -215,6 +218,11 @@ namespace GamePlay.Encounter
             return null;
         }
 
+        /// <summary>
+        /// 通过战区id获取遭遇文件里面的BattlefieldMessage模块
+        /// </summary>
+        /// <param name="regionID"></param>
+        /// <returns></returns>
         public BattlefieldMessage GetBattlefieldMessagebyID(int regionID)
         {
             Encounter encounter = null;
@@ -229,6 +237,34 @@ namespace GamePlay.Encounter
                 }
             }
             Debug.Log("null");
+            return null;
+        }
+
+        /// <summary>
+        /// 获取遭遇对象
+        /// </summary>
+        /// <returns></returns>
+        public Encounter GetEncounter()
+        {
+            return _encounterData["Plain_Shadow_1"];
+        }
+
+        /// <summary>
+        /// 获取遭遇文件中的战区初始状态；
+        /// </summary>
+        /// <param name="reginID"></param>
+        /// <returns></returns>
+        public string GetInitBattleAreaState(int reginID)
+        {
+            int count = _encounterData["Plain_Shadow_1"].battleFieldMessageList.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if(reginID == _encounterData["Plain_Shadow_1"].battleFieldMessageList[i].regionID)
+                {
+                    return _encounterData["Plain_Shadow_1"].battleFieldMessageList[i].Owner;
+                }
+            }
+            Debug.Log("该战区不存在");
             return null;
         }
         #region

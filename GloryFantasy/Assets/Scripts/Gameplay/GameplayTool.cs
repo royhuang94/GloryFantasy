@@ -89,19 +89,19 @@ namespace GamePlay
         {
             return Gameplay.Info.changedBA;
         }
-        public static void SetNewOwner(this GameplayTool self, BattleMap.BattleAreaSate _newOwner)
+        public static void SetNewOwner(this GameplayTool self, BattleMap.BattleAreaState _newOwner)
         {
             Gameplay.Info.newOwner = _newOwner;
         }
-        public static BattleMap.BattleAreaSate GetNewOwner(this GameplayTool self)
+        public static BattleMap.BattleAreaState GetNewOwner(this GameplayTool self)
         {
             return Gameplay.Info.newOwner;
         }
-        public static void SetExOwner(this GameplayTool self, BattleMap.BattleAreaSate _exOwner)
+        public static void SetExOwner(this GameplayTool self, BattleMap.BattleAreaState _exOwner)
         {
             Gameplay.Info.exOwner = _exOwner;
         }
-        public static BattleMap.BattleAreaSate GetExOwner(this GameplayTool self)
+        public static BattleMap.BattleAreaState GetExOwner(this GameplayTool self)
         {
             return Gameplay.Info.exOwner;
         }

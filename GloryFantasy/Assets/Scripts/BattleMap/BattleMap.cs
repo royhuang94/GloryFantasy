@@ -140,6 +140,8 @@ namespace BattleMap
             battleAreaData.InitBattleArea();           
             //初始战斗地图上的单位 
             UnitManager.InitAndInstantiateGameUnit(encounterID, _mapBlocks);
+
+            drawBattleArea.ShowAndUpdateBattleArea();
         }
 
         //初始化地图的地址
@@ -549,7 +551,7 @@ namespace BattleMap
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public BattleAreaSate WarZoneBelong(Vector3 position)
+        public BattleAreaState WarZoneBelong(Vector3 position)
         {
             int area = _mapBlocks[(int)position.x, (int)position.y].area;
             return battleAreaData.WarZoneBelong(area);

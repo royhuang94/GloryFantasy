@@ -35,8 +35,8 @@ namespace IMessage
         public GameUnit.GameUnit AbilitySpeller; //发动异能者
 
         public BattleMap.BattleArea changedBA; //所有权发生变更的战区
-        public BattleMap.BattleAreaSate newOwner; //发生变更的战区的新的所有者
-        public BattleMap.BattleAreaSate exOwner; //发生变更的战区的上一任所有者
+        public BattleMap.BattleAreaState newOwner; //发生变更的战区的新的所有者
+        public BattleMap.BattleAreaState exOwner; //发生变更的战区的上一任所有者
 
         #region ATK部分
         public Ability.Ability SpellingAbility; //发动的异能

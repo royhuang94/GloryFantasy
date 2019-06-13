@@ -47,7 +47,7 @@ namespace GamePlay.Event
                 if (this.strenth > 3) this.strenth = 3;
                 //根据X和Y的最终值决定召唤结果
                 BattleMap.BattleArea _area = this.Source as BattleMap.BattleArea;
-                if(_area._battleAreaSate == BattleMap.BattleAreaSate.Enmey) //若此战区被敌人控制
+                if(_area._battleAreaSate == BattleMap.BattleAreaState.Enmey) //若此战区被敌人控制
                 {
                     switch (strenth)
                     {

@@ -22,7 +22,7 @@ namespace BattleMap
 
         private bool Condition()
         {
-            return _battleArea._battleAreaSate == BattleAreaSate.Enmey;
+            return _battleArea._battleAreaSate == BattleAreaState.Enmey;
         }
 
         private void Action()

@@ -24,7 +24,7 @@ namespace BattleMap
         private bool Condition()
         {
             
-            return _battleArea._battleAreaSate == BattleAreaSate.Player;
+            return _battleArea._battleAreaSate == BattleAreaState.Player;
         }
 
         private void Action()

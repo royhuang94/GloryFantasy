@@ -115,9 +115,11 @@ namespace BattleMap
         {
             foreach (int id in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
             {
+                Debug.Log(id);
                 List<SpriteRenderer> images = new List<SpriteRenderer>();
                 BattleAreaRenderDic.TryGetValue(id, out images);
-                if (BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Enmey)
+                Debug.Log(BattleMap.Instance().battleAreaData.WarZoneBelong(id));
+                if (BattleMap.Instance().battleAreaData.battleAreas[id]._battleAreaSate ==BattleAreaState.Enmey)
                 {
                     for (int i = 0; i < images.Count; i++)
                         images[i].color = new Color(255, 0, 0, 255);
@@ -127,12 +129,13 @@ namespace BattleMap
                 //    for (int i = 0; i < images.Count; i++)
                 //        images[i].color = new Color(255, 125, 0, 255);
                 //}
-                else if (BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Player)
+                else if (BattleMap.Instance().battleAreaData.battleAreas[id]._battleAreaSate == BattleAreaState.Player)
                 {
+                    Debug.Log(id);
                     for (int i = 0; i < images.Count; i++)
                         images[i].color = new Color(0, 255, 0, 255);
                 }
-                else if (isBattleAreaShow && BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Neutrality)
+                else if (isBattleAreaShow && BattleMap.Instance().battleAreaData.battleAreas[id]._battleAreaSate == BattleAreaState.Neutrality)
                 {
                     for (int i = 0; i < images.Count; i++)
                     {
