@@ -16,7 +16,16 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private string _encounterID;
 	private List<string> _cardList;
 
-	
+	public string encounterId
+	{
+		get { return _encounterID; }
+	}
+
+	public List<string> cardList
+	{
+		get { return _cardList; }
+	}
+
 	void Start () 
 	{
 		SceneManager.sceneLoaded += this.OnSceneLoader;
@@ -129,8 +138,6 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	{
 		_asyncOperation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
 		yield return _asyncOperation;
-		BattleMap.BattleMap.Instance().InitMap();
-		BattleMap.BattleMap.Instance().RegisterMSG();
 		SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetScene));
 		SwitchMMapCamera();
 	}

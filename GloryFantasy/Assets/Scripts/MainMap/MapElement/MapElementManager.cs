@@ -113,6 +113,7 @@ namespace MainMap
         {
             Debug.Log("怪物被点击");
 //            MainMapUI.Instance().HideMain();
+            SceneSwitchController.Instance().SetData(monsterid, null);
             SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
         }
         /// <summary>
