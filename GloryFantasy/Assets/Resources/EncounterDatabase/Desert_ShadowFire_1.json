@@ -1,18 +1,22 @@
 ﻿[
   {
     "EncounterID": "Desert_ShadowFire_1",
+    "GlobalTrigger": [],
+    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "ShadowFire_1",
-        "Pos_X":0,
-        "Pos_Y":2,
-        "UnitControler": 1
+        "Pos_X": 0,
+        "Pos_Y": 2,
+        "UnitControler": 1,
+        "IsLeader": 1
 
       }
     ],
     "BattlefieldMessage": [
       {
         "RegionID": 1,
+        "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
           "SkyFire": 1
@@ -24,6 +28,7 @@
       },
       {
         "RegionID": 2,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "SkyFire": 1
@@ -35,6 +40,7 @@
       },
       {
         "RegionID": 3,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "SkyFire": 1
@@ -46,6 +52,7 @@
       },
       {
         "RegionID": 4,
+        "Owner": "Player",
         "EventList": {
           "Empty": 1,
           "SkyFire": 1

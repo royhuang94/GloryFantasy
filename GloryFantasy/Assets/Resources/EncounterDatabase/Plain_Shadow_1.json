@@ -2,6 +2,7 @@
   {
     "EncounterID": "Plain_Shadow_1",
     "GlobalTrigger": [],
+    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "Shadow_1",
@@ -25,7 +26,6 @@
         "IsLeader": 0
       }
     ],
-    "DeathPage": -1,
     "BattlefieldMessage": [
       {
         "RegionID": 1,
