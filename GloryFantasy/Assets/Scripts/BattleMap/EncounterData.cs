@@ -2,7 +2,6 @@
 using UnityEngine;
 using LitJson;
 using EventModel = GamePlay.Event.EventModule.EventWithWeight;
-using IMessage;
 
 namespace GamePlay.Encounter
 {
@@ -64,6 +63,9 @@ namespace GamePlay.Encounter
         }
     }
 
+    /// <summary>
+    /// 读取遭遇文件
+    /// </summary>
     public class EncouterData : UnitySingleton<EncouterData>
     {
         //public string EncounterPath = "/Scripts/BattleMap/BattleMapData/encounter.json";//遭遇事件文件路径
@@ -77,7 +79,7 @@ namespace GamePlay.Encounter
         public void InitEncounter()
         {
             //JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
-            string path = "DatabaseJsonFiles/Plain_Shadow_1";
+            string path = "EncounterDatabase/Plain_Shadow_1";
             TextAsset json = Resources.Load<TextAsset>(path);
             JsonData data = JsonMapper.ToObject(json.text);
             
@@ -229,8 +231,6 @@ namespace GamePlay.Encounter
             Debug.Log("null");
             return null;
         }
-
-
         #region
         /// <summary>
         /// Json转字典，只支持{"a":1,"b":1,"c":1}格式,其中a为key，1为value

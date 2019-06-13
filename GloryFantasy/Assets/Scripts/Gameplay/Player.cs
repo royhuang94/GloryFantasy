@@ -159,6 +159,10 @@ namespace GamePlay
         {
             return this as T;
         }
+
+        internal class instance
+        {
+        }
     }
 
     public class Computer

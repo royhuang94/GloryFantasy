@@ -26,6 +26,7 @@ namespace BattleMap
             debuffBM = new DebuffBattleMapBlock();
             drawBattleArea = new DrawBattleArea();
             BattleMapPath = "BattleMapData/";
+            encounterID = "Plain_Shadow_1";
         }
 
         private void Start()
@@ -161,7 +162,7 @@ namespace BattleMap
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
         public Transform battlePanel;//战斗地图根对象
-        public string encounterID = "Plain_Shadow_1";
+        public string encounterID { get; set; }
 
         #region 各种类型地格
         public GameObject flat;//平地
@@ -175,7 +176,7 @@ namespace BattleMap
         /// <param name="encounterID"></param>
         public void GetEncounterIDFromMainMap(string encounterID)
         {
-            this.encounterID = encounterID;
+            //this.encounterID = encounterID;
         }
 
         /// <summary>
