@@ -87,7 +87,7 @@ namespace GameUnit
         /// <param name="unit">被初始化的GameUnit引用</param>
         /// <param name="unitID">要初始化的Unit的数据的ID</param>
         /// <param name="damage">这个角色是否出场就受伤</param>
-        public void InitGameUnit(Unit unit, string unitID, OwnerEnum owner, int damage = 0)
+        public void InitGameUnit(Unit unit, string unitID, OwnerEnum owner,int damage = 0)
         {
             if (!_unitsData.ContainsKey(unitID))
             {

@@ -58,7 +58,7 @@ namespace GameUnit
         /// <param name="owner"></param>
         /// <param name="Damage"></param>
         /// <returns></returns>
-        public GameObject GetInst(string unitId, OwnerEnum owner, int Damage = 0)
+        public GameObject GetInst(string unitId, OwnerEnum owner,int Damage = 0)
         {
             foreach (GameObject _unit in m_pool)
             {

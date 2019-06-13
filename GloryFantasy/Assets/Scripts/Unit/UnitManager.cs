@@ -127,6 +127,7 @@ namespace GameUnit
                 UnitMessage unitMessage = encounter.unitMessageList[i];
                 int x = unitMessage.pos_X;
                 int y = unitMessage.pos_Y;
+                int isLeader = unitMessage.isLeader;//初始一下这个就好
                 //单位控制者:0为玩家，1为敌方AI_1,2为敌方AI_2，...
                 switch (unitMessage.unitControler.ToString())
                 {

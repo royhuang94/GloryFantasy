@@ -140,8 +140,8 @@ namespace BattleMap
             battleAreaData.InitBattleArea();           
             //初始战斗地图上的单位 
             UnitManager.InitAndInstantiateGameUnit(encounterID, _mapBlocks);
-
-            drawBattleArea.ShowAndUpdateBattleArea();
+            //该次遭遇中的一些临时数值
+            EncouterData.Instance().dataOfThisBattle.InitData();
         }
 
         //初始化地图的地址

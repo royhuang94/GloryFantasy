@@ -145,9 +145,6 @@ namespace GameUnit
             if (hp <= 0)
                 UnitManager.Kill(null, this);
         }
-        /// <summary>
-        /// 单位的所有者
-        /// </summary>
         public OwnerEnum owner;
         /// <summary>
         /// 单位攻击力
