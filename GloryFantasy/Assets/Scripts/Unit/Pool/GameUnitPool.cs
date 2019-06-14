@@ -58,7 +58,7 @@ namespace GameUnit
         /// <param name="owner"></param>
         /// <param name="Damage"></param>
         /// <returns></returns>
-        public GameObject GetInst(string unitId, OwnerEnum owner,int Damage = 0)
+        public GameObject GetInst(string unitId, OwnerEnum owner,int isLeader=0,int Damage = 0)
         {
             foreach (GameObject _unit in m_pool)
             {
@@ -78,14 +78,14 @@ namespace GameUnit
                         Destroy(_ability);
                     }
                     //从单位数据库将新单位初始化
-                    UnitDataBase.Instance().InitGameUnit(_unit, unitId, owner, Damage);
+                    UnitDataBase.Instance().InitGameUnit(_unit, unitId, owner,isLeader, Damage);
                     return _unit;
                 }
             }
            
             //如果没有空余的对应类型的对象，就
             //从单位生成车间取得新单位实例
-            return GameUnitFactory.Instance().GetGameUnit(unitId, owner, Damage);
+            return GameUnitFactory.Instance().GetGameUnit(unitId, owner,isLeader,Damage);
         }
 
         public void PushUnit(GameObject unit)

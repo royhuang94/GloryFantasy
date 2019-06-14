@@ -65,18 +65,18 @@ namespace GameUnit
         /// <param name="unit">被初始化的持有GameUnit的GameObject</param>
         /// <param name="id">要初始化的Unit的数据的ID</param>
         /// <param name="damage">这个角色是否出场就受伤</param>
-        public void InitGameUnit(GameObject unit, string id, OwnerEnum owner, int damage = 0)
+        public void InitGameUnit(GameObject unit, string id, OwnerEnum owner,int isLeader, int damage = 0)
         {
             if (unit.GetComponent<Unit>() != null)
             {
                 //把GameUnit清除掉，等于把trigger洗掉
                 Destroy(unit.GetComponent<Unit>());
 
-                InitGameUnit(unit.AddComponent<Unit>(), id, owner, damage);
+                InitGameUnit(unit.AddComponent<Unit>(), id, owner,isLeader ,damage);
             }
             else
             {
-                InitGameUnit(unit.AddComponent<Unit>(), id, owner, damage);
+                InitGameUnit(unit.AddComponent<Unit>(), id, owner,isLeader, damage);
                 //Debug.Log("In UnitDataBase: " + unit.name + " doesn't have GameUnit.Can;t be Initial.");
             }
         }
@@ -87,7 +87,7 @@ namespace GameUnit
         /// <param name="unit">被初始化的GameUnit引用</param>
         /// <param name="unitID">要初始化的Unit的数据的ID</param>
         /// <param name="damage">这个角色是否出场就受伤</param>
-        public void InitGameUnit(Unit unit, string unitID, OwnerEnum owner,int damage = 0)
+        public void InitGameUnit(Unit unit, string unitID, OwnerEnum owner,int isLeader,int damage = 0)
         {
             if (!_unitsData.ContainsKey(unitID))
             {
@@ -100,6 +100,7 @@ namespace GameUnit
             //先删除异能再初始化数值
             //初始化数值,记得和GameUnit的成员保持一致
             unit.owner = owner;
+            unit.isLeader = isLeader;
             unit.setATK(int.Parse(data["Atk"].ToString()));
             unit.id = data["CardID"].ToString();
             unit.Color = data["Color"][0].ToString();

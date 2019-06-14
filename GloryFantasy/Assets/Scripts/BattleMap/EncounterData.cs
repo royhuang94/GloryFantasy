@@ -108,8 +108,8 @@ namespace GamePlay.Encounter
                     string unitID = unitData[j]["UnitID"].ToString();
                     int x = (int)unitData[j]["Pos_X"];
                     int y = (int)unitData[j]["Pos_Y"];
-                    int controler = (int)unitData[i]["UnitControler"];
-                    int isLeader = (int)unitData[i]["IsLeader"];
+                    int controler = (int)unitData[j]["UnitControler"];
+                    int isLeader = (int)unitData[j]["IsLeader"];
                     unitMessage = new UnitMessage(unitID, x, y, controler,isLeader);
                     encounter.unitMessageList.Add(unitMessage);
                 }

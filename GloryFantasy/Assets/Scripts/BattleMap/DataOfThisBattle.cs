@@ -19,7 +19,6 @@ namespace GamePlay
 
         public int DeathPage { get { return deathPage; } }//死页数
         public int AP { get { return ap; } }//专注值，计算方式为：默认专注值 + 增益专注值
-        public List<Unit> Leaders { get { return leaders; } }//"领导者们",这里面的单位都是"领导"
 
         /// <summary>
         /// 初始数据
@@ -28,7 +27,6 @@ namespace GamePlay
         {
             deathPage = EncouterData.Instance().GetEncounter().deathPage;
             ap = Player.Instance().ap;
-            GetLeaders();
         }
 
         /// <summary>
@@ -52,16 +50,17 @@ namespace GamePlay
         /// <summary>
         /// 获取"领导者"
         /// </summary>
-        private void GetLeaders()
+        private List<Unit> GetLeaders()
         {
-            leaders = new List<Unit>();
+            List<Unit> leaders = new List<Unit>();
             foreach(Unit unit in BattleMap.BattleMap.Instance().UnitsList)
             {
-                //if(unit.isLeader == 1)//TODO等待单位初始isLeader属性
-                //{
-                //    leaders.Add(unit);
-                //}
+                if (unit.isLeader == 1)
+                {
+                    leaders.Add(unit);
+                }
             }
+            return leaders;
         }
     }
 

@@ -127,7 +127,7 @@ namespace GameUnit
                 UnitMessage unitMessage = encounter.unitMessageList[i];
                 int x = unitMessage.pos_X;
                 int y = unitMessage.pos_Y;
-                int isLeader = unitMessage.isLeader;//初始一下这个就好
+                int isLeader = unitMessage.isLeader;
                 //单位控制者:0为玩家，1为敌方AI_1,2为敌方AI_2，...
                 switch (unitMessage.unitControler.ToString())
                 {
@@ -139,7 +139,7 @@ namespace GameUnit
                         owner = OwnerEnum.Enemy; break;
                 }
                 //从对象池获取单位
-                _object = GameUnitPool.Instance().GetInst(unitMessage.unitID, owner);
+                _object = GameUnitPool.Instance().GetInst(unitMessage.unitID, owner,isLeader);
 
                 GameUnit unit = _object.GetComponent<GameUnit>();
                 //修改单位对象的父级为地图方块
