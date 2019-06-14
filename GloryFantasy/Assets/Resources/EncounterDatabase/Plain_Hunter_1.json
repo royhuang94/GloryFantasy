@@ -5,7 +5,7 @@
     "DeathPage": -1,
     "UnitMessage": [
       {
-        "UnitID": "ShadowArcher_2",
+        "UnitID": "ShadowArcher_1",
         "Pos_X": 0,
         "Pos_Y": 1,
         "UnitControler": 1,
@@ -13,9 +13,9 @@
 
       },
       {
-        "UnitID": "ShadowArcher_2",
-        "Pos_X": 0,
-        "Pos_Y": 2,
+        "UnitID": "ShadowWolf_1",
+        "Pos_X": 1,
+        "Pos_Y": 1,
         "UnitControler": 1,
         "IsLeader": 0
       },

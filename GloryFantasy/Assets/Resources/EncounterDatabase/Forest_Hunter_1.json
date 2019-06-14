@@ -5,7 +5,7 @@
     "DeathPage": -1,
     "UnitMessage": [
       {
-        "UnitID": "ShadowArcher_1",
+        "UnitID": "ShadowArcher_2",
         "Pos_X": 0,
         "Pos_Y": 0,
         "UnitControler": 1,
@@ -13,7 +13,7 @@
 
       },
       {
-        "UnitID": "ShadowArcher_1",
+        "UnitID": "ShadowArcher_2",
         "Pos_X": 0,
         "Pos_Y": 3,
         "UnitControler": 1,
@@ -30,7 +30,9 @@
           "ReinforceWolf": 1
         },
         "Buff": [],
-        "Trigger": [ "MainBF_Enemy" ]
+        "Trigger": [ "MainBF_Enemy" ],
+        "Delta_X": 0,
+        "Delta_Y": 0
       },
       {
         "RegionID": 2,
@@ -39,7 +41,9 @@
           "Empty": 1
         },
         "Buff": [],
-        "Trigger": []
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
       },
       {
         "RegionID": 3,
@@ -48,7 +52,9 @@
           "Empty": 1
         },
         "Buff": [],
-        "Trigger": [ "MainBF_Friendly" ]
+        "Trigger": [ "MainBF_Friendly" ],
+        "Delta_X": 0,
+        "Delta_Y": 0
       }
     ],
     "MapID": "Forest_1"

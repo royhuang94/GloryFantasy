@@ -1,31 +1,23 @@
 ﻿[
   {
-    "EncounterID": "Plain_Shadow_2",
+    "EncounterID": "Forest_Ooze_2",
     "GlobalTrigger": [],
     "DeathPage": -1,
     "UnitMessage": [
       {
-        "UnitID": "Shadow_2",
+        "UnitID": "Ooze_1",
         "Pos_X": 1,
-        "Pos_Y": 0,
+        "Pos_Y": 1,
         "UnitControler": 1,
         "IsLeader": 0
 
       },
       {
-        "UnitID": "Shadow_2",
+        "UnitID": "Ooze_1",
         "Pos_X": 1,
         "Pos_Y": 2,
         "UnitControler": 1,
         "IsLeader": 0
-      },
-      {
-        "UnitID": "Shadow_2",
-        "Pos_X": 1,
-        "Pos_Y": 3,
-        "UnitControler": 1,
-        "IsLeader": 0
-
       }
     ],
     "BattlefieldMessage": [
@@ -34,7 +26,7 @@
         "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
-          "ReinforceWarrior": 1
+          "ReinforceOoze": 1
         },
         "Buff": [],
         "Trigger": [ "MainBF_Enemy" ],
@@ -64,6 +56,7 @@
         "Delta_Y": 0
       }
     ],
-    "MapID": "Plain_1"
+    "MapID": "Forest_1"
   }
+
 ]
