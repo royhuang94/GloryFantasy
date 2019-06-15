@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16b6263dfa81734d881c71363840761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLeader: 0
   owner: 1
   mapBlockBelow: {fileID: 0}
 --- !u!212 &212061090883266346

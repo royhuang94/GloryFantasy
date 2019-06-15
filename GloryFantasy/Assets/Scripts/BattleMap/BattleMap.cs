@@ -30,7 +30,6 @@ namespace BattleMap
 
         private void Start()
         {
-            //切换需注释，单独调试战斗地图请取消注释
             InitMap();
             RegisterMSG();
         }
@@ -125,14 +124,14 @@ namespace BattleMap
             SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
         }
 
-        public void InitMap()
+        public void InitMap(string encouterid = "Plain_Shadow_1")
         {
             //下面的初始顺序不能变
             Debug.Log(GetEncounterID());
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter();            
             //初始化地图
-            InitAndInstantiateMapBlocks();//
+            InitAndInstantiateMapBlocks(encouterid);
             //初始战区事件
             EncouterData.Instance().InitBattleFieldEvent(GetEncounterID());
             //初始战区状态，战区对象并添加事件模块进入仲裁器；
@@ -174,9 +173,18 @@ namespace BattleMap
         /// 获取遭遇id
         /// </summary>
         /// <returns></returns>
-        public string GetEncounterID()
+        public string GetEncounterID(string encounterID = "")
         {
-            return "Plain_Shadow_1"; //SceneSwitchController.Instance().GetEncounterId();
+            string id;
+            if(encounterID == "")
+            {
+                id = "Plain_Shadow_1";
+            }
+            else
+            {
+                id = encounterID;
+            }
+            return id;//SceneSwitchController.Instance().GetEncounterId();
         }
 
         /// <summary>
@@ -189,7 +197,7 @@ namespace BattleMap
         }
 
         //初始战斗地图
-        private void InitAndInstantiateMapBlocks()
+        private void InitAndInstantiateMapBlocks(string encouterid)
         {
             EncouterData.Instance().GetEncounter(GetEncounterID());
             //读取战斗地图文件
@@ -205,7 +213,7 @@ namespace BattleMap
             this.columns = nstrs[0].Length;
            
             float flatSize = flat.GetComponent<SpriteRenderer>().size.x; //获得地砖的图片边长
-            Vector2 _leftTopPos = new Vector2((-columns+1) / 2f * flatSize, (-rows-1) / 2f * flatSize);
+            Vector2 _leftTopPos = new Vector2((-columns+1) / 2f * flatSize, (-rows+1) / 2f * flatSize);
             //battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
             _mapBlocks = new BattleMapBlock[columns, rows];
             GameObject instance = null;
