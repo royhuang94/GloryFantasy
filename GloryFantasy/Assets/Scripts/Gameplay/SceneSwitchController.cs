@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using GameGUI;
+using UI.FGUI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

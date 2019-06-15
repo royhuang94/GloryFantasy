@@ -105,11 +105,6 @@ namespace GamePlay
             autoController = new AI.AutoController();
             singleBattle = new AI.BattleField();
             eventScroll = new EventScroll();
-
-
-            _phaseNameText = GameObject.Find("phaseNameText").GetComponentInChildren<Text>();
-            _phaseNameText.color = Color.red;
-            _phaseNameText.text = roundProcessController.State.ToString();
         }
         //private void Update()
         //{
@@ -129,7 +124,6 @@ namespace GamePlay
         public  AI.BattleField singleBattle;
         public AI.AutoController autoController;
         public EventScroll eventScroll;
-        private Text _phaseNameText;
         
         /// <summary>
         /// 提供给场景中阶段切换的按钮
@@ -224,9 +218,5 @@ namespace GamePlay
 
         }
         #endregion
-        private void LateUpdate()
-        {
-            _phaseNameText.text = roundProcessController.State.ToString();
-        }
     }
 }

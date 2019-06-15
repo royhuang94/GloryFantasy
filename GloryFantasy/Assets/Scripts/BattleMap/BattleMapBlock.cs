@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using GamePlay;
 using GamePlay.FSM;
 using GameUnit;
+using UI.FGUI;
 
 
 //TODO 通过 自身 this.transform.position与第一块儿地图块儿坐标(298.8)的差，的几倍关系得到具体为(0, 0) -> (7, 7)得物体坐标
@@ -139,7 +140,7 @@ namespace BattleMap
             {
                 _originColor = _unit.GetComponent<SpriteRenderer>().color;
                 UnitManager.ColorUnitOnBlock(this.position, new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f));
-                _fguiInterfaces.setDescribeWindowShow();        // 显示
+                _fguiInterfaces.SetDescribeWindowShow();        // 显示
             }
         }
 
@@ -157,7 +158,7 @@ namespace BattleMap
             {
                 UnitManager.ColorUnitOnBlock(this.position, _originColor);
                 _originColor = Color.white;
-                _fguiInterfaces.setDescribeWindowHide();        // 隐藏
+                _fguiInterfaces.SetDescribeWindowHide();        // 隐藏
             }
         }
 
@@ -204,7 +205,7 @@ namespace BattleMap
             // 标签及效果信息，可能过长显示截断
             string effectInfo = tagInTotal + "  " + _unit.Effort;
             
-            _fguiInterfaces.setDescribeWindowContentText(_unit.name, valueInfo, effectInfo);
+            _fguiInterfaces.SetDescribeWindowContentText(_unit.name, valueInfo, effectInfo);
         }
 
         #region UGUI显示，暂时无用代码
