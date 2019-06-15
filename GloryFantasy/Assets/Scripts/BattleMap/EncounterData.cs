@@ -143,7 +143,7 @@ namespace GamePlay.Encounter
         /// 根据遭遇ID,获取相应的地图文件
         /// </summary>
         /// <param name="encounterID">遭遇id</param>
-        public void InitEncounter(string encounterID)
+        public void GetEncounter(string encounterID)
         {
             Encounter encounter = null;
             _encounterData.TryGetValue(encounterID, out encounter);

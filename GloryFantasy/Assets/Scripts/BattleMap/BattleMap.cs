@@ -191,7 +191,7 @@ namespace BattleMap
         //初始战斗地图
         private void InitAndInstantiateMapBlocks()
         {
-            EncouterData.Instance().InitEncounter(GetEncounterID());
+            EncouterData.Instance().GetEncounter(GetEncounterID());
             //读取战斗地图文件
             string[] strs = Resources.Load<TextAsset>(BattleMapPath).text.Split('\n');
             
