@@ -6,9 +6,6 @@ using GamePlay.Event;
 using IMessage;
 using UnityEngine;
 
-
-
-
 namespace UI.FGUI
 {
 	public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver, IComponent
@@ -44,6 +41,8 @@ namespace UI.FGUI
 		{
 			GRoot.inst.SetContentScaleFactor(960, 540);
 			UIPackage.AddPackage(path + pkgName);
+			UIObjectFactory.SetPackageItemExtension("ui://20190603/Book", typeof(FairyBook));
+			UIObjectFactory.SetPackageItemExtension("ui://20190603/Page", typeof(TestBookPage));
 			UIPackage.AddPackage(path + numsPkg);
 			UIPackage.AddPackage(path + handcardAssets);
 			//UIPackage.AddPackage(path + cooldowncardAssets);
@@ -76,7 +75,7 @@ namespace UI.FGUI
 
 			_components = new Dictionary<string, IComponent>();
 		
-			Add(new CardBookComponent(pkgName, "cardBookFrame"));
+			Add(new NewCardBookComponent(pkgName, "newCardBookFrame"));
 			HandCardComponent component = gameObject.AddComponent<HandCardComponent>();
 			component.Init(_mainUI.GetChild("handcardList").asList, pkgName);
 			Add(component);
