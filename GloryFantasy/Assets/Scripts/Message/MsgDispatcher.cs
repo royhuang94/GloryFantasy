@@ -10,7 +10,7 @@ namespace IMessage
     enum MessageType
     {
         UpdateSource, //？
-        
+        APChange,     // AP值发生变动
         RestoreAp,    // 恢复专注值消息
         BP, //开始阶段
         MPBegin, //主要阶段开始

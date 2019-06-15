@@ -42,6 +42,11 @@ namespace GamePlay
         public int ap
         {
             get{ return _ap; }
+            private set
+            {
+                _ap = value;
+                MsgDispatcher.SendMsg((int)MessageType.APChange);
+            }
         }
 
         public int apUpLimit
@@ -103,8 +108,16 @@ namespace GamePlay
         /// <param name="Ap">要增加的ap值</param>
         public void AddAp(int Ap)
         {
-            _addOnAp += ap;
-            ReCalculateAp();
+            ap += Ap;
+        }
+
+        /// <summary>
+        /// 增加ap值的上限值接口，并不立即生效
+        /// </summary>
+        /// <param name="ApLimit">要增加的上限数值<param>
+        public void AddApUpLimit(int ApLimit)
+        {
+            _addOnAp += ApLimit;
         }
 
 
@@ -122,11 +135,11 @@ namespace GamePlay
         /// </summary>
         public void ReCalculateAp()
         {
-            _ap = _addOnAp + _defaultAp;
+            ap = _addOnAp + _defaultAp;
             
             // 超出专注值上限时进行求余操作，等于上限时不做变化
-            if (_ap > _apUpLimit)
-                _ap %= _apUpLimit;
+            if (ap > _apUpLimit)
+                ap %= _apUpLimit;
         }
 
         
@@ -149,7 +162,7 @@ namespace GamePlay
         /// <param name="Ap">要消耗掉的ap值</param>
         public void ConsumeAp(int Ap)
         {
-            _ap -= Ap;
+            ap -= Ap;
         }
 
         /// <summary>

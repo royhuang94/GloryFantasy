@@ -10,8 +10,9 @@ public class TurnPageMain : MonoBehaviour
 	void Awake()
 	{
 		UIPackage.AddPackage("UI/TurnPage");
-		UIObjectFactory.SetPackageItemExtension("ui://TurnPage/Book", typeof(FairyBook));
-		UIObjectFactory.SetPackageItemExtension("ui://TurnPage/Page", typeof(BookPage));
+		// 调用此函数后，从FGUI对象到自定义的类强转不再报错
+		UIObjectFactory.SetPackageItemExtension("ui://TurnPage/testBook", typeof(FairyBook));
+		UIObjectFactory.SetPackageItemExtension("ui://TurnPage/testPage", typeof(TestBookPage));
 	}
 
 	void Start()
@@ -29,10 +30,13 @@ public class TurnPageMain : MonoBehaviour
 		_book.ShowCover(FairyBook.CoverType.Front, false);
 		_book.onTurnComplete.Add(OnTurnComplete);
 
+		// 关闭了卡牌书位移动画
 		GearBase.disableAllTweenEffect = true;
-		_mainView.GetController("bookPos").selectedIndex = 1;
+		_mainView.GetController("bookPos").selectedIndex = 1;	// 位置控制
 		GearBase.disableAllTweenEffect = false;
 
+		#region 卡牌书以外其他按钮交互逻辑
+		
 		_mainView.GetChild("btnNext").onClick.Add(() =>
 		{
 			_book.TurnNext();
@@ -49,6 +53,8 @@ public class TurnPageMain : MonoBehaviour
 		{
 			_book.TurnTo((int)_slider.value);
 		});
+		
+		#endregion
 	}
 
 	void OnTurnComplete()
@@ -56,7 +62,7 @@ public class TurnPageMain : MonoBehaviour
 		_slider.value = _book.currentPage;
 
 		if (_book.isCoverShowing(FairyBook.CoverType.Front))
-			_mainView.GetController("bookPos").selectedIndex = 1;
+			_mainView.GetController("bookPos").selectedIndex = 1;		// 位置控制器调用，改变卡牌书位置
 		else if (_book.isCoverShowing(FairyBook.CoverType.Back))
 			_mainView.GetController("bookPos").selectedIndex = 2;
 		else
@@ -65,7 +71,7 @@ public class TurnPageMain : MonoBehaviour
 
 	void RenderPage(int index, GComponent page)
 	{
-		((BookPage)page).render(index);
+		((TestBookPage)page).render(index);
 	}
 
 	void OnKeyDown(EventContext context)
