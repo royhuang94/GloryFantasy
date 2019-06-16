@@ -117,7 +117,6 @@ namespace BattleMap
         {
             foreach (int id in BattleMap.Instance().battleAreaData.BattleAreaDic.Keys)
             {
-                Debug.Log(id);
                 List<SpriteRenderer> images = new List<SpriteRenderer>();
                 BattleAreaRenderDic.TryGetValue(id, out images);
                 Debug.Log(BattleMap.Instance().battleAreaData.WarZoneBelong(id));

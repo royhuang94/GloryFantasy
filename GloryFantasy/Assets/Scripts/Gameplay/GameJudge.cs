@@ -13,10 +13,7 @@ namespace GamePlay
         private Dictionary<int, List<Vector2>> _battleAreaDictionary;
         
         private void Start()
-        {
-            _battleAreaDictionary =
-                BattleMap.BattleMap.Instance().battleAreaData.BattleAreaDic;
-            
+        {                 
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.Dead,
@@ -63,7 +60,10 @@ namespace GamePlay
         {
             int enemyCountrolAreaAmount = 0;
             int allBattleAreaAmount = 0;
-            
+
+            _battleAreaDictionary =
+               BattleMap.BattleMap.Instance().battleAreaData.BattleAreaDic;
+
             foreach (int areaID in _battleAreaDictionary.Keys)
             {
                 int enemyAmount = 0;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FairyGUI;
 using GamePlay;
 using GamePlay.Event;
+using GamePlay.Input;
 using IMessage;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -45,7 +46,10 @@ namespace UI.FGUI
         /// </summary>
         private GTextField _textField;
 
-        private Dictionary<int, List<EventInfo>> _eventNodeDic;
+        /// <summary>
+        /// 下标与对应事件映射，每回合更新
+        /// </summary>
+        private Dictionary<int, List<string>> _eventNodeDic;
 
         #endregion
         
@@ -68,7 +72,7 @@ namespace UI.FGUI
         {
             _lastClickedEventIcon = null;
             _pkgName = pkgName;
-            _eventNodeDic = new Dictionary<int, List<EventInfo>>();
+            _eventNodeDic = new Dictionary<int, List<string>>();
             _eventDescribeWindow = new Window();
             _eventDescribeFrame = UIPackage.CreateObject(pkgName, resName).asCom;
             _eventDescribeWindow.contentPane = _eventDescribeFrame;
@@ -99,6 +103,10 @@ namespace UI.FGUI
         }
         
         
+        /// <summary>
+        /// 处理事件节点点击
+        /// </summary>
+        /// <param name="context"></param>
         public void OnclickEventIcon(EventContext context)
         {
             // TODO: 处理执行事件之后显示问题
@@ -108,15 +116,15 @@ namespace UI.FGUI
             {
                 // 	清除所有已加入的item
                 _eventDescribeList.RemoveChildren(0, -1, true);
-
-                List<EventAssembly> eventAssemblyList = Gameplay.Instance().eventScroll.GetEventAssemblies();
 			
                 // 通过事件节点ID转换成对应下标，最下面是0，往上递增
                 int index = (24 - int.Parse(obj.id.Substring(obj.id.Length - 2))) / 2;
+                index = index > 0 ? index : 0;            // 取正整数
 			
-                if (index < eventAssemblyList.Count)
+                // 点击下标在可选事件列表内
+                if (index < Gameplay.Instance().eventScroll.EventScrollListCount)
                 {
-                    foreach (string eventMsg in GetNodeInfo(index + 1))
+                    foreach (string eventMsg in GetEventNodeInfo(index + 1))
                     {
                         GComponent item = UIPackage.CreateObject(_pkgName, "eventScrollItem").asCom;
 					
@@ -131,13 +139,14 @@ namespace UI.FGUI
                         // 添加构造好的item，若要加多个，请根据需要数据添加
                         _eventDescribeList.AddChild(item);
                     }
-                    if(GetNodeInfo(index + 1).Count == 0)			// 事件权威Empty，即暂无事件
+                    if(GetEventNodeInfo(index + 1).Count == 0)			// 事件全为Empty，即暂无事件
                     {
                         GComponent item = UIPackage.CreateObject(_pkgName, "eventScrollItem").asCom;
                         item.GetChild("n0").asTextField.text = "暂无事件";
                         _eventDescribeList.AddChild(item);
                     }
                 }
+                // 点击节点不在事件列表里
                 else
                 {
                     GComponent item = UIPackage.CreateObject(_pkgName, "eventScrollItem").asCom;
@@ -167,18 +176,29 @@ namespace UI.FGUI
         /// </summary>
         private void UpdateEventsMessage()
         {
-            List<EventAssembly> eventAssemblyList = Gameplay.Instance().eventScroll.GetEventAssemblies();		// 获取事件集合
+            int nodeAmount = Gameplay.Instance().eventScroll.EventScrollListCount;        // 获取事件节点个数
 
-            int maxNodeAmount = 5 > eventAssemblyList.Count ? eventAssemblyList.Count : 5;		// 获取得到的节点数，取其和5之间的较小值
+            int maxNodeAmount = 5 > nodeAmount ? nodeAmount : 5;		// 获取得到的节点数，取其和5之间的较小值
 
             _eventNodeDic.Clear();
             for (int i = 0; i < 5; i++)			// 5个节点
             {
                 if (i < maxNodeAmount)
                 {
-                    _eventNodeDic.Add(i + 1, eventAssemblyList[i].GetEventInfos);
+                    List<string> eventNodeInfo = new List<string>();		// 处理过的事件信息集合
+                    List<EventInfo> eventInfos = Gameplay.Instance().eventScroll.GetEventInfos(i);
+                    foreach (EventInfo eventInfo in eventInfos)
+                    {
+                        if("Empty".Equals(eventInfo.EventName))			// 事件名为Empty则不处理
+                            continue;
+                        string temp = eventInfo.Effect.Replace("{amount}", eventInfo.Amount.ToString());
+                        string effect = temp.Replace("{strenth}", eventInfo.Strength.ToString());
+                        
+                        eventNodeInfo.Add(eventInfo.EventName + "  " + effect);
+                    }
+                    _eventNodeDic.Add(i + 1, eventNodeInfo);
                 }
-                else
+                else        // 超过最大节点个数即节点个数不够五个，也就是没有信息了
                 {
                     _eventNodeDic.Add(i + 1, null);
                 }
@@ -190,21 +210,12 @@ namespace UI.FGUI
         /// </summary>
         /// <param name="index">点击节点下标</param>
         /// <returns>该节点处理过的所有事件信息集合</returns>
-        private List<string> GetNodeInfo(int index)
+        private List<string> GetEventNodeInfo(int index)
         {
-            List<EventInfo> eventInfos;			// 事件信息集合
             List<string> eventNodeInfo = new List<string>();		// 处理过的事件信息集合
             if (_eventNodeDic.ContainsKey(index))
             {
-                eventInfos = _eventNodeDic[index];					// 通过点击节点获取对应的事件信息
-                foreach (EventInfo eventInfo in eventInfos)
-                {
-                    if("Empty".Equals(eventInfo.EventName))			// 事件名为Empty则不处理
-                        continue;
-                    string temp = eventInfo.Effect.Replace("{amount}", eventInfo.Amount.ToString());
-                    string effect = temp.Replace("{strenth}", eventInfo.Strength.ToString());
-                    eventNodeInfo.Add(eventInfo.EventName + "  " + effect);
-                }
+                eventNodeInfo = _eventNodeDic[index];        // 字典存储下标对应的处理好的事件信息
             }
             return eventNodeInfo;
         }
