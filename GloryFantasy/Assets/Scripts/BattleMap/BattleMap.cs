@@ -192,7 +192,8 @@ namespace BattleMap
         /// <returns></returns>
         private string GetEncounterID()
         {
-            return "Plain_Shadow_1";//SceneSwitchController.Instance().GetEncounterId();
+//            return SceneSwitchController.Instance().encounterId;
+            return "Plain_Shadow_1";
         }
 
         //初始战斗地图
