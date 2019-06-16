@@ -72,17 +72,17 @@ namespace GamePlay.Encounter
     {
         //public string EncounterPath = "/Scripts/BattleMap/BattleMapData/encounter.json";//遭遇事件文件路径
         public Dictionary<string, Encounter> _encounterData;//遭遇对象
-        public Dictionary<int, List<EventModel>> battleAreaEventsDic = new Dictionary<int, List<EventModel>>();//遭遇中文件中战区事件
+        public Dictionary<int, List<EventModel>> battleAreaEventsDic;//遭遇中文件中战区事件
         public DataOfThisBattle dataOfThisBattle = new DataOfThisBattle();
         
 
         /// <summary>
         /// 读取遭遇文件
         /// </summary>
-        public void InitEncounter()
+        public void InitEncounter(string encounterID)
         {
             //JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
-            string path = "EncounterDatabase/" + BattleMap.BattleMap.Instance().GetEncounterID();
+            string path = "EncounterDatabase/" + encounterID;
             TextAsset json = Resources.Load<TextAsset>(path);
             JsonData data = JsonMapper.ToObject(json.text);
             
@@ -92,8 +92,8 @@ namespace GamePlay.Encounter
             for(int i = 0;i<dataCount; i++)
             {
                 JsonData tem = data[i];
-                Encounter encounter = new Encounter(tem["EncounterID"].ToString());
-                string encounterID = tem["EncounterID"].ToString();
+                Encounter encounter = new Encounter(encounterID);
+                //string encounterID = tem["EncounterID"].ToString();
                 encounter.mapID = tem["MapID"].ToString();
                 JsonData triggerData = tem["GlobalTrigger"];
                 encounter.globalTrigger = JsonToArray(triggerData);
@@ -140,22 +140,12 @@ namespace GamePlay.Encounter
         }
 
         /// <summary>
-        /// 根据遭遇ID,获取相应的地图文件
-        /// </summary>
-        /// <param name="encounterID">遭遇id</param>
-        public void GetEncounter(string encounterID)
-        {
-            Encounter encounter = null;
-            _encounterData.TryGetValue(encounterID, out encounter);
-            BattleMap.BattleMap.Instance().InitBattleMapPath(encounter.mapID);
-        }
-
-        /// <summary>
         /// 读取遭遇中的战区事件,
         /// </summary>
         /// <param name="encounterID">遭遇id</param>
         public void InitBattleFieldEvent(string encounterID)
         {
+            battleAreaEventsDic = new Dictionary<int, List<EventModel>>();
             Encounter encounter = null;
             _encounterData.TryGetValue(encounterID, out encounter);
             List<BattlefieldMessage> battlefieldMessages = encounter.battleFieldMessageList;
@@ -201,11 +191,11 @@ namespace GamePlay.Encounter
         /// </summary>
         /// <param name="regionID"></param>
         /// <returns></returns>
-        public string[] GetBattleAreaTriggerByRegionID(int regionID)
+        public string[] GetBattleAreaTriggerByRegionID(int regionID,string encounterId)
         {
             Encounter encounter = null;
             string[] triggers = null;
-            _encounterData.TryGetValue(BattleMap.BattleMap.Instance().GetEncounterID(), out encounter);
+            _encounterData.TryGetValue(encounterId, out encounter);
             for(int i =0;i<encounter.battleFieldMessageList.Count;i++)
             {
                 BattlefieldMessage battlefieldMessage = encounter.battleFieldMessageList[i];
@@ -224,11 +214,11 @@ namespace GamePlay.Encounter
         /// </summary>
         /// <param name="regionID"></param>
         /// <returns></returns>
-        public BattlefieldMessage GetBattlefieldMessagebyID(int regionID)
+        public BattlefieldMessage GetBattlefieldMessagebyID(int regionID,string encounterID)
         {
             Encounter encounter = null;
             BattlefieldMessage battlefieldMessage = null;
-            _encounterData.TryGetValue(BattleMap.BattleMap.Instance().GetEncounterID(), out encounter);
+            _encounterData.TryGetValue(encounterID, out encounter);
             for (int i = 0; i < encounter.battleFieldMessageList.Count; i++)
             {
                 battlefieldMessage = encounter.battleFieldMessageList[i];
@@ -247,7 +237,7 @@ namespace GamePlay.Encounter
         /// <returns></returns>
         public Encounter GetEncounter()
         {
-            return _encounterData[BattleMap.BattleMap.Instance().GetEncounterID()];
+            return _encounterData[BattleMap.BattleMap.Instance().EncouterID];
         }
 
         /// <summary>
@@ -255,14 +245,14 @@ namespace GamePlay.Encounter
         /// </summary>
         /// <param name="reginID"></param>
         /// <returns></returns>
-        public string GetInitBattleAreaState(int reginID)
+        public string GetInitBattleAreaState(int reginID,string encountID)
         {
-            int count = _encounterData[BattleMap.BattleMap.Instance().GetEncounterID()].battleFieldMessageList.Count;
+            int count = _encounterData[encountID].battleFieldMessageList.Count;
             for (int i = 0; i < count; i++)
             {
-                if(reginID == _encounterData[BattleMap.BattleMap.Instance().GetEncounterID()].battleFieldMessageList[i].regionID)
+                if(reginID == _encounterData[encountID].battleFieldMessageList[i].regionID)
                 {
-                    return _encounterData[BattleMap.BattleMap.Instance().GetEncounterID()].battleFieldMessageList[i].Owner;
+                    return _encounterData[encountID].battleFieldMessageList[i].Owner;
                 }
             }
             Debug.Log("该战区不存在");

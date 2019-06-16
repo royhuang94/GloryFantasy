@@ -130,7 +130,7 @@ namespace BattleMap
     {
         #region
         private List<int> areas = new List<int>();
-        public Dictionary<int, List<Vector2>> BattleAreaDic = new Dictionary<int, List<Vector2>>();
+        public Dictionary<int, List<Vector2>> BattleAreaDic;
         #endregion
         public Dictionary<int, BattleArea> battleAreas;//存储的所有战区的id和对应的战区对象，尽量用这个，不用上面旧的那个
         private bool isBattleAreaShow = true;
@@ -138,6 +138,7 @@ namespace BattleMap
         //获取地图块所属战区
         public void GetAreas(string[][] nstrs)
         {
+            BattleAreaDic = new Dictionary<int, List<Vector2>>();
             for (int y = 0; y < nstrs.Length; y++)
             {
                 for (int x = 0; x < nstrs[y].Length; x++)
@@ -176,7 +177,7 @@ namespace BattleMap
         /// <summary>
         /// 初始战区对象
         /// </summary>
-        public void InitBattleArea()
+        public void InitBattleArea(string encounterId)
         {
             battleAreas = new Dictionary<int, BattleArea>();
             foreach (int id in BattleAreaDic.Keys)
@@ -184,10 +185,10 @@ namespace BattleMap
                 List<Vector2> list = null;
                 BattleAreaDic.TryGetValue(id, out list);
                 string[] trrigers = null;
-                trrigers = GamePlay.Encounter.EncouterData.Instance().GetBattleAreaTriggerByRegionID(id);
+                trrigers = EncouterData.Instance().GetBattleAreaTriggerByRegionID(id,encounterId);
                 List<EventModule.EventWithWeight> models = EncouterData.Instance().GetBattleFieldEvent(id);
-                BattlefieldMessage battlefieldMessage = EncouterData.Instance().GetBattlefieldMessagebyID(id);
-                string state = EncouterData.Instance().GetInitBattleAreaState(id);
+                BattlefieldMessage battlefieldMessage = EncouterData.Instance().GetBattlefieldMessagebyID(id,encounterId);
+                string state = EncouterData.Instance().GetInitBattleAreaState(id,encounterId);
                 BattleAreaState battleAreaState = BattleAreaState.Null;
                 switch (state)
                 {

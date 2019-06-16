@@ -9,7 +9,7 @@ namespace BattleMap
 
     public class DrawBattleArea
     {
-        public Dictionary<int, List<SpriteRenderer>> BattleAreaRenderDic = new Dictionary<int, List<SpriteRenderer>>();
+        public Dictionary<int, List<SpriteRenderer>> BattleAreaRenderDic;
         private bool isBattleAreaShow = true;
 
         /// <summary>
@@ -17,6 +17,8 @@ namespace BattleMap
         /// </summary>
         public void GetBattleAreaBorder()
         {
+            BattleAreaRenderDic = new Dictionary<int, List<SpriteRenderer>>();
+
             Vector2 TopOff = new Vector2(0, -1);
             Vector2 BottomOff = new Vector2(0, 1);
             Vector2 LeftOff = new Vector2(-1, 0);

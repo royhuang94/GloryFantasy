@@ -25,12 +25,12 @@ namespace BattleMap
             battleAreaData = new BattleAreaData();
             debuffBM = new DebuffBattleMapBlock();
             drawBattleArea = new DrawBattleArea();
-            BattleMapPath = "BattleMapData/";
         }
 
         private void Start()
         {
-            InitMap();
+            InitMap(GetEncounterID());
+            EncouterID = GetEncounterID();
             RegisterMSG();
         }
 
@@ -124,27 +124,39 @@ namespace BattleMap
             SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
         }
 
-        public void InitMap(string encouterid = "Plain_Shadow_1")
+        public void InitMap(string encouterId)
         {
             //下面的初始顺序不能变
-            Debug.Log(GetEncounterID());
+
             //读取并存储遭遇
-            EncouterData.Instance().InitEncounter();            
+            EncouterData.Instance().InitEncounter(encouterId);            
             //初始化地图
-            InitAndInstantiateMapBlocks(encouterid);
+            InitAndInstantiateMapBlocks(encouterId);
             //初始战区事件
-            EncouterData.Instance().InitBattleFieldEvent(GetEncounterID());
+            EncouterData.Instance().InitBattleFieldEvent(encouterId);
             //初始战区状态，战区对象并添加事件模块进入仲裁器；
-            battleAreaData.InitBattleArea();           
+            battleAreaData.InitBattleArea(encouterId);           
             //初始战斗地图上的单位 
-            UnitManager.InitAndInstantiateGameUnit(GetEncounterID(), _mapBlocks);
+            UnitManager.InitAndInstantiateGameUnit(encouterId, _mapBlocks);
             //该次遭遇中的一些临时数值
-            EncouterData.Instance().dataOfThisBattle.InitData();           
+            EncouterData.Instance().dataOfThisBattle.InitData(encouterId);           
         }
 
-        //初始化地图的地址
-        //更改地图数据位置则需修改此处路径
-        private string BattleMapPath;
+        /// <summary>
+        /// 重新根据遭遇文件生成新的战斗地图
+        /// </summary>
+        /// <param name="encouterID"></param>
+        public void RestatInitMap(string encouterID)
+        {
+            //初始一个遭遇id，供其他地方使用
+            EncouterID = encouterID;
+            //删除之前的地图
+            GameObject gameObject = GameObject.Find("flat");
+            Destroy(gameObject);
+            //重新生成
+            InitMap(encouterID);
+        }
+
         // 获取战斗地图上的所有单位
         private List<Unit> _unitsList;
         public List<Unit> UnitsList{get{return _unitsList;}}              
@@ -162,6 +174,8 @@ namespace BattleMap
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
         public Transform battlePanel;//战斗地图根对象
+        private string init_encouterID;
+        public string EncouterID { get { return init_encouterID; } set { init_encouterID = value; } }
 
         #region 各种类型地格
         public GameObject flat;//平地
@@ -173,35 +187,19 @@ namespace BattleMap
         /// 获取遭遇id
         /// </summary>
         /// <returns></returns>
-        public string GetEncounterID(string encounterID = "")
+        private string GetEncounterID()
         {
-            string id;
-            if(encounterID == "")
-            {
-                id = "Plain_Shadow_1";
-            }
-            else
-            {
-                id = encounterID;
-            }
-            return id;//SceneSwitchController.Instance().GetEncounterId();
-        }
-
-        /// <summary>
-        /// 初始战斗地图路径
-        /// </summary>
-        /// <param name="mapID">地图名字</param>
-        public void  InitBattleMapPath(string mapID)
-        {
-            BattleMapPath = BattleMapPath + mapID; //+ ".txt";
+            return "Plain_Shadow_1";//SceneSwitchController.Instance().GetEncounterId();
         }
 
         //初始战斗地图
-        private void InitAndInstantiateMapBlocks(string encouterid)
+        private void InitAndInstantiateMapBlocks(string encouterId)
         {
-            EncouterData.Instance().GetEncounter(GetEncounterID());
+            //战斗地图路径
+            string battleMapPath = "BattleMapData/" + EncouterData.Instance()._encounterData[encouterId].mapID;
+
             //读取战斗地图文件
-            string[] strs = Resources.Load<TextAsset>(BattleMapPath).text.Split('\n');
+            string[] strs = Resources.Load<TextAsset>(battleMapPath).text.Split('\n');
             
             nstrs = new string[strs.Length][];
             for(int i = 0;i < nstrs.Length; i++)

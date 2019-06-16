@@ -613,7 +613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tilesHolder: {fileID: 769245431}
   battlePanel: {fileID: 769245431}
-  flat: {fileID: 1272249320738762, guid: 3278c5af73bddaf4a94cc9cfc021f1e9, type: 2}
+  flat: {fileID: 1272249320738762, guid: 69c8a35673132c043b0c59899f11957b, type: 2}
   firing: {fileID: 21300000, guid: 85df88302a3531d49b994cfa94f2c47b, type: 3}
   viscous: {fileID: 21300000, guid: 77876ce9d2881f8469280fa90d8cc39e, type: 3}
 --- !u!224 &1236102956
@@ -1444,11 +1444,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950653760fe74aa44a923356d4b4d50f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventIcons:
-  - greenEvent
-  - yellowEvent
-  - blueEvent
-  - redEvent
 --- !u!4 &1940751925
 Transform:
   m_ObjectHideFlags: 0

@@ -23,9 +23,9 @@ namespace GamePlay
         /// <summary>
         /// 初始数据
         /// </summary>
-        public void InitData()
+        public void InitData(string encounterID)
         {
-            deathPage = EncouterData.Instance().GetEncounter().deathPage;
+            deathPage = EncouterData.Instance()._encounterData[encounterID].deathPage;
             ap = Player.Instance().ap;
         }
 
@@ -35,7 +35,7 @@ namespace GamePlay
         /// <param name="amount"></param>
         public void AddDeathPage(int amount)
         {
-            ap += amount;
+            deathPage += amount;
         }
 
         /// <summary>
