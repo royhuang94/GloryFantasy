@@ -8,13 +8,13 @@ using GamePlay;
 
 namespace BattleMap
 {
-    class Failed_DeathPage : Trigger
+    class Win_DefeatLeader : Trigger
     {
         private BattleArea _battleArea;
-        public Failed_DeathPage()
+        public Win_DefeatLeader()
         {
             //初始化响应时点,为战区状态改变
-            msgName = (int)MessageType.DeathPageIncrease;
+            msgName = (int)MessageType.Dead;
             //初始化条件函数和行为函数
             condition = Condition;
             action = Action;
@@ -22,7 +22,8 @@ namespace BattleMap
 
         private bool Condition()
         {
-            //if ( Player.Instance() >= EncouterData.Instance().dataOfThisBattle.DeathPage)
+            //如果死掉的单位在地方指挥官列表中，即胜利
+            if (EncouterData.Instance().dataOfThisBattle.GetLeaders().Contains(this.GetDead()))
                 return true;
 
             return false;
@@ -30,8 +31,8 @@ namespace BattleMap
 
         private void Action()
         {
-            Debug.Log("You lose!");
-            MsgDispatcher.SendMsg((int)MessageType.LOSE);
+            Debug.Log("You win!");
+            MsgDispatcher.SendMsg((int)MessageType.WIN);
         }
     }
 }

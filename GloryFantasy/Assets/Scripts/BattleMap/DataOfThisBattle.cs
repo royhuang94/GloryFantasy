@@ -50,7 +50,7 @@ namespace GamePlay
         /// <summary>
         /// 获取"领导者"
         /// </summary>
-        private List<Unit> GetLeaders()
+        public List<Unit> GetLeaders()
         {
             List<Unit> leaders = new List<Unit>();
             foreach(Unit unit in BattleMap.BattleMap.Instance().UnitsList)
