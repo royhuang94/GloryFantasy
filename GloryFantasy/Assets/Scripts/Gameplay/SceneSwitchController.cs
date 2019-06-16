@@ -17,11 +17,17 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private string _encounterID;
 	private List<string> _cardList;
 
+	/// <summary>
+	/// 获取遭遇ID
+	/// </summary>
 	public string encounterId
 	{
 		get { return _encounterID; }
 	}
 
+	/// <summary>
+	/// 获取卡组列表
+	/// </summary>
 	public List<string> cardList
 	{
 		get { return _cardList; }
@@ -91,23 +97,6 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		_cardList = cardList;
 	}
 
-	/// <summary>
-	/// 获取遭遇ID，一般供战斗地图调用
-	/// </summary>
-	/// <returns>_encounterID</returns>
-	public string GetEncounterId()
-	{
-		return _encounterID;
-	}
-
-	/// <summary>
-	/// 获取卡组，一般卡牌管理器调用
-	/// </summary>
-	/// <returns>_cardList</returns>
-	public List<string> GetCardList()
-	{
-		return _cardList;
-	}
 	
 	/// <summary>
 	/// 开放接口，场景切换时调用此方法
