@@ -151,12 +151,13 @@ namespace BattleMap
             //初始一个遭遇id，供其他地方使用
             EncouterID = encouterID;
             //删除之前的地图
-            GameObject gameObject = GameObject.Find("flat");
-            Destroy(gameObject);
+            for (int i = 0; i < blocks.Count; i++)
+                Destroy(blocks[i]);
             //重新生成
             InitMap(encouterID);
         }
 
+        #region 变量
         // 获取战斗地图上的所有单位
         private List<Unit> _unitsList;
         public List<Unit> UnitsList{get{return _unitsList;}}              
@@ -174,8 +175,10 @@ namespace BattleMap
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
         public Transform battlePanel;//战斗地图根对象
-        private string init_encouterID;
+        private string init_encouterID;//该次遭遇的遭遇id;
         public string EncouterID { get { return init_encouterID; } set { init_encouterID = value; } }
+        public List<GameObject> blocks;//该次遭遇中的所有地图块实例
+        #endregion
 
         #region 各种类型地格
         public GameObject flat;//平地
@@ -207,6 +210,8 @@ namespace BattleMap
                 nstrs[i] = strs[i].Split('/');
             }
 
+            blocks = new List<GameObject>();
+
             this.rows = nstrs.Length;
             this.columns = nstrs[0].Length;
            
@@ -225,6 +230,7 @@ namespace BattleMap
                     instance = SetMapBlockType(mapBlockType, _leftTopPos.x + x * flatSize, _leftTopPos.y + (nstrs.Length - y) * flatSize);
                     instance.transform.SetParent(_tilesHolder);
                     instance.gameObject.AddComponent<BattleMapBlock>();
+                    blocks.Add(instance);
                     //初始化mapBlock成员
                     _mapBlocks[x, y] = instance.gameObject.GetComponent<BattleMapBlock>();
                     int area = int.Parse(nstrs[y][x].Split('-')[1]);
@@ -237,6 +243,7 @@ namespace BattleMap
                     
                     //GamePlay.Gameplay.Instance().bmbColliderManager.InitBMB(_mapBlocks[x, y].bmbCollider);
                     battleAreaData.StoreBattleArea(area, new Vector2(x, y));//存储战区
+
                 }
             }         
         }
