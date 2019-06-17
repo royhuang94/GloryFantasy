@@ -129,7 +129,7 @@ namespace BattleMap
     public class BattleAreaData
     {
         #region
-        private List<int> areas = new List<int>();
+        private List<int> areas;
         public Dictionary<int, List<Vector2>> BattleAreaDic;
         #endregion
         public Dictionary<int, BattleArea> battleAreas;//存储的所有战区的id和对应的战区对象，尽量用这个，不用上面旧的那个
@@ -138,7 +138,8 @@ namespace BattleMap
         //获取地图块所属战区
         public void GetAreas(string[][] nstrs)
         {
-            BattleAreaDic = new Dictionary<int, List<Vector2>>();
+            areas = new List<int>();
+            BattleAreaDic = new Dictionary<int, List<Vector2>>();           
             for (int y = 0; y < nstrs.Length; y++)
             {
                 for (int x = 0; x < nstrs[y].Length; x++)

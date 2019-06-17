@@ -60,7 +60,7 @@
         "Delta_Y": 2
       },
       {
-        "RegionID": 2,
+        "RegionID": 3,
         "Owner": "Neutrality",
         "EventList": {
           "Empty": 1
@@ -71,7 +71,7 @@
         "Delta_Y": 0
       },
       {
-        "RegionID": 3,
+        "RegionID": 4,
         "Owner": "Player",
         "EventList": {
           "Empty": 1

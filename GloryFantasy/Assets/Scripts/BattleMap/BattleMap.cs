@@ -204,8 +204,12 @@ namespace BattleMap
 
             //读取战斗地图文件
             string[] strs = Resources.Load<TextAsset>(battleMapPath).text.Split('\n');
+            int length = strs.Length;
+            if (string.IsNullOrEmpty(strs[strs.Length - 1]))
+                length--;
+
+            nstrs = new string[length][];
             
-            nstrs = new string[strs.Length][];
             for(int i = 0;i < nstrs.Length; i++)
             {
                 nstrs[i] = strs[i].Split('/');
@@ -213,7 +217,7 @@ namespace BattleMap
 
             blocks = new List<GameObject>();
 
-            this.rows = nstrs.Length;
+            this.rows = length;
             this.columns = nstrs[0].Length;
            
             float flatSize = flat.GetComponent<SpriteRenderer>().size.x; //获得地砖的图片边长
@@ -223,7 +227,7 @@ namespace BattleMap
             GameObject instance = null;
             battleAreaData.GetAreas(nstrs);//存储战区id;
             //实例地图块
-            for (int y = 0; y < nstrs.Length; y++)
+            for (int y = 0; y < length; y++)
             {
                 for(int x = 0;x <nstrs[y].Length; x++)
                 {
@@ -368,7 +372,7 @@ namespace BattleMap
         /// <returns></returns>
         public Boolean CheckIfHasUnits(Vector3 vector)
         {
-            if (this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0
+            if (vector.x < columns && vector.y < rows && this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0
                 && this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>() != null &&
                 this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>().id != "Obstacle"/*units_on_me.Count != 0*/)
             {
@@ -386,7 +390,7 @@ namespace BattleMap
         /// <returns></returns>
         public Unit GetUnitsOnMapBlock(Vector3 vector)
         {
-            if (this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0)
+            if (CheckIfHasUnits(vector))
             {
                 return _mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>();
             }
