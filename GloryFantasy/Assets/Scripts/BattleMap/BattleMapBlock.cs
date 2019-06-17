@@ -81,7 +81,7 @@ namespace BattleMap
             {
                 Debug.Log("here become gray");
 //                unit.gameObject.GetComponent<SpriteRender>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-                UnitManager.ColorUnitOnBlock(this.position, new Color(0.5f, 0.5f, 0.5f, 0.5f));
+                UnitManager.ColorUnitOnBlock(this.position, new Color(186 / 255f, 186 / 255f, 186 / 255f, 1f));
             }
         }
         /// <summary>
