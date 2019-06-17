@@ -1,0 +1,83 @@
+﻿[
+  {
+    "EncounterID": "Forest_Boss_1",
+    "UnitMessage": [
+      {
+        "UnitID": "Chomper_1",
+        "Pos_X":0,
+        "Pos_Y":3,
+        "UnitControler": 1
+
+      }
+    ],
+    "BattlefieldMessage": [
+      {
+        "RegionID": 1,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceOoze": 1
+        },
+        "Buff": [],
+        "Trigger": [ "MainBF_Enemy" ],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 2,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceOoze": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 3,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceOoze": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 4,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceOoze": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 5,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceOoze": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 6,
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [ "MainBF_Friendly" ],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      }
+    ],
+    "MapID": "Forest_Boss"
+  }
+
+]

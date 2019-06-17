@@ -1,6 +1,8 @@
 ﻿[
   {
     "EncounterID": "Desert_Ant_2",
+    "GlobalTrigger": [],
+    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "Fireant_2",
