@@ -27,7 +27,6 @@ namespace AI
         private void Prepare()
         {
             battleState = BattleState.Ready;
-
             AIBattleController.Instance().PlayBattle(AIBattleController.Instance().AIFightConditon);
         }
 

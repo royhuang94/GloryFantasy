@@ -11,6 +11,7 @@ using GamePlay.Encounter;
 using GamePlay;
 using IMessage;
 using LitJson;
+using FairyGUI;
 
 namespace GameUnit
 {
@@ -77,12 +78,7 @@ namespace GameUnit
             //修改单位卡图的射线拦截设置
 
             //TODO 暂时用Text标识血量，以后改为slider
-            var hpTest = temp.transform.GetChild(0);
-            hpTest.gameObject.SetActive(true);
-            float hp = (temp.GetComponent<GameUnit>().hp = temp.GetComponent<GameUnit>().hp);
-            float hpDivMaxHp = hp / temp.GetComponent<GameUnit>().getMHP() * 100;
-            //格式化血量的显示
-            hpTest.GetComponent<Text>().text = string.Format("HP: {0}%", hpDivMaxHp);
+            SetHpInfo(gameUnit);
 
             //单位部署相当于单位驻足地图块儿
             gameUnit.nextPos = gameUnit.CurPos;
@@ -164,17 +160,41 @@ namespace GameUnit
                 //部署成功
                 Gameplay.Instance().bmbColliderManager.Fresh();
 
-                //TODO 血量显示 test版本, 此后用slider显示
-                var TextHp = _object.transform.GetComponentInChildren<Text>();
-                var gameUnit = _object.GetComponent<GameUnit>();
-                float hp = gameUnit.hp/* - Random.Range(2, 6)*/;
-                float maxHp = gameUnit.getMHP();
-                float hpDivMaxHp = hp / maxHp * 100;
-                TextHp.text = string.Format("Hp: {0}%", hpDivMaxHp);
 
-                AddEventModule(gameUnit);
+
+                //UIPanel panel = _object.transform.Find("HeadBar").GetComponent<UIPanel>();
+                //panel.ui.GetChild("name").text = unit.name;
+                //float hp = unit.hp/* - Random.Range(2, 6)*/;
+                //float maxHp = unit.getMHP();
+                //float hpDivMaxHp = hp / maxHp * 100;
+                //panel.ui.GetChild("blood").asProgress.value = hpDivMaxHp;
+                //panel.ui.GetChild("sign").asLoader.url = "ui://HeadBar/none";
+
+                SetHpInfo(unit);
+                AddEventModule(unit);
             }
             Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
+        }
+
+        /// <summary>
+        /// 设置血条信息
+        /// </summary>
+        /// <param name="unit"></param>
+        public static void SetHpInfo(GameUnit unit)
+        {
+            if (unit == null)
+                return;
+
+            UIPanel panel = unit.gameObject.transform.Find("HeadBar").GetComponent<UIPanel>();
+            panel.ui.GetChild("name").text = null;
+            float hp = unit.hp/* - Random.Range(2, 6)*/;
+            float maxHp = unit.getMHP();
+            float hpDivMaxHp = hp / maxHp * 100;
+            if (hpDivMaxHp > 100)
+                hpDivMaxHp = 100;
+
+            panel.ui.GetChild("blood").asProgress.value = hpDivMaxHp;
+            panel.ui.GetChild("sign").asLoader.url = "ui://HeadBar/none";
         }
 
         /// <summary>
@@ -203,8 +223,12 @@ namespace GameUnit
         public static void ColorUnitOnBlock(Vector3 position, Color color)
         {
             GameUnit unit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(position);
-            if(unit != null)
+
+            if (unit != null)
+            {
                 unit.GetComponent<SpriteRenderer>().color = color;
+                unit.transform.Find(unit.owner.ToString()).GetComponent<SpriteRenderer>().color = color;
+            }
         }
     }
 }
