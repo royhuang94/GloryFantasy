@@ -148,11 +148,7 @@ namespace GamePlay.Input
         /// <param name="attackedUnit">受攻击单位</param>
        internal void UpdateHp(GameUnit.GameUnit attackedUnit)
         {
-            float hpDivMaxHp = (float)attackedUnit.hp / attackedUnit.getMHP() * 100;
-            if (hpDivMaxHp > 100)
-                hpDivMaxHp = 100;
-            var textHp = attackedUnit.transform.GetComponentInChildren<Text>();
-            textHp.text = string.Format("Hp: {0}%", Mathf.Ceil(hpDivMaxHp));
+            UnitManager.SetHpInfo(attackedUnit);
         }
 
         #region 玩家的UI操作输入检测，状态机前版本，现已注释

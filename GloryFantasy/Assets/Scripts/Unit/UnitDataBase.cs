@@ -70,7 +70,7 @@ namespace GameUnit
             if (unit.GetComponent<Unit>() != null)
             {
                 //把GameUnit清除掉，等于把trigger洗掉
-                Destroy(unit.GetComponent<Unit>());
+                DestroyImmediate(unit.GetComponent<Unit>());
 
                 InitGameUnit(unit.AddComponent<Unit>(), id, owner,isLeader ,damage);
             }

@@ -20,6 +20,8 @@ namespace AI
 
             if (callback != null)
                 callback();
+
+            yield return null;
         }
 
         /// <summary>
