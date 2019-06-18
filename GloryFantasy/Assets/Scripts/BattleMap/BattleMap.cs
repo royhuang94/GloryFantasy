@@ -139,7 +139,9 @@ namespace BattleMap
             //初始战斗地图上的单位 
             UnitManager.InitAndInstantiateGameUnit(encouterId, _mapBlocks);
             //该次遭遇中的一些临时数值
-            EncouterData.Instance().dataOfThisBattle.InitData(encouterId);           
+            EncouterData.Instance().dataOfThisBattle.InitData(encouterId);
+
+            ScaleBattleMap();
         }
 
         /// <summary>
@@ -253,6 +255,20 @@ namespace BattleMap
             }         
         }
 
+        //处理战斗地图缩放
+        private void ScaleBattleMap()
+        {
+            //战斗地图总的长高，以6*10的大小为标准
+            float block_size = flat.GetComponent<SpriteRenderer>().size.x; //单个地砖的边长（图片边长）
+            float total_length = block_size * 10 * 0.7f;
+            float total_heigth = block_size * 6 * 0.7f;
+
+            _tilesHolder.localPosition = new Vector3(0f, -0.5f, 0f);//标准位置
+
+            //处理缩放和位置，以高度为基准来缩放，长度是足够的
+            float _scale = total_heigth / (block_size * rows);
+            _tilesHolder.localScale = new Vector3(_scale, _scale, 0);             
+        }
         /// <summary>
         /// 实例不同类型的地格
         /// </summary>
@@ -273,57 +289,6 @@ namespace BattleMap
                     break;
             }
             return instance;
-        }
-        /// <summary>
-        /// 获取传入寻路结点相邻的方块列表
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        public List<BattleMapBlock> GetNeighbourBlock(Node node)
-        {
-            List<BattleMapBlock> neighbour = new List<BattleMapBlock>();
-            int x = (int)node.position.x;
-            int y = (int)node.position.y;
-            if (GetSpecificMapBlock(x - 1, y) != null && GetSpecificMapBlock(x - 1, y).units_on_me.Count == 0)
-            {
-                neighbour.Add(GetSpecificMapBlock(x - 1, y));
-            }
-            if (GetSpecificMapBlock(x + 1, y) != null && GetSpecificMapBlock(x + 1, y).units_on_me.Count == 0)
-            {
-                neighbour.Add(GetSpecificMapBlock(x + 1, y));
-            }
-            if (GetSpecificMapBlock(x, y - 1) != null && GetSpecificMapBlock(x, y - 1).units_on_me.Count == 0)
-            {
-                neighbour.Add(GetSpecificMapBlock(x, y - 1));
-            }
-            if (GetSpecificMapBlock(x, y + 1) != null && GetSpecificMapBlock(x, y + 1).units_on_me.Count == 0)
-            {
-                neighbour.Add(GetSpecificMapBlock(x, y + 1));
-            }
-            return neighbour;
-        }
-        public List<BattleMapBlock> GetNeighbourBlock(BattleMapBlock battleMapBlock)
-        {
-            List<BattleMapBlock> neighbour = new List<BattleMapBlock>();
-            int x = (int)battleMapBlock.position.x;
-            int y = (int)battleMapBlock.position.y;
-            if (GetSpecificMapBlock(x - 1, y) != null && GetSpecificMapBlock(x - 1, y).units_on_me.Count == 0)
-            {
-                neighbour.Add(GetSpecificMapBlock(x - 1, y));
-            }
-            if (GetSpecificMapBlock(x + 1, y) != null && GetSpecificMapBlock(x + 1, y).units_on_me.Count == 0)
-            {
-                neighbour.Add(GetSpecificMapBlock(x + 1, y));
-            }
-            if (GetSpecificMapBlock(x, y - 1) != null && GetSpecificMapBlock(x, y - 1).units_on_me.Count == 0)
-            {
-                neighbour.Add(GetSpecificMapBlock(x, y - 1));
-            }
-            if (GetSpecificMapBlock(x, y + 1) != null && GetSpecificMapBlock(x, y + 1).units_on_me.Count == 0)
-            {
-                neighbour.Add(GetSpecificMapBlock(x, y + 1));
-            }
-            return neighbour;
         }
 
         /// <summary>
@@ -455,7 +420,7 @@ namespace BattleMap
         }
 
         /// <summary>
-        /// 传入unit和坐标，将Unit瞬间移动到该坐标（仅做坐标变更，不做其他处理）
+        /// 传入unit和坐标，将Unit一格一格移动到该坐标（仅做坐标变更，不做其他处理）
         /// <param name="unit">移动的目标单位</param>
         /// <param name="gameobjectCoordinate">地图块儿自身的物体坐标</param>
         /// <returns></returns>

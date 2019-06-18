@@ -64,7 +64,7 @@ namespace AI
                     //遍历4个相邻地图块儿，把对于当前单位最近的地图块儿作为终点
                     Node nodeStart = new Node(hatredUnit.CurPos, hatredUnit.CurPos);
                     //获得A的周边MapBlock
-                    List<BattleMapBlock> neighbourBlock = BattleMap.BattleMap.Instance().GetNeighbourBlock(nodeStart);
+                    List<BattleMapBlock> neighbourBlock = BattleMap.BattleMap.Instance().MapNavigator.GetNeighbourBlock(nodeStart);
                     int prevPathCount = int.MaxValue;
                     BattleMapBlock preBattleMapBlock = null;
                     foreach (BattleMapBlock battleMapBlock in neighbourBlock)

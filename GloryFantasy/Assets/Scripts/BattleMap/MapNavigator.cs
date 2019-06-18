@@ -187,7 +187,7 @@ namespace BattleMap
         private void AStarSearch(Node A, Vector2 startPos, Vector2 endPos)
         {
             //获得A的周边MapBlock
-            List<BattleMapBlock> neighbourBlock = BattleMap.Instance().GetNeighbourBlock(A);
+            List<BattleMapBlock> neighbourBlock = GetNeighbourBlock(A);
             //将MapBlock转为Node格式
             List<Node> neighourNode = new List<Node>();
             foreach (BattleMapBlock mapBlock in neighbourBlock)
@@ -326,6 +326,58 @@ namespace BattleMap
             }
             unit.canNotMove = true;
             MsgDispatcher.SendMsg((int)MessageType.Aftermove);
+        }
+
+        ///// <summary>
+        ///// 获取传入寻路结点相邻的方块列表
+        ///// </summary>
+        ///// <param name="node"></param>
+        ///// <returns></returns>
+        public List<BattleMapBlock> GetNeighbourBlock(Node node)
+        {
+            List<BattleMapBlock> neighbour = new List<BattleMapBlock>();
+            int x = (int)node.position.x;
+            int y = (int)node.position.y;
+            if (BattleMap.Instance().GetSpecificMapBlock(x - 1, y) != null && BattleMap.Instance().GetSpecificMapBlock(x - 1, y).units_on_me.Count == 0)
+            {
+                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x - 1, y));
+            }
+            if (BattleMap.Instance().GetSpecificMapBlock(x + 1, y) != null && BattleMap.Instance().GetSpecificMapBlock(x + 1, y).units_on_me.Count == 0)
+            {
+                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x + 1, y));
+            }
+            if (BattleMap.Instance().GetSpecificMapBlock(x, y - 1) != null && BattleMap.Instance().GetSpecificMapBlock(x, y - 1).units_on_me.Count == 0)
+            {
+                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x, y - 1));
+            }
+            if (BattleMap.Instance().GetSpecificMapBlock(x, y + 1) != null && BattleMap.Instance().GetSpecificMapBlock(x, y + 1).units_on_me.Count == 0)
+            {
+                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x, y + 1));
+            }
+            return neighbour;
+        }
+        public List<BattleMapBlock> GetNeighbourBlock(BattleMapBlock battleMapBlock)
+        {
+            List<BattleMapBlock> neighbour = new List<BattleMapBlock>();
+            int x = (int)battleMapBlock.position.x;
+            int y = (int)battleMapBlock.position.y;
+            if (BattleMap.Instance().GetSpecificMapBlock(x - 1, y) != null && BattleMap.Instance().GetSpecificMapBlock(x - 1, y).units_on_me.Count == 0)
+            {
+                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x - 1, y));
+            }
+            if (BattleMap.Instance().GetSpecificMapBlock(x + 1, y) != null && BattleMap.Instance().GetSpecificMapBlock(x + 1, y).units_on_me.Count == 0)
+            {
+                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x + 1, y));
+            }
+            if (BattleMap.Instance().GetSpecificMapBlock(x, y - 1) != null && BattleMap.Instance().GetSpecificMapBlock(x, y - 1).units_on_me.Count == 0)
+            {
+                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x, y - 1));
+            }
+            if (BattleMap.Instance().GetSpecificMapBlock(x, y + 1) != null && BattleMap.Instance().GetSpecificMapBlock(x, y + 1).units_on_me.Count == 0)
+            {
+                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x, y + 1));
+            }
+            return neighbour;
         }
     }
 }

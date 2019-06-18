@@ -898,7 +898,8 @@ namespace GamePlay
             BattleMap.MapNavigator mapNavigator = BattleMap.BattleMap.Instance().MapNavigator;
 
             //获得A的周边MapBlock
-            List<BattleMap.BattleMapBlock> neighbourBlocks = BattleMap.BattleMap.Instance().GetNeighbourBlock(BattleMap.BattleMap.Instance().GetSpecificMapBlock(gameUnit.CurPos));
+            List<BattleMap.BattleMapBlock> neighbourBlocks = 
+                BattleMap.BattleMap.Instance().MapNavigator.GetNeighbourBlock(BattleMap.BattleMap.Instance().GetSpecificMapBlock(gameUnit.CurPos));
             int prevPathCount = int.MaxValue;
             BattleMap.BattleMapBlock neighbourBlock = neighbourBlocks[0];
             
