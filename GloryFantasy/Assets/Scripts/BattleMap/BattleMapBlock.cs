@@ -39,6 +39,7 @@ namespace BattleMap
         private bool _showUnitMsg = false;        //判断能否展示单位信息
         private Unit _unit;                        //地图上单位
         private FGUIInterfaces _fguiInterfaces;
+        public bool IsEnter { get; set; }
 
         private Color _originColor;
 

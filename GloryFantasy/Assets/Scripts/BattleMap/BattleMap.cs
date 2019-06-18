@@ -25,6 +25,7 @@ namespace BattleMap
             battleAreaData = new BattleAreaData();
             debuffBM = new DebuffBattleMapBlock();
             drawBattleArea = new DrawBattleArea();
+            BattleMapBlock = new BattleMapBlock();
         }
 
         private void Start()
@@ -169,7 +170,8 @@ namespace BattleMap
         public int Rows{get{return rows;}}                    
         public int BlockCount{get{return columns * rows;}}
         public bool IsColor { get; set; }//控制是否高亮战区
-        private BattleMapBlock[,] _mapBlocks; 
+        private BattleMapBlock[,] _mapBlocks;
+        public BattleMapBlock BattleMapBlock;
         public Transform _tilesHolder;          // 存储所有地图单位引用的变量
         public MapNavigator MapNavigator;//寻路类
         public BattleAreaData battleAreaData;//战区类
@@ -263,11 +265,19 @@ namespace BattleMap
             float total_length = block_size * 10 * 0.7f;
             float total_heigth = block_size * 6 * 0.7f;
 
-            _tilesHolder.localPosition = new Vector3(0f, -0.5f, 0f);//标准位置
+            _tilesHolder.localPosition = new Vector3(0f, rows - (block_size * rows / 2 * _tilesHolder.localScale.x), 0f);//标准位置
 
             //处理缩放和位置，以高度为基准来缩放，长度是足够的
             float _scale = total_heigth / (block_size * rows);
-            _tilesHolder.localScale = new Vector3(_scale, _scale, 0);             
+            Debug.Log(_scale);
+            if(_scale > 1)
+            {
+                _tilesHolder.localScale = new Vector3(1, 1, 0);
+            }
+            else
+            {
+                _tilesHolder.localScale = new Vector3(_scale, _scale, 0);
+            }                        
         }
         /// <summary>
         /// 实例不同类型的地格
