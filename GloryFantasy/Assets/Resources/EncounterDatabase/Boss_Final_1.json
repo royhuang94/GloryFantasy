@@ -1,0 +1,131 @@
+﻿[
+  {
+    "EncounterID": "Boss_Final_1",
+    "UnitMessage": [
+      {
+        "UnitID": "Devil_1",
+        "Pos_X": 4,
+        "Pos_Y": 0,
+        "UnitControler": 1,
+        "IsLeader": 0
+      },
+      {
+        "UnitID": "GreenTentacle_1",
+        "Pos_X": 0,
+        "Pos_Y": 3,
+        "UnitControler": 1,
+        "IsLeader": 1
+      },
+      {
+        "UnitID": "PurpleTentacle_1",
+        "Pos_X": 8,
+        "Pos_Y": 3,
+        "UnitControler": 1,
+        "IsLeader": 1
+      },
+      {
+        "UnitID": "BlueTentacle_1",
+        "Pos_X": 0,
+        "Pos_Y": 7,
+        "UnitControler": 1,
+        "IsLeader": 1
+      },
+      {
+        "UnitID": "RedTentacle_1",
+        "Pos_X": 8,
+        "Pos_Y": 7,
+        "UnitControler": 1,
+        "IsLeader": 1
+      }
+    ],
+    "BattlefieldMessage": [
+      {
+        "RegionID": 1,
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 2,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceTentacle": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 1
+      },
+      {
+        "RegionID": 3,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceTentacle": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 1
+      },
+      {
+        "RegionID": 4,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceTentacle": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 1
+      },
+      {
+        "RegionID": 5,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceTentacle": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 1
+      },
+      {
+        "RegionID": 6,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceTentacle": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 1
+      },
+      {
+        "RegionID": 7,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceTentacle": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 1
+      },
+      {
+        "RegionID": 8,
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      }
+    ],
+    "MapID": "Boss_1"
+  }
+]

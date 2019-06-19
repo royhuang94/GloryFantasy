@@ -1,13 +1,15 @@
 ﻿[
   {
     "EncounterID": "Forest_Boss_1",
+    "GlobalTrigger": [],
+    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "Chomper_1",
-        "Pos_X":0,
-        "Pos_Y":3,
-        "UnitControler": 1
-
+        "Pos_X": 3,
+        "Pos_Y": 3,
+        "UnitControler": 1,
+        "IsLeader": 1
       }
     ],
     "BattlefieldMessage": [
