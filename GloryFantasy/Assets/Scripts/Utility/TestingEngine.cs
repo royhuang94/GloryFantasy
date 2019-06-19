@@ -172,7 +172,14 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         {
             BattleMap.BattleMap.Instance().RestatInitMap("Plain_Shadow_3");
         }
-
+        if (GUILayout.Button("Boss_Final_1"))
+        {
+            BattleMap.BattleMap.Instance().RestatInitMap("Boss_Final_1");
+        }
+        if (GUILayout.Button("Boss_Final_2"))
+        {
+            BattleMap.BattleMap.Instance().RestatInitMap("Boss_Final_2");
+        }
         GUILayout.EndScrollView();
     }
 }
