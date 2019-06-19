@@ -156,6 +156,7 @@ namespace BattleMap
             //删除之前的地图
             for (int i = 0; i < blocks.Count; i++)
                 Destroy(blocks[i]);
+            Destroy(BattleMapPanel);
             //重新生成
             InitMap(encouterID);
         }
@@ -172,16 +173,15 @@ namespace BattleMap
         public bool IsColor { get; set; }//控制是否高亮战区
         private BattleMapBlock[,] _mapBlocks;
         public BattleMapBlock BattleMapBlock;
-        public Transform _tilesHolder;          // 存储所有地图单位引用的变量
         public MapNavigator MapNavigator;//寻路类
         public BattleAreaData battleAreaData;//战区类
         public DebuffBattleMapBlock debuffBM;//异常地图快类
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
-        public Transform battlePanel;//战斗地图根对象
         private string init_encouterID;//该次遭遇的遭遇id;
         public string EncouterID { get { return init_encouterID; } set { init_encouterID = value; } }
         public List<GameObject> blocks;//该次遭遇中的所有地图块实例
+        GameObject BattleMapPanel;
         #endregion
 
         #region 各种类型地格
@@ -203,6 +203,8 @@ namespace BattleMap
         //初始战斗地图
         private void InitAndInstantiateMapBlocks(string encouterId)
         {
+            BattleMapPanel = new GameObject("BattleMap");
+            BattleMapPanel.AddComponent<DragBattleMap>();
             //战斗地图路径
             string battleMapPath = "BattleMapData/" + EncouterData.Instance()._encounterData[encouterId].mapID;
 
@@ -225,7 +227,7 @@ namespace BattleMap
             this.columns = nstrs[0].Length;
            
             float flatSize = flat.GetComponent<SpriteRenderer>().size.x; //获得地砖的图片边长
-            Vector2 _leftTopPos = new Vector2((-columns+1) / 2f * flatSize, (-rows+1) / 2f * flatSize);
+            Vector2 _leftTopPos = new Vector2((-columns+1) / 2f * flatSize, 0/*(-rows+1) / 2f * flatSize*/);
             //battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
             _mapBlocks = new BattleMapBlock[columns, rows];
             GameObject instance = null;
@@ -237,7 +239,7 @@ namespace BattleMap
                 {
                     int mapBlockType = int.Parse(nstrs[y][x].Split('-')[0]);
                     instance = SetMapBlockType(mapBlockType, _leftTopPos.x + x * flatSize, _leftTopPos.y + (nstrs.Length - y) * flatSize);
-                    instance.transform.SetParent(_tilesHolder);
+                    instance.transform.SetParent(BattleMapPanel.transform);
                     instance.gameObject.AddComponent<BattleMapBlock>();
                     blocks.Add(instance);
                     //初始化mapBlock成员
@@ -265,19 +267,14 @@ namespace BattleMap
             float total_length = block_size * 10 * 0.7f;
             float total_heigth = block_size * 6 * 0.7f;
 
-            _tilesHolder.localPosition = new Vector3(0f, rows - (block_size * rows / 2 * _tilesHolder.localScale.x), 0f);//标准位置
-
             //处理缩放和位置，以高度为基准来缩放，长度是足够的
             float _scale = total_heigth / (block_size * rows);
-            Debug.Log(_scale);
-            if(_scale > 1)
+            if(_scale < 0.7f)
             {
-                _tilesHolder.localScale = new Vector3(1, 1, 0);
-            }
-            else
-            {
-                _tilesHolder.localScale = new Vector3(_scale, _scale, 0);
-            }                        
+                _scale = 0.7f;
+                BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
+                BattleMapPanel.transform.position = new Vector3(0f, -3.6f, 0f);//标准位置
+            }           
         }
         /// <summary>
         /// 实例不同类型的地格

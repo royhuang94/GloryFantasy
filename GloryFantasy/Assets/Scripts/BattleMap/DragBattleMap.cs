@@ -7,14 +7,12 @@ namespace BattleMap
 {
     public class DragBattleMap : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler
     {
-
-        [SerializeField]
-        private GameObject battleMapPanel;
         bool isEnter;
 
         private bool one_click = false;
         private float time;
         float _scale = 1.0f;
+        float _recoverScale;
 
         Vector3 pos = Vector3.zero;
 
@@ -22,6 +20,7 @@ namespace BattleMap
         void Start()
         {
             isEnter = false;
+            _recoverScale = transform.localScale.x;
         }
 
         // Update is called once per frame
@@ -32,8 +31,16 @@ namespace BattleMap
                 StartCoroutine(OnMouseDown());
                 ScaleBattleMap();
             }
+            //A键还原
+            if (Input.GetKey(KeyCode.A))
+            {
+                _scale = 1;
+                transform.localScale = new Vector3(_recoverScale, _recoverScale, _recoverScale);
+                transform.localPosition = new Vector3(0f, -3.6f, 0f);
+            }
         }
 
+        //拖动地图
         IEnumerator OnMouseDown()
         {
             //将物体由世界坐标系转换为屏幕坐标系
@@ -51,16 +58,15 @@ namespace BattleMap
                 yield return new WaitForFixedUpdate(); //这个很重要，循环执行
             }
         }
-
+        //缩放地图
         private void ScaleBattleMap()
         {
             if (Input.GetAxis("Mouse ScrollWheel") != 0)
             {
-                Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
                 _scale += Input.GetAxis("Mouse ScrollWheel");
                 if (_scale >= 0)
                 {
-                    battleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
+                    transform.localScale = new Vector3(_scale, _scale, _scale);
                 }
             }
         }
