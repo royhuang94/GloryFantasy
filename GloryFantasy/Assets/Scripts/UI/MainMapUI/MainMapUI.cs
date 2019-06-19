@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MainMap;
@@ -58,17 +59,22 @@ namespace GameGUI
         //URL
         private const string cardicons = "handcardFake";
         private const string MapPackage = "MainMapUI";
+        
+        
+        GProgressBar blueSlider;
+        GProgressBar yellowSlider;
+        GProgressBar redSlider;
         /// <summary>初始化
         /// 
         /// </summary>
         private void Awake()
         {
-            GRoot.inst.SetContentScaleFactor(960, 540);
+            GRoot.inst.SetContentScaleFactor(1920, 1080);
             UIPackage.AddPackage(MainMapUIPackage);
             UIPackage.AddPackage(CardCollectionPackage);
             UIPackage.AddPackage(CardIconPackage);
             UIPackage.AddPackage(LibraryPackage);
-            mainmapUI = UIPackage.CreateObject("MainMapUI", "Component2").asCom;
+            mainmapUI = UIPackage.CreateObject("MainMapUI", "MainUI").asCom;
             GRoot.inst.AddChild(mainmapUI);
             cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBookMain").asCom;
             libraryUI = UIPackage.CreateObject("Library", "LibraryMain").asCom;
@@ -87,7 +93,7 @@ namespace GameGUI
             verify_UI.contentPane = verifyUI;
             verify_UI.CenterOn(GRoot.inst, true);
             #region 初始化按钮装载器文本等
-            ccbtn = mainmapUI.GetChild("CardCollectionBtn").asButton;
+            ccbtn = mainmapUI.GetChild("CardBookButton").asButton;
             ccbtn.onClick.Add(() => ShowCardCollect());
             cardcollectionlist = cardcollectUI.GetChild("cardList").asList;
             onsalelist = libraryUI.GetChild("LibraryCardList").asList;
@@ -96,6 +102,14 @@ namespace GameGUI
             _storyText = _cardDisplayer.GetChild("storyText").asTextField;
             _picLoader = _cardDisplayer.GetChild("cardPicLoader").asLoader;
             #endregion
+            
+            
+            blueSlider = mainmapUI.GetChild("ProgressBlue").asProgress;
+            yellowSlider = mainmapUI.GetChild("ProgressYellow").asProgress;
+            redSlider = mainmapUI.GetChild("ProgressRed").asProgress;
+
+            mainmapUI.GetChild("n15").visible = false;
+            mainmapUI.GetChild("n16").visible = false;
             Debug.Log("ui初始化");
             
         }
@@ -104,25 +118,80 @@ namespace GameGUI
         /// </summary>
         public void UpDateSlider(int i)
         {
-            GProgressBar slider = mainmapUI.GetChild("StepShow").asProgress;
-            GObject content = slider.GetChild("content");
-            GObject sliderunder = slider.GetChild("slider");
+//            GProgressBar slider = mainmapUI.GetChild("StepShow").asProgress;
+//            GObject content = slider.GetChild("content");
+//            GObject sliderunder = slider.GetChild("slider");
+//            switch (i)
+//            {
+//                case 0:
+//                    content.icon = UIPackage.GetItemURL(MapPackage, "content-full");
+//                    sliderunder.icon = UIPackage.GetItemURL(MapPackage, "slider-full");
+//                    break;
+//                case 1:
+//                    content.icon = UIPackage.GetItemURL(MapPackage, "content-half");
+//                    sliderunder.icon = UIPackage.GetItemURL(MapPackage, "slider-half");
+//                    break;
+//                case 2:
+//                    content.icon = UIPackage.GetItemURL(MapPackage, "content-less");
+//                    sliderunder.icon = UIPackage.GetItemURL(MapPackage, "slider-less");
+//                    break;
+//            }
+            // TODO: 进度条切换待完善
+            Charactor charactor = Charactor.Instance();
+            double value;
+            GTweener gTweener;
+            blueSlider.visible = false;
+            yellowSlider.visible = false;
+            redSlider.visible = false;
             switch (i)
             {
                 case 0:
-                    content.icon = UIPackage.GetItemURL(MapPackage, "content-full");
-                    sliderunder.icon = UIPackage.GetItemURL(MapPackage, "slider-full");
+                    blueSlider.visible = true;
+                    blueSlider.max = charactor.charactordata.maxstep - charactor.iconhalfstep;        // 第一阶段进度条最大值
+                    value = getSliderValue(blueSlider.max, 0.4, charactor.charactordata.maxstep, charactor);    // 获取该阶段每一步对应进度条的值
+                    gTweener = blueSlider.TweenValue(value, 0.5f);                    // 进度条缩短动画
+                    while (Math.Abs(value - blueSlider.max * (1 - 0.4)) < 0.0001 && !gTweener.completed)        // 用于判断阶段交界处进度条的切换
+                    {
+//                        blueSlider.visible = false;
+                        yellowSlider.visible = true;
+                        break;
+                    }
                     break;
                 case 1:
-                    content.icon = UIPackage.GetItemURL(MapPackage, "content-half");
-                    sliderunder.icon = UIPackage.GetItemURL(MapPackage, "slider-half");
+                    yellowSlider.visible = true;
+                    yellowSlider.max = charactor.iconhalfstep - charactor.iconlessstep;
+                    value = getSliderValue(yellowSlider.max, 0.583, charactor.iconhalfstep, charactor);
+                    gTweener = yellowSlider.TweenValue(value, 0.5f);
+                    while (Math.Abs(value - yellowSlider.max * (1 - 0.4)) < 0.0001 && gTweener.completed)
+                    {
+                        yellowSlider.visible = false;
+                        redSlider.visible = true;
+                        break;
+                    }
                     break;
                 case 2:
-                    content.icon = UIPackage.GetItemURL(MapPackage, "content-less");
-                    sliderunder.icon = UIPackage.GetItemURL(MapPackage, "slider-less");
+                    redSlider.visible = true;
+                    redSlider.max = charactor.iconlessstep;
+                    value = getSliderValue(redSlider.max, 1, charactor.iconlessstep, charactor);
+                    redSlider.TweenValue(value, 0.5f);
                     break;
             }
         }
+
+        /// <summary>
+        /// 获取进度条当前值
+        /// </summary>
+        /// <param name="sliderMax">进度条最大值</param>
+        /// <param name="ratio">每走一步进度条减少值</param>
+        /// <param name="max">该阶段最大步数</param>
+        /// <param name="charactor">人物实例</param>
+        /// <returns></returns>
+        private double getSliderValue(double sliderMax, double ratio, double max, Charactor charactor)
+        {
+            double step = max - charactor.charactordata.step;        // 该阶段最大步数减去当前步数即该阶段走过的步数
+            return sliderMax - step * ratio;                         // 进度条最大值减去走过的相应的值，即当前进度条的值
+        }
+        
         public void HideMain()
         {
             main_mapUI.Hide();
