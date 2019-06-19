@@ -269,12 +269,10 @@ namespace BattleMap
 
             //处理缩放和位置，以高度为基准来缩放，长度是足够的
             float _scale = total_heigth / (block_size * rows);
-            if(_scale < 0.7f)
-            {
+            if (_scale < 0.7f)
                 _scale = 0.7f;
-                BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
-                BattleMapPanel.transform.position = new Vector3(0f, -3.6f, 0f);//标准位置
-            }           
+            BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
+            BattleMapPanel.transform.position = new Vector3(0f, -3.6f, 0f);//标准位置
         }
         /// <summary>
         /// 实例不同类型的地格
