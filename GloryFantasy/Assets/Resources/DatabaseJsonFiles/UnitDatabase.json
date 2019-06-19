@@ -1067,15 +1067,14 @@
     {
         "Ability": [
             "Haste",
-            "ImmueDispose",
-            "Regeneration"
+            "ImmueDispose"
         ],
         "Atk": 4,
         "CardID": "RPhoenix_1",
         "Color": [
             "R"
         ],
-        "Effort": "迅捷。免疫绊足。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。",
+        "Effort": "迅捷。免疫绊足。",
         "Event": {},
         "HasCD": 1,
         "Hp": 6,
@@ -1100,7 +1099,7 @@
         "Color": [
             "R"
         ],
-        "Effort": "迅捷。免疫绊足。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。",
+        "Effort": "迅捷。免疫绊足。",
         "Event": {},
         "HasCD": 1,
         "Hp": 8,
@@ -1118,14 +1117,13 @@
         "Ability": [
             "Haste",
             "ImmueDispose",
-            "Regeneration"
         ],
         "Atk": 4,
         "CardID": "RPhoenix_3",
         "Color": [
             "R"
         ],
-        "Effort": "迅捷。免疫绊足。此单位溃退时，其原地复活且保有等同于最大生命值的生命。随后此单位失去此能力直到下次部署。",
+        "Effort": "迅捷。免疫绊足。",
         "Event": {},
         "HasCD": 1,
         "Hp": 10,
@@ -1416,15 +1414,14 @@
     {
         "Ability": [
             "Haste",
-            "FirstStrike",
-            "Regeneration"
+            "FirstStrike"
         ],
         "Atk": 5,
         "CardID": "",
         "Color": [
             "P"
         ],
-        "Effort": "迅捷。迅击。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。可能触发【暗影骑士团】。",
+        "Effort": "迅捷。迅击。可能触发【暗影骑士团】。",
         "Event": {
             "Empty": 2,
             "ShadowKnight_ShadowOrder": 1
@@ -1443,15 +1440,14 @@
     {
         "Ability": [
             "Haste",
-            "FirstStrike",
-            "Regeneration"
+            "FirstStrike"
         ],
         "Atk": 5,
         "CardID": "",
         "Color": [
             "P"
         ],
-        "Effort": "迅捷。迅击。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。可能触发【暗影骑士团】。",
+        "Effort": "迅捷。迅击。可能触发【暗影骑士团】。",
         "Event": {
             "Empty": 1,
             "ShadowKnight_ShadowOrder": 1,
