@@ -87,6 +87,11 @@ class TestBookPage : GComponent
 					string nid = cardId.Substring(0, cardId.IndexOf('#'));
 					item.icon = UIPackage.GetItemURL(_cardSetsAssets,nid.Split('_').First());
 				}
+				
+				item.onClick.Add(() =>
+				{
+					CardManager.Instance().InsertIntoHandCard(cardId);
+				});
 
 				_cardSetsList.AddChild(item);
 				count++;
