@@ -106,15 +106,6 @@ namespace GamePlay
             singleBattle = new AI.BattleField();
             eventScroll = new EventScroll();
         }
-        //private void Update()
-        //{
-        //    if(roundProcessController.roundInput != RoundInput.None)
-        //    {
-        //        IEnumerator coroutine;
-        //        coroutine = WaitAndPrint(8.0f);
-        //        StartCoroutine(coroutine);
-        //    }
-        //}
 
         public static Info Info = new Info();
         public RoundProcessController roundProcessController; 
