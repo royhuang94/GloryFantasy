@@ -145,7 +145,8 @@ namespace BattleMap
                 for (int x = 0; x < nstrs[y].Length; x++)
                 {
                     int area = int.Parse(nstrs[y][x].Split('-')[1]);
-                    areas.Add(area);
+                    if(area > 0)
+                        areas.Add(area);
                 }
             }
             //移除重复元素
@@ -172,7 +173,10 @@ namespace BattleMap
         //存储战区
         public void StoreBattleArea(int area, Vector2 mapPos)
         {
-            BattleAreaDic[area].Add(mapPos);
+            if(area > 0)
+            {
+                BattleAreaDic[area].Add(mapPos);
+            }           
         }
 
         /// <summary>

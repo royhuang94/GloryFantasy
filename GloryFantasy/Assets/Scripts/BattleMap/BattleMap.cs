@@ -205,7 +205,7 @@ namespace BattleMap
         {
             BattleMapPanel = new GameObject("BattleMap");
             BattleMapPanel.transform.position = Vector3.zero;
-            //BattleMapPanel.AddComponent<DragBattleMap>();
+            BattleMapPanel.AddComponent<DragBattleMap>();//缩放拖动组件
             //战斗地图路径
             string battleMapPath = "BattleMapData/" + EncouterData.Instance()._encounterData[encouterId].mapID;
 
@@ -288,6 +288,10 @@ namespace BattleMap
             GameObject instance = null;
             switch (type)
             {
+                case 0://没有地格
+                    instance = GameObject.Instantiate(flat, new Vector3(x, y, 0f), Quaternion.identity);
+                    instance.SetActive(false);
+                    break;
                 case 1://平地
                     instance = GameObject.Instantiate(flat, new Vector3(x, y, 0f), Quaternion.identity);
                     break;

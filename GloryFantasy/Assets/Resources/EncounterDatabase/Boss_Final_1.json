@@ -1,6 +1,8 @@
 ﻿[
   {
     "EncounterID": "Boss_Final_1",
+    "GlobalTrigger": [],
+    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "Devil_1",
@@ -41,6 +43,7 @@
     "BattlefieldMessage": [
       {
         "RegionID": 1,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1
         },
@@ -51,6 +54,7 @@
       },
       {
         "RegionID": 2,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -62,6 +66,7 @@
       },
       {
         "RegionID": 3,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -73,6 +78,7 @@
       },
       {
         "RegionID": 4,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -84,6 +90,7 @@
       },
       {
         "RegionID": 5,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -95,6 +102,7 @@
       },
       {
         "RegionID": 6,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -106,6 +114,7 @@
       },
       {
         "RegionID": 7,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -117,6 +126,7 @@
       },
       {
         "RegionID": 8,
+        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1
         },
