@@ -32,6 +32,7 @@ namespace MainMap
         public int MoveSpeed;//开放给策划用于调整人物角色移动速度
         public int iconhalfstep;//步数条减半所需步数
         public int iconlessstep;//步数条见底所需步数
+
         /// <summary>储存角色信息的数据结构，考虑到未来可能有需求需要返回全部的数值，就写了这么个玩意。
         /// 
         /// </summary>
@@ -206,11 +207,15 @@ namespace MainMap
 
                 charactordata.step = charactordata.step + value;
                 Step = charactordata.step;
-                if (charactordata.step == iconhalfstep)
+                if (charactordata.step >= iconhalfstep)
+                {
+                    MainMapUI.Instance().UpDateSlider(0);
+                }
+                else if (charactordata.step >= iconlessstep)
                 {
                     MainMapUI.Instance().UpDateSlider(1);
                 }
-                else if (charactordata.step == iconlessstep)
+                else
                 {
                     MainMapUI.Instance().UpDateSlider(2);
                 }
