@@ -1,6 +1,8 @@
 ﻿[
   {
     "EncounterID": "Boss_Final_1",
+    "GlobalTrigger": [],
+    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "Devil_1",
@@ -41,6 +43,11 @@
     "BattlefieldMessage": [
       {
         "RegionID": 1,
+<<<<<<< HEAD
+        "Owner": "Enemy",
+=======
+        "Owner": "Neutrality",
+>>>>>>> 310d2c32a112c2913ebf7b9cb63b3ca145f06edd
         "EventList": {
           "Empty": 1
         },
@@ -51,6 +58,11 @@
       },
       {
         "RegionID": 2,
+<<<<<<< HEAD
+        "Owner": "Enemy",
+=======
+        "Owner": "Neutrality",
+>>>>>>> 310d2c32a112c2913ebf7b9cb63b3ca145f06edd
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -62,6 +74,11 @@
       },
       {
         "RegionID": 3,
+<<<<<<< HEAD
+        "Owner": "Enemy",
+=======
+        "Owner": "Neutrality",
+>>>>>>> 310d2c32a112c2913ebf7b9cb63b3ca145f06edd
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -73,6 +90,11 @@
       },
       {
         "RegionID": 4,
+<<<<<<< HEAD
+        "Owner": "Enemy",
+=======
+        "Owner": "Neutrality",
+>>>>>>> 310d2c32a112c2913ebf7b9cb63b3ca145f06edd
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -84,6 +106,11 @@
       },
       {
         "RegionID": 5,
+<<<<<<< HEAD
+        "Owner": "Enemy",
+=======
+        "Owner": "Neutrality",
+>>>>>>> 310d2c32a112c2913ebf7b9cb63b3ca145f06edd
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -95,6 +122,11 @@
       },
       {
         "RegionID": 6,
+<<<<<<< HEAD
+        "Owner": "Enemy",
+=======
+        "Owner": "Neutrality",
+>>>>>>> 310d2c32a112c2913ebf7b9cb63b3ca145f06edd
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -106,6 +138,11 @@
       },
       {
         "RegionID": 7,
+<<<<<<< HEAD
+        "Owner": "Enemy",
+=======
+        "Owner": "Neutrality",
+>>>>>>> 310d2c32a112c2913ebf7b9cb63b3ca145f06edd
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -117,6 +154,11 @@
       },
       {
         "RegionID": 8,
+<<<<<<< HEAD
+        "Owner": "Player",
+=======
+        "Owner": "Neutrality",
+>>>>>>> 310d2c32a112c2913ebf7b9cb63b3ca145f06edd
         "EventList": {
           "Empty": 1
         },
