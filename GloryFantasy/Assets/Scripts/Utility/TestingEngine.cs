@@ -180,11 +180,11 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         {
             BattleMap.BattleMap.Instance().RestatInitMap("Boss_Final_2");
         }
-        if (GUILayout.Button("Boss_Final_2"))
+        if (GUILayout.Button("Desert_Boss_1"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("Desert_Boss_1");
         }
-        if (GUILayout.Button("Desert_Boss_1"))
+        if (GUILayout.Button("Desert_Boss_2"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("Desert_Boss_2");
         }
@@ -192,7 +192,7 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         {
             BattleMap.BattleMap.Instance().RestatInitMap("Forest_Boss_1");
         }
-        if (GUILayout.Button("Forest_Boss_1"))
+        if (GUILayout.Button("Forest_Boss_2"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("Forest_Boss_2");
         }
