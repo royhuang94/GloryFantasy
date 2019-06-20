@@ -43,7 +43,7 @@
     "BattlefieldMessage": [
       {
         "RegionID": 1,
-        "Owner": "Neutrality",
+        "Owner": "Enemy",
         "EventList": {
           "Empty": 1
         },
@@ -54,7 +54,7 @@
       },
       {
         "RegionID": 2,
-        "Owner": "Neutrality",
+        "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -66,7 +66,7 @@
       },
       {
         "RegionID": 3,
-        "Owner": "Neutrality",
+        "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -78,7 +78,7 @@
       },
       {
         "RegionID": 4,
-        "Owner": "Neutrality",
+        "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -90,8 +90,7 @@
       },
       {
         "RegionID": 5,
-        "Owner": "Neutrality",
-        "EventList": {
+        "Owner": "Enemy",
           "Empty": 1,
           "ReinforceTentacle": 1
         },
@@ -102,7 +101,7 @@
       },
       {
         "RegionID": 6,
-        "Owner": "Neutrality",
+        "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
           "ReinforceTentacle": 1
@@ -114,8 +113,7 @@
       },
       {
         "RegionID": 7,
-        "Owner": "Neutrality",
-        "EventList": {
+        "Owner": "Enemy",
           "Empty": 1,
           "ReinforceTentacle": 1
         },
@@ -126,7 +124,7 @@
       },
       {
         "RegionID": 8,
-        "Owner": "Neutrality",
+        "Owner": "Player",
         "EventList": {
           "Empty": 1
         },
