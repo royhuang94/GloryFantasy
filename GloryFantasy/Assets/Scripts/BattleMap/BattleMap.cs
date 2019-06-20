@@ -204,7 +204,8 @@ namespace BattleMap
         private void InitAndInstantiateMapBlocks(string encouterId)
         {
             BattleMapPanel = new GameObject("BattleMap");
-            BattleMapPanel.AddComponent<DragBattleMap>();
+            BattleMapPanel.transform.position = Vector3.zero;
+            //BattleMapPanel.AddComponent<DragBattleMap>();
             //战斗地图路径
             string battleMapPath = "BattleMapData/" + EncouterData.Instance()._encounterData[encouterId].mapID;
 
@@ -227,7 +228,7 @@ namespace BattleMap
             this.columns = nstrs[0].Length;
            
             float flatSize = flat.GetComponent<SpriteRenderer>().size.x; //获得地砖的图片边长
-            Vector2 _leftTopPos = new Vector2((-columns+1) / 2f * flatSize, 0/*(-rows+1) / 2f * flatSize*/);
+            Vector2 _leftTopPos = new Vector2((-columns) / 2f * flatSize + flatSize/2, (-rows) / 2f * flatSize-flatSize/2);
             //battlePanel.GetComponent<GridLayoutGroup>().constraintCount = this.columns;//初始化战斗地图大小（列数）
             _mapBlocks = new BattleMapBlock[columns, rows];
             GameObject instance = null;
@@ -272,7 +273,7 @@ namespace BattleMap
             if (_scale < 0.7f)
                 _scale = 0.7f;
             BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
-            BattleMapPanel.transform.position = new Vector3(0f, -3.6f, 0f);//标准位置
+            BattleMapPanel.transform.position = new Vector3(0f, 1.5f, 0f);//标准位置
         }
         /// <summary>
         /// 实例不同类型的地格
