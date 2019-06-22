@@ -32,13 +32,24 @@ namespace GameGUI
         private GComponent libraryUI;
         private GComponent cardcollectUI;
         private GComponent verifyUI;
+        private GComponent _winUI;
+        private GComponent _loseUI;
+        private GComponent _dialogUI;
         private Window main_mapUI;
         private Window cardcollect_UI;
         private Window library_UI;
         private Window verify_UI;
+        private Window win_UI;
+        private Window lose_UI;
+        private Window dialog_UI;
+        
         private GComponent _cardDisplayer;
         #endregion
         #region 按钮，文本,装载器等
+
+        private GButton _fClueBtn;        // 第一个线索按钮
+        private GButton _sClueBtn;        // 第二个线索按钮
+        private GButton _tClueBtn;        // 第三个线索按钮
         private GButton ccbtn;
         private GButton buybtn;
         private GButton cancelbtn;
@@ -59,11 +70,11 @@ namespace GameGUI
         //URL
         private const string cardicons = "handcardFake";
         private const string MapPackage = "MainMapUI";
-        
-        
-        GProgressBar blueSlider;
-        GProgressBar yellowSlider;
-        GProgressBar redSlider;
+
+
+        private GProgressBar _blueSlider;
+        private GProgressBar _yellowSlider;
+        private GProgressBar _redSlider;
         /// <summary>初始化
         /// 
         /// </summary>
@@ -79,6 +90,8 @@ namespace GameGUI
             cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBookMain").asCom;
             libraryUI = UIPackage.CreateObject("Library", "LibraryMain").asCom;
             verifyUI = UIPackage.CreateObject("Library", "verifyUI").asCom;
+            _winUI = UIPackage.CreateObject("MainMapUI", "WinMenu").asCom;
+            _loseUI = UIPackage.CreateObject("MainMapUI", "LoseMenu").asCom;
             main_mapUI = new Window();
             main_mapUI.contentPane = mainmapUI;
             main_mapUI.CenterOn(GRoot.inst, true);
@@ -92,7 +105,20 @@ namespace GameGUI
             verify_UI = new Window();
             verify_UI.contentPane = verifyUI;
             verify_UI.CenterOn(GRoot.inst, true);
+            win_UI = new Window();
+            win_UI.contentPane = _winUI;
+            win_UI.CenterOn(GRoot.inst, true);
+            lose_UI = new Window();
+            lose_UI.contentPane = _loseUI;
+            lose_UI.CenterOn(GRoot.inst, true);
             #region 初始化按钮装载器文本等
+
+            _fClueBtn = mainmapUI.GetChild("n25").asButton;
+            _sClueBtn = mainmapUI.GetChild("n26").asButton;
+            _tClueBtn = mainmapUI.GetChild("n27").asButton;
+            _fClueBtn.onClick.Add(ShowVictory);
+            _sClueBtn.onClick.Add(ShowDefeat);
+            _tClueBtn.onClick.Add(ShowDialog);
             ccbtn = mainmapUI.GetChild("CardBookButton").asButton;
             ccbtn.onClick.Add(() => ShowCardCollect());
             cardcollectionlist = cardcollectUI.GetChild("cardList").asList;
@@ -104,9 +130,9 @@ namespace GameGUI
             #endregion
             
             
-            blueSlider = mainmapUI.GetChild("ProgressBlue").asProgress;
-            yellowSlider = mainmapUI.GetChild("ProgressYellow").asProgress;
-            redSlider = mainmapUI.GetChild("ProgressRed").asProgress;
+            _blueSlider = mainmapUI.GetChild("ProgressBlue").asProgress;
+            _yellowSlider = mainmapUI.GetChild("ProgressYellow").asProgress;
+            _redSlider = mainmapUI.GetChild("ProgressRed").asProgress;
 
             mainmapUI.GetChild("n15").visible = false;
             mainmapUI.GetChild("n16").visible = false;
@@ -140,40 +166,40 @@ namespace GameGUI
             Charactor charactor = Charactor.Instance();
             double value;
             GTweener gTweener;
-            blueSlider.visible = false;
-            yellowSlider.visible = false;
-            redSlider.visible = false;
+            _blueSlider.visible = false;
+            _yellowSlider.visible = false;
+            _redSlider.visible = false;
             switch (i)
             {
                 case 0:
-                    blueSlider.visible = true;
-                    blueSlider.max = charactor.charactordata.maxstep - charactor.iconhalfstep;        // 第一阶段进度条最大值
-                    value = getSliderValue(blueSlider.max, 0.4, charactor.charactordata.maxstep, charactor);    // 获取该阶段每一步对应进度条的值
-                    gTweener = blueSlider.TweenValue(value, 0.5f);                    // 进度条缩短动画
-                    while (Math.Abs(value - blueSlider.max * (1 - 0.4)) < 0.0001 && !gTweener.completed)        // 用于判断阶段交界处进度条的切换
+                    _blueSlider.visible = true;
+                    _blueSlider.max = charactor.charactordata.maxstep - charactor.iconhalfstep;        // 第一阶段进度条最大值
+                    value = getSliderValue(_blueSlider.max, 0.4, charactor.charactordata.maxstep, charactor);    // 获取该阶段每一步对应进度条的值
+                    gTweener = _blueSlider.TweenValue(value, 0.5f);                    // 进度条缩短动画
+                    while (Math.Abs(value - _blueSlider.max * (1 - 0.4)) < 0.0001 && !gTweener.completed)        // 用于判断阶段交界处进度条的切换
                     {
 //                        blueSlider.visible = false;
-                        yellowSlider.visible = true;
+                        _yellowSlider.visible = true;
                         break;
                     }
                     break;
                 case 1:
-                    yellowSlider.visible = true;
-                    yellowSlider.max = charactor.iconhalfstep - charactor.iconlessstep;
-                    value = getSliderValue(yellowSlider.max, 0.583, charactor.iconhalfstep, charactor);
-                    gTweener = yellowSlider.TweenValue(value, 0.5f);
-                    while (Math.Abs(value - yellowSlider.max * (1 - 0.4)) < 0.0001 && gTweener.completed)
+                    _yellowSlider.visible = true;
+                    _yellowSlider.max = charactor.iconhalfstep - charactor.iconlessstep;
+                    value = getSliderValue(_yellowSlider.max, 0.583, charactor.iconhalfstep, charactor);
+                    gTweener = _yellowSlider.TweenValue(value, 0.5f);
+                    while (Math.Abs(value - _yellowSlider.max * (1 - 0.4)) < 0.0001 && gTweener.completed)
                     {
-                        yellowSlider.visible = false;
-                        redSlider.visible = true;
+                        _yellowSlider.visible = false;
+                        _redSlider.visible = true;
                         break;
                     }
                     break;
                 case 2:
-                    redSlider.visible = true;
-                    redSlider.max = charactor.iconlessstep;
-                    value = getSliderValue(redSlider.max, 1, charactor.iconlessstep, charactor);
-                    redSlider.TweenValue(value, 0.5f);
+                    _redSlider.visible = true;
+                    _redSlider.max = charactor.iconlessstep;
+                    value = getSliderValue(_redSlider.max, 1, charactor.iconlessstep, charactor);
+                    _redSlider.TweenValue(value, 0.5f);
                     break;
             }
         }
@@ -360,6 +386,26 @@ namespace GameGUI
 
             _picLoader.url = UIPackage.GetItemURL(cardicons, cardId);
 
+        }
+        #endregion
+
+        #region 三个线索按钮点击代码
+        public void ShowVictory()
+        {
+            Debug.Log("click first clue -- show victory");
+            win_UI.Show();
+        }
+
+        public void ShowDefeat()
+        {
+            Debug.Log("click second clue -- show defeat");
+            
+        }
+
+        public void ShowDialog()
+        {
+            Debug.Log("click third clue -- show dialog");
+            
         }
         #endregion
     }

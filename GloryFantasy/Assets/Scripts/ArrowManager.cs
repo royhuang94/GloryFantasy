@@ -63,6 +63,7 @@ public class ArrowManager : UnitySingleton<ArrowManager>
     void Start ()
     {
         this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        Initialize();
     }
 
     void FixedUpdate()
@@ -172,7 +173,7 @@ public class ArrowManager : UnitySingleton<ArrowManager>
     /// <returns></returns>
     public void DrawArrow(Vector3 startPos, Vector3 endPos)
     {
-        Initialize();
+//        Initialize();
         _canShowArrow = true;
         transform.localScale = Vector3.one;
         transform.position = ScreenPosToWorldPos(endPos);

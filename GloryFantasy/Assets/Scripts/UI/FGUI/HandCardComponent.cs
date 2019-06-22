@@ -141,7 +141,9 @@ namespace UI.FGUI
 		
 	        _startPos = Input.mousePosition;
 	        // TODO: 直接释放技能不显示箭头
-	        if(CardManager.Instance().handcardsInstance[_handCardList.GetChildIndex(item)].GetComponent<BaseCard>() is UnitCard)
+	        // 是单位牌而且不在谋定而动阶段
+	        if(CardManager.Instance().handcardsInstance[_handCardList.GetChildIndex(item)].GetComponent<BaseCard>() is UnitCard 
+	           && !CardManager.Instance().selectingMode)
 				ArrowManager.Instance().DrawArrow(_startPos, Input.mousePosition);		// 箭头二
 	        // 确认当前点击的卡牌和上次点击的不同，此时表明用户想使用这张卡牌
 	        if (item != _lastClicked)
