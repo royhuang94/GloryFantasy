@@ -10,7 +10,6 @@ public class TestingEngine : UnitySingleton<TestingEngine>
     private void OnGUI()
     {
         GUILayout.Label("生成关卡：");
-        #region 遭遇选择器
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Height(200));
 
         if (GUILayout.Button("Desert_Ant_1"))
@@ -181,24 +180,6 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         {
             BattleMap.BattleMap.Instance().RestatInitMap("Boss_Final_2");
         }
-        if (GUILayout.Button("Desert_Boss_1"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("Desert_Boss_1");
-        }
-        if (GUILayout.Button("Desert_Boss_2"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("Desert_Boss_2");
-        }
-        if (GUILayout.Button("Forest_Boss_1"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("Forest_Boss_1");
-        }
-        if (GUILayout.Button("Forest_Boss_2"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("Forest_Boss_2");
-        }
         GUILayout.EndScrollView();
-        #endregion
-        GUILayout.Label("现在输入状态为：" + GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.CurrentState.ToString());
     }
 }

@@ -205,7 +205,7 @@ namespace BattleMap
         {
             BattleMapPanel = new GameObject("BattleMap");
             BattleMapPanel.transform.position = Vector3.zero;
-            //BattleMapPanel.AddComponent<DragBattleMap>();//缩放拖动组件
+            BattleMapPanel.AddComponent<DragBattleMap>();//缩放拖动组件
             //战斗地图路径
             string battleMapPath = "BattleMapData/" + EncouterData.Instance()._encounterData[encouterId].mapID;
 
@@ -272,14 +272,7 @@ namespace BattleMap
             float _scale = total_heigth / (block_size * rows);
             if (_scale < 0.7f)
                 _scale = 0.7f;
-            if(rows <= 5 || columns <= 10)//高度小于5格或者长度小于10格，标准大小
-            {
-                BattleMapPanel.transform.localScale = new Vector3(0.84f, 0.84f, 0);
-            }
-            else
-            {
-                BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
-            }
+            BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
             BattleMapPanel.transform.position = new Vector3(0f, 1.5f, 0f);//标准位置
         }
         /// <summary>

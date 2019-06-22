@@ -93,7 +93,7 @@ namespace MainMap
         /// </summary>
         void Awake()
         {
-            Screen.SetResolution(960, 540, false);
+            Screen.SetResolution(1920, 1080, false);
             ReadMap();
         }
         /// <summary>通过读取文件里的字符串转换成对应的地格生成地图
