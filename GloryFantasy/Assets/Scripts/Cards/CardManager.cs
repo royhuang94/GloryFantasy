@@ -52,6 +52,12 @@ namespace GameCard
         #endregion
         
         #region 变量可见性定义
+
+        public Dictionary<string, JsonData> cardsData
+        {
+            get { return _cardsData; }
+        }
+
         public List<string> cardsInHand { get { return _handcards; } }
         public List<string> cardsSets { get { return _cardsSets; } }
         public List<cdObject> cooldownCards { get { return _cooldownCards; } }
@@ -151,6 +157,17 @@ namespace GameCard
             
             InitCardsData();
             SetupExSkillMap();
+        }
+
+        public void SendAllHandcardToCd()
+        {
+            for (int i = 0; i < _handcards.Count; i++)
+            {
+                CooldownCard(_handcards[i], 1);
+            }
+            _handcardsInstance.Clear();
+            _handcards.Clear();
+            MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
         }
 
         /// <summary>
