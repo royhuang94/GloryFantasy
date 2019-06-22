@@ -43,7 +43,6 @@ namespace Ability
         {
             _turns = abilityVariable.Turns.Value;
             _abilityId = abilityId;
-            _abilityVariable = abilityVariable;
             register = speller;
             //初始化响应时点,为卡片使用时
             msgName = (int)MessageType.CastCard;

@@ -1,8 +1,6 @@
 ﻿[
   {
     "EncounterID": "Desert_Boss_2",
-    "GlobalTrigger": [],
-    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "SandwormTail_2",
@@ -15,7 +13,6 @@
     "BattlefieldMessage": [
       {
         "RegionID": 1,
-        "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
           "ReinforceFireant": 1
@@ -27,7 +24,6 @@
       },
       {
         "RegionID": 2,
-        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceFireant": 1
@@ -39,7 +35,6 @@
       },
       {
         "RegionID": 3,
-        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceFireant": 1
@@ -51,7 +46,6 @@
       },
       {
         "RegionID": 4,
-        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceFireant": 1
@@ -63,7 +57,6 @@
       },
       {
         "RegionID": 5,
-        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
           "ReinforceFireant": 1
@@ -75,7 +68,6 @@
       },
       {
         "RegionID": 6,
-        "Owner": "Player",
         "EventList": {
           "Empty": 1
         },

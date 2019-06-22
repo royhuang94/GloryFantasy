@@ -25,12 +25,12 @@ namespace GamePlay
         private static Info Info = Gameplay.Info;
         public static T AddBuff<T>(this GameObject gameObject, float life, AbilityVariable buffVariable = null) where T : Buff
         {
-            return addBuff<T>(gameObject, life, buffVariable);
+            return addBuff<T>(gameObject, life);
         }
 
         public static T AddBuff<T>(this Transform transform, float life, AbilityVariable buffVariable = null) where T : Buff
         {
-            return addBuff<T>(transform.gameObject, life, buffVariable);
+            return addBuff<T>(transform.gameObject, life);
         }
         /// <summary>
         /// 添加buff。参数life不可缺省，buff的持续时间；参数buffVariable可缺省，同异能改变量。
