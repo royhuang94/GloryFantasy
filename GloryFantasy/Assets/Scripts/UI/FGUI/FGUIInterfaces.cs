@@ -90,8 +90,16 @@ namespace UI.FGUI
 			Add(new APDisplayerComponent(_mainUI.GetChild("APDisplayer").asCom));
 			// 添加回合信息展示组件
 			Add(new RoundInfoComponent(_mainUI.GetChild("roundText").asTextField));
+
+			List<GComponent> list = new List<GComponent>();
+			list.Add(_mainUI.GetChild("roundEventButton1").asCom);
+			list.Add(_mainUI.GetChild("roundEventButton2").asCom);
+			list.Add(_mainUI.GetChild("roundEventButton3").asCom);
+			list.Add(_mainUI.GetChild("roundEventButton4").asCom);
+			list.Add(_mainUI.GetChild("roundEventButton5").asCom);
+			
 			// 添加事件轴组件
-			//Add(new EventScrollComponent(pkgName, "eventDescribeFrame", _mainUI.GetChild("eventScrollList").asList));
+			Add(new EventScrollComponent(pkgName, "eventDescribeFrame", _mainUI.GetChild("eventScrollList").asList, list));
 			// 回合结束按钮添加事件监听
 			_endRoundButton.onClick.Add(Gameplay.Instance().switchPhaseHandler);
 		

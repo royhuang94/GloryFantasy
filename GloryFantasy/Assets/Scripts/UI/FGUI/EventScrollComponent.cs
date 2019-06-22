@@ -57,6 +57,13 @@ namespace UI.FGUI
         /// 事件轴list引用
         /// </summary>
         private GList _eventScrollList;
+
+        private GComponent _button1;
+        private GComponent _button2;
+        private GComponent _button3;
+        private GComponent _button4;
+        private GComponent _button5;
+        private List<GComponent> _buttonList;
 	
         private GObject _lastClickedEventIcon;
 
@@ -68,7 +75,7 @@ namespace UI.FGUI
         #endregion
 
 
-        public EventScrollComponent(string pkgName, string resName, GList list)
+        public EventScrollComponent(string pkgName, string resName, GList list, List<GComponent> buttonList)
         {
             _lastClickedEventIcon = null;
             _pkgName = pkgName;
@@ -76,9 +83,38 @@ namespace UI.FGUI
             _eventDescribeWindow = new Window();
             _eventDescribeFrame = UIPackage.CreateObject(pkgName, resName).asCom;
             _eventDescribeWindow.contentPane = _eventDescribeFrame;
-            _eventDescribeList = _eventDescribeFrame.GetChild("contentList").asList;
+            //_eventDescribeList = _eventDescribeFrame.GetChild("contentList").asList;
             
             _eventScrollList = list;
+
+            _buttonList = buttonList;
+            _button1 = buttonList[0];
+            _button2 = buttonList[1];
+            _button3 = buttonList[2];
+            _button4 = buttonList[3];
+            _button5 = buttonList[4];
+
+            foreach(GComponent obj in _buttonList)
+            {
+                obj.onClick.Add(()=>
+                {
+
+                    Controller controller = obj.GetController("button");
+                    if (controller.selectedIndex == 0) // 默认普通状态
+                    {
+                        for (int i = 0; i < _buttonList.Count; i++)
+                        {
+                            _buttonList[i].GetController("button").selectedIndex = 0;
+                        }
+                        controller.selectedIndex = 1;
+                    }else
+                    {
+                        controller.selectedIndex = 0;
+                    }
+            
+                    UpdateEventScroll(_buttonList.IndexOf(obj));
+                });
+            }
             
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
@@ -87,12 +123,21 @@ namespace UI.FGUI
                 UpdateEventsMessage,
                 "EventNode observer"
             );
+            
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.MPBegin,
+                () => { return true; },
+                UpdateButtonText,
+                "EventButton text synchronize");
 		
+            UpdateButtonText();
             UpdateEventsMessage();
             
-            _eventScrollList.onClickItem.Add(OnclickEventIcon);
+            // TODO: 改成鼠标悬浮显示
+            //_eventScrollList.onClickItem.Add(OnclickEventIcon);
             // 手动设置最后一个图标的大小
-            _eventScrollList._children[_eventScrollList._children.Count-1].SetScale(1.5f,1.5f);
+            //_eventScrollList._children[_eventScrollList._children.Count-1].SetScale(1.5f,1.5f);
 
             // 随机改变icon的样式
             for (int i = 0; i < _eventScrollList._children.Count; i++)
@@ -100,6 +145,34 @@ namespace UI.FGUI
                 _eventScrollList._children[i].icon = UIPackage.GetItemURL(pkgName,
                     eventIcons[Random.Range(0, _eventScrollList._children.Count - 1)]);
             }
+        }
+
+
+        /// <summary>
+        /// 每回合更新按钮上的信息
+        /// </summary>
+        private void UpdateButtonText()
+        {
+            int round = Gameplay.Instance().roundProcessController.State.roundCounter;
+            for (int i = 0; i < _buttonList.Count; i++)
+            {
+                string text = "第";
+                text += round;
+                text += "回合";
+                _buttonList[i].GetChild("text").asTextField.text = text;
+                round++;
+            }
+        }
+
+
+        
+        /// <summary>
+        /// 更新事件轴
+        /// </summary>
+        /// <param name="selectedIndex">要更新第几个回合的事件轴信息，若为0表示当前回合</param>
+        public void UpdateEventScroll(int selectedIndex)
+        {
+            
         }
         
         
