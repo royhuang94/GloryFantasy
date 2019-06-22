@@ -88,7 +88,7 @@ namespace UI.FGUI
 	        _handCardList.RemoveChildren(0, -1, true);
 	        foreach (string cardId in __handCardList)
 	        {
-		        GObject item = UIPackage.CreateObject(_pkgName, "handcardItem2");
+		        GObject item = UIPackage.CreateObject(_pkgName, "HandCard");
 		        String nid;
 		        if (cardId.Contains("#"))
 		        {

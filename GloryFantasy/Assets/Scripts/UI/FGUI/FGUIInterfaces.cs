@@ -31,7 +31,8 @@ namespace UI.FGUI
 
 		#region 资源包定义
 		private const string path = "BattleMapFGUIPkg/";
-		private const string pkgName = "20190603";
+		private const string cardBook = "cardBook";
+		private const string pkgName = "newBattlemap";
 		private const string numsPkg = "newCdNums";
 		private const string handcardAssets = "fakeHandcard";
 		private const string cooldowncardAssets = "fakeHandcard";
@@ -39,17 +40,18 @@ namespace UI.FGUI
 
 		private void Awake()
 		{
-			GRoot.inst.SetContentScaleFactor(960, 540);
+			GRoot.inst.SetContentScaleFactor(1920, 1080);
+			UIPackage.AddPackage(path + cardBook);
+			UIObjectFactory.SetPackageItemExtension("ui://cardBook/Book", typeof(FairyBook));
+			UIObjectFactory.SetPackageItemExtension("ui://cardBook/Page", typeof(TestBookPage));
 			UIPackage.AddPackage(path + pkgName);
-			UIObjectFactory.SetPackageItemExtension("ui://20190603/Book", typeof(FairyBook));
-			UIObjectFactory.SetPackageItemExtension("ui://20190603/Page", typeof(TestBookPage));
 			UIPackage.AddPackage(path + numsPkg);
 			UIPackage.AddPackage(path + handcardAssets);
 			//UIPackage.AddPackage(path + cooldowncardAssets);
 			//UIPackage.AddPackage(path + cardsetsAssets);
 			//UIPackage.AddPackage(path + cardBookPicAssets);
 			// 战斗场景UI
-			_mainUI = UIPackage.CreateObject(pkgName, "battleScene").asCom;
+			_mainUI = UIPackage.CreateObject(pkgName, "BattleScene").asCom;
 			// 卡牌描述窗口内容
 			_cardDescibeFrame = UIPackage.CreateObject(pkgName, "cardDescribeFrame").asCom;
 		
@@ -63,6 +65,8 @@ namespace UI.FGUI
 			title = _cardDescibeFrame.GetChild("title").asTextField;
 			effect = _cardDescibeFrame.GetChild("effect").asTextField;
 			value = _cardDescibeFrame.GetChild("values").asTextField;
+			
+			cardDescribeWindow.SetXY(1900f - cardDescribeWindow._width, 20);
 		
 			// 从游戏主场景获得各按钮的引用
 			_endRoundButton = _mainUI.GetChild("endRoundButton").asButton;
@@ -74,15 +78,20 @@ namespace UI.FGUI
 		void Start () {
 
 			_components = new Dictionary<string, IComponent>();
-		
-			Add(new NewCardBookComponent(pkgName, "newCardBookFrame"));
+			// 添加卡牌书组件
+			Add(new NewCardBookComponent(cardBook, "newCardBookFrame"));
+			// 添加手牌组件
 			HandCardComponent component = gameObject.AddComponent<HandCardComponent>();
 			component.Init(_mainUI.GetChild("handcardList").asList, pkgName);
 			Add(component);
+			// 添加冷却池组件
 			Add(new CoolDownListComponent(_mainUI.GetChild("cooldownList").asList, pkgName));
+			// 添加AP值组件
 			Add(new APDisplayerComponent(_mainUI.GetChild("APDisplayer").asCom));
+			// 添加回合信息展示组件
 			Add(new RoundInfoComponent(_mainUI.GetChild("roundText").asTextField));
-			Add(new EventScrollComponent(pkgName, "eventDescribeFrame", _mainUI.GetChild("eventScrollList").asList));
+			// 添加事件轴组件
+			//Add(new EventScrollComponent(pkgName, "eventDescribeFrame", _mainUI.GetChild("eventScrollList").asList));
 			// 回合结束按钮添加事件监听
 			_endRoundButton.onClick.Add(Gameplay.Instance().switchPhaseHandler);
 		

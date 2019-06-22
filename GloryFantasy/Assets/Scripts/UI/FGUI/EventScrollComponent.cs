@@ -15,16 +15,16 @@ namespace UI.FGUI
     {
         #region 变量
         #region 事件轴icon素材
-        public const string greenEventIcon = "greenEvent";
-        public const string redEventIcon = "redEvent";
-        public const string yellowEventIcon = "yellowEvent";
-        public const string blueEventIcon = "blueEvent";
+        public const string randomEventIcon = "RandomEvent";
+        public const string disasterEventIcon = "DisasterEvent";
+        public const string addEventIcon = "AddEvent";
+        public const string skillEventIcon = "SkillEvent";
 
         public string[] eventIcons = {
-            "greenEvent",
-            "yellowEvent",
-            "blueEvent",
-            "redEvent"
+            "RandomEvent",
+            "AddEvent",
+            "SkillEvent",
+            "DisasterEvent"
         };
 
         #endregion
