@@ -197,7 +197,7 @@ namespace BattleMap
         private string GetEncounterID()
         {
 //            return SceneSwitchController.Instance().encounterId;
-            return "Forest_Hunter_1";
+            return "Plain_Shadow_1";
         }
 
         //初始战斗地图
@@ -272,14 +272,7 @@ namespace BattleMap
             float _scale = total_heigth / (block_size * rows);
             if (_scale < 0.7f)
                 _scale = 0.7f;
-            if(rows <= 5 || columns <= 10)//高度小于5格或者长度小于10格，标准大小
-            {
-                BattleMapPanel.transform.localScale = new Vector3(0.84f, 0.84f, 0);
-            }
-            else
-            {
-                BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
-            }
+            BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
             BattleMapPanel.transform.position = new Vector3(0f, 1.5f, 0f);//标准位置
         }
         /// <summary>
