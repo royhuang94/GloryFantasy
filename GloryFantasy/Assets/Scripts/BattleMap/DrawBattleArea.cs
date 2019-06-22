@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Vectrosity;
+using GamePlay.Encounter;
 
 namespace BattleMap
 {
 
     public class DrawBattleArea
     {
-        public Dictionary<int, List<SpriteRenderer>> BattleAreaRenderDic;
+        public Dictionary<int, List<SpriteRenderer>> BattleAreaRenderDic;//每个战区的边框图片
+
         private bool isBattleAreaShow = true;
 
         /// <summary>
@@ -119,11 +121,24 @@ namespace BattleMap
             {
                 List<SpriteRenderer> images = new List<SpriteRenderer>();
                 BattleAreaRenderDic.TryGetValue(id, out images);
-                Debug.Log(BattleMap.Instance().battleAreaData.WarZoneBelong(id));
+                int temId = 0;
+
+                BattlefieldMessage battlefieldMessage = EncouterData.Instance().GetBattlefieldMessagebyID(id, BattleMap.Instance().EncouterID);
+                foreach(string trigger in battlefieldMessage.triggers)
+                {
+                    if(trigger == "MainBF_Friendly" || trigger == "MainBF_Enemy")
+                        temId = id;
+                }
+
                 if (BattleMap.Instance().battleAreaData.battleAreas[id]._battleAreaSate ==BattleAreaState.Enmey)
                 {
                     for (int i = 0; i < images.Count; i++)
-                        images[i].color = new Color(255, 0, 0, 255);
+                    {
+                        if(temId == id)//主战区颜色加深
+                            images[i].color = new Color(255, 0, 0, 255);
+                        else
+                            images[i].color = new Color(255, 0, 0, 100);
+                    }                       
                 }
                 //else if (BattleMap.Instance().battleAreaData.WarZoneBelong(id) == BattleAreaSate.Battle)
                 //{
@@ -132,15 +147,22 @@ namespace BattleMap
                 //}
                 else if (BattleMap.Instance().battleAreaData.battleAreas[id]._battleAreaSate == BattleAreaState.Player)
                 {
-                    Debug.Log(id);
                     for (int i = 0; i < images.Count; i++)
-                        images[i].color = new Color(0, 255, 0, 255);
+                    {
+                        if(temId == id)
+                            images[i].color = new Color(0, 255, 0, 255);
+                        else
+                            images[i].color = new Color(0, 255, 0, 100);
+                    }
                 }
                 else if (isBattleAreaShow && BattleMap.Instance().battleAreaData.battleAreas[id]._battleAreaSate == BattleAreaState.Neutrality)
                 {
                     for (int i = 0; i < images.Count; i++)
                     {
-                        images[i].color = new Color(255, 255, 255, 255);
+                        if(temId == id)
+                            images[i].color = new Color(255, 255, 255, 255);
+                        else
+                            images[i].color = new Color(255, 255, 255, 100);
                     }
                 }
             }

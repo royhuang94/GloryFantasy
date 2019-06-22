@@ -31,7 +31,6 @@ namespace BattleMap
         private void Start()
         {
             InitMap(GetEncounterID());
-            EncouterID = GetEncounterID();
             RegisterMSG();
         }
 
@@ -128,6 +127,7 @@ namespace BattleMap
         public void InitMap(string encouterId)
         {
             //下面的初始顺序不能变
+            this.init_encouterID = encouterId;
 
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter(encouterId);            
@@ -141,6 +141,8 @@ namespace BattleMap
             UnitManager.InitAndInstantiateGameUnit(encouterId, _mapBlocks);
             //该次遭遇中的一些临时数值
             EncouterData.Instance().dataOfThisBattle.InitData(encouterId);
+            //一直显示战区所属
+            drawBattleArea.ShowAndUpdateBattleArea();
 
             ScaleBattleMap();
         }
@@ -152,7 +154,7 @@ namespace BattleMap
         public void RestatInitMap(string encouterID)
         {
             //初始一个遭遇id，供其他地方使用
-            EncouterID = encouterID;
+            init_encouterID = encouterID;
             //删除之前的地图
             for (int i = 0; i < blocks.Count; i++)
                 Destroy(blocks[i]);
@@ -179,7 +181,7 @@ namespace BattleMap
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
         private string init_encouterID;//该次遭遇的遭遇id;
-        public string EncouterID { get { return init_encouterID; } set { init_encouterID = value; } }
+        public string EncouterID { get { return init_encouterID; } }
         public List<GameObject> blocks;//该次遭遇中的所有地图块实例
         GameObject BattleMapPanel;
         #endregion
@@ -205,7 +207,7 @@ namespace BattleMap
         {
             BattleMapPanel = new GameObject("BattleMap");
             BattleMapPanel.transform.position = Vector3.zero;
-            BattleMapPanel.AddComponent<DragBattleMap>();//缩放拖动组件
+            //BattleMapPanel.AddComponent<DragBattleMap>();//缩放拖动组件
             //战斗地图路径
             string battleMapPath = "BattleMapData/" + EncouterData.Instance()._encounterData[encouterId].mapID;
 
