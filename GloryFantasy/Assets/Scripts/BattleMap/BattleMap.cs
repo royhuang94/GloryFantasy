@@ -197,7 +197,7 @@ namespace BattleMap
         private string GetEncounterID()
         {
 //            return SceneSwitchController.Instance().encounterId;
-            return "Forest_Hunter_1";
+            return "Plain_Shadow_1";
         }
 
         //初始战斗地图
