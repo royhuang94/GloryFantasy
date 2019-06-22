@@ -725,7 +725,10 @@ namespace GameCard
             if (controlCd <= 0)
             {
                 // 通过切割操作获取卡牌的id读取数据库得到冷却回合数
-                int roundAmount = (int)_cardsData[cardId.Split('@').First()]["cd"];
+
+                int roundAmount = cardId.Contains('#')
+                    ? (int) _cardsData[cardId.Split('#').First()]["cd"]
+                    : (int) _cardsData[cardId.Split('@').First()]["cd"];
 
                 // 若卡牌自身的cd值为负数，则直接销毁，并进入弃牌堆
                 if (roundAmount < 0)
