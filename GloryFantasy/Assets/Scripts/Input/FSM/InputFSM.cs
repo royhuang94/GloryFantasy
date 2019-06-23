@@ -150,19 +150,21 @@ namespace GamePlay.FSM
             BattleMap.BattleMap map = BattleMap.BattleMap.Instance();
             if (map.CheckIfHasUnits(target))
             {
-                
+                ShowRange.Instance().MarkAttackRange(target, unit);
             }
-            ShowRange.Instance().MarkAttackRange(target, unit);
         }
 
         public void HandleAtkCancel(Vector2 target)
         {
+            Debug.Log("dsf");
             if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
             {
+                Debug.Log("fds");
                 ShowRange.Instance().CancleAttackRangeMark(target);
             }
             else
             {
+                Debug.Log("sfd");
                 ShowRange.Instance().CancleAttackRangeMark(TargetList[0]);
             }
         }

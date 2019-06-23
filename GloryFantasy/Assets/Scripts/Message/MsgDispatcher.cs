@@ -62,6 +62,7 @@ namespace IMessage
         Move, //开始移动
         Moved, //单位被移动
         Aftermove, //移动结束
+        Stop,//驻足
 
         RoundsEnd,  //回合结束
 

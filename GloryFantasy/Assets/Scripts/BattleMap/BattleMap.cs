@@ -356,8 +356,8 @@ namespace BattleMap
         /// <returns></returns>
         public Boolean CheckIfHasUnits(Vector3 vector)
         {
-            Debug.Log(vector);
             if (vector.x < columns && vector.y < rows
+                && this._mapBlocks[(int)vector.x, (int)vector.y] != null&& this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0
                 && this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>() != null &&
                 this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>().id != "Obstacle"/*units_on_me.Count != 0*/)
             {
