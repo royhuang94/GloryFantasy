@@ -64,8 +64,10 @@ namespace AI
             {
                 hatredList.Add(new HatredItem()); //当敌人数量大于优先设置的仇恨列表总容量时，动态增加列表，以防数组越界
                 hatredList[HatredCount - 1].battleUnit = enemyTeam[i];
-                SetHartredByRace(enemyTeam[i].tag[0]);
-
+                if (enemyTeam[i].tag.Count > 0)
+                    SetHartredByRace(enemyTeam[i].tag[0]);
+                else
+                    SetHartredByRace("");
                 //hatredList[HatredCount - 1].hatred = 0; //gui 000.....
             }
 

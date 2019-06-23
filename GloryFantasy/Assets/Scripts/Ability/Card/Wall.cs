@@ -26,8 +26,14 @@ namespace Ability
         public bool Range_1(object target)
         {
             Vector2 userPos = Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0];
-
-            return GameplayToolExtend.distanceBetween(userPos, target) <= AbilityVariable.Range.Value;
+            if (GameplayToolExtend.distanceBetween(userPos, target) > AbilityVariable.Range.Value)
+                return false;
+            for (int i = 1; i <= Gameplay.Instance().gamePlayInput.InputFSM.TargetList.Count; i++)
+                if (GameplayToolExtend.distanceBetween(Gameplay.Instance().gamePlayInput.InputFSM.TargetList[i], target) == 0)
+                    return false;
+            if (((BattleMap.BattleMapBlock)target).units_on_me.Count > 0)
+                return false;
+            return true;
         }
     }
 
@@ -77,7 +83,7 @@ namespace Ability
                 // 修改crash生命周期
                 BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(
                     Gameplay.Instance().gamePlayInput.InputFSM.TargetList[i]
-                ).GetComponent<Crash>().SetLife(_turn);
+                ).GetComponent<BCrash>().SetLife(_turn);
             }
         }
     }

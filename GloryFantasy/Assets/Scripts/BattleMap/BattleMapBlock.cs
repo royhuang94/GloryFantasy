@@ -76,6 +76,7 @@ namespace BattleMap
             //修改单位的父级对象
             unit.gameObject.transform.SetParent(this.transform);
             unit.transform.localPosition = Vector3.zero;
+            unit.transform.localScale = new Vector3(1f, 1f, 1f);
             
             // 无法移动的单位变暗，简单实现，等移动点数出来改
             if (unit.owner == OwnerEnum.Player && unit.canNotMove)
