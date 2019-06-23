@@ -188,6 +188,7 @@ namespace BattleMap
 
         #region 各种类型地格
         public GameObject flat;//平地
+        public Sprite[] flats;//各种颜色平地；
         public Sprite firing;//灼烧
         public Sprite viscous;//粘滞
         #endregion
@@ -216,14 +217,12 @@ namespace BattleMap
             int length = strs.Length;
             if (string.IsNullOrEmpty(strs[strs.Length - 1]))
                 length--;
-
             nstrs = new string[length][];
             
             for(int i = 0;i < nstrs.Length; i++)
             {
                 nstrs[i] = strs[i].Split('/');
             }
-
             blocks = new List<GameObject>();
 
             this.rows = length;
@@ -240,14 +239,15 @@ namespace BattleMap
             {
                 for(int x = 0;x <nstrs[y].Length; x++)
                 {
-                    int mapBlockType = int.Parse(nstrs[y][x].Split('-')[0]);
-                    instance = SetMapBlockType(mapBlockType, _leftTopPos.x + x * flatSize, _leftTopPos.y + (nstrs.Length - y) * flatSize);
+                    int mapBlockType = int.Parse(nstrs[y][x].Split('-')[0]);//地格类型（比如平地）
+                    int mapBlockType_type = int.Parse(nstrs[y][x].Split('-')[1]);//地格类型的类型（比如平地还有不同的平地类型）
+                    instance = SetMapBlockType(mapBlockType,mapBlockType_type, _leftTopPos.x + x * flatSize, _leftTopPos.y + (nstrs.Length - y) * flatSize);
                     instance.transform.SetParent(BattleMapPanel.transform);
                     instance.gameObject.AddComponent<BattleMapBlock>();
                     blocks.Add(instance);
                     //初始化mapBlock成员
                     _mapBlocks[x, y] = instance.gameObject.GetComponent<BattleMapBlock>();
-                    int area = int.Parse(nstrs[y][x].Split('-')[1]);
+                    int area = int.Parse(nstrs[y][x].Split('-')[2]);
                     _mapBlocks[x, y].area = area;
                     _mapBlocks[x, y].x = x;
                     _mapBlocks[x, y].y = y;
@@ -271,10 +271,15 @@ namespace BattleMap
             float total_heigth = block_size * 6 * 0.7f;
 
             //处理缩放和位置，以高度为基准来缩放，长度是足够的
-            float _scale = total_heigth / (block_size * rows);
-            if (_scale < 0.7f)
-                _scale = 0.7f;
-            BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
+            //float _scale = total_heigth / (block_size * rows);
+            //if (_scale < 0.7f)
+            //    _scale = 0.7f;
+            //BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
+            if(rows <= 5)
+                BattleMapPanel.transform.localScale = new Vector3(0.84f, 0.84f, 0.84f);
+            else
+                BattleMapPanel.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+
             BattleMapPanel.transform.position = new Vector3(0f, 1.5f, 0f);//标准位置
         }
         /// <summary>
@@ -284,7 +289,7 @@ namespace BattleMap
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public GameObject SetMapBlockType(int type,float x, float y)
+        public GameObject SetMapBlockType(int type,int type_type,float x, float y)
         {
             //TODO添加跟多类型地格
             GameObject instance = null;
@@ -295,6 +300,8 @@ namespace BattleMap
                     instance.SetActive(false);
                     break;
                 case 1://平地
+                    SpriteRenderer image = flat.transform.GetComponent<SpriteRenderer>();
+                    image.sprite = flats[type_type];
                     instance = GameObject.Instantiate(flat, new Vector3(x, y, 0f), Quaternion.identity);
                     break;
                 default:

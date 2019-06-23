@@ -144,7 +144,7 @@ namespace BattleMap
             {
                 for (int x = 0; x < nstrs[y].Length; x++)
                 {
-                    int area = int.Parse(nstrs[y][x].Split('-')[1]);
+                    int area = int.Parse(nstrs[y][x].Split('-')[2]);
                     if(area > 0)
                         areas.Add(area);
                 }
