@@ -181,5 +181,7 @@ public class TestingEngine : UnitySingleton<TestingEngine>
             BattleMap.BattleMap.Instance().RestatInitMap("Boss_Final_2");
         }
         GUILayout.EndScrollView();
+
+        GUILayout.Label("现在输入状态为：" + GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.CurrentState.ToString());
     }
 }
