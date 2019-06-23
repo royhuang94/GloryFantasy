@@ -69,7 +69,7 @@ namespace UI.FGUI
             _book = (FairyBook)_cardBookFrame.GetChild("book");
             _book.SetSoftShadowResource("ui://" + pkgName + "/shadow_soft");
             _book.pageRenderer = RenderPage;
-            int count = (int) Math.Ceiling(__cardSetsList.Count / 9.0f);
+            int count = (int) Math.Ceiling(__cardSetsList.Count / 4.0f);
             if (count % 2 != 0) count += 1;
             _book.pageCount = count;
             _book.currentPage = 0;

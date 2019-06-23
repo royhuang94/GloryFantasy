@@ -38,6 +38,9 @@ namespace UI.FGUI
 		private const string cooldowncardAssets = "fakeHandcard";
 		#endregion
 
+		private GButton cardListCall;
+		private GButton apCall;
+
 		private void Awake()
 		{
 			GRoot.inst.SetContentScaleFactor(1920, 1080);
@@ -65,6 +68,15 @@ namespace UI.FGUI
 			title = _cardDescibeFrame.GetChild("title").asTextField;
 			effect = _cardDescibeFrame.GetChild("effect").asTextField;
 			value = _cardDescibeFrame.GetChild("values").asTextField;
+
+			cardListCall = _mainUI.GetChild("n38").asButton;
+			cardListCall.onClick.Add(() =>
+			{
+				GetChild("cardListComponent").Operation();
+			});
+
+			apCall = _mainUI.GetChild("n40").asButton;
+			apCall.onClick.Add(() => { Player.Instance().AddAp(99); });
 			
 			cardDescribeWindow.SetXY(1900f - cardDescribeWindow._width, 20);
 		
@@ -90,6 +102,7 @@ namespace UI.FGUI
 			Add(new APDisplayerComponent(_mainUI.GetChild("APDisplayer").asCom));
 			// 添加回合信息展示组件
 			Add(new RoundInfoComponent(_mainUI.GetChild("roundText").asTextField));
+			Add(new TEST_ONLY_cardListComponent(pkgName, "cardListFrame"));
 
 			List<GComponent> list = new List<GComponent>();
 			list.Add(_mainUI.GetChild("roundEventButton1").asCom);

@@ -69,7 +69,7 @@ namespace Ability
         {
             //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
             //复制被选中友军的一次性战技入手牌
-            List<string> exCardId = CardManager.Instance().unitsExSkillCardDataBase[unit.id];
+            List<string> exCardId = CardManager.Instance().unitsExSkillCardDataBase[unit.name];
             foreach (string id in exCardId)
             {
                 CardManager.Instance().ArrangeExSkillCard(id, unit.gameObject.GetInstanceID(), true);

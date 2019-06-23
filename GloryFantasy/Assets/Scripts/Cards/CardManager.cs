@@ -52,6 +52,12 @@ namespace GameCard
         #endregion
         
         #region 变量可见性定义
+
+        public Dictionary<string, JsonData> cardsData
+        {
+            get { return _cardsData; }
+        }
+
         public List<string> cardsInHand { get { return _handcards; } }
         public List<string> cardsSets { get { return _cardsSets; } }
         public List<cdObject> cooldownCards { get { return _cooldownCards; } }
@@ -151,6 +157,17 @@ namespace GameCard
             
             InitCardsData();
             SetupExSkillMap();
+        }
+
+        public void SendAllHandcardToCd()
+        {
+            for (int i = 0; i < _handcards.Count; i++)
+            {
+                CooldownCard(_handcards[i], 1);
+            }
+            _handcardsInstance.Clear();
+            _handcards.Clear();
+            MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
         }
 
         /// <summary>
@@ -725,7 +742,10 @@ namespace GameCard
             if (controlCd <= 0)
             {
                 // 通过切割操作获取卡牌的id读取数据库得到冷却回合数
-                int roundAmount = (int)_cardsData[cardId.Split('@').First()]["cd"];
+
+                int roundAmount = cardId.Contains('#')
+                    ? (int) _cardsData[cardId.Split('#').First()]["cd"]
+                    : (int) _cardsData[cardId.Split('@').First()]["cd"];
 
                 // 若卡牌自身的cd值为负数，则直接销毁，并进入弃牌堆
                 if (roundAmount < 0)
