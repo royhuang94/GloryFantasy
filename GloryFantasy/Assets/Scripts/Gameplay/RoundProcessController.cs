@@ -21,17 +21,6 @@ namespace GamePlay.Round
         AIPhase
     };
 
-    //public static RestoreApPhase RestoreApPhase = new RestoreApPhase();
-    //public static StartPhase startPhase = new StartPhase();
-    //public static ExtractCardsPhase ExtractCardsPhase = new ExtractCardsPhase();
-    //public static PreparePhase PreparePhase = new PreparePhase();
-    //public static MainPhase mainPhase = new MainPhase();
-    //public static DiscardPhase discardPhase = new DiscardPhase();
-    //public static EndPhase endPhase = new EndPhase();
-    //public static AIPhase AiPhase = new AIPhase();
-    //public static WinState WinState = new WinState();
-    //public static LoseState LoseState = new LoseState();
-
     /// <summary>
     /// 回合流程控制器
     /// </summary>
@@ -122,6 +111,15 @@ namespace GamePlay.Round
         public void SetDefault()
         {
             State = RoundState.RestoreApPhase;
+            EnteringCurrentState();
+        }
+        /// <summary>
+        /// 用于重置状态机当前状态回到首回合
+        /// </summary>
+        public void SetFristRound()
+        {
+            State = RoundState.RestoreApPhase;
+            State.roundCounter = 0;
             EnteringCurrentState();
         }
 
@@ -370,6 +368,7 @@ namespace GamePlay.Round
         public override void Enter(RoundProcessController roundProcessController)
         {
             base.Enter(roundProcessController);
+            Gameplay.Instance().buffManager.SubtractBuffLife();
             MsgDispatcher.SendMsg((int)MessageType.EP);
         }
 
@@ -402,6 +401,7 @@ namespace GamePlay.Round
         public override void Exit(RoundProcessController roundProcessController)
         {
             base.Exit(roundProcessController);
+            Gameplay.Instance().buffManager.SubtractBuffLife();
             MsgDispatcher.SendMsg((int)MessageType.AIEnd);
         }
 

@@ -251,6 +251,32 @@ namespace GamePlay.Event
         }
 
         /// <summary>
+        /// 清空事件轴相关
+        /// </summary>
+        public void Clear()
+        {
+            if (_eventModuleList != null && _eventModuleList.Count != 0)
+            {
+                _eventModuleList.Clear();
+            }
+            if (_eventScroll != null && _eventScroll.Count != 0)
+            {
+                _eventScroll.Clear();
+            }
+            if (_timeScroll != null && _timeScroll.Count != 0)
+            {
+                _timeScroll.Clear();
+            }
+            if (_DirectEventList != null && _DirectEventList.Count != 0)
+            {
+                _DirectEventList.Clear();
+                MsgDispatcher.SendMsg((int)MessageType.EventNodeChange);
+            }
+
+            nowBigestTurn = 0;
+        }
+
+        /// <summary>
         /// 以回合数作为坐标添加一个事件模块进入事件轴
         /// 重载+1
         /// </summary>
