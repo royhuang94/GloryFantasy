@@ -368,6 +368,7 @@ namespace GamePlay.Round
         public override void Enter(RoundProcessController roundProcessController)
         {
             base.Enter(roundProcessController);
+            Gameplay.Instance().buffManager.SubtractBuffLife();
             MsgDispatcher.SendMsg((int)MessageType.EP);
         }
 
@@ -400,6 +401,7 @@ namespace GamePlay.Round
         public override void Exit(RoundProcessController roundProcessController)
         {
             base.Exit(roundProcessController);
+            Gameplay.Instance().buffManager.SubtractBuffLife();
             MsgDispatcher.SendMsg((int)MessageType.AIEnd);
         }
 
