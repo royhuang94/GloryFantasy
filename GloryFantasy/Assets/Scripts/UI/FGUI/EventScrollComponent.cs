@@ -50,6 +50,8 @@ namespace UI.FGUI
         /// 下标与对应事件映射，每回合更新
         /// </summary>
         private Dictionary<int, List<string>> _eventNodeDic;
+        
+        private Dictionary<int, string> _currentEventNodeInfo;
 
         #endregion
         
@@ -80,6 +82,7 @@ namespace UI.FGUI
             _lastClickedEventIcon = null;
             _pkgName = pkgName;
             _eventNodeDic = new Dictionary<int, List<string>>();
+            _currentEventNodeInfo = new Dictionary<int, string>();
             _eventDescribeWindow = new Window();
             _eventDescribeFrame = UIPackage.CreateObject(pkgName, resName).asCom;
             _eventDescribeWindow.contentPane = _eventDescribeFrame;
@@ -133,9 +136,10 @@ namespace UI.FGUI
 		
             UpdateButtonText();
             UpdateEventsMessage();
+            UpdateEventScroll(0);
             
             // TODO: 改成鼠标悬浮显示
-            //_eventScrollList.onClickItem.Add(OnclickEventIcon);
+            _eventScrollList.onClickItem.Add(OnclickEventIcon);
             // 手动设置最后一个图标的大小
             //_eventScrollList._children[_eventScrollList._children.Count-1].SetScale(1.5f,1.5f);
 
@@ -172,7 +176,17 @@ namespace UI.FGUI
         /// <param name="selectedIndex">要更新第几个回合的事件轴信息，若为0表示当前回合</param>
         public void UpdateEventScroll(int selectedIndex)
         {
-            
+            Debug.Log("update: " + _eventNodeDic.Count);
+            if(_eventNodeDic.Count == 0 || _eventNodeDic[selectedIndex + 1] == null)
+                return;
+            _eventScrollList.RemoveChildren(0, -1, true);
+            for (int i = 0; i < _eventNodeDic[selectedIndex + 1].Count; i++)
+            {
+                GObject item = UIPackage.CreateObject(_pkgName, "EventIcon");
+                item.icon = UIPackage.GetItemURL(_pkgName,
+                    eventIcons[Random.Range(0, _eventScrollList._children.Count - 1)]);
+                _eventScrollList.AddChild(item);
+            }
         }
         
         
@@ -187,45 +201,43 @@ namespace UI.FGUI
             GObject obj = context.data as GObject;
             if (obj != _lastClickedEventIcon && obj != null)
             {
-                // 	清除所有已加入的item
-                _eventDescribeList.RemoveChildren(0, -1, true);
-			
                 // 通过事件节点ID转换成对应下标，最下面是0，往上递增
-                int index = (24 - int.Parse(obj.id.Substring(obj.id.Length - 2))) / 2;
+//                int index = (24 - int.Parse(obj.id.Substring(obj.id.Length - 2))) / 2;
+                int index = _eventScrollList.GetChildIndex(obj);
                 index = index > 0 ? index : 0;            // 取正整数
-			
+                _eventDescribeFrame.GetChild("content").text = _currentEventNodeInfo[index];
                 // 点击下标在可选事件列表内
-                if (index < Gameplay.Instance().eventScroll.EventScrollListCount)
-                {
-                    foreach (string eventMsg in GetEventNodeInfo(index + 1))
-                    {
-                        GComponent item = UIPackage.CreateObject(_pkgName, "eventScrollItem").asCom;
-					
-                        _textField = item.GetChild("n0").asTextField;
-					
-                        int line = (eventMsg.Length + 31) / 32;				// 事件信息所占行数，32是试验出来的每行最大字符数，过程暴力
-					
-                        item.SetSize(item.size.x, (line + 0.2f) * item.size.y);
-                        _textField.SetSize(_textField.size.x, _textField.size.y * line);		// 设置文本框大小，高度为单行高度 * 行数
-                        _textField.text = eventMsg;
-
-                        // 添加构造好的item，若要加多个，请根据需要数据添加
-                        _eventDescribeList.AddChild(item);
-                    }
-                    if(GetEventNodeInfo(index + 1).Count == 0)			// 事件全为Empty，即暂无事件
-                    {
-                        GComponent item = UIPackage.CreateObject(_pkgName, "eventScrollItem").asCom;
-                        item.GetChild("n0").asTextField.text = "暂无事件";
-                        _eventDescribeList.AddChild(item);
-                    }
-                }
-                // 点击节点不在事件列表里
-                else
-                {
-                    GComponent item = UIPackage.CreateObject(_pkgName, "eventScrollItem").asCom;
-                    item.GetChild("n0").asTextField.text = "暂无事件";
-                    _eventDescribeList.AddChild(item);
-                }
+//                if (index < Gameplay.Instance().eventScroll.EventScrollListCount)
+//                {
+//                    foreach (string eventMsg in GetEventNodeInfo(index + 1))
+//                    {
+//                        GComponent item = UIPackage.CreateObject(_pkgName, "eventScrollItem").asCom;
+//					
+//                        _textField = item.GetChild("n0").asTextField;
+//					
+//                        int line = (eventMsg.Length + 31) / 32;				// 事件信息所占行数，32是试验出来的每行最大字符数，过程暴力
+//					
+//                        item.SetSize(item.size.x, (line + 0.2f) * item.size.y);
+//                        _textField.SetSize(_textField.size.x, _textField.size.y * line);		// 设置文本框大小，高度为单行高度 * 行数
+//                        _textField.text = eventMsg;
+//
+//                        // 添加构造好的item，若要加多个，请根据需要数据添加
+//                        _eventDescribeList.AddChild(item);
+//                    }
+//                    if(GetEventNodeInfo(index + 1).Count == 0)			// 事件全为Empty，即暂无事件
+//                    {
+//                        GComponent item = UIPackage.CreateObject(_pkgName, "eventScrollItem").asCom;
+//                        item.GetChild("n0").asTextField.text = "暂无事件";
+//                        _eventDescribeList.AddChild(item);
+//                    }
+//                }
+//                // 点击节点不在事件列表里
+//                else
+//                {
+//                    GComponent item = UIPackage.CreateObject(_pkgName, "eventScrollItem").asCom;
+//                    item.GetChild("n0").asTextField.text = "暂无事件";
+//                    _eventDescribeList.AddChild(item);
+//                }
 
                 // 更新上一次点击对象
                 _lastClickedEventIcon = obj;
@@ -283,14 +295,15 @@ namespace UI.FGUI
         /// </summary>
         /// <param name="index">点击节点下标</param>
         /// <returns>该节点处理过的所有事件信息集合</returns>
-        private List<string> GetEventNodeInfo(int index)
+        private void GetEventNodeInfo(int index)
         {
-            List<string> eventNodeInfo = new List<string>();		// 处理过的事件信息集合
             if (_eventNodeDic.ContainsKey(index))
             {
-                eventNodeInfo = _eventNodeDic[index];        // 字典存储下标对应的处理好的事件信息
+                for (int i = 0; i < _eventNodeDic[index].Count; i++)
+                {
+                    _currentEventNodeInfo.Add(i, _eventNodeDic[index][i]);        // 字典存储下标对应的处理好的事件信息
+                }  
             }
-            return eventNodeInfo;
         }
         
         /// <summary>
