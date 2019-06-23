@@ -322,12 +322,13 @@ namespace BattleMap
                 unit.nextPos = paths[i].position;
                 //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
-                MsgDispatcher.SendMsg((int)MessageType.Stop);
                 yield return new WaitForSeconds(0.2f);
             }
             unit.canNotMove = true;
+            Debug.Log(BattleMap.Instance().GetUnitCoordinate(unit));
+            Vector3 target = BattleMap.Instance().GetUnitCoordinate(unit);
+            GameGUI.ShowRange.Instance().MarkAttackRange(target, unit);
             MsgDispatcher.SendMsg((int)MessageType.Aftermove);
-            MsgDispatcher.SendMsg((int)MessageType.Stop);
         }
 
         ///// <summary>
