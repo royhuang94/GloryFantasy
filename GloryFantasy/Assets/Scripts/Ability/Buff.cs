@@ -25,6 +25,7 @@ namespace Ability.Buff
         /// </summary>
         public void SubtractBuffLife()
         {
+            List<Buff> buffToRemove = new List<Buff>();
             foreach (Buff buff in BuffList)
             {
                 //触发buff减少cd时的效果
@@ -38,10 +39,17 @@ namespace Ability.Buff
                     if (buff.Life <= 0)
                     {
                         buff.OnComplete();
-                        BuffList.Remove(buff);
-                        GameObject.Destroy(buff);
+                        buffToRemove.Add(buff);
                     }
                 }
+            }
+
+            while (buffToRemove.Count > 0)
+            {
+                Buff buff = buffToRemove[0];
+                buffToRemove.Remove(buff);
+                BuffList.Remove(buff);
+                GameObject.Destroy(buff);
             }
         }
     }

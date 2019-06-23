@@ -53,7 +53,7 @@ namespace Ability
         {
             foreach (GameUnit.GameUnit unit in AbilityMediator.Instance().GetGameUnitsInBattleArea(_currentPos))
             {
-                if (unit.owner == OwnerEnum.Enemy)
+                if (unit.owner == OwnerEnum.Player)
                 {
                     unit.gameObject.AddBuff<BBattlecry>(0.5f);
                 }

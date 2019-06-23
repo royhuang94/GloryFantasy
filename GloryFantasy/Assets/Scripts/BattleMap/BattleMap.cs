@@ -356,7 +356,8 @@ namespace BattleMap
         /// <returns></returns>
         public Boolean CheckIfHasUnits(Vector3 vector)
         {
-            if (vector.x < columns && vector.y < rows && this._mapBlocks[(int)vector.x, (int)vector.y] != null && this._mapBlocks[(int)vector.x, (int)vector.y].transform.childCount != 0
+            Debug.Log(vector);
+            if (vector.x < columns && vector.y < rows
                 && this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>() != null &&
                 this._mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>().id != "Obstacle"/*units_on_me.Count != 0*/)
             {
@@ -455,7 +456,7 @@ namespace BattleMap
                     {
                         unit.mapBlockBelow = _mapBlocks[(int)gameobjectCoordinate.x, (int)gameobjectCoordinate.y];
                     }
-                    StartCoroutine(MapNavigator.moveStepByStep(unit));                    
+                    StartCoroutine(MapNavigator.moveStepByStep(unit));
                     return true;
                 }
             }
@@ -511,7 +512,7 @@ namespace BattleMap
                     //return true;
                 }
             }
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(0.2f);
             //return false;
         }
         /// <summary>
