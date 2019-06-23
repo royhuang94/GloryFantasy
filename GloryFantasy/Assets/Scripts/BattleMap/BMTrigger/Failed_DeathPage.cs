@@ -31,7 +31,8 @@ namespace BattleMap
         private void Action()
         {
             Debug.Log("You lose!");
-            MsgDispatcher.SendMsg((int)MessageType.LOSE);
+            //MsgDispatcher.SendMsg((int)MessageType.LOSE);
+            Gameplay.Instance().roundProcessController.Lose();
         }
     }
 }
