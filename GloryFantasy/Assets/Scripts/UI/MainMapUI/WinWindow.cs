@@ -11,7 +11,7 @@ public class WinWindow : Window
     private GButton _firstCard;
     private GButton _secondCard;
     private GButton _thirdCard;
-    private List<GComponent> _cardList;
+    private List<GButton> _cardList;
     public WinWindow(List<string> playerCardList)
     {
         Debug.Log("construct");
@@ -22,9 +22,13 @@ public class WinWindow : Window
     {
         Debug.Log("init");
         this.contentPane = UIPackage.CreateObject("MainMapUI", "WinMenu").asCom;
+        _cardList = new List<GButton>();
         _firstCard = this.contentPane.GetChild("n9").asButton;
+        _cardList.Add(_firstCard);
         _secondCard = this.contentPane.GetChild("n10").asButton;
+        _cardList.Add(_secondCard);
         _thirdCard = this.contentPane.GetChild("n11").asButton;
+        _cardList.Add(_thirdCard);
         _continueBtn = this.contentPane.GetChild("continueButton").asButton;
         _continueBtn.onClick.Add(OnContinue);
 
