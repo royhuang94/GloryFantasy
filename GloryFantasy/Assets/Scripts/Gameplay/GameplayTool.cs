@@ -668,22 +668,22 @@ namespace GamePlay
             Vector2 aPos = toVector2(a);
             Vector2 bPos = toVector2(b);
 
-            return (int)(Mathf.Abs(aPos.x - bPos.y) + Mathf.Abs(aPos.y - bPos.y));
+            return (int)(Mathf.Abs(aPos.x - bPos.x) + Mathf.Abs(aPos.y - bPos.y));
         }
         private static Vector2 toVector2(object a)
         {
             Vector2 aPos;
-            if (a.GetType().ToString() == "GameUnit.GameUnit")
+            if (a is GameUnit.GameUnit)
             {
                 GameUnit.GameUnit aTemp = (GameUnit.GameUnit)a;
                 aPos = new Vector2(aTemp.mapBlockBelow.position.x, aTemp.mapBlockBelow.position.y);
             }
-            else if (a.GetType().ToString() == "BattleMap.BattleMapBlock")
+            else if (a is BattleMap.BattleMapBlock)
             {
                 BattleMap.BattleMapBlock aTemp = (BattleMap.BattleMapBlock)a;
                 aPos = new Vector2(aTemp.position.x, aTemp.position.y);
             }
-            else if (a.GetType().ToString() == "Vector2")
+            else if (a is Vector2)
             {
                 aPos = (Vector2)a;
             }

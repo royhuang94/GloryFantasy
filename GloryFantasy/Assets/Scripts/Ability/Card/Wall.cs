@@ -28,7 +28,7 @@ namespace Ability
             Vector2 userPos = Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0];
             if (GameplayToolExtend.distanceBetween(userPos, target) > AbilityVariable.Range.Value)
                 return false;
-            for (int i = 1; i <= Gameplay.Instance().gamePlayInput.InputFSM.TargetList.Count; i++)
+            for (int i = 1; i < Gameplay.Instance().gamePlayInput.InputFSM.TargetList.Count; i++)
                 if (GameplayToolExtend.distanceBetween(Gameplay.Instance().gamePlayInput.InputFSM.TargetList[i], target) == 0)
                     return false;
             if (((BattleMap.BattleMapBlock)target).units_on_me.Count > 0)
