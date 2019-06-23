@@ -12,12 +12,6 @@ namespace AI
 
         public IEnumerator PlayBattleByCoroutine(System.Action callback)
         {
-            foreach (Unit unit in BattleMap.BattleMap.Instance().UnitsList)
-            {
-                if (unit.owner != GameUnit.OwnerEnum.Enemy)
-                    yield return null; //TODO 调用人物行为对应的函数
-            }
-
             if (callback != null)
                 callback();
 
@@ -34,7 +28,7 @@ namespace AI
         /// <summary>
         /// 开始战斗
         /// </summary>
-        private IEnumerator Fight()
+        internal IEnumerator Fight()
         {
             GamePlay.Gameplay.Instance().singleBattle.battleState = BattleState.Fighting;
             foreach (Unit unit in BattleMap.BattleMap.Instance().UnitsList)
