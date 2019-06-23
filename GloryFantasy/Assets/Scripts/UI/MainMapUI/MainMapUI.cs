@@ -121,9 +121,12 @@ namespace GameGUI
             _fClueBtn.onClick.Add(ShowVictory);
             _sClueBtn.onClick.Add(ShowDefeat);
             _tClueBtn.onClick.Add(ShowDialog);
+            
             ccbtn = mainmapUI.GetChild("CardBookButton").asButton;
             _cardCollectWindow = new CardCollectWindow(playercardlist);
+            _cardCollectWindow.CenterOn(GRoot.inst, true);
             _winWindow = new WinWindow(playercardlist);
+            _winWindow.CenterOn(GRoot.inst, true);
 //            ccbtn.onClick.Add(() => ShowCardCollect());
             ccbtn.onClick.Add(() => { _cardCollectWindow.Show();});
 //            cardcollectionlist = cardcollectUI.GetChild("cardList").asList;
@@ -250,7 +253,7 @@ namespace GameGUI
             transferlist.RemoveChildren();
             foreach (Library i in Library.activelibrarylist)
             {
-                GComponent btn = UIPackage.CreateObject("Library", "btn").asCom;
+                GComponent btn = UIPackage.CreateObject("Library", "Button5").asCom;
                 GTextField text = btn.GetChild("text").asTextField;
                 text.text = "(" + i.hexVector.Hex_vector.x.ToString() + i.hexVector.Hex_vector.y.ToString() + ")";
                 transferlist.AddChild(btn);

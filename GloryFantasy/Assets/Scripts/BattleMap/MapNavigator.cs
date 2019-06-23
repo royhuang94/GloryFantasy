@@ -47,7 +47,7 @@ namespace BattleMap
         }
     }
 
-    public class MapNavigator : MsgReceiver
+    public class MapNavigator :MsgReceiver
     {
         T IMessage.MsgReceiver.GetUnit<T>(){return this as T;}
 
@@ -306,7 +306,6 @@ namespace BattleMap
                 tempVector = new Vector2((int)paths[i].position.x, (int)paths[i].position.y);
                 battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);
                 battleMap.AddUnit(unit);
-                Debug.Log("dsf");
                 unit.transform.localPosition = Vector3.zero;
 
                 if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
@@ -323,10 +322,12 @@ namespace BattleMap
                 unit.nextPos = paths[i].position;
                 //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
+                MsgDispatcher.SendMsg((int)MessageType.Stop);
                 yield return new WaitForSeconds(0.2f);
             }
             unit.canNotMove = true;
             MsgDispatcher.SendMsg((int)MessageType.Aftermove);
+            MsgDispatcher.SendMsg((int)MessageType.Stop);
         }
 
         ///// <summary>
