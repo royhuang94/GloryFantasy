@@ -24,13 +24,13 @@ namespace GameGUI
         #region 大地图FairyGUI素材包
         private string MainMapUIPackage = "MainMapFairyGUIPackage/MainMapUI";
         private string CardCollectionPackage = "MainMapFairyGUIPackage/CardCollection";
-        private string CardIconPackage = "BattleMapFGUIPkg/handcardFake";
+        private string CardIconPackage = "BattleMapFGUIPkg/fakeHandcard";
         private string LibraryPackage = "MainMapFairyGUIPackage/Library";
         #endregion
         #region 大地图的GCompoment 和window
         private GComponent mainmapUI;
         private GComponent libraryUI;
-        private GComponent cardcollectUI;
+//        private GComponent cardcollectUI;
         private GComponent verifyUI;
         private GComponent _winUI;
         private GComponent _loseUI;
@@ -68,9 +68,11 @@ namespace GameGUI
         private List<string> playercardlist;
         private Library choosenlibrary;
         //URL
-        private const string cardicons = "handcardFake";
+        private const string cardicons = "fakeHandcard";
         private const string MapPackage = "MainMapUI";
 
+        private CardCollectWindow _cardCollectWindow;
+        private WinWindow _winWindow;
 
         private GProgressBar _blueSlider;
         private GProgressBar _yellowSlider;
@@ -87,9 +89,9 @@ namespace GameGUI
             UIPackage.AddPackage(LibraryPackage);
             mainmapUI = UIPackage.CreateObject("MainMapUI", "MainUI").asCom;
             GRoot.inst.AddChild(mainmapUI);
-            cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBookMain").asCom;
+//            cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBook").asCom;
             libraryUI = UIPackage.CreateObject("Library", "LibraryMain").asCom;
-            verifyUI = UIPackage.CreateObject("Library", "verifyUI").asCom;
+            verifyUI = UIPackage.CreateObject("Library", "ConfirmBuying").asCom;
             _winUI = UIPackage.CreateObject("MainMapUI", "WinMenu").asCom;
             _loseUI = UIPackage.CreateObject("MainMapUI", "LoseMenu").asCom;
             main_mapUI = new Window();
@@ -97,7 +99,7 @@ namespace GameGUI
             main_mapUI.CenterOn(GRoot.inst, true);
             main_mapUI.Show();
             cardcollect_UI = new Window();
-            cardcollect_UI.contentPane = cardcollectUI;
+//            cardcollect_UI.contentPane = cardcollectUI;
             cardcollect_UI.CenterOn(GRoot.inst, true);
             library_UI = new Window();
             library_UI.contentPane = libraryUI;
@@ -120,13 +122,16 @@ namespace GameGUI
             _sClueBtn.onClick.Add(ShowDefeat);
             _tClueBtn.onClick.Add(ShowDialog);
             ccbtn = mainmapUI.GetChild("CardBookButton").asButton;
-            ccbtn.onClick.Add(() => ShowCardCollect());
-            cardcollectionlist = cardcollectUI.GetChild("cardList").asList;
+            _cardCollectWindow = new CardCollectWindow(playercardlist);
+            _winWindow = new WinWindow(playercardlist);
+//            ccbtn.onClick.Add(() => ShowCardCollect());
+            ccbtn.onClick.Add(() => { _cardCollectWindow.Show();});
+//            cardcollectionlist = cardcollectUI.GetChild("cardList").asList;
             onsalelist = libraryUI.GetChild("LibraryCardList").asList;
-            _cardDisplayer = cardcollectUI.GetChild("cardDisplayer").asCom;
-            _abstractText = _cardDisplayer.GetChild("abstractText").asTextField;
-            _storyText = _cardDisplayer.GetChild("storyText").asTextField;
-            _picLoader = _cardDisplayer.GetChild("cardPicLoader").asLoader;
+//            _cardDisplayer = cardcollectUI.GetChild("cardDisplayer").asCom;
+//            _abstractText = _cardDisplayer.GetChild("abstractText").asTextField;
+//            _storyText = _cardDisplayer.GetChild("storyText").asTextField;
+//            _picLoader = _cardDisplayer.GetChild("cardPicLoader").asLoader;
             #endregion
             
             
@@ -229,7 +234,7 @@ namespace GameGUI
         private void Start()
         {
             playercardlist = CardCollection.Instance().mycollection;
-            cardcollectionlist.onClickItem.Add(OnClickCardInCardCollection);
+//            cardcollectionlist.onClickItem.Add(OnClickCardInCardCollection);
             onsalelist.onClickItem.Add(OnClickCardInLibrary);
         }
         #region 图书馆相关代码
@@ -281,7 +286,7 @@ namespace GameGUI
         public  void LeaveOnClick()
         {
             library_UI.Hide();
-            verify_UI.Hide();
+//            verify_UI.Hide();
             mapcamera.SetActive(true);
         }
         /// <summary>展示三张卡牌，
@@ -321,7 +326,7 @@ namespace GameGUI
         {
             CardCollection.Instance().BuyCard(choosenlibrary);
             onsalelist.RemoveChildAt(CardCollection.Instance().choosecardindex, true);
-            verify_UI.Hide();
+//            verify_UI.Hide();
             
         }
         /// <summary>取消按钮点击事件
@@ -331,7 +336,7 @@ namespace GameGUI
         {
             Debug.Log("取消购买");
             buybtn.onClick.Remove(BuyOnclick);
-            verify_UI.Hide();
+//            verify_UI.Hide();
         }
         #endregion
         #region 卡牌书相关代码
@@ -343,7 +348,7 @@ namespace GameGUI
             MapUnit.CleanList();
             cardcollect_UI.Show();
             Debug.Log("展示卡牌收藏");
-            mapcamera.SetActive(false);
+//            mapcamera.SetActive(false);
             cardcollectionlist.RemoveChildren(0, -1, true);
 
             foreach (string cardId in playercardlist)
@@ -393,15 +398,22 @@ namespace GameGUI
         public void ShowVictory()
         {
             Debug.Log("click first clue -- show victory");
-            win_UI.Show();
+            _winWindow.Show();
         }
 
         public void ShowDefeat()
         {
             Debug.Log("click second clue -- show defeat");
-            
+            lose_UI.Show();
+            GButton continueBtn = lose_UI.contentPane.GetChild("loseReturnButton").asButton;
+            continueBtn.onClick.Add(CloseLoseWindow);
         }
 
+        private void CloseLoseWindow()
+        {
+            lose_UI.Hide();
+        }
+        
         public void ShowDialog()
         {
             Debug.Log("click third clue -- show dialog");
