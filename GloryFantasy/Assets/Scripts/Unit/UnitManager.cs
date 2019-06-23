@@ -230,5 +230,18 @@ namespace GameUnit
                 unit.transform.Find(unit.owner.ToString()).GetComponent<SpriteRenderer>().color = color;
             }
         }
+
+        /// <summary>
+        /// 更新棋子头像
+        /// </summary>
+        /// <param name="id">棋子name，name与头像名相同</param>
+        public static void UpdateChessImg(string name, GameUnit gameUnit)
+        {
+            SpriteRenderer spr = GameObject.Find("name").GetComponent<SpriteRenderer>(); ;
+
+            Texture2D texture2d = (Texture2D)Resources.Load("BattleMapUnitAssets/" + name);
+            Sprite sp = Sprite.Create(texture2d, spr.sprite.textureRect, new Vector2(0.5f, 0.5f));
+            spr.sprite = sp;
+        }
     }
 }
