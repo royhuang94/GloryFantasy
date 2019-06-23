@@ -42,6 +42,7 @@ namespace Ability
         public TCourage(MsgReceiver speller, AbilityVariable abilityVariable, string abilityId)
         {
             _turns = abilityVariable.Turns.Value;
+            _abilityVariable = abilityVariable;
             _abilityId = abilityId;
             register = speller;
             //初始化响应时点,为卡片使用时
