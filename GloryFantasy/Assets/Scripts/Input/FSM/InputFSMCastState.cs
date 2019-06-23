@@ -12,6 +12,25 @@ namespace GamePlay.FSM
     {
         public InputFSMCastState(InputFSM fsm) : base(fsm)
         { }
+        /// <summary>
+        /// 获取当前可以选取的对象。
+        /// </summary>
+        /// <returns>由坐标组成的列表。</returns>
+        public List<Vector2> legalPostions()
+        {
+            List<Vector2> res = new List<Vector2>();
+            foreach(GameObject instance in BattleMap.BattleMap.Instance().blocks)
+            {
+                BattleMapBlock block;
+                if (instance.activeSelf == true)
+                    block = instance.GetComponent<BattleMapBlock>();
+                else
+                    continue;
+                if (FSM.ability.MyTargetConstraintList[FSM.TargetList.Count](block))
+                    res.Add(block.position);
+            }
+            return res;
+        }
 
         public override void OnEnter()
         {
@@ -32,7 +51,6 @@ namespace GamePlay.FSM
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             base.OnPointerDownBlock(mapBlock, eventData);
-
             //判断是是否符合Ability中的自制对象约束
             if (FSM.ability.MyTargetConstraintList[FSM.TargetList.Count](mapBlock) != true)
                 return;
