@@ -33,6 +33,10 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownBlock(mapBlock, eventData);
 
+            //判断是是否符合Ability中的自制对象约束
+            if (FSM.ability.MyTargetConstraintList[FSM.TargetList.Count](mapBlock) != true)
+                return;
+
             //如果点击地图块符合指令牌异能的对象约束
             if (FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.Field ||
                     FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.All)
@@ -54,6 +58,11 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownFriendly(unit, eventData);
 
+            //判断是是否符合Ability中的自制对象约束
+            if (FSM.ability.MyTargetConstraintList[FSM.TargetList.Count](unit) != true)
+                return;
+
+            //如果点击地图块符合指令牌异能的对象约束
             if ((FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.Friendly) ||
                     (FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.All))
             {
@@ -74,6 +83,11 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownEnemy(unit, eventData);
 
+            //判断是是否符合Ability中的自制对象约束
+            if (FSM.ability.MyTargetConstraintList[FSM.TargetList.Count](unit) != true)
+                return;
+
+            //如果点击地图块符合指令牌异能的对象约束
             if ((FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.Enemy) ||
                     (FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.All))
             {

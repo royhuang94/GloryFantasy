@@ -306,6 +306,7 @@ namespace BattleMap
                 tempVector = new Vector2((int)paths[i].position.x, (int)paths[i].position.y);
                 battleMap = BattleMap.Instance().GetSpecificMapBlock(tempVector);
                 battleMap.AddUnit(unit);
+                Debug.Log("dsf");
                 unit.transform.localPosition = Vector3.zero;
 
                 if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
