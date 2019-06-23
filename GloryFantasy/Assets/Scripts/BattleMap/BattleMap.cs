@@ -153,6 +153,7 @@ namespace BattleMap
         /// <param name="encouterID"></param>
         public void RestatInitMap(string encouterID)
         {
+            GamePlay.Gameplay.Instance().eventScroll.Clear();
             //初始一个遭遇id，供其他地方使用
             init_encouterID = encouterID;
             //删除之前的地图
@@ -161,6 +162,7 @@ namespace BattleMap
             Destroy(BattleMapPanel);
             //重新生成
             InitMap(encouterID);
+            GamePlay.Gameplay.Instance().roundProcessController.SetFristRound();
         }
 
         #region 变量
