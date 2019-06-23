@@ -183,5 +183,6 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         GUILayout.EndScrollView();
 
         GUILayout.Label("现在输入状态为：" + GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.CurrentState.ToString());
+        GUILayout.Label("现在TargetList已选择目标有：" + GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.TargetList.Count +"个");
     }
 }
