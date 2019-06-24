@@ -77,7 +77,7 @@ namespace BattleMap
             {
                 endPos = Input.mousePosition;
                 Vector3 offset = starPos - endPos;
-                if (System.Math.Abs(offset.x) >= System.Math.Abs(offset.y) && System.Math.Abs(offset.x) >= 5 && rows > 6)
+                if (System.Math.Abs(offset.x) >= System.Math.Abs(offset.y) && System.Math.Abs(offset.x) >= 5 && columns > 10)
                 {
                     if (offset.x >= 0)
                         _moveX -= 2 * _recoverScale;
@@ -85,7 +85,7 @@ namespace BattleMap
                         _moveX += 2 * _recoverScale;
                     transform.localPosition = new Vector3(_moveX, transform.localPosition.y);
                 }
-                if (System.Math.Abs(offset.x) < System.Math.Abs(offset.y) && System.Math.Abs(offset.y) >= 5 && columns > 10)
+                if (System.Math.Abs(offset.x) < System.Math.Abs(offset.y) && System.Math.Abs(offset.y) >= 5 && rows > 6)
                 {
                     if (offset.y >= 0)
                         _moveY -= 2 * _recoverScale;
