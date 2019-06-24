@@ -127,7 +127,7 @@
     {
         "ID": "GJump_2",
         "ability_id": [
-            "Jump"
+            "Jump_2"
         ],
         "cd": 3,
         "color": "G",
@@ -144,7 +144,7 @@
     {
         "ID": "GJump_3",
         "ability_id": [
-            "Jump"
+            "Jump_3"
         ],
         "cd": 3,
         "color": "G",
