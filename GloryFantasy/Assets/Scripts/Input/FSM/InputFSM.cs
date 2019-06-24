@@ -156,15 +156,12 @@ namespace GamePlay.FSM
 
         public void HandleAtkCancel(Vector2 target)
         {
-            Debug.Log("dsf");
             if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
             {
-                Debug.Log("fds");
                 ShowRange.Instance().CancleAttackRangeMark(target);
             }
             else
             {
-                Debug.Log("sfd");
                 ShowRange.Instance().CancleAttackRangeMark(TargetList[0]);
             }
         }
