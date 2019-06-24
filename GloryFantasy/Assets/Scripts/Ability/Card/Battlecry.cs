@@ -19,9 +19,20 @@ namespace Ability
             base.Init(abilityId);
             _trigger = new TBattlecry(
                 this.GetCardReceiver(this),
-                GetComponent<GameUnit.GameUnit>().CurPos,
                 abilityId);
             MsgDispatcher.RegisterMsg(_trigger, abilityId);
+            MyTargetConstraintList[0] = Range_0;
+        }
+
+        public bool Range_0(object target)
+        {
+            if (!target.GetType().ToString().Equals("GameUnit.FriendlyUnit"))
+            {
+                return false;
+            }
+
+            FriendlyUnit _unit = target as FriendlyUnit;
+            return _unit.Color.Equals("R");
         }
     }
 
@@ -31,10 +42,9 @@ namespace Ability
         private string _abilityId;
         private Vector2 _currentPos;
         
-        public TBattlecry(MsgReceiver speller, Vector2 pos, string abilityId)
+        public TBattlecry(MsgReceiver speller, string abilityId)
         {
             _abilityId = abilityId;
-            _currentPos = pos;
             register = speller;
             msgName = (int) MessageType.CastCard;
             condition = Condition;
@@ -51,6 +61,7 @@ namespace Ability
 
         private void Action()
         {
+            _currentPos = Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0];
             foreach (GameUnit.GameUnit unit in AbilityMediator.Instance().GetGameUnitsInBattleArea(_currentPos))
             {
                 if (unit.owner == OwnerEnum.Player)
