@@ -27,21 +27,20 @@ namespace Ability
         {
             base.Init(abilityId);
             GameUnit.GameUnit unit = gameObject.GetComponent<GameUnit.GameUnit>();
-            _trigger = new TWit(this.GetCardReceiver(this), unit, AbilityVariable.Amount.Value);
+            _trigger = new TWit(this.GetUnitReceiver(this), GetInstanceID(), AbilityVariable.Amount.Value);
             MsgDispatcher.RegisterMsg(_trigger, abilityId);
         }
     }
 
     public class TWit : Trigger
     {
-        private GameUnit.GameUnit _unit;
         private int _amount;
+        private int _binderInstanceId;
 
-        public TWit(MsgReceiver speller, GameUnit.GameUnit unit, int amount)
+        public TWit(MsgReceiver speller, int binderInstanceId, int amount)
         {
-            _unit = unit;
             _amount = amount;
-            
+            _binderInstanceId = binderInstanceId;
             register = speller;
             //初始化响应时点,为卡片使用时
             msgName = (int)MessageType.CastCard;
@@ -56,13 +55,18 @@ namespace Ability
         /// <returns>没有死亡就是true</returns>
         private bool Condition()
         {
-            return !GameplayToolExtend.checkDeath(_unit);
+            if (Gameplay.Instance().gamePlayInput.InputFSM.TargetList.Count == 0)
+                return false;
+            
+            return BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(
+                       Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0]
+                       ).GetInstanceID() == _binderInstanceId;
         }
 
         private void Action()
         {
             // 完成指定用户使用卡牌cd减少指定回合cd功能
-            //AbilityMediator.Instance().ReduceSpecificCardCd(_targetId, _amount);
+            AbilityMediator.Instance().ReduceSpecificCardCd(_binderInstanceId.ToString(), _amount);
         }
     }
 }

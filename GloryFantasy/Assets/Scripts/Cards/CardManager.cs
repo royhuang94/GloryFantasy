@@ -291,8 +291,8 @@ namespace GameCard
                     Debug.Log("找不到使用者，停止使用卡牌");
                     return;
                 }
-                // 如果获取到无问题的GameUnit脚本，得到使用者id
-                userId = userUnit.id;
+                // 如果获取到无问题的GameUnit脚本，得到使用者实例id
+                userId = userUnit.GetInstanceID().ToString();
                 
             }
             
@@ -566,7 +566,7 @@ namespace GameCard
         /// </summary>
         /// <param name="cardIndex">手牌中要移除的卡牌的下标，函数内会进行检测</param>
         /// <param name="controlCd">控制cd值为-1表示按卡牌本身cd值进行冷却，否则按设定值进行冷却</param>
-        /// <param name="userId">是否指定使用者id，一般用于特殊情况</param>
+        /// <param name="userId">是否指定使用者实例id，一般用于特殊情况</param>
         /// <exception cref="NotImplementedException">若卡牌下标异常则抛出此异常</exception>
         public void RemoveCardToCd(int cardIndex, int controlCd = -1, string userId = null)
         {
