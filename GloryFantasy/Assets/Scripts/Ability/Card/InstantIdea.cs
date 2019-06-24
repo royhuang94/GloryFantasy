@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using GameCard;
 using UnityEngine;
 
@@ -69,15 +70,17 @@ namespace Ability
         {
             //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
             //复制被选中友军的一次性战技入手牌
-            List<string> exCardId = CardManager.Instance().unitsExSkillCardDataBase[unit.name];
+            List<string> exCardId = CardManager.Instance().unitsExSkillCardDataBase[unit.id.Split('_').First()];
+            string suffix = _abilityId.Substring(_abilityId.IndexOf('_'));
+            
             foreach (string id in exCardId)
             {
-                CardManager.Instance().ArrangeExSkillCard(id, unit.gameObject.GetInstanceID(), true);
+                CardManager.Instance().ArrangeExSkillCard(id + suffix, unit.gameObject.GetInstanceID(), true);
                 
                 // 如果是是InstantIdea_3，就再复制一张
                 if (_abilityId.Contains("_3"))
                 {
-                    CardManager.Instance().ArrangeExSkillCard(id, unit.gameObject.GetInstanceID(), true);
+                    CardManager.Instance().ArrangeExSkillCard(id + suffix, unit.gameObject.GetInstanceID(), true);
                 }
             }
         }

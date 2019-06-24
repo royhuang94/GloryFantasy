@@ -22,7 +22,7 @@ namespace Ability
         public bool Range_0(object target)
         {
             // 如果目标类型不是GameUnit，直接返回false，为了防止后续强转出错
-            if (!target.GetType().ToString().Equals("GameUnit.GameUnit"))
+            if (!target.GetType().ToString().Equals("GameUnit.FriendlyUnit"))
             {
                 return false;
             }
@@ -59,6 +59,11 @@ namespace Ability
         private void Action()
         {
             // TODO: 消耗使用者动作次数
+
+//            // 如果选择了空地格，当作已经使用
+//            if (!BattleMap.BattleMap.Instance()
+//                .CheckIfHasUnits(Gameplay.Instance().gamePlayInput.InputFSM.TargetList[1]))
+//                return;
             
             // 造成伤害
             GameplayToolExtend.DealDamage(

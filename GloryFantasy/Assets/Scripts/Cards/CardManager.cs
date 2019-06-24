@@ -331,14 +331,14 @@ namespace GameCard
         /// </summary>
         private void SetupExSkillMap()
         {
-            _unitsExSkillCardDataBase["琳"] = new List<string>();
-            _unitsExSkillCardDataBase["琳"].Add("GArrowrain_1");
+            _unitsExSkillCardDataBase["HElf"] = new List<string>();
+            _unitsExSkillCardDataBase["HElf"].Add("GArrowrain");
+
+            _unitsExSkillCardDataBase["HKnight"] = new List<string>();
+            _unitsExSkillCardDataBase["HKnight"].Add("PAnthem");
             
-            _unitsExSkillCardDataBase["道格拉斯"] = new List<string>();
-            _unitsExSkillCardDataBase["道格拉斯"].Add("PAnthem_1");
-            
-            _unitsExSkillCardDataBase["蔻蔻"] = new List<string>();
-            _unitsExSkillCardDataBase["蔻蔻"].Add("URLunastrike_1");
+            _unitsExSkillCardDataBase["HLunamage"] = new List<string>();
+            _unitsExSkillCardDataBase["HLunamage"].Add("URLunastrike");
         }
 
 

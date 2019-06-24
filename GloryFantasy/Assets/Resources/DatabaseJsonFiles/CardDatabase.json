@@ -959,7 +959,7 @@
     {
         "ID": "URLunastrike_1",
         "ability_id": [
-            "Lunastrike"
+            "Lunastrike_1"
         ],
         "cd": 3,
         "color": "UR",
@@ -978,7 +978,7 @@
     {
         "ID": "URLunastrike_2",
         "ability_id": [
-            "Lunastrike"
+            "Lunastrike_2"
         ],
         "cd": 3,
         "color": "UR",
@@ -997,7 +997,7 @@
     {
         "ID": "URLunastrike_3",
         "ability_id": [
-            "Lunastrike"
+            "Lunastrike_3"
         ],
         "cd": 2,
         "color": "UR",

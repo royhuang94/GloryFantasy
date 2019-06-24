@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Ability;
 using IMessage;
 using UnityEngine;
@@ -16,12 +17,14 @@ namespace GameCard
         public void Awake()
         {
             _exSkillCardsList = new List<string>();
+            string unitId = gameObject.GetComponentInChildren<GameUnit.GameUnit>().id;
+            string suffix = unitId.Substring(unitId.IndexOf('_'));
+            unitId = unitId.Split('_').First();
             
             // 将映射关系全部导入当前战技槽
-            foreach (string exSkillCardId in CardManager.Instance().unitsExSkillCardDataBase[
-                gameObject.GetComponentInChildren<GameUnit.GameUnit>().name])
+            foreach (string exSkillCardId in CardManager.Instance().unitsExSkillCardDataBase[unitId])
             {
-                InsertESCard(exSkillCardId);
+                InsertESCard(exSkillCardId + suffix);
             }
         }
 

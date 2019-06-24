@@ -588,10 +588,23 @@
         "Damage": 5,
         "Description": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。消耗动作次数。使用者对目标格子上的单位造成{Damage}点伤害。",
         "Draws": 0,
-        "ID": "LunaStrike_1",
+        "ID": "Lunastrike_1",
         "Name": "月之裁决",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "敌人"
+            }
+        ],
         "Turns": 0
     },
     {
@@ -601,10 +614,23 @@
         "Damage": 6,
         "Description": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。消耗动作次数。使用者对目标格子上的单位造成{Damage}点伤害。",
         "Draws": 0,
-        "ID": "LunaStrike_2",
+        "ID": "Lunastrike_2",
         "Name": "月之裁决",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "敌人"
+            }
+        ],
         "Turns": 0
     },
     {
@@ -614,10 +640,23 @@
         "Damage": 7,
         "Description": "要求携带者：红色或蓝色单位。携带者MOV-1。使用者：携带者。消耗动作次数。使用者对目标格子上的单位造成{Damage}点伤害。",
         "Draws": 0,
-        "ID": "LunaStrike_3",
+        "ID": "Lunastrike_3",
         "Name": "月之裁决",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "color": [],
+                "is_speller": 0,
+                "tag": [],
+                "type": "敌人"
+            }
+        ],
         "Turns": 0
     },
     {

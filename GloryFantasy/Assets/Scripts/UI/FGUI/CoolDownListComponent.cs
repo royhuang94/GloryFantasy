@@ -53,6 +53,10 @@ namespace UI.FGUI
             // 冷却牌ID
             string cardID = cooldownCard.objectId;
 
+            if (cardID.Contains('#'))
+                cardID = cardID.Split('#').First();
+            
+
             // 获取展示数据
             JsonData data = CardManager.Instance().GetCardJsonData(cardID);
 		
