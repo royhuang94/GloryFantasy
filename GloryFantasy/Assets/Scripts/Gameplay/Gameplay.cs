@@ -124,7 +124,12 @@ namespace GamePlay
         public  AI.BattleField singleBattle;
         public AI.AutoController autoController;
         public EventScroll eventScroll;
-        
+
+        private void Update()
+        {
+            gamePlayInput.Update();
+        }
+
         /// <summary>
         /// 提供给场景中阶段切换的按钮
         /// </summary>

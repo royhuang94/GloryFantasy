@@ -27,6 +27,17 @@ namespace GamePlay.Input
         }
 
         /// <summary>
+        /// 每帧调用
+        /// </summary>
+        public void Update()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                OnRightPointerDown();
+            }
+        }
+
+        /// <summary>
         /// 标记是否已经选择了一张手牌,在召唤状态
         /// </summary>
         public bool IsSelectingCard
@@ -56,6 +67,13 @@ namespace GamePlay.Input
             }
         }
 
+        /// <summary>
+        /// 处理鼠标的右键
+        /// </summary>
+        public void OnRightPointerDown()
+        {
+            InputFSM.OnRightPointerDown();
+        }
         /// <summary>
         /// 处理地图方块的鼠标点击
         /// </summary>
