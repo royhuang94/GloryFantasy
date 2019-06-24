@@ -882,7 +882,7 @@
         "Damage": 0,
         "Description": "部署两个幼小的霜狼。",
         "Draws": 0,
-        "ID": "SummonWolf_1",
+        "ID": "Summonwolf_1",
         "Name": "唤狼之笛",
         "Range": 0,
         "TargetList": [
@@ -906,7 +906,7 @@
         "Damage": 0,
         "Description": "部署两个成熟的霜狼。",
         "Draws": 0,
-        "ID": "SummonWolf_2",
+        "ID": "Summonwolf_2",
         "Name": "唤狼之笛",
         "Range": 0,
         "TargetList": [
@@ -930,7 +930,7 @@
         "Damage": 0,
         "Description": "部署两个强大的霜狼。",
         "Draws": 0,
-        "ID": "SummonWolf_3",
+        "ID": "Summonwolf_3",
         "Name": "唤狼之笛",
         "Range": 0,
         "TargetList": [

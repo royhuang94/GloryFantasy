@@ -6,7 +6,7 @@ using IMessage;
 
 namespace Ability
 {
-    public class SummonWolf : Ability
+    public class Summonwolf : Ability
     {
         private Trigger _trigger;
 
@@ -19,8 +19,8 @@ namespace Ability
             base.Init(abilityId);
             _trigger = new TSummonWolf(this.GetCardReceiver(this), abilityId);
             MsgDispatcher.RegisterMsg(_trigger, abilityId);
+            MyTargetConstraintList[0] = Range_1;
             MyTargetConstraintList[1] = Range_1;
-            MyTargetConstraintList[2] = Range_1;
         }
 
         public bool Range_1(object target)
@@ -32,8 +32,9 @@ namespace Ability
                 return false;
             }
 
-            return BattleMap.BattleMap.Instance().GetMapblockBelong(
-                (target as BattleMap.BattleMapBlock).position).Equals(OwnerEnum.Player);
+            OwnerEnum owner = BattleMap.BattleMap.Instance().GetMapblockBelong((target as BattleMap.BattleMapBlock).position);
+
+            return owner.Equals(OwnerEnum.Player);
         }
     }
 
