@@ -48,6 +48,15 @@ namespace GamePlay.FSM
             }
         }
 
+        public override void OnRightPointerDown()
+        {
+            base.OnRightPointerDown();
+            //这整个类都是应该要被重构的了……
+
+            //取消掉选择状态
+            FSM.PushState(new InputFSMIdleState(FSM));
+        }
+
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             base.OnPointerDownBlock(mapBlock, eventData);

@@ -34,6 +34,13 @@ namespace GamePlay.FSM
         public Ability.Ability ability;
 
         /// <summary>
+        /// 处理鼠标右键
+        /// </summary>
+        public void OnRightPointerDown()
+        {
+            StateStack.Peek().OnRightPointerDown();
+        }
+        /// <summary>
         /// 处理地图方块的鼠标点击
         /// </summary>
         /// <param name="mapBlock"></param>

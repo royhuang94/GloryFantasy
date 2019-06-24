@@ -29,6 +29,13 @@ namespace GamePlay.FSM
         }
 
         /// <summary>
+        /// 处理鼠标右键
+        /// </summary>
+        virtual public void OnRightPointerDown()
+        {
+
+        }
+        /// <summary>
         /// 处理地图方块的鼠标点击
         /// </summary>
         /// <param name="mapBlock"></param>
