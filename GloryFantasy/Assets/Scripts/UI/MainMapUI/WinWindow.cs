@@ -20,13 +20,11 @@ public class WinWindow : Window
     /// <param name="bgColor">背景颜色</param>
     public WinWindow(Color bgColor)
     {
-        Debug.Log("construct");
         _bgColor = bgColor;
     }
 
     protected override void OnInit()
     {
-        Debug.Log("init");
         this.modal = true;
         UIConfig.modalLayerColor = _bgColor;
         this.contentPane = UIPackage.CreateObject("MainMapUI", "WinMenu").asCom;
@@ -61,7 +59,6 @@ public class WinWindow : Window
                     controller.selectedIndex = 0;
                 }
 
-                Debug.Log(controller.selectedIndex);
                 OnChooseCard(_cardList.IndexOf(button));
             });
         }
@@ -73,7 +70,6 @@ public class WinWindow : Window
     /// <param name="clickIndex"></param>
     private void OnChooseCard(int clickIndex)
     {
-        Debug.Log("click: " + clickIndex);
     }
 
     /// <summary>

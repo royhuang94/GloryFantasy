@@ -45,7 +45,6 @@ namespace StoryDialog
 
 		void Start()
 		{
-			Debug.Log("dm start");
 			_dialogWindowLeft = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_left");
 			_dialogWindowRight = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_right");
 			i = 0;
@@ -75,7 +74,6 @@ namespace StoryDialog
 //				}
 				if (test)
 				{
-					Debug.Log("i: " + i + " p:" + _dialogMessages[i].position + " index:" + _dialogMessages[i].order);
 					if (_dialogMessages[i].position == 0)
 					{
 						_dialogWindowLeft.SetDialogMessage(_dialogMessages[i]);

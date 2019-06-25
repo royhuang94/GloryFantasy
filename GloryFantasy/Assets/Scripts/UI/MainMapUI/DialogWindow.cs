@@ -29,7 +29,6 @@ public class DialogWindow : Window
 	/// <param name="resName"></param>
 	public DialogWindow(Color bgColor, string pkgName, string resName)
 	{
-		Debug.Log("construct");
 		_bgColor = bgColor;
 		_pkgName = pkgName;
 		_resName = resName;
@@ -38,7 +37,6 @@ public class DialogWindow : Window
 
 	protected override void OnInit()
 	{
-		Debug.Log("window init");
 		this.modal = true;
 		UIConfig.modalLayerColor = _bgColor;
 		this.contentPane = UIPackage.CreateObject(_pkgName, _resName).asCom;

@@ -18,7 +18,6 @@ public class LibraryWindow : Window
     /// <param name="resName"></param>
     public LibraryWindow(Color bgColor, string pkgName, string resName)
     {
-        Debug.Log("construct");
         _bgColor = bgColor;
         _pkgName = pkgName;
         _resName = resName;
@@ -26,7 +25,6 @@ public class LibraryWindow : Window
 
     protected override void OnInit()
     {
-        Debug.Log("init");
         this.modal = true;
         UIConfig.modalLayerColor = _bgColor;
         this.contentPane = UIPackage.CreateObject(_pkgName, _resName).asCom;

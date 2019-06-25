@@ -30,14 +30,12 @@ public class CardCollectWindow : Window
     /// <param name="bgColor">背景颜色</param>
     public CardCollectWindow(List<string> playerCardList, Color bgColor)
     {
-        Debug.Log("construct");
         _playerCardList = playerCardList;
         _bgColor = bgColor;
     }
 
     protected override void OnInit()
     {
-        Debug.Log("init");
         this.modal = true;
         UIConfig.modalLayerColor = _bgColor;
         this.contentPane = UIPackage.CreateObject("CardCollection", "CardBook").asCom;
