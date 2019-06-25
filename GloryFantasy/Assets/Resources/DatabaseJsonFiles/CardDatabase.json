@@ -725,63 +725,66 @@
         "tokenID": "",
         "type": "Order"
     },
-    {
-        "ID": "RFiresuli_1",
-        "ability_id": [
-            "ImmueBurn"
-        ],
-        "cd": 4,
-        "color": "R",
-        "cost": 3,
-        "effect": "免疫烧灼。你的回合结束时，此单位烧灼其周围3*3的格子，一回合后消解，并对其上的单位造成2点伤害。",
-        "flavor_text": "",
-        "name": "闷燃火灵",
-        "related_token": "",
-        "slot": "0",
-        "tag": [
-            "元素"
-        ],
-        "tokenID": "RFiresuli_1",
-        "type": "Unit"
-    },
-    {
-        "ID": "RFiresuli_2",
-        "ability_id": [
-            "ImmueBurn"
-        ],
-        "cd": 4,
-        "color": "R",
-        "cost": 3,
-        "effect": "免疫烧灼。你的回合结束时，此单位烧灼其周围3*3的格子，一回合后消解，并对其上的单位造成3点伤害。",
-        "flavor_text": "",
-        "name": "闷燃火灵",
-        "related_token": "",
-        "slot": "0",
-        "tag": [
-            "元素"
-        ],
-        "tokenID": "RFiresuli_2",
-        "type": "Unit"
-    },
-    {
-        "ID": "RFiresuli_3",
-        "ability_id": [
-            "ImmueBurn"
-        ],
-        "cd": 4,
-        "color": "R",
-        "cost": 3,
-        "effect": "免疫烧灼。你的回合结束时，此单位烧灼其周围3*3的格子，一回合后消解，并对其上的单位造成4点伤害。",
-        "flavor_text": "",
-        "name": "闷燃火灵",
-        "related_token": "",
-        "slot": "0",
-        "tag": [
-            "元素"
-        ],
-        "tokenID": "RFiresuli_3",
-        "type": "Unit"
-    },
+  {
+    "ID": "RFiresuli_1",
+    "ability_id": [
+      "ImmueBurn",
+      "Shadow_FireEnchantment"
+    ],
+    "cd": 4,
+    "color": "R",
+    "cost": 3,
+    "effect": "免疫烧灼。攻击时会烧灼周围3级区域的格子，一回合后消解，并对其上的单位造成1的伤害。",
+    "flavor_text": "",
+    "name": "闷燃火灵",
+    "related_token": "",
+    "slot": "0",
+    "tag": [
+      "元素"
+    ],
+    "tokenID": "RFiresuli_1",
+    "type": "Unit"
+  },
+  {
+    "ID": "RFiresuli_2",
+    "ability_id": [
+      "ImmueBurn",
+      "Shadow_FireEnchantment"
+    ],
+    "cd": 4,
+    "color": "R",
+    "cost": 3,
+    "effect": "免疫烧灼。攻击时会烧灼周围3级区域的格子，一回合后消解，并对其上的单位造成2的伤害。",
+    "flavor_text": "",
+    "name": "闷燃火灵",
+    "related_token": "",
+    "slot": "0",
+    "tag": [
+      "元素"
+    ],
+    "tokenID": "RFiresuli_2",
+    "type": "Unit"
+  },
+  {
+    "ID": "RFiresuli_3",
+    "ability_id": [
+      "ImmueBurn",
+      "Shadow_FireEnchantment"
+    ],
+    "cd": 4,
+    "color": "R",
+    "cost": 3,
+    "effect": "免疫烧灼。攻击时会烧灼周围3级区域的格子，一回合后消解，并对其上的单位造成3的伤害。",
+    "flavor_text": "",
+    "name": "闷燃火灵",
+    "related_token": "",
+    "slot": "0",
+    "tag": [
+      "元素"
+    ],
+    "tokenID": "RFiresuli_3",
+    "type": "Unit"
+  },
     {
         "ID": "RKnight_1",
         "ability_id": [
@@ -842,69 +845,72 @@
         "tokenID": "RKnight_3",
         "type": "Unit"
     },
-    {
-        "ID": "RPhoenix_1",
-        "ability_id": [
-            "Haste",
-            "ImmueDispose"
-        ],
-        "cd": 4,
-        "color": "R",
-        "cost": 3,
-        "effect": "迅捷。免疫粘滞。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。",
-        "flavor_text": "",
-        "name": "赤火之翼",
-        "related_token": "",
-        "slot": "0",
-        "tag": [
-            "元素",
-            "野兽"
-        ],
-        "tokenID": "RPhoenix_1",
-        "type": "Unit"
-    },
-    {
-        "ID": "RPhoenix_2",
-        "ability_id": [
-            "Haste",
-            "ImmueDispose"
-        ],
-        "cd": 4,
-        "color": "R",
-        "cost": 3,
-        "effect": "迅捷。免疫粘滞。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。",
-        "flavor_text": "",
-        "name": "赤火之翼",
-        "related_token": "",
-        "slot": "0",
-        "tag": [
-            "元素",
-            "野兽"
-        ],
-        "tokenID": "RPhoenix_2",
-        "type": "Unit"
-    },
-    {
-        "ID": "RPhoenix_3",
-        "ability_id": [
-            "Haste",
-            "ImmueDispose"
-        ],
-        "cd": 4,
-        "color": "R",
-        "cost": 3,
-        "effect": "迅捷。免疫粘滞。此单位溃退时，其原地复活且保有等同于一半最大生命值的生命。随后此单位失去此能力直到下次部署。",
-        "flavor_text": "",
-        "name": "赤火之翼",
-        "related_token": "",
-        "slot": "0",
-        "tag": [
-            "元素",
-            "野兽"
-        ],
-        "tokenID": "RPhoenix_3",
-        "type": "Unit"
-    },
+  {
+    "ID": "RPhoenix_1",
+    "ability_id": [
+      "Haste",
+      "ImmueDispose",
+      "SelfBlasting"
+    ],
+    "cd": 4,
+    "color": "R",
+    "cost": 3,
+    "effect": "迅捷。免疫粘滞。你的回合结束时，此单位烧灼其周围3级范围，并对其上的单位造成1点伤害。",
+    "flavor_text": "",
+    "name": "赤火之翼",
+    "related_token": "",
+    "slot": "0",
+    "tag": [
+      "元素",
+      "野兽"
+    ],
+    "tokenID": "RPhoenix_1",
+    "type": "Unit"
+  },
+  {
+    "ID": "RPhoenix_2",
+    "ability_id": [
+      "Haste",
+      "ImmueDispose",
+      "SelfBlasting"
+    ],
+    "cd": 4,
+    "color": "R",
+    "cost": 3,
+    "effect": "迅捷。免疫粘滞。你的回合结束时，此单位烧灼其周围3级范围，并对其上的单位造成2点伤害。",
+    "flavor_text": "",
+    "name": "赤火之翼",
+    "related_token": "",
+    "slot": "0",
+    "tag": [
+      "元素",
+      "野兽"
+    ],
+    "tokenID": "RPhoenix_2",
+    "type": "Unit"
+  },
+  {
+    "ID": "RPhoenix_3",
+    "ability_id": [
+      "Haste",
+      "ImmueDispose",
+      "SelfBlasting"
+    ],
+    "cd": 4,
+    "color": "R",
+    "cost": 3,
+    "effect": "迅捷。免疫粘滞。你的回合结束时，此单位烧灼其周围3级范围，并对其上的单位造成3点伤害。",
+    "flavor_text": "",
+    "name": "赤火之翼",
+    "related_token": "",
+    "slot": "0",
+    "tag": [
+      "元素",
+      "野兽"
+    ],
+    "tokenID": "RPhoenix_3",
+    "type": "Unit"
+  },
     {
         "ID": "RThrow_1",
         "ability_id": [

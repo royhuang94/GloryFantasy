@@ -928,7 +928,7 @@
   },
   {
     "Ability": [
-      "SelfBlasting",
+      "Shadow_FireEnchantment",
       "ImmueBurn"
     ],
     "Atk": 4,
@@ -936,7 +936,7 @@
     "Color": [
       "R"
     ],
-    "Effort": "免疫烧灼。你的回合结束时，此单位烧灼其周围3*3的格子，一回合后消解，并对其上的单位造成2点伤害。",
+    "Effort": "免疫烧灼。攻击时会烧灼周围3级区域的格子，一回合后消解，并对其上的单位造成1的伤害。",
     "Event": {},
     "HasCD": 1,
     "Hp": 10,
@@ -951,7 +951,7 @@
   },
   {
     "Ability": [
-      "SelfBlasting",
+      "Shadow_FireEnchantment",
       "ImmueBurn"
     ],
     "Atk": 4,
@@ -959,7 +959,7 @@
     "Color": [
       "R"
     ],
-    "Effort": "免疫烧灼。你的回合结束时，此单位烧灼其周围3*3的格子，一回合后消解，并对其上的单位造成3点伤害。",
+    "Effort": "免疫烧灼。攻击时会烧灼周围3级区域的格子，一回合后消解，并对其上的单位造成2的伤害。",
     "Event": {},
     "HasCD": 1,
     "Hp": 14,
@@ -974,7 +974,7 @@
   },
   {
     "Ability": [
-      "SelfBlasting",
+      "Shadow_FireEnchantment",
       "ImmueBurn"
     ],
     "Atk": 4,
@@ -982,7 +982,7 @@
     "Color": [
       "R"
     ],
-    "Effort": "免疫烧灼。你的回合结束时，此单位烧灼其周围3*3的格子，一回合后消解，并对其上的单位造成4点伤害。",
+    "Effort": "免疫烧灼。攻击时会烧灼周围3级区域的格子，一回合后消解，并对其上的单位造成3的伤害。",
     "Event": {},
     "HasCD": 1,
     "Hp": 14,
@@ -1067,14 +1067,15 @@
   {
     "Ability": [
       "Haste",
-      "ImmueDispose"
+      "ImmueDispose",
+      "SelfBlasting"
     ],
     "Atk": 4,
     "CardID": "RPhoenix_1",
     "Color": [
       "R"
     ],
-    "Effort": "迅捷。免疫绊足。",
+    "Effort": "迅捷。免疫绊足。你的回合结束时，此单位烧灼其周围3级范围，并对其上的单位造成1点伤害。",
     "Event": {},
     "HasCD": 1,
     "Hp": 6,
@@ -1091,14 +1092,15 @@
   {
     "Ability": [
       "Haste",
-      "ImmueDispose"
+      "ImmueDispose",
+      "SelfBlasting"
     ],
     "Atk": 4,
     "CardID": "RPhoenix_2",
     "Color": [
       "R"
     ],
-    "Effort": "迅捷。免疫绊足。",
+    "Effort": "迅捷。免疫绊足。你的回合结束时，此单位烧灼其周围3级范围，并对其上的单位造成2点伤害。",
     "Event": {},
     "HasCD": 1,
     "Hp": 8,
@@ -1115,14 +1117,15 @@
   {
     "Ability": [
       "Haste",
-      "ImmueDispose"
+      "ImmueDispose",
+      "SelfBlasting"
     ],
     "Atk": 4,
     "CardID": "RPhoenix_3",
     "Color": [
       "R"
     ],
-    "Effort": "迅捷。免疫绊足。",
+    "Effort": "迅捷。免疫绊足。你的回合结束时，此单位烧灼其周围3级范围，并对其上的单位造成3点伤害。",
     "Event": {},
     "HasCD": 1,
     "Hp": 10,
