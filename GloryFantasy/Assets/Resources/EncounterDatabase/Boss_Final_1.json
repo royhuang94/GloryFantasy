@@ -126,7 +126,7 @@
       },
       {
         "RegionID": 8,
-        "Owner": "Neutrality",
+        "Owner": "Player",
         "EventList": {
           "Empty": 1
         },
