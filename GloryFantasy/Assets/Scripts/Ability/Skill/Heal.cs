@@ -33,7 +33,7 @@ namespace Ability
             _curing = curing;
             _srcAbility = srcAbility;
             register = speller;
-            msgName = (int) MessageType.Summon;
+            msgName = (int) MessageType.GenerateUnit;
             condition = Condition;
             action = Action;
         }

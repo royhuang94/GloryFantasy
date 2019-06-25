@@ -32,6 +32,8 @@ namespace IMessage
         CooldownlistChange,    // 冷却列表变动消息
         EventNodeChange,       // 事件节点信息变动消息
 
+        GenerateUnit,         //生成单位
+
         AddInHand, //加入手牌
         AnnounceAttack, //攻击宣言
         ActiveAbility, //异能发动

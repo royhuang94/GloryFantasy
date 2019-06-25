@@ -71,7 +71,7 @@ namespace GamePlay.Input
             if (_post)
             {
                 //Debug.Log(_battleMapBlock.units_on_me.ToString());
-                this.SetSummonUnit(_battleMapBlock.units_on_me);
+                this.SetSummonUnit(new List<GameUnit.GameUnit> {this.GetGeneratingUnit()});
                 MsgDispatcher.SendMsg((int)MessageType.Summon);
             }
 
@@ -98,6 +98,8 @@ namespace GamePlay.Input
     {
         public DispositionCommandList(List<string> unitIDs, List<OwnerEnum> owners, List<BattleMapBlock> battleMapBlocks)
         {
+            _dispositionCommands = new List<DispositionCommand>();
+            _blocks = new List<BattleMapBlock>();
             for (int i = 0; i < unitIDs.Count; i++)
             {
                 _dispositionCommands.Add(new DispositionCommand(unitIDs[i], owners[i], battleMapBlocks[i], false));
@@ -124,6 +126,7 @@ namespace GamePlay.Input
                 _dispositionCommands[i].Excute();
                 units.AddRange(_blocks[i].units_on_me);
             }
+            this.SetSummonUnit(units);
 
             //更新仇恨列表
         }

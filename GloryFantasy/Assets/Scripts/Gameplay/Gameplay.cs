@@ -51,7 +51,7 @@ namespace IMessage
         public int ATKDistance; //攻击者与被攻击者之间的距离
         #endregion
 
-
+        public GameUnit.GameUnit GeneratingUnit;
         public bool locking = false;
         public GameUnit.GameUnit movingUnit; //正在移动的单位
         public GameUnit.GameUnit otherMovingUnit; //正在移动的单位
@@ -69,6 +69,7 @@ namespace IMessage
             other.CastingCard = this.CastingCard;
             other.SummonersController = this.SummonersController;
             other.SummonUnit = this.SummonUnit;
+            other.GeneratingUnit = this.GeneratingUnit;
             other.Drawer = this.Drawer;
             other.CaughtCard = this.CaughtCard;
             other.HandAdder = this.HandAdder;
