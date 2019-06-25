@@ -32,9 +32,9 @@ namespace Ability
                 return false;
             }
 
-            OwnerEnum owner = BattleMap.BattleMap.Instance().GetMapblockBelong((target as BattleMap.BattleMapBlock).position);
+            BattleMap.BattleAreaState owner = BattleMap.BattleMap.Instance().WarZoneBelong((target as BattleMap.BattleMapBlock).position);
 
-            return owner.Equals(OwnerEnum.Player);
+            return owner.Equals(BattleMap.BattleAreaState.Player);
         }
     }
 
@@ -62,7 +62,7 @@ namespace Ability
         {
             string idType = _abilityId.Split('_').Last();
 
-            for (int i = 1; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 // 部署对应种类的霜狼
                 DispositionCommand unitDispose = new DispositionCommand(
