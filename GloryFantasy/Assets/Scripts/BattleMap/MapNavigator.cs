@@ -265,20 +265,20 @@ namespace BattleMap
                     battleMap.AddUnit(unit, false);
                 unit.transform.localPosition = Vector3.zero;
 
-                if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
-                {
-                    BattleMap.Instance().debuffBM.UnitEnterBurning(tempVector);
-                } 
-                else if (battleMap.blockType == EMapBlockType.Retire)//如果经过滞留块
-                {
+                //if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
+                //{
+                //    BattleMap.Instance().debuffBM.UnitEnterBurning(tempVector);
+                //} 
+                //else if (battleMap.blockType == EMapBlockType.Retire)//如果经过滞留块
+                //{
                     
-                    BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
-                    unit.nextPos = paths[i];
-                    //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
-                    MsgDispatcher.SendMsg((int)MessageType.Aftermove);
-                    isRetire = true;
-                    break;
-                }
+                //    BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
+                //    unit.nextPos = paths[i];
+                //    //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
+                //    MsgDispatcher.SendMsg((int)MessageType.Aftermove);
+                //    isRetire = true;
+                //    break;
+                //}
                 unit.nextPos = paths[i];
                 //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
@@ -308,17 +308,17 @@ namespace BattleMap
                 battleMap.AddUnit(unit);
                 unit.transform.localPosition = Vector3.zero;
 
-                if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
-                {
-                    BattleMap.Instance().debuffBM.UnitEnterBurning(tempVector);
-                }
-                else if (battleMap.blockType == EMapBlockType.Retire)//如果经过滞留块
-                {
-                    BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
-                    unit.nextPos = paths[i].position;
-                    //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
-                    break;
-                }
+                //if (battleMap.blockType == EMapBlockType.Burnning)//如果经过灼烧块
+                //{
+                //    BattleMap.Instance().debuffBM.UnitEnterBurning(tempVector);
+                //}
+                //else if (battleMap.blockType == EMapBlockType.Retire)//如果经过滞留块
+                //{
+                //    BattleMap.Instance().debuffBM.UnitEnterRetire(unit,battleMap);
+                //    unit.nextPos = paths[i].position;
+                //    //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
+                //    break;
+                //}
                 unit.nextPos = paths[i].position;
                 //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                 MsgDispatcher.SendMsg((int)MessageType.Move);

@@ -39,6 +39,8 @@ namespace Ability.Debuff
                 {
                     GameObject.Destroy(_battleMapBlock.gameObject.GetComponent<BViscous>());
                 }
+                DebuffBattleMapBlock debuffBattleMapBlock = new DebuffBattleMapBlock();
+                debuffBattleMapBlock.SetBattleMapBlockBurning(_battleMapBlock);
                 // 对此时在此上的单位造成1点伤害。
                 foreach (GameUnit.GameUnit unit in _battleMapBlock.units_on_me)
                 {
@@ -57,28 +59,26 @@ namespace Ability.Debuff
                 MsgDispatcher.RegisterMsg(_trigger, "BFiring On Block at BP");
             }
         }
+        
+        protected override void OnDisappear()
+        {
+            base.OnDisappear();
 
-        // 因为造成伤害的动作是直接在挂载到单位身上的时候进行的，并且在单位身上造成伤害后即刻失效，所以不需要再干其他的事
-//        protected override void OnDisappear()
-//        {
-//            base.OnDisappear();
-//
-//            if (!_isOnUnit)
-//            {
-//                // 移除当前地图块上仍存在单位的debuff脚本
-//                foreach (GameUnit.GameUnit unit in _battleMapBlock.units_on_me)
-//                {
-//                    Destroy(unit.GetComponent<BFiring>());
-//                }
-//
-//                // 删除receiver，使已注册的trigger被删除
-//                _globalReceiver = null;
-//
-//            }
-//                
-//        }
+            if (!_isOnUnit)
+            {
+                if (_battleMapBlock != null)
+                {
+                    DebuffBattleMapBlock debuffBattleMapBlock = new DebuffBattleMapBlock();
+                    debuffBattleMapBlock.SetBattleMapBlockNormal(_battleMapBlock);
+                }
+                // 删除receiver，使已注册的trigger被删除
+                _globalReceiver = null;
+
+            }
+
+        }
     }
-    
+
     public class TFiring_1 : Trigger
     {
         private BattleMapBlock _specificBlock;
