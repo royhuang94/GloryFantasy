@@ -107,10 +107,12 @@ namespace StoryDialog
 			{
 				currentDialogWindow.contentPane.GetChild("n0").visible = true;
 				currentDialogWindow.contentPane.GetChild("dialogPic").visible = true;
+				currentDialogWindow.contentPane.GetChild("dialogName").visible = true;
 			}
 
 			prevDialogWindow.contentPane.GetChild("n0").visible = false;
 			prevDialogWindow.contentPane.GetChild("dialogPic").visible = false;
+			prevDialogWindow.contentPane.GetChild("dialogName").visible = false;
 		}
 		
 		/// <summary>

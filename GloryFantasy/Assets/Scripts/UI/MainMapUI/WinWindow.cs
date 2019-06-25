@@ -40,12 +40,19 @@ public class WinWindow : Window
         _continueBtn = this.contentPane.GetChild("continueButton").asButton;
         _continueBtn.onClick.Add(OnContinue);
 
+        Debug.Log("before: " + _cardList[0].GetController("button").selectedIndex);
+        foreach (GButton button in _cardList)
+        {
+            button.GetController("button").selectedIndex = 0;
+        }
+        Debug.Log("after: " + _cardList[0].GetController("button").selectedIndex);
         foreach (GButton button in _cardList)
         {
             button.onClick.Add(() =>
             {
+                bool isFirst = false;
                 Controller controller = button.GetController("button");
-                if (controller.selectedIndex == 0)
+                if (!isFirst || controller.selectedIndex == 0)
                 {
                     for (int i = 0; i < _cardList.Count; i++)
                     {
@@ -53,12 +60,8 @@ public class WinWindow : Window
                     }
 
                     controller.selectedIndex = 1;
+                    isFirst = true;
                 }
-                else
-                {
-                    controller.selectedIndex = 0;
-                }
-
                 OnChooseCard(_cardList.IndexOf(button));
             });
         }
