@@ -37,7 +37,7 @@ namespace Ability
             this.unit = unit;
 
             register = speller;
-            msgName = (int) MessageType.Summon;
+            msgName = (int) MessageType.GenerateUnit;
 
             action = Action;
             condition = Condition;

@@ -207,6 +207,7 @@ namespace BattleMap
                         battleAreaState = BattleAreaState.Player;
                         break;
                     default:
+                        battleAreaState = BattleAreaState.Neutrality;
                         break;
                 }
                 BattleArea battleArea = new BattleArea(id, battleAreaState, list,trrigers,models,battlefieldMessage.Delta_X,battlefieldMessage.Delta_Y);
@@ -270,7 +271,7 @@ namespace BattleMap
             if (unitAmout == 0)
             {
                 //中立状态，只存在于初始化
-                return BattleAreaState.Neutrality;
+                return temp._battleAreaSate;
             }
             if (enemyAmout == unitAmout - neutralityAmout)
             {

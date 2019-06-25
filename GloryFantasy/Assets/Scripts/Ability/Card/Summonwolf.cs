@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using BattleMap;
 using GamePlay;
 using GamePlay.Input;
 using GameUnit;
@@ -32,9 +34,9 @@ namespace Ability
                 return false;
             }
 
-            OwnerEnum owner = BattleMap.BattleMap.Instance().GetMapblockBelong((target as BattleMap.BattleMapBlock).position);
+            BattleMap.BattleAreaState owner = BattleMap.BattleMap.Instance().WarZoneBelong((target as BattleMap.BattleMapBlock).position);
 
-            return owner.Equals(OwnerEnum.Player);
+            return owner.Equals(BattleMap.BattleAreaState.Player);
         }
     }
 
@@ -61,20 +63,32 @@ namespace Ability
         private void Action()
         {
             string idType = _abilityId.Split('_').Last();
-
-            for (int i = 1; i < 3; i++)
+            List<string> unitIDs = new List<string>();
+            List<OwnerEnum> owners = new List<OwnerEnum>();
+            List<BattleMapBlock> battleMapBlocks = new List<BattleMapBlock>();
+            for (int i = 0; i < 2; i++)
             {
-                // 部署对应种类的霜狼
-                DispositionCommand unitDispose = new DispositionCommand(
-                    "GWinterwolf_" + idType,
-                    OwnerEnum.Player,
+                //// 部署对应种类的霜狼
+                //DispositionCommand unitDispose = new DispositionCommand(
+                //    "GWinterwolf_" + idType,
+                //    OwnerEnum.Player,
+                //    BattleMap.BattleMap.Instance().GetSpecificMapBlock(
+                //        Gameplay.Instance().gamePlayInput.InputFSM.TargetList[i]
+                //        )
+                //    );
+
+                //unitDispose.Excute();
+                unitIDs.Add("GWinterwolf_" + idType);
+                owners.Add(OwnerEnum.Player);
+                battleMapBlocks.Add(
                     BattleMap.BattleMap.Instance().GetSpecificMapBlock(
                         Gameplay.Instance().gamePlayInput.InputFSM.TargetList[i]
-                        )
-                    );
-                
-                unitDispose.Excute();
+                    )
+                );
+
             }
+            DispositionCommandList dispositionCommandList = new DispositionCommandList(unitIDs, owners, battleMapBlocks);
+            dispositionCommandList.Excute();
         }
     }
 }

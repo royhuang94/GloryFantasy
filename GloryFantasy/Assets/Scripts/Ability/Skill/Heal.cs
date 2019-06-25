@@ -36,6 +36,7 @@ namespace Ability
             msgName = (int) MessageType.Summon;
             condition = Condition;
             action = Action;
+            _ifHeal = false;
         }
 
         private bool Condition()

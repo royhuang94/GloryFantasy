@@ -38,34 +38,37 @@ namespace Ability
             _unit = unit;
             _abilityId = abilityId;
             register = speller;
-            msgName = (int) MessageType.Summon;
+            msgName = (int) MessageType.GenerateUnit;
             condition = Condition;
             action = Action;
         }
         
         private bool Condition()
         {
-            //获取召唤列表
-            List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
-            //循环查询有没有召唤的怪是这个技能的发动者
-            for (int i = 0; i < SummonUnits.Count; i++)
-            {
-                if (SummonUnits[i].GetMsgReceiver() == register)
-                    return true;
-            }
-            return false;
+            ////获取召唤列表
+            //List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
+            ////循环查询有没有召唤的怪是这个技能的发动者
+            //for (int i = 0; i < SummonUnits.Count; i++)
+            //{
+            //    if (SummonUnits[i].GetMsgReceiver() == register)
+            //        return true;
+            //}
+            //return false;
+            GameUnit.GameUnit generatingUnit = this.GetGeneratingUnit();
+            return generatingUnit.GetMsgReceiver() == register;
         }
 
         private void Action()
         {
             //获取发动这个技能的怪
-            List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
-            GameUnit.GameUnit unit = null;
-            for (int i = 0; i < SummonUnits.Count; i++)
-            {
-                if (SummonUnits[i].GetMsgReceiver() == register)
-                    unit = SummonUnits[i];
-            }
+            //List<GameUnit.GameUnit> SummonUnits = this.GetSummonUnit();
+            //GameUnit.GameUnit unit = null;
+            //for (int i = 0; i < SummonUnits.Count; i++)
+            //{
+            //    if (SummonUnits[i].GetMsgReceiver() == register)
+            //        unit = SummonUnits[i];
+            //}
+            GameUnit.GameUnit unit = this.GetGeneratingUnit();
             unit.gameObject.AddBuff<HShadow_Courage>(-1f);
         }
     }

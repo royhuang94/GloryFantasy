@@ -61,11 +61,17 @@ namespace Ability
             List<BattleMap.BattleMapBlock> blocks = GamePlay.GameplayToolExtend.getAreaByPos(_area, _unit.CurPos);
             foreach(BattleMap.BattleMapBlock block in blocks)
             {
-                block.gameObject.AddBuff<BFiring>(2f);
-                foreach(GameUnit.GameUnit unit in block.units_on_me)
+                int i = 0;
+                while(block.units_on_me.Count > i)
                 {
-                    GameplayToolExtend.DealDamage(null, unit, new Damage(_damage));
+                    int count = block.units_on_me.Count;
+                    GameUnit.GameUnit unit = block.units_on_me[i];
+                    if (unit != _unit)
+                        GameplayToolExtend.DealDamage(_unit, unit, new Damage(_damage));
+                    if (count == block.units_on_me.Count)
+                        i++;
                 }
+                block.gameObject.AddBuff<BFiring>(2f);
             }
             //List<GameUnit.GameUnit> units = AbilityMediator.Instance().GetGameUnitsWithinRange(_unit.CurPos, _area);
             //if (units == null)

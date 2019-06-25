@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using BattleMap;
 using GamePlay;
 using GamePlay.Input;
 using GameUnit;
@@ -66,21 +68,36 @@ namespace Ability
 
         private void Action()
         {
-            string idType =_abilityId.Split('_').Last();
+            string idType = _abilityId.Split('_').Last();
+            List<string> unitIDs = new List<string>();
+            List<OwnerEnum> owners = new List<OwnerEnum>();
+            List<BattleMapBlock> battleMapBlocks = new List<BattleMapBlock>();
+            for (int i = 1; i < 4; i++)
+            {
+                //// 部署对应种类的霜狼
+                //DispositionCommand unitDispose = new DispositionCommand(
+                //    "GWinterwolf_" + idType,
+                //    OwnerEnum.Player,
+                //    BattleMap.BattleMap.Instance().GetSpecificMapBlock(
+                //        Gameplay.Instance().gamePlayInput.InputFSM.TargetList[i]
+                //        )
+                //    );
+
+                //unitDispose.Excute();
+                unitIDs.Add("GWall_" + idType);
+                owners.Add(OwnerEnum.Player);
+                battleMapBlocks.Add(
+                    BattleMap.BattleMap.Instance().GetSpecificMapBlock(
+                        Gameplay.Instance().gamePlayInput.InputFSM.TargetList[i]
+                    )
+                );
+
+            }
+            DispositionCommandList dispositionCommandList = new DispositionCommandList(unitIDs, owners, battleMapBlocks);
+            dispositionCommandList.Excute();
 
             for (int i = 1; i < 4; i++)
             {
-                // 部署墙体
-                DispositionCommand unitDispose = new DispositionCommand(
-                    "GWall_" + idType,
-                    OwnerEnum.Player,
-                    BattleMap.BattleMap.Instance().GetSpecificMapBlock(
-                        Gameplay.Instance().gamePlayInput.InputFSM.TargetList[i]
-                        )
-                    );
-                unitDispose.Excute();
-                
-                // 修改crash生命周期
                 BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(
                     Gameplay.Instance().gamePlayInput.InputFSM.TargetList[i]
                 ).GetComponent<BCrash>().SetLife(_turn);

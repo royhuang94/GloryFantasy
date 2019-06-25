@@ -99,8 +99,8 @@ namespace GameUnit
                 controller.hatredRecorder.Reset(gameUnit);
                 GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
             }
-
-            MsgDispatcher.SendMsg((int)MessageType.Summon);
+            Gameplay.Info.GeneratingUnit = gameUnit;
+            MsgDispatcher.SendMsg((int)MessageType.GenerateUnit);
             if (gameUnit.tag.Contains("英雄"))
                 temp.AddComponent<ESSlot>();
         }

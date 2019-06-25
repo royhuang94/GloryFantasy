@@ -150,6 +150,15 @@ namespace GamePlay
             return Info.SummonUnit;
         }
 
+        public static void SetGeneratingUnit(this GameplayTool self, GameUnit.GameUnit unit)
+        {
+            Info.GeneratingUnit = unit;
+        }
+        public static GameUnit.GameUnit GetGeneratingUnit(this GameplayTool self)
+        {
+            return Info.GeneratingUnit;
+        }
+
         public static void SetDrawer(this GameplayTool self, PlayerEnum player)
         {
             Info.Drawer = player;
