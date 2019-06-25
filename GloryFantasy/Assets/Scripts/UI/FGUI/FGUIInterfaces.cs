@@ -4,6 +4,7 @@ using FairyGUI;
 using GamePlay;
 using GamePlay.Event;
 using IMessage;
+using UI.FGUI.cardBook;
 using UnityEngine;
 
 namespace UI.FGUI
@@ -102,6 +103,9 @@ namespace UI.FGUI
 			Add(new APDisplayerComponent(_mainUI.GetChild("APDisplayer").asCom));
 			// 添加回合信息展示组件
 			Add(new RoundInfoComponent(_mainUI.GetChild("roundText").asTextField));
+			
+			Add(new TEST_ONLY_winBattle(_mainUI.GetChild("n41").asButton));
+
 			Add(new TEST_ONLY_cardListComponent(pkgName, "cardListFrame"));
 
 			List<GComponent> list = new List<GComponent>();
