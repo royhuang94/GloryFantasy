@@ -210,7 +210,7 @@ namespace BattleMap
         {
             BattleMapPanel = new GameObject("BattleMap");
             BattleMapPanel.transform.position = Vector3.zero;
-            //BattleMapPanel.AddComponent<DragBattleMap>();//缩放拖动组件
+            BattleMapPanel.AddComponent<DragBattleMap>();//缩放拖动组件
             //战斗地图路径
             string battleMapPath = "BattleMapData/" + EncouterData.Instance()._encounterData[encouterId].mapID;
 

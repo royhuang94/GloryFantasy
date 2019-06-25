@@ -22,7 +22,10 @@ namespace GamePlay.FSM
         {
             //如果是地方战区则不能召唤
             int reginID = BattleMap.BattleMap.Instance().battleAreaData.GetReginIDByPos(new Vector2(mapBlock.x, mapBlock.y));
-            if (BattleMap.BattleMap.Instance().battleAreaData.battleAreas[reginID]._battleAreaSate == BattleAreaState.Enmey) return;
+            if (BattleMap.BattleMap.Instance().battleAreaData.battleAreas[reginID]._battleAreaSate != BattleAreaState.Player)
+                return;
+            else
+                Debug.Log("你只能部属单位在你所拥有的战区");
 
             base.OnPointerDownBlock(mapBlock, eventData);
             mapBlock.GetComponent<SpriteRenderer>().color = Color.white;
