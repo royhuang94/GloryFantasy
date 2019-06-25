@@ -163,6 +163,7 @@ namespace GamePlay.Input
             if (Judge())
             {
                 BattleMap.BattleMap.Instance().MoveUnitToCoordinate(_targetPos, _unit);
+                this.SetMovingUnit(_unit);
                 MsgDispatcher.SendMsg((int)MessageType.Moved);
             }
 
