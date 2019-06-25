@@ -69,6 +69,6 @@ public class DialogWindow : Window
 	private void OnClickContinue()
 	{
 //		this.Hide();
-		DialogManager.Instance().test1 = true;
+		DialogManager.Instance().getCanShowWindow = true;
 	}
 }

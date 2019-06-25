@@ -4,6 +4,7 @@ using UnityEngine;
 using LitJson;
 using FairyGUI;
 using GameCard;
+using UnityEngine.Serialization;
 
 namespace StoryDialog
 {
@@ -35,75 +36,100 @@ namespace StoryDialog
 		private List<DialogMessage> _dialogMessages;
 		private int i;
 
-		public bool test;
+		public bool canShowWindow;
 
-		public bool test1
+		public bool getCanShowWindow
 		{
-			get { return test; }
-			set { test = value; }
+			get { return canShowWindow; }
+			set { canShowWindow = value; }
 		}
 
-		void Start()
+		/// <summary>
+		/// 组件初始化
+		/// </summary>
+		private void Init()
 		{
+			Debug.Log("dm start");
 			_dialogWindowLeft = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_left");
 			_dialogWindowRight = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_right");
 			i = 0;
-			test = true;
+			canShowWindow = true;
 		}
 
 		// Update is called once per frame
 		void Update()
 		{
-			if (i < _length)
+			if (i < _length)		// 对话还没完
 			{
-//				if (!_dialogWindowLeft.isShowing && !_dialogWindowRight.isShowing)
-//				{
-//					Debug.Log("i: " + i + " p:" + _dialogMessages[i].position + " index:" + _dialogMessages[i].order);
-//					if (_dialogMessages[i].position == 0)
-//					{
-//						_dialogWindowLeft.SetDialogMessage(_dialogMessages[i]);
-//						_dialogWindowLeft.Show();
-//					}
-//					else
-//					{
-//						_dialogWindowRight.SetDialogMessage(_dialogMessages[i]);
-//						_dialogWindowRight.Show();
-//					}
-//
-//					i++;
-//				}
-				if (test)
+				if (canShowWindow)		// 显示窗口
 				{
-					if (_dialogMessages[i].position == 0)
+					if (_dialogMessages[i].position == 0)		// 为0则在左边
 					{
 						_dialogWindowLeft.SetDialogMessage(_dialogMessages[i]);
+						if (i != 0 && _dialogMessages[i - 1].position == 1)
+						{
+							UpdateWindow(_dialogWindowLeft, _dialogWindowRight);
+						}
 						_dialogWindowLeft.Show();
 					}
 					else
 					{
 						_dialogWindowRight.SetDialogMessage(_dialogMessages[i]);
+						if (i != 0 && _dialogMessages[i - 1].position == 0)
+						{
+							UpdateWindow(_dialogWindowRight, _dialogWindowLeft);
+						}
+
 						_dialogWindowRight.Show();
 					}
 
 					i++;
-					test = false;
+					canShowWindow = false;
 				}
 			}
 			else
 			{
-				if (!test) return;
+				if (!canShowWindow) return;
 				_dialogWindowRight.Hide();
 				_dialogWindowLeft.Hide();
 			}
 		}
 
+
+		/// <summary>
+		/// 更新窗口，把当前窗口的图片和头像设为可见，上一个窗口设为不可见
+		/// </summary>
+		/// <param name="currentDialogWindow">当前窗口</param>
+		/// <param name="prevDialogWindow">上一个窗口</param>
+		private void UpdateWindow(DialogWindow currentDialogWindow, DialogWindow prevDialogWindow)
+		{
+			if (currentDialogWindow.isShowing)
+			{
+				currentDialogWindow.contentPane.GetChild("n0").visible = true;
+				currentDialogWindow.contentPane.GetChild("dialogPic").visible = true;
+			}
+
+			prevDialogWindow.contentPane.GetChild("n0").visible = false;
+			prevDialogWindow.contentPane.GetChild("dialogPic").visible = false;
+		}
+		
+		/// <summary>
+		/// 开放接口，进入对话调用
+		/// </summary>
+		/// <param name="filename">对话文件名</param>
 		public void ShowDialog(string filename)
 		{
+			Init();
 			_dialogMessages = GetDialogList(filename);
 			_length = _dialogMessages.Count;
 
 		}
 
+		/// <summary>
+		/// 获得对话列表
+		/// </summary>
+		/// <param name="filename">对话文件名</param>
+		/// <returns>列表，每一项元素都是一个 DialogMessage 结构体</returns>
 		private List<DialogMessage> GetDialogList(string filename)
 		{
 			List<DialogMessage> dialogList = new List<DialogMessage>();

@@ -401,7 +401,6 @@ namespace GameGUI
         {
             Debug.Log("click third clue -- show dialog");
             DialogManager.Instance().ShowDialog("test");
-            
         }
         #endregion
 
