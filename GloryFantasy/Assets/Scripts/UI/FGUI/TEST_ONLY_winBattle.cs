@@ -1,4 +1,5 @@
 using FairyGUI;
+using IMessage;
 using UnityEngine;
 
 namespace UI.FGUI.cardBook
@@ -25,6 +26,7 @@ namespace UI.FGUI.cardBook
         private void OnClickWinButton()
         {
             Debug.Log("Oh Shit");
+            MsgDispatcher.SendMsg((int)MessageType.WIN);        // 发送胜利消息
         }
 
         public override string ToString()

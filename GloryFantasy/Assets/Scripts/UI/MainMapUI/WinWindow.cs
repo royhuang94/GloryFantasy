@@ -18,16 +18,18 @@ public class WinWindow : Window
     /// 胜利窗口构造函数
     /// </summary>
     /// <param name="bgColor">背景颜色</param>
-    public WinWindow(Color bgColor)
+    public WinWindow(Color bgColor, string pkgName, string resName)
     {
         _bgColor = bgColor;
+        _pkgName = pkgName;
+        _resName = resName;
     }
 
     protected override void OnInit()
     {
         this.modal = true;
         UIConfig.modalLayerColor = _bgColor;
-        this.contentPane = UIPackage.CreateObject("MainMapUI", "WinMenu").asCom;
+        this.contentPane = UIPackage.CreateObject(_pkgName, _resName).asCom;
         this.CenterOn(GRoot.inst, true);
         
         _cardList = new List<GButton>();
@@ -40,12 +42,10 @@ public class WinWindow : Window
         _continueBtn = this.contentPane.GetChild("continueButton").asButton;
         _continueBtn.onClick.Add(OnContinue);
 
-        Debug.Log("before: " + _cardList[0].GetController("button").selectedIndex);
         foreach (GButton button in _cardList)
         {
             button.GetController("button").selectedIndex = 0;
         }
-        Debug.Log("after: " + _cardList[0].GetController("button").selectedIndex);
         foreach (GButton button in _cardList)
         {
             button.onClick.Add(() =>
@@ -81,6 +81,7 @@ public class WinWindow : Window
     private void OnContinue()
     {
         this.Hide();
+        this.Dispose();
     }
 
 }

@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using GameUnit;
 using System.Collections;
 using GamePlay.Encounter;
+using UnityEngine.SceneManagement;
 
 namespace BattleMap
 {
@@ -59,16 +60,24 @@ namespace BattleMap
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.WIN,
-                () => { return false; },
-                exitBattleMap,
+                canDoExitAction,
+                () =>
+                {
+                    SceneSwitchController.Instance().win = true;    // 胜利，场景切换控制器保存结果，用于大地图界面显示
+                    exitBattleMap();
+                },
                 "Win to exit Trigger"
             );
            
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.LOSE,
-                () => { return false; },
-                exitBattleMap,
+                canDoExitAction,
+                () =>
+                {
+                    SceneSwitchController.Instance().win = false;
+                    exitBattleMap();
+                },
                 "Lose to exit Trigger"
             );
         }
@@ -91,6 +100,19 @@ namespace BattleMap
             return true;
         }
 
+        /// <summary>
+        /// 判断是否可以退出战斗地图
+        /// 如果直接用战斗地图打开，则不能退出
+        /// 否则可以退回到大地图
+        /// </summary>
+        /// <returns></returns>
+        public bool canDoExitAction()
+        {
+            if (SceneManager.sceneCount == 1)
+                return false;
+            return true;
+        }
+        
         /// <summary>
         /// 主要阶段开始
         /// </summary>
