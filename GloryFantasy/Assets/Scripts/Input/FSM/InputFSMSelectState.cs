@@ -40,6 +40,12 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownBlock(mapBlock, eventData);
 
+            //如果不是左键直接跳出
+            if (eventData.button != PointerEventData.InputButton.Left)
+            {
+                return;
+            }
+
             //判断是是否符合Ability中的自制对象约束
             if (FSM.ability.MyTargetConstraintList[FSM.TargetList.Count](mapBlock) != true)
                 return;
@@ -65,6 +71,12 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownFriendly(unit, eventData);
 
+            //如果不是左键直接跳出
+            if (eventData.button != PointerEventData.InputButton.Left)
+            {
+                return;
+            }
+
             //判断是是否符合Ability中的自制对象约束
             if (FSM.ability.MyTargetConstraintList[FSM.TargetList.Count](unit) != true)
                 return;
@@ -88,6 +100,12 @@ namespace GamePlay.FSM
         public override void OnPointerDownEnemy(GameUnit.GameUnit unit, PointerEventData eventData)
         {
             base.OnPointerDownEnemy(unit, eventData);
+
+            //如果不是左键直接跳出
+            if (eventData.button != PointerEventData.InputButton.Left)
+            {
+                return;
+            }
 
             //判断是是否符合Ability中的自制对象约束
             if (FSM.ability.MyTargetConstraintList[FSM.TargetList.Count](unit) != true)
