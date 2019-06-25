@@ -61,7 +61,7 @@ namespace AI
         public void RecordedHatred(Unit enemyUnit, Unit hostUnit)
         {
             //当敌方单位是玩家单位时，触发更新
-            if(enemyUnit.owner == GameUnit.OwnerEnum.Player)
+            if(enemyUnit.owner == GameUnit.OwnerEnum.Player && hostUnit.owner == GameUnit.OwnerEnum.Enemy)
             {
                 GetSingleControllerByID(hostUnit.CurPos).hatredRecorder.RecordedHatred(enemyUnit.id, enemyUnit.getATK());
             }

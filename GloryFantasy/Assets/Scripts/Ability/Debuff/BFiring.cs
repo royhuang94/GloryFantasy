@@ -23,13 +23,6 @@ namespace Ability.Debuff
 
             _isOnUnit = (_unit = GetComponent<GameUnit.GameUnit>()) != null;
             
-            // 清除掉其上的粘滞地块。
-            _isViscous = _battleMapBlock.gameObject.GetComponent<BViscous>() != null;
-            if (_isViscous)
-            {
-                GameObject.Destroy(_battleMapBlock.gameObject.GetComponent<BViscous>());
-            }
-            
             //如果被挂在了单位上
             if (_isOnUnit)
             {
@@ -39,6 +32,13 @@ namespace Ability.Debuff
             }
             else
             {
+                _battleMapBlock = GetComponent<BattleMapBlock>();
+                // 清除掉其上的粘滞地块。
+                _isViscous = _battleMapBlock.gameObject.GetComponent<BViscous>() != null;
+                if (_isViscous)
+                {
+                    GameObject.Destroy(_battleMapBlock.gameObject.GetComponent<BViscous>());
+                }
                 // 对此时在此上的单位造成1点伤害。
                 foreach (GameUnit.GameUnit unit in _battleMapBlock.units_on_me)
                 {
