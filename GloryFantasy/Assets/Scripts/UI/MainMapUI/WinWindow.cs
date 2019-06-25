@@ -5,23 +5,33 @@ using FairyGUI;
 
 public class WinWindow : Window 
 {
-    private List<string> _playerCardList;
-
     private GButton _continueBtn;
     private GButton _firstCard;
     private GButton _secondCard;
     private GButton _thirdCard;
     private List<GButton> _cardList;
-    public WinWindow(List<string> playerCardList)
+    private Color _bgColor;
+    private string _pkgName;
+    private string _resName;
+    
+    /// <summary>
+    /// 胜利窗口构造函数
+    /// </summary>
+    /// <param name="bgColor">背景颜色</param>
+    public WinWindow(Color bgColor)
     {
         Debug.Log("construct");
-        _playerCardList = playerCardList;
+        _bgColor = bgColor;
     }
 
     protected override void OnInit()
     {
         Debug.Log("init");
+        this.modal = true;
+        UIConfig.modalLayerColor = _bgColor;
         this.contentPane = UIPackage.CreateObject("MainMapUI", "WinMenu").asCom;
+        this.CenterOn(GRoot.inst, true);
+        
         _cardList = new List<GButton>();
         _firstCard = this.contentPane.GetChild("n9").asButton;
         _cardList.Add(_firstCard);
@@ -32,15 +42,38 @@ public class WinWindow : Window
         _continueBtn = this.contentPane.GetChild("continueButton").asButton;
         _continueBtn.onClick.Add(OnContinue);
 
+        foreach (GButton button in _cardList)
+        {
+            button.onClick.Add(() =>
+            {
+                Controller controller = button.GetController("button");
+                if (controller.selectedIndex == 0)
+                {
+                    for (int i = 0; i < _cardList.Count; i++)
+                    {
+                        _cardList[i].GetController("button").selectedIndex = 0;
+                    }
+
+                    controller.selectedIndex = 1;
+                }
+                else
+                {
+                    controller.selectedIndex = 0;
+                }
+
+                Debug.Log(controller.selectedIndex);
+                OnChooseCard(_cardList.IndexOf(button));
+            });
+        }
     }
 
     /// <summary>
     /// 卡牌书卡牌点击事件
     /// </summary>
-    /// <param name="context"></param>
-    private void OnChooseCard(EventContext context)
+    /// <param name="clickIndex"></param>
+    private void OnChooseCard(int clickIndex)
     {
-        
+        Debug.Log("click: " + clickIndex);
     }
 
     /// <summary>

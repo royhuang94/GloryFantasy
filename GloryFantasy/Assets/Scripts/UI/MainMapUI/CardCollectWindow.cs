@@ -21,16 +21,28 @@ public class CardCollectWindow : Window
 
     private List<string> _playerCardList;
 
-    public CardCollectWindow(List<string> playerCardList)
+    private Color _bgColor;
+
+    /// <summary>
+    /// 卡牌书界面构造函数
+    /// </summary>
+    /// <param name="playerCardList">卡牌列表</param>
+    /// <param name="bgColor">背景颜色</param>
+    public CardCollectWindow(List<string> playerCardList, Color bgColor)
     {
         Debug.Log("construct");
         _playerCardList = playerCardList;
+        _bgColor = bgColor;
     }
 
     protected override void OnInit()
     {
         Debug.Log("init");
+        this.modal = true;
+        UIConfig.modalLayerColor = _bgColor;
         this.contentPane = UIPackage.CreateObject("CardCollection", "CardBook").asCom;
+        
+        this.CenterOn(GRoot.inst, true);
 
         _cardList = this.contentPane.GetChild("cardList").asList;
         

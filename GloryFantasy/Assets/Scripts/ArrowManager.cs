@@ -82,12 +82,12 @@ public class ArrowManager : UnitySingleton<ArrowManager>
     /// <summary>
     /// 初始化各组件
     /// </summary>
-    void Initialize()
+    private void Initialize()
     {
         _canShowArrow = false;
         _cameraObject = GameObject.Find("Main Camera");
         _arrowMaskTfm = transform.GetChild (0);
-        _maskRect = _arrowMaskTfm.GetComponent<RectTransform> ();
+        _maskRect = _arrowMaskTfm.GetComponent<RectTransform>();
         _nodesContainerTfm = _arrowMaskTfm.Find ("Container");
     }
 
@@ -96,7 +96,7 @@ public class ArrowManager : UnitySingleton<ArrowManager>
     /// 先不实现了，因为效果不好，等之后有时间再看
     /// </summary>
     /// <param name="position"></param>
-    public void MakeArrowFlow(Vector3 position)
+    private void MakeArrowFlow(Vector3 position)
     {
         if (!this.gameObject.GetComponent<SpriteRenderer>().enabled)
         {
@@ -204,7 +204,7 @@ public class ArrowManager : UnitySingleton<ArrowManager>
     /// <summary>
     /// 显示箭头
     /// </summary>
-    public void ShowArrow()
+    private void ShowArrow()
     {
         this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
@@ -226,7 +226,7 @@ public class ArrowManager : UnitySingleton<ArrowManager>
     /// 更新箭头显示
     /// </summary>
     /// <param name="position">当前鼠标位置</param>
-    public void UpdateArrow(Vector3 position)
+    private void UpdateArrow(Vector3 position)
     {
         Vector3 mousePos = ScreenPosToWorldPos(position);
         transform.position = mousePos;
@@ -243,7 +243,7 @@ public class ArrowManager : UnitySingleton<ArrowManager>
     /// 计算可见长度
     /// </summary>
     /// <param name="currentPos">Current position.</param>
-    void CaculateVisibleLen(Vector2 currentPos)
+    private void CaculateVisibleLen(Vector2 currentPos)
     {
         Vector2 dirVector = currentPos - _startPos;
         _visibleLen = dirVector.magnitude;
@@ -255,7 +255,7 @@ public class ArrowManager : UnitySingleton<ArrowManager>
     /// <returns>The rotation.</returns>
     /// <param name="currentPos">Current position.</param>
     /// <param name="middlePos"></param>
-    Quaternion CaculateRotation(Vector2 currentPos,Vector2 middlePos)
+    private Quaternion CaculateRotation(Vector2 currentPos,Vector2 middlePos)
     {
         Vector2 fromVector = Vector2.up;
         Vector2 toVector = currentPos - middlePos;

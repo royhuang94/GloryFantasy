@@ -9,6 +9,7 @@ using LitJson;
 using System.IO;
 using FairyGUI;
 using PlayerCollection;
+using StoryDialog;
 
 namespace GameGUI
 {/// <summary>
@@ -73,6 +74,9 @@ namespace GameGUI
 
         private CardCollectWindow _cardCollectWindow;
         private WinWindow _winWindow;
+        private DialogWindow _dialogWindowLeft;
+        private DialogWindow _dialogWindowRight;
+        private LibraryWindow _libraryWindow;
 
         private GProgressBar _blueSlider;
         private GProgressBar _yellowSlider;
@@ -123,11 +127,13 @@ namespace GameGUI
             _tClueBtn.onClick.Add(ShowDialog);
             
             ccbtn = mainmapUI.GetChild("CardBookButton").asButton;
-            _cardCollectWindow = new CardCollectWindow(playercardlist);
-            _cardCollectWindow.CenterOn(GRoot.inst, true);
-            _winWindow = new WinWindow(playercardlist);
-            _winWindow.CenterOn(GRoot.inst, true);
-//            ccbtn.onClick.Add(() => ShowCardCollect());
+            
+            _cardCollectWindow = new CardCollectWindow(playercardlist, Color.gray);
+            _winWindow = new WinWindow(Color.gray);
+            _dialogWindowLeft = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_left");
+            _dialogWindowRight = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_right");
+            _libraryWindow = new LibraryWindow(Color.gray, "Library", "LibraryMain");
+            
             ccbtn.onClick.Add(() => { _cardCollectWindow.Show();});
 //            cardcollectionlist = cardcollectUI.GetChild("cardList").asList;
             onsalelist = libraryUI.GetChild("LibraryCardList").asList;
@@ -260,6 +266,8 @@ namespace GameGUI
             }
             Library.activelibrarylist.Add(library);
             mapcamera.SetActive(false);
+            library_UI.modal = true;
+            UIConfig.modalLayerColor = Color.gray;
             library_UI.Show();
             ShowCard(library);
             GButton closebtn = library_UI.contentPane.GetChild("Close").asButton;
@@ -289,7 +297,7 @@ namespace GameGUI
         public  void LeaveOnClick()
         {
             library_UI.Hide();
-//            verify_UI.Hide();
+            verify_UI.Hide();
             mapcamera.SetActive(true);
         }
         /// <summary>展示三张卡牌，
@@ -311,6 +319,7 @@ namespace GameGUI
         /// <param name="context"></param>
         public void OnClickCardInLibrary(EventContext context)
         {
+            Debug.Log("click card in library");
             CardCollection.Instance().choosecardindex = onsalelist.GetChildIndex(context.data as GObject);
             CardCollection.Instance().choosecardID = choosenlibrary.librarylist[CardCollection.Instance().choosecardindex];
             verify_UI.Show();
@@ -343,37 +352,6 @@ namespace GameGUI
         }
         #endregion
         #region 卡牌书相关代码
-        /// <summary>展示卡牌收藏
-        /// 
-        /// </summary>
-        public void ShowCardCollect()
-        {
-            MapUnit.CleanList();
-            cardcollect_UI.Show();
-            Debug.Log("展示卡牌收藏");
-//            mapcamera.SetActive(false);
-            cardcollectionlist.RemoveChildren(0, -1, true);
-
-            foreach (string cardId in playercardlist)
-            {
-                GObject item = UIPackage.CreateObject("CardCollection", "cardsSetsItem");
-                item.icon = UIPackage.GetItemURL(cardicons, cardId);
-                cardcollectionlist.AddChild(item);
-            }
-           GButton closebtn = cardcollect_UI.contentPane.GetChild("Close").asButton;
-           closebtn.onClick.Add(() => CloseCardCollect());
-
-        }
-        /// <summary>关闭卡牌收藏
-        /// 
-        /// </summary>
-        public void CloseCardCollect()
-        {
-            cardcollect_UI.Hide();
-            mapcamera.SetActive(true);
-            //TODO：显示地格渲染
-            Debug.Log("卡牌收藏关闭");
-        }
         /// <summary>
         /// 响应卡牌书内卡牌点击事件
         /// </summary>
@@ -407,6 +385,8 @@ namespace GameGUI
         public void ShowDefeat()
         {
             Debug.Log("click second clue -- show defeat");
+            lose_UI.modal = true;
+            UIConfig.modalLayerColor = Color.gray;
             lose_UI.Show();
             GButton continueBtn = lose_UI.contentPane.GetChild("loseReturnButton").asButton;
             continueBtn.onClick.Add(CloseLoseWindow);
@@ -420,9 +400,14 @@ namespace GameGUI
         public void ShowDialog()
         {
             Debug.Log("click third clue -- show dialog");
+            DialogManager.Instance().ShowDialog("test");
             
         }
         #endregion
+
+        private void Update()
+        {
+        }
     }
 }
 
