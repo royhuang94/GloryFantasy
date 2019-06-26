@@ -20,6 +20,7 @@ namespace GameUnit
         #region 变量
        //[SerializeField]private string DataBasePath;
         private Dictionary<string, JsonData> _unitsData;
+        public Dictionary<string, JsonData> unitsData { get { return _unitsData; } }
         private List<string> _unitsDataIDs;
         #endregion
 
@@ -105,7 +106,7 @@ namespace GameUnit
             unit.id = data["CardID"].ToString();
             unit.Color = data["Color"][0].ToString();
             unit.Effort = data["Effort"].ToString();
-            unit.CD = int.Parse(data["HasCD"].ToString());
+            unit.HasCD = int.Parse(data["HasCD"].ToString()) == 1;
             unit.setMHP(int.Parse(data["Hp"].ToString())); unit.hp = unit.getMHP() - damage;
             unit.id = data["ID"].ToString();
             unit.setMOV(int.Parse(data["Mov"].ToString()));

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="145,210" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n2_r3pt" name="n2" src="n77sa" fileName="EventScroll_explain.png" xy="0,-3" size="146,217">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <text id="n3_r3pt" name="n3" xy="32,1" size="80,209" fontSize="55" align="center" vAlign="middle" leading="-16" autoSize="none" text="黑色之影"/>
+  </displayList>
+  <Button/>
+</component>

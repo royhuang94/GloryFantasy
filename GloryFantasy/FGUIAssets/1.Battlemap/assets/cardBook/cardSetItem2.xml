@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="145,210">
+  <controller name="controll" pages="2,,3," selected="0"/>
+  <displayList>
+    <loader id="n0_rxqp" name="icon" xy="0,0" size="145,210" aspect="true" url="ui://6m3vkp09cptrl" fill="scale">
+      <gearDisplay controller="controll" pages="2"/>
+    </loader>
+    <image id="n1_rxqp" name="n1" src="cptrm" fileName="CardSide2.png" xy="-4,-6" size="154,222">
+      <gearDisplay controller="controll" pages="3"/>
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <text id="n2_rxqp" name="name" xy="30,5" size="89,27" fontSize="15" color="#4b3533" align="center" vAlign="middle" autoSize="none" bold="true" text="琳">
+      <gearDisplay controller="controll" pages="3"/>
+    </text>
+    <text id="n3_rxqp" name="effect" xy="15,25" size="114,113" fontSize="15" color="#4b3533" vAlign="middle" leading="0" autoSize="none" bold="true" text="特殊效果：即时战备；携带战技：箭雨">
+      <gearDisplay controller="controll" pages="3"/>
+    </text>
+    <text id="n4_rxqp" name="values" xy="16,147" size="116,52" fontSize="12" color="#4b3533" vAlign="middle" leading="0" autoSize="none" bold="true" text="攻击力：5    生命值：10&#xA;移动力：3    攻击范围：3">
+      <gearDisplay controller="controll" pages="3"/>
+    </text>
+  </displayList>
+</component>

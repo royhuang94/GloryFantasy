@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="960,540" designImage="ui://wp8z0pvwmcq8j" adaptationTest="FitSize">
+  <displayList>
+    <image id="n2_nsn8" name="n2" src="nrvg5" fileName="02G.png" xy="886,16"/>
+    <image id="n20_mcq8" name="n20" src="mcq8n" fileName="004.png" xy="0,0"/>
+    <image id="n16_mcq8" name="n16" src="mcq8k" fileName="001.png" xy="361,496"/>
+    <text id="n17_mcq8" name="n17" xy="407,495" size="26,48" fontSize="39" color="#6d3428" leading="0" autoSize="none" text="5"/>
+    <image id="n19_mcq8" name="n19" src="mcq8m" fileName="003.png" xy="0,300" locked="true"/>
+    <component id="n1_nsn8" name="CardCollectionBtn" src="tdksh" fileName="Button2.xml" xy="856,-6">
+      <Button sound="ui://wp8z0pvwmcq8p" volume="100"/>
+    </component>
+    <component id="n26_mcq8" name="StepShow" src="mcq814" fileName="StepShow.xml" xy="520,453">
+      <ProgressBar value="99" max="100"/>
+    </component>
+    <image id="n29_mcq8" name="n29" src="mcq817" fileName="002.png" xy="123,483" size="169,56"/>
+  </displayList>
+  <transition name="t5" autoPlay="true">
+    <item time="0" type="Scale" target="n29_mcq8" tween="true" startValue="0,1" endValue="1,1" duration="12" ease="Back.InOut"/>
+    <item time="0" type="XY" target="n1_nsn8" tween="true" startValue="971.25,-162.5" endValue="856.25,-6.5" duration="12" ease="Back.InOut"/>
+  </transition>
+</component>

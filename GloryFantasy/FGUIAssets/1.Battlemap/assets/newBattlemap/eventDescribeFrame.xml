@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="324,237" extention="Label" initName="frame">
+  <displayList>
+    <image id="n0_fm7z" name="n0" src="cptr2s" fileName="117.png" xy="0,0" size="324,237">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <text id="n5_cptr" name="content" xy="7,25" size="310,190" fontSize="20" color="#6f4536" align="center" vAlign="middle" autoSize="none" bold="true" text="两回合后向场上添加无限单位"/>
+    <graph id="n1_fm7z" name="dragArea" xy="0,0" size="324,20">
+      <relation target="" sidePair="width-width"/>
+    </graph>
+    <graph id="n2_fm7z" name="contentArea" xy="2,21" size="324,217">
+      <relation target="" sidePair="width-width,height-height"/>
+    </graph>
+  </displayList>
+</component>

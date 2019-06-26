@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="128,186" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="2"/>
+  <displayList>
+    <loader id="n3_np8v" name="n3" xy="0,0" size="128,186" url="ui://wr5gk5j8fm7z0"/>
+    <image id="n4_np8v" name="n4" src="np8v26" fileName="125.png" xy="0,0" locked="true" alpha="0.25" blend="add" filter="color" filterData="0.25,0.00,0.00,0.00">
+      <gearDisplay controller="button" pages="0,2"/>
+      <gearLook controller="button" pages="0,2" values="0,0,0,1|0.25,0,0,1" default="0.25,0,0,1" tween="true" duration="0.1"/>
+    </image>
+    <movieclip id="n5_np8v" name="n5" src="ijjy17" fileName="123.jta" xy="0,0" size="128,186" locked="true" blend="add">
+      <gearDisplay controller="button" pages="0,2"/>
+      <gearLook controller="button" pages="0" values="0,0,0,1" default="1,0,0,1" tween="true" duration="0.1"/>
+    </movieclip>
+    <image id="n6_np8v" name="n6" src="wvu11g" fileName="126.png" xy="0,0" blend="screen" filter="color" filterData="-0.30,0.00,0.00,0.00">
+      <gearDisplay controller="button" pages="0,2"/>
+      <gearLook controller="button" pages="0" values="0,0,0,1" default="1,0,0,1" tween="true" duration="0.1"/>
+    </image>
+  </displayList>
+  <Button/>
+</component>

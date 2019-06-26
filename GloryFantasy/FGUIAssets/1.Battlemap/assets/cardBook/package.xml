@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="6m3vkp09" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="no2w0" name="Book.xml" path="/" exported="true"/>
+    <component id="no2w1" name="FrontCover.xml" path="/"/>
+    <image id="no2w2" name="封面.jpg" path="/"/>
+    <image id="no2w3" name="纸.jpg" path="/"/>
+    <image id="no2w4" name="shadow_center.png" path="/"/>
+    <component id="no2w5" name="BackCover.xml" path="/"/>
+    <component id="no2w6" name="newCardBookFrame.xml" path="/" exported="true"/>
+    <component id="no2w7" name="Button4.xml" path="/"/>
+    <image id="no2w8" name="03C.png" path="/"/>
+    <image id="no2w9" name="03D.png" path="/"/>
+    <component id="no2wa" name="Page.xml" path="/" exported="true"/>
+    <image id="no2wb" name="右.png" path="/"/>
+    <component id="no2wc" name="Button8.xml" path="/"/>
+    <image id="no2wd" name="06E.jpg" path="/"/>
+    <image id="no2we" name="11B.png" path="/"/>
+    <image id="no2wf" name="11C.png" path="/"/>
+    <image id="no2wg" name="06D.png" path="/"/>
+    <image id="no2wh" name="左.png" path="/"/>
+    <component id="no2wi" name="Pages.xml" path="/" exported="true"/>
+    <image id="no2wj" name="shadow_soft.png" path="/" exported="true"/>
+    <component id="cptrk" name="CardSetItem.xml" path="/"/>
+    <image id="cptrl" name="122.png" path="/"/>
+    <image id="cptrm" name="CardSide2.png" path="/"/>
+    <component id="rxqpn" name="cardSetItem2.xml" path="/"/>
+  </resources>
+  <publish name="cardBook"/>
+</packageDescription>

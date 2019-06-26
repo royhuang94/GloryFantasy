@@ -129,7 +129,7 @@ namespace GameGUI
             ccbtn = mainmapUI.GetChild("CardBookButton").asButton;
             
             _cardCollectWindow = new CardCollectWindow(playercardlist, Color.gray);
-            _winWindow = new WinWindow(Color.gray);
+            _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
             _dialogWindowLeft = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_left");
             _dialogWindowRight = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_right");
             _libraryWindow = new LibraryWindow(Color.gray, "Library", "LibraryMain");
@@ -375,10 +375,11 @@ namespace GameGUI
         }
         #endregion
 
-        #region 三个线索按钮点击代码
+        #region 三个线索按钮点击代码，以后换成其他地方调用
         public void ShowVictory()
         {
             Debug.Log("click first clue -- show victory");
+            _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
             _winWindow.Show();
         }
 

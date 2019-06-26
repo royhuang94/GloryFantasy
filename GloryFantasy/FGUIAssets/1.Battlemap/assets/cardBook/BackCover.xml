@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="441,597">
+  <controller name="side" exported="true" pages="0,front,1,back" selected="0"/>
+  <displayList>
+    <image id="n2_jva6" name="n2" src="no2w2" fileName="封面.jpg" xy="0,0" size="441,597" flip="hz">
+      <gearDisplay controller="side" pages="0"/>
+    </image>
+    <image id="n3_jva6" name="n3" src="no2w2" fileName="封面.jpg" xy="0,0" size="441,597">
+      <gearDisplay controller="side" pages="1"/>
+    </image>
+    <image id="n5_jva6" name="n5" src="no2w3" fileName="纸.jpg" xy="10,10" size="421,577" group="n6_jva6"/>
+    <image id="n4_jva6" name="n4" src="no2w4" fileName="shadow_center.png" xy="0,10" size="165,577" group="n6_jva6" alpha="0.8" flip="hz"/>
+    <group id="n6_jva6" name="n6" xy="0,10" size="431,577" advanced="true">
+      <gearDisplay controller="side" pages="1"/>
+    </group>
+  </displayList>
+</component>

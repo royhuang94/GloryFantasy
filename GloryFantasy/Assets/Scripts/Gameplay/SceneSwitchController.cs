@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using GameGUI;
 using UI.FGUI;
 using UnityEngine;
@@ -16,6 +17,12 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private string _mainMapSceneName = "MainMapTest1";
 	private string _encounterID;
 	private List<string> _cardList;
+	private bool _win;			// 是否胜利
+
+	public bool win
+	{
+		set { _win = value; }
+	}
 
 	/// <summary>
 	/// 获取遭遇ID
@@ -63,7 +70,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// <param name="scene">卸载的场景</param>
 	private void OnSceneUnloader(Scene scene)
 	{
-//		Debug.Log("Unload scene: " + scene.name);
+		Debug.Log("Unload scene: " + scene.name);
 	}
 
 
@@ -147,6 +154,11 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		Resources.UnloadUnusedAssets();				// 删掉战斗地图所有未使用的资源，应该能减少一点资源使用
 		SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainMapTest1"));
 		SwitchMMapCamera();
+		
+		if(_win)
+			MainMapUI.Instance().ShowVictory();				// 胜利展示胜利界面
+		else
+			MainMapUI.Instance().ShowDefeat();				// 失败展示失败界面
 	}
 
 	
