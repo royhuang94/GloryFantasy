@@ -163,6 +163,8 @@ namespace BattleMap
             UnitManager.InitAndInstantiateGameUnit(encouterId, _mapBlocks);
             //该次遭遇中的一些临时数值
             EncouterData.Instance().dataOfThisBattle.InitData(encouterId);
+            //设置回合为第一回合
+            GamePlay.Gameplay.Instance().roundProcessController.SetFristRound();
             //一直显示战区所属
             drawBattleArea.ShowAndUpdateBattleArea();
 
@@ -184,7 +186,6 @@ namespace BattleMap
             Destroy(BattleMapPanel);
             //重新生成
             InitMap(encouterID);
-            GamePlay.Gameplay.Instance().roundProcessController.SetFristRound();
         }
 
         #region 变量
