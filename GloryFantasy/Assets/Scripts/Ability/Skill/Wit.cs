@@ -27,7 +27,7 @@ namespace Ability
         {
             base.Init(abilityId);
             GameUnit.GameUnit unit = gameObject.GetComponent<GameUnit.GameUnit>();
-            _trigger = new TWit(this.GetUnitReceiver(this), GetInstanceID(), AbilityVariable.Amount.Value);
+            _trigger = new TWit(this.GetUnitReceiver(this), gameObject.GetInstanceID(), AbilityVariable.Amount.Value);
             MsgDispatcher.RegisterMsg(_trigger, abilityId);
         }
     }
@@ -60,7 +60,7 @@ namespace Ability
             
             return BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(
                        Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0]
-                       ).GetInstanceID() == _binderInstanceId;
+                       ).gameObject.GetInstanceID() == _binderInstanceId;
         }
 
         private void Action()
