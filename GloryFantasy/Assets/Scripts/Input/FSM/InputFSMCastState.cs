@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using BattleMap;
 using GameCard;
 using GameUnit;
+using IMessage;
+using UI.FGUI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -82,7 +84,10 @@ namespace GamePlay.FSM
             if (FSM.TargetList.Count == FSM.ability.AbilityTargetList.Count)
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
-                CardManager.Instance().OnTriggerCurrentCard();
+                if(FSM.ability is TEST_ONLY_SummonUnit)
+                    MsgDispatcher.SendMsg((int)MessageType.CastCard);
+                else
+                    CardManager.Instance().OnTriggerCurrentCard();
                 FSM.PushState(new InputFSMIdleState(FSM));
             }
             //Gameplay.Instance().gamePlayInput.HandleSkillCancel(FSM.TargetList[0], 4);

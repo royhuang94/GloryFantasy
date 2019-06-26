@@ -20,6 +20,7 @@ namespace GameUnit
         #region 变量
        //[SerializeField]private string DataBasePath;
         private Dictionary<string, JsonData> _unitsData;
+        public Dictionary<string, JsonData> unitsData { get { return _unitsData; } }
         private List<string> _unitsDataIDs;
         #endregion
 
