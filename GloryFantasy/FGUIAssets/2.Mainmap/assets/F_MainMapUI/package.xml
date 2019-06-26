@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="jn70pguy" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="nsn80" name="Component1.xml" path="/"/>
+    <image id="nsn81" name="01A.jpg" path="/"/>
+    <image id="nsn82" name="01B1.png" path="/"/>
+    <component id="nsn83" name="Button1.xml" path="/"/>
+    <component id="nsn84" name="Component2.xml" path="/" exported="true"/>
+    <image id="nsn85" name="02E.png" path="/"/>
+    <image id="nsn86" name="02F.png" path="/"/>
+    <component id="nsn87" name="CardCollectionBtn.xml" path="/"/>
+    <image id="nsn88" name="02G.png" path="/"/>
+    <image id="nsn89" name="02C.png" path="/"/>
+    <image id="nsn8c" name="02A.png" path="/"/>
+    <component id="nsn8m" name="Component3.xml" path="/"/>
+    <image id="nsn8n" name="02B(1).png" path="/"/>
+    <image id="nsn8o" name="03B.png" path="/"/>
+    <component id="nsn8p" name="Button3.xml" path="/"/>
+    <image id="nsn8q" name="02D.png" path="/"/>
+    <component id="nsn8r" name="Component4.xml" path="/" exported="true"/>
+    <image id="nsn8s" name="03A.jpg" path="/"/>
+    <image id="nsn8t" name="03C.png" path="/"/>
+    <image id="nsn8w" name="03D.png" path="/"/>
+    <component id="nsn8x" name="Close.xml" path="/"/>
+    <component id="o3b412" name="Component5.xml" path="/"/>
+    <image id="o3b413" name="04A1.jpg" path="/"/>
+    <image id="o3b414" name="04A2.png" path="/"/>
+    <image id="o3b415" name="04A3.png" path="/"/>
+    <component id="o3b416" name="Button5.xml" path="/"/>
+  </resources>
+  <publish name="F_MainMapUI"/>
+</packageDescription>

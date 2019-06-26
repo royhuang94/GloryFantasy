@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="akpb5t6g" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="k2zx0" name="Board.png" path="/"/>
+    <component id="k2zx1" name="MainUI.xml" path="/" exported="true"/>
+    <image id="k2zx2" name="MapBox.png" path="/"/>
+    <image id="k2zx4" name="CardBook.png" path="/"/>
+    <image id="k2zx5" name="Time.png" path="/"/>
+    <image id="k2zx6" name="Coin.png" path="/"/>
+    <image id="k2zx7" name="Hero.png" path="/"/>
+    <component id="k2zx8" name="CarBookButton.xml" path="/"/>
+    <image id="k2zx9" name="02E.png" path="/"/>
+    <image id="k2zxa" name="02F.png" path="/"/>
+    <image id="k2zxc" name="Clue.png" path="/"/>
+    <image id="k2zxd" name="Block.png" path="/"/>
+    <image id="k2zxo" name="BarYellow.png" path="/"/>
+    <image id="k2zxp" name="BarBlue.png" path="/"/>
+    <image id="k2zxq" name="BarRed.png" path="/"/>
+    <image id="k2zxr" name="ClockYellow.png" path="/"/>
+    <image id="k2zxs" name="Clock.png" path="/"/>
+    <image id="k2zxt" name="ClockBlue.png" path="/"/>
+    <image id="k2zxu" name="ClockRed.png" path="/"/>
+    <component id="k2zxw" name="ProgressBlue.xml" path="/" exported="true"/>
+    <component id="k2zxx" name="ProgressYellow.xml" path="/" exported="true"/>
+    <component id="k2zxy" name="ProgressRed.xml" path="/" exported="true"/>
+    <image id="k2zxz" name="Theme.png" path="/"/>
+    <image id="k2zx10" name="Number.png" path="/"/>
+    <image id="lv6g11" name="Next.png" path="/"/>
+    <image id="lv6g12" name="DialogBox.png" path="/"/>
+    <image id="lv6g13" name="Return.png" path="/"/>
+    <image id="lv6g14" name="Lose.png" path="/"/>
+    <image id="lv6g15" name="Continue.png" path="/"/>
+    <image id="lv6g16" name="Win.png" path="/"/>
+    <component id="lv6g17" name="DialogMessage_left.xml" path="/" exported="true"/>
+    <component id="lv6g1c" name="ClueButton.xml" path="/"/>
+    <image id="lv6g1f" name="Next_less.png" path="/"/>
+    <component id="lv6g1g" name="DialogNext.xml" path="/"/>
+    <component id="lv6g1h" name="DialogMessage_right.xml" path="/" exported="true"/>
+    <component id="lv6g1i" name="LoseMenu.xml" path="/" exported="true"/>
+    <image id="lv6g1n" name="Return_less.png" path="/"/>
+    <image id="lv6g1o" name="Continue_less.png" path="/"/>
+    <component id="lv6g1p" name="ContinueButton.xml" path="/"/>
+    <component id="lv6g1q" name="ReturnButton.xml" path="/"/>
+    <component id="lv6g1r" name="WinMenu.xml" path="/" exported="true"/>
+    <image id="sdan1v" name="Character.png" path="/"/>
+    <image id="sdan1w" name="CardSample.png" path="/"/>
+    <component id="sdan1y" name="CardSelected.xml" path="/"/>
+    <image id="yed81z" name="126.png" path="/"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

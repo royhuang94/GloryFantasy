@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="wp8z0pvw" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="nrvg0" name="Component2.xml" path="/" exported="true"/>
+    <image id="nrvg1" name="01A.jpg" path="/"/>
+    <component id="nrvg2" name="CardCollectionBtn.xml" path="/"/>
+    <image id="nrvg3" name="02E.png" path="/"/>
+    <image id="nrvg4" name="02F.png" path="/"/>
+    <image id="nrvg5" name="02G.png" path="/"/>
+    <component id="nrvg6" name="Button3.xml" path="/"/>
+    <image id="nrvg7" name="02B(1).png" path="/"/>
+    <image id="nrvg8" name="03B.png" path="/"/>
+    <component id="nrvg9" name="Component3.xml" path="/"/>
+    <image id="nrvga" name="02C.png" path="/"/>
+    <image id="nrvgb" name="02D.png" path="/"/>
+    <component id="nrvgc" name="Component4.xml" path="/" exported="true"/>
+    <image id="nrvgd" name="03A.jpg" path="/"/>
+    <component id="nrvge" name="Close.xml" path="/"/>
+    <image id="nrvgf" name="03C.png" path="/"/>
+    <image id="nrvgg" name="03D.png" path="/"/>
+    <component id="tdksh" name="Button2.xml" path="/"/>
+    <image id="mcq8j" name="001.jpg" path="/"/>
+    <image id="mcq8k" name="001.png" path="/"/>
+    <image id="mcq8m" name="003.png" path="/"/>
+    <image id="mcq8n" name="004.png" path="/"/>
+    <image id="mcq8o" name="005.jpg" path="/"/>
+    <sound id="mcq8p" name="下棋的声音.mp3" path="/"/>
+    <image id="mcq8y" name="slider-full.png" path="/" exported="true"/>
+    <image id="mcq8z" name="content-full.png" path="/" exported="true"/>
+    <image id="mcq810" name="slider-half.png" path="/" exported="true"/>
+    <image id="mcq811" name="content-half.png" path="/" exported="true"/>
+    <image id="mcq812" name="slider-less.png" path="/" exported="true"/>
+    <image id="mcq813" name="content-less.png" path="/" exported="true"/>
+    <component id="mcq814" name="StepShow.xml" path="/"/>
+    <component id="mcq815" name="ProgressBar3.xml" path="/"/>
+    <component id="mcq816" name="ProgressBar4.xml" path="/"/>
+    <image id="mcq817" name="002.png" path="/"/>
+  </resources>
+  <publish name="MainMapUI"/>
+</packageDescription>

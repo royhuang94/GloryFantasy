@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="960,540">
+  <displayList>
+    <image id="n0_nsn8" name="n0" src="nsn81" fileName="01A.jpg" xy="0,0"/>
+    <component id="n1_nsn8" name="n1" src="nsn83" fileName="Button1.xml" xy="140,187"/>
+  </displayList>
+  <transition name="t0" autoPlay="true">
+    <item time="0" type="Alpha" target="n0_nsn8" tween="true" startValue="0.25" endValue="1" duration="18"/>
+  </transition>
+  <transition name="t1" autoPlay="true">
+    <item time="0" type="XY" target="n1_nsn8" tween="true" startValue="219,527" endValue="212,212" duration="6" ease="Back.InOut"/>
+  </transition>
+</component>

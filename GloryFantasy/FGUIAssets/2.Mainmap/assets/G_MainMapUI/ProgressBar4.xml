@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="343,87" extention="ProgressBar">
+  <displayList>
+    <image id="n1_mcq8" name="bar" src="mcq813" fileName="011.png" xy="0,0" size="343,87"/>
+    <image id="n0_mcq8" name="n0" src="mcq812" fileName="010.png" xy="0,0" size="343,87">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+  </displayList>
+  <ProgressBar reverse="true"/>
+</component>
