@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="256,372" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <loader id="n3_np8v" name="icon" xy="-1,0" size="257,374" aspect="true" url="ui://wr5gk5j8fm7z0" fill="scale"/>
+    <image id="n4_np8v" name="n4" src="n1951m" fileName="125.png" xy="0,-1" size="254,374" locked="true" alpha="0" blend="add" filter="color" filterData="0.25,0.00,0.00,0.00">
+      <gearDisplay controller="button" pages="0,2"/>
+      <gearLook controller="button" pages="0,2" values="0,0,0,1|0.25,0,0,1" default="0.25,0,0,1" tween="true" duration="0.1"/>
+    </image>
+    <movieclip id="n5_np8v" name="n5" src="n1951n" fileName="123.jta" xy="0,-1" size="257,374" locked="true" alpha="0" blend="add">
+      <gearDisplay controller="button" pages="0,2"/>
+      <gearLook controller="button" pages="0" values="0,0,0,1" default="1,0,0,1" tween="true" duration="0.1"/>
+    </movieclip>
+    <image id="n6_np8v" name="n6" src="n1951o" fileName="126.png" xy="0,-1" size="257,375" alpha="0" blend="screen" filter="color" filterData="-0.30,0.00,0.00,0.00">
+      <gearDisplay controller="button" pages="0,2"/>
+      <gearLook controller="button" pages="0" values="0,0,0,1" default="1,0,0,1" tween="true" duration="0.1"/>
+    </image>
+  </displayList>
+  <Button/>
+</component>

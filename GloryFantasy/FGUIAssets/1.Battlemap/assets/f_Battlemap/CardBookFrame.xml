@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1200,675">
+  <displayList>
+    <image id="n59_976y" name="n59" src="976y2e" fileName="book.png" xy="120,67"/>
+    <list id="n48_g8sy" name="n48" xy="272,123" size="297,403" overflow="scroll"/>
+    <list id="n60_976y" name="n60" xy="634,123" size="297,403" overflow="scroll"/>
+    <image id="n62_976y" name="n62" src="976y2t" fileName="CardQueue.png" xy="223,80"/>
+    <image id="n63_976y" name="n63" src="976y2t" fileName="CardQueue.png" xy="587,80"/>
+    <component id="n65_976y" name="n65" src="qb951j" fileName="Button4.xml" xy="1011,53"/>
+    <component id="n66_976y" name="frame" src="qb951r" fileName="cardDescribeFrame.xml" xy="73,35"/>
+  </displayList>
+</component>

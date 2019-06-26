@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1200,675">
+  <displayList>
+    <image id="n0_jjs9" name="n0" src="n1951t" fileName="book.png" xy="121,67"/>
+    <component id="n38_g8sy" name="n38" src="n19525" fileName="Close.xml" xy="1011,52"/>
+    <component id="n62_n195" name="n62" src="n1952i" fileName="CardSetItem.xml" xy="272,132"/>
+    <component id="n63_n195" name="n63" src="n1952i" fileName="CardSetItem.xml" xy="419,132"/>
+    <component id="n64_n195" name="n64" src="n1952i" fileName="CardSetItem.xml" xy="273,340"/>
+    <component id="n65_n195" name="n65" src="n1952i" fileName="CardSetItem.xml" xy="420,341"/>
+    <component id="n66_n195" name="n66" src="n1952i" fileName="CardSetItem.xml" xy="652,137"/>
+    <component id="n67_n195" name="n67" src="n1952i" fileName="CardSetItem.xml" xy="799,137"/>
+    <component id="n68_n195" name="n68" src="n1952i" fileName="CardSetItem.xml" xy="652,345"/>
+    <component id="n69_n195" name="n69" src="n1952i" fileName="CardSetItem.xml" xy="799,345"/>
+  </displayList>
+</component>

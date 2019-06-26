@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="219,158" extention="Label" initName="frame">
+  <displayList>
+    <image id="n0_poc2" name="n0" src="qb951s" fileName="13A.png" xy="0,0" size="219,158">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <graph id="n1_poc2" name="dragArea" xy="0,0" size="219,20">
+      <relation target="" sidePair="width-width"/>
+    </graph>
+    <graph id="n2_poc2" name="contentArea" xy="0,21" size="219,138">
+      <relation target="" sidePair="width-width,height-height"/>
+    </graph>
+    <text id="n3_poc2" name="title" xy="72,14" size="81,16" font="FZGuLi-S12S" fontSize="14" color="#4b3533" align="center" vAlign="middle" leading="5" letterSpacing="-1" autoSize="none" bold="true" text="CHIN  WHTILE"/>
+    <text id="n4_poc2" name="effect" xy="54,35" size="140,67" font="FZGuLi-S12S" fontSize="13" color="#4b3533" letterSpacing="-1" autoSize="none" bold="true" text="效果说明：&#xA;XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"/>
+    <text id="n5_poc2" name="values" xy="54,107" size="139,39" font="FZGuLi-S12S" fontSize="12" color="#4b3533" letterSpacing="-1" autoSize="none" bold="true" text="数值：&#xA;XXX   XXXX    XXX"/>
+  </displayList>
+</component>

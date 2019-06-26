@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="431,577">
+  <controller name="style" exported="true" pages="0,,2," selected="0"/>
+  <controller name="side" exported="true" pages="0,left,1,right,2,first,3,last" selected="0"/>
+  <displayList>
+    <image id="n18_jva6" name="n18" src="no2w3" fileName="纸.jpg" xy="0,0" size="431,577"/>
+    <text id="n24_jva6" name="pn" xy="0,559" size="22,18" fontSize="14" align="center" autoSize="none" text="0">
+      <gearXY controller="side" pages="0,1,2,3" values="0,559|409,559|409,559|0,559"/>
+    </text>
+    <component id="n31_cptr" name="cardItem1" src="rxqpn" fileName="cardSetItem2.xml" xy="49,58" size="145,210" aspect="true">
+      <gearDisplay controller="style" pages="2"/>
+    </component>
+    <component id="n32_cptr" name="cardItem2" src="rxqpn" fileName="cardSetItem2.xml" xy="240,58">
+      <gearDisplay controller="style" pages="2"/>
+    </component>
+    <component id="n33_cptr" name="cardItem3" src="rxqpn" fileName="cardSetItem2.xml" xy="49,305">
+      <gearDisplay controller="style" pages="2"/>
+    </component>
+    <component id="n34_cptr" name="cardItem4" src="rxqpn" fileName="cardSetItem2.xml" xy="240,305">
+      <gearDisplay controller="style" pages="2"/>
+    </component>
+    <image id="n17_jva6" name="n17" src="no2wb" fileName="右.png" xy="0,0" size="44,577" locked="true" alpha="0.8" flip="hz">
+      <gearDisplay controller="side" pages="1,2"/>
+    </image>
+    <image id="n16_jva6" name="n16" src="no2wh" fileName="左.png" xy="388,0" size="44,577" locked="true" alpha="0.8">
+      <gearDisplay controller="side" pages="0,3"/>
+    </image>
+  </displayList>
+</component>

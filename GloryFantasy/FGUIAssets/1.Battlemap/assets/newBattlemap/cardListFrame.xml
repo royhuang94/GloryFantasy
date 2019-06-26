@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1000,500" extention="Label" initName="frame">
+  <displayList>
+    <image id="n0_rxqp" name="n0" src="n195n" fileName="Card_explainBox.png" xy="0,0" size="1000,500">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <graph id="n1_rxqp" name="dragArea" xy="0,0" size="1000,20">
+      <relation target="" sidePair="width-width"/>
+    </graph>
+    <graph id="n2_rxqp" name="contentArea" xy="0,21" size="1000,480">
+      <relation target="" sidePair="width-width,height-height"/>
+    </graph>
+    <list id="n4_rxqp" name="n4" xy="53,77" size="893,378" layout="flow_hz" overflow="scroll" lineGap="17" colGap="21" autoItemSize="true" align="center" vAlign="middle" autoClearItems="true">
+      <item url="ui://dml5hbrcn1952i"/>
+      <item url="ui://dml5hbrcn1952i"/>
+      <item url="ui://dml5hbrcn1952i"/>
+      <item url="ui://dml5hbrcn1952i"/>
+      <item url="ui://dml5hbrcn1952i"/>
+      <item url="ui://dml5hbrcn1952i"/>
+    </list>
+    <component id="n5_rxqp" name="n5" src="rxqp2y" fileName="Button1(2).xml" xy="377,20" size="245,46"/>
+  </displayList>
+</component>

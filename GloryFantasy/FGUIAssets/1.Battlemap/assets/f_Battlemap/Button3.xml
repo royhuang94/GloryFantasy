@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="141,71" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n0_i074" name="n0" src="i074f" fileName="114.png" xy="0,0" size="141,71" aspect="true">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <text id="n1_i074" name="APText" xy="59,17" size="25,49" font="FZGuLi-S12S" fontSize="45" color="#6f4536" autoSize="none" bold="true" text="7"/>
+  </displayList>
+  <Button/>
+</component>

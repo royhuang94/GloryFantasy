@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="9qjfeg94" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="974h0" name="cdNum1.png" path="/" exported="true"/>
+    <image id="974h1" name="cdNum2.png" path="/" exported="true"/>
+    <image id="974h2" name="cdNum3.png" path="/" exported="true"/>
+    <image id="974h3" name="cdNum4.png" path="/" exported="true"/>
+    <image id="974h4" name="cdNUm5.png" path="/" exported="true"/>
+    <image id="974h5" name="cdNum6.png" path="/" exported="true"/>
+    <image id="974h6" name="cdNum7.png" path="/" exported="true"/>
+    <image id="974h7" name="cdNum8.png" path="/" exported="true"/>
+    <image id="974h8" name="cdNum9.png" path="/" exported="true"/>
+  </resources>
+  <publish name="newCdNums"/>
+</packageDescription>
