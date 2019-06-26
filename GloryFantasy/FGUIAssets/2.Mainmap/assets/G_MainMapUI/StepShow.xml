@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="343,87" extention="ProgressBar">
+  <displayList>
+    <loader id="n1_mcq8" name="content" xy="0,0" size="343,87" url="ui://wp8z0pvwmcq8z" fillMethod="hz" fillOrigin="1"/>
+    <loader id="n0_mcq8" name="slider" xy="0,0" size="343,87" url="ui://wp8z0pvwmcq8y">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+  </displayList>
+  <ProgressBar titleType="valueAndmax"/>
+</component>

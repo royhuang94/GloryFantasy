@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="960,540">
+  <displayList>
+    <image id="n0_o3b4" name="n0" src="o3b413" fileName="04A1.jpg" xy="0,0"/>
+    <component id="n1_o3b4" name="n1" src="o3b416" fileName="Button5.xml" xy="836,411"/>
+  </displayList>
+  <transition name="t0" autoPlay="true">
+    <item time="0" type="XY" target="n1_o3b4" tween="true" startValue="940,414" endValue="836,411" duration="6" ease="Back.InOut"/>
+  </transition>
+</component>

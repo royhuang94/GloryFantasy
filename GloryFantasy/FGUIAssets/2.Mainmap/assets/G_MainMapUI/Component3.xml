@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="152,74">
+  <displayList>
+    <image id="n0_nsn8" name="n0" src="nrvga" fileName="02C.png" xy="0,0" size="152,74"/>
+  </displayList>
+  <transition name="t0" autoPlay="true">
+    <item time="0" type="Size" target="n0_nsn8" tween="true" startValue="0,74" endValue="152,74" duration="6" ease="Back.InOut"/>
+  </transition>
+</component>
