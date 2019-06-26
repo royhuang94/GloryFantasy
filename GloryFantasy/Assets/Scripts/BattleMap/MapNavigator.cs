@@ -341,20 +341,24 @@ namespace BattleMap
             List<BattleMapBlock> neighbour = new List<BattleMapBlock>();
             int x = (int)node.position.x;
             int y = (int)node.position.y;
-            if (BattleMap.Instance().GetSpecificMapBlock(x - 1, y) != null && BattleMap.Instance().GetSpecificMapBlock(x - 1, y).units_on_me.Count == 0)
+            if (BattleMap.Instance().GetSpecificMapBlock(x - 1, y) != null)
             {
-                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x - 1, y));
+                if(BattleMap.Instance().GetSpecificMapBlock(x - 1, y).units_on_me.Count == 0 || (BattleMap.Instance().GetSpecificMapBlock(x - 1, y).units_on_me.Count != 0 && BattleMap.Instance().GetSpecificMapBlock(x - 1, y).units_on_me[0].owner != OwnerEnum.Enemy ) )
+                    neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x - 1, y));
             }
-            if (BattleMap.Instance().GetSpecificMapBlock(x + 1, y) != null && BattleMap.Instance().GetSpecificMapBlock(x + 1, y).units_on_me.Count == 0)
+            if (BattleMap.Instance().GetSpecificMapBlock(x + 1, y) != null)
             {
-                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x + 1, y));
+                if(BattleMap.Instance().GetSpecificMapBlock(x + 1, y).units_on_me.Count == 0 || (BattleMap.Instance().GetSpecificMapBlock(x + 1, y).units_on_me.Count != 0 && BattleMap.Instance().GetSpecificMapBlock(x + 1, y).units_on_me[0].owner != OwnerEnum.Enemy))
+                    neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x + 1, y));
             }
-            if (BattleMap.Instance().GetSpecificMapBlock(x, y - 1) != null && BattleMap.Instance().GetSpecificMapBlock(x, y - 1).units_on_me.Count == 0)
+            if (BattleMap.Instance().GetSpecificMapBlock(x, y - 1) != null )
             {
-                neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x, y - 1));
+                if(BattleMap.Instance().GetSpecificMapBlock(x, y - 1).units_on_me.Count == 0 || (BattleMap.Instance().GetSpecificMapBlock(x, y - 1).units_on_me.Count != 0 && BattleMap.Instance().GetSpecificMapBlock(x, y - 1).units_on_me[0].owner != OwnerEnum.Enemy))
+                    neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x, y - 1));
             }
-            if (BattleMap.Instance().GetSpecificMapBlock(x, y + 1) != null && BattleMap.Instance().GetSpecificMapBlock(x, y + 1).units_on_me.Count == 0)
+            if (BattleMap.Instance().GetSpecificMapBlock(x, y + 1) != null)
             {
+                if(BattleMap.Instance().GetSpecificMapBlock(x, y + 1).units_on_me.Count == 0 || (BattleMap.Instance().GetSpecificMapBlock(x, y + 1).units_on_me.Count != 0 && BattleMap.Instance().GetSpecificMapBlock(x, y + 1).units_on_me[0].owner != OwnerEnum.Enemy))
                 neighbour.Add(BattleMap.Instance().GetSpecificMapBlock(x, y + 1));
             }
             return neighbour;
