@@ -47,5 +47,5 @@
     <component id="sdan1y" name="CardSelected.xml" path="/"/>
     <image id="yed81z" name="126.png" path="/"/>
   </resources>
-  <publish name=""/>
+  <publish name="MainMapUI"/>
 </packageDescription>
