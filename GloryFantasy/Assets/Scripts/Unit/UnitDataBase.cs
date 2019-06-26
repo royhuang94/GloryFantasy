@@ -105,7 +105,7 @@ namespace GameUnit
             unit.id = data["CardID"].ToString();
             unit.Color = data["Color"][0].ToString();
             unit.Effort = data["Effort"].ToString();
-            unit.CD = int.Parse(data["HasCD"].ToString());
+            unit.HasCD = int.Parse(data["HasCD"].ToString()) == 1;
             unit.setMHP(int.Parse(data["Hp"].ToString())); unit.hp = unit.getMHP() - damage;
             unit.id = data["ID"].ToString();
             unit.setMOV(int.Parse(data["Mov"].ToString()));

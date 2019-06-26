@@ -166,7 +166,7 @@ namespace GameUnit
         /// <summary>
         /// 单位死亡后进入冷却区的冷却时间
         /// </summary>
-        public int CD { get; set; }
+        public bool HasCD { get; set; }
         /// <summary>
         /// 单位的生命值上限
         /// </summary>
