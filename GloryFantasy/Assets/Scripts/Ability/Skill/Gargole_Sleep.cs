@@ -39,7 +39,7 @@ namespace Ability
             //保存死掉的怪
             GameUnit.GameUnit deadUnit = this.GetDead();
             //复活死掉的怪并保存
-            GameUnit.GameUnit newUnit = this.Regenerate("Gargoyle_0", deadUnit.mapBlockBelow,deadUnit.owner);
+            GameUnit.GameUnit newUnit = this.Regenerate("Gargoyle_0", deadUnit.mapBlockBelow, deadUnit.owner);
             //删除这只怪的复活技能
             this.DeleteUnitAbility(newUnit, "Gargole_sleep");
         }
