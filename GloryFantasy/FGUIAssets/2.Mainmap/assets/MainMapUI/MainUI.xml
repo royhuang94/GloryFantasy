@@ -7,14 +7,14 @@
     <image id="n1_k2zx" name="n1" src="k2zx7" fileName="Hero.png" xy="0,616"/>
     <image id="n8_k2zx" name="n8" src="k2zxc" fileName="Clue.png" xy="252,971"/>
     <image id="n2_k2zx" name="n2" src="k2zx6" fileName="Coin.png" xy="714,986"/>
-    <component id="n4_k2zx" name="n4" src="k2zx8" fileName="CarBookButton.xml" xy="1708,-11" size="199,252"/>
-    <component id="n12_k2zx" name="n12" src="k2zxw" fileName="ProgressBlue.xml" xy="1045,915">
+    <component id="n4_k2zx" name="CardBookButton" src="k2zx8" fileName="CarBookButton.xml" xy="1708,-11" size="199,252"/>
+    <component id="n12_k2zx" name="ProgressBlue" src="k2zxw" fileName="ProgressBlue.xml" xy="1045,915">
       <ProgressBar value="100" max="100"/>
     </component>
-    <component id="n13_k2zx" name="n13" src="k2zxx" fileName="ProgressYellow.xml" xy="1045,915">
+    <component id="n13_k2zx" name="ProgressYellow" src="k2zxx" fileName="ProgressYellow.xml" xy="1045,915">
       <ProgressBar value="100" max="100"/>
     </component>
-    <component id="n14_k2zx" name="n14" src="k2zxy" fileName="ProgressRed.xml" xy="1045,915">
+    <component id="n14_k2zx" name="ProgressRed" src="k2zxy" fileName="ProgressRed.xml" xy="1045,915">
       <ProgressBar value="100" max="100"/>
     </component>
     <text id="n18_k2zx" name="n18" xy="805,1001" size="130,58" fontSize="60" autoSize="none" text="5"/>

@@ -255,7 +255,7 @@ namespace GameGUI
             choosenlibrary = library;
             Library.activelibrarylist.Remove(library);
             GComponent transfermain = libraryUI.GetChild("TransferMain").asCom;
-            transferlist = transfermain.GetChild("transferlist").asList;
+            transferlist = transfermain.GetChild("transferList").asList;
             transferlist.RemoveChildren();
             foreach (Library i in Library.activelibrarylist)
             {

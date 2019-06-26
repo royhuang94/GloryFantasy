@@ -1,4 +1,8 @@
 {
+	"expanded_nodes": [
+		"akpb5t6g",
+		"/"
+	],
 	"docs": [
 		"jn70pguy",
 		"nsn80",
@@ -66,10 +70,6 @@
 	"hidden_packages": [],
 	"active_doc": [
 		"akpb5t6g",
-		"lv6g1h"
-	],
-	"expanded_nodes": [
-		"akpb5t6g",
-		"/"
+		"lv6g17"
 	]
 }

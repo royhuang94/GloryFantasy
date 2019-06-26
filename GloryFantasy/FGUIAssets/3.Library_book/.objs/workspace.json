@@ -1,12 +1,6 @@
 {
-	"active_doc": [
-		"7kyyc3ps",
-		"fo1g0"
-	],
 	"expanded_nodes": [
 		"77p4fojl",
-		"/",
-		"7kyyc3ps",
 		"/"
 	],
 	"docs": [
@@ -14,14 +8,6 @@
 		"jjs9m",
 		"7kyyc3ps",
 		"fo1g0",
-		"7kyyc3ps",
-		"fo1gc",
-		"7kyyc3ps",
-		"fo1g4",
-		"77p4fojl",
-		"ec9a1m",
-		"77p4fojl",
-		"jjs911",
 		"7kyyc3ps",
 		"cu8zq",
 		"7kyyc3ps",
@@ -31,7 +17,15 @@
 		"7kyyc3ps",
 		"umc7g",
 		"7kyyc3ps",
-		"fo1gf"
+		"fo1gf",
+		"7kyyc3ps",
+		"aeohm",
+		"77p4fojl",
+		"ec9a1m"
 	],
-	"hidden_packages": []
+	"hidden_packages": [],
+	"active_doc": [
+		"77p4fojl",
+		"jjs9m"
+	]
 }
