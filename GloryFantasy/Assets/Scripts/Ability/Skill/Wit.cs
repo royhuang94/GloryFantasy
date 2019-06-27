@@ -58,9 +58,8 @@ namespace Ability
             if (Gameplay.Instance().gamePlayInput.InputFSM.TargetList.Count == 0)
                 return false;
             
-            return BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(
-                       Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0]
-                       ).gameObject.GetInstanceID() == _binderInstanceId;
+            
+            return this.GetAbilitySpeller().gameObject.GetInstanceID() == _binderInstanceId;
         }
 
         private void Action()
