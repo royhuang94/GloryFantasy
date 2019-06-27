@@ -118,6 +118,7 @@ namespace GamePlay.Round
         /// </summary>
         public void SetFristRound()
         {
+            RoundState.startPhase.IsFirstEnter = true;
             State = RoundState.RestoreApPhase;
             State.roundCounter = 0;
             EnteringCurrentState();
@@ -193,6 +194,14 @@ namespace GamePlay.Round
     public class StartPhase : RoundState
     {
         bool isFirstEnter = true;
+        public bool IsFirstEnter
+        {
+            get { return isFirstEnter; }
+            set { isFirstEnter = value; }
+        }
+
+
+
         public override void NextState(RoundProcessController roundProcessController)
         {
             base.NextState(roundProcessController);
