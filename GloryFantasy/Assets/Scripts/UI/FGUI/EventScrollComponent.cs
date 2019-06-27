@@ -136,7 +136,7 @@ namespace UI.FGUI
 		
             UpdateButtonText();
             UpdateEventsMessage();
-            UpdateEventScroll(0);
+//            UpdateEventScroll(0);
             
             // TODO: 改成鼠标悬浮显示
             _eventScrollList.onClickItem.Add(OnclickEventIcon);
@@ -176,12 +176,13 @@ namespace UI.FGUI
         /// <param name="selectedIndex">要更新第几个回合的事件轴信息，若为0表示当前回合</param>
         public void UpdateEventScroll(int selectedIndex)
         {
-            Debug.Log("update: " + _eventNodeDic.Count);
             if(_eventNodeDic.Count == 0 || _eventNodeDic[selectedIndex + 1] == null)
                 return;
             _eventScrollList.RemoveChildren(0, -1, true);
             for (int i = 0; i < _eventNodeDic[selectedIndex + 1].Count; i++)
             {
+                if(_eventNodeDic[selectedIndex + 1][i].Length == 0)
+                    continue;
                 GObject item = UIPackage.CreateObject(_pkgName, "EventIcon");
                 item.icon = UIPackage.GetItemURL(_pkgName,
                     eventIcons[Random.Range(0, _eventScrollList._children.Count - 1)]);
@@ -205,6 +206,7 @@ namespace UI.FGUI
 //                int index = (24 - int.Parse(obj.id.Substring(obj.id.Length - 2))) / 2;
                 int index = _eventScrollList.GetChildIndex(obj);
                 index = index > 0 ? index : 0;            // 取正整数
+                GetEventNodeInfo(index);
                 _eventDescribeFrame.GetChild("content").text = _currentEventNodeInfo[index];
                 // 点击下标在可选事件列表内
 //                if (index < Gameplay.Instance().eventScroll.EventScrollListCount)
@@ -287,6 +289,8 @@ namespace UI.FGUI
                 {
                     _eventNodeDic.Add(i + 1, null);
                 }
+                
+                UpdateEventScroll(i);        // 更新事件节点信息时同时更新图标
             }
         }
         
@@ -297,11 +301,14 @@ namespace UI.FGUI
         /// <returns>该节点处理过的所有事件信息集合</returns>
         private void GetEventNodeInfo(int index)
         {
-            if (_eventNodeDic.ContainsKey(index))
+            if (_eventNodeDic.ContainsKey(index + 1))
             {
-                for (int i = 0; i < _eventNodeDic[index].Count; i++)
+                _currentEventNodeInfo.Clear();
+                for (int i = 0; i < _eventNodeDic[index + 1].Count; i++)
                 {
-                    _currentEventNodeInfo.Add(i, _eventNodeDic[index][i]);        // 字典存储下标对应的处理好的事件信息
+                    if(_eventNodeDic[index + 1][i].Length == 0)
+                        continue;
+                    _currentEventNodeInfo.Add(index, _eventNodeDic[index + 1][i]);        // 字典存储下标对应的处理好的事件信息
                 }  
             }
         }
