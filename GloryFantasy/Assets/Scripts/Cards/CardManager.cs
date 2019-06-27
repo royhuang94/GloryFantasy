@@ -129,6 +129,18 @@ namespace GameCard
                 "Ex skill card Trigger"
             );
             
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.Dead,
+                () =>
+                {
+                    int deathId = this.GetDead().gameObject.GetInstanceID();
+                    return ESSlot._heroUnitRelation.ContainsKey(deathId);
+                },
+                () => { ESSlot._heroUnitRelation.Remove(this.GetDead().gameObject.GetInstanceID()); },
+                "ESS relation cleaner"
+            );
+            
             ExtractCards(3);
         }
 
@@ -471,7 +483,7 @@ namespace GameCard
         public bool canSendToCoolDownList()
         {
             _latestDeadUnit = this.GetDead();
-            return _latestDeadUnit.owner == OwnerEnum.Player;
+            return _latestDeadUnit.owner == OwnerEnum.Player && _latestDeadUnit.HasCD;
         }
 
         public bool canHandleHeroUnitDeath()

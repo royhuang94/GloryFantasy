@@ -23,18 +23,18 @@ namespace MainMap
         /// <summary>根据传入的参数生成地图上层元素
         /// 
         /// </summary>
-        /// <param name="elementtype"></param>
+        /// <param name="elementdetail"></param>
         /// <param name="mapunit"></param>
-        public void InstalizeElement(string[] elementtype, GameObject mapunit)
+        public void InstalizeElement(string[] elementdetail, GameObject mapunit)
         {
-            switch (elementtype[1])
+            switch (elementdetail[1])
             {
                 case "monster":
                     //Debug.Log("生成怪物");
                     GameObject monster = (GameObject)Instantiate(Resources.Load("MMtestPrefab/monster", typeof(GameObject)));
                     ElementSet(monster, mapunit);
                     Monster m = monster.AddComponent<Monster>();
-                    m.SetID(elementtype[2]);
+                    m.SetID(elementdetail[0]+"_"+elementdetail[2]);
                     m.SetTexture();
 
                     break;
@@ -99,21 +99,24 @@ namespace MainMap
     /// </summary>
     public class Monster : MapElement
     {
-        private string monsterid;
+        //遭遇id
+        private string encounterid;
+        //这个是测试用的id！只用来更换素材
+        private string testid = "id_0";
         private int level;
         private static List<Monster> monsterlist = new List<Monster>();
         private string BattleMapSceneName = "BattleMapTest";          // 战斗地图场景名，在此修改
         private string MainMapSceneName = "MainMapTest1";
         protected override void Awake()
         {
-            Debug.Log("怪物初始化");
+            //Debug.Log("怪物初始化");
             monsterlist.Add(this);
         }
         public override void OnClickDetail()
         {
-            Debug.Log("怪物被点击");
+           // Debug.Log("怪物被点击");
 //            MainMapUI.Instance().HideMain();
-            SceneSwitchController.Instance().SetData(monsterid, null);
+            SceneSwitchController.Instance().SetData(encounterid, null);
             SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
         }
         /// <summary>
@@ -122,12 +125,16 @@ namespace MainMap
         /// <param name="id"></param>
         public void SetID(string id)
         {
-            monsterid = id;
+            encounterid = id;
             level = int.Parse(id.Split('_').Last());
+            Debug.Log(encounterid);
         }
         public void SetTexture()
         {
-            this.GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + monsterid, typeof(Sprite));
+            //这行测试用，素材统一了就删掉,
+            this.GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + testid, typeof(Sprite));
+            //下面那行是要用的，别删
+            //this.GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + encounterid, typeof(Sprite));
         }
         /// <summary>
         /// 升级所有怪物
@@ -137,8 +144,16 @@ namespace MainMap
             
             foreach (Monster m in monsterlist)
             {
-                m.SetID(m.monsterid.Split('_').First() + "_" + i.ToString());
+                string[] newid = m.encounterid.Split('_');
+                m.SetID(newid[0] +"_" +newid[1] +"_"+ i.ToString());
+                string[] newtest = m.testid.Split('_');
+                Debug.Log(m.encounterid);
+                //测试用
+                m.testid = newtest[0] + "_" + i.ToString();
+                Debug.Log(m.testid);
+                //
                 m.SetTexture();
+
             }
         }
         /// <summary>
@@ -165,7 +180,7 @@ namespace MainMap
     {
         protected override void Awake()
         {
-            Debug.Log("随机事件初始化");
+           // Debug.Log("随机事件初始化");
         }
         public override void OnClickDetail()
         {
@@ -177,7 +192,7 @@ namespace MainMap
     {
         protected override void Awake()
         {
-            Debug.Log("宝箱初始化");
+           // Debug.Log("宝箱初始化");
         }
         public override void OnClickDetail()
         {

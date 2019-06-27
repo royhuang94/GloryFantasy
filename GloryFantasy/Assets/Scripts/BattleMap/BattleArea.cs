@@ -85,7 +85,7 @@ namespace BattleMap
             {
                 register = speller;
                 //初始化响应时点,为战区状态改变
-                msgName = (int)MessageType.AfterColliderChange;
+                msgName = (int)MessageType.ColliderChanged;
                 //初始化条件函数和行为函数
                 condition = Condition;
                 action = Action;
@@ -116,7 +116,7 @@ namespace BattleMap
                         this.SetExOwner(battleArea._battleAreaSate);
                         this.SetNewOwner(newBattleAreaSate);
 
-                        battleArea._battleAreaSate = BattleMap.Instance().battleAreaData.WarZoneBelong(id);//更新该战区所属状态
+                        battleArea._battleAreaSate = newBattleAreaSate;//更新该战区所属状态
                         MsgDispatcher.SendMsg((int)MessageType.RegionChange);
                         BattleMap.Instance().ShowAndUpdataBattleZooe();
                     }
@@ -270,7 +270,6 @@ namespace BattleMap
             #endregion
             if (unitAmout == 0)
             {
-                //中立状态，只存在于初始化
                 return temp._battleAreaSate;
             }
             if (enemyAmout == unitAmout - neutralityAmout)

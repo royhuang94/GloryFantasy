@@ -110,7 +110,7 @@ namespace MainMap
                 {
                     if (element[j] != "null")//如果字符串不为null,则生成地格挂载脚本。
                     {
-                        string[] upper = element[j].Split(new char[] { ':' }, option);
+                        string[] unitdata = element[j].Split(new char[] { ':' }, option);
                         GameObject mapunit = new GameObject("test" + i.ToString() + "," + j.ToString());
                         mapunit.transform.parent = GameObject.Find("Map").transform;
                         mapunit.AddComponent<Button>();
@@ -119,7 +119,7 @@ namespace MainMap
                         anim.AddClip(gridclip, "ClickCheck");
                         anim.playAutomatically = false;
                         anim.AddClip(stop, "Stop");
-                        switch (upper[0])
+                        switch (unitdata[0])
                         {
                             case "plane":
                                 mapunit.AddComponent<Plane>();
@@ -247,9 +247,9 @@ namespace MainMap
                         mapunit.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
                         //如果有地格上层元素，传给MapElementManager处理
-                        if (upper.Length >= 2)
+                        if (unitdata.Length >= 2)
                         {
-                            MapElementManager.Instance().InstalizeElement(upper, mapunit);
+                            MapElementManager.Instance().InstalizeElement(unitdata, mapunit);
                         }
                         else
                         {

@@ -601,12 +601,6 @@
         "TargetList": [
             {
                 "color": [],
-                "is_speller": 1,
-                "tag": [],
-                "type": "友军"
-            },
-            {
-                "color": [],
                 "is_speller": 0,
                 "tag": [],
                 "type": "敌人"
@@ -627,12 +621,6 @@
         "TargetList": [
             {
                 "color": [],
-                "is_speller": 1,
-                "tag": [],
-                "type": "友军"
-            },
-            {
-                "color": [],
                 "is_speller": 0,
                 "tag": [],
                 "type": "敌人"
@@ -651,12 +639,6 @@
         "Name": "月之裁决",
         "Range": 0,
         "TargetList": [
-            {
-                "color": [],
-                "is_speller": 1,
-                "tag": [],
-                "type": "友军"
-            },
             {
                 "color": [],
                 "is_speller": 0,

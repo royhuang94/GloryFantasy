@@ -13,13 +13,19 @@ namespace GameCard
 
         public List<string> ExSkillCards { get { return _exSkillCardsList; } }
 
-
+        public static Dictionary<int, GameObject> _heroUnitRelation = new Dictionary<int, GameObject>();
+        
         public void Awake()
         {
             _exSkillCardsList = new List<string>();
             string unitId = gameObject.GetComponentInChildren<GameUnit.GameUnit>().id;
             string suffix = unitId.Substring(unitId.IndexOf('_'));
             unitId = unitId.Split('_').First();
+
+            if (!_heroUnitRelation.ContainsKey(gameObject.GetInstanceID()))
+            {
+                _heroUnitRelation.Add(gameObject.GetInstanceID(), gameObject);
+            }
             
             // 将映射关系全部导入当前战技槽
             foreach (string exSkillCardId in CardManager.Instance().unitsExSkillCardDataBase[unitId])
@@ -37,7 +43,7 @@ namespace GameCard
                 return;
             }
 
-            // TODO： 这只是DEMO中使用，直接把所有的战技牌放入手牌中
+            // TODO： 这只是DEMO中使用，直接把所有的战技牌放入牌库中
             for (int i = _exSkillCardsList.Count - 1; i >= 0; i--)
             {
                 SettleESCard(i, false);
