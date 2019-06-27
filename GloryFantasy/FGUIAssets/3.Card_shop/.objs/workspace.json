@@ -1,5 +1,4 @@
 {
-	"expanded_nodes": [],
 	"docs": [
 		"77p4fojl",
 		"jjs9m",
@@ -29,6 +28,10 @@
 	"hidden_packages": [],
 	"active_doc": [
 		"bvqmcaat",
-		"m02es"
+		"m02er"
+	],
+	"expanded_nodes": [
+		"bvqmcaat",
+		"/"
 	]
 }
