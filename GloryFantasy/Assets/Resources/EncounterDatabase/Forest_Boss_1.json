@@ -1,8 +1,8 @@
 ﻿[
   {
     "EncounterID": "Forest_Boss_1",
-    "GlobalTrigger": [],
-    "DeathPage": -1,
+    "GlobalTrigger": [ "Failed_DeathPage", "Win_DefeatLeader" ],
+    "DeathPage": 10,
     "UnitMessage": [
       {
         "UnitID": "Chomper_1",

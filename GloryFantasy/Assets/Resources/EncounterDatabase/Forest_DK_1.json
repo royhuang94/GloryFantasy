@@ -1,8 +1,8 @@
 ﻿[
   {
     "EncounterID": "Forest_DK_1",
-    "GlobalTrigger": [],
-    "DeathPage": -1,
+    "GlobalTrigger": [ "Failed_DeathPage", "Win_DefeatLeader" ],
+    "DeathPage": 5,
     "UnitMessage": [
       {
         "UnitID": "ShadowKnight_1",
