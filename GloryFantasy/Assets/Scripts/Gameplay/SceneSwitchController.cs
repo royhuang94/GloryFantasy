@@ -5,18 +5,21 @@ using GameGUI;
 using UI.FGUI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mediator;
 
 public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 
-	// Use this for initialization
-	private string _currentScene;
+    
+
+    // Use this for initialization
+    private string _currentScene;
 	private string _targetScene;
 	private AsyncOperation _asyncOperation;
 	private static GameObject _MMapCameraObject;		// 大地图
 	private static GameObject _BMapCameraObject;		// 战斗地图
 	private string _mainMapSceneName = "MainMapTest1";
 	private string _encounterID;
-	private List<string> _cardList;
+	private Deck _deck;
 	private bool _win;			// 是否胜利
 
 	public bool win
@@ -35,9 +38,9 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// <summary>
 	/// 获取卡组列表
 	/// </summary>
-	public List<string> cardList
+	public Deck deck
 	{
-		get { return _cardList; }
+		get { return _deck; }
 	}
 
 	void Start () 
@@ -98,10 +101,10 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// </summary>
 	/// <param name="encounterId">遭遇ID</param>
 	/// <param name="cardList">卡组list</param>
-	public void SetData(string encounterId, List<string> cardList)
+	public void SetData(string encounterId, Deck cardList)
 	{
 		_encounterID = encounterId;
-		_cardList = cardList;
+		//_cardList = cardList;
 	}
 
 	
