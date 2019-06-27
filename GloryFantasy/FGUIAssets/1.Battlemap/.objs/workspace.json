@@ -1,14 +1,4 @@
 {
-	"active_doc": [
-		"dml5hbrc",
-		"rxqp33"
-	],
-	"expanded_nodes": [
-		"6m3vkp09",
-		"/",
-		"dml5hbrc",
-		"/"
-	],
 	"docs": [
 		"dml5hbrc",
 		"n195m",
@@ -61,5 +51,10 @@
 		"dml5hbrc",
 		"rxqp33"
 	],
-	"hidden_packages": []
+	"hidden_packages": [],
+	"active_doc": [
+		"dml5hbrc",
+		"rxqp33"
+	],
+	"expanded_nodes": []
 }
