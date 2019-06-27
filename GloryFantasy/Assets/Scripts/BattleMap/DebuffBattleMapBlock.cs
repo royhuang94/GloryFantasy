@@ -12,7 +12,7 @@ namespace BattleMap
     public class DebuffBattleMapBlock
     {
         /// <summary>
-        /// 渲染烧灼块
+        ///创建烧灼块，通过坐标
         /// </summary>
         /// <param name="vector2"></param>
         public void SetBattleMapBlockBurning(Vector2 vector2)
@@ -21,8 +21,9 @@ namespace BattleMap
             bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
             SetBattleMapBlockBurning(bm);
         }
+
         /// <summary>
-        /// 渲染烧灼块
+        /// 创造烧灼块，直接通过地图快
         /// </summary>
         /// <param name="bm"></param>
         public void SetBattleMapBlockBurning(BattleMapBlock bm)
@@ -33,7 +34,7 @@ namespace BattleMap
             upLayer.color = new Color(255, 255, 255, 255);
         }
         /// <summary>
-        /// 创造滞留块
+        /// 创造滞留块，通过坐标
         /// </summary>
         /// <param name="vector2s"></param>
         public void SetBattleMapBlockRetrad(Vector2 vector2)
@@ -42,6 +43,10 @@ namespace BattleMap
             bm = BattleMap.Instance().GetSpecificMapBlock(vector2);
             SetBattleMapBlockRetrad(bm);
         }
+        /// <summary>
+        /// 创造滞留块，直接通过地图块
+        /// </summary>
+        /// <param name="bm"></param>
         public void SetBattleMapBlockRetrad(BattleMapBlock bm)
         {
             bm.blockType = EMapBlockType.Retire;

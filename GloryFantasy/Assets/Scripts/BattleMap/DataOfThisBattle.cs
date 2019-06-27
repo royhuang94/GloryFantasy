@@ -14,7 +14,6 @@ namespace GamePlay
         #region 变量
         private int deathPage;//死页数（上限）
         private int curDeathPage;//当前死页数
-        private int ap;//专注值
         private List<Unit> leaders;//“领导者们"
         #endregion
 
