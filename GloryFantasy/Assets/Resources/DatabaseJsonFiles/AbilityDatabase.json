@@ -1164,5 +1164,24 @@
         "Range": 0,
         "TargetList": [],
         "Turns": 0
+    },
+    {
+        "Amount": 0,
+        "Area": 0,
+        "Curing": 0,
+        "Damage": 0,
+        "Description": "提供于测试阶段的召唤单位临时异能",
+        "Draws": 0,
+        "ID": "TEST_ONLY_SummonUnit",
+        "Name": "黄金之手",
+        "Range": 0,
+        "TargetList": [
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
+        "Turns": 0
     }
 ]

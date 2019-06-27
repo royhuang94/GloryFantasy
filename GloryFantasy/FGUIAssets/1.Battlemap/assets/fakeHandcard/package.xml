@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="wr5gk5j8" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="fm7z0" name="GArrowrain.jpg" path="/" exported="true"/>
+    <image id="fm7z1" name="GCuringwind.jpg" path="/" exported="true"/>
+    <image id="fm7z2" name="GJump.jpg" path="/" exported="true"/>
+    <image id="fm7z3" name="GSummonwolf.jpg" path="/" exported="true"/>
+    <image id="fm7z4" name="GWall.jpg" path="/" exported="true"/>
+    <image id="fm7z5" name="GWinterwolf.jpg" path="/" exported="true"/>
+    <image id="fm7z6" name="GWoodfolk.jpg" path="/" exported="true"/>
+    <image id="fm7z7" name="HElf.jpg" path="/" exported="true"/>
+    <image id="fm7z8" name="HKnight.jpg" path="/" exported="true"/>
+    <image id="fm7z9" name="HLunamage.jpg" path="/" exported="true"/>
+    <image id="fm7za" name="PAnthem.jpg" path="/" exported="true"/>
+    <image id="fm7zb" name="RBattlecry.jpg" path="/" exported="true"/>
+    <image id="fm7zc" name="RCourage.jpg" path="/" exported="true"/>
+    <image id="fm7zd" name="RFiresuli.jpg" path="/" exported="true"/>
+    <image id="fm7ze" name="RKnight.jpg" path="/" exported="true"/>
+    <image id="fm7zf" name="RPhoenix.jpg" path="/" exported="true"/>
+    <image id="fm7zg" name="RThrow.jpg" path="/" exported="true"/>
+    <image id="fm7zh" name="URLunastrike.jpg" path="/" exported="true"/>
+    <image id="fm7zi" name="WArcher.jpg" path="/" exported="true"/>
+    <image id="fm7zj" name="WArmour.jpg" path="/" exported="true"/>
+    <image id="fm7zk" name="WInstantidea.jpg" path="/" exported="true"/>
+    <image id="fm7zl" name="WMist.jpg" path="/" exported="true"/>
+    <image id="fm7zm" name="WPonder.jpg" path="/" exported="true"/>
+    <image id="fm7zn" name="WSoldier.jpg" path="/" exported="true"/>
+    <image id="cptro" name="empty.png" path="/" exported="true"/>
+  </resources>
+  <publish name="fakeHandcard"/>
+</packageDescription>

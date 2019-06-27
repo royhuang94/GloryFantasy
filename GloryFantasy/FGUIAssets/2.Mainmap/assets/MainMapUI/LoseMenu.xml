@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1200,800">
+  <displayList>
+    <image id="n0_lv6g" name="n0" src="lv6g14" fileName="Lose.png" xy="56,40"/>
+    <component id="n2_lv6g" name="loseReturnButton" src="lv6g1q" fileName="ReturnButton.xml" xy="478,589"/>
+  </displayList>
+</component>

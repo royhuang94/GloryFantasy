@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="iolkvi4m" jpegQuality="80" compressPNG="true" hasFavorites="true">
+  <resources>
+    <component id="lin60" name="battleScene.xml" path="/" exported="true"/>
+    <image id="i0748" name="110.png" path="/"/>
+    <image id="i0749" name="111.png" path="/"/>
+    <component id="i074a" name="Button1.xml" path="/"/>
+    <sound id="i074b" name="下棋的声音.mp3" path="/" exported="true"/>
+    <image id="i074c" name="112.png" path="/"/>
+    <image id="i074d" name="113.png" path="/"/>
+    <component id="i074e" name="Button2.xml" path="/"/>
+    <image id="i074f" name="114.png" path="/"/>
+    <image id="i074j" name="115.png" path="/"/>
+    <component id="i074k" name="Button3.xml" path="/"/>
+    <image id="i074l" name="101(1).jpg" path="/"/>
+    <image id="i074m" name="116.png" path="/"/>
+    <image id="i074n" name="117.png" path="/"/>
+    <component id="i074s" name="eventIcon.xml" path="/" exported="true"/>
+    <image id="i074u" name="yellowEvent.png" path="/" exported="true"/>
+    <image id="i074v" name="blueEvent.png" path="/" exported="true"/>
+    <image id="i074w" name="redEvent.png" path="/" exported="true"/>
+    <image id="i074x" name="greenEvent.png" path="/" exported="true"/>
+    <image id="ijjy15" name="124.png" path="/"/>
+    <movieclip id="ijjy17" name="123.jta" path="/"/>
+    <image id="wvu11e" name="122.png" path="/"/>
+    <image id="wvu11g" name="126.png" path="/"/>
+    <image id="qb951i" name="11A.png" path="/"/>
+    <component id="qb951j" name="Button4.xml" path="/"/>
+    <image id="qb951k" name="03C.png" path="/"/>
+    <image id="qb951l" name="03D.png" path="/"/>
+    <component id="qb951m" name="Button8.xml" path="/"/>
+    <image id="qb951n" name="06E.jpg" path="/"/>
+    <image id="qb951o" name="11B.png" path="/"/>
+    <image id="qb951p" name="11C.png" path="/"/>
+    <image id="qb951q" name="06D.png" path="/"/>
+    <component id="qb951r" name="cardDescribeFrame.xml" path="/" exported="true"/>
+    <image id="qb951s" name="13A.png" path="/"/>
+    <image id="qb951t" name="emptyCardSlot.png" path="/" exported="true"/>
+    <component id="qb951u" name="cooldownItem.xml" path="/" exported="true"/>
+    <component id="qb951x" name="cardsSetsItem.xml" path="/" exported="true" favorite="true"/>
+    <image id="qb951y" name="06A.png" path="/"/>
+    <image id="qb951z" name="06B.png" path="/"/>
+    <image id="fm7z20" name="12B.png" path="/"/>
+    <component id="fm7z22" name="handcardItem2.xml" path="/" exported="true"/>
+    <component id="fm7z23" name="eventDescribeFrame.xml" path="/" exported="true"/>
+    <component id="fm7z24" name="eventScrollItem.xml" path="/" exported="true"/>
+    <component id="np8v25" name="Button9.xml" path="/"/>
+    <image id="np8v26" name="125.png" path="/"/>
+    <image id="976y2b" name="Attribute.png" path="/"/>
+    <image id="976y2c" name="Attribute_effect_nocontent.png" path="/"/>
+    <image id="976y2d" name="Attribute_nocontent.png" path="/"/>
+    <image id="976y2e" name="book.png" path="/"/>
+    <image id="976y2f" name="Card_clicked.png" path="/"/>
+    <image id="976y2g" name="Card_list.png" path="/"/>
+    <component id="976y2h" name="CardBookFrame.xml" path="/" exported="true"/>
+    <image id="976y2t" name="CardQueue.png" path="/"/>
+  </resources>
+  <publish name="20190603" maxAtlasSize="4096"/>
+</packageDescription>

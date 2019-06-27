@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="dml5hbrc" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="n77s0" name="UguiBackground.png" path="/"/>
+    <image id="n77s2" name="Card_explain.png" path="/"/>
+    <image id="n77s5" name="cooldown.png" path="/"/>
+    <image id="n77s6" name="cooldown_content.png" path="/"/>
+    <image id="n77s7" name="EndRound.png" path="/"/>
+    <image id="n77sa" name="EventScroll_explain.png" path="/"/>
+    <image id="n77sb" name="Focus.png" path="/"/>
+    <image id="n77sc" name="Focus_number.png" path="/"/>
+    <image id="n77sd" name="Roundname.png" path="/"/>
+    <image id="n77se" name="Structure.png" path="/"/>
+    <image id="n77sf" name="RandomEvent.png" path="/" exported="true"/>
+    <image id="n77sg" name="SkillEvent.png" path="/" exported="true"/>
+    <image id="n77sh" name="AddEvent.png" path="/" exported="true"/>
+    <image id="n77si" name="DisasterEvent.png" path="/" exported="true"/>
+    <image id="n77sj" name="EventScroll.png" path="/"/>
+    <image id="n195k" name="EventButton_selected.png" path="/"/>
+    <image id="n195l" name="EventButton.png" path="/"/>
+    <component id="n195m" name="BattleScene.xml" path="/" exported="true"/>
+    <image id="n195n" name="Card_explainBox.png" path="/"/>
+    <image id="n195p" name="EventScroll_content.png" path="/"/>
+    <image id="n195q" name="EventScroll_explain_content.png" path="/"/>
+    <component id="n195r" name="EventExplain.xml" path="/"/>
+    <image id="n195s" name="Cardbook_touched.png" path="/"/>
+    <image id="n195t" name="Cardbook_clicked.png" path="/"/>
+    <image id="n195x" name="EventButton_selected2.png" path="/"/>
+    <component id="n195y" name="EventButton2.xml" path="/"/>
+    <image id="n19512" name="EndRound_Clicked.png" path="/"/>
+    <component id="n19513" name="EndRound.xml" path="/"/>
+    <component id="n19515" name="Focus.xml" path="/"/>
+    <component id="n1951l" name="HandCard.xml" path="/"/>
+    <image id="n1951m" name="125.png" path="/"/>
+    <movieclip id="n1951n" name="123.jta" path="/"/>
+    <image id="n1951o" name="126.png" path="/"/>
+    <component id="n1951p" name="cooldownItem.xml" path="/" exported="true"/>
+    <component id="n1951q" name="EventIcon.xml" path="/"/>
+    <component id="n1951r" name="Background.xml" path="/"/>
+    <component id="n1951s" name="CardBook_collection.xml" path="/"/>
+    <image id="n1951t" name="book.png" path="/" exported="true"/>
+    <image id="n1951u" name="Character.png" path="/"/>
+    <image id="n1951v" name="Attribute_nocontent.png" path="/"/>
+    <image id="n1951w" name="Color.png" path="/"/>
+    <image id="n1951x" name="Skill.png" path="/"/>
+    <component id="n19525" name="Close.xml" path="/"/>
+    <image id="n19526" name="03C.png" path="/"/>
+    <image id="n19527" name="03D.png" path="/"/>
+    <image id="n19529" name="Statement.png" path="/"/>
+    <image id="n1952a" name="Attribute_effect_nocontent.png" path="/"/>
+    <image id="n1952c" name="06A.png" path="/"/>
+    <image id="n1952d" name="06B.png" path="/"/>
+    <image id="n1952e" name="CardSide2.png" path="/"/>
+    <image id="n1952f" name="CardQueue2.png" path="/"/>
+    <image id="n1952g" name="CardSide2_text.png" path="/"/>
+    <image id="n1952h" name="122.png" path="/"/>
+    <component id="n1952j" name="CardSide2.xml" path="/"/>
+    <image id="9ygr2k" name="BattleMap.png" path="/"/>
+    <image id="9ygr2l" name="Cardbook.png" path="/"/>
+    <component id="l6kq2n" name="Cardbook.xml" path="/"/>
+    <image id="mq0c2p" name="13A.png" path="/"/>
+    <component id="mq0c2q" name="cardDescribeFrame.xml" path="/" exported="true"/>
+    <component id="cptr2r" name="eventDescribeFrame.xml" path="/" exported="true"/>
+    <image id="cptr2s" name="117.png" path="/"/>
+    <component id="cptr2t" name="eventButton.xml" path="/" exported="true"/>
+    <component id="rxqp2v" name="cardListFrame.xml" path="/" exported="true"/>
+    <component id="rxqp2w" name="Button1.xml" path="/"/>
+    <component id="rxqp2x" name="Button1(1).xml" path="/"/>
+    <component id="rxqp2y" name="Button1(2).xml" path="/"/>
+    <image id="rxqp31" name="122(1).png" path="/"/>
+    <image id="rxqp32" name="CardSide2(1).png" path="/"/>
+    <component id="rxqp33" name="Button2.xml" path="/" exported="true"/>
+    <component id="r3pt34" name="Button1(3).xml" path="/"/>
+    <component id="r3pt35" name="Button1(4).xml" path="/"/>
+    <component id="r3pt36" name="unitListFrame.xml" path="/" exported="true"/>
+    <component id="r3pt37" name="unitButton.xml" path="/" exported="true"/>
+  </resources>
+  <publish name="newBattlemap" maxAtlasSize="4096"/>
+</packageDescription>

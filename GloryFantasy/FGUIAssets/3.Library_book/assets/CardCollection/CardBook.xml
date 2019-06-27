@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1500,900">
+  <displayList>
+    <image id="n0_jjs9" name="n0" src="jjs9l" fileName="book.png" xy="-28,5" size="1556,889"/>
+    <image id="n47_g8sy" name="n47" src="g8sy1a" fileName="CardQueue.png" xy="0,8" size="1407,869"/>
+    <loader id="n59_n195" name="cardPic" xy="776,8" size="585,656" url="ui://77p4fojljjs9n" fill="scaleMatchWidth"/>
+    <image id="n5_jjs9" name="n5" src="jjs9o" fileName="Attribute_nocontent.png" xy="887,626" size="341,118"/>
+    <image id="n58_xn1k" name="n58" src="xn1k1t" fileName="Attribute_effect_nocontent.png" xy="889,684" size="334,60"/>
+    <image id="n14_jjs9" name="n14" src="jjs9r" fileName="Color.png" xy="967,673" size="172,171"/>
+    <image id="n53_kujd" name="n53" src="kujd1q" fileName="Statement.png" xy="45,24" size="1434,885"/>
+    <component id="n25_jjs9" name="upgradeButton" src="jjs911" fileName="Upgrade.xml" xy="784,751" size="92,44"/>
+    <component id="n27_jjs9" name="evolveButton" src="jjs914" fileName="Evolve.xml" xy="1220,757" size="91,43"/>
+    <text id="n37_jjs9" name="name" xy="817,102" size="110,48" fontSize="12" autoSize="none" text=""/>
+    <component id="n38_g8sy" name="closeButton" src="utg12" fileName="Close.xml" xy="1387,-4" size="97,106"/>
+    <text id="n42_g8sy" name="type" xy="817,161" size="107,33" fontSize="12" autoSize="none" text=""/>
+    <text id="n43_g8sy" name="tag" xy="927,162" size="157,32" fontSize="12" autoSize="none" text=""/>
+    <text id="n44_g8sy" name="effect" xy="818,372" size="269,62" fontSize="12" autoSize="none" text=""/>
+    <text id="n45_g8sy" name="describe" xy="818,201" size="268,163" fontSize="12" autoSize="none" text=""/>
+    <text id="n46_g8sy" name="property" xy="886,628" size="340,115" fontSize="12" autoSize="none" text=""/>
+    <list id="n48_g8sy" name="cardList" xy="204,84" size="479,675" overflow="scroll"/>
+    <text id="n50_ec9a" name="n50" xy="888,685" size="336,58" fontSize="12" autoSize="none" text=""/>
+    <image id="n17_jjs9" name="n17" src="jjs9t" fileName="Skill.png" xy="1280,358" size="52,169"/>
+  </displayList>
+</component>

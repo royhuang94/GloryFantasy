@@ -68,7 +68,7 @@
     ]
   },
   {
-    "ID": "Devil_DarkReinforce",
+    "ID": "PurpleTentacle_DarkReinforce",
     "amount": 0,
     "effect": "在来源单位周围部署2个黑影（CR {strenth}）。",
     "name": "渊罪行进",
@@ -101,7 +101,7 @@
     ]
   },
   {
-    "ID": "Devil_MarshReinforce",
+    "ID": "GreenTentacle_MarshReinforce",
     "amount": 0,
     "effect": "在来源单位周围部署2个深沼泥人（CR {strenth}）。",
     "name": "邪林援护",
@@ -124,7 +124,7 @@
     ]
   },
   {
-    "ID": "Devil_SandReinforce",
+    "ID": "RedTentacle_SandReinforce",
     "amount": 0,
     "effect": "在来源单位周围部署2个巨鄂沙蚁（CR {strenth}）。",
     "name": "沙之恶从",
@@ -234,6 +234,28 @@
     ]
   },
   {
+    "ID": "ReinforceGargoyle",
+    "amount": 1,
+    "effect": "在来源战区随机部署{amount}个黝黑石像（CR {strenth}）",
+    "name": "增援：石像",
+    "source_type": "战区",
+    "strenth": 1,
+    "type": [
+      "增援"
+    ]
+  },
+  {
+    "ID": "ReinforceTentacle",
+    "amount": 1,
+    "effect": "在来源战区随机部署{amount}个触手（CR {strenth}）",
+    "name": "增援：触手",
+    "source_type": "战区",
+    "strenth": 1,
+    "type": [
+      "增援"
+    ]
+  },
+  {
     "ID": "ReinforceWarrior",
     "amount": 1,
     "effect": "在来源战区中随机部署{amount}个黑影(CR {strenth})",
@@ -249,6 +271,28 @@
     "amount": 2,
     "effect": "在来源战区中随机部署{amount}个狼影(CR {strenth})",
     "name": "增援：狼影",
+    "source_type": "战区",
+    "strenth": 1,
+    "type": [
+      "增援"
+    ]
+  },
+  {
+    "ID": "ReinforceOoze",
+    "amount": 1,
+    "effect": "在来源战区中随机部署{amount}个泥怪(CR {strenth})",
+    "name": "增援：泥怪",
+    "source_type": "战区",
+    "strenth": 1,
+    "type": [
+      "增援"
+    ]
+  },
+  {
+    "ID": "ReinforcePage",
+    "amount": 1,
+    "effect": "在来源战区中随机部署{amount}个书页(CR {strenth})",
+    "name": "增援：书",
     "source_type": "战区",
     "strenth": 1,
     "type": [

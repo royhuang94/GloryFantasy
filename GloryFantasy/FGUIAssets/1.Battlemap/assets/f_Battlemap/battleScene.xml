@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="960,540" designImage="ui://iolkvi4mi0745" designImageLayer="1">
+  <displayList>
+    <component id="n2_i074" name="cardSetsButton" src="i074a" fileName="Button1.xml" xy="25,419" size="97,120" aspect="true">
+      <Button sound="ui://iolkvi4mi074b" volume="100"/>
+    </component>
+    <image id="n3_i074" name="n3" src="i074c" fileName="112.png" xy="840,103" size="97,334" aspect="true"/>
+    <component id="n5_i074" name="endRoundButton" src="i074e" fileName="Button2.xml" xy="838,491" size="122,49" aspect="true"/>
+    <text id="n6_i074" name="roundText" xy="865,467" size="87,27" font="FZGuLi-S12S" fontSize="18" color="#6f3429" leading="0" letterSpacing="1" autoSize="none" text="第一回合"/>
+    <component id="n11_i074" name="APDisplayer" src="i074k" fileName="Button3.xml" xy="411,-19"/>
+    <image id="n13_i074" name="n13" src="i074m" fileName="116.png" xy="0,73" size="12,262" aspect="true"/>
+    <list id="n16_i074" name="eventScrollList" xy="12,73" size="48,261" lineGap="6" defaultItem="ui://iolkvi4mi074s" align="center" vAlign="middle">
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+    <list id="n29_qb95" name="cooldownList" xy="860,129" size="62,255" overflow="scroll" defaultItem="ui://jn70pguycluh2e" align="center">
+      <relation target="" sidePair="center-center,top-bottom"/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+    <list id="n30_fm7z" name="handcardList" xy="162,360" size="647,179" layout="row" colGap="-30" defaultItem="ui://iolkvi4mnp8v25" align="center" vAlign="bottom">
+      <relation target="" sidePair="center-center,bottom-bottom"/>
+      <item/>
+    </list>
+    <image id="n31_owb3" name="n31" src="i074l" fileName="101(1).jpg" xy="0,0" size="960,540" locked="true" hideByEditor="true" alpha="0.5"/>
+  </displayList>
+  <transition name="t0" autoPlay="true">
+    <item time="0" type="Alpha" target="n11_i074" tween="true" startValue="0" endValue="1" duration="9"/>
+    <item time="0" type="Alpha" target="n5_i074" tween="true" startValue="0" endValue="1" duration="12"/>
+    <item time="0" type="XY" target="n11_i074" tween="true" startValue="411,-72" endValue="411,-20" duration="6" ease="Back.Out"/>
+    <item time="0" type="XY" target="n2_i074" tween="true" startValue="-97,419" endValue="25,419" duration="14" ease="Back.InOut"/>
+    <item time="0" type="XY" target="n5_i074" tween="true" startValue="960,491" endValue="838,491" duration="6" ease="Sine.InOut"/>
+    <item time="12" type="Alpha" target="n5_i074" tween="true" startValue="1"/>
+  </transition>
+</component>

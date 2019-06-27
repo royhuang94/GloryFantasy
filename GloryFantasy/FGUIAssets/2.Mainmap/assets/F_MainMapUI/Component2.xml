@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="960,540">
+  <displayList>
+    <image id="n0_nsn8" name="n0" src="nsn81" fileName="01A.jpg" xy="0,0" locked="true"/>
+    <component id="n1_nsn8" name="CardCollectionBtn" src="nsn87" fileName="Button2.xml" xy="854,413"/>
+    <image id="n2_nsn8" name="n2" src="nsn88" fileName="02G.png" xy="886,16"/>
+    <component id="n9_nsn8" name="n9" src="nsn8p" fileName="Button3.xml" xy="11,360"/>
+    <component id="n10_nsn8" name="n10" src="nsn8m" fileName="Component3.xml" xy="122,454"/>
+    <image id="n11_nsn8" name="n11" src="nsn8q" fileName="02D.png" xy="269,461"/>
+  </displayList>
+  <transition name="t0" autoPlay="true">
+    <item time="0" type="XY" target="n1_nsn8" tween="true" startValue="949,414" endValue="854,413" duration="6" ease="Back.InOut"/>
+  </transition>
+  <transition name="t1" autoPlay="true">
+    <item time="0" type="Alpha" target="n11_nsn8" tween="true" startValue="0.25" endValue="1" duration="6"/>
+    <item time="0" type="Alpha" target="n2_nsn8" tween="true" startValue="0.25" endValue="1" duration="6"/>
+  </transition>
+</component>

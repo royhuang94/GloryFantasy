@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1200,900">
+  <displayList>
+    <image id="n2_lv6g" name="n2" src="lv6g16" fileName="Win.png" xy="56,22"/>
+    <component id="n3_lv6g" name="continueButton" src="lv6g1p" fileName="ContinueButton.xml" xy="480,718"/>
+    <component id="n9_yed8" name="n9" src="sdan1y" fileName="CardSelected.xml" xy="183,258"/>
+    <component id="n10_yed8" name="n10" src="sdan1y" fileName="CardSelected.xml" xy="485,258"/>
+    <component id="n11_yed8" name="n11" src="sdan1y" fileName="CardSelected.xml" xy="782,258"/>
+  </displayList>
+</component>
