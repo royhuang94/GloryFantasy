@@ -95,7 +95,9 @@ namespace BattleMap
 
             private bool Condition()
             {
-                return true;
+                if(id <= BattleMap.Instance().battleAreaData.BattleAreaDic.Count)//保证这个战区一定存在
+                    return true;
+                return false;
             }
 
             private void Action()
