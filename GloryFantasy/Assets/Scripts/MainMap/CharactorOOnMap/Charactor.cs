@@ -270,6 +270,10 @@ namespace MainMap
         {
             if (charactordata.charactorstate == MoveState.Start)
             {
+                Vector3 vect = charactordata.playerlocate.ChangeToHexVect(target);
+                charactordata.underfeet = FindObject(vect.x, vect.y);
+                //在这里根据移动方向更换人物素材
+                setaround(FindObject(vect.x, vect.y));
                 charactordata.charactorstate = MoveState.Moving;
                 Debug.Log("移动开始");
                 while (GetComponent<Transform>().position != target)
@@ -279,9 +283,7 @@ namespace MainMap
                 }
                 charactordata.charactorstate = MoveState.Stop;
                 Debug.Log("移动结束");
-                Vector3 vect = charactordata.playerlocate.ChangeToHexVect(target);
-                setaround(FindObject(vect.x,vect.y));
-                charactordata.underfeet =FindObject(vect.x,vect.y);
+
                 Debug.Log("角色移动至：" + charactordata.underfeet);
                 charactordata.charactorstate = MoveState.MotionLess;
                 charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();
