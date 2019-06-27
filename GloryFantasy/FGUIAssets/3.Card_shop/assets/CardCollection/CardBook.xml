@@ -17,7 +17,17 @@
     <text id="n44_g8sy" name="effect" xy="818,372" size="269,62" fontSize="12" autoSize="none" text=""/>
     <text id="n45_g8sy" name="describe" xy="818,201" size="268,163" fontSize="12" autoSize="none" text=""/>
     <text id="n46_g8sy" name="property" xy="886,628" size="340,115" fontSize="12" autoSize="none" text=""/>
-    <list id="n48_g8sy" name="cardList" xy="204,84" size="479,675" overflow="scroll"/>
+    <list id="n48_g8sy" name="cardList" xy="233,106" size="413,643" layout="pagination" overflow="hidden" lineGap="25" colGap="20" lineItemCount="3" lineItemCount2="3" defaultItem="ui://77p4fojlec9a1m">
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
     <text id="n50_ec9a" name="n50" xy="888,685" size="336,58" fontSize="12" autoSize="none" text=""/>
     <image id="n17_jjs9" name="n17" src="jjs9t" fileName="Skill.png" xy="1280,358" size="52,169"/>
   </displayList>
