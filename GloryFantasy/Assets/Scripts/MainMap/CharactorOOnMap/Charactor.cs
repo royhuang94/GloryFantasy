@@ -274,7 +274,7 @@ namespace MainMap
                 Vector3 vect = charactordata.playerlocate.ChangeToHexVect(target);
                 charactordata.underfeet = FindObject(vect.x, vect.y);
                 //在这里根据移动方向更换人物素材，判断charactordata的underfeet的键，然后用不同的素材替换
-                Charactor.Instance().GetComponent<Image>().
+                //具体替换语句是Charactor.Instance().GetComponent<Image>().sprite = (材质名字);
                 setaround(FindObject(vect.x, vect.y));
                 charactordata.charactorstate = MoveState.Moving;
                 Debug.Log("移动开始");
