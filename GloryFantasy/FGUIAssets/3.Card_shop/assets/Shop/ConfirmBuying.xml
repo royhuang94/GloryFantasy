@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="600,300">
+  <displayList>
+    <image id="n0_cu8z" name="n0" src="m02ek" fileName="ConfirmBuying.png" xy="32,-3" size="529,304"/>
+    <component id="n3_cu8z" name="ConfirmBuying_n" src="m02em" fileName="ConfirmBuying_n.xml" xy="379,215" size="57,22"/>
+    <component id="n4_cu8z" name="ConfirmBuying_y" src="m02eo" fileName="ConfirmBuying_y.xml" xy="157,215" size="57,23"/>
+  </displayList>
+</component>

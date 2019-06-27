@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1500,900">
+  <controller name="c1" pages="0,,1," selected="0"/>
+  <displayList>
+    <image id="n20_gyi6" name="n20" src="m02eq" fileName="Shop.png" xy="11,38" size="1472,831"/>
+    <list id="n3_fo1g" name="ShopCardList" xy="344,174" size="831,420" layout="flow_vt" overflow="scroll" colGap="66" defaultItem="ui://bvqmcaatm02eg">
+      <item/>
+      <item/>
+    </list>
+    <component id="n4_fo1g" name="TransferBtn" src="m02eb" fileName="Button2.xml" xy="1215,761" size="209,85">
+      <gearDisplay controller="c1" pages="0,1"/>
+      <Button controller="c1" page="1"/>
+    </component>
+    <component id="n11_fo1g" name="TransferMain" src="m02es" fileName="TransferMain.xml" xy="514,92" size="500,726">
+      <gearDisplay controller="c1" pages="1"/>
+    </component>
+    <component id="n12_aeoh" name="Close" src="m02ef" fileName="Button6.xml" xy="1207,108" size="59,62"/>
+    <image id="n17_gyi6" name="n17" src="m02ei" fileName="Coinbag.png" xy="308,696" size="151,153"/>
+    <text id="n18_gyi6" name="n18" xy="349,757" size="57,48" fontSize="50" align="center" autoSize="none" text="5"/>
+  </displayList>
+  <transition name="t0" autoPlay="true"/>
+</component>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="bvqmcaat" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="m02e0" name="03A.jpg" path="/"/>
+    <image id="m02e1" name="03B.png" path="/"/>
+    <image id="m02e2" name="05A.png" path="/"/>
+    <image id="m02e3" name="05B.png" path="/"/>
+    <image id="m02e4" name="06A.png" path="/"/>
+    <image id="m02e5" name="06B.png" path="/"/>
+    <image id="m02e6" name="06D.png" path="/"/>
+    <image id="m02e7" name="06E.png" path="/"/>
+    <image id="m02e8" name="07A(1).png" path="/"/>
+    <image id="m02e9" name="08A.png" path="/"/>
+    <movieclip id="m02ea" name="101.jta" path="/" atlas="alone"/>
+    <component id="m02eb" name="Button2.xml" path="/"/>
+    <component id="m02ec" name="Button3.xml" path="/"/>
+    <component id="m02ed" name="Button4.xml" path="/"/>
+    <component id="m02ee" name="Button5.xml" path="/" exported="true"/>
+    <component id="m02ef" name="Button6.xml" path="/" exported="true"/>
+    <component id="m02eg" name="CardItem.xml" path="/" exported="true"/>
+    <image id="m02eh" name="CardSample.png" path="/"/>
+    <image id="m02ei" name="Coinbag.png" path="/"/>
+    <image id="m02ej" name="Coinbag_number.png" path="/"/>
+    <image id="m02ek" name="ConfirmBuying.png" path="/"/>
+    <component id="m02el" name="ConfirmBuying.xml" path="/" exported="true"/>
+    <component id="m02em" name="ConfirmBuying_n.xml" path="/"/>
+    <image id="m02en" name="ConfirmBuying_n.png" path="/"/>
+    <component id="m02eo" name="ConfirmBuying_y.xml" path="/"/>
+    <image id="m02ep" name="ConfirmBuying_y.png" path="/"/>
+    <image id="m02eq" name="Shop.png" path="/"/>
+    <component id="m02er" name="ShopMain.xml" path="/" exported="true"/>
+    <component id="m02es" name="TransferMain.xml" path="/"/>
+  </resources>
+  <publish name="Library"/>
+</packageDescription>

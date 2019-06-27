@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="268,80" pivot="0.5,0.5" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <loader id="n4_umc7" name="n4" xy="0,0" size="268,82" url="ui://bvqmcaatm02ed" fill="scaleMatchWidth"/>
+    <text id="n5_wo1x" name="text" xy="56,15" size="164,62" font="FZGuLi-S12S" fontSize="50" color="#622f0d" autoSize="none" bold="true" text="地点一">
+      <gearDisplay controller="button" pages="0,1,2,3"/>
+    </text>
+  </displayList>
+  <Button downEffect="scale" downEffectValue="0.95"/>
+</component>
