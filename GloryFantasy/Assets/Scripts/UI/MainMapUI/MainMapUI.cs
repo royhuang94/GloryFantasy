@@ -255,7 +255,7 @@ namespace GameGUI
             choosenlibrary = library;
             Library.activelibrarylist.Remove(library);
             GComponent transfermain = libraryUI.GetChild("TransferMain").asCom;
-            transferlist = transfermain.GetChild("transferList").asList;
+            transferlist = transfermain.GetChild("transferlist").asList;
             transferlist.RemoveChildren();
             foreach (Library i in Library.activelibrarylist)
             {
@@ -323,8 +323,8 @@ namespace GameGUI
             CardCollection.Instance().choosecardindex = onsalelist.GetChildIndex(context.data as GObject);
             CardCollection.Instance().choosecardID = choosenlibrary.librarylist[CardCollection.Instance().choosecardindex];
             verify_UI.Show();
-            buybtn = verify_UI.contentPane.GetChild("buybtn").asButton;
-            cancelbtn = verify_UI.contentPane.GetChild("cancelbtn").asButton;
+            buybtn = verify_UI.contentPane.GetChild("ConfirmBuying_y").asButton;
+            cancelbtn = verify_UI.contentPane.GetChild("ConfirmBuying_n").asButton;
             buybtn.onClick.Add(BuyOnclick);
             cancelbtn.onClick.Add(CancelOnclick);
 

@@ -1,4 +1,9 @@
 {
+	"active_doc": [
+		"77p4fojl",
+		"ec9a1m"
+	],
+	"expanded_nodes": [],
 	"docs": [
 		"77p4fojl",
 		"jjs9m",
@@ -7,10 +12,5 @@
 		"77p4fojl",
 		"jjs911"
 	],
-	"hidden_packages": [],
-	"active_doc": [
-		"77p4fojl",
-		"ec9a1m"
-	],
-	"expanded_nodes": []
+	"hidden_packages": []
 }
