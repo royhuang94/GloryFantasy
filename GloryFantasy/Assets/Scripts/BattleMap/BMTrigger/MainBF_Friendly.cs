@@ -14,7 +14,7 @@ namespace BattleMap
         {
             register = battleArea;
             //初始化响应时点,为战区状态改变
-            msgName = (int)MessageType.AfterColliderChange;
+            msgName = (int)MessageType.ColliderChanged;
             //初始化条件函数和行为函数
             condition = Condition;
             action = Action;

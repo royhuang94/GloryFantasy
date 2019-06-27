@@ -179,6 +179,7 @@ public class BMBCollider
                 exitUnits.Add(unit);
             }
         }
+        MsgDispatcher.SendMsg((int)MessageType.ColliderChanged);
     }
 
     #region 主程看不懂的老代码

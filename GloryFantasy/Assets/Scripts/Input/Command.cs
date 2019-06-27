@@ -127,7 +127,7 @@ namespace GamePlay.Input
                 units.AddRange(_blocks[i].units_on_me);
             }
             this.SetSummonUnit(units);
-
+            MsgDispatcher.SendMsg((int)MessageType.Summon);
             //更新仇恨列表
         }
 

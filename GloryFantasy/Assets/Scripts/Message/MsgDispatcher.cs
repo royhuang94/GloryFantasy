@@ -57,8 +57,8 @@ namespace IMessage
         #endregion
 
         #region 复合信息
-        ColliderChange, // 碰撞器状态变化
-        AfterColliderChange, // 碰撞器状态更新完成后
+        ColliderChange, // 碰撞器状态可能变化
+        ColliderChanged, // 碰撞器状态发生变化
         #endregion
 
         Move, //开始移动
@@ -159,12 +159,6 @@ namespace IMessage
                     (int)MessageType.Summon,
                     (int)MessageType.Moved,
                 }
-            },
-            {
-                (int)MessageType.AfterColliderChange, new List<int>
-                {
-                    (int)MessageType.ColliderChange
-                }
             }
 
         });
@@ -252,18 +246,19 @@ namespace IMessage
             {
                 //Debug.Log("SendMsg: " + msgName + "is not define");
             }
-            if (!MsgHandlerDict.ContainsKey(msgName))
-            {
-                //Debug.Log("SendMsg: " + msgName + "had not been regeisted");
-                return;
-            }
+            //if (!MsgHandlerDict.ContainsKey(msgName))
+            //{
+            //    //Debug.Log("SendMsg: " + msgName + "had not been regeisted");
+            //    return;
+            //}
 
             List<int> queue = new List<int> { msgName };
             int pointer = 0;
             List<MsgHandler> handlers = new List<MsgHandler>();
             while (queue.Count > pointer)
             {
-                handlers.AddRange(MsgHandlerDict[queue[pointer]]);
+                if (MsgHandlerDict.ContainsKey(queue[pointer]))
+                    handlers.AddRange(MsgHandlerDict[queue[pointer]]);
                 if (ComplexMsgType.ContainsKey(queue[pointer]))
                 {
                     foreach(int i in ComplexMsgType[queue[pointer]])
@@ -278,7 +273,7 @@ namespace IMessage
             }
             var handlerCount = handlers.Count;
 
-            for (int index = handlerCount - 1; index >= 0; index --)
+            for (int index = 0; index < handlers.Count; index ++)
             {
                 var handler = handlers[index];
                 if (handler.receiver != null && !handler.receiver.Equals(null))
@@ -304,6 +299,7 @@ namespace IMessage
                     //接收者已经不存在则从广播列表里删除
                     handlers.Remove(handler);
                     Debug.Log("SendMsg: One " + msgName + "'s receiver had been destory");
+                    index--;
                 }
             }
         }
