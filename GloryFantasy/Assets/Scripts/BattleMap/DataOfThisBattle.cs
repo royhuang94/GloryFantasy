@@ -12,13 +12,14 @@ namespace GamePlay
     public class DataOfThisBattle
     {
         #region 变量
-        private int deathPage;//死页数
+        private int deathPage;//死页数（上限）
+        private int curDeathPage;//当前死页数
         private int ap;//专注值
         private List<Unit> leaders;//“领导者们"
         #endregion
 
-        public int DeathPage { get { return deathPage; } }//死页数
-        public int AP { get { return ap; } }//专注值，计算方式为：默认专注值 + 增益专注值
+        public int DeathPage { get { return deathPage; } }//死页数（上限）
+        public int CurDeathPage { get { return curDeathPage; } }//当前死页数
 
         /// <summary>
         /// 初始数据
@@ -26,25 +27,16 @@ namespace GamePlay
         public void InitData(string encounterID)
         {
             deathPage = EncouterData.Instance()._encounterData[encounterID].deathPage;
-            ap = Player.Instance().ap;
+            curDeathPage = 0;
         }
 
         /// <summary>
         /// 增加死页
         /// </summary>
         /// <param name="amount"></param>
-        public void AddDeathPage(int amount)
+        public void AddDeathPage()
         {
-            deathPage += amount;
-        }
-
-        /// <summary>
-        /// 增加ap
-        /// </summary>
-        /// <param name="ap"></param>
-        public void AddAP(int ap)
-        {
-            Player.Instance().AddAp(ap);
+            curDeathPage++;
         }
 
         /// <summary>
