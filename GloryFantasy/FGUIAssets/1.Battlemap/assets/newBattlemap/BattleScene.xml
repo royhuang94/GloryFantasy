@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080">
   <displayList>
+    <image id="n42_ot56" name="n42" src="ot563a" fileName="EventScroll.png" xy="-1,281"/>
+    <image id="n41_ot56" name="n41" src="9ygr2k" fileName="BattleMap.png" xy="0,0" hideByEditor="true"/>
     <text id="n36_l6kq" name="roundText" xy="1719,933" size="189,48" fontSize="36" color="#6f3429" align="center" vAlign="middle" leading="0" letterSpacing="1" autoSize="none" bold="true" text="第一回合"/>
-    <image id="n6_n195" name="n6" src="n77sj" fileName="EventScroll.png" xy="0,280"/>
-    <component id="n13_n195" name="roundEventButton5" src="cptr2t" fileName="eventButton.xml" xy="10,720"/>
-    <component id="n14_n195" name="roundEventButton4" src="cptr2t" fileName="eventButton.xml" xy="10,634"/>
-    <component id="n15_n195" name="roundEventButton3" src="cptr2t" fileName="eventButton.xml" xy="10,545"/>
-    <component id="n16_n195" name="roundEventButton2" src="cptr2t" fileName="eventButton.xml" xy="10,456"/>
-    <component id="n17_n195" name="roundEventButton1" src="cptr2t" fileName="eventButton.xml" xy="11,366"/>
     <component id="n19_n195" name="endRoundButton" src="n19513" fileName="EndRound.xml" xy="1681,988"/>
     <image id="n20_n195" name="n20" src="n77s5" fileName="cooldown.png" xy="1672,216"/>
     <list id="n32_n195" name="cooldownList" xy="1728,260" size="100,515" overflow="scroll" lineGap="25" defaultItem="ui://dml5hbrcn1951p" align="center" autoClearItems="true">
@@ -27,9 +23,12 @@
     <list id="n29_n195" name="handcardList" xy="351,780" size="1183,373" layout="row" colGap="-80" defaultItem="ui://dml5hbrcn1951l" align="center" vAlign="bottom">
       <item/>
     </list>
-    <component id="n39_rxqp" name="n38" src="rxqp2w" fileName="Button1.xml" xy="1820,862" size="85,69"/>
-    <component id="n40_rxqp" name="n40" src="rxqp2x" fileName="Button1(1).xml" xy="1687,863" size="103,68"/>
-    <component id="n41_r3pt" name="n41" src="r3pt34" fileName="Button1(3).xml" xy="1813,786" size="108,65"/>
-    <component id="n42_r3pt" name="n42" src="r3pt35" fileName="Button1(4).xml" xy="1687,788" size="111,64"/>
+    <component id="n39_rxqp" name="n38" src="rxqp2w" fileName="Button1.xml" xy="1717,861" size="89,69"/>
+    <component id="n40_rxqp" name="n40" src="rxqp2x" fileName="Button1(1).xml" xy="1596,915" size="103,68"/>
+    <component id="n43_ot56" name="n43" src="ot5639" fileName="EventButton.xml" xy="-1,356"/>
+    <component id="n44_ot56" name="n44" src="ot5639" fileName="EventButton.xml" xy="-2,445"/>
+    <component id="n45_ot56" name="n45" src="ot5639" fileName="EventButton.xml" xy="-2,534"/>
+    <component id="n46_ot56" name="n46" src="ot5639" fileName="EventButton.xml" xy="-1,622"/>
+    <component id="n47_ot56" name="n47" src="ot5639" fileName="EventButton.xml" xy="-1,709" size="145,91"/>
   </displayList>
 </component>

@@ -15,9 +15,6 @@
     <image id="n77sg" name="SkillEvent.png" path="/" exported="true"/>
     <image id="n77sh" name="AddEvent.png" path="/" exported="true"/>
     <image id="n77si" name="DisasterEvent.png" path="/" exported="true"/>
-    <image id="n77sj" name="EventScroll.png" path="/"/>
-    <image id="n195k" name="EventButton_selected.png" path="/"/>
-    <image id="n195l" name="EventButton.png" path="/"/>
     <component id="n195m" name="BattleScene.xml" path="/" exported="true"/>
     <image id="n195n" name="Card_explainBox.png" path="/"/>
     <image id="n195p" name="EventScroll_content.png" path="/"/>
@@ -25,8 +22,6 @@
     <component id="n195r" name="EventExplain.xml" path="/"/>
     <image id="n195s" name="Cardbook_touched.png" path="/"/>
     <image id="n195t" name="Cardbook_clicked.png" path="/"/>
-    <image id="n195x" name="EventButton_selected2.png" path="/"/>
-    <component id="n195y" name="EventButton2.xml" path="/"/>
     <image id="n19512" name="EndRound_Clicked.png" path="/"/>
     <component id="n19513" name="EndRound.xml" path="/"/>
     <component id="n19515" name="Focus.xml" path="/"/>
@@ -62,7 +57,6 @@
     <component id="mq0c2q" name="cardDescribeFrame.xml" path="/" exported="true"/>
     <component id="cptr2r" name="eventDescribeFrame.xml" path="/" exported="true"/>
     <image id="cptr2s" name="117.png" path="/"/>
-    <component id="cptr2t" name="eventButton.xml" path="/" exported="true"/>
     <component id="rxqp2v" name="cardListFrame.xml" path="/" exported="true"/>
     <component id="rxqp2w" name="Button1.xml" path="/"/>
     <component id="rxqp2x" name="Button1(1).xml" path="/"/>
@@ -70,10 +64,11 @@
     <image id="rxqp31" name="122(1).png" path="/"/>
     <image id="rxqp32" name="CardSide2(1).png" path="/"/>
     <component id="rxqp33" name="Button2.xml" path="/" exported="true"/>
-    <component id="r3pt34" name="Button1(3).xml" path="/"/>
-    <component id="r3pt35" name="Button1(4).xml" path="/"/>
-    <component id="r3pt36" name="unitListFrame.xml" path="/" exported="true"/>
-    <component id="r3pt37" name="unitButton.xml" path="/" exported="true"/>
+    <image id="ot5634" name="EventButton_selected.png" path="/"/>
+    <image id="ot5636" name="EventScrollNew.png" path="/"/>
+    <image id="ot5637" name="EventButton.png" path="/"/>
+    <component id="ot5639" name="EventButton.xml" path="/"/>
+    <image id="ot563a" name="EventScroll.png" path="/"/>
   </resources>
   <publish name="newBattlemap" maxAtlasSize="4096"/>
 </packageDescription>
