@@ -68,7 +68,7 @@
     ]
   },
   {
-    "ID": "Devil_DarkReinforce",
+    "ID": "PurpleTentacle_DarkReinforce",
     "amount": 0,
     "effect": "在来源单位周围部署2个黑影（CR {strenth}）。",
     "name": "渊罪行进",
@@ -101,7 +101,7 @@
     ]
   },
   {
-    "ID": "Devil_MarshReinforce",
+    "ID": "GreenTentacle_MarshReinforce",
     "amount": 0,
     "effect": "在来源单位周围部署2个深沼泥人（CR {strenth}）。",
     "name": "邪林援护",
@@ -124,7 +124,7 @@
     ]
   },
   {
-    "ID": "Devil_SandReinforce",
+    "ID": "RedTentacle_SandReinforce",
     "amount": 0,
     "effect": "在来源单位周围部署2个巨鄂沙蚁（CR {strenth}）。",
     "name": "沙之恶从",
