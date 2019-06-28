@@ -244,7 +244,7 @@ namespace MainMap
 
             Debug.Log("步数为负，角色累死了，返回起点");
             CharactorInitalize();
-            Monster.UpDateAllMonsters(0);
+            Monster.UpDateAllMonsters(1);
         }
         public void Onclick()
         {
@@ -268,7 +268,15 @@ namespace MainMap
             string keycoor = null;
             foreach(KeyValuePair<string, MapUnit> m in aroundlist)
             {
-                if(m.Value.Equals(underfeet.GetComponent<MapUnit>()))
+                if(underfeet ==null)
+                {
+
+                }
+                if(underfeet.GetComponent<MapUnit>()==null)
+                {
+
+                }
+                if(m.Value!=null&&m.Value.Equals(underfeet.GetComponent<MapUnit>()))
                 {
                     keycoor = m.Key;
                     break;
@@ -321,11 +329,11 @@ namespace MainMap
                 charactordata.underfeet.GetComponent<MapUnit>().ChangePositionOver();
                 if (charactordata.step == MainMapManager.Instance().Level1Step)
                 {
-                    Monster.UpDateAllMonsters(1);
+                    Monster.UpDateAllMonsters(2);
                 }
                 else if (charactordata.step == MainMapManager.Instance().Level2Step)
                 {                
-                    Monster.UpDateAllMonsters(2);
+                    Monster.UpDateAllMonsters(3);
                 }
 
 

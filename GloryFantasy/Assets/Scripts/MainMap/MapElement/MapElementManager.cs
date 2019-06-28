@@ -34,7 +34,7 @@ namespace MainMap
                     GameObject monster = (GameObject)Instantiate(Resources.Load("MMtestPrefab/monster", typeof(GameObject)));
                     ElementSet(monster, mapunit);
                     Monster m = monster.AddComponent<Monster>();
-                    m.SetID(elementdetail[0]+"_"+elementdetail[2]);
+                    m.SetID(elementdetail[2]);
                     m.SetTexture();
 
                     break;
@@ -132,7 +132,16 @@ namespace MainMap
         public void SetTexture()
         {
             //这行测试用，素材统一了就删掉,
-            this.GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + testid, typeof(Sprite));
+            Sprite newsprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + encounterid, typeof(Sprite));
+            Sprite defaultsprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + testid, typeof(Sprite));
+            if (newsprite !=null)
+            {
+                this.GetComponent<SpriteRenderer>().sprite = newsprite;
+            }    
+            else if (defaultsprite!=null)
+            {
+                this.GetComponent<SpriteRenderer>().sprite = defaultsprite;
+            }
             //下面那行是要用的，别删
             //this.GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + encounterid, typeof(Sprite));
         }
@@ -145,7 +154,7 @@ namespace MainMap
             foreach (Monster m in monsterlist)
             {
                 string[] newid = m.encounterid.Split('_');
-                m.SetID(newid[0] +"_" +newid[1] +"_"+ i.ToString());
+                m.SetID(newid[0]  +"_"+ i.ToString());
                 string[] newtest = m.testid.Split('_');
                 Debug.Log(m.encounterid);
                 //测试用
