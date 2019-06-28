@@ -224,7 +224,7 @@ namespace BattleMap
         /// <returns></returns>
         private string GetEncounterID()
         {
-            return SceneSwitchController.Instance().encounterId;
+            return SceneSwitchController.Instance().encounterId == null ? "planeshadow_1" : SceneSwitchController.Instance().encounterId;
             //return "Plain_Shadow_1";
         }
 
