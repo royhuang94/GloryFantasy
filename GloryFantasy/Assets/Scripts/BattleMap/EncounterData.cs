@@ -81,6 +81,7 @@ namespace GamePlay.Encounter
         /// </summary>
         public void InitEncounter(string encounterID)
         {
+            Debug.Log(encounterID);
             //JsonData data = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + EncounterPath));
             string path = "EncounterDatabase/" + encounterID;
             TextAsset json = Resources.Load<TextAsset>(path);
