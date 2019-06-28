@@ -1,21 +1,13 @@
 ﻿[
   {
-    "EncounterID": "gargoyle_4",
+    "EncounterID": "gargoyle_0",
     "GlobalTrigger": [],
     "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "Gargoyle_3",
-        "Pos_X": 1,
+        "Pos_X": 0,
         "Pos_Y": 1,
-        "UnitControler": 1,
-        "IsLeader": 0
-
-      },
-      {
-        "UnitID": "Gargoyle_3",
-        "Pos_X": 1,
-        "Pos_Y": 3,
         "UnitControler": 1,
         "IsLeader": 0
 
@@ -32,7 +24,7 @@
         "Buff": [],
         "Trigger": [ "MainBF_Enemy" ],
         "Delta_X": 0,
-        "Delta_Y": 1
+        "Delta_Y": 0
       },
       {
         "RegionID": 2,
@@ -47,17 +39,6 @@
       },
       {
         "RegionID": 3,
-        "Owner": "Neutrality",
-        "EventList": {
-          "Empty": 1
-        },
-        "Buff": [],
-        "Trigger": [],
-        "Delta_X": 0,
-        "Delta_Y": 0
-      },
-      {
-        "RegionID": 4,
         "Owner": "Player",
         "EventList": {
           "Empty": 1
@@ -68,7 +49,7 @@
         "Delta_Y": 0
       }
     ],
-    "MapID": "Desert_2"
+    "MapID": "Desert_1"
   }
 
 ]

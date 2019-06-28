@@ -15,7 +15,14 @@
       {
         "UnitID": "Fireant_3",
         "Pos_X": 1,
-        "Pos_Y": 1,
+        "Pos_Y": 2,
+        "UnitControler": 1,
+        "IsLeader": 0
+      },
+      {
+        "UnitID": "Fireant_3",
+        "Pos_X": 1,
+        "Pos_Y": 4,
         "UnitControler": 1,
         "IsLeader": 0
       },
@@ -54,6 +61,17 @@
       },
       {
         "RegionID": 3,
+        "Owner": "Neutrality",
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 4,
         "Owner": "Player",
         "EventList": {
           "Empty": 1
@@ -64,7 +82,7 @@
         "Delta_Y": 0
       }
     ],
-    "MapID": "Desert_1"
+    "MapID": "Desert_2"
   }
 
 ]

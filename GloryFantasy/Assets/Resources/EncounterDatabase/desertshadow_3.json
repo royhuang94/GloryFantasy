@@ -13,16 +13,23 @@
 
       },
       {
-        "UnitID": "Shadow_2",
+        "UnitID": "Shadow_3",
         "Pos_X": 1,
         "Pos_Y": 1,
         "UnitControler": 1,
         "IsLeader": 0
       },
       {
-        "UnitID": "Shadow_2",
+        "UnitID": "Shadow_3",
         "Pos_X": 1,
         "Pos_Y": 3,
+        "UnitControler": 1,
+        "IsLeader": 0
+      },
+      {
+        "UnitID": "Shadow_3",
+        "Pos_X": 1,
+        "Pos_Y": 2,
         "UnitControler": 1,
         "IsLeader": 0
       }
@@ -38,7 +45,7 @@
         "Buff": [],
         "Trigger": [ "MainBF_Enemy" ],
         "Delta_X": 0,
-        "Delta_Y": 1
+        "Delta_Y": 2
       },
       {
         "RegionID": 2,
