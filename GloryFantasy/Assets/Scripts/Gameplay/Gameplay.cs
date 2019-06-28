@@ -167,7 +167,7 @@ namespace GamePlay
                 StartCoroutine(WaitAndPrint(roundInput, waitTime));
         }
 
-        // every 2 seconds perform the print()
+
         private IEnumerator WaitAndPrint(RoundInput roundInput, float waitTime = 1.8f)
         {
             if (roundProcessController.roundInput != roundInput)
@@ -204,13 +204,13 @@ namespace GamePlay
                     break;
                 case GamePlay.Round.RoundInput.MainPhase:
                     Debug.Log("MainPhase");
-                    yield return StartCoroutine(SwitchPhaseHandler());
                     break;
                 case GamePlay.Round.RoundInput.DiscardPhase:
                     Debug.Log("DiscardPhase");
                     yield return StartCoroutine(SwitchPhaseHandler());
                     break;
                 case GamePlay.Round.RoundInput.EndPhase:
+                    yield return StartCoroutine(SwitchPhaseHandler());
                     Debug.Log("EndPhase");
                     break;
                 case GamePlay.Round.RoundInput.AIPhase:
