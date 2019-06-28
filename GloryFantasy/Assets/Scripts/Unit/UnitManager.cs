@@ -101,8 +101,8 @@ namespace GameUnit
             }
             Gameplay.Info.GeneratingUnit = gameUnit;
             MsgDispatcher.SendMsg((int)MessageType.GenerateUnit);
-            if (gameUnit.tag.Contains("英雄"))
-                temp.AddComponent<ESSlot>();
+//            if (gameUnit.tag.Contains("英雄"))
+//                temp.AddComponent<ESSlot>();
         }
 
         /// <summary>

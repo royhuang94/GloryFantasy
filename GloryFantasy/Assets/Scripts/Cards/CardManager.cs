@@ -129,17 +129,17 @@ namespace GameCard
                 "Ex skill card Trigger"
             );
             
-            MsgDispatcher.RegisterMsg(
-                this.GetMsgReceiver(),
-                (int)MessageType.Dead,
-                () =>
-                {
-                    int deathId = this.GetDead().gameObject.GetInstanceID();
-                    return ESSlot._heroUnitRelation.ContainsKey(deathId);
-                },
-                () => { ESSlot._heroUnitRelation.Remove(this.GetDead().gameObject.GetInstanceID()); },
-                "ESS relation cleaner"
-            );
+//            MsgDispatcher.RegisterMsg(
+//                this.GetMsgReceiver(),
+//                (int)MessageType.Dead,
+//                () =>
+//                {
+//                    int deathId = this.GetDead().gameObject.GetInstanceID();
+//                    return ESSlot._heroUnitRelation.ContainsKey(deathId);
+//                },
+//                () => { ESSlot._heroUnitRelation.Remove(this.GetDead().gameObject.GetInstanceID()); },
+//                "ESS relation cleaner"
+//            );
             
             ExtractCards(3);
         }
