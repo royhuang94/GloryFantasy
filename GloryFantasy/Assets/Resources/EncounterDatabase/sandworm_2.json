@@ -1,61 +1,75 @@
 ﻿[
   {
-    "EncounterID": "Desert_ShadowFire_1",
-    "GlobalTrigger": [],
-    "DeathPage": -1,
+    "EncounterID": "sandworm_2",
     "UnitMessage": [
       {
-        "UnitID": "ShadowFire_1",
-        "Pos_X": 0,
-        "Pos_Y": 2,
+        "UnitID": "SandwormTail_2",
+        "Pos_X": 3,
+        "Pos_Y": 3,
         "UnitControler": 1,
         "IsLeader": 1
-
       }
     ],
     "BattlefieldMessage": [
       {
         "RegionID": 1,
-        "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
-          "SkyFire": 1
+          "ReinforceFireant": 1
         },
         "Buff": [],
         "Trigger": [ "MainBF_Enemy" ],
         "Delta_X": 0,
-        "Delta_Y": 0
+        "Delta_Y": 2
       },
       {
         "RegionID": 2,
-        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
-          "SkyFire": 1
+          "ReinforceFireant": 1
         },
         "Buff": [],
         "Trigger": [],
         "Delta_X": 0,
-        "Delta_Y": 0
+        "Delta_Y": 2
       },
       {
         "RegionID": 3,
-        "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
-          "SkyFire": 1
+          "ReinforceFireant": 1
         },
         "Buff": [],
         "Trigger": [],
         "Delta_X": 0,
-        "Delta_Y": 0
+        "Delta_Y": 2
       },
       {
         "RegionID": 4,
-        "Owner": "Player",
         "EventList": {
           "Empty": 1,
-          "SkyFire": 1
+          "ReinforceFireant": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 2
+      },
+      {
+        "RegionID": 5,
+        "EventList": {
+          "Empty": 1,
+          "ReinforceFireant": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 2
+      },
+      {
+        "RegionID": 6,
+        "EventList": {
+          "Empty": 1
         },
         "Buff": [],
         "Trigger": [ "MainBF_Friendly" ],
@@ -63,7 +77,7 @@
         "Delta_Y": 0
       }
     ],
-    "MapID": "Desert_2"
+    "MapID": "Desert_Boss"
   }
 
 ]

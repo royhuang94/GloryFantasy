@@ -1,15 +1,30 @@
 ﻿[
   {
-    "EncounterID": "Desert_ShadowFire_1",
+    "EncounterID": "planeshadow_2",
     "GlobalTrigger": [],
     "DeathPage": -1,
     "UnitMessage": [
       {
-        "UnitID": "ShadowFire_1",
-        "Pos_X": 0,
+        "UnitID": "Shadow_2",
+        "Pos_X": 1,
+        "Pos_Y": 0,
+        "UnitControler": 1,
+        "IsLeader": 0
+
+      },
+      {
+        "UnitID": "Shadow_2",
+        "Pos_X": 1,
         "Pos_Y": 2,
         "UnitControler": 1,
-        "IsLeader": 1
+        "IsLeader": 0
+      },
+      {
+        "UnitID": "Shadow_2",
+        "Pos_X": 1,
+        "Pos_Y": 3,
+        "UnitControler": 1,
+        "IsLeader": 0
 
       }
     ],
@@ -19,7 +34,7 @@
         "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
-          "SkyFire": 1
+          "ReinforceWarrior": 1
         },
         "Buff": [],
         "Trigger": [ "MainBF_Enemy" ],
@@ -30,8 +45,7 @@
         "RegionID": 2,
         "Owner": "Neutrality",
         "EventList": {
-          "Empty": 1,
-          "SkyFire": 1
+          "Empty": 1
         },
         "Buff": [],
         "Trigger": [],
@@ -40,22 +54,9 @@
       },
       {
         "RegionID": 3,
-        "Owner": "Neutrality",
-        "EventList": {
-          "Empty": 1,
-          "SkyFire": 1
-        },
-        "Buff": [],
-        "Trigger": [],
-        "Delta_X": 0,
-        "Delta_Y": 0
-      },
-      {
-        "RegionID": 4,
         "Owner": "Player",
         "EventList": {
-          "Empty": 1,
-          "SkyFire": 1
+          "Empty": 1
         },
         "Buff": [],
         "Trigger": [ "MainBF_Friendly" ],
@@ -63,7 +64,6 @@
         "Delta_Y": 0
       }
     ],
-    "MapID": "Desert_2"
+    "MapID": "Plain_1"
   }
-
 ]

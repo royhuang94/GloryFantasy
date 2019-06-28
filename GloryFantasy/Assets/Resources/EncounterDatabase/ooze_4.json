@@ -1,16 +1,30 @@
 ﻿[
   {
-    "EncounterID": "Desert_ShadowFire_1",
+    "EncounterID": "ooze_4",
     "GlobalTrigger": [],
     "DeathPage": -1,
     "UnitMessage": [
       {
-        "UnitID": "ShadowFire_1",
-        "Pos_X": 0,
+        "UnitID": "Ooze_2",
+        "Pos_X": 1,
         "Pos_Y": 2,
         "UnitControler": 1,
-        "IsLeader": 1
+        "IsLeader": 0
 
+      },
+      {
+        "UnitID": "Ooze_2",
+        "Pos_X": 1,
+        "Pos_Y": 0,
+        "UnitControler": 1,
+        "IsLeader": 0
+      },
+      {
+        "UnitID": "Ooze_2",
+        "Pos_X": 1,
+        "Pos_Y": 4,
+        "UnitControler": 1,
+        "IsLeader": 0
       }
     ],
     "BattlefieldMessage": [
@@ -19,31 +33,30 @@
         "Owner": "Enemy",
         "EventList": {
           "Empty": 1,
-          "SkyFire": 1
+          "ReinforceOoze": 1
         },
         "Buff": [],
         "Trigger": [ "MainBF_Enemy" ],
         "Delta_X": 0,
-        "Delta_Y": 0
+        "Delta_Y": 1
       },
       {
         "RegionID": 2,
         "Owner": "Neutrality",
         "EventList": {
           "Empty": 1,
-          "SkyFire": 1
+          "ReinforceOoze": 1
         },
         "Buff": [],
         "Trigger": [],
         "Delta_X": 0,
-        "Delta_Y": 0
+        "Delta_Y": 1
       },
       {
         "RegionID": 3,
         "Owner": "Neutrality",
         "EventList": {
-          "Empty": 1,
-          "SkyFire": 1
+          "Empty": 1
         },
         "Buff": [],
         "Trigger": [],
@@ -54,8 +67,7 @@
         "RegionID": 4,
         "Owner": "Player",
         "EventList": {
-          "Empty": 1,
-          "SkyFire": 1
+          "Empty": 1
         },
         "Buff": [],
         "Trigger": [ "MainBF_Friendly" ],
@@ -63,7 +75,6 @@
         "Delta_Y": 0
       }
     ],
-    "MapID": "Desert_2"
+    "MapID": "Forest_2"
   }
-
 ]
