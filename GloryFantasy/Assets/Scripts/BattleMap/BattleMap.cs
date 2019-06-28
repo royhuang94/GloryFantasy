@@ -300,12 +300,15 @@ namespace BattleMap
             //if (_scale < 0.7f)
             //    _scale = 0.7f;
             //BattleMapPanel.transform.localScale = new Vector3(_scale, _scale, _scale);
-            if(rows <= 5)
+            if(rows < 5)
                 BattleMapPanel.transform.localScale = new Vector3(0.84f, 0.84f, 0.84f);
             else
                 BattleMapPanel.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+            if(rows >=10)
+                BattleMapPanel.transform.position = new Vector3(0f, 6.7f, 0f);//标准位置
+            else
+                BattleMapPanel.transform.position = new Vector3(0f, 1.5f, 0f);//标准位置
 
-            BattleMapPanel.transform.position = new Vector3(0f, 1.5f, 0f);//标准位置
         }
         /// <summary>
         /// 实例不同类型的地格
