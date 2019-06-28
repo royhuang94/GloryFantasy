@@ -20,7 +20,7 @@ namespace GamePlay.Event
         public ReinforceOoze()
         {
             //从数据库读取属性，id名不能错
-            EventDataBase.Instance().GetEventProperty("Devil_MarshReinforce", this);
+            EventDataBase.Instance().GetEventProperty("ReinforceOoze", this);
             //实例化该事件的 触发条件 和 效果
             this.Condition = selfCondition;
             this.Action = selfAction;

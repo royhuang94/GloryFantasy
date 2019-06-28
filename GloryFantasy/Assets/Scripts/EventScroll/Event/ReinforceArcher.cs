@@ -51,9 +51,9 @@ namespace GamePlay.Event
                 {
                     switch (strenth)
                     {
-                        case 1: SummonMonster_in_Area(this.Source, this.amount, "WArcher_1"); break;
-                        case 2: SummonMonster_in_Area(this.Source, this.amount, "WArcher_2"); break;
-                        case 3: SummonMonster_in_Area(this.Source, this.amount, "WArcher_3"); break;
+                        case 1: SummonMonster_in_Area(this.Source, this.amount, "ShadowArcher_1"); break;
+                        case 2: SummonMonster_in_Area(this.Source, this.amount, "ShadowArcher_2"); break;
+                        case 3: SummonMonster_in_Area(this.Source, this.amount, "ShadowArcher_3"); break;
                         default: break;
                     }
                 }
