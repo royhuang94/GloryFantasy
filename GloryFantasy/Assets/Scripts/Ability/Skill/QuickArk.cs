@@ -22,8 +22,11 @@ namespace Ability
         public override void Init(string abilityId)
         {
             base.Init(abilityId);
-            _trigger = new TQuickArk(this.GetUnitReceiver(this), gameObject);
-            MsgDispatcher.RegisterMsg(_trigger, abilityId);
+            if(gameObject != null)
+            {
+                _trigger = new TQuickArk(this.GetUnitReceiver(this), gameObject);
+                MsgDispatcher.RegisterMsg(_trigger, abilityId);
+            }           
         }
     }
 
@@ -49,7 +52,7 @@ namespace Ability
         /// <returns></returns>
         private bool Condition()
         {
-            if (_esSlot == null)
+            if (_esSlot == null && unit != null)
                 _esSlot = unit.GetComponent<ESSlot>();
             //_esSlot还是null
             if(_esSlot != null)

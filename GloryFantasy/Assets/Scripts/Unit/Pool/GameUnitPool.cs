@@ -64,7 +64,7 @@ namespace GameUnit
             {
                 ///根据所有者不同选择对象，因为三种对象（友军，敌军，中立）身上的脚本可能不一样，这样可以节约一点写代码的时间
                 ///注意这里其实比较危险，如果搜不到GameUnit的脚本是会报错中断的，不过我们可以保证他一定有这个脚本，所以在这里可以这么写
-                if (_unit.GetComponent<GameUnit>().owner == owner)
+                if (_unit != null &&_unit.GetComponent<GameUnit>().owner == owner)
                 {
                     m_pool.Remove(_unit);
                     _unit.SetActive(true);
