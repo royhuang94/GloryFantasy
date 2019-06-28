@@ -6,6 +6,7 @@ using System.IO;
 using GameCard;
 using System.Linq;
 using MainMap;
+using Mediator;
 
 namespace PlayerCollection
 {
@@ -22,7 +23,8 @@ namespace PlayerCollection
         /// <summary>
         /// 角色的卡牌收藏
         /// </summary>
-        public List<string> mycollection = new List<string>();
+        public static List<string> mycollection = new List<string>();
+        Deck deck = new Deck(mycollection, "Spring");
         /// <summary>
         /// 英雄单位的战技牌，规则为英雄字符串-卡牌字符串
         /// </summary>
@@ -82,7 +84,9 @@ namespace PlayerCollection
         /// <returns></returns>
         private string GetCardID(int num)
         {
-            return cardsJsonData[num]["ID"].ToString().Split('_').First();
+            //return cardsJsonData[num]["ID"].ToString().Split('_').First();
+            return cardsJsonData[num]["ID"].ToString();
+
         }
     }
 }

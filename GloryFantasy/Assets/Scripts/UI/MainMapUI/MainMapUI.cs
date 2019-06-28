@@ -10,6 +10,7 @@ using System.IO;
 using FairyGUI;
 using PlayerCollection;
 using StoryDialog;
+using System.Linq;
 
 namespace GameGUI
 {/// <summary>
@@ -31,7 +32,7 @@ namespace GameGUI
         #region 大地图的GCompoment 和window
         private GComponent mainmapUI;
         private GComponent libraryUI;
-//        private GComponent cardcollectUI;
+        private GComponent cardcollectUI;
         private GComponent verifyUI;
         private GComponent _winUI;
         private GComponent _loseUI;
@@ -44,7 +45,7 @@ namespace GameGUI
         private Window lose_UI;
         private Window dialog_UI;
         
-        private GComponent _cardDisplayer;
+       // private GComponent _cardDisplayer;
         #endregion
         #region 按钮，文本,装载器等
 
@@ -54,19 +55,19 @@ namespace GameGUI
         private GButton ccbtn;
         private GButton buybtn;
         private GButton cancelbtn;
+        private GButton cardbookbtn;
         private GLoader _cardloader;
-        private GList cardcollectionlist;
+ //       private GList cardlist;
         private GList onsalelist;
         private GList transferlist;
-        private GTextField _abstractText;
-        private GTextField _storyText;
-        private GLoader _picLoader;
+        private GTextField nametext;
+        private GTextField typetext;
+        private GTextField tagtext;
+        private GTextField effecttext;
+        private GTextField describetext;
+        private GTextField propertytext;
+        private GLoader picloader;
         #endregion
-        /// <summary>对CardCollection的引用
-        /// //Todo:为啥这么写呢。。？
-        /// 
-        /// </summary>
-        private List<string> playercardlist;
         private Library choosenlibrary;
         //URL
         private const string cardicons = "fakeHandcard";
@@ -93,7 +94,7 @@ namespace GameGUI
             UIPackage.AddPackage(LibraryPackage);
             mainmapUI = UIPackage.CreateObject("MainMapUI", "MainUI").asCom;
             GRoot.inst.AddChild(mainmapUI);
-//            cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBook").asCom;
+            cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBook").asCom;
             libraryUI = UIPackage.CreateObject("Library", "LibraryMain").asCom;
             verifyUI = UIPackage.CreateObject("Library", "ConfirmBuying").asCom;
             _winUI = UIPackage.CreateObject("MainMapUI", "WinMenu").asCom;
@@ -103,7 +104,7 @@ namespace GameGUI
             main_mapUI.CenterOn(GRoot.inst, true);
             main_mapUI.Show();
             cardcollect_UI = new Window();
-//            cardcollect_UI.contentPane = cardcollectUI;
+            cardcollect_UI.contentPane = cardcollectUI;
             cardcollect_UI.CenterOn(GRoot.inst, true);
             library_UI = new Window();
             library_UI.contentPane = libraryUI;
@@ -128,19 +129,23 @@ namespace GameGUI
             
             ccbtn = mainmapUI.GetChild("CardBookButton").asButton;
             
-            _cardCollectWindow = new CardCollectWindow(playercardlist, Color.gray);
+            _cardCollectWindow = new CardCollectWindow(CardCollection.mycollection, Color.gray);
             _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
             _dialogWindowLeft = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_left");
             _dialogWindowRight = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_right");
             _libraryWindow = new LibraryWindow(Color.gray, "Library", "LibraryMain");
             
-            ccbtn.onClick.Add(() => { _cardCollectWindow.Show();});
-//            cardcollectionlist = cardcollectUI.GetChild("cardList").asList;
+            ccbtn.onClick.Add(OpenCardBook);
+ //           cardlist = cardcollectUI.GetChild("cardList").asList;
             onsalelist = libraryUI.GetChild("LibraryCardList").asList;
 //            _cardDisplayer = cardcollectUI.GetChild("cardDisplayer").asCom;
-//            _abstractText = _cardDisplayer.GetChild("abstractText").asTextField;
-//            _storyText = _cardDisplayer.GetChild("storyText").asTextField;
-//            _picLoader = _cardDisplayer.GetChild("cardPicLoader").asLoader;
+            nametext= cardcollectUI.GetChild("name").asTextField;
+            typetext = cardcollectUI.GetChild("type").asTextField;
+            tagtext = cardcollectUI.GetChild("tag").asTextField;
+            effecttext = cardcollectUI.GetChild("effect").asTextField;
+            describetext = cardcollectUI.GetChild("describe").asTextField;
+            propertytext = cardcollectUI.GetChild("property").asTextField;
+            picloader = cardcollectUI.GetChild("cardPic").asLoader;
             #endregion
             
             
@@ -242,7 +247,6 @@ namespace GameGUI
         }
         private void Start()
         {
-            playercardlist = CardCollection.Instance().mycollection;
 //            cardcollectionlist.onClickItem.Add(OnClickCardInCardCollection);
             onsalelist.onClickItem.Add(OnClickCardInLibrary);
         }
@@ -309,7 +313,7 @@ namespace GameGUI
             foreach (string cardID in library.librarylist)
             {
                 GObject item = UIPackage.CreateObject("Library", "CardItem");
-                item.icon = UIPackage.GetItemURL(cardicons, cardID);
+                item.icon = UIPackage.GetItemURL(cardicons, cardID.Split('_').First());
                 onsalelist.AddChild(item);
             }
         }
@@ -352,27 +356,37 @@ namespace GameGUI
         }
         #endregion
         #region 卡牌书相关代码
+        private void OpenCardBook()
+        {
+            _cardCollectWindow.Show();
+            _cardCollectWindow.UpdateCardBook();
+        }
+        # region 已弃用
         /// <summary>
         /// 响应卡牌书内卡牌点击事件
         /// </summary>
         /// <param name="context"></param>
-        public void OnClickCardInCardCollection(EventContext context)
-        {
-            // 先获取到点击的下标
-            int index = cardcollectionlist.GetChildIndex(context.data as GObject);
+        //public void OnClickCardInCardCollection(EventContext context)
+        //{
+        //    // 先获取到点击的下标
+        //    int index = cardlist.GetChildIndex(context.data as GObject);
 
-            // 通过下标获取到id
-            string cardId = playercardlist[index];
-            // 向数据库查询展示数据
-            JsonData data = CardManager.Instance().GetCardJsonData(cardId);
+        //    // 通过下标获取到id
+        //    string cardId = playercardlist[index];
+        //    // 向数据库查询展示数据
+        //    JsonData data = CardManager.Instance().GetCardJsonData(cardId);
+        //    nametext.text = data["name"].ToString();
+        //    typetext.text = data["type"].ToString();
+        //    tagtext.text = data["tag"].ToString();
+        //    effecttext.text = data["effect"].ToString();
+        //    describetext.text = data["describe"].ToString();
+        //    propertytext.text = data["property"].ToString();
 
-            _abstractText.text = "姓名：" + data["name"] + "\n" + "类型：" + data["type"];
 
-            _storyText.text = "这里本来该有卡牌故事但是现在没有数据\n" + data["effect"];
+        //    picloader.url = UIPackage.GetItemURL(cardicons, cardId);
 
-            _picLoader.url = UIPackage.GetItemURL(cardicons, cardId);
-
-        }
+        //}
+        #endregion
         #endregion
 
         #region 三个线索按钮点击代码，以后换成其他地方调用

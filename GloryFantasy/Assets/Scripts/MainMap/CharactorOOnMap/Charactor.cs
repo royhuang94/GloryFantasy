@@ -121,7 +121,7 @@ namespace MainMap
             Debug.Log("战斗信息初始化");
             battlemapdata.maxcost = 3;
             battlemapdata.numofhand = 5;
-            battlemapdata.playercollection = CardCollection.Instance().mycollection;
+            battlemapdata.playercollection = CardCollection.mycollection;
             battlemapdata.playerbattleskill = CardCollection.Instance().battleskill;
         }
 

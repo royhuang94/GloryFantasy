@@ -4,6 +4,8 @@ using UnityEngine;
 using FairyGUI;
 using GameCard;
 using LitJson;
+using PlayerCollection;
+using System.Linq;
 
 public class CardCollectWindow : Window
 {
@@ -18,7 +20,9 @@ public class CardCollectWindow : Window
     private GButton _upgradeBtn;
     private GButton _evolveBtn;
     private GButton _closeBtn;
-
+    private const string cardicons = "fakeHandcard";
+    private string CardIconPackage = "BattleMapFGUIPkg/fakeHandcard";
+    private string CardCollectionPackage = "MainMapFairyGUIPackage/CardCollection";
     private List<string> _playerCardList;
 
     private Color _bgColor;
@@ -30,8 +34,11 @@ public class CardCollectWindow : Window
     /// <param name="bgColor">背景颜色</param>
     public CardCollectWindow(List<string> playerCardList, Color bgColor)
     {
+        UIPackage.AddPackage(CardIconPackage);
+        UIPackage.AddPackage(CardCollectionPackage);
         _playerCardList = playerCardList;
         _bgColor = bgColor;
+        OnInit();
     }
 
     protected override void OnInit()
@@ -50,7 +57,6 @@ public class CardCollectWindow : Window
         _effect = this.contentPane.GetChild("effect").asTextField;
         _describe = this.contentPane.GetChild("describe").asTextField;
         _property = this.contentPane.GetChild("property").asTextField;
-        _name = this.contentPane.GetChild("name").asTextField;
 
         _cardPicLoader = this.contentPane.GetChild("cardPic").asLoader;
 
@@ -61,7 +67,19 @@ public class CardCollectWindow : Window
         _closeBtn.onClick.Add(this.Hide);
         _cardList.onClickItem.Add(OnClickCardItem);
     }
-
+    /// <summary>
+    /// 更新卡牌书内容
+    /// </summary>
+    public void UpdateCardBook()
+    {
+        _cardList.RemoveChildren();
+        foreach (string cardID in CardCollection.mycollection)
+        {
+            GObject item = UIPackage.CreateObject("CardCollection", "cardsSetsItem");
+            item.icon = UIPackage.GetItemURL(cardicons, cardID.ToString().Split('_').First());
+            _cardList.AddChild(item);
+        }
+    }
     /// <summary>
     /// 卡牌书卡牌点击事件
     /// </summary>
@@ -81,8 +99,8 @@ public class CardCollectWindow : Window
         _name.text = data["name"].ToString();
         _type.text = data["type"].ToString();
         _tag.text = data["tag"].ToString();
-        
-//        _cardPicLoader.url = UIPackage.GetItemURL()
+
+        _cardPicLoader.url = UIPackage.GetItemURL(cardicons, cardId.ToString().Split('_').First());
     }
     
     /// <summary>
