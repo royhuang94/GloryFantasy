@@ -1,11 +1,11 @@
 ﻿[
   {
-    "EncounterID": "chomper2",
+    "EncounterID": "chomper_1",
     "GlobalTrigger": [],
     "DeathPage": -1,
     "UnitMessage": [
       {
-        "UnitID": "Chomper_2",
+        "UnitID": "Chomper_1",
         "Pos_X": 3,
         "Pos_Y": 3,
         "UnitControler": 1,
@@ -22,7 +22,7 @@
         "Buff": [],
         "Trigger": [ "MainBF_Enemy" ],
         "Delta_X": 0,
-        "Delta_Y": 1
+        "Delta_Y": 0
       },
       {
         "RegionID": 2,
@@ -33,7 +33,7 @@
         "Buff": [],
         "Trigger": [],
         "Delta_X": 0,
-        "Delta_Y": 1
+        "Delta_Y": 0
       },
       {
         "RegionID": 3,
@@ -44,7 +44,7 @@
         "Buff": [],
         "Trigger": [],
         "Delta_X": 0,
-        "Delta_Y": 1
+        "Delta_Y": 0
       },
       {
         "RegionID": 4,
@@ -55,7 +55,7 @@
         "Buff": [],
         "Trigger": [],
         "Delta_X": 0,
-        "Delta_Y": 1
+        "Delta_Y": 0
       },
       {
         "RegionID": 5,
@@ -66,7 +66,7 @@
         "Buff": [],
         "Trigger": [],
         "Delta_X": 0,
-        "Delta_Y": 1
+        "Delta_Y": 0
       },
       {
         "RegionID": 6,

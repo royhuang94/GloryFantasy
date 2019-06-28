@@ -1,6 +1,8 @@
 ﻿[
   {
     "EncounterID": "bumblebee_3",
+    "GlobalTrigger": [],
+    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "Bumblebee_3",
