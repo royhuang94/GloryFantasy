@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using PlayerCollection;
 using GameGUI;
 using UnityEngine.UI;
+using System.Linq;
 
 //2019.6.25版
 namespace MainMap
@@ -107,6 +108,7 @@ namespace MainMap
             this.charactordata.charactorstate = MoveState.MotionLess;
             Vector3 vect = charactordata.playerlocate.Hex_vector;
             charactordata.underfeet = FindObject(vect.x,vect.y);
+            Charactor.Instance().GetComponent<Image>().sprite = characterfront;
             setaround(charactordata.underfeet);
             MainMapUI.Instance().UpDateSlider(0);
             Debug.Log("角色初始化完成");
@@ -261,6 +263,35 @@ namespace MainMap
             string y = (System.Convert.ToInt32(_y)).ToString();
             return GameObject.Find("test" + x + "," + y);
         }
+        private void UpdateSprite(GameObject underfeet)
+        {
+            string keycoor = null;
+            foreach(KeyValuePair<string, MapUnit> m in aroundlist)
+            {
+                if(m.Value.Equals(underfeet.GetComponent<MapUnit>()))
+                {
+                    keycoor = m.Key;
+                    break;
+                }
+                
+            }
+            if (keycoor == "-1,1")
+            {
+                Charactor.Instance().GetComponent<Image>().sprite = characterback;
+            }
+            else if (keycoor == "-1,0" || keycoor == "0,-1")
+            {
+                Charactor.Instance().GetComponent<Image>().sprite = chatacterleft;
+            }
+            else if (keycoor == "1,-1")
+            {
+                Charactor.Instance().GetComponent<Image>().sprite = characterfront;
+            }
+            else if (keycoor == "0,1" || keycoor == "1,0")
+            {
+                Charactor.Instance().GetComponent<Image>().sprite = characterright;
+            }
+        }
         /// <summary>实现移动的携程
         /// 
         /// </summary>
@@ -273,8 +304,7 @@ namespace MainMap
             {
                 Vector3 vect = charactordata.playerlocate.ChangeToHexVect(target);
                 charactordata.underfeet = FindObject(vect.x, vect.y);
-                //在这里根据移动方向更换人物素材，判断charactordata的underfeet的键，然后用不同的素材替换
-                //具体替换语句是Charactor.Instance().GetComponent<Image>().sprite = (材质名字);
+                UpdateSprite(charactordata.underfeet);
                 setaround(FindObject(vect.x, vect.y));
                 charactordata.charactorstate = MoveState.Moving;
                 Debug.Log("移动开始");
