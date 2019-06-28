@@ -102,12 +102,12 @@ namespace UI.FGUI
                 obj.onClick.Add(()=>
                 {
 
-                    Controller controller = obj.GetController("button");
+                    Controller controller = obj.GetController("control");
                     if (controller.selectedIndex == 0) // 默认普通状态
                     {
                         for (int i = 0; i < _buttonList.Count; i++)
                         {
-                            _buttonList[i].GetController("button").selectedIndex = 0;
+                            _buttonList[i].GetController("control").selectedIndex = 0;
                         }
                         controller.selectedIndex = 1;
                     }else
