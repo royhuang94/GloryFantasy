@@ -14,6 +14,10 @@ namespace Mediator
 
         public Deck(List<string> deck, string hero)
         {
+            //胡乱塞牌做测试
+            deck.Add("GArrowrain_1");
+            deck.Add("GCuringwind_1");
+            deck.Add("GJump_1");
             _deck = deck;
             _hero = hero;
             _unitsWithQuickPlat = new List<string> { _hero };

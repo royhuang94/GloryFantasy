@@ -24,7 +24,7 @@ namespace PlayerCollection
         /// 角色的卡牌收藏
         /// </summary>
         public static List<string> mycollection = new List<string>();
-        Deck deck = new Deck(mycollection, "Spring");
+       public Deck deck = new Deck(mycollection, "Spring");
         /// <summary>
         /// 英雄单位的战技牌，规则为英雄字符串-卡牌字符串
         /// </summary>
