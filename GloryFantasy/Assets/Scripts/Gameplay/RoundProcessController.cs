@@ -285,7 +285,6 @@ namespace GamePlay.Round
                     unit.canNotAttack = false;
                 }
             }
-            Gameplay.Instance().gamePlayInput.OnEnterPlatState();
         }
 
         public override string ToString()

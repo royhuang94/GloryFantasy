@@ -104,7 +104,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	public void SetData(string encounterId, Deck cardList)
 	{
 		_encounterID = encounterId;
-		_deck = cardList;
+		//_cardList = cardList;
 	}
 
 	
@@ -183,4 +183,9 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 			_MMapCameraObject.SetActive(true);
 		}
 	}
+
+    public void GetDeckFormMainMapK(Deck deck)
+    {
+        this._deck = deck;
+    }
 }
