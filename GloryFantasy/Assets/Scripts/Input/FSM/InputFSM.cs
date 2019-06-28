@@ -129,6 +129,11 @@ namespace GamePlay.FSM
             PushState(new InputFSMSelectState(this));
         }
 
+        public void OnPlatState()
+        {
+            PushState(new InputFSMPlatState(this));
+        }
+
         //移动范围染色
         public void HandleMovConfirm(Vector2 target,GameUnit.GameUnit unit)
         {

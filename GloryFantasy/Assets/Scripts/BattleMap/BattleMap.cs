@@ -30,7 +30,10 @@ namespace BattleMap
 
         private void Start()
         {
-            InitMap(GetEncounterID());
+            if (GetEncounterID() == null)
+                InitMap("ant_1", GetDeck());
+            else
+                InitMap(GetEncounterID(), GetDeck());
             RegisterMSG();
         }
 
@@ -145,12 +148,16 @@ namespace BattleMap
             SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
         }
 
-        public void InitMap(string encouterId)
+        public void InitMap(string encouterId, Mediator.Deck deck)
         {
+            if (deck == null)
+            {
+                deck = defaultDeck;
+            }
             //下面的初始顺序不能变
             this.init_encouterID = encouterId;
             _unitsList = new List<Unit>();//放在这里为了每次从遭遇选择器切换地图后，清空之前的
-
+            _quickplat = deck._unitsWithQuickPlat;
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter(encouterId);            
             //初始化地图
@@ -171,12 +178,18 @@ namespace BattleMap
             ScaleBattleMap();
         }
 
+        private Mediator.Deck defaultDeck = new Mediator.Deck(new List<string>(), "HElf_1");
+
         /// <summary>
         /// 重新根据遭遇文件生成新的战斗地图
         /// </summary>
         /// <param name="encouterID"></param>
-        public void RestatInitMap(string encouterID)
+        public void RestatInitMap(string encouterID, Mediator.Deck deck)
         {
+            if (deck == null)
+            {
+                deck = defaultDeck;
+            }
             GamePlay.Gameplay.Instance().eventScroll.Clear();
             //初始一个遭遇id，供其他地方使用
             init_encouterID = encouterID;
@@ -185,7 +198,7 @@ namespace BattleMap
                 Destroy(blocks[i]);
             Destroy(BattleMapPanel);
             //重新生成
-            InitMap(encouterID);
+            InitMap(encouterID, deck);
         }
 
         #region 变量
@@ -209,6 +222,7 @@ namespace BattleMap
         public string EncouterID { get { return init_encouterID; } }
         public List<GameObject> blocks;//该次遭遇中的所有地图块实例
         GameObject BattleMapPanel;
+        public List<string> _quickplat;
         #endregion
 
         #region 各种类型地格
@@ -224,25 +238,14 @@ namespace BattleMap
         /// <returns></returns>
         private string GetEncounterID()
         {
-            
-            if (SceneSwitchController.Instance().encounterId == null)//如果直接从战斗场景运行，默认初始一场遭遇
-                return "planeshadow_1";
-            Debug.Log("front id: " + SceneSwitchController.Instance().encounterId);
-            string temp_id = SceneSwitchController.Instance().encounterId;
-            string temp_id_front = temp_id.Split('_')[0];
-            if (temp_id_front == "sandworm")
-                return "sandworm_1";
-            if (temp_id_front == "chomper")
-                return "chomper_1";
-            if (temp_id_front == "Devil")
-                return "Devil_1";
-            if (temp_id == "hunter_3")
-                return "hunter_2";
-            if (temp_id == "dk_3")
-                return "dk_2";
-
             return SceneSwitchController.Instance().encounterId;
             //return "Plain_Shadow_1";
+        }
+
+
+        private Mediator.Deck GetDeck()
+        {
+            return SceneSwitchController.Instance().deck;
         }
 
         //初始战斗地图
