@@ -204,10 +204,6 @@ namespace GameUnit
         /// 单位的SPD修正值，迅击和滞击
         /// </summary>
         public int priSPD { get; set; }
-        /// <summary>
-        /// 单位的DS修正值，连击
-        /// </summary>
-        public int priDS { get; set; }
        
         /// <summary>
         /// 单位异能

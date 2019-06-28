@@ -42,9 +42,9 @@ namespace IMessage
         public Ability.Ability SpellingAbility; //发动的异能
         public GameUnit.GameUnit Attacker; //宣言攻击者
         public GameUnit.GameUnit AttackedUnit; //被攻击者
-        public GameUnit.GameUnit Injurer; //伤害者
-        public GameUnit.GameUnit InjuredUnit; //被伤害者
-        public Damage damage; //伤害
+        public List<GameUnit.GameUnit> Injurer; //伤害者
+        public List<GameUnit.GameUnit> InjuredUnit; //被伤害者
+        public List<Damage> damage; //伤害
         public GameUnit.GameUnit Killer; //击杀者
         public GameUnit.GameUnit KilledUnit; //被杀者
         public GameUnit.GameUnit Dead; //死者

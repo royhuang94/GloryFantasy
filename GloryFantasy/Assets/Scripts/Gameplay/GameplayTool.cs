@@ -272,16 +272,16 @@ namespace GamePlay
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <param name="unit">触发伤害者</param>
-        public static void SetInjurer(this GameplayTool self, GameUnit.GameUnit unit)
+        public static void SetInjurer(this GameplayTool self, List<GameUnit.GameUnit> units)
         {
-            Gameplay.Info.Injurer = unit;
+            Gameplay.Info.Injurer = units;
         }
         /// <summary>
         /// 获取伤害者
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <returns></returns>
-        public static GameUnit.GameUnit GetInjurer(this GameplayTool self)
+        public static List<GameUnit.GameUnit> GetInjurer(this GameplayTool self)
         {
             return Info.Injurer;
         }
@@ -290,16 +290,16 @@ namespace GamePlay
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <param name="unit">被触发伤害者</param>
-        public static void SetInjuredUnit(this GameplayTool self, GameUnit.GameUnit unit)
+        public static void SetInjuredUnit(this GameplayTool self, List<GameUnit.GameUnit> units)
         {
-            Gameplay.Info.InjuredUnit = unit;
+            Gameplay.Info.InjuredUnit = units;
         }
         /// <summary>
         /// 获取被伤害者
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <returns></returns>
-        public static GameUnit.GameUnit GetInjuredUnit(this GameplayTool self)
+        public static List<GameUnit.GameUnit> GetInjuredUnit(this GameplayTool self)
         {
             return Info.InjuredUnit;
         }
@@ -308,7 +308,7 @@ namespace GamePlay
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <param name="damage">当前伤害数值</param>
-        public static void SetDamage(this GameplayTool self, Damage damage)
+        public static void SetDamage(this GameplayTool self, List<Damage> damage)
         {
             Info.damage = damage;
         }
@@ -317,7 +317,7 @@ namespace GamePlay
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <returns></returns>
-        public static Damage GetDamage(this GameplayTool self)
+        public static List<Damage> GetDamage(this GameplayTool self)
         {
             return Info.damage;
         }

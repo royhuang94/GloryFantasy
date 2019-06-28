@@ -121,7 +121,6 @@ namespace GameUnit
             }
 
             unit.priSPD = 0;
-            unit.priDS = 0;
             //unit.damaged = "" //不知道这什么玩意儿
             unit.canNotAttack = true;
             unit.canNotMove = true;

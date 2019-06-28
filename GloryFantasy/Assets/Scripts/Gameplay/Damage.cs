@@ -55,20 +55,51 @@ namespace GamePlay
         /// <param name="source">伤害来源单位。可以为空（eg 烧灼地形造成的伤害）。</param>
         /// <param name="taker">伤害承受者。</param>
         /// <param name="damage">伤害。</param>
-        public static void DealDamage(GameUnit.GameUnit source, GameUnit.GameUnit taker, Damage damage)
+        public static void DealDamage(GameUnit.GameUnit source, GameUnit.GameUnit taker, Damage damage, bool post = true)
         {
             Damage.TakeDamage(taker, damage);
-            damage.SetInjurer(source); damage.SetInjuredUnit(taker);
-            if (source != null)
+            if (post)
             {
+                damage.SetInjurer(new List<GameUnit.GameUnit> { source });
+                damage.SetInjuredUnit(new List<GameUnit.GameUnit> { taker });
+                if (source != null)
+                {
+                    MsgDispatcher.SendMsg((int)MessageType.Damage);
+                    Gameplay.Instance().autoController.RecordedHatred(source, taker);
+                }
+                MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
+                if (taker.IsDead())
+                {
+                    UnitManager.Kill(source, taker);
+                }
+            }
+        }
+
+        public static void DealDamages(List<GameUnit.GameUnit> sources, List<GameUnit.GameUnit> takers, List<Damage> damages)
+        {
+            if (damages.Count < 0)
+                return;
+            bool hasSource = false;
+            for (int i = 0; i < sources.Count; i++)
+            {
+                DealDamage(sources[i], takers[i], damages[i], false);
+                if (sources[i] != null)
+                    Gameplay.Instance().autoController.RecordedHatred(sources[i], takers[i]);
+                hasSource = true;
+            }
+            Damage damage = damages[0];
+            damage.SetInjurer(sources);
+            damage.SetInjuredUnit(takers);
+            if (hasSource)
                 MsgDispatcher.SendMsg((int)MessageType.Damage);
-                Gameplay.Instance().autoController.RecordedHatred(source, taker);
-            }
             MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
-            if (taker.IsDead())
+            for(int i = 0; i < takers.Count; i++)
             {
-                UnitManager.Kill(source, taker);
-            }
+                if (takers[i].IsDead())
+                {
+                    UnitManager.Kill(sources[i], takers[i]);
+                }
+            } 
         }
     }
 
@@ -90,7 +121,7 @@ namespace GamePlay
         {
             _attacker = attacker;
             _attackedUnit = attackedUnit;
-            this.priority = priority;
+            this.priority = priority + attacker.priSPD;
         }
 
         /// <summary>
@@ -110,7 +141,7 @@ namespace GamePlay
             }
             for (int i = 0; i < Attacker.priority.Count; i++)
             {
-                damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.priority[i]));
+                damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.priority[i] + 1));
             }
             damageRequestList.Sort((a, b) =>
             {
@@ -136,43 +167,43 @@ namespace GamePlay
         /// <summary>
         /// 如果伤害请求优先级相同，则伤害判定流程会特殊一些
         /// </summary>
-        public void ExcuteSameTime()
-        {
-            //CheckWhosTurn(_attacker, _attackedUnit);
+        //public void ExcuteSameTime()
+        //{
+        //    //CheckWhosTurn(_attacker, _attackedUnit);
 
-            Damage.TakeDamage(_attackedUnit, Damage.GetDamage(_attacker));
-            this.SetInjurer(_attackedUnit); this.SetInjuredUnit(_attacker);
-            MsgDispatcher.SendMsg((int)MessageType.Damage);
-            MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
+        //    Damage.TakeDamage(_attackedUnit, Damage.GetDamage(_attacker));
+        //    this.SetInjurer(_attackedUnit); this.SetInjuredUnit(_attacker);
+        //    MsgDispatcher.SendMsg((int)MessageType.Damage);
+        //    MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
 
-            Damage.TakeDamage(_attacker, Damage.GetDamage(_attackedUnit));
-            this.SetInjurer(_attacker); this.SetInjuredUnit(_attackedUnit);
-            MsgDispatcher.SendMsg((int)MessageType.Damage);
-            MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
+        //    Damage.TakeDamage(_attacker, Damage.GetDamage(_attackedUnit));
+        //    this.SetInjurer(_attacker); this.SetInjuredUnit(_attackedUnit);
+        //    MsgDispatcher.SendMsg((int)MessageType.Damage);
+        //    MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
 
-            //两次只有attacker是player的时候触发记录
-            Gameplay.Instance().autoController.RecordedHatred(_attacker, _attackedUnit);
-            Gameplay.Instance().autoController.RecordedHatred(_attackedUnit, _attacker);
-            if (_attacker.IsDead())
-            {
-                UnitManager.Kill(_attackedUnit, _attacker);
-            }
-            else
-            {
-                Gameplay.Instance().gamePlayInput.UpdateHp(_attacker);
+        //    //两次只有attacker是player的时候触发记录
+        //    Gameplay.Instance().autoController.RecordedHatred(_attacker, _attackedUnit);
+        //    Gameplay.Instance().autoController.RecordedHatred(_attackedUnit, _attacker);
+        //    if (_attacker.IsDead())
+        //    {
+        //        UnitManager.Kill(_attackedUnit, _attacker);
+        //    }
+        //    else
+        //    {
+        //        Gameplay.Instance().gamePlayInput.UpdateHp(_attacker);
                 
-            }
+        //    }
 
-            if (_attackedUnit.IsDead())
-            {
-                UnitManager.Kill(_attacker, _attackedUnit);
-            }
-            else
-            {
-                Gameplay.Instance().gamePlayInput.UpdateHp(_attackedUnit);
-            }
+        //    if (_attackedUnit.IsDead())
+        //    {
+        //        UnitManager.Kill(_attacker, _attackedUnit);
+        //    }
+        //    else
+        //    {
+        //        Gameplay.Instance().gamePlayInput.UpdateHp(_attackedUnit);
+        //    }
             
-        }
+        //}
 
         //private Damage _damage;
         public GameUnit.GameUnit _attacker;

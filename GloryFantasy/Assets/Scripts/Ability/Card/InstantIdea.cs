@@ -58,8 +58,6 @@ namespace Ability
             //判断发动的卡是不是这个技能的注册者，并且这张卡是不是瞬发幻想
             if (this.GetCastingCard().GetMsgReceiver() == register && this.GetCastingCard().ability_id.Contains(_abilityId))
             {
-                unit = (GameUnit.GameUnit) this.GetSelectingUnits()[0];
-                if (unit.tag.Contains("英雄"))
                     return true;
             }
             
@@ -68,21 +66,36 @@ namespace Ability
 
         private void Action()
         {
-            //获取被选中的友军，需要自己根据技能描述强转类型，一旦强转的类型是错的代码会出错
-            //复制被选中友军的一次性战技入手牌
-            List<string> exCardId = CardManager.Instance().unitsExSkillCardDataBase[unit.id.Split('_').First()];
-            string suffix = _abilityId.Substring(_abilityId.IndexOf('_'));
-            
-            foreach (string id in exCardId)
-            {
-                CardManager.Instance().ArrangeExSkillCard(id + suffix, unit.gameObject.GetInstanceID(), true);
-                
-                // 如果是是InstantIdea_3，就再复制一张
-                if (_abilityId.Contains("_3"))
-                {
-                    CardManager.Instance().ArrangeExSkillCard(id + suffix, unit.gameObject.GetInstanceID(), true);
-                }
-            }
+            unit = (GameUnit.GameUnit)this.GetSelectingUnits()[0];
+            unit.gameObject.AddBuff<Btemp>(2f);
+
+        }
+    }
+
+    public class Btemp : Buff.Buff
+    {
+        int deltaATK = 2;
+        //设定Buff的初始化
+        public override void InitialBuff()
+        {
+            //设定Buff的生命周期，两种写法,建议使用第二种，比较直观
+            //this.Life = 2f;
+            SetLife(2f);
+
+            deltaATK = _buffVariable.Amount.Value;
+            //Buff要做的事情，可以像Ability一样也写Trigger，也可以只是做一些数值操作。和Ability一样公用一套工具函数库
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+
+            unit.changeATK( deltaATK );
+            unit.priSPD += 2;
+        }
+
+        //设定Buff消失时的逆操作
+        protected override void OnDisappear()
+        {
+            GameUnit.GameUnit unit = GetComponent<GameUnit.GameUnit>();
+            unit.changeATK( - deltaATK );
+            unit.priSPD -= 2;
         }
     }
 }

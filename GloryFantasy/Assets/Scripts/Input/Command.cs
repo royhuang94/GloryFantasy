@@ -127,7 +127,7 @@ namespace GamePlay.Input
                 units.AddRange(_blocks[i].units_on_me);
             }
             this.SetSummonUnit(units);
-            MsgDispatcher.SendMsg((int)MessageType.Summon);
+
             //更新仇恨列表
         }
 
@@ -267,12 +267,12 @@ namespace GamePlay.Input
         /// <summary>
         /// 计算反击距离是否大于曼哈顿
         /// </summary>
-        public bool JudgeStrikeBack()
+        public bool JudgeStrikeBack(int rng)
         {
             Vector2 unit1 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_AttackedUnit);
             Vector2 unit2 = BattleMap.BattleMap.Instance().GetUnitCoordinate(_Attacker);
             int MAN_HA_DUN = Mathf.Abs((int)unit1.x - (int)unit2.x) + Mathf.Abs((int)unit1.y - (int)unit2.y);
-            if (MAN_HA_DUN <= _AttackedUnit.getRNG())
+            if (MAN_HA_DUN <= rng)
                 return true;
 
             return false;
@@ -286,28 +286,44 @@ namespace GamePlay.Input
 
             for (int i = 0; i < DamageRequestList.Count; i++)
             {
-                //优先级相同并且两方互打的伤害请求作为同时处理
-                if (i != DamageRequestList.Count - 1 && DamageRequestList[i].priority == DamageRequestList[i + 1].priority
-                    && DamageRequestList[i]._attacker == DamageRequestList[i + 1]._attackedUnit
-                    && DamageRequestList[i]._attackedUnit == DamageRequestList[i + 1]._attacker)
-                {
-                    //判断被攻击者的反击距离
-                    if (JudgeStrikeBack())
-                        DamageRequestList[i].ExcuteSameTime();
-                    else
-                        DamageRequestList[i].Excute(); //距离不够，无法进行反击
+                ////优先级相同并且两方互打的伤害请求作为同时处理
+                //if (i != DamageRequestList.Count - 1 && DamageRequestList[i].priority == DamageRequestList[i + 1].priority
+                //    && DamageRequestList[i]._attacker == DamageRequestList[i + 1]._attackedUnit
+                //    && DamageRequestList[i]._attackedUnit == DamageRequestList[i + 1]._attacker)
+                //{
+                //    //判断被攻击者的反击距离
+                //    if (JudgeStrikeBack())
+                //        //DamageRequestList[i].ExcuteSameTime();
+                //    else
+                //        DamageRequestList[i].Excute(); //距离不够，无法进行反击
 
-                    i++;
-                }
-                else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead() && JudgeStrikeBack()) //符合反击要求
+                //    i++;
+                //}
+                //else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead() && JudgeStrikeBack()) //符合反击要求
+                //{
+                //    DamageRequestList[i].Excute();
+                //}
+                //else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead() && !JudgeStrikeBack()) //距离不够，无法进行反击
+                //{
+                //    DamageRequestList[i].Excute();
+                //    i++;
+                //}
+                while (!JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG())) i++;
+                List<GameUnit.GameUnit> attackers = new List<GameUnit.GameUnit> { DamageRequestList[i]._attacker };
+                List<GameUnit.GameUnit> attackedUnits = new List<GameUnit.GameUnit> { DamageRequestList[i]._attackedUnit };
+                List<Damage> damages = new List<Damage> { Damage.GetDamage(DamageRequestList[i]._attacker) };
+                for(; i + 1 < DamageRequestList.Count && (DamageRequestList[i].priority == DamageRequestList[i + 1].priority); i++)
                 {
-                    DamageRequestList[i].Excute();
+                    if (JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG()))
+                    {
+                        attackers.Add(DamageRequestList[i]._attacker);
+                        attackedUnits.Add(DamageRequestList[i]._attackedUnit);
+                        damages.Add(Damage.GetDamage(DamageRequestList[i]._attacker));
+                    }
                 }
-                else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead() && !JudgeStrikeBack()) //距离不够，无法进行反击
-                {
-                    DamageRequestList[i].Excute();
-                    i++;
-                }
+                Damage.DealDamages(attackers, attackedUnits, damages);
+                if (_Attacker.IsDead() || _AttackedUnit.IsDead())
+                    break;
             }
         }
 

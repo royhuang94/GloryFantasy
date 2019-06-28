@@ -1,6 +1,7 @@
 using IMessage;
 using GamePlay;
 using Ability.Debuff;
+using System.Collections.Generic;
 
 namespace Ability
 {
@@ -35,18 +36,26 @@ namespace Ability
         private bool Condition()
         {
             //获取召唤列表
-            GameUnit.GameUnit Injurer = this.GetInjurer();
+            List<GameUnit.GameUnit> Injurers = this.GetInjurer();
             //查询伤害者是否为此生物
-            if (Injurer.GetMsgReceiver() == register)
-                    return true;
+            foreach(GameUnit.GameUnit Injurer in Injurers)
+                if (Injurer.GetMsgReceiver() == register)
+                       return true;
             return false;
         }
 
         private void Action()
         {
-            //获取发动受伤者
-            GameUnit.GameUnit InjuredUnit = this.GetInjuredUnit();
-            InjuredUnit.gameObject.AddBuff<BBlind>(1f);
+            List<GameUnit.GameUnit> Injurers = this.GetInjurer();
+            //找到伤害者为此生物的受伤生物
+            for (int i = 0; i < Injurers.Count; i++){
+                GameUnit.GameUnit Injurer = Injurers[i];
+                if (Injurer.GetMsgReceiver() == register)
+                {
+                    GameUnit.GameUnit InjuredUnit = this.GetInjuredUnit()[i];
+                    InjuredUnit.gameObject.AddBuff<BBlind>(1f);
+                }
+            }
         }
     }
 }
