@@ -17,10 +17,10 @@ null,boundary1,plane,plane,obsidian,plane,plane,plane,cursestone,plane,plane,obi
 boundary1,plane,plane,obsidian,obsidian,plane,plane,post,plane,plane,obsidian,obsidian,obsidian,plane,boundary3
 boundary2,plane,obsidian,obsidian,obsidian,obsidian,obsidian,obsidian,obsidian,obsidian,obsidian,obsidian,obsidian,boundary3
 boundary3,obsidian,obsidian:monster:tentacle_1,obsidian,obsidian,bloodstone,bloodstone,bloodstone,obsidian,obsidian,obsidian,obsidian,boundary2
-boundary1,obsidian,obsidian,obsidian,obsidian,bloodstone,bloodstone,obsidian,obsidian,obsidian:monster:id_1,obsidian,boundary4
+boundary1,obsidian,obsidian,obsidian,obsidian,bloodstone,bloodstone,obsidian,obsidian,obsidian:monster:tentacle_1,obsidian,boundary4
 boundary2,boundary2,bloodstone,obsidian,obsidian,obsidian,obsidian,obsidian,obsidian,boundary3,boundary1
 null,boundary1,obsidian,obsidian,null,null,obsidian,obsidian,boundary1
-boundary1,obsidian,obsidian:monster:reader_1,null,null,null,obsidian:monster:id_1,boundary1
+boundary1,obsidian,obsidian:monster:reader_1,null,null,null,obsidian:monster:tentacle_1,boundary1
 boundary3,obsidian,obsidian,null,null,bloodstone,boundary1
 boundary1,obsidian,obsidian,obsidian,bloodstone,bloodstone,boundary4
 boundary3,obsidian,obsidian:monster:reader_1,obsidian,bloodstone,boundary3
