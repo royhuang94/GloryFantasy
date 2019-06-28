@@ -502,6 +502,7 @@
     "Event": {},
     "HasCD": 0,
     "Hp": 4,
+    "Prt": 0,
     "ID": "SandwormTail_1",
     "Mov": 0,
     "Name": "沙虫（尾）",
