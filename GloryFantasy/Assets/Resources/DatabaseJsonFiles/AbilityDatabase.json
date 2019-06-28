@@ -9,7 +9,12 @@
         "ID": "Anthem_1",
         "Name": "号令之声",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [{
+            "color": [],
+            "is_speller": 1,
+            "tag": [],
+            "type": "友军"
+        }],
         "Turns": 2
     },
     {
@@ -22,7 +27,12 @@
         "ID": "Anthem_2",
         "Name": "号令之声",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [{
+            "color": [],
+            "is_speller": 1,
+            "tag": [],
+            "type": "友军"
+        }],
         "Turns": 3
     },
     {
@@ -35,7 +45,12 @@
         "ID": "Anthem_3",
         "Name": "号令之声",
         "Range": 0,
-        "TargetList": [],
+        "TargetList": [{
+            "color": [],
+            "is_speller": 1,
+            "tag": [],
+            "type": "友军"
+        }],
         "Turns": 3
     },
     {
@@ -87,7 +102,19 @@
         "ID": "Arrowrain_1",
         "Name": "箭雨",
         "Range": 4,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
         "Turns": 0
     },
     {
@@ -100,7 +127,19 @@
         "ID": "Arrowrain_2",
         "Name": "箭雨",
         "Range": 5,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
         "Turns": 0
     },
     {
@@ -113,7 +152,19 @@
         "ID": "Arrowrain_3",
         "Name": "箭雨",
         "Range": 5,
-        "TargetList": [],
+        "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "controler": "任意",
+                "is_speller": 0,
+                "type": "地形"
+            }
+        ],
         "Turns": 0
     },
     {
@@ -601,6 +652,12 @@
         "TargetList": [
             {
                 "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "color": [],
                 "is_speller": 0,
                 "tag": [],
                 "type": "敌人"
@@ -621,6 +678,12 @@
         "TargetList": [
             {
                 "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
+            {
+                "color": [],
                 "is_speller": 0,
                 "tag": [],
                 "type": "敌人"
@@ -639,6 +702,12 @@
         "Name": "月之裁决",
         "Range": 0,
         "TargetList": [
+            {
+                "color": [],
+                "is_speller": 1,
+                "tag": [],
+                "type": "友军"
+            },
             {
                 "color": [],
                 "is_speller": 0,
