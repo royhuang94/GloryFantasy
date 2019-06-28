@@ -1,6 +1,8 @@
 ﻿[
   {
     "EncounterID": "bumblebee_4",
+    "GlobalTrigger": [],
+    "DeathPage": -1,
     "UnitMessage": [
       {
         "UnitID": "Bumblebee_3",
@@ -70,6 +72,18 @@
       },
       {
         "RegionID": 3,
+        "Owner": "Neutrality",
+        "EventList": {
+          "Empty": 1,
+          "ReinforceBee": 1
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      },
+      {
+        "RegionID": 4,
         "Owner": "Player",
         "EventList": {
           "Empty": 1
