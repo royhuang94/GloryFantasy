@@ -183,4 +183,9 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 			_MMapCameraObject.SetActive(true);
 		}
 	}
+
+    public void GetDeckFormMainMapK(Deck deck)
+    {
+        this._deck = deck;
+    }
 }

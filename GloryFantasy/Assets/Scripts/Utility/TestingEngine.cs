@@ -24,10 +24,6 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         {
             BattleMap.BattleMap.Instance().RestatInitMap("ant_3", null);
         }
-        if (GUILayout.Button("ant_4"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("ant_4", null);
-        }
         if (GUILayout.Button("gargoyle_1"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("gargoyle_1", null);
@@ -39,10 +35,6 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         if (GUILayout.Button("gargoyle_3"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("gargoyle_3", null);
-        }
-        if (GUILayout.Button("gargoyle_4"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("gargoyle_4", null);
         }
         if (GUILayout.Button("desertshadow_1"))
         {
@@ -56,14 +48,10 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         {
             BattleMap.BattleMap.Instance().RestatInitMap("desertshadow_3", null);
         }
-        if (GUILayout.Button("desertshadow_4"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("desertshadow_4", null);
-        }
-        if (GUILayout.Button("Desert_ShadowFire_1"))
+        /*if (GUILayout.Button("Desert_ShadowFire_1"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("Desert_ShadowFire_1", null);
-        }
+        }*/
         if (GUILayout.Button("dk_1"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("dk_1", null);
@@ -96,10 +84,6 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         {
             BattleMap.BattleMap.Instance().RestatInitMap("ooze_3", null);
         }
-        if (GUILayout.Button("ooze_4"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("ooze_4", null);
-        }
         if (GUILayout.Button("chomper_1"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("chomper_1", null);
@@ -119,10 +103,6 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         if (GUILayout.Button("Liberia_Boss_3"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("Liberia_Boss_3", null);
-        }
-        if (GUILayout.Button("Liberia_Boss_4"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("Liberia_Boss_4", null);
         }
         if (GUILayout.Button("reader_1"))
         {
@@ -187,10 +167,6 @@ public class TestingEngine : UnitySingleton<TestingEngine>
         if (GUILayout.Button("bumblebee_3"))
         {
             BattleMap.BattleMap.Instance().RestatInitMap("bumblebee_3", null);
-        }
-        if (GUILayout.Button("bumblebee_4"))
-        {
-            BattleMap.BattleMap.Instance().RestatInitMap("bumblebee_4", null);
         }
         if (GUILayout.Button("sandworm_1"))
         {
