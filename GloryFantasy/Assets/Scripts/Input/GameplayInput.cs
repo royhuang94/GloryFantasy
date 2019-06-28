@@ -126,7 +126,10 @@ namespace GamePlay.Input
         {
             InputFSM.OnSelectState(ability);
         }
-
+        public void OnEnterPlatState()
+        {
+            InputFSM.OnPlatState();
+        }
         /// <summary>
         /// 处理地图方块的鼠标进入
         /// </summary>
