@@ -74,6 +74,10 @@ namespace GamePlay.FSM
                 Input.DispositionCommandList dispositionCommandList = new Input.DispositionCommandList(units, owners, pos);
                 dispositionCommandList.Excute();
                 FSM.PushState(new InputFSMIdleState(FSM));
+                for (int i = 0; i < pos.Count;i++)
+                {
+                    BattleMap.BattleMap.Instance()._quickplat.RemoveAt(0);
+                }
             }
         }
         
