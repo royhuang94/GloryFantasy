@@ -224,7 +224,24 @@ namespace BattleMap
         /// <returns></returns>
         private string GetEncounterID()
         {
-            return SceneSwitchController.Instance().encounterId == null ? "planeshadow_1" : SceneSwitchController.Instance().encounterId;
+            
+            if (SceneSwitchController.Instance().encounterId == null)//如果直接从战斗场景运行，默认初始一场遭遇
+                return "planeshadow_1";
+            Debug.Log("front id: " + SceneSwitchController.Instance().encounterId);
+            string temp_id = SceneSwitchController.Instance().encounterId;
+            string temp_id_front = temp_id.Split('_')[0];
+            if (temp_id_front == "sandworm")
+                return "sandworm_1";
+            if (temp_id_front == "chomper")
+                return "chomper_1";
+            if (temp_id_front == "Devil")
+                return "Devil_1";
+            if (temp_id == "hunter_3")
+                return "hunter_2";
+            if (temp_id == "dk_3")
+                return "dk_2";
+
+            return SceneSwitchController.Instance().encounterId;
             //return "Plain_Shadow_1";
         }
 
