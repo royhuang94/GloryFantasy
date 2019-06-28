@@ -69,6 +69,10 @@
     <image id="ot5637" name="EventButton.png" path="/"/>
     <component id="ot5639" name="EventButton.xml" path="/"/>
     <image id="ot563a" name="EventScroll.png" path="/"/>
+    <component id="g19e3b" name="Button1(3).xml" path="/"/>
+    <component id="g19e3c" name="Button1(4).xml" path="/"/>
+    <component id="dsle3d" name="unitButton.xml" path="/" exported="true"/>
+    <component id="dsle3e" name="unitListFrame.xml" path="/" exported="true"/>
   </resources>
   <publish name="newBattlemap" maxAtlasSize="4096"/>
 </packageDescription>

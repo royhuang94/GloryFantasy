@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="145,95" extention="Button">
   <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <controller name="control" pages="0,,1," selected="0"/>
   <displayList>
     <image id="n0_ot56" name="n0" src="ot5637" fileName="EventButton.png" xy="0,0">
-      <gearDisplay controller="button" pages="0,2"/>
+      <gearDisplay controller="control" pages="0"/>
       <relation target="" sidePair="width-width,height-height"/>
     </image>
     <image id="n1_ot56" name="n1" src="ot5634" fileName="EventButton_selected.png" xy="0,0">
-      <gearDisplay controller="button" pages="1"/>
+      <gearDisplay controller="control" pages="1"/>
       <relation target="" sidePair="width-width,height-height"/>
     </image>
     <image id="n2_ot56" name="n2" src="ot5634" fileName="EventButton_selected.png" xy="0,0">
-      <gearDisplay controller="button" pages="3"/>
+      <gearDisplay controller="control" pages="1"/>
       <relation target="" sidePair="width-width,height-height"/>
     </image>
-    <text id="n3_ot56" name="n3" xy="8,31" size="131,39" fontSize="30" autoSize="none" text="第二回合"/>
+    <text id="n3_ot56" name="text" xy="8,31" size="131,39" fontSize="30" autoSize="none" text="第二回合"/>
   </displayList>
   <Button/>
+  <relation target="" sidePair="width-width,height-height"/>
 </component>

@@ -1,8 +1,4 @@
 {
-	"expanded_nodes": [
-		"dml5hbrc",
-		"/"
-	],
 	"docs": [
 		"dml5hbrc",
 		"n195m",
@@ -56,6 +52,10 @@
 	"hidden_packages": [],
 	"active_doc": [
 		"dml5hbrc",
-		"n195m"
+		"ot5639"
+	],
+	"expanded_nodes": [
+		"dml5hbrc",
+		"/"
 	]
 }
