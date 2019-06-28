@@ -55,10 +55,10 @@ namespace Ability
         /// <returns>没有死亡就是true</returns>
         private bool Condition()
         {
-            if (Gameplay.Instance().gamePlayInput.InputFSM.TargetList.Count == 0)
+            // 根据异能ID，检查发动的异能是否含有使用者
+            if (!AbilityDatabase.GetInstance()
+                .CheckIfAbilityHasUser(Gameplay.Instance().gamePlayInput.InputFSM.ability.AbilityID))
                 return false;
-            
-            
             return this.GetAbilitySpeller().gameObject.GetInstanceID() == _binderInstanceId;
         }
 

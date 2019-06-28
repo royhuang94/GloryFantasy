@@ -5,6 +5,7 @@ using IMessage;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Ability;
 using GameGUI;
 using GamePlay;
 using GamePlay.FSM;
@@ -129,17 +130,17 @@ namespace GameCard
                 "Ex skill card Trigger"
             );
             
-//            MsgDispatcher.RegisterMsg(
-//                this.GetMsgReceiver(),
-//                (int)MessageType.Dead,
-//                () =>
-//                {
-//                    int deathId = this.GetDead().gameObject.GetInstanceID();
-//                    return ESSlot._heroUnitRelation.ContainsKey(deathId);
-//                },
-//                () => { ESSlot._heroUnitRelation.Remove(this.GetDead().gameObject.GetInstanceID()); },
-//                "ESS relation cleaner"
-//            );
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int)MessageType.Dead,
+                () =>
+                {
+                    int deathId = this.GetDead().gameObject.GetInstanceID();
+                    return ESSlot._heroUnitRelation.ContainsKey(deathId);
+                },
+                () => { ESSlot._heroUnitRelation.Remove(this.GetDead().gameObject.GetInstanceID()); },
+                "ESS relation cleaner"
+            );
             
             ExtractCards(3);
         }
@@ -288,31 +289,23 @@ namespace GameCard
             Player.Instance().ConsumeAp(_handcardsInstance[_currentSelectingPos].GetComponent<OrderCard>().cost);
 
             string userId = null;
-            // 获取卡牌使用者信息，如果目标列表长度不为0，则说明可以获取到使用者（这个逻辑和策划确认过)
-            // 哪门子的确认过啊？
-            if (Gameplay.Instance().gamePlayInput.InputFSM.TargetList.Count > 0)
+            
+            // 调用接口实现查询Targetlist中是否存在使用者
+            if (AbilityDatabase.GetInstance().CheckIfAbilityHasUser(_currentSelectingCard))
             {
                 // 获取使用者坐标
                 Vector2 vec= Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0];
                 // 从地图中获取实际使用者的GameUnit引用
                 GameUnit.GameUnit userUnit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(vec);
-                // 如果获得的引用为空
-                //if (userUnit == null)
-                //{
-                //    // 特殊情况，发动者位置与实际位置发生偏移或是这个单位居然没挂上GameUnit脚本
-                //    // TODO：应对此种情况必要的提醒
-                //    Debug.Log("找不到使用者，停止使用卡牌");
-                //    return;
-                //}
-                //// 如果获取到无问题的GameUnit脚本，得到使用者实例id
-                //userId = userUnit.GetInstanceID().ToString();
+                // 如果获取到无问题的GameUnit脚本，得到使用者实例id
                 if (userUnit != null)
                 {
-                    // 特殊情况，发动者位置与实际位置发生偏移或是这个单位居然没挂上GameUnit脚本
-                    // TODO：应对此种情况必要的提醒
-                    userId = userUnit.GetInstanceID().ToString();
+                    userId = userUnit.gameObject.GetInstanceID().ToString();
                 }
-                // 如果获取到无问题的GameUnit脚本，得到使用者实例id
+                else
+                {
+                    Debug.Log("无法获得使用者单位信息");
+                }
                 
             }
             

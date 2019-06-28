@@ -11,8 +11,6 @@ namespace Ability
     {
         //技能表存储对象
         private Dictionary<string, AbilityFormat> _abilityData;
-        //Json文件的路径
-        public string JsonFilePath = "/Scripts/Ability/AbilityDatabase.json";
 
         protected static AbilityDatabase _instance = null;
 
@@ -105,9 +103,9 @@ namespace Ability
         private void InitAbilityDatabase()
         {
             _abilityData = new Dictionary<string, AbilityFormat>();
-
-            JsonData abilitiesJsonData =
-                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + JsonFilePath));
+            
+            TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/AbilityDatabase");
+            JsonData abilitiesJsonData = JsonMapper.ToObject(json.text);
 
             for (int i = 0; i < abilitiesJsonData.Count; i++)
             {
@@ -177,6 +175,18 @@ namespace Ability
             abilityVariable.Turns = (int) jsonData["Turns"];
             abilityVariable.Curing = (int) jsonData["Curing"];
             abilityVariable.Area = (int) jsonData["Area"];
+        }
+
+        /// <summary>
+        /// 获取指定的异能的目标list是否包含使用者信息，无目标或者目标List为0均会返回false，只有包含使用者信息时返回true
+        /// </summary>
+        /// <param name="abilityId">要查询的ability的Id</param>
+        /// <returns>若包含使用者信息则返回true，其他情况（包括非法）返回false</returns>
+        public bool CheckIfAbilityHasUser(string abilityId)
+        {
+            if (!_abilityData.ContainsKey(abilityId) || _abilityData[abilityId].AbilityTargetList.Count == 0) return false;
+            
+            return _abilityData[abilityId].AbilityTargetList[0].IsSpeller;
         }
 
         /// <summary>

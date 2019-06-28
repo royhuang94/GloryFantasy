@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Ability;
 using BattleMap;
 using GameCard;
 using GameUnit;
@@ -10,7 +11,7 @@ using UnityEngine.EventSystems;
 
 namespace GamePlay.FSM
 {
-    public class InputFSMCastState : InputFSMState
+    public class InputFSMCastState : InputFSMState, GameplayTool
     {
         public InputFSMCastState(InputFSM fsm) : base(fsm)
         { }
@@ -111,6 +112,8 @@ namespace GamePlay.FSM
             if ((FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.Friendly) ||
                     (FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.All))
             {
+                if(FSM.TargetList.Count == 0 && AbilityDatabase.GetInstance().CheckIfAbilityHasUser(FSM.ability.AbilityID))
+                    GameplayToolExtend.SetAbilitySpeller(this, unit);
                 FSM.TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
             }
             //如果已经选够了目标就发动卡片
