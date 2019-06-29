@@ -63,15 +63,14 @@ namespace GameUnit
         {
             //根据卡牌id生成单位
             GameObject temp = GameUnitPool.Instance().GetInst(cardID, owner);
+            Debug.Log("temp: " + temp);
             //获取GameUnit对象
-            GameUnit gameUnit;
-            if (owner != OwnerEnum.Enemy)
-                gameUnit = temp.GetComponent<FriendlyUnit>();
-            else
-                gameUnit = temp.GetComponent<EnemyUnit>();
+            GameUnit gameUnit = temp.GetComponent<GameUnit>(); ;
 
             //添加当前实例单位到UnitList中
             BattleMap.BattleMap.Instance().UnitsList.Add(gameUnit);
+
+            Debug.Log("gameUnit " + gameUnit);
             //添加当前实例单位的所在地图块儿
             gameUnit.mapBlockBelow = battleMapBlock;
 

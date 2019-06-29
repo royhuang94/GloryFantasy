@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <image id="n0_iksw" name="n0" src="mkyt8" fileName="aboutbox.png" xy="0,0"/>
+    <image id="n4_nsfx" name="n4" src="nsfxg" fileName="staff.png" xy="0,0"/>
+  </displayList>
+</component>

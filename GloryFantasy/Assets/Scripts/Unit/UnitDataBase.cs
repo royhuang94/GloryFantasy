@@ -18,7 +18,7 @@ namespace GameUnit
         }
 
         #region 变量
-       //[SerializeField]private string DataBasePath;
+        //[SerializeField]private string DataBasePath;
         private Dictionary<string, JsonData> _unitsData;
         public Dictionary<string, JsonData> unitsData { get { return _unitsData; } }
         private List<string> _unitsDataIDs;
@@ -34,10 +34,10 @@ namespace GameUnit
 
             // 从制定路劲加载json文件并映射成字典
             //JsonData unitsTemplate = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + DataBasePath));
-            
+
             TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/UnitDatabase");
             JsonData unitsTemplate = JsonMapper.ToObject(json.text);
-            
+
             // 获取总模板数量
             int dataAmount = unitsTemplate.Count;
             // 依次添加数据到相应数据集中
@@ -48,7 +48,7 @@ namespace GameUnit
                 _unitsDataIDs.Add(id);
             }
 
-            
+
         }
 
         /// <summary>
@@ -66,20 +66,24 @@ namespace GameUnit
         /// <param name="unit">被初始化的持有GameUnit的GameObject</param>
         /// <param name="id">要初始化的Unit的数据的ID</param>
         /// <param name="damage">这个角色是否出场就受伤</param>
-        public void InitGameUnit(GameObject unit, string id, OwnerEnum owner,int isLeader, int damage = 0)
+        public void InitGameUnit(GameObject unit, string id, OwnerEnum owner, int isLeader, int damage = 0)
         {
             if (unit.GetComponent<Unit>() != null)
-            {
+                //{
                 //把GameUnit清除掉，等于把trigger洗掉
                 DestroyImmediate(unit.GetComponent<Unit>());
 
-                InitGameUnit(unit.AddComponent<Unit>(), id, owner,isLeader ,damage);
-            }
+            //    InitGameUnit(unit.AddComponent<Unit>(), id, owner,isLeader ,damage);
+            //}
+            //else
+            //{
+            //    InitGameUnit(unit.AddComponent<Unit>(), id, owner,isLeader, damage);
+            //    //Debug.Log("In UnitDataBase: " + unit.name + " doesn't have GameUnit.Can;t be Initial.");
+            //}
+            if (owner != OwnerEnum.Enemy)
+                InitGameUnit(unit.AddComponent<FriendlyUnit>(), id, owner, isLeader, damage);
             else
-            {
-                InitGameUnit(unit.AddComponent<Unit>(), id, owner,isLeader, damage);
-                //Debug.Log("In UnitDataBase: " + unit.name + " doesn't have GameUnit.Can;t be Initial.");
-            }
+                InitGameUnit(unit.AddComponent<FriendlyUnit>(), id, owner, isLeader, damage);
         }
 
         /// <summary>
@@ -88,7 +92,7 @@ namespace GameUnit
         /// <param name="unit">被初始化的GameUnit引用</param>
         /// <param name="unitID">要初始化的Unit的数据的ID</param>
         /// <param name="damage">这个角色是否出场就受伤</param>
-        public void InitGameUnit(Unit unit, string unitID, OwnerEnum owner,int isLeader,int damage = 0)
+        public void InitGameUnit(Unit unit, string unitID, OwnerEnum owner, int isLeader, int damage = 0)
         {
             if (!_unitsData.ContainsKey(unitID))
             {
@@ -130,8 +134,8 @@ namespace GameUnit
             //最后初始化新异能
             AddGameUnitAbility(unit, data);
             //最后初始化单位绑定的事件信息
-           bool canInitEventModule =  AddGameUnitEventsInfo(unit, data);
-            if(canInitEventModule)
+            bool canInitEventModule = AddGameUnitEventsInfo(unit, data);
+            if (canInitEventModule)
             {
                 unit.EventModule = new GamePlay.Event.EventModule(unit);
                 unit.EventModule.AddEvent(unit.eventsInfo);
@@ -178,7 +182,7 @@ namespace GameUnit
                         GameUtility.LogColor.RED);
                 }
             }
-            
+
         }
         /// <summary>
         /// 根据给定UnitID，添加GameUnit的异能脚本
