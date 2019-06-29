@@ -28,7 +28,7 @@
     <image id="m02ep" name="ConfirmBuying_y.png" path="/"/>
     <image id="m02eq" name="Shop.png" path="/"/>
     <component id="m02er" name="ShopMain.xml" path="/" exported="true"/>
-    <component id="m02es" name="TransferMain.xml" path="/"/>
+    <component id="m02es" name="TransferMain.xml" path="/" exported="true"/>
     <component id="nsfxt" name="Button3.xml" path="/"/>
     <image id="nsfxu" name="06A(1).png" path="/"/>
     <image id="kp031u" name="Coin1.png" path="/"/>
