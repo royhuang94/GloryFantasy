@@ -303,7 +303,7 @@ namespace GameCard
             string userId = null;
             
             // 调用接口实现查询Targetlist中是否存在使用者
-            if (AbilityDatabase.GetInstance().CheckIfAbilityHasUser(_currentSelectingCard))
+            if (AbilityDatabase.GetInstance().CheckIfAbilityHasUser(this.GetSpellingAbility().AbilityID))
             {
                 // 调用接口获取技能发动者
                 GameUnit.GameUnit userUnit = this.GetAbilitySpeller();

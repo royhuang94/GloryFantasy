@@ -26,7 +26,6 @@ namespace Ability
         public override void Init(string abilityId)
         {
             base.Init(abilityId);
-            GameUnit.GameUnit unit = gameObject.GetComponent<GameUnit.GameUnit>();
             _trigger = new TWit(this.GetUnitReceiver(this), gameObject.GetInstanceID(), AbilityVariable.Amount.Value);
             MsgDispatcher.RegisterMsg(_trigger, abilityId);
         }
