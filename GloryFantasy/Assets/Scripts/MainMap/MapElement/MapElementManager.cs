@@ -141,11 +141,11 @@ namespace MainMap
             //这行测试用，素材统一了就删掉,
             Sprite newsprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + encounterid, typeof(Sprite));
             Sprite defaultsprite = (Sprite)Resources.Load("MMtesttexture/Monster/" + testid, typeof(Sprite));
-            if (newsprite !=null)
+            if (newsprite != null)
             {
                 this.GetComponent<SpriteRenderer>().sprite = newsprite;
-            }    
-            else if (defaultsprite!=null)
+            }
+            else if (defaultsprite != null)
             {
                 this.GetComponent<SpriteRenderer>().sprite = defaultsprite;
             }

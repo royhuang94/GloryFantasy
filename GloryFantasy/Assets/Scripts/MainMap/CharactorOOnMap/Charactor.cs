@@ -54,6 +54,9 @@ namespace MainMap
             public HexVector playerlocate;
             public GameObject underfeet;
             public MoveState charactorstate;
+            public int gold;
+            //调用的时候  Charactor.Instance().charactordata.gold
+
         }
         /// <summary>传给战斗系统的相关数据
         /// 
@@ -268,14 +271,6 @@ namespace MainMap
             string keycoor = null;
             foreach(KeyValuePair<string, MapUnit> m in aroundlist)
             {
-                if(underfeet ==null)
-                {
-
-                }
-                if(underfeet.GetComponent<MapUnit>()==null)
-                {
-
-                }
                 if(m.Value!=null&&m.Value.Equals(underfeet.GetComponent<MapUnit>()))
                 {
                     keycoor = m.Key;
