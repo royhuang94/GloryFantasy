@@ -235,6 +235,12 @@ namespace GamePlay
                 GameGUI.ShowRange.Instance().CancleMoveRangeMark();
                 gamePlayInput.InputFSM.PushState(new FSM.InputFSMIdleState(gamePlayInput.InputFSM));
             }
+
+            if(BattleMap.BattleMap.Instance().IsAtkColor == true)
+            {
+                GameGUI.ShowRange.Instance().CancleAttackRangeMark();
+                gamePlayInput.InputFSM.PushState(new FSM.InputFSMAttackState(gamePlayInput.InputFSM));
+            }
         }
     }
 }

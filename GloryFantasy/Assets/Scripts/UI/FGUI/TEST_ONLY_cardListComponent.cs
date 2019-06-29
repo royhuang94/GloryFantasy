@@ -16,7 +16,7 @@ namespace UI.FGUI
         private GList _cardList;
 
         private string _pkgName;
-        private const string _cardSetsAssets = "fakeHandcard";
+        private const string _cardSetsAssets = "card628";
         private const string _cardItem = "Button2";
         
         private TEST_ONLY_cardListComponent()

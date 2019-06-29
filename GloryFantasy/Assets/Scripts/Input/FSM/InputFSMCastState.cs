@@ -41,6 +41,7 @@ namespace GamePlay.FSM
 
             //如果发动的指令牌不需要指定目标则直接发动
             //并且状态机压入回正常状态
+            this.SetSpellingAbility(FSM.ability);
             if (FSM.ability.AbilityTargetList.Count == 0)
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();

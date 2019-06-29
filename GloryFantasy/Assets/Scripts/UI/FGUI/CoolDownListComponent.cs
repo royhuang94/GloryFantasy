@@ -29,7 +29,7 @@ namespace UI.FGUI
         /// <summary>
         /// 冷却池用的卡牌素材资源定义
         /// </summary>
-        private const string _cooldownCardAssets = "fakeHandcard";
+        private const string _cooldownCardAssets = "card628";
 
         /// <summary>
         /// 冷却池用数字遮罩资源包定义
