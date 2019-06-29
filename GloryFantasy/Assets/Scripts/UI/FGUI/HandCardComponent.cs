@@ -33,7 +33,7 @@ namespace UI.FGUI
         /// <summary>
         /// 手牌资源包定义
         /// </summary>
-        private const string _handCardAssets = "fakeHandcard";
+        private const string _handCardAssets = "card628";
 
         /// <summary>
         /// 资源包定义
@@ -133,6 +133,9 @@ namespace UI.FGUI
         /// </summary>
         public void OnClickHandCard(EventContext context)
         {
+            //当单位移动范围显示的时候后，点击卡牌，关闭单位移动显示，防止被箭头覆盖
+            Gameplay.Instance().CancleMoveRangeMark();
+
 	        // 如果不是玩家回合，则无法使用卡牌
 	        if (!Gameplay.Instance().roundProcessController.IsPlayerRound())
 		        return;

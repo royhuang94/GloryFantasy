@@ -51,8 +51,11 @@ namespace GamePlay.FSM
         {
             Shader shader = Shader.Find("Sprites/2DOutline");
 //            Material material = mapBlock.GetComponent<Renderer>().material;
-            // 没有选择卡牌或者该地格已有单位，则不高亮
-            if(FSM.selectedCard == null || BattleMap.BattleMap.Instance().CheckIfHasUnits(mapBlock.position))
+            // 没有选择卡牌或者或者不是友方战区或者友方战区但是该地格已有单位，则不高亮
+            int reginID = BattleMap.BattleMap.Instance().battleAreaData.GetReginIDByPos(new Vector2(mapBlock.x, mapBlock.y));
+            if(FSM.selectedCard == null || 
+               BattleMap.BattleMap.Instance().battleAreaData.battleAreas[reginID]._battleAreaSate != BattleAreaState.Player || 
+               BattleMap.BattleMap.Instance().CheckIfHasUnits(mapBlock.position))
                 return;
             mapBlock.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
             if (shader != null)

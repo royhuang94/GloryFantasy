@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="32p4j6lq" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="dwdg0" name="GCuringwind.jpg" path="/" exported="true"/>
+    <image id="dwdg1" name="GWall.jpg" path="/" exported="true"/>
+    <image id="dwdg2" name="RPhoenix.jpg" path="/" exported="true"/>
+    <image id="dwdg3" name="GWoodfolk.jpg" path="/" exported="true"/>
+    <image id="dwdg4" name="HKnight.jpg" path="/" exported="true"/>
+    <image id="dwdg5" name="PAnthem.jpg" path="/" exported="true"/>
+    <image id="dwdg6" name="WArmour.jpg" path="/" exported="true"/>
+    <image id="dwdg7" name="GSummonwolf.jpg" path="/" exported="true"/>
+    <image id="dwdg8" name="GArrowrain.jpg" path="/" exported="true"/>
+    <image id="dwdg9" name="HLunamage.jpg" path="/" exported="true"/>
+    <image id="dwdga" name="HElf.jpg" path="/" exported="true"/>
+    <image id="dwdgb" name="RKnight.jpg" path="/" exported="true"/>
+    <image id="dwdgc" name="WArcher.jpg" path="/" exported="true"/>
+    <image id="dwdgd" name="WPonder.jpg" path="/" exported="true"/>
+    <image id="dwdge" name="GJump.jpg" path="/" exported="true"/>
+    <image id="dwdgf" name="RCourage.jpg" path="/" exported="true"/>
+    <image id="dwdgg" name="GWinterwolf.jpg" path="/" exported="true"/>
+    <image id="dwdgh" name="WInstantidea.jpg" path="/" exported="true"/>
+    <image id="dwdgi" name="RThrow.jpg" path="/" exported="true"/>
+    <image id="dwdgj" name="WMist.jpg" path="/" exported="true"/>
+    <image id="dwdgk" name="URLunastrike.jpg" path="/" exported="true"/>
+    <image id="dwdgl" name="RBattlecry.jpg" path="/" exported="true"/>
+    <image id="dwdgm" name="WSoldier.jpg" path="/" exported="true"/>
+    <image id="dwdgn" name="RFiresuli.jpg" path="/" exported="true"/>
+    <image id="nxc3o" name="empty.png" path="/" exported="true"/>
+  </resources>
+  <publish name="card628"/>
+</packageDescription>
