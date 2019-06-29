@@ -90,7 +90,7 @@ namespace GameCard
         private void Awake()
         {
             Init();
-            LoadCardsIntoSets();
+            //LoadCardsIntoSets();
             _isSelectingMode = false;
         }
 
@@ -149,7 +149,7 @@ namespace GameCard
                 "ESS relation cleaner"
             );
 #endif
-            ExtractCards(2, true);
+            ExtractCards(1, true);
         }
 
         /// <summary>
@@ -385,22 +385,11 @@ namespace GameCard
         /// <summary>
         /// 用于设置卡牌堆内卡牌情况
         /// </summary>
-        private void LoadCardsIntoSets()
+        public void LoadCardsIntoSets(Deck deck)
         {
-            // TODO: 根据策划案修改此函数，以下仅用于demo
-            Deck deck = SceneSwitchController.Instance().deck;
-
-
-            // 如果传递的牌库是空的，那就没得办法了，直接加全部牌
-            if (_loadFromJson || deck._deck.Count == 0)
-            {
-                // 将所有卡牌加入牌堆中，一样只有一张
-                foreach (string cardID in _cardsData.Keys)
-                {
-                    _cardsSets.Add(string.Copy(cardID));
-                }
-            }
-            else
+            //// TODO: 根据策划案修改此函数，以下仅用于demo
+            //Deck deck = SceneSwitchController.Instance().deck;
+            if (deck != null)
             {
                 // 将deck中所有卡牌加入牌堆中
                 foreach (string cardId in deck._deck)
@@ -408,7 +397,25 @@ namespace GameCard
                     _cardsSets.Add(string.Copy(cardId));
                 }
             }
-            
+            //// 如果传递的牌库是空的，那就没得办法了，直接加全部牌
+            //// 别加啊，可能有空牌库的啊。
+            //if (_loadFromJson || deck._deck.Count == 0)
+            //{
+            //    // 将所有卡牌加入牌堆中，一样只有一张
+            //    foreach (string cardID in _cardsData.Keys)
+            //    {
+            //        _cardsSets.Add(string.Copy(cardID));
+            //    }
+            //}
+            //else
+            //{
+            //    // 将deck中所有卡牌加入牌堆中
+            //    foreach (string cardId in deck._deck)
+            //    {
+            //        _cardsSets.Add(string.Copy(cardId));
+            //    }
+            //}
+
             // 随机洗牌            
             Shuffle();
             

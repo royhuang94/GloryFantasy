@@ -11,6 +11,7 @@ using GameUnit;
 using System.Collections;
 using GamePlay.Encounter;
 using UnityEngine.SceneManagement;
+using GameCard;
 
 namespace BattleMap
 {
@@ -160,6 +161,7 @@ namespace BattleMap
             this.init_encouterID = encouterId;
             _unitsList = new List<Unit>();//放在这里为了每次从遭遇选择器切换地图后，清空之前的
             _quickplat = deck._unitsWithQuickPlat;
+            CardManager.Instance().LoadCardsIntoSets(deck);
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter(encouterId);            
             //初始化地图
@@ -176,7 +178,7 @@ namespace BattleMap
             GamePlay.Gameplay.Instance().roundProcessController.SetFristRound();
             //一直显示战区所属
             drawBattleArea.ShowAndUpdateBattleArea();
-
+            
             ScaleBattleMap();
         }
 
