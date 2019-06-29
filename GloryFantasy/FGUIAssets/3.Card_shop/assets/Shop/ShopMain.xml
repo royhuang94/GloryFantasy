@@ -7,24 +7,23 @@
       <item/>
       <item/>
     </list>
-    <component id="n21_nsfx" name="n21" src="nsfxt" fileName="Button3.xml" xy="12,37" size="1470,831" alpha="0">
-      <gearDisplay controller="c1" pages="0,1"/>
-      <gearLook controller="c1" pages="0" values="0,0,0,1" default="1,0,0,1" tween="true"/>
-      <Button controller="c1" page="0"/>
-    </component>
     <component id="n4_fo1g" name="TransferBtn" src="m02eb" fileName="Button2.xml" xy="1215,761" size="209,85">
       <gearDisplay controller="c1" pages="0,1"/>
       <Button controller="c1" page="1"/>
     </component>
-    <component id="n24_nsfx" name="n24" src="m02es" fileName="TransferMain.xml" xy="511,90">
+    <component id="n12_aeoh" name="Close" src="m02ef" fileName="Button6.xml" xy="1207,108" size="59,62"/>
+    <component id="n24_nsfx" name="TransferMain" src="m02es" fileName="TransferMain.xml" xy="511,90">
       <gearDisplay controller="c1" pages="1"/>
     </component>
-    <component id="n12_aeoh" name="Close" src="m02ef" fileName="Button6.xml" xy="1207,108" size="59,62"/>
     <image id="n17_gyi6" name="n17" src="m02ei" fileName="Coinbag.png" xy="308,696" size="151,153"/>
     <text id="n18_gyi6" name="PlayerGold" xy="349,757" size="57,48" fontSize="50" align="center" autoSize="none" text="5"/>
     <image id="n25_kp03" name="n25" src="kp031u" fileName="Coin1.png" xy="433,537"/>
     <image id="n26_kp03" name="n26" src="kp031u" fileName="Coin1.png" xy="728,537"/>
     <image id="n27_kp03" name="n27" src="kp031u" fileName="Coin1.png" xy="1030,535"/>
+    <component id="n28_l1ua" name="closeTransfer" src="l1ua1v" fileName="Button7.xml" xy="958,106">
+      <gearDisplay controller="c1" pages="1"/>
+      <Button controller="c1" page="0"/>
+    </component>
   </displayList>
   <transition name="t0" autoPlay="true"/>
 </component>

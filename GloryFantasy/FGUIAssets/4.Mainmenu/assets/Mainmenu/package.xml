@@ -17,5 +17,5 @@
     <image id="nsfxf" name="08A.png" path="/"/>
     <image id="nsfxg" name="staff.png" path="/"/>
   </resources>
-  <publish name=""/>
+  <publish name="Mainmenu"/>
 </packageDescription>
