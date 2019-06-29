@@ -9,7 +9,6 @@
 		"wr5gk5j8",
 		"/"
 	],
-	"hidden_packages": [],
 	"docs": [
 		"dml5hbrc",
 		"n195m",
@@ -57,5 +56,6 @@
 		"rxqp33",
 		"dml5hbrc",
 		"ot5639"
-	]
+	],
+	"hidden_packages": []
 }

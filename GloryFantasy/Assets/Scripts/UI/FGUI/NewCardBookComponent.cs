@@ -122,7 +122,7 @@ namespace UI.FGUI
             __cardSetsList = CardManager.Instance().cardsSets;
 
             // 卡牌资源定义
-            _cardSetsAssets = "fakeHandcard";
+            _cardSetsAssets = "card628";
             
 //            // 添加卡牌点击事件
 //            _cardSetsList.onClickItem.Add(OnClickCardSetsItem);
