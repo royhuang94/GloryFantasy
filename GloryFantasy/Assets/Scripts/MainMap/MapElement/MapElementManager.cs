@@ -160,7 +160,7 @@ namespace MainMap
             
             foreach (Monster m in monsterlist)
             {
-                if(m.encounterid == "Devil_1" || m.encounterid == "Devil_2")
+                if(m.encounterid.Split('_')[0] == "Devil" || m.encounterid.Split('_')[0] == "sandworm" || m.encounterid.Split('_')[0] == "chomper")
                 {
                     //不升级
                 }

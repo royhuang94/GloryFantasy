@@ -151,7 +151,7 @@ public class ArrowManager : UnitySingleton<ArrowManager>
         {
             for (int j = nodeCount; j < len; j++)
             {
-                GameObject arrowNodeInstance = Instantiate(arrowNode, new Vector3(1.5f, -j, 0), new Quaternion(0f, 0f, 0f, 0f), _nodesContainerTfm);
+                GameObject arrowNodeInstance = Instantiate(arrowNode, new Vector3(1.5f, -j - 0.3f, 0), new Quaternion(0f, 0f, 0f, 0f), _nodesContainerTfm);
                 arrowNodeInstance.transform.localScale = new Vector3(1f, 1.3f, 1f);
             }
         }

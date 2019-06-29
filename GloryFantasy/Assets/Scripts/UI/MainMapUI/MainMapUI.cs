@@ -66,6 +66,8 @@ namespace GameGUI
         private GTextField effecttext;
         private GTextField describetext;
         private GTextField propertytext;
+        private GTextField mainmapgoldtext;
+        private GTextField librarygoldtext;
         private GLoader picloader;
         #endregion
         private Library choosenlibrary;
@@ -95,8 +97,8 @@ namespace GameGUI
             mainmapUI = UIPackage.CreateObject("MainMapUI", "MainUI").asCom;
             GRoot.inst.AddChild(mainmapUI);
             cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBook").asCom;
-            libraryUI = UIPackage.CreateObject("Library", "LibraryMain").asCom;
-            verifyUI = UIPackage.CreateObject("Library", "ConfirmBuying").asCom;
+            libraryUI = UIPackage.CreateObject("Shop", "ShopMain").asCom;
+            verifyUI = UIPackage.CreateObject("Shop", "ConfirmBuying").asCom;
             _winUI = UIPackage.CreateObject("MainMapUI", "WinMenu").asCom;
             _loseUI = UIPackage.CreateObject("MainMapUI", "LoseMenu").asCom;
             main_mapUI = new Window();
@@ -133,11 +135,11 @@ namespace GameGUI
             _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
             _dialogWindowLeft = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_left");
             _dialogWindowRight = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_right");
-            _libraryWindow = new LibraryWindow(Color.gray, "Library", "LibraryMain");
+            _libraryWindow = new LibraryWindow(Color.gray, "Shop", "ShopMain");
             
             ccbtn.onClick.Add(OpenCardBook);
  //           cardlist = cardcollectUI.GetChild("cardList").asList;
-            onsalelist = libraryUI.GetChild("LibraryCardList").asList;
+            onsalelist = libraryUI.GetChild("ShopCardList").asList;
 //            _cardDisplayer = cardcollectUI.GetChild("cardDisplayer").asCom;
             nametext= cardcollectUI.GetChild("name").asTextField;
             typetext = cardcollectUI.GetChild("type").asTextField;
@@ -145,6 +147,8 @@ namespace GameGUI
             effecttext = cardcollectUI.GetChild("effect").asTextField;
             describetext = cardcollectUI.GetChild("describe").asTextField;
             propertytext = cardcollectUI.GetChild("property").asTextField;
+            mainmapgoldtext = mainmapUI.GetChild("playergold").asTextField;
+            librarygoldtext = libraryUI.GetChild("PlayerGold").asTextField;
             picloader = cardcollectUI.GetChild("cardPic").asLoader;
             #endregion
             
@@ -264,7 +268,7 @@ namespace GameGUI
             transferlist.RemoveChildren();
             foreach (Library i in Library.activelibrarylist)
             {
-                GComponent btn = UIPackage.CreateObject("Library", "Button5").asCom;
+                GComponent btn = UIPackage.CreateObject("Shop", "Button5").asCom;
                 GTextField text = btn.GetChild("text").asTextField;
                 text.text = "(" + i.hexVector.Hex_vector.x.ToString() + i.hexVector.Hex_vector.y.ToString() + ")";
                 transferlist.AddChild(btn);
@@ -313,7 +317,7 @@ namespace GameGUI
             onsalelist.RemoveChildren();
             foreach (string cardID in library.librarylist)
             {
-                GObject item = UIPackage.CreateObject("Library", "CardItem");
+                GObject item = UIPackage.CreateObject("Shop", "CardItem");
                 item.icon = UIPackage.GetItemURL(cardicons, cardID.Split('_').First());
                 onsalelist.AddChild(item);
             }

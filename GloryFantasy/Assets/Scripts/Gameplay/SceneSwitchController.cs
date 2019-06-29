@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using FairyGUI;
 using GameGUI;
 using UI.FGUI;
 using UnityEngine;
@@ -18,9 +19,13 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private static GameObject _MMapCameraObject;		// 大地图
 	private static GameObject _BMapCameraObject;		// 战斗地图
 	private string _mainMapSceneName = "MainMapTest1";
+	private string _mainMenuSceneName = "MenuScene";
+	private string _battleMapSceneName = "BattleMapTest";
 	private string _encounterID;
 	private Deck _deck;
 	private bool _win;			// 是否胜利
+
+	private GComponent _menuComponent;
 
 	public bool win
 	{
@@ -63,9 +68,18 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// <param name="mode">加载模式</param>
 	private void OnSceneLoader(Scene scene, LoadSceneMode mode)
 	{
-//		Debug.Log("Load scene: " + scene.name);
+		// 大地图场景加载
+		if (_mainMapSceneName.Equals(scene.name))
+		{
+			GRoot.inst.RemoveChild(_menuComponent);
+		}
+
 	}
 
+	public void setMenuComponent(GComponent component)
+	{
+		_menuComponent = component;
+	}
 	
 	/// <summary>
 	/// 委托 —— 卸载场景时收到通知，执行操作
@@ -73,7 +87,6 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// <param name="scene">卸载的场景</param>
 	private void OnSceneUnloader(Scene scene)
 	{
-		Debug.Log("Unload scene: " + scene.name);
 	}
 
 
@@ -118,7 +131,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		Debug.Log("current: " + currentScene);
 		
 		// 如果当前场景是大地图，则加载战斗场景，否则卸载战斗场景
-		if (_mainMapSceneName.Equals(currentScene))
+		if (_mainMapSceneName.Equals(currentScene) || _mainMenuSceneName.Equals(currentScene))
 		{
 			StartCoroutine(LoadScene(targetScene));			 // 异步加载场景
 		}
@@ -136,7 +149,15 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// <returns></returns>
 	private IEnumerator LoadScene(string targetScene)
 	{
-		_asyncOperation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
+		if (_battleMapSceneName.Equals(targetScene))
+		{
+			_asyncOperation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
+		}
+		else
+		{
+			_asyncOperation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Single);
+		}
+
 		yield return _asyncOperation;
 		SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetScene));
 		SwitchMMapCamera();
@@ -170,8 +191,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// </summary>
 	private void SwitchMMapCamera()
 	{
-		Camera mainMapCamera = _MMapCameraObject.GetComponent<Camera>();
-		
+		Debug.Log("switch camera");
 		if (_MMapCameraObject.activeInHierarchy)		// 隐藏大地图显示
 		{
 			MainMapUI.Instance().HideMain();

@@ -249,10 +249,10 @@ namespace BattleMap
             Debug.Log("front id: " + SceneSwitchController.Instance().encounterId);
             string temp_id = SceneSwitchController.Instance().encounterId;
             string temp_id_front = temp_id.Split('_')[0];
-            if (temp_id_front == "sandworm")
-                return "sandworm_1";
-            if (temp_id_front == "chomper")
-                return "chomper_1";
+            //if (temp_id_front == "sandworm")
+            //    return "sandworm_1";
+            //if (temp_id_front == "chomper")
+            //    return "chomper_1";
             //if (temp_id_front == "Devil")
             //    return "Devil_1";
             if (temp_id == "hunter_3")
