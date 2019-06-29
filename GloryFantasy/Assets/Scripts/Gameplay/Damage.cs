@@ -40,13 +40,13 @@ namespace GamePlay
         /// <param name="damage">伤害</param>
         public static void TakeDamage(GameUnit.GameUnit unit, Damage damage)
         {
-            Debug.Log(damage.damageValue);
+            //Debug.Log(damage.damageValue);
             unit.hp -= damage.damageValue;
             
             // 更新unit的血量
             Gameplay.Instance().gamePlayInput.UpdateHp(unit);
             
-            Debug.Log(unit.name + "收到伤害，当前剩余生命值" + unit.hp);
+            //Debug.Log(unit.name + "收到伤害，当前剩余生命值" + unit.hp);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace GamePlay
         public static List<DamageRequest> CaculateDamageRequestList(GameUnit.GameUnit Attacker, GameUnit.GameUnit AttackedUnit)
         {
             List<DamageRequest> damageRequestList = new List<DamageRequest>();
-            Debug.Log(Attacker.priority);
+            //Debug.Log(Attacker.priority);
 
             for (int i = 0; i < AttackedUnit.priority.Count; i++)
             {

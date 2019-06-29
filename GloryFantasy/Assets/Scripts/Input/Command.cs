@@ -192,7 +192,7 @@ namespace GamePlay.Input
 
         public override void Excute()
         {
-            Debug.Log("Moving Command excusing");
+            //Debug.Log("Moving Command excusing");
             this.SetMovingUnit(_unit);
             BattleMap.BattleMap.Instance().AIMoveCondition(_unit, toTargetPath, callback);
             //BattleMap.BattleMap.Instance().AIMoveUnitToCoordinate(_unit, toTargetPath, callback);
@@ -228,7 +228,7 @@ namespace GamePlay.Input
 
         public override void Excute()
         {
-            Debug.Log("Moving Command excusing");
+            //Debug.Log("Moving Command excusing");
             if (BattleMap.BattleMap.Instance().MapNavigator.PathSearch(_unitPosition, _targetPosition))
             {
                 this.SetMovingUnit(_unit);

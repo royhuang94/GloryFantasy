@@ -99,7 +99,7 @@ namespace AI
             if (battleUnit != null && PathCount > 0)
             {
                 unitMove = new UnitMoveAICommand(battleUnit, toTargetPath, AutoUseAtk);
-                Debug.Log("AI StartPos: " + StartPos + " EndPos: " + EndPos);
+                //Debug.Log("AI StartPos: " + StartPos + " EndPos: " + EndPos);
                 unitMove.Excute(); //已经判断过距离
             }
 
