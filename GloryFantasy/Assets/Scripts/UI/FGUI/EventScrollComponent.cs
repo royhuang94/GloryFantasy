@@ -53,6 +53,8 @@ namespace UI.FGUI
         
         private Dictionary<int, string> _currentEventNodeInfo;
 
+        private int _selectedPhase;
+
         #endregion
         
         /// <summary>
@@ -116,6 +118,7 @@ namespace UI.FGUI
                     }
             
                     UpdateEventScroll(_buttonList.IndexOf(obj));
+                    _selectedPhase = _buttonList.IndexOf(obj);
                 });
             }
             
@@ -130,16 +133,17 @@ namespace UI.FGUI
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.MPBegin,
-                () => { return true; },
+                () => { return false; },
                 UpdateButtonText,
                 "EventButton text synchronize");
 		
-            UpdateButtonText();
+//            UpdateButtonText();
             UpdateEventsMessage();
 //            UpdateEventScroll(0);
             
             // TODO: 改成鼠标悬浮显示
-            _eventScrollList.onClickItem.Add(OnclickEventIcon);
+//            _eventScrollList.onClickItem.Add(OnclickEventIcon);
+            
             // 手动设置最后一个图标的大小
             //_eventScrollList._children[_eventScrollList._children.Count-1].SetScale(1.5f,1.5f);
 
@@ -186,6 +190,27 @@ namespace UI.FGUI
                 GObject item = UIPackage.CreateObject(_pkgName, "EventIcon");
                 item.icon = UIPackage.GetItemURL(_pkgName,
                     eventIcons[Random.Range(0, _eventScrollList._children.Count - 1)]);
+                // 鼠标悬浮显示
+                item.onRollOver.Add(() =>
+                {
+                    // 通过事件节点ID转换成对应下标，最下面是0，往上递增
+                    // int index = (24 - int.Parse(obj.id.Substring(obj.id.Length - 2))) / 2;
+                    int index = _eventScrollList.GetChildIndex(item);
+                    index = index > 0 ? index : 0;            // 取正整数
+                    
+                    GetEventNodeInfo(_selectedPhase);         // 设置当前回合事件信息字典
+                    
+                    _eventDescribeFrame.GetChild("content").text = _currentEventNodeInfo[index];
+                        
+                    // 设置窗口位置
+                    _eventDescribeWindow.SetXY((item.x+item.size.x * 1.2f) * item.scaleX, item.y+item.size.y * 2f, true);
+                    
+                    // 设置窗口显示
+                    GRoot.inst.ShowPopup(_eventDescribeWindow);
+                    
+                });
+                
+                item.onRollOut.Add(() => {GRoot.inst.HidePopup(_eventDescribeWindow);});
                 _eventScrollList.AddChild(item);
             }
         }
@@ -206,7 +231,8 @@ namespace UI.FGUI
 //                int index = (24 - int.Parse(obj.id.Substring(obj.id.Length - 2))) / 2;
                 int index = _eventScrollList.GetChildIndex(obj);
                 index = index > 0 ? index : 0;            // 取正整数
-                GetEventNodeInfo(index);
+                GetEventNodeInfo(_selectedPhase);
+                Debug.Log("index: " + index);
                 _eventDescribeFrame.GetChild("content").text = _currentEventNodeInfo[index];
                 // 点击下标在可选事件列表内
 //                if (index < Gameplay.Instance().eventScroll.EventScrollListCount)
@@ -292,6 +318,7 @@ namespace UI.FGUI
                 
                 UpdateEventScroll(i);        // 更新事件节点信息时同时更新图标
             }
+            UpdateButtonText();
         }
         
         /// <summary>
@@ -301,6 +328,7 @@ namespace UI.FGUI
         /// <returns>该节点处理过的所有事件信息集合</returns>
         private void GetEventNodeInfo(int index)
         {
+            int eventNodeIndex = 0;
             if (_eventNodeDic.ContainsKey(index + 1))
             {
                 _currentEventNodeInfo.Clear();
@@ -308,7 +336,8 @@ namespace UI.FGUI
                 {
                     if(_eventNodeDic[index + 1][i].Length == 0)
                         continue;
-                    _currentEventNodeInfo.Add(index, _eventNodeDic[index + 1][i]);        // 字典存储下标对应的处理好的事件信息
+                    _currentEventNodeInfo.Add(eventNodeIndex, _eventNodeDic[index + 1][i]);        // 字典存储下标对应的处理好的事件信息
+                    eventNodeIndex++;
                 }  
             }
         }

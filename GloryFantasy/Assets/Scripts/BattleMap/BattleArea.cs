@@ -416,5 +416,41 @@ namespace BattleMap
             Debug.Log("该战区不存在");
             return 0;
         }
+
+        /// <summary>
+        /// 获取我方战区所有地图快坐标
+        /// </summary>
+        /// <returns></returns>
+        public List<BattleMapBlock> GetAllBlocksInPlayerBA()
+        {
+            List<BattleMapBlock> vector2s = new List<BattleMapBlock>();
+            foreach (int reginID in battleAreas.Keys)
+            {
+                if (battleAreas[reginID]._battleAreaSate == BattleAreaState.Player)
+                {
+                    foreach (Vector2 vector2 in battleAreas[reginID]._battleAreas)
+                        vector2s.Add(BattleMap.Instance().GetSpecificMapBlock(vector2));
+                }
+            }
+            return vector2s;
+        }
+
+        /// <summary>
+        /// 获取敌方战区所有地图快坐标
+        /// </summary>
+        /// <returns></returns>
+        public List<BattleMapBlock> GetAllBlocksInEnemyBA()
+        {
+            List<BattleMapBlock> vector2s = new List<BattleMapBlock>();
+            foreach (int reginID in battleAreas.Keys)
+            {
+                if (battleAreas[reginID]._battleAreaSate == BattleAreaState.Enmey)
+                {
+                    foreach (Vector2 vector2 in battleAreas[reginID]._battleAreas)
+                        vector2s.Add(BattleMap.Instance().GetSpecificMapBlock(vector2));
+                }
+            }
+            return vector2s;
+        }
     }
 }
