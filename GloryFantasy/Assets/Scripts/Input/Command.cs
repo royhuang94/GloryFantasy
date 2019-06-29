@@ -309,7 +309,7 @@ namespace GamePlay.Input
                 //    DamageRequestList[i].Excute();
                 //    i++;
                 //}
-                while (!JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG())) i++;
+                while (DamageRequestList.Count > i && !JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG())) i++;
                 List<GameUnit.GameUnit> attackers = new List<GameUnit.GameUnit> { DamageRequestList[i]._attacker };
                 List<GameUnit.GameUnit> attackedUnits = new List<GameUnit.GameUnit> { DamageRequestList[i]._attackedUnit };
                 List<Damage> damages = new List<Damage> { Damage.GetDamage(DamageRequestList[i]._attacker) };
