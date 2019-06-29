@@ -87,6 +87,7 @@ namespace GameUnit
             gameUnit.nextPos = gameUnit.CurPos;
 
             //部署成功
+            UpdateChessImg(gameUnit.name, gameUnit);
             Gameplay.Instance().bmbColliderManager.Fresh();
             AddEventModule(gameUnit);
             //Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
@@ -142,7 +143,7 @@ namespace GameUnit
 
                 GameUnit unit = _object.GetComponent<GameUnit>();
                 //修改单位对象的父级为地图方块
-                Debug.Log(string.Format("Add Unit on Map:({0},{1})", x, y));
+                Debug.Log(string.Format("Add Unit on Map:({0},{1})", x, y)); 
                 _mapBlocks[x, y].AddUnit(unit);
 
                 List<GameUnit> _unitsList = BattleMap.BattleMap.Instance().UnitsList;
@@ -161,6 +162,7 @@ namespace GameUnit
                 //单位部署相当于单位驻足地图块儿
                 unit.nextPos = unit.CurPos;
                 //部署成功
+                UpdateChessImg(unit.name, unit);
                 Gameplay.Instance().bmbColliderManager.Fresh();
 
 
@@ -240,9 +242,9 @@ namespace GameUnit
         /// <param name="id">棋子name，name与头像名相同</param>
         public static void UpdateChessImg(string name, GameUnit gameUnit)
         {
-            SpriteRenderer spr = GameObject.Find("name").GetComponent<SpriteRenderer>(); ;
+            SpriteRenderer spr = gameUnit.gameObject.GetComponent<SpriteRenderer>();
 
-            Texture2D texture2d = (Texture2D)Resources.Load("BattleMapUnitAssets/" + name);
+            Texture2D texture2d = (Texture2D)Resources.Load("headIcon/" + name);
             Sprite sp = Sprite.Create(texture2d, spr.sprite.textureRect, new Vector2(0.5f, 0.5f));
             spr.sprite = sp;
         }

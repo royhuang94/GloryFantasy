@@ -35,7 +35,7 @@ namespace GamePlay.FSM
                 GameUtility.UtilityHelper.Log("移动完成，进入攻击状态，点击敌人进行攻击，右键点击角色取消攻击", GameUtility.LogColor.RED);
                 unitMove.Excute();
                 BattleMap.BattleMap.Instance().IsMoveColor = false;
-                
+                unit.canNotAttack = false;
                 //FSM.HandleAtkConfirm(endPos, BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(endPos));//移动完成，显示攻击范围
 
                 FSM.TargetList.Add(endPos);

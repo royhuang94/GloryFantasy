@@ -17,7 +17,7 @@ namespace Ability.Debuff
             base.OnDisappear();
             
             // 恢复行动力
-            GetComponent<GameUnit.GameUnit>().canNotAttack = false;
+            //GetComponent<GameUnit.GameUnit>().canNotAttack = false;
             GetComponent<GameUnit.GameUnit>().canNotMove = false;
         }
     }

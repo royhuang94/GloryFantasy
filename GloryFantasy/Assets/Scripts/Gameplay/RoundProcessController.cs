@@ -282,7 +282,6 @@ namespace GamePlay.Round
                 if (unit.owner == GameUnit.OwnerEnum.Player)
                 {
                     unit.canNotMove = false;
-                    unit.canNotAttack = false;
                 }
             }
             Gameplay.Instance().gamePlayInput.OnEnterPlatState();

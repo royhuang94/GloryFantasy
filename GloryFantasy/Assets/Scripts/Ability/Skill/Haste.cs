@@ -16,7 +16,7 @@ namespace Ability
             _unit = gameObject.GetComponent<GameUnit.GameUnit>();
             if (_unit == null)
                 return;
-            _unit.canNotAttack = false;
+            //_unit.canNotAttack = false; //由移动之后修改
             _unit.canNotMove = false;
         }
 
