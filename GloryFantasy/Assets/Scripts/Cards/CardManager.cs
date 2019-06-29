@@ -302,9 +302,10 @@ namespace GameCard
 
             if (baseCardReference.type.Equals("Order"))
             {
-                if(_handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>().AbilityTargetList.Count > 0)
-                    OrderUX.Instance().ClickCardToHighLight(
-                    _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>().AbilityTargetList[0], Color.green);
+                Ability.Ability ability = _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>();
+                if(ability.AbilityTargetList.Count > 0)
+                    OrderUX.Instance().ClickToHighLight(ability.AbilityTargetList[0], ability.AbilityVariable, 
+                        ability.AbilityName, Color.green, Vector2.zero);
                 Gameplay.Instance().gamePlayInput.OnUseOrderCard(
                     _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>());
                 return;

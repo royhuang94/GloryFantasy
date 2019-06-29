@@ -100,7 +100,8 @@ namespace GamePlay.FSM
                 FSM.PushState(new InputFSMIdleState(FSM));
                 return;
             }
-            OrderUX.Instance().ClickCardToHighLight(FSM.ability.AbilityTargetList[FSM.TargetList.Count], Color.cyan);
+            OrderUX.Instance().ClickToHighLight(FSM.ability.AbilityTargetList[FSM.TargetList.Count], 
+                FSM.ability.AbilityVariable, FSM.ability.AbilityName, Color.cyan, mapBlock.position);
             //Gameplay.Instance().gamePlayInput.HandleSkillCancel(FSM.TargetList[0], 4);
         }
 
@@ -142,7 +143,8 @@ namespace GamePlay.FSM
                 FSM.PushState(new InputFSMIdleState(FSM));
                 return;
             }
-            OrderUX.Instance().ClickCardToHighLight(FSM.ability.AbilityTargetList[FSM.TargetList.Count], Color.green);
+            OrderUX.Instance().ClickToHighLight(FSM.ability.AbilityTargetList[FSM.TargetList.Count], 
+                FSM.ability.AbilityVariable, FSM.ability.AbilityName, Color.green, unit.mapBlockBelow.position);
             //Gameplay.Instance().gamePlayInput.HandleSkillConfim(FSM.TargetList[0], 4);
         }
 
@@ -182,7 +184,8 @@ namespace GamePlay.FSM
                 FSM.PushState(new InputFSMIdleState(FSM));
                 return;
             }
-            OrderUX.Instance().ClickCardToHighLight(FSM.ability.AbilityTargetList[FSM.TargetList.Count], Color.green);
+            OrderUX.Instance().ClickToHighLight(FSM.ability.AbilityTargetList[FSM.TargetList.Count], 
+                FSM.ability.AbilityVariable, FSM.ability.AbilityName, Color.green, unit.mapBlockBelow.position);
         }
     }
 }
