@@ -11,6 +11,7 @@ using FairyGUI;
 using PlayerCollection;
 using StoryDialog;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 namespace GameGUI
 {/// <summary>
@@ -274,7 +275,7 @@ namespace GameGUI
                 transferlist.AddChild(btn);
             }
             Library.activelibrarylist.Add(library);
-            mapcamera.SetActive(false);
+            mapcamera.GetComponent<PhysicsRaycaster>().enabled = false;
             library_UI.modal = true;
             UIConfig.modalLayerColor = Color.gray;
             library_UI.Show();
@@ -307,7 +308,8 @@ namespace GameGUI
         {
             library_UI.Hide();
             verify_UI.Hide();
-            mapcamera.SetActive(true);
+            mapcamera.GetComponent<PhysicsRaycaster>().enabled = true;
+
         }
         /// <summary>展示三张卡牌，
         /// 
