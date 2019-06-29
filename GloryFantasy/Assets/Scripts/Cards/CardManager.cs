@@ -193,6 +193,15 @@ namespace GameCard
             MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
         }
 
+        public List<string> GetRandomCards(int controlNum = 3)
+        {
+            List<string> randomlyPickedCards = new List<string>();
+            
+            
+
+            return randomlyPickedCards;
+        }
+
         /// <summary>
         /// 提供的接口，用于将指定战技牌加入手牌或者牌库，会产生手牌变动或牌堆变动消息
         /// </summary>
