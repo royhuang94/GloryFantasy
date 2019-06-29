@@ -47,6 +47,7 @@ namespace GamePlay.FSM
             {
                 FSM.HandleMovCancel();//仅取消移动范围显示
                 FSM.PushState(new InputFSMIdleState(FSM));//回到上一个状态
+                MessageBox.Instance().isShow = true;
             }
         }
 
