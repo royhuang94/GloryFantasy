@@ -1,4 +1,15 @@
 {
+	"active_doc": [
+		"dml5hbrc",
+		"ot5639"
+	],
+	"expanded_nodes": [
+		"32p4j6lq",
+		"/",
+		"wr5gk5j8",
+		"/"
+	],
+	"hidden_packages": [],
 	"docs": [
 		"dml5hbrc",
 		"n195m",
@@ -6,8 +17,6 @@
 		"n19515",
 		"dml5hbrc",
 		"mq0c2q",
-		"dml5hbrc",
-		"n1951s",
 		"6m3vkp09",
 		"no2wa",
 		"6m3vkp09",
@@ -48,18 +57,5 @@
 		"rxqp33",
 		"dml5hbrc",
 		"ot5639"
-	],
-	"hidden_packages": [],
-	"active_doc": [
-		"dml5hbrc",
-		"n1951s"
-	],
-	"expanded_nodes": [
-		"32p4j6lq",
-		"/",
-		"6m3vkp09",
-		"/",
-		"dml5hbrc",
-		"/"
 	]
 }

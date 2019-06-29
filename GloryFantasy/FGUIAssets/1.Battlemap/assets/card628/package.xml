@@ -25,6 +25,7 @@
     <image id="dwdgl" name="RBattlecry.jpg" path="/" exported="true"/>
     <image id="dwdgm" name="WSoldier.jpg" path="/" exported="true"/>
     <image id="dwdgn" name="RFiresuli.jpg" path="/" exported="true"/>
+    <image id="nxc3o" name="empty.png" path="/" exported="true"/>
   </resources>
-  <publish name=""/>
+  <publish name="card628"/>
 </packageDescription>
