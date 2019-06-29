@@ -103,7 +103,7 @@ namespace MainMap
         //遭遇id
         private string encounterid;
         //这个是测试用的id！只用来更换素材
-        private string testid = "id_0";
+        private string testid = "id_1";
         private int level;
         private static List<Monster> monsterlist = new List<Monster>();
         private string BattleMapSceneName = "BattleMapTest";          // 战斗地图场景名，在此修改
@@ -115,8 +115,13 @@ namespace MainMap
         }
         public override void OnClickDetail()
         {
-           // Debug.Log("怪物被点击");
-//            MainMapUI.Instance().HideMain();
+            // Debug.Log("怪物被点击");
+            //            MainMapUI.Instance().HideMain();
+            InToBattle();
+
+        }
+        public void InToBattle()
+        {
             SceneSwitchController.Instance().SetData(encounterid, null);
             SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
             SceneSwitchController.Instance().GetDeckFormMainMapK(CardCollection.Instance().deck);

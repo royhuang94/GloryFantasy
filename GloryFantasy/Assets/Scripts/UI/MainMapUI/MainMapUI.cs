@@ -256,6 +256,7 @@ namespace GameGUI
         /// </summary>
         public void ShowlibraryUI(Library library)
         {
+
             choosenlibrary = library;
             Library.activelibrarylist.Remove(library);
             GComponent transfermain = libraryUI.GetChild("TransferMain").asCom;

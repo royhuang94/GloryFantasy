@@ -6,8 +6,8 @@ using GameCard;
 using LitJson;
 using System.IO;
 using GameGUI;
-using UnityEditor;
 using PlayerCollection;
+using StoryDialog;
 
 
 namespace MainMap
@@ -273,6 +273,7 @@ namespace MainMap
             Charactor.Instance().aroundlist.Add("1,-1", null);
             Charactor.Instance().CharactorInitalize();
             Charactor.Instance().InitalizeBattleMapData();
+            //对话可用DialogManager.Instance().RequestDialog(this, "test");
         }
 
     }
@@ -401,6 +402,10 @@ namespace MainMap
     /// </summary>
     public class Library : MapUnit
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        private static bool isfirst = true;
         public static List<Library> activelibrarylist = new List<Library>();
         /// <summary>图书馆正销售的卡牌链表
         /// 
@@ -436,6 +441,11 @@ namespace MainMap
                 Debug.Log("图书馆已激活");
             }
             MainMapUI.Instance().ShowlibraryUI(this);
+            if(isfirst)
+            {
+                isfirst = false;
+                DialogManager.Instance().RequestDialog(this, "test");
+            }
         }
         /// <summary>传送的具体实现
         /// 

@@ -5,6 +5,7 @@ using LitJson;
 using FairyGUI;
 using GameCard;
 using UnityEngine.Serialization;
+using MainMap;
 
 namespace StoryDialog
 {
@@ -25,11 +26,12 @@ namespace StoryDialog
 			this.pic = pic;
 		}
 	}
-	
+ 
 	public class DialogManager : UnitySingleton<DialogManager>
 	{
-
-		private DialogWindow _dialogWindowLeft;
+        private object vistor;
+        private string check;
+        private DialogWindow _dialogWindowLeft;
 		private DialogWindow _dialogWindowRight;
 		private GButton _continueBtn;
 		private int _length;
@@ -92,10 +94,76 @@ namespace StoryDialog
 				if (!canShowWindow) return;
 				_dialogWindowRight.Hide();
 				_dialogWindowLeft.Hide();
+                DialogOver(vistor, check);
 			}
 		}
+        public bool RequestDialog(object o, string check)
+        {
+            if(vistor == null && this.check == null)
+            {
+                vistor = o;
+                this.check = check;
+                if (o is MainMapManager)
+                {
+                    ShowDialog(check);
+                    return true;
+                }
+                else if (o is Library)
+                {
+                    ShowDialog(check);
+                    return true;
+                }
+                else if (o is Monster)
+                {
+                    Monster master = (Monster)o;
+                    master.InToBattle();
+                    return true;
+                }
+                else if (o is Charactor)
+                {
+                    return true;
+                }
+                else
+                {
+                    Debug.Log("无类型");
+                }
+            }
 
+            return false;
+        }
+        public bool DialogOver(object o, string check)
+        {
+            if(vistor != null && this.check != null)
+            {
+                if (o is MainMapManager)
+                {
+                    MainMapManager master = (MainMapManager)o;
+                    return true;
+                }
+                else if (o is Monster)
+                {
+                    Monster master = (Monster)o;
+                    master.InToBattle();
+                    return true;
+                }
+                else if (o is Charactor)
+                {
+                    return true;
+                }
+                BeZero();
+            }
 
+            return false;
+        }
+        private void BeZero()
+        {
+            if(vistor!=null||check!=null)
+            {
+                vistor = null;
+                check = null;
+            }
+            Debug.Log("Bezero");
+        }
 		/// <summary>
 		/// 更新窗口，把当前窗口的图片和头像设为可见，上一个窗口设为不可见
 		/// </summary>
