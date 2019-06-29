@@ -20,8 +20,8 @@ public class CardCollectWindow : Window
     private GButton _upgradeBtn;
     private GButton _evolveBtn;
     private GButton _closeBtn;
-    private const string cardicons = "fakeHandcard";
-    private string CardIconPackage = "BattleMapFGUIPkg/fakeHandcard";
+    private const string cardicons = "card628";
+    private string CardIconPackage = "BattleMapFGUIPkg/card628";
     private string CardCollectionPackage = "MainMapFairyGUIPackage/CardCollection";
     private List<string> _playerCardList;
 

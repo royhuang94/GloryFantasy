@@ -27,7 +27,7 @@ namespace GameGUI
         #region 大地图FairyGUI素材包
         private string MainMapUIPackage = "MainMapFairyGUIPackage/MainMapUI";
         private string CardCollectionPackage = "MainMapFairyGUIPackage/CardCollection";
-        private string CardIconPackage = "BattleMapFGUIPkg/fakeHandcard";
+        private string CardIconPackage = "BattleMapFGUIPkg/card628";
         private string LibraryPackage = "MainMapFairyGUIPackage/Library";
         #endregion
         #region 大地图的GCompoment 和window
@@ -73,7 +73,7 @@ namespace GameGUI
         #endregion
         private Library choosenlibrary;
         //URL
-        private const string cardicons = "fakeHandcard";
+        private const string cardicons = "card628";
         private const string MapPackage = "MainMapUI";
 
         private CardCollectWindow _cardCollectWindow;
