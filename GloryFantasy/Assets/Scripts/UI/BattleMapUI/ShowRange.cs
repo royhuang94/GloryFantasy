@@ -229,10 +229,11 @@ namespace GameGUI
         /// 取消单位移动范围高亮
         /// </summary>
         /// <param name="target"></param>
-        public void CancleMoveRangeMark(Vector2 target)
+        public void CancleMoveRangeMark()
         {
             unitMove = false;
             Unit unit = GetBeforeUnit();
+            Vector2 target = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                  GetPositionsWithinCertainMd(target, unit.getMOV()), Color.white);   
         }
@@ -241,9 +242,10 @@ namespace GameGUI
         /// 取消单位攻击范围高亮
         /// </summary>
         /// <param name="target"></param>
-        public void CancleAttackRangeMark(Vector2 target)
+        public void CancleAttackRangeMark()
         {
             Unit unit = GetBeforeUnit();
+            Vector2 target = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                  GetPositionsWithinCertainMd(target, unit.getRNG()), Color.white);
         }

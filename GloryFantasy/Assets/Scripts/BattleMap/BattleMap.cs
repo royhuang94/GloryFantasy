@@ -21,6 +21,8 @@ namespace BattleMap
         {
             _instance = this;
             IsColor = false;
+            IsMoveColor = false;
+            IsAtkColor = false; 
             MapNavigator = new MapNavigator();
             battleAreaData = new BattleAreaData();
             debuffBM = new DebuffBattleMapBlock();
@@ -211,6 +213,8 @@ namespace BattleMap
         public int Rows{get{return rows;}}                    
         public int BlockCount{get{return columns * rows;}}
         public bool IsColor { get; set; }//控制是否高亮战区
+        public bool IsMoveColor { get; set; }//移动范围是否显示
+        public bool IsAtkColor { get; set; }//攻击范围时候显示
         private BattleMapBlock[,] _mapBlocks;
         public BattleMapBlock BattleMapBlock;
         public MapNavigator MapNavigator;//寻路类
