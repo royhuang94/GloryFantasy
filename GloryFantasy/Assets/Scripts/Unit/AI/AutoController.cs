@@ -45,7 +45,7 @@ namespace AI
                 else if(enemyUnits != null)
                     controller.hatredRecorder.AddHatredUnits(enemyUnits);
 
-                Debug.Log("仇恨列表数量: " + controller.hatredRecorder.HatredCount);
+                //Debug.Log("仇恨列表数量: " + controller.hatredRecorder.HatredCount);
             }
 
         }

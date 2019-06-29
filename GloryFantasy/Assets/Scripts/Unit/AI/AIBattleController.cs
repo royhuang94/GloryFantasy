@@ -65,7 +65,7 @@ namespace AI
                     }
                 }
 
-                yield return new WaitForSeconds(0.8f);
+                yield return new WaitForSeconds(1.0f);
             }
 
             //AI回合结束，切换回恢复阶段
