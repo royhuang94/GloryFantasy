@@ -325,9 +325,11 @@ namespace BattleMap
                 yield return new WaitForSeconds(0.2f);
             }
             unit.canNotMove = true;
-            Debug.Log(BattleMap.Instance().GetUnitCoordinate(unit));
+            //移动完成，攻击范围显示
             Vector3 target = BattleMap.Instance().GetUnitCoordinate(unit);
             GameGUI.ShowRange.Instance().MarkAttackRange(target, unit);
+            BattleMap.Instance().IsAtkColor = true;
+
             MsgDispatcher.SendMsg((int)MessageType.Aftermove);
         }
 
