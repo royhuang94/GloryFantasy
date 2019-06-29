@@ -224,5 +224,17 @@ namespace GamePlay
 
         }
         #endregion
+
+        /// <summary>
+        /// 当单位移动范围显示的时候，点击卡牌，取消移动范围显示,防止被箭头覆盖
+        /// </summary>
+        public void CancleMoveRangeMark()
+        {
+            if (BattleMap.BattleMap.Instance().IsMoveColor == true)
+            {
+                GameGUI.ShowRange.Instance().CancleMoveRangeMark();
+                gamePlayInput.InputFSM.PushState(new FSM.InputFSMIdleState(gamePlayInput.InputFSM));
+            }
+        }
     }
 }
