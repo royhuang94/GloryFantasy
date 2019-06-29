@@ -264,6 +264,8 @@ namespace GameCard
 
             if (baseCardReference.type.Equals("Order"))
             {
+                OrderUX.Instance().ClickCardToHighLight(
+                    _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>().AbilityTargetList[0], Color.green);
                 Gameplay.Instance().gamePlayInput.OnUseOrderCard(
                     _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>());
                 return;

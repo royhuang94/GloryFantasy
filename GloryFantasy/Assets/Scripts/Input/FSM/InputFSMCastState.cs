@@ -65,6 +65,7 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownBlock(mapBlock, eventData);
 
+            OrderUX.Instance().CancelColorAll(FSM.ability.AbilityTargetList[FSM.TargetList.Count]);
             //如果不是左键直接跳出
             if (eventData.button != PointerEventData.InputButton.Left)
             {
@@ -95,15 +96,18 @@ namespace GamePlay.FSM
                     MsgDispatcher.SendMsg((int)MessageType.CastCard);
                 else
                     CardManager.Instance().OnTriggerCurrentCard();
+                OrderUX.Instance().CancelColorAll(FSM.ability.AbilityTargetList[FSM.TargetList.Count - 1]);
                 FSM.PushState(new InputFSMIdleState(FSM));
+                return;
             }
+            OrderUX.Instance().ClickCardToHighLight(FSM.ability.AbilityTargetList[FSM.TargetList.Count], Color.cyan);
             //Gameplay.Instance().gamePlayInput.HandleSkillCancel(FSM.TargetList[0], 4);
         }
 
         public override void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)
         {
             base.OnPointerDownFriendly(unit, eventData);
-
+            OrderUX.Instance().CancelColorAll(FSM.ability.AbilityTargetList[FSM.TargetList.Count]);
             //如果不是左键直接跳出
             if (eventData.button != PointerEventData.InputButton.Left)
             {
@@ -134,8 +138,11 @@ namespace GamePlay.FSM
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
                 CardManager.Instance().OnTriggerCurrentCard();
+                OrderUX.Instance().CancelColorAll(FSM.ability.AbilityTargetList[FSM.TargetList.Count - 1]);
                 FSM.PushState(new InputFSMIdleState(FSM));
+                return;
             }
+            OrderUX.Instance().ClickCardToHighLight(FSM.ability.AbilityTargetList[FSM.TargetList.Count], Color.green);
             //Gameplay.Instance().gamePlayInput.HandleSkillConfim(FSM.TargetList[0], 4);
         }
 
@@ -143,6 +150,7 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownEnemy(unit, eventData);
 
+            OrderUX.Instance().CancelColorAll(FSM.ability.AbilityTargetList[FSM.TargetList.Count]);
             //如果不是左键直接跳出
             if (eventData.button != PointerEventData.InputButton.Left)
             {
@@ -170,8 +178,11 @@ namespace GamePlay.FSM
             {
                 Gameplay.Info.CastingCard = FSM.ability.GetComponent<OrderCard>();
                 CardManager.Instance().OnTriggerCurrentCard();
+                OrderUX.Instance().CancelColorAll(FSM.ability.AbilityTargetList[FSM.TargetList.Count - 1]);
                 FSM.PushState(new InputFSMIdleState(FSM));
+                return;
             }
+            OrderUX.Instance().ClickCardToHighLight(FSM.ability.AbilityTargetList[FSM.TargetList.Count], Color.green);
         }
     }
 }
