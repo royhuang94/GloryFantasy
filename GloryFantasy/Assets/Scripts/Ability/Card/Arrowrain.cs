@@ -7,6 +7,7 @@ using IMessage;
 using GamePlay;
 using GamePlay.Input;
 using GameGUI;
+using GameUnit;
 
 namespace Ability
 {
@@ -91,7 +92,7 @@ namespace Ability
             
             foreach (BattleMapBlock affectedBlock in affectedBlocks)
             {
-                if(affectedBlock.unit == null)
+                if(affectedBlock.unit == null || affectedBlock.unit.owner.Equals(OwnerEnum.Player))
                     continue;
                 
                 GameplayToolExtend.DealDamage(
