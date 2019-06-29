@@ -103,6 +103,8 @@ namespace GamePlay.FSM
         /// <param name="unitCard"></param>
         public void OnPointerDownUnitCard(BaseCard unitCard)
         {
+            if (StateStack.Peek() is InputFSMPlatState)
+                return;
             selectedCard = unitCard;
             this.PushState(new InputFSMSummonState(this));
         }
@@ -112,6 +114,8 @@ namespace GamePlay.FSM
         /// <param name="ability"></param>
         public void OnCastCard(Ability.Ability ability)
         {
+            if (StateStack.Peek() is InputFSMPlatState)
+                return;
             this.ability = ability;
             this.TargetList.Clear();
             this.PushState(new InputFSMCastState(this));
