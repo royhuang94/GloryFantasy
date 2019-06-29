@@ -32,6 +32,7 @@
     <component id="nsfxt" name="Button3.xml" path="/"/>
     <image id="nsfxu" name="06A(1).png" path="/"/>
     <image id="kp031u" name="Coin1.png" path="/"/>
+    <component id="l1ua1v" name="Button7.xml" path="/" exported="true"/>
   </resources>
   <publish name="Library"/>
 </packageDescription>
