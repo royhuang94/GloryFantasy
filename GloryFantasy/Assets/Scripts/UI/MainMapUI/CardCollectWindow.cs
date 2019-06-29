@@ -6,6 +6,7 @@ using GameCard;
 using LitJson;
 using PlayerCollection;
 using System.Linq;
+using GameGUI;
 
 public class CardCollectWindow : Window
 {
@@ -115,7 +116,7 @@ public class CardCollectWindow : Window
     /// </summary>
     private void OnUpgradeCard()
     {
-        
+        MainMapUI.Instance().UpdateGold(-1);
     }
 
     /// <summary>
