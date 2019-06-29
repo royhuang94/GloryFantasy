@@ -31,7 +31,7 @@ namespace GameCard
         private List<string> _garbageCards;            //弃牌堆
         private GameUnit.GameUnit _latestDeadUnit;      // 最近死掉的单位
 
-        private bool _loadFromJson = true;
+        private bool _loadFromJson = false;
         
         public delegate void Callback();
 

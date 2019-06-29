@@ -3,7 +3,7 @@
   <displayList>
     <image id="n0_jjs9" name="n0" src="jjs9l" fileName="book.png" xy="-28,5" size="1556,889"/>
     <image id="n47_g8sy" name="n47" src="g8sy1a" fileName="CardQueue.png" xy="0,8" size="1407,869"/>
-    <loader id="n59_n195" name="cardPic" xy="776,8" size="585,656" url="ui://77p4fojljjs9n" fill="scaleMatchWidth"/>
+    <loader id="n59_n195" name="cardPic" xy="792,41" size="544,738" url="ui://77p4fojljjs9n" fill="scale"/>
     <image id="n5_jjs9" name="n5" src="jjs9o" fileName="Attribute_nocontent.png" xy="887,626" size="341,118"/>
     <image id="n58_xn1k" name="n58" src="xn1k1t" fileName="Attribute_effect_nocontent.png" xy="889,684" size="334,60"/>
     <image id="n14_jjs9" name="n14" src="jjs9r" fileName="Color.png" xy="967,673" size="172,171"/>
