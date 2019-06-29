@@ -101,10 +101,10 @@ namespace GameCard
                 this.GetMsgReceiver(),
                 (int)MessageType.DrawCard,
                 canDoExtractAction,
-                ()=> { ExtractCards(); },
+                () => { ExtractCards(); },
                 "Extract cards Trigger"
             );
-            
+
             // 注册函数响应回合结束信息
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
@@ -149,7 +149,7 @@ namespace GameCard
                 "ESS relation cleaner"
             );
 #endif
-            ExtractCards(1, true);
+            ExtractCards(2, true);
         }
 
         /// <summary>
