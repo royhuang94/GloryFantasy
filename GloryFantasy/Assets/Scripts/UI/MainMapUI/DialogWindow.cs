@@ -13,6 +13,7 @@ public class DialogWindow : Window
 
 	private string _dialogNameText;
 	private string _dialogTextText;
+	private string _dialogPicPath;
 	private GButton _continueBtn;
 	private GLoader _picLoader;
 
@@ -59,10 +60,13 @@ public class DialogWindow : Window
 	{
 		_dialogNameText = dialogMessage.name;
 		_dialogTextText= dialogMessage.text;
+		_dialogPicPath = dialogMessage.pic;
 		if (_canUpdate)
 		{
 			_dialogName.text = _dialogNameText;
 			_dialogText.text = _dialogTextText;
+			// 设置对话人物图片
+			_picLoader.icon = UIPackage.GetItemURL("MainMapUI", _dialogPicPath);
 		}
 	}
 	

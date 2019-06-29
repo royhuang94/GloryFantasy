@@ -7,6 +7,7 @@ using IMessage;
 using GamePlay;
 using GamePlay.Input;
 using GameGUI;
+using GameUnit;
 
 namespace Ability
 {
@@ -31,7 +32,7 @@ namespace Ability
         public bool Range_0(object target)
         {
             // 如果目标类型不是GameUnit，直接返回false，为了防止后续强转出错
-            if (!target.GetType().ToString().Equals("GameUnit.GameUnit"))
+            if (!target.GetType().ToString().Equals("GameUnit.FriendlyUnit"))
             {
                 return false;
             }
@@ -91,9 +92,11 @@ namespace Ability
             
             foreach (BattleMapBlock affectedBlock in affectedBlocks)
             {
+                if(affectedBlock.unit == null || affectedBlock.unit.owner.Equals(OwnerEnum.Player))
+                    continue;
+                
                 GameplayToolExtend.DealDamage(
-                    BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(
-                    Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0]),
+                    this.GetAbilitySpeller(),
                     affectedBlock.unit,
                     new Damage(_damage)
                     );

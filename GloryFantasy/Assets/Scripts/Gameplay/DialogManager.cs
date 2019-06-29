@@ -213,8 +213,8 @@ namespace StoryDialog
 				int position = (int) message["position"];
 				string name = message["name"].ToString();
 				string text = message["text"].ToString();
-//				string pic = message["pic"].ToString();
-				DialogMessage dialogMessage = new DialogMessage(order, position, name, text, null);
+				string pic = message["pic"].ToString();
+				DialogMessage dialogMessage = new DialogMessage(order, position, name, text, pic);
 				dialogList.Add(dialogMessage);
 				
 			}
