@@ -253,8 +253,8 @@ namespace BattleMap
                 return "sandworm_1";
             if (temp_id_front == "chomper")
                 return "chomper_1";
-            if (temp_id_front == "Devil")
-                return "Devil_1";
+            //if (temp_id_front == "Devil")
+            //    return "Devil_1";
             if (temp_id == "hunter_3")
                 return "hunter_2";
             if (temp_id == "dk_3")

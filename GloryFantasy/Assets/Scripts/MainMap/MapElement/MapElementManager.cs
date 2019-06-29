@@ -160,14 +160,21 @@ namespace MainMap
             
             foreach (Monster m in monsterlist)
             {
-                string[] newid = m.encounterid.Split('_');
-                m.SetID(newid[0]  +"_"+ i.ToString());
-                string[] newtest = m.testid.Split('_');
-                Debug.Log(m.encounterid);
-                //测试用
-                m.testid = newtest[0] + "_" + i.ToString();
-                Debug.Log(m.testid);
-                //
+                if(m.encounterid == "Devil_1" || m.encounterid == "Devil_2")
+                {
+                    //不升级
+                }
+                else
+                {
+                    string[] newid = m.encounterid.Split('_');
+                    m.SetID(newid[0] + "_" + i.ToString());
+                    string[] newtest = m.testid.Split('_');
+                    Debug.Log(m.encounterid);
+                    //测试用
+                    m.testid = newtest[0] + "_" + i.ToString();
+                    Debug.Log(m.testid);
+                    //
+                }
                 m.SetTexture();
 
             }
