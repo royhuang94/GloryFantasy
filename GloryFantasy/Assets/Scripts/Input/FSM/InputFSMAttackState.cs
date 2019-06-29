@@ -44,6 +44,10 @@ namespace GamePlay.FSM
 
         public override void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)
         {
+            //如果单位不能攻击了无法显示
+            if (unit.canNotAttack == true)
+                return;
+
             base.OnPointerDownFriendly(unit, eventData);
             //鼠标右键取消攻击范围显示，不取消攻击行为
             if (eventData.button == PointerEventData.InputButton.Right)
