@@ -170,6 +170,12 @@ namespace GameGUI
             Debug.Log("ui初始化");
             
         }
+        /// 更新金币数量
+        public void UpdateGold(int i)
+        {
+            Charactor.Instance().charactordata.gold = Charactor.Instance().charactordata.gold + i;
+            mainmapgoldtext.text = Charactor.Instance().charactordata.gold.ToString();
+        }
         /// <summary>
         /// 更新滑动条材质
         /// </summary>
