@@ -33,7 +33,7 @@ namespace UI.FGUI
         /// <summary>
         /// 手牌资源包定义
         /// </summary>
-        private const string _handCardAssets = "fakeHandcard";
+        private const string _handCardAssets = "card628";
 
         /// <summary>
         /// 资源包定义

@@ -11,7 +11,7 @@ class TestBookPage : GComponent
 	/// <summary>
 	/// 卡牌堆资源包定义
 	/// </summary>
-	private const string _cardSetsAssets = "fakeHandcard";
+	private const string _cardSetsAssets = "card628";
 
 	/// <summary>
 	/// 卡牌书页面内左上角卡牌

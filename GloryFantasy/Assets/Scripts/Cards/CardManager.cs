@@ -13,7 +13,6 @@ using GameUnit;
 using LitJson;
 using Mediator;
 using Random = UnityEngine.Random;
-
 namespace GameCard
 {
     public class CardManager : UnitySingleton<CardManager>, MsgReceiver, GameplayTool
@@ -124,7 +123,14 @@ namespace GameCard
                 HandleCardOnMapToCooldown,
                 "Map Unit cooldown Trigger"
              );
-            
+
+            MsgDispatcher.RegisterMsg(
+                this.GetMsgReceiver(),
+                (int) MessageType.Dead,
+                () => { return this.GetDead().abilities.Contains("QuickPlat"); },
+                () => { BattleMap.BattleMap.Instance()._quickplat.Add(this.GetDead().id); },
+                "QuickPlat trigger");
+#if __HAS_EXSKILL_
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int)MessageType.Dead,
@@ -144,7 +150,7 @@ namespace GameCard
                 () => { ESSlot._heroUnitRelation.Remove(this.GetDead().gameObject.GetInstanceID()); },
                 "ESS relation cleaner"
             );
-            
+#endif
             ExtractCards(3);
         }
 
@@ -172,7 +178,10 @@ namespace GameCard
             _unitsExSkillCardDataBase = new Dictionary<string, List<string>>();
             
             InitCardsData();
+            
+#if __HAS_EXSKILL_
             SetupExSkillMap();
+#endif
         }
 
         public void SendAllHandcardToCd()
@@ -328,8 +337,6 @@ namespace GameCard
         {
             _cardsData = new Dictionary<string, JsonData>();
 
-//            JsonData cardsJsonData =
-//                JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Scripts/Cards/CardDatabase.json"));
             TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/CardDatabase");
             JsonData cardsJsonData = JsonMapper.ToObject(json.text);
 
@@ -339,23 +346,7 @@ namespace GameCard
                 _cardsData.Add(cardsJsonData[i]["ID"].ToString(), cardsJsonData[i]);
             }
         }
-
-        /// <summary>
-        /// 建立英雄单位牌与其实际战技槽内战技牌的映射关系
-        /// </summary>
-        private void SetupExSkillMap()
-        {
-            _unitsExSkillCardDataBase["HElf"] = new List<string>();
-            _unitsExSkillCardDataBase["HElf"].Add("GArrowrain");
-
-            _unitsExSkillCardDataBase["HKnight"] = new List<string>();
-            _unitsExSkillCardDataBase["HKnight"].Add("PAnthem");
-            
-            _unitsExSkillCardDataBase["HLunamage"] = new List<string>();
-            _unitsExSkillCardDataBase["HLunamage"].Add("URLunastrike");
-        }
-
-
+        
         /// <summary>
         /// 返回给定的ID对应的Json数据
         /// </summary>
@@ -478,14 +469,12 @@ namespace GameCard
         public bool canSendToCoolDownList()
         {
             _latestDeadUnit = this.GetDead();
+            // 若包含即时战备字段，则不处理
+            if (_latestDeadUnit.abilities.Contains("QuickPlat")) return false;
             return _latestDeadUnit.owner == OwnerEnum.Player && _latestDeadUnit.HasCD;
         }
 
-        public bool canHandleHeroUnitDeath()
-        {
-            _latestDeadUnit = this.GetDead();
-            return _latestDeadUnit.tag.Contains("英雄");
-        }
+
 
         /// <summary>
         /// 用于冷却死亡单位卡牌action的action函数，将需要冷却的卡牌放入冷却池
@@ -507,7 +496,12 @@ namespace GameCard
             // 调用接口进行冷却, 并调用方法计算冷却回合数
             CooldownCard(cardId, CalculateCardCoolDown(_latestDeadUnit));
         }
-
+#if __HAS_EXSKILL_
+        public bool canHandleHeroUnitDeath()
+        {
+            _latestDeadUnit = this.GetDead();
+            return _latestDeadUnit.tag.Contains("英雄");
+        }
         /// <summary>
         /// 处理英雄单位死亡的处理函数
         /// </summary>
@@ -547,7 +541,22 @@ namespace GameCard
                 MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
 
         }
+        /// <summary>
+        /// 建立英雄单位牌与其实际战技槽内战技牌的映射关系
+        /// </summary>
+        private void SetupExSkillMap()
+        {
+            _unitsExSkillCardDataBase["HElf"] = new List<string>();
+            _unitsExSkillCardDataBase["HElf"].Add("GArrowrain");
 
+            _unitsExSkillCardDataBase["HKnight"] = new List<string>();
+            _unitsExSkillCardDataBase["HKnight"].Add("PAnthem");
+            
+            _unitsExSkillCardDataBase["HLunamage"] = new List<string>();
+            _unitsExSkillCardDataBase["HLunamage"].Add("URLunastrike");
+        }
+#endif
+        
         /// <summary>
         /// 计算unit的冷却回合数，因为有可能有异能影响所以拿到一边进行计算
         /// </summary>

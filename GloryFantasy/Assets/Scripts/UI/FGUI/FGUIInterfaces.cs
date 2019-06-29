@@ -35,7 +35,7 @@ namespace UI.FGUI
 		private const string cardBook = "cardBook";
 		private const string pkgName = "newBattlemap";
 		private const string numsPkg = "newCdNums";
-		private const string handcardAssets = "fakeHandcard";
+		private const string handcardAssets = "card628";
 		private const string cooldowncardAssets = "fakeHandcard";
 		#endregion
 
