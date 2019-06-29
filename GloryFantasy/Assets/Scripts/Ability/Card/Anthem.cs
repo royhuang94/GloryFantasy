@@ -68,7 +68,7 @@ namespace Ability
             SetLife(-1f);
             _source = GetComponent<GameUnit.GameUnit>();
             _source.changeMOV(-1);
-            halo = new BMBCollider(_source, true);
+            halo = new BMBCollider(_source, GameplayToolExtend.Area[4]);
             foreach(GameUnit.GameUnit unit in halo.disposeUnits)
             {
                 if (judge(unit, _source))
