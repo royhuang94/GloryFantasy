@@ -1,0 +1,58 @@
+[
+  {
+    "order": 0,
+    "position": 0,
+    "name": "琳",
+    "text": "呼，这里很有意思嘛。",
+    "pic": "elf"
+  },
+  {
+    "order": 1,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "对呀，这里是莱波利亚大陆的中心，一切知识的初始之地",
+    "pic": "aidi"
+  },
+  {
+    "order": 2,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "现在要做的是早点找到另外两位诵咒者，然后封印世界之恶。",
+    "pic": "aidi"
+  },
+  {
+    "order": 3,
+    "position": 0,
+    "name": "琳",
+    "text": "……不管听几次都觉得这个称呼好尴尬啊……",
+    "pic": "elf"
+  },
+  {
+    "order": 4,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "嗯？",
+    "pic": "aidi"
+  },
+  {
+    "order": 5,
+    "position": 0,
+    "name": "琳",
+    "text": "啊，不，我什么也没说。对了，他们两个的位置你确定了吧？",
+    "pic": "elf"
+  },
+  {
+    "order": 6,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "嗯，已经记录在你的日志上了。",
+    "pic": "aidi"
+  },
+  {
+    "order": 7,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "在游戏过程中，线索记录着你当前阶段的游戏目标。你可以在大地图上随时查看你的线索。",
+    "pic": "aidi"
+  }
+]

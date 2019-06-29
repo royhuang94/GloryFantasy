@@ -1,0 +1,170 @@
+﻿[
+  {
+    "order": 0,
+    "position": 0,
+    "name": "艾蒂",
+    "text": "停下。",
+    "pic": "aidi"
+  },
+  {
+    "order": 1,
+    "position": 1,
+    "name": "琳",
+    "text": "怎么……啊……",
+    "pic": "elf"
+  },
+  {
+    "order": 2,
+    "position": 1,
+    "name": "琳",
+    "text": "……那朵食人花，是不是稍微有点大过头了。",
+    "pic": "elf"
+  },
+  {
+    "order": 3,
+    "position": 0,
+    "name": "艾蒂",
+    "text": "你能跟它沟通吗？",
+    "pic": "aidi"
+  },
+  {
+    "order": 4,
+    "position": 1,
+    "name": "琳",
+    "text": "不行……这里的地脉完全被切断了。",
+    "pic": "elf"
+  },
+  {
+    "order": 5,
+    "position": 0,
+    "name": "艾蒂",
+    "text": "看来是完全被污染了。",
+    "pic": "aidi"
+  },
+  {
+    "order": 6,
+    "position": 1,
+    "name": "琳",
+    "text": "等等，艾蒂，那里是不是有什么人！",
+    "pic": "elf"
+  },
+  {
+    "order": 7,
+    "position": 0,
+    "name": "艾蒂",
+    "text": "……哦哟，这可不是“有什么人”那么简单，好像我们要找的人就在那里。",
+    "pic": "aidi"
+  },
+  {
+    "order": 8,
+    "position": 1,
+    "name": "琳",
+    "text": "我去救她！",
+    "pic": "elf"
+  },
+  {
+    "order": 9,
+    "position": 0,
+    "name": "艾蒂",
+    "text": "嗯，你小心点。",
+    "pic": "aidi"
+  },
+  {
+    "order": 10,
+    "position": 0,
+    "name": "蔻蔻",
+    "text": "……啊……为什么我要遇到这种事……",
+    "pic": "rabit"
+  },
+  {
+    "order": 11,
+    "position": 0,
+    "name": "蔻蔻",
+    "text": "好想回家……",
+    "pic": "rabit"
+  },
+  {
+    "order": 12,
+    "position": 0,
+    "name": "蔻蔻",
+    "text": "完全累了，我为什么要来干这样的事，蠢死了……",
+    "pic": "rabit"
+  },
+  {
+    "order": 13,
+    "position": 0,
+    "name": "蔻蔻",
+    "text": "……米亚亚……",
+    "pic": "rabit"
+  },
+  {
+    "order": 14,
+    "position": 1,
+    "name": "琳",
+    "text": "嘿！",
+    "pic": "elf"
+  },
+  {
+    "order": 15,
+    "position": 1,
+    "name": "琳",
+    "text": "振作起来啊！这朵花看起来超危险的不要晃神啊！",
+    "pic": "elf"
+  },
+  {
+    "order": 16,
+    "position": 0,
+    "name": "蔻蔻",
+    "text": "啊……是来帮我的吗？",
+    "pic": "rabit"
+  },
+  {
+    "order": 17,
+    "position": 0,
+    "name": "蔻蔻",
+    "text": "你加油……我想在地上继续趴会……",
+    "pic": "rabit"
+  },
+  {
+    "order": 18,
+    "position": 1,
+    "name": "琳",
+    "text": "诶诶诶……",
+    "pic": "elf"
+  },
+  {
+    "order": 19,
+    "position": 0,
+    "name": "蔻蔻",
+    "text": "……算了，稍微帮你点忙也不是不可以……",
+    "pic": "rabit"
+  },
+  {
+    "order": 20,
+    "position": 1,
+    "name": "琳",
+    "text": "诶？被帮的人是我吗？",
+    "pic": "elf"
+  },
+  {
+    "order": 21,
+    "position": 0,
+    "name": "蔻蔻",
+    "text": "不要在乎这种小事，我们先把眼前的敌人解决吧。",
+    "pic": "rabit"
+  },
+  {
+    "order": 22,
+    "position": 1,
+    "name": "琳",
+    "text": "诶？错的人是我吗？",
+    "pic": "elf"
+  },
+  {
+    "order": 23,
+    "position": 1,
+    "name": "琳",
+    "text": "算了，上吧！",
+    "pic": "elf"
+  }
+]

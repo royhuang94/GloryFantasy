@@ -1,0 +1,58 @@
+[
+  // {
+  //   "order": 0,
+  //   "position": 0,
+  //   "name": "对话人物姓名",
+  //   "text": "这里填入对话内容",
+  //   "pic": "图片位置"
+  // },
+  {
+    "order": 0,
+    "position": 0,
+    "name": "琳",
+    "text": "这里就是莱伯利亚到处都有的小书库啊……原来里面长这个样子。",
+    "pic": "elf"
+  },
+  {
+    "order": 1,
+    "position": 0,
+    "name": "琳",
+    "text": "所以艾蒂，我们来这里干什么？",
+    "pic": "elf"
+  },
+  {
+    "order": 2,
+    "position": 0,
+    "name": "琳",
+    "text": "哇~还有个弹弹兽，跟艾蒂一样可爱~",
+    "pic": "elf"
+  },
+  {
+    "order": 3,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "……咳咳，我们来这里寻找可以用的古咒。",
+    "pic": "aidi"
+  },
+  {
+    "order": 4,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "作为诵咒者，你要尽可能地收集古咒的力量，强大你自己，才能跟世界之恶对抗。",
+    "pic": "aidi"
+  },
+  {
+    "order": 5,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "挑你喜欢的就好了。",
+    "pic": "aidi"
+  },
+  {
+    "order": 6,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "书库可以购买你所需要的咒语卡牌。",
+    "pic": "aidi"
+  }
+]

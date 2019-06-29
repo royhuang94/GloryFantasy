@@ -1,0 +1,30 @@
+﻿[
+  {
+    "order": 0,
+    "position": 0,
+    "name": "道格拉斯",
+    "text": "世界之恶吗……",
+    "pic": "knight"
+  },
+  {
+    "order": 1,
+    "position": 0,
+    "name": "道格拉斯",
+    "text": "……",
+    "pic": "knight"
+  },
+  {
+    "order": 2,
+    "position": 0,
+    "name": "道格拉斯",
+    "text": "不管他是什么，只要打倒了就可以把人民从这场莫名其妙的暴乱中解救出来对吧。",
+    "pic": "knight"
+  },
+  {
+    "order": 3,
+    "position": 0,
+    "name": "道格拉斯",
+    "text": "那不管是恶魔还是魔王还是世界之恶，不嫌弃这把老骨头的话就让我搭把手吧。",
+    "pic": "knight"
+  }
+]

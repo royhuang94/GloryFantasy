@@ -1,0 +1,30 @@
+﻿[
+  {
+    "order": 0,
+    "position": 0,
+    "name": "艾蒂",
+    "text": "到了，就是这里了。",
+    "pic": "aidi"
+  },
+  {
+    "order": 1,
+    "position": 0,
+    "name": "艾蒂",
+    "text": "煽情的话我不太擅长。",
+    "pic":"aidi"
+  },
+  {
+    "order": 2,
+    "position": 0,
+    "name": "艾蒂",
+    "text": "总之……你们加油吧。",
+    "pic": "aidi"
+  },
+  {
+    "order": 3,
+    "position": 0,
+    "name": "艾蒂",
+    "text": "可以战胜它的。",
+    "pic": "aidi"
+  }
+]

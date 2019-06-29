@@ -1,0 +1,79 @@
+﻿[
+  {
+    "order": 0,
+    "position": 0,
+    "name": "琳",
+    "text": "！！！",
+    "pic": "elf"
+  },
+  {
+    "order": 1,
+    "position": 0,
+    "name": "琳",
+    "text": "那、那个是……",
+    "pic": "elf"
+  },
+  {
+    "order": 2,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "沙虫吗……这可不好对付啊。",
+    "pic": "aidi"
+  },
+  {
+    "order": 3,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "可惜我们要找的人，好像就在那里。",
+    "pic": "aidi"
+  },
+  {
+    "order": 4,
+    "position": 0,
+    "name": "琳",
+    "text": "我要去帮助他才行。",
+    "pic": "elf"
+  },
+  {
+    "order": 5,
+    "position": 1,
+    "name": "艾蒂",
+    "text": "嗯，你小心点。",
+    "pic": "aidi"
+  },
+  {
+    "order": 6,
+    "position": 0,
+    "name": "道格拉斯",
+    "text": "咕……真是怪物……",
+    "pic": "knight"
+  },
+  {
+    "order": 7,
+    "position": 0,
+    "name": "道格拉斯",
+    "text": "嗯？",
+    "pic": "knight"
+  },
+  {
+    "order": 8,
+    "position": 1,
+    "name": "琳",
+    "text": "没事吧？我来帮你对付它！",
+    "pic": "elf"
+  },
+  {
+    "order": 9,
+    "position": 0,
+    "name": "道格拉斯",
+    "text": "唔，帮大忙了。",
+    "pic": "knight"
+  },
+  {
+    "order": 10,
+    "position": 0,
+    "name": "道格拉斯",
+    "text": "道谢随后再做，我们先把这个东西搞定了再说吧。",
+    "pic": "knight"
+  }
+]
