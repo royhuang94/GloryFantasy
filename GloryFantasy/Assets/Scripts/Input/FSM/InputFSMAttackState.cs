@@ -63,7 +63,7 @@ namespace GamePlay.FSM
                 //canNotAttack = true;
                 //FSM.PushState(new InputFSMIdleState(FSM));
             }
-            if(eventData.button == PointerEventData.InputButton.Left)
+            if(eventData.button == PointerEventData.InputButton.Left&& BattleMap.BattleMap.Instance().IsAtkColor == true)
             {
                 GameUtility.UtilityHelper.Log("取消攻击", GameUtility.LogColor.RED);
                 FSM.HandleAtkCancel();
