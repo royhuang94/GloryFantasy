@@ -108,7 +108,8 @@ namespace UI.FGUI
 
 			Add(new TEST_ONLY_cardListComponent(pkgName, "cardListFrame"));
 			
-			Add(new TEST_ONLY_unitListComponent(pkgName, "unitListFrame", _mainUI.GetChild("n42").asButton));
+			Add(new TEST_ONLY_unitListComponent(pkgName, "unitListFrame", _mainUI.GetChild("unitListButton").asButton));
+			
 
 			List<GComponent> list = new List<GComponent>();
 			list.Add(_mainUI.GetChild("roundEventButton1").asCom);
