@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 using GamePlay;
 using GamePlay.FSM;
+using GamePlay.Input;
 using GameUnit;
 using UI.FGUI;
 
@@ -141,12 +142,11 @@ namespace BattleMap
         {
             Gameplay.Instance().gamePlayInput.OnPointerEnter(this, eventData);
             Show();
-            if (_unit != null)
-            {
+            if (_unit == null) return;
+            if(!(Gameplay.Instance().gamePlayInput.InputFSM.CurrentState is GamePlay.FSM.InputFSMCastState))
                 _originColor = _unit.GetComponent<SpriteRenderer>().color;
-                UnitManager.ColorUnitOnBlock(this.position, new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f));
-                _fguiInterfaces.SetDescribeWindowShow();        // 显示
-            }
+            UnitManager.ColorUnitOnBlock(this.position, new Color(254 / 255f, 255 / 255f, 0 / 255f, 1f));
+            _fguiInterfaces.SetDescribeWindowShow();        // 显示
         }
 
         //public void OnMouseEnter()
@@ -161,7 +161,10 @@ namespace BattleMap
             //show();
             if (_unit != null)
             {
-                UnitManager.ColorUnitOnBlock(this.position, _originColor);
+                UnitManager.ColorUnitOnBlock(this.position,
+                    Gameplay.Instance().gamePlayInput.InputFSM.CurrentState is GamePlay.FSM.InputFSMCastState
+                        ? Color.green
+                        : _originColor);
                 _originColor = Color.white;
                 _fguiInterfaces.SetDescribeWindowHide();        // 隐藏
             }

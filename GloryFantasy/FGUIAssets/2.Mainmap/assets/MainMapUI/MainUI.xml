@@ -18,8 +18,8 @@
       <ProgressBar value="100" max="100"/>
     </component>
     <text id="n18_k2zx" name="playergold" xy="805,1001" size="130,58" fontSize="60" autoSize="none" text="5"/>
-    <component id="n25_lv6g" name="n25" src="lv6g1c" fileName="ClueButton.xml" xy="388,972"/>
-    <component id="n26_lv6g" name="n26" src="lv6g1c" fileName="ClueButton.xml" xy="296,971"/>
+    <component id="n25_lv6g" name="n26" src="lv6g1c" fileName="ClueButton.xml" xy="388,972"/>
+    <component id="n26_lv6g" name="n25" src="lv6g1c" fileName="ClueButton.xml" xy="296,971"/>
     <component id="n27_lv6g" name="n27" src="lv6g1c" fileName="ClueButton.xml" xy="482,972"/>
   </displayList>
 </component>

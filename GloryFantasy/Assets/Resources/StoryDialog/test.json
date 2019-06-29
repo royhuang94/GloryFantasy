@@ -11,13 +11,13 @@
     "position": 0,
     "name": "琳",
     "text": "Console.write('hello world');",
-    "pic": null
+    "pic": elf
   },
   {
     "order": 1,
     "position": 1,
     "name": "道格拉斯",
     "text": "print('hello world')",
-    "pic": null
+    "pic": knight
   }
 ]
