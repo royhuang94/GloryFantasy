@@ -82,6 +82,8 @@ namespace PlayerCollection
             }
             mycollection.Add(newID);
             Debug.Log("购买成功！");
+            Debug.Log(choosecardID);
+            Debug.Log(newID);
             MainMapUI.Instance().UpdateGold(-1);
             library.librarylist.Remove(choosecardID);
             return true;
