@@ -13,20 +13,6 @@ namespace Ability
     {
         Trigger trigger;
 
-//        private void Awake()
-//        {
-//            //导入Jump异能的参数
-//            InitialAbility("Fling");
-//        }
-//
-//        private void Start()
-//        {
-//            //创建Trigger实例，传入技能的发动者
-//            trigger = new TFling(this.GetCardReceiver(this));
-//            //注册Trigger进消息中心
-//            MsgDispatcher.RegisterMsg(trigger, "Fling");
-//        }
-
         public override void Init(string abilityId)
         {
             base.Init(abilityId);

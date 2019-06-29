@@ -1,4 +1,5 @@
 using BattleMap;
+using GameCard;
 using IMessage;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,6 +81,18 @@ namespace GamePlay.FSM
                 }
             }
         }
-        
+
+        override public void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)
+        {
+        }
+        /// <summary>
+        /// 处理敌人单位的鼠标点击
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="eventData"></param>
+        override public void OnPointerDownEnemy(GameUnit.GameUnit unit, PointerEventData eventData)
+        {
+        }
+
     }
 }
