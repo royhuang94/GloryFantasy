@@ -114,6 +114,7 @@ namespace MainMap
             charactordata.underfeet = FindObject(vect.x,vect.y);
             Charactor.Instance().GetComponent<Image>().sprite = characterfront;
             setaround(charactordata.underfeet);
+            MainMapUI.Instance().UpdateGold(0);
             MainMapUI.Instance().UpDateSlider(0);
             Debug.Log("角色初始化完成");
         }
