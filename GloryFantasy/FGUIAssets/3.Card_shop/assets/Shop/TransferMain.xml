@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="1472,906" designImageLayer="1">
+<component size="507,735" designImageLayer="1">
   <displayList>
-    <component id="n5_sc8x" name="n5" src="m02ec" fileName="Button3.xml" xy="0,0" size="1472,906" alpha="0">
-      <Button page="0"/>
-    </component>
-    <image id="n3_umc7" name="n3" src="m02e8" fileName="07A(1).png" xy="476,80" size="520,745"/>
-    <list id="n1_umc7" name="transferlist" xy="588,241" size="296,424" layout="flow_vt" overflow="scroll" lineGap="37" defaultItem="ui://bvqmcaatm02ee" align="center">
+    <image id="n3_umc7" name="n3" src="m02e8" fileName="07A(1).png" xy="-6,-5" size="520,745"/>
+    <list id="n1_umc7" name="transferlist" xy="105,155" size="296,424" layout="flow_vt" overflow="scroll" lineGap="37" defaultItem="ui://bvqmcaatm02ee" align="center">
       <item/>
       <item/>
       <item/>

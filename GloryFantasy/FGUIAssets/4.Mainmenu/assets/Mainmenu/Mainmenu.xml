@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <controller name="c1" pages="0,,1," selected="0"/>
+  <displayList>
+    <image id="n1_mkyt" name="n1" src="mkyt6" fileName="mainmenu.png" xy="0,0" hideByEditor="true"/>
+    <image id="n0_mkyt" name="n0" src="mkyt2" fileName="Background.png" xy="0,0"/>
+    <image id="n2_mkyt" name="n2" src="mkyt0" fileName="logo.png" xy="691,121"/>
+    <component id="n3_mkyt" name="n3" src="mkyt7" fileName="BeginButton.xml" xy="853,393"/>
+    <component id="n4_mkyt" name="n4" src="mkyt9" fileName="AboutButton.xml" xy="852,524">
+      <gearDisplay controller="c1" pages="0,1"/>
+      <Button controller="c1" page="1"/>
+    </component>
+    <component id="n5_mkyt" name="n5" src="mkyta" fileName="ExitButton.xml" xy="851,667"/>
+    <component id="n7_iksw" name="n7" src="ikswb" fileName="AboutBox.xml" xy="0,0">
+      <gearDisplay controller="c1" pages="1"/>
+    </component>
+    <component id="n11_nsfx" name="n11" src="nsfxe" fileName="Button6.xml" xy="1836,109" size="59,67">
+      <gearDisplay controller="c1" pages="1"/>
+      <Button controller="c1" page="0"/>
+    </component>
+  </displayList>
+</component>

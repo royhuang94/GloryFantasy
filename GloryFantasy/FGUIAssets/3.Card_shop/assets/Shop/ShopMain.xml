@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1500,900">
-  <controller name="c1" pages="0,,1," selected="0"/>
+  <controller name="c1" pages="0,,1," selected="1"/>
   <displayList>
     <image id="n20_gyi6" name="n20" src="m02eq" fileName="Shop.png" xy="11,38" size="1472,831"/>
     <list id="n3_fo1g" name="ShopCardList" xy="344,174" size="831,420" layout="flow_vt" overflow="scroll" colGap="66" defaultItem="ui://bvqmcaatm02eg">
       <item/>
       <item/>
     </list>
+    <component id="n21_nsfx" name="n21" src="nsfxt" fileName="Button3.xml" xy="12,37" size="1470,831">
+      <gearDisplay controller="c1" pages="0,1"/>
+      <gearLook controller="c1" pages="0" values="0,0,0,1" default="1,0,0,1" tween="true"/>
+      <Button controller="c1" page="0"/>
+    </component>
     <component id="n4_fo1g" name="TransferBtn" src="m02eb" fileName="Button2.xml" xy="1215,761" size="209,85">
       <gearDisplay controller="c1" pages="0,1"/>
       <Button controller="c1" page="1"/>
     </component>
-    <component id="n11_fo1g" name="TransferMain" src="m02es" fileName="TransferMain.xml" xy="514,92" size="500,726">
+    <component id="n24_nsfx" name="n24" src="m02es" fileName="TransferMain.xml" xy="511,90">
       <gearDisplay controller="c1" pages="1"/>
     </component>
     <component id="n12_aeoh" name="Close" src="m02ef" fileName="Button6.xml" xy="1207,108" size="59,62"/>
