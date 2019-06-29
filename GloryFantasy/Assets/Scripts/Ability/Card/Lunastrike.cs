@@ -67,17 +67,13 @@ namespace Ability
 //                return;
             
             // 造成伤害
-            GameUnit.GameUnit carrier = ESSlot._heroUnitRelation[
-                int.Parse(CardManager.Instance().currentSelectingCardId.Split('#').Last())
-            ].GetComponent<GameUnit.GameUnit>();
-            
             GameplayToolExtend.DealDamage(
-                carrier,
+                this.GetAbilitySpeller(),
                 BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(
                     Gameplay.Instance().gamePlayInput.InputFSM.TargetList[1]
                 ),
                 new Damage(_damage)
-                );
+            );
         }
     }
 }

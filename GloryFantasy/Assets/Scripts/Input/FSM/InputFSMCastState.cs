@@ -112,6 +112,7 @@ namespace GamePlay.FSM
             if ((FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.Friendly) ||
                     (FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.All))
             {
+                // 如果符合约束条件1，且当前targetList总量为0，而且这个异能有使用者，则调用接口设置使用者
                 if(FSM.TargetList.Count == 0 && AbilityDatabase.GetInstance().CheckIfAbilityHasUser(FSM.ability.AbilityID))
                     GameplayToolExtend.SetAbilitySpeller(this, unit);
                 FSM.TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));

@@ -11,6 +11,7 @@ using GamePlay;
 using GamePlay.FSM;
 using GameUnit;
 using LitJson;
+using Mediator;
 using Random = UnityEngine.Random;
 
 namespace GameCard
@@ -31,6 +32,8 @@ namespace GameCard
         private List<cdObject> _cooldownCards;           // 临时存储冷却状态中卡牌
         private List<string> _garbageCards;            //弃牌堆
         private GameUnit.GameUnit _latestDeadUnit;      // 最近死掉的单位
+
+        private bool _loadFromJson = true;
         
         public delegate void Callback();
 
@@ -293,10 +296,8 @@ namespace GameCard
             // 调用接口实现查询Targetlist中是否存在使用者
             if (AbilityDatabase.GetInstance().CheckIfAbilityHasUser(_currentSelectingCard))
             {
-                // 获取使用者坐标
-                Vector2 vec= Gameplay.Instance().gamePlayInput.InputFSM.TargetList[0];
-                // 从地图中获取实际使用者的GameUnit引用
-                GameUnit.GameUnit userUnit = BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(vec);
+                // 调用接口获取技能发动者
+                GameUnit.GameUnit userUnit = this.GetAbilitySpeller();
                 // 如果获取到无问题的GameUnit脚本，得到使用者实例id
                 if (userUnit != null)
                 {
@@ -398,24 +399,25 @@ namespace GameCard
         private void LoadCardsIntoSets()
         {
             // TODO: 根据策划案修改此函数，以下仅用于demo
-            // 将所有卡牌加入牌堆中，一样只有一张
-            foreach (string cardID in _cardsData.Keys)
+            Deck deck = SceneSwitchController.Instance().deck;
+
+
+            // 如果传递的牌库是空的，那就没得办法了，直接加全部牌
+            if (_loadFromJson || deck._deck.Count == 0)
             {
-                bool isExSkillCard = false;
-                
-                if(_cardsData[cardID]["tag"].Count != 0 )
-                    foreach (JsonData data in _cardsData[cardID]["tag"])
-                    {
-                        if (data.ToString().Contains("战技"))
-                        {
-                            isExSkillCard = true;
-                            break;
-                        }
-                    }
-                
-                // 如果不是战技牌，则加入牌堆
-                if(!isExSkillCard)
+                // 将所有卡牌加入牌堆中，一样只有一张
+                foreach (string cardID in _cardsData.Keys)
+                {
                     _cardsSets.Add(string.Copy(cardID));
+                }
+            }
+            else
+            {
+                // 将deck中所有卡牌加入牌堆中
+                foreach (string cardId in deck._deck)
+                {
+                    _cardsSets.Add(string.Copy(cardId));
+                }
             }
             
             // 随机洗牌            
