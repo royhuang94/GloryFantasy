@@ -43,7 +43,7 @@ namespace GamePlay.FSM
 
                 FSM.PushState(new InputFSMAttackState(FSM));//状态机压入新的攻击状态
             }
-            else
+            else//点到不能移动或移动范围外的地格
             {
                 FSM.HandleMovCancel();//仅取消移动范围显示
                 FSM.PushState(new InputFSMIdleState(FSM));//回到上一个状态
@@ -57,18 +57,27 @@ namespace GamePlay.FSM
             
             Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
             //如果两次都点在同一个角色身上，就从移动转为攻击
-            if (FSM.TargetList.Count > 0 && FSM.TargetList[0] == pos)
+            if(eventData.button == PointerEventData.InputButton.Left)//左键点击
             {
-                GameUtility.UtilityHelper.Log("取消移动，进入攻击,再次点击角色取消攻击", GameUtility.LogColor.RED);
-                FSM.HandleMovCancel();//关闭移动范围染色
-                BattleMap.BattleMap.Instance().IsMoveColor = false;
-                FSM.HandleAtkConfirm(pos, unit);//移动完成，显示攻击范围
-                unit.canNotMove = true;//横置单位
-                FSM.PushState(new InputFSMAttackState(FSM));//状态机压入新的攻击状态
+                if (FSM.TargetList.Count > 0 && FSM.TargetList[0] == pos)
+                {
+                    GameUtility.UtilityHelper.Log("取消移动，进入攻击,再次点击角色取消攻击", GameUtility.LogColor.RED);
+                    FSM.HandleMovCancel();//关闭移动范围染色
+                    BattleMap.BattleMap.Instance().IsMoveColor = false;
+                    FSM.HandleAtkConfirm(pos, unit);//移动完成，显示攻击范围
+                    unit.canNotMove = true;//横置单位
+                    FSM.PushState(new InputFSMAttackState(FSM));//状态机压入新的攻击状态
+                }
+                else
+                {
+                    //点到其他单位什么都不做
+                }
             }
-            else
+            if(eventData.button == PointerEventData.InputButton.Right)//右键取消移动范围显示，不取消移动行为
             {
-                //点到其他单位什么都不做
+                FSM.HandleMovCancel();
+                BattleMap.BattleMap.Instance().IsMoveColor = false;
+                FSM.PushState(new InputFSMIdleState(FSM));
             }
         }
     }
