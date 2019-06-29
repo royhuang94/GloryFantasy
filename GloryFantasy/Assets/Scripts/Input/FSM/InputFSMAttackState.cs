@@ -44,26 +44,34 @@ namespace GamePlay.FSM
 
         public override void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)
         {
-            //如果单位不能攻击了无法显示
-            if (unit.canNotAttack == true)
-                return;
-
             base.OnPointerDownFriendly(unit, eventData);
             //鼠标右键取消攻击范围显示，不取消攻击行为
             if (eventData.button == PointerEventData.InputButton.Right)
             {
-                GameUtility.UtilityHelper.Log("取消攻击", GameUtility.LogColor.RED);
-                FSM.HandleAtkCancel();
-                BattleMap.BattleMap.Instance().IsAtkColor = false;
+                GameUtility.UtilityHelper.Log("取消攻击显示", GameUtility.LogColor.RED);
+                if (BattleMap.BattleMap.Instance().IsAtkColor == true)
+                {
+                    FSM.HandleAtkCancel();
+                    BattleMap.BattleMap.Instance().IsAtkColor = false;
+                }
+                else
+                {
+                    FSM.HandleAtkConfirm(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit), unit);
+                    BattleMap.BattleMap.Instance().IsAtkColor = true;
+                }
                 //unit.canNotMove = true;
                 //canNotAttack = true;
                 //FSM.PushState(new InputFSMIdleState(FSM));
             }
             if(eventData.button == PointerEventData.InputButton.Left)
             {
-                Vector2 target = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
-                FSM.HandleAtkConfirm(target,unit);
-                BattleMap.BattleMap.Instance().IsAtkColor = true;
+                GameUtility.UtilityHelper.Log("取消攻击", GameUtility.LogColor.RED);
+                FSM.HandleAtkCancel();
+                BattleMap.BattleMap.Instance().IsAtkColor = false;
+                unit.canNotAttack = true; //单位横置不能攻击
+                unit.canNotMove = true;
+
+                FSM.PushState(new InputFSMIdleState(FSM)); //状态机压入静止状态
             }
         }
     }
