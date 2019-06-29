@@ -79,6 +79,11 @@ namespace GamePlay.FSM
             if (FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.Field ||
                     FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.All)
             {
+                if (FSM.TargetList.Contains(mapBlock.position))
+                {
+                    Debug.Log("此地格已选择");
+                    return;
+                }
                 FSM.TargetList.Add(mapBlock.position);
             }
             //如果已经选够了目标就发动卡片
@@ -116,6 +121,11 @@ namespace GamePlay.FSM
                 // 如果符合约束条件1，且当前targetList总量为0，而且这个异能有使用者，则调用接口设置使用者
                 if(FSM.TargetList.Count == 0 && AbilityDatabase.GetInstance().CheckIfAbilityHasUser(FSM.ability.AbilityID))
                     GameplayToolExtend.SetAbilitySpeller(this, unit);
+                if (FSM.TargetList.Contains(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit)))
+                {
+                    Debug.Log("此单位已选择");
+                    return;
+                }
                 FSM.TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
             }
             //如果已经选够了目标就发动卡片
@@ -147,6 +157,11 @@ namespace GamePlay.FSM
             if ((FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.Enemy) ||
                     (FSM.ability.AbilityTargetList[FSM.TargetList.Count].TargetType == Ability.TargetType.All))
             {
+                if (FSM.TargetList.Contains(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit)))
+                {
+                    Debug.Log("此敌人已选择");
+                    return;
+                }
                 FSM.TargetList.Add(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
             }
             //如果已经选够了目标就发动卡片
