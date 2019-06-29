@@ -129,6 +129,9 @@ namespace BattleMap
         //处理地图块点击事件
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (!Input.GetMouseButtonDown(0))
+                return;
+
             if(Gameplay.Instance().roundProcessController.IsPlayerRound())
                 Gameplay.Instance().gamePlayInput.OnPointerDownBlock(this, eventData);
         }
