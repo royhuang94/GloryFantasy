@@ -220,6 +220,7 @@ namespace MainMap
         public override void OnClickDetail()
         {
             Debug.Log("宝箱被点击");
+            MainMapUI.Instance().UpdateGold(2);
             MapElementManager.DestroyElement();
         }
     }

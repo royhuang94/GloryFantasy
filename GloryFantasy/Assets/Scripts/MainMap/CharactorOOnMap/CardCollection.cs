@@ -7,6 +7,7 @@ using GameCard;
 using System.Linq;
 using MainMap;
 using Mediator;
+using GameGUI;
 
 namespace PlayerCollection
 {
@@ -63,6 +64,7 @@ namespace PlayerCollection
         {
             mycollection.Add(choosecardID);
             Debug.Log("购买成功！");
+            MainMapUI.Instance().UpdateGold(-1);
             library.librarylist.Remove(choosecardID);
             return true;
         }

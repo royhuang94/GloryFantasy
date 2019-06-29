@@ -175,6 +175,7 @@ namespace GameGUI
         {
             Charactor.Instance().charactordata.gold = Charactor.Instance().charactordata.gold + i;
             mainmapgoldtext.text = Charactor.Instance().charactordata.gold.ToString();
+            librarygoldtext.text = Charactor.Instance().charactordata.gold.ToString();
         }
         /// <summary>
         /// 更新滑动条材质
