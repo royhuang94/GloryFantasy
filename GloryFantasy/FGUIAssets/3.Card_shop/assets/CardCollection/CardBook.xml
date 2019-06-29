@@ -7,7 +7,6 @@
     <image id="n5_jjs9" name="n5" src="jjs9o" fileName="Attribute_nocontent.png" xy="887,626" size="341,118"/>
     <image id="n58_xn1k" name="n58" src="xn1k1t" fileName="Attribute_effect_nocontent.png" xy="889,684" size="334,60"/>
     <image id="n14_jjs9" name="n14" src="jjs9r" fileName="Color.png" xy="967,673" size="172,171"/>
-    <image id="n53_kujd" name="n53" src="kujd1q" fileName="Statement.png" xy="45,24" size="1434,885"/>
     <component id="n25_jjs9" name="upgradeButton" src="jjs911" fileName="Upgrade.xml" xy="784,751" size="92,44"/>
     <component id="n27_jjs9" name="evolveButton" src="jjs914" fileName="Evolve.xml" xy="1220,757" size="91,43"/>
     <text id="n37_jjs9" name="name" xy="817,102" size="110,48" fontSize="12" autoSize="none" text=""/>
