@@ -282,7 +282,7 @@ namespace BattleMap
                 unit.nextPos = paths[i];
                 //GamePlay.Gameplay.Instance().bmbColliderManager.Fresh(unit);
                 MsgDispatcher.SendMsg((int)MessageType.Move);
-                yield return new WaitForSeconds(.1f); 
+                yield return new WaitForSeconds(.18f); 
             }
             if (isRetire == false)
             {

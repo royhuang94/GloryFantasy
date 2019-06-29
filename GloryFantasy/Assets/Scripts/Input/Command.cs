@@ -78,6 +78,8 @@ namespace GamePlay.Input
             //更新仇恨列表
             if(_battleMapBlock.units_on_me[0].owner != OwnerEnum.Enemy)
                 Gameplay.Instance().autoController.UpdateAllHatredList(null, _battleMapBlock.units_on_me);
+            else 
+                Gameplay.Instance().autoController.AddAIController(_battleMapBlock.units_on_me[0]);
         }
 
         private string _unitID;
@@ -127,7 +129,6 @@ namespace GamePlay.Input
                 units.AddRange(_blocks[i].units_on_me);
             }
             this.SetSummonUnit(units);
-
             //更新仇恨列表
         }
 
