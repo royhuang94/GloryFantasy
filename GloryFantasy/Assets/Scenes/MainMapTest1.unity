@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -148,6 +148,7 @@ MonoBehaviour:
   HP: 100
   Step: 0
   MaxStep: 100
+  InitGold: 1
   MoveSpeed: 3
   iconhalfstep: 60
   iconlessstep: 20
@@ -874,8 +875,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fcaf7ab6f610b24091f0209364d0061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level1Step: 98
-  Level2Step: 96
+  Level1Step: 60
+  Level2Step: 20
   mesh: {fileID: 4300000, guid: 470d50d339328b74da1197d550ec1284, type: 3}
   textAsset: {fileID: 4900000, guid: eef84f21a7096804e8157760dad8245d, type: 3}
   gridclip: {fileID: 7400000, guid: 5c21667f4e94bdf4cbc55d4d38da5dea, type: 2}
@@ -1249,7 +1250,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 897925532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.892774, y: -5, z: 0}
+  m_LocalPosition: {x: 8.894967, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1576,7 +1577,7 @@ Transform:
   m_GameObject: {fileID: 1204614656}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.030395137, y: 0.030395137, z: 0.030395137}
+  m_LocalScale: {x: 0.021881837, y: 0.021881837, z: 0.021881837}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6

@@ -31,6 +31,7 @@ namespace MainMap
         public int HP;//人物血量
         public int Step;//当前剩余步数，貌似不需要在外部修改，写在外面只是为了看见它。
         public int MaxStep;//最大步数
+        public int InitGold;//初始金币数
         public int MoveSpeed;//开放给策划用于调整人物角色移动速度
         public int iconhalfstep;//步数条减半所需步数
         public int iconlessstep;//步数条见底所需步数
@@ -107,7 +108,7 @@ namespace MainMap
         public void CharactorInitalize()
         {
             GetComponent<Transform>().position = SetCharactorLocate(locate);
-            this.SetMessage(HP, MaxStep);
+            this.SetMessage(HP, MaxStep, InitGold);
             this.charactordata.charactorstate = MoveState.MotionLess;
             Vector3 vect = charactordata.playerlocate.Hex_vector;
             charactordata.underfeet = FindObject(vect.x,vect.y);
@@ -134,11 +135,12 @@ namespace MainMap
         /// <param name="hp"></param>
         /// <param name="maxstep"></param>
         /// <returns></returns>
-        public CharactorData SetMessage(int hp, int maxstep)
+        public CharactorData SetMessage(int hp, int maxstep, int  initgold)
         {
-            Debug.Log("初始化角色最大步数和血量");
+            Debug.Log("初始化角色最大步数、持有金币数和血量");
             charactordata.hp = hp;
             charactordata.maxstep = maxstep;
+            charactordata.gold = initgold;
             charactordata.step = charactordata.maxstep;
             Step = charactordata.step;
             return charactordata;
