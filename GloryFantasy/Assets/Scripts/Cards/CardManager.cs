@@ -23,7 +23,6 @@ namespace GameCard
         public GameObject cardInstanceHolder;
         public int cardsUpperLimit;                   // 手牌数量上限
         public int extractCardsUpperLimit;            // 抽牌数量上限
-        public bool cancelCheck;                      // 是否取消抽卡检查，在本行注释存在的情况下请不要修改值
 
         private List<string> _handcards;               // 存储手牌的ID
         private List<string> _cardsSets;               // 牌组堆，待抽取的卡牌组
@@ -92,7 +91,6 @@ namespace GameCard
         {
             Init();
             LoadCardsIntoSets();
-            cancelCheck = false;
             _isSelectingMode = false;
         }
 
@@ -151,7 +149,7 @@ namespace GameCard
                 "ESS relation cleaner"
             );
 #endif
-            ExtractCards(3);
+            ExtractCards(2, true);
         }
 
         /// <summary>
@@ -422,7 +420,7 @@ namespace GameCard
         /// 从牌组中抽取卡牌到手牌中
         /// </summary>
         /// <param name="cardAmount">抽取卡牌数量，默认为一</param>
-        public void ExtractCards(int cardAmount = 1)
+        public void ExtractCards(int cardAmount = 1, bool cancelCheck = false)
         {
             // 若手牌数量大于或等于手牌上限，直接返回（取消检查的话则此判定永false）
             if (_handcards.Count >= cardsUpperLimit && !cancelCheck)
@@ -431,10 +429,10 @@ namespace GameCard
             }
 
             // 根据参数确定抽取卡牌的数量,若和抽牌上限一致则使用抽牌上限，否则使用给定参数
-            int extractAmount = (cardAmount == extractCardsUpperLimit) ? extractCardsUpperLimit : cardAmount;
+            int extractAmount = (cardAmount >= extractCardsUpperLimit) ? extractCardsUpperLimit : cardAmount;
 
             // 计算应该抽取的卡牌数，计算规则：不检查=抽cardAmount张， 检查=不超出手牌数量上限的，最多cardAmount张牌
-            extractAmount = cancelCheck ? extractAmount : 
+            extractAmount = cancelCheck ? cardAmount : 
                 (cardsUpperLimit - _handcards.Count > extractAmount ? 
                     extractAmount : cardsUpperLimit - _handcards.Count);
             
