@@ -124,6 +124,9 @@ namespace UI.FGUI
             // 卡牌资源定义
             _cardSetsAssets = "card628";
             
+            _cardBookWindow.modal = true;
+            UIConfig.modalLayerColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            
 //            // 添加卡牌点击事件
 //            _cardSetsList.onClickItem.Add(OnClickCardSetsItem);
         }
@@ -173,6 +176,7 @@ namespace UI.FGUI
         {
             if (!_cardBookWindow.isShowing)
             {
+                
                 _cardBookWindow.Show();
             }
             else

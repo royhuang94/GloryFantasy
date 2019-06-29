@@ -36,7 +36,6 @@ class TestBookPage : GComponent
 	public override void ConstructFromXML(FairyGUI.Utils.XML xml)
 	{
 		base.ConstructFromXML(xml);
-
 		_cardItem1 = GetChild("cardItem1").asCom;
 		_cardItem2 = GetChild("cardItem2").asCom;
 		_cardItem3 = GetChild("cardItem3").asCom;
@@ -130,7 +129,8 @@ class TestBookPage : GComponent
 						break;
 				}
 
-				item.icon = UIPackage.GetItemURL(_cardSetsAssets, "empty");
+				item.GetChild("icon").asLoader.icon = UIPackage.GetItemURL(_cardSetsAssets, "empty");
+				item.onClick.Clear();
 				count++;
 			}
 		}
