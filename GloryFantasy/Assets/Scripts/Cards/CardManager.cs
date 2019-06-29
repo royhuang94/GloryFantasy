@@ -36,7 +36,8 @@ namespace GameCard
         public delegate void Callback();
 
         public Callback cb;
-
+        // 存读取到的json内容
+        private JsonData _allData;
         // 存储json格式卡牌数据的字典
         private Dictionary<string, JsonData> _cardsData;
 
@@ -193,11 +194,39 @@ namespace GameCard
             MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
         }
 
+        /// <summary>
+        /// 获得随机的指定张数的卡牌
+        /// </summary>
+        /// <param name="controlNum">控制需要的牌的张数，默认为3</param>
+        /// <returns>返回List</returns>
         public List<string> GetRandomCards(int controlNum = 3)
         {
             List<string> randomlyPickedCards = new List<string>();
-            
-            
+
+            int count = 0;
+            do
+            {
+                // 随机生成数
+                int index = Random.Range(0, _allData.Count);
+                bool isHeroUnit = false;
+                
+                // 确保不含有英雄字段
+                for (int i = 0; i < _allData[index]["tag"].Count; i++)
+                {
+                    if (_allData[index]["tag"][i].ToString().Equals("英雄"))
+                    {
+                        isHeroUnit = true;
+                        break;
+                    }
+                }
+                // 如果是蔻蔻这种英雄卡牌，不添加
+                if(isHeroUnit)
+                    continue;
+                
+                // 添加普通卡牌
+                randomlyPickedCards.Add(_allData[index]["ID"].ToString());
+                count++;
+            } while (count < controlNum);
 
             return randomlyPickedCards;
         }
@@ -349,6 +378,7 @@ namespace GameCard
 
             TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/CardDatabase");
             JsonData cardsJsonData = JsonMapper.ToObject(json.text);
+            _allData = cardsJsonData;
 
             int dataAmount = cardsJsonData.Count;
             for (int i = 0; i < dataAmount; i++)
