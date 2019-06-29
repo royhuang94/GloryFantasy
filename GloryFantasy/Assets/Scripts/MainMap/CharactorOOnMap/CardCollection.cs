@@ -52,7 +52,16 @@ namespace PlayerCollection
         /// <returns></returns>
         public bool AddCard(string ID)
         {
-            mycollection.Add(ID);
+            string newID;
+            if (int.Parse(ID.Split('_')[1]) > 1)
+            {
+                newID = ID.Split('_')[0] + "_1";
+            }
+            else
+            {
+                newID = ID;
+            }
+            mycollection.Add(newID);
             return true;
         }
         /// <summary>图书馆购买卡牌时调用，移出商店并添加进卡牌收藏
@@ -62,7 +71,16 @@ namespace PlayerCollection
         /// <returns></returns>
         public bool BuyCard(Library library)
         {
-            mycollection.Add(choosecardID);
+            string newID;
+            if (int.Parse(choosecardID.Split('_')[1]) > 1)
+            {
+                newID = choosecardID.Split('_')[0] + "_1";
+            }
+            else
+            {
+                newID = choosecardID;
+            }
+            mycollection.Add(newID);
             Debug.Log("购买成功！");
             MainMapUI.Instance().UpdateGold(-1);
             library.librarylist.Remove(choosecardID);
