@@ -326,6 +326,7 @@ namespace GamePlay.Round
         {
             base.Exit(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.MPEnd);
+            Gameplay.Instance().CancleRangeMark();
         }
 
         public override string ToString()
@@ -351,8 +352,6 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.Discard);
-
-
         }
 
         public override string ToString()

@@ -242,5 +242,25 @@ namespace GamePlay
                 gamePlayInput.InputFSM.PushState(new FSM.InputFSMAttackState(gamePlayInput.InputFSM));
             }
         }
+
+        /// <summary>
+        /// 当单位移动范围显示的时候，点击卡牌，取消移动范围显示,防止被箭头覆盖
+        /// </summary>
+        public void CancleRangeMark()
+        {
+            if (BattleMap.BattleMap.Instance().IsMoveColor == true)
+            {
+                BattleMap.BattleMap.Instance().IsMoveColor = false;
+                GameGUI.ShowRange.Instance().CancleMoveRangeMark();
+                gamePlayInput.InputFSM.PushState(new FSM.InputFSMIdleState(gamePlayInput.InputFSM));
+            }
+
+            if (BattleMap.BattleMap.Instance().IsAtkColor == true)
+            {
+                BattleMap.BattleMap.Instance().IsAtkColor = false;
+                GameGUI.ShowRange.Instance().CancleAttackRangeMark();
+                gamePlayInput.InputFSM.PushState(new FSM.InputFSMIdleState(gamePlayInput.InputFSM));
+            }
+        }
     }
 }

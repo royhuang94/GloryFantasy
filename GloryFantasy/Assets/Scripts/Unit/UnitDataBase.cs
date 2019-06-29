@@ -83,7 +83,7 @@ namespace GameUnit
             if (owner != OwnerEnum.Enemy)
                 InitGameUnit(unit.AddComponent<FriendlyUnit>(), id, owner, isLeader, damage);
             else
-                InitGameUnit(unit.AddComponent<FriendlyUnit>(), id, owner, isLeader, damage);
+                InitGameUnit(unit.AddComponent<EnemyUnit>(), id, owner, isLeader, damage);
         }
 
         /// <summary>
