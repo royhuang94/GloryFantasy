@@ -38,6 +38,7 @@ namespace GameGUI
         private GComponent _winUI;
         private GComponent _loseUI;
         private GComponent _dialogUI;
+        private GComponent _aboutBoxUI;
         private Window main_mapUI;
         private Window cardcollect_UI;
         private Window library_UI;
@@ -45,6 +46,7 @@ namespace GameGUI
         private Window win_UI;
         private Window lose_UI;
         private Window dialog_UI;
+        private Window aboutBox_UI;
         
        // private GComponent _cardDisplayer;
         #endregion
@@ -102,6 +104,7 @@ namespace GameGUI
             verifyUI = UIPackage.CreateObject("Shop", "ConfirmBuying").asCom;
             _winUI = UIPackage.CreateObject("MainMapUI", "WinMenu").asCom;
             _loseUI = UIPackage.CreateObject("MainMapUI", "LoseMenu").asCom;
+            _aboutBoxUI = UIPackage.CreateObject("MainMapUI", "AboutBox").asCom;
             main_mapUI = new Window();
             main_mapUI.contentPane = mainmapUI;
             main_mapUI.CenterOn(GRoot.inst, true);
@@ -121,14 +124,18 @@ namespace GameGUI
             lose_UI = new Window();
             lose_UI.contentPane = _loseUI;
             lose_UI.CenterOn(GRoot.inst, true);
+            aboutBox_UI = new Window();
+            aboutBox_UI.contentPane = _aboutBoxUI;
+            aboutBox_UI.CenterOn(GRoot.inst, true);
+            
             #region 初始化按钮装载器文本等
 
             _fClueBtn = mainmapUI.GetChild("n25").asButton;
             _sClueBtn = mainmapUI.GetChild("n26").asButton;
             _tClueBtn = mainmapUI.GetChild("n27").asButton;
-            _fClueBtn.onClick.Add(ShowVictory);
-            _sClueBtn.onClick.Add(ShowDefeat);
-            _tClueBtn.onClick.Add(ShowDialog);
+            _fClueBtn.onClick.Add(() => { ShowClueLog(25);});
+            _sClueBtn.onClick.Add(() => { ShowClueLog(26);});
+            _tClueBtn.onClick.Add(() => { ShowClueLog(27);});
             
             ccbtn = mainmapUI.GetChild("CardBookButton").asButton;
             
@@ -395,8 +402,7 @@ namespace GameGUI
         //}
         #endregion
         #endregion
-
-        #region 三个线索按钮点击代码，以后换成其他地方调用
+        
         public void ShowVictory()
         {
             Debug.Log("click first clue -- show victory");
@@ -423,6 +429,46 @@ namespace GameGUI
         {
             Debug.Log("click third clue -- show dialog");
             DialogManager.Instance().ShowDialog("test");
+        }
+
+        #region 三个线索按钮点击代码，以后换成其他地方调用
+
+        private void ShowClueLog(int selectedClue)
+        {
+            string logTitle;
+            string logContent;
+            switch (selectedClue)
+            {
+                case 25:
+                    logTitle = "诵咒者 - 英勇之魂";
+                    logContent = "来自某个歌颂勇敢与坚毅的种族的战士，一位坚定地守护弱者的守护者。" +
+                                 "他们的种族正面对着同胞失去理性的互相攻伐，他来到莱伯利亚寻找答案。他似乎正在沙漠之中踟蹰前行。";
+                    break;
+                case 26:
+                    logTitle = "诵咒者 - 聪慧之魂";
+                    logContent = "来自某个歌颂智慧与创造的种族的学者，一位不倦地钻研神秘的探寻者。" +
+                                 "他们的种族正面对着同胞离奇消失的巨大异变，她来到莱伯利亚寻找答案。她似乎正在沼地之中迷惘前行。";
+                    break;
+                case 27:
+                    logTitle = "世界之恶 - 邪念无歇";
+                    logContent = "世界上所有知识附着的邪恶凝结的巨大意志，正在一点点膨胀着改变世界的法则。" +
+                                 "不加遏制的话将会把世界所撕碎。核心位于莱伯利亚的中央，一个废弃的大书库。";
+                    break;
+                default:
+                    logTitle = "这是题目";
+                    logContent = "这是内容";
+                    break;
+            }
+
+            GTextField title = _aboutBoxUI.GetChild("title").asTextField;
+            title.text = logTitle;
+            GTextField content = _aboutBoxUI.GetChild("content").asTextField;
+            content.text = logContent;
+            aboutBox_UI.modal = true;
+            UIConfig.modalLayerColor = Color.gray;
+            aboutBox_UI.Show();
+            GButton closeBtn = _aboutBoxUI.GetChild("close").asButton;
+            closeBtn.onClick.Add(() => { aboutBox_UI.Hide();});
         }
         #endregion
 

@@ -2,7 +2,8 @@
 <component size="637,865">
   <displayList>
     <image id="n0_lrtg" name="n0" src="lrtg21" fileName="aboutbox.png" xy="0,0"/>
-    <text id="n1_lrtg" name="n1" xy="65,172" size="519,614" fontSize="40" autoSize="none" text="来自某个歌颂勇敢与坚毅的种族的战士，一位坚定地守护弱者的守护者。&#xA;他们的种族正面对着同胞失去理性的互相攻伐，他来到莱伯利亚寻找答案。&#xA;他似乎正在沙漠之中踟蹰前行。&#xA;"/>
-    <text id="n2_lrtg" name="n2" xy="65,56" size="520,72" fontSize="50" align="center" vAlign="middle" autoSize="none" text="诵咒者 - 英勇之魂"/>
+    <text id="n1_lrtg" name="content" xy="65,172" size="519,614" fontSize="40" autoSize="none" text="来自某个歌颂勇敢与坚毅的种族的战士，一位坚定地守护弱者的守护者。&#xA;他们的种族正面对着同胞失去理性的互相攻伐，他来到莱伯利亚寻找答案。&#xA;他似乎正在沙漠之中踟蹰前行。&#xA;"/>
+    <text id="n2_lrtg" name="title" xy="65,56" size="520,72" fontSize="50" align="center" vAlign="middle" autoSize="none" text="诵咒者 - 英勇之魂"/>
+    <component id="n5_uryk" name="close" src="uryk28" fileName="Close.xml" xy="577,-1"/>
   </displayList>
 </component>
