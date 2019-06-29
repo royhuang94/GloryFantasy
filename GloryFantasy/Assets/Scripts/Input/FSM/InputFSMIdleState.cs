@@ -32,7 +32,8 @@ namespace GamePlay.FSM
                 Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
                 GameUtility.UtilityHelper.Log("准备移动，再次点击角色取消移动进入攻击.Unit position is " + pos, GameUtility.LogColor.RED);
                 FSM.TargetList.Add(pos);
-                FSM.HandleMovConfirm(pos,BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos));
+                FSM.HandleMovConfirm(pos,BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos));//移动范围显示
+                BattleMap.BattleMap.Instance().IsMoveColor = true;
                 FSM.PushState(new InputFSMMoveState(this.FSM));
             }
             //如果单位已经不能移动，但是可以攻击

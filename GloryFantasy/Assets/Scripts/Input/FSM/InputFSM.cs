@@ -144,16 +144,17 @@ namespace GamePlay.FSM
             }
         }
 
-        public void HandleMovCancel(Vector2 target)
+        public void HandleMovCancel()
         {
-            if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
-            {
-                ShowRange.Instance().CancleMoveRangeMark(target);
-            }
-            else
-            {
-                ShowRange.Instance().CancleMoveRangeMark(TargetList[0]);
-            }
+            //if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
+            //{
+            //    ShowRange.Instance().CancleMoveRangeMark(target);
+            //}
+            //else
+            //{
+            //    ShowRange.Instance().CancleMoveRangeMark(TargetList[0]);
+            //}
+            ShowRange.Instance().CancleMoveRangeMark();
         }
 
         //攻击范围染色
@@ -166,16 +167,17 @@ namespace GamePlay.FSM
             }
         }
 
-        public void HandleAtkCancel(Vector2 target)
+        public void HandleAtkCancel()
         {
-            if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
-            {
-                ShowRange.Instance().CancleAttackRangeMark(target);
-            }
-            else
-            {
-                ShowRange.Instance().CancleAttackRangeMark(TargetList[0]);
-            }
+            //if (BattleMap.BattleMap.Instance().CheckIfHasUnits(target))
+            //{
+            //    ShowRange.Instance().CancleAttackRangeMark();
+            //}
+            //else
+            //{
+            //    ShowRange.Instance().CancleAttackRangeMark(TargetList[0]);
+            //}
+            ShowRange.Instance().CancleAttackRangeMark();
         }
     }
 }

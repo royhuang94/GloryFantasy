@@ -28,7 +28,7 @@ namespace GamePlay.FSM
             if (unitAtk.Judge())
             {
                 GameUtility.UtilityHelper.Log("触发攻击", GameUtility.LogColor.RED);
-                FSM.HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(Attacker));////攻击完工攻击范围隐藏  
+                FSM.HandleAtkCancel();////攻击完工攻击范围隐藏  
                 unitAtk.Excute();
                 Attacker.canNotAttack = true; //单位横置不能攻击
 
@@ -47,7 +47,7 @@ namespace GamePlay.FSM
             if (eventData.button == PointerEventData.InputButton.Right)
             {
                 GameUtility.UtilityHelper.Log("取消攻击", GameUtility.LogColor.RED);
-                FSM.HandleAtkCancel(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit));
+                FSM.HandleAtkCancel();
                 unit.canNotMove = true;
                 unit.canNotAttack = true;
                 FSM.PushState(new InputFSMIdleState(FSM));
