@@ -418,7 +418,7 @@ namespace BattleMap
         }
 
         /// <summary>
-        /// 获取我方战区所有地图快坐标
+        /// 获取我方战区所有地格
         /// </summary>
         /// <returns></returns>
         public List<BattleMapBlock> GetAllBlocksInPlayerBA()
@@ -436,7 +436,7 @@ namespace BattleMap
         }
 
         /// <summary>
-        /// 获取敌方战区所有地图快坐标
+        /// 获取敌方战区所有地格
         /// </summary>
         /// <returns></returns>
         public List<BattleMapBlock> GetAllBlocksInEnemyBA()
@@ -449,6 +449,39 @@ namespace BattleMap
                     foreach (Vector2 vector2 in battleAreas[reginID]._battleAreas)
                         vector2s.Add(BattleMap.Instance().GetSpecificMapBlock(vector2));
                 }
+            }
+            return vector2s;
+        }
+
+        /// <summary>
+        /// 获取中立战区所有地格
+        /// </summary>
+        /// <returns></returns>
+        public List<BattleMapBlock> GetAllBlocksInNeutralityBA()
+        {
+            List<BattleMapBlock> vector2s = new List<BattleMapBlock>();
+            foreach (int reginID in battleAreas.Keys)
+            {
+                if (battleAreas[reginID]._battleAreaSate == BattleAreaState.Neutrality)
+                {
+                    foreach (Vector2 vector2 in battleAreas[reginID]._battleAreas)
+                        vector2s.Add(BattleMap.Instance().GetSpecificMapBlock(vector2));
+                }
+            }
+            return vector2s;
+        }
+
+        /// <summary>
+        /// 获取所有地格
+        /// </summary>
+        /// <returns></returns>
+        public List<BattleMapBlock> GetAllBlocks()
+        {
+            List<BattleMapBlock> vector2s = new List<BattleMapBlock>();
+            foreach (int reginID in battleAreas.Keys)
+            {
+                foreach (Vector2 vector2 in battleAreas[reginID]._battleAreas)
+                    vector2s.Add(BattleMap.Instance().GetSpecificMapBlock(vector2));
             }
             return vector2s;
         }
