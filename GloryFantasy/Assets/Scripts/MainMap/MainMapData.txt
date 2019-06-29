@@ -25,8 +25,8 @@ boundary3,obsidian,obsidian,null,null,bloodstone,boundary1
 boundary1,obsidian,obsidian,obsidian,bloodstone,bloodstone,boundary4
 boundary3,obsidian,obsidian:monster:reader_1,obsidian,bloodstone,boundary3
 boundary1,obsidian,obsidian,obsidian,boundary1
-boundary4,obsidian:treasure,post,boundary1
-boundary2,cursestone:monster:Devil_1,boundary4
+boundary4,obsidian:monster:Devil_1,post,boundary1
+boundary2,cursestone:monster:Devil_2,boundary4
 boundary1,boundary3
 null
 null
