@@ -64,7 +64,11 @@ namespace GameUnit
             //根据卡牌id生成单位
             GameObject temp = GameUnitPool.Instance().GetInst(cardID, owner);
             //获取GameUnit对象
-            GameUnit gameUnit = temp.GetComponent<GameUnit>();
+            GameUnit gameUnit;
+            if (owner != OwnerEnum.Enemy)
+                gameUnit = temp.GetComponent<FriendlyUnit>();
+            else
+                gameUnit = temp.GetComponent<EnemyUnit>();
 
             //添加当前实例单位到UnitList中
             BattleMap.BattleMap.Instance().UnitsList.Add(gameUnit);
@@ -88,17 +92,17 @@ namespace GameUnit
             AddEventModule(gameUnit);
             //Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
 
-            if(gameUnit.owner == OwnerEnum.Enemy)
-            {
-                AI.SingleController controller;
-                //初始化AI控制器与携带的仇恨列表
-                if (BattleMap.BattleMap.Instance().UnitsList.Count %2 != 0)
-                    controller = new AI.SingleAutoControllerAtker(gameUnit); //无脑型
-                else
-                    controller = new AI.SingleAutoControllerDefender(gameUnit);//防守型
-                controller.hatredRecorder.Reset(gameUnit);
-                GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
-            }
+            //if(gameUnit.owner == OwnerEnum.Enemy)
+            //{
+            //    AI.SingleController controller;
+            //    //初始化AI控制器与携带的仇恨列表
+            //    if (BattleMap.BattleMap.Instance().UnitsList.Count %2 != 0)
+            //        controller = new AI.SingleAutoControllerAtker(gameUnit); //无脑型
+            //    else
+            //        controller = new AI.SingleAutoControllerDefender(gameUnit);//防守型
+            //    controller.hatredRecorder.Reset(gameUnit);
+            //    GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
+            //}
             Gameplay.Info.GeneratingUnit = gameUnit;
             MsgDispatcher.SendMsg((int)MessageType.GenerateUnit);
 //            if (gameUnit.tag.Contains("英雄"))

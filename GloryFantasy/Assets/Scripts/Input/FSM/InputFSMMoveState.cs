@@ -64,7 +64,8 @@ namespace GamePlay.FSM
                     GameUtility.UtilityHelper.Log("取消移动，进入攻击,再次点击角色取消攻击", GameUtility.LogColor.RED);
                     FSM.HandleMovCancel();//关闭移动范围染色
                     BattleMap.BattleMap.Instance().IsMoveColor = false;
-                    FSM.HandleAtkConfirm(pos, unit);//移动完成，显示攻击范围
+                    FSM.HandleAtkConfirm(pos, unit);//显示攻击范围
+                    BattleMap.BattleMap.Instance().IsAtkColor = true;
                     unit.canNotMove = true;//横置单位
                     FSM.PushState(new InputFSMAttackState(FSM));//状态机压入新的攻击状态
                 }

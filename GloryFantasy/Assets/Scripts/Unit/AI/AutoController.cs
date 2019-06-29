@@ -10,6 +10,21 @@ namespace AI
         //管理所有的ai的controllers
         public List<SingleController> singleControllers = new List<SingleController>();
 
+        public void AddAIController(Unit unit)
+        {
+            if (unit != null)
+            {
+                SingleController controller;
+                //初始化AI控制器与携带的仇恨列表
+                if (BattleMap.BattleMap.Instance().UnitsList.Count % 2 != 0)
+                    controller = new SingleAutoControllerAtker(unit); //无脑型
+                else
+                    controller = new SingleAutoControllerDefender(unit);//防守型
+                controller.hatredRecorder.Reset(unit);
+                GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
+            }
+        }
+
         /// <summary>
         /// 更新所有Controller的仇恨列表
         /// </summary>
