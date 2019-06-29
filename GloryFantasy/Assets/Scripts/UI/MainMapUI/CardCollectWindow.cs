@@ -50,6 +50,7 @@ public class CardCollectWindow : Window
         this.CenterOn(GRoot.inst, true);
 
         _cardList = this.contentPane.GetChild("cardList").asList;
+
         
         _name = this.contentPane.GetChild("name").asTextField;
         _type = this.contentPane.GetChild("type").asTextField;
@@ -66,6 +67,12 @@ public class CardCollectWindow : Window
         
         _closeBtn.onClick.Add(this.Hide);
         _cardList.onClickItem.Add(OnClickCardItem);
+        _upgradeBtn.onClick.Add(UpGradeOnClick);
+    }
+    public void UpGradeOnClick()
+    {
+        //codes here
+        Debug.Log("Upgrade onclick");
     }
     /// <summary>
     /// 更新卡牌书内容
