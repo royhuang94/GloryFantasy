@@ -25,6 +25,8 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private Deck _deck;
 	private bool _win;			// 是否胜利
 
+	private GComponent _menuComponent;
+
 	public bool win
 	{
 		set { _win = value; }
@@ -66,15 +68,18 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// <param name="mode">加载模式</param>
 	private void OnSceneLoader(Scene scene, LoadSceneMode mode)
 	{
-		Debug.Log("Load scene: " + scene.name);
+		// 大地图场景加载
 		if (_mainMapSceneName.Equals(scene.name))
 		{
-			
-			MenuUI.Instance().CloseAll();
+			GRoot.inst.RemoveChild(_menuComponent);
 		}
 
 	}
 
+	public void setMenuComponent(GComponent component)
+	{
+		_menuComponent = component;
+	}
 	
 	/// <summary>
 	/// 委托 —— 卸载场景时收到通知，执行操作
@@ -82,9 +87,6 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// <param name="scene">卸载的场景</param>
 	private void OnSceneUnloader(Scene scene)
 	{
-		Debug.Log("Unload scene: " + scene.name);
-//		if(_mainMenuSceneName.Equals(scene.name))
-//			MenuUI.Instance().CloseAll();
 	}
 
 
@@ -153,12 +155,11 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		}
 		else
 		{
-			_asyncOperation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
+			_asyncOperation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Single);
 		}
 
 		yield return _asyncOperation;
 		SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetScene));
-		Debug.Log("after return");
 		SwitchMMapCamera();
 	}
 

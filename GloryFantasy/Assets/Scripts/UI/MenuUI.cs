@@ -52,6 +52,7 @@ public class MenuUI : UnitySingleton<MenuUI>
 	private void BeginFantasy()
 	{
 		Debug.Log("begin fantasy");
+		SceneSwitchController.Instance().setMenuComponent(_menuMainUI);
 		SceneSwitchController.Instance().Switch(_mainMenuSceneName, _mainMapSceneName);
 	}
 	
