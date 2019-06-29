@@ -146,7 +146,8 @@ namespace UI.FGUI
 	        // TODO: 直接释放技能不显示箭头
 	        // 是单位牌而且不在谋定而动阶段
 	        if(CardManager.Instance().handcardsInstance[_handCardList.GetChildIndex(item)].GetComponent<BaseCard>() is UnitCard 
-	           && !CardManager.Instance().selectingMode)
+	           && !CardManager.Instance().selectingMode
+               && !(Gameplay.Instance().gamePlayInput.InputFSM.CurrentState is GamePlay.FSM.InputFSMPlatState))
 				ArrowManager.Instance().DrawArrow(_startPos, Input.mousePosition);		// 箭头二
 	        // 确认当前点击的卡牌和上次点击的不同，此时表明用户想使用这张卡牌
 	        if (item != _lastClicked)
