@@ -13,7 +13,6 @@
     <image id="m02e9" name="08A.png" path="/"/>
     <movieclip id="m02ea" name="101.jta" path="/" atlas="alone"/>
     <component id="m02eb" name="Button2.xml" path="/"/>
-    <component id="m02ec" name="Button3.xml" path="/"/>
     <component id="m02ed" name="Button4.xml" path="/"/>
     <component id="m02ee" name="Button5.xml" path="/" exported="true"/>
     <component id="m02ef" name="Button6.xml" path="/" exported="true"/>
@@ -30,6 +29,8 @@
     <image id="m02eq" name="Shop.png" path="/"/>
     <component id="m02er" name="ShopMain.xml" path="/" exported="true"/>
     <component id="m02es" name="TransferMain.xml" path="/"/>
+    <component id="nsfxt" name="Button3.xml" path="/"/>
+    <image id="nsfxu" name="06A(1).png" path="/"/>
   </resources>
   <publish name="Library"/>
 </packageDescription>

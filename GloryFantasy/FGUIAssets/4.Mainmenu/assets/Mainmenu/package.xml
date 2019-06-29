@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="rtvmj58m" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="mkyt0" name="logo.png" path="/"/>
+    <image id="mkyt1" name="about.png" path="/"/>
+    <image id="mkyt2" name="Background.png" path="/"/>
+    <image id="mkyt3" name="begin.png" path="/"/>
+    <image id="mkyt4" name="exit.png" path="/"/>
+    <component id="mkyt5" name="Mainmenu.xml" path="/" exported="true"/>
+    <image id="mkyt6" name="mainmenu.png" path="/"/>
+    <component id="mkyt7" name="BeginButton.xml" path="/"/>
+    <image id="mkyt8" name="aboutbox.png" path="/"/>
+    <component id="mkyt9" name="AboutButton.xml" path="/"/>
+    <component id="mkyta" name="ExitButton.xml" path="/"/>
+    <component id="ikswb" name="AboutBox.xml" path="/"/>
+    <component id="nsfxe" name="Button6.xml" path="/"/>
+    <image id="nsfxf" name="08A.png" path="/"/>
+    <image id="nsfxg" name="staff.png" path="/"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

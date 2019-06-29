@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="960,540" extention="Button">
-  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
-  <displayList/>
   <Button/>
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver"/>
+  <displayList>
+    <image id="n0_fo1g" src="nsfxu" name="n0" xy="0,0">
+      <relation target="" sidePair="width,height"/>
+    </image>
+  </displayList>
 </component>
