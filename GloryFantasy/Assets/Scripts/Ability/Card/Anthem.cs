@@ -20,7 +20,6 @@ namespace Ability
             base.Init(abilityId);
             _trigger = new TAnthem(
                 this.GetCardReceiver(this),
-                GetComponent<GameUnit.GameUnit>(),
                 AbilityVariable.Turns.Value,
                 abilityId);
             
@@ -30,13 +29,12 @@ namespace Ability
 
     public class TAnthem : Trigger
     {
-        private GameUnit.GameUnit _unit;
         private string _abilityId;
         private int _turns;
 
-        public TAnthem(MsgReceiver speller, GameUnit.GameUnit unit, int turns, string abilityId)
+        public TAnthem(MsgReceiver speller, int turns, string abilityId)
         {
-            _unit = unit;
+            // 从GamePlayTool中获取使用者
             _turns = turns;
             _abilityId = abilityId;
             register = speller;
@@ -55,7 +53,7 @@ namespace Ability
 
         private void Action()
         {
-            _unit.gameObject.AddBuff<HAnthem>((float)_turns);
+            this.GetAbilitySpeller().gameObject.AddBuff<HAnthem>((float)_turns);
         }
     }
 
@@ -99,13 +97,13 @@ namespace Ability
             {
                 //设定Buff的生命周期，两种写法,建议使用第二种，比较直观
                 SetLife(-1f);
-                GetComponent<GameUnit.GameUnit>().changeATK(AbilityDatabase.GetInstance().GetAbilityVariable("Anthem").Amount.Value);
+                GetComponent<GameUnit.GameUnit>().changeATK(AbilityDatabase.GetInstance().GetAbilityVariable(this.GetSpellingAbility().AbilityID).Amount.Value);
                 GetComponent<GameUnit.GameUnit>().changeMHP(1);
             }
 
             protected override void OnDisappear()
             {
-                GetComponent<GameUnit.GameUnit>().changeATK(AbilityDatabase.GetInstance().GetAbilityVariable("Anthem").Amount.Value);
+                GetComponent<GameUnit.GameUnit>().changeATK(AbilityDatabase.GetInstance().GetAbilityVariable(this.GetSpellingAbility().AbilityID).Amount.Value);
                 GetComponent<GameUnit.GameUnit>().changeMHP(-1);
             }
         }
