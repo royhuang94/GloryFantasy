@@ -24,12 +24,19 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private string _encounterID;
 	private Deck _deck;
 	private bool _win;			// 是否胜利
+	private List<string> _cardId;
 
 	private GComponent _menuComponent;
 
 	public bool win
 	{
 		set { _win = value; }
+	}
+
+	public List<string> cardId
+	{
+		get { return _cardId; }
+		set { _cardId = value; }
 	}
 
 	/// <summary>

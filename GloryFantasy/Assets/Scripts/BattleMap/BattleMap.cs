@@ -69,7 +69,10 @@ namespace BattleMap
                 canDoExitAction,
                 () =>
                 {
-                    SceneSwitchController.Instance().win = true;    // 胜利，场景切换控制器保存结果，用于大地图界面显示
+                    // 胜利，场景切换控制器保存结果，用于大地图界面显示
+                    SceneSwitchController.Instance().win = true;
+                    // 随机三张卡牌给大地图胜利界面
+                    SceneSwitchController.Instance().cardId = CardManager.Instance().GetRandomCards(3);
                     exitBattleMap();
                 },
                 "Win to exit Trigger"

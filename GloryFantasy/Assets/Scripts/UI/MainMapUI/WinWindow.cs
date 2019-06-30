@@ -79,7 +79,8 @@ public class WinWindow : Window
     public void LoadVictory()
     {
         //cards.Clear();
-        cards = CardManager.Instance().GetRandomCards(3);
+        // 从战斗地图获得的随即三张卡牌
+        cards = SceneSwitchController.Instance().cardId;
         choosedcardid = null;
         cardlist = contentPane.GetChild("victorylist").asList;
         cardlist.RemoveChildren();
