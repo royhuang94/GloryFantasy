@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="6m3vkp09" jpegQuality="80" compressPNG="true" hasFavorites="true">
+  <resources>
+    <component id="no2w0" name="Book.xml" path="/" exported="true"/>
+    <component id="no2w1" name="FrontCover.xml" path="/"/>
+    <image id="no2w2" name="封面.jpg" path="/"/>
+    <image id="no2w3" name="纸.jpg" path="/"/>
+    <image id="no2w4" name="shadow_center.png" path="/"/>
+    <component id="no2w5" name="BackCover.xml" path="/"/>
+    <component id="no2w6" name="newCardBookFrame.xml" path="/" exported="true"/>
+    <component id="no2w7" name="Button4.xml" path="/"/>
+    <image id="no2w8" name="03C.png" path="/"/>
+    <image id="no2w9" name="03D.png" path="/"/>
+    <component id="no2wa" name="Page.xml" path="/" exported="true"/>
+    <image id="no2wb" name="右.png" path="/"/>
+    <component id="no2wc" name="Button8.xml" path="/"/>
+    <image id="no2wd" name="06E.jpg" path="/"/>
+    <image id="no2we" name="11B.png" path="/"/>
+    <image id="no2wf" name="11C.png" path="/"/>
+    <image id="no2wg" name="06D.png" path="/"/>
+    <image id="no2wh" name="左.png" path="/"/>
+    <component id="no2wi" name="Pages.xml" path="/" exported="true"/>
+    <image id="no2wj" name="shadow_soft.png" path="/" exported="true"/>
+    <component id="cptrk" name="CardSetItem.xml" path="/"/>
+    <image id="cptrl" name="122.png" path="/"/>
+    <image id="cptrm" name="CardSide2.png" path="/"/>
+    <component id="rxqpn" name="cardSetItem2.xml" path="/"/>
+    <image id="es40o" name="empty.png" path="/" exported="true"/>
+    <component id="89rup" name="cardsSetsItem.xml" path="/" exported="true" favorite="true"/>
+    <image id="89ruq" name="06A.png" path="/"/>
+    <image id="89rur" name="06B.png" path="/"/>
+    <image id="89rus" name="Character.png" path="/"/>
+    <image id="89rut" name="Attribute_nocontent.png" path="/"/>
+    <image id="89ruu" name="Attribute_effect_nocontent.png" path="/"/>
+    <image id="89ruv" name="Color.png" path="/"/>
+    <component id="89ruw" name="Upgrade.xml" path="/"/>
+    <image id="89rux" name="Upgrade.png" path="/"/>
+    <image id="89ruy" name="Upgrade_clicked.png" path="/"/>
+    <image id="89ruz" name="Upgrade_pointed.png" path="/"/>
+    <component id="89ru10" name="Evolve.xml" path="/"/>
+    <image id="89ru11" name="Evolve.png" path="/"/>
+    <image id="89ru12" name="Evolve_clicked.png" path="/"/>
+    <image id="89ru13" name="Skill.png" path="/"/>
+  </resources>
+  <publish name="mainMapCardBook"/>
+</packageDescription>
