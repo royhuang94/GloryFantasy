@@ -28,7 +28,7 @@ namespace GameCard
         private List<cdObject> _cooldownCards;           // 临时存储冷却状态中卡牌
         private List<string> _garbageCards;            //弃牌堆
         private GameUnit.GameUnit _latestDeadUnit;      // 最近死掉的单位
-        private List<string> _unitIDWithQuickPlat;
+        public List<string> _unitIDWithQuickPlat;
         private bool _loadFromJson = false;
         
         public delegate void Callback();
