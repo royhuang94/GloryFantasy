@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<component size="1290,880">
-  <displayList>
-    <component id="n0_jva6" name="left" src="no2wa" fileName="Page.xml" xy="0,0" size="645,880" controller="style,2,side,0"/>
-    <component id="n1_jva6" name="right" src="no2wa" fileName="Page.xml" xy="645,0" controller="style,0,side,1"/>
-  </displayList>
-</component>

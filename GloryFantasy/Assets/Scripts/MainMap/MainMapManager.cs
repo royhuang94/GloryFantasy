@@ -68,7 +68,6 @@ namespace MainMap
         public AnimationClip gridclip;
         public AnimationClip stop;
         public AudioSource Source ;
-        public Dictionary<string, JsonData> CardData;
         #region 全部地格材质
 		public Sprite postsprite;
         public Sprite mountainsprite;
@@ -267,16 +266,6 @@ namespace MainMap
         /// </summary>
         private void Start()
         {
-            // 加载卡牌数据
-            CardData = new Dictionary<string, JsonData>();
-            TextAsset json = Resources.Load<TextAsset>("DatabaseJsonFiles/CardDatabase");
-            JsonData cardsJsonData = JsonMapper.ToObject(json.text);
-
-            int dataAmount = cardsJsonData.Count;
-            for (int i = 0; i < dataAmount; i++)
-            {
-                CardData.Add(cardsJsonData[i]["ID"].ToString(), cardsJsonData[i]);
-            }
             Charactor.Instance().aroundlist.Add("0,1", null);
             Charactor.Instance().aroundlist.Add("0,-1", null);
             Charactor.Instance().aroundlist.Add("1,0", null);

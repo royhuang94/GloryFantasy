@@ -29,6 +29,11 @@ namespace UI.FGUI
         /// </summary>
         private GButton _closeWindowButton;
         
+        
+        /// <summary>
+        /// 卡牌管理器内卡牌列表引用, 可能以后会修改
+        /// </summary>
+        private List<string> __cardSetsList;
         /// <summary>
         /// 总资源包定义
         /// </summary>
@@ -112,6 +117,9 @@ namespace UI.FGUI
 
             // 设定卡牌书窗口居中
             _cardBookWindow.CenterOn(GRoot.inst, true);
+            
+            // 获取卡牌引用
+            __cardSetsList = CardManager.Instance().cardsSets;
 
             // 卡牌资源定义
             _cardSetsAssets = "card628";

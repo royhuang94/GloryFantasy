@@ -1,4 +1,14 @@
 {
+	"active_doc": [
+		"dml5hbrc",
+		"ot5639"
+	],
+	"expanded_nodes": [
+		"32p4j6lq",
+		"/",
+		"wr5gk5j8",
+		"/"
+	],
 	"docs": [
 		"dml5hbrc",
 		"n195m",
@@ -47,13 +57,5 @@
 		"dml5hbrc",
 		"ot5639"
 	],
-	"hidden_packages": [],
-	"active_doc": [
-		"dml5hbrc",
-		"ot5639"
-	],
-	"expanded_nodes": [
-		"6m3vkp09",
-		"/"
-	]
+	"hidden_packages": []
 }
