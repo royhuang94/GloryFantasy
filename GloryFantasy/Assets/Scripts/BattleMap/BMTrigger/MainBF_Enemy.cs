@@ -30,7 +30,6 @@ namespace BattleMap
         private void Action()
         {
             Debug.Log("You win!");
-            MsgDispatcher.SendMsg((int)MessageType.WIN);
             Gameplay.Instance().roundProcessController.Win();
         }
     }
