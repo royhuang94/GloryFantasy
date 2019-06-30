@@ -16,6 +16,7 @@ namespace Mediator
         {
             FreshDeck(deck);
             _hero = hero;
+            //deck.Add("")
         }
         public void FreshDeck(List<string> deck)
         {
