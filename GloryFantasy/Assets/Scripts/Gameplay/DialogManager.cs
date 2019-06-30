@@ -115,8 +115,7 @@ namespace StoryDialog
                 }
                 else if (o is Monster)
                 {
-                    Monster master = (Monster)o;
-                    master.InToBattle();
+                    ShowDialog(check);
                     return true;
                 }
                 else if (o is Charactor)
@@ -138,16 +137,20 @@ namespace StoryDialog
                 if (o is MainMapManager)
                 {
                     MainMapManager master = (MainMapManager)o;
+                    BeZero();
                     return true;
                 }
                 else if (o is Monster)
                 {
                     Monster master = (Monster)o;
                     master.InToBattle();
+                    Debug.Log("TryIntoBattle");
+                    BeZero();
                     return true;
                 }
                 else if (o is Charactor)
                 {
+                    BeZero();
                     return true;
                 }
                 BeZero();

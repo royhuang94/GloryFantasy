@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using GameGUI;
 using System.IO;
 using UnityEngine.EventSystems;
-using UnityEditor;
 using System.Linq;
 using PlayerCollection;
+using StoryDialog;
 
 namespace MainMap
 {
@@ -115,10 +115,24 @@ namespace MainMap
         }
         public override void OnClickDetail()
         {
-            // Debug.Log("怪物被点击");
-            //            MainMapUI.Instance().HideMain();
-            InToBattle();
+            if(IsBoss(encounterid))
+            {
+                DialogManager.Instance().RequestDialog(this, "test");
+            }
+            else
+            {
+                InToBattle();
+            }
 
+
+        }
+        public static bool IsBoss(string input)
+        {
+            if(input.Split('_')[0].Equals("Devil") || input.Split('_')[0].Equals("sandworm") ||input.Split('_')[0].Equals("chomper"))
+            {
+                return true;
+            }
+            return false;
         }
         public void InToBattle()
         {
@@ -160,7 +174,7 @@ namespace MainMap
             
             foreach (Monster m in monsterlist)
             {
-                if(m.encounterid.Split('_')[0] == "Devil" || m.encounterid.Split('_')[0] == "sandworm" || m.encounterid.Split('_')[0] == "chomper")
+                if(IsBoss(m.encounterid))
                 {
                     //不升级
                 }

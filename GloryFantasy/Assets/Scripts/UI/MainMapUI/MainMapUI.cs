@@ -416,7 +416,23 @@ namespace GameGUI
             _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
             _winWindow.Show();
         }
+        public void LoadVictory()
+        {
+            List<string> cards = CardManager.Instance().GetRandomCards(3);
+            List<GButton> gButtons = new List<GButton>();
+            for(int i=0;i<3;i++)
+            {
+                GButton card = win_UI.GetChild("card" + i.ToString()).asButton;
+                card.icon = UIPackage.GetItemURL(cardicons, cards[i].Split('_').First());
+                gButtons.Add(card);
+                card.onClick.Add(GetWinCard);
+            }
 
+        }
+        public void GetWinCard()
+        {
+
+        }
         public void ShowDefeat()
         {
             Debug.Log("click second clue -- show defeat");
