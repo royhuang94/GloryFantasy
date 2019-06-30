@@ -69,7 +69,7 @@ namespace Ability
             _source = GetComponent<GameUnit.GameUnit>();
             _source.changeMOV(-1);
             halo = new BMBCollider(_source, GameplayToolExtend.Area[4]);
-            foreach(GameUnit.GameUnit unit in halo.disposeUnits)
+            foreach (GameUnit.GameUnit unit in halo.disposeUnits)
             {
                 if (judge(unit, _source))
                     unit.gameObject.AddBuff<BAnthem>(-1f);
@@ -80,7 +80,6 @@ namespace Ability
                 judge,
                 halo
                 );
-
             MsgDispatcher.RegisterMsg(_trigger, "Fresh Halo Anthem");
         }
 
@@ -98,13 +97,14 @@ namespace Ability
                 //设定Buff的生命周期，两种写法,建议使用第二种，比较直观
                 SetLife(-1f);
                 GetComponent<GameUnit.GameUnit>().changeATK(AbilityDatabase.GetInstance().GetAbilityVariable(this.GetSpellingAbility().AbilityID).Amount.Value);
-                GetComponent<GameUnit.GameUnit>().changeMHP(1);
+                GetComponent<GameUnit.GameUnit>().changeMHP(AbilityDatabase.GetInstance().GetAbilityVariable(this.GetSpellingAbility().AbilityID).Amount.Value);
+                GetComponent<GameUnit.GameUnit>().changeHP(AbilityDatabase.GetInstance().GetAbilityVariable(this.GetSpellingAbility().AbilityID).Amount.Value);
             }
 
             protected override void OnDisappear()
             {
-                GetComponent<GameUnit.GameUnit>().changeATK(AbilityDatabase.GetInstance().GetAbilityVariable(this.GetSpellingAbility().AbilityID).Amount.Value);
-                GetComponent<GameUnit.GameUnit>().changeMHP(-1);
+                GetComponent<GameUnit.GameUnit>().changeATK(-AbilityDatabase.GetInstance().GetAbilityVariable(this.GetSpellingAbility().AbilityID).Amount.Value);
+                GetComponent<GameUnit.GameUnit>().changeMHP(-AbilityDatabase.GetInstance().GetAbilityVariable(this.GetSpellingAbility().AbilityID).Amount.Value);
             }
         }
 

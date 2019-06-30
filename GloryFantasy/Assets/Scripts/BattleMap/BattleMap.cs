@@ -444,6 +444,8 @@ namespace BattleMap
         /// <returns></returns>
         public Unit GetUnitsOnMapBlock(Vector3 vector)
         {
+            if (vector.x >= columns || vector.x < 0 || vector.y >= rows || vector.y < 0)
+                return null;
             if (CheckIfHasUnits(vector))
             {
                 return _mapBlocks[(int)vector.x, (int)vector.y].GetComponentInChildren<Unit>();

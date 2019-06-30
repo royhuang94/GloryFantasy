@@ -77,7 +77,7 @@ public class BMBColliderManager : MsgReceiver, GameplayTool
                 //c. 最后对比出哪个Exit，哪个Enter
 
             
-            List<Unit> oldList = collider.disposeUnits;
+            List<Unit> oldList = new List<Unit>(collider.disposeUnits);
             //更新collider的范围
             collider.UpdateColliderRange();
             //更新collider的三个列表
