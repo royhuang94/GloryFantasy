@@ -55,6 +55,7 @@
     <component id="uryk28" name="Close.xml" path="/"/>
     <image id="uryk29" name="03C.png" path="/"/>
     <image id="uryk2a" name="03D.png" path="/"/>
+    <component id="c9ff2b" name="FullContinueButton.xml" path="/"/>
   </resources>
   <publish name="MainMapUI"/>
 </packageDescription>

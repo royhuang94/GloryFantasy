@@ -59,10 +59,6 @@ public class MenuUI : UnitySingleton<MenuUI>
 	private void ExitFantasy()
 	{
 		Debug.Log("exit fantasy");
-#if UNITY_EDITOR
-		UnityEditor.EditorApplication.isPlaying = false;
-#else
 		Application.Quit();
-#endif
 	}
 }

@@ -15,6 +15,7 @@ public class DialogWindow : Window
 	private string _dialogTextText;
 	private string _dialogPicPath;
 	private GButton _continueBtn;
+	private GButton _fullContinueBtn;
 	private GLoader _picLoader;
 
 	private GTextField _dialogName;
@@ -51,7 +52,9 @@ public class DialogWindow : Window
 		_picLoader = this.contentPane.GetChild("dialogPic").asLoader;
 		_continueBtn = this.contentPane.GetChild("dialogContinueButton").asButton;
 		_continueBtn.onClick.Add(OnClickContinue);
-
+		_fullContinueBtn = this.contentPane.GetChild("FullContinueButton").asButton;
+		_fullContinueBtn.onClick.Add(OnClickContinue);
+		
 		_dialogName.text = _dialogNameText;
 		_dialogText.text = _dialogTextText;
 
