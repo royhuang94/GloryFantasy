@@ -26,7 +26,7 @@ namespace Ability.Debuff
             //如果被挂在了单位上
             if (_isOnUnit)
             {
-                GameplayToolExtend.DealDamage(null, _unit, new Damage(1+(_isViscous?1:0)));
+                GameplayToolExtend.DealDamage(null, _unit, new Damage(1));
                 // 弄完伤害后自我毁灭
                 GameObject.Destroy(this);
             }
@@ -102,7 +102,6 @@ namespace Ability.Debuff
         {
             // 给移动到当前地图块上的单位造成1点伤害。
             Gameplay.Info.movingUnit.gameObject.AddBuff<BFiring>(0.5f);
-            //GameplayToolExtend.DealDamage(null, Gameplay.Info.movingUnit, new Damage(1));
         }
     }
 
