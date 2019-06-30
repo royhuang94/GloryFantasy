@@ -70,10 +70,23 @@ public class DialogWindow : Window
 			_dialogName.text = _dialogNameText;
 			_dialogText.text = _dialogTextText;
 			// 设置对话人物图片
-			Debug.Log("pic path: " + _dialogPicPath);
 			_picLoader.icon = UIPackage.GetItemURL("MainMapUI", _dialogPicPath);
 		}
 	}
+
+	/// <summary>
+	/// 设置该窗口组件可见性，用于窗口显示
+	/// </summary>
+	/// <param name="dialogVisible"></param>
+	public void SetDialogWindowVisible(bool dialogVisible)
+	{
+		this.contentPane.GetChild("n0").visible = dialogVisible;
+		this._picLoader.visible = dialogVisible;
+		this._dialogName.visible = dialogVisible;
+		this._dialogText.visible = dialogVisible;
+		this._continueBtn.visible = dialogVisible;
+	}
+	
 	
 	private void OnClickContinue()
 	{

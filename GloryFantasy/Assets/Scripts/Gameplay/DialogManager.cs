@@ -196,15 +196,12 @@ namespace StoryDialog
 		{
 			if (currentDialogWindow.isShowing)
 			{
-				currentDialogWindow.contentPane.GetChild("n0").visible = true;
-				currentDialogWindow.contentPane.GetChild("dialogPic").visible = true;
-				currentDialogWindow.contentPane.GetChild("dialogName").visible = true;
+				currentDialogWindow.SetDialogWindowVisible(true);
 			}
 
-			prevDialogWindow.contentPane.GetChild("n0").visible = false;
-			prevDialogWindow.contentPane.GetChild("dialogPic").visible = false;
-			prevDialogWindow.contentPane.GetChild("dialogName").visible = false;
+			prevDialogWindow.SetDialogWindowVisible(false);
 		}
+
 		
 		/// <summary>
 		/// 开放接口，进入对话调用
