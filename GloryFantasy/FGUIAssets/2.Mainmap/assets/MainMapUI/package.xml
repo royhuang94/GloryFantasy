@@ -44,7 +44,7 @@
     <component id="lv6g1r" name="WinMenu.xml" path="/" exported="true"/>
     <image id="sdan1v" name="Character.png" path="/"/>
     <image id="sdan1w" name="CardSample.png" path="/"/>
-    <component id="sdan1y" name="CardSelected.xml" path="/"/>
+    <component id="sdan1y" name="CardSelected.xml" path="/" exported="true"/>
     <image id="yed81z" name="126.png" path="/"/>
     <image id="lrtg21" name="aboutbox.png" path="/"/>
     <component id="lrtg22" name="AboutBox.xml" path="/" exported="true"/>

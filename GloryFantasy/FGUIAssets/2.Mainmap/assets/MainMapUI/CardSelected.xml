@@ -2,10 +2,10 @@
 <component size="250,362" extention="Button">
   <controller name="button" pages="0,up,1,down" selected="0"/>
   <displayList>
-    <loader id="n1_sdan" name="n1" xy="0,1" size="250,362" url="ui://akpb5t6gsdan1w" fill="scale">
+    <loader id="n1_sdan" name="n1" xy="1,1" size="250,370" url="ui://akpb5t6gsdan1w" fill="scaleFree">
       <gearDisplay controller="button" pages="0,1"/>
     </loader>
-    <image id="n2_yed8" name="n2" src="yed81z" fileName="126.png" xy="0,0" size="250,362">
+    <image id="n2_yed8" name="n2" src="yed81z" fileName="126.png" xy="0,0" size="250,370">
       <gearDisplay controller="button" pages="1"/>
     </image>
   </displayList>
