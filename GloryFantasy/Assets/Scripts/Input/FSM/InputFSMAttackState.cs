@@ -25,7 +25,7 @@ namespace GamePlay.FSM
             //创建攻击指令
             UnitAttackCommand unitAtk = new UnitAttackCommand(Attacker, AttackedUnit);
             //如果攻击指令符合条件则执行
-            if (unitAtk.Judge())
+            if (unitAtk.Judge() && BattleMap.BattleMap.Instance().IsAtkColor == true)
             {
                 GameUtility.UtilityHelper.Log("触发攻击", GameUtility.LogColor.RED);
                 FSM.HandleAtkCancel();////攻击完工攻击范围隐藏
@@ -48,22 +48,11 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownFriendly(unit, eventData);
             //鼠标右键取消攻击范围显示，不取消攻击行为
-            if (eventData.button == PointerEventData.InputButton.Right)
+            if (eventData.button == PointerEventData.InputButton.Right && BattleMap.BattleMap.Instance().IsAtkColor == true)
             {
                 GameUtility.UtilityHelper.Log("取消攻击显示", GameUtility.LogColor.RED);
-                if (BattleMap.BattleMap.Instance().IsAtkColor == true)
-                {
-                    FSM.HandleAtkCancel();
-                    BattleMap.BattleMap.Instance().IsAtkColor = false;
-                }
-                else
-                {
-                    FSM.HandleAtkConfirm(BattleMap.BattleMap.Instance().GetUnitCoordinate(unit), unit);
-                    BattleMap.BattleMap.Instance().IsAtkColor = true;
-                }
-                //unit.canNotMove = true;
-                //canNotAttack = true;
-                //FSM.PushState(new InputFSMIdleState(FSM));
+                FSM.HandleAtkCancel();
+                BattleMap.BattleMap.Instance().IsAtkColor = false;
             }
             if(eventData.button == PointerEventData.InputButton.Left&& BattleMap.BattleMap.Instance().IsAtkColor == true)
             {
@@ -74,6 +63,14 @@ namespace GamePlay.FSM
                 unit.canNotMove = true;
 
                 FSM.PushState(new InputFSMIdleState(FSM)); //状态机压入静止状态
+            }
+            //再次显示攻击范围
+            if (eventData.button == PointerEventData.InputButton.Left && BattleMap.BattleMap.Instance().IsAtkColor == false)
+            {
+                GameUtility.UtilityHelper.Log("显示攻击范围", GameUtility.LogColor.RED);
+                Vector2 target = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
+                FSM.HandleAtkConfirm(target, unit);
+                BattleMap.BattleMap.Instance().IsAtkColor = true;
             }
         }
     }
