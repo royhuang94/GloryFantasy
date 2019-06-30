@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="1800,1080">
+<component size="1920,1080">
   <displayList>
-    <image id="n0_lv6g" name="n0" src="lv6g12" fileName="DialogBox.png" xy="101,812" flip="hz"/>
-    <loader id="n1_lv6g" name="dialogPic" xy="1344,500" size="368,574" url="ui://akpb5t6ghbrv26" vAlign="bottom" fill="scaleMatchHeight"/>
-    <text id="n2_lv6g" name="dialogName" xy="1029,833" size="217,38" fontSize="30" align="center" vAlign="middle" autoSize="none" text="道格拉斯·艾尔"/>
-    <text id="n3_lv6g" name="dialogText" xy="272,909" size="958,133" fontSize="40" autoSize="none" text="他们说有好多大灰狼，真的假的呀？&#xA;他们说是假的"/>
-    <component id="n4_lv6g" name="dialogContinueButton" src="lv6g1g" fileName="DialogNext.xml" xy="1181,982"/>
+    <image id="n0_lv6g" name="n0" src="lv6g12" fileName="DialogBox.png" xy="290,812" flip="hz"/>
+    <loader id="n1_lv6g" name="dialogPic" xy="1533,500" size="368,574" url="ui://akpb5t6ghbrv26" vAlign="bottom" fill="scaleMatchHeight"/>
+    <text id="n2_lv6g" name="dialogName" xy="1218,833" size="217,38" fontSize="30" align="center" vAlign="middle" autoSize="none" text="道格拉斯·艾尔"/>
+    <text id="n3_lv6g" name="dialogText" xy="461,909" size="958,133" fontSize="40" autoSize="none" text="他们说有好多大灰狼，真的假的呀？&#xA;他们说是假的"/>
+    <component id="n4_lv6g" name="dialogContinueButton" src="lv6g1g" fileName="DialogNext.xml" xy="1370,982"/>
+    <component id="n5_c9ff" name="FullContinueButton" src="c9ff2b" fileName="FullContinueButton.xml" xy="325,875" size="1245,188" alpha="0"/>
   </displayList>
 </component>
