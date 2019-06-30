@@ -72,10 +72,6 @@ namespace UI.FGUI
 		
 			// 添加主界面UI到游戏场景
 			GRoot.inst.AddChild(_mainUI);
-			
-			_mainUI.GetChild("n41").asButton.visible = ShowSpecialKeys;
-			_mainUI.GetChild("unitListButton").asButton.visible = ShowSpecialKeys;
-			_mainUI.GetChild("n38").asButton.visible = ShowSpecialKeys;
 
 			// 初始化卡牌内容描述窗口
 			cardDescribeWindow = new Window();
@@ -163,10 +159,10 @@ namespace UI.FGUI
 
 		private void LateUpdate()
 		{
-			_mainUI.GetChild("n41").asButton.visible = ShowSpecialKeys;
+			//_mainUI.GetChild("n41").asButton.visible = ShowSpecialKeys;
 			_mainUI.GetChild("unitListButton").asButton.visible = ShowSpecialKeys;
 			_mainUI.GetChild("n38").asButton.visible = ShowSpecialKeys;
-			//_mainUI.GetChild("n40").asButton.visible = ShowSpecialKeys;
+			_mainUI.GetChild("n40").asButton.visible = ShowSpecialKeys;
 		}
 
 		/// <summary>
