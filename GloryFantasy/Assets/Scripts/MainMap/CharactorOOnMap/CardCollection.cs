@@ -21,6 +21,7 @@ namespace PlayerCollection
         #region 一堆变量和引用
         TextAsset json;
         JsonData cardsJsonData;
+        private Dictionary<string, JsonData> _cardData;
         /// <summary>
         /// 角色的卡牌收藏
         /// </summary>
@@ -46,6 +47,11 @@ namespace PlayerCollection
         {
             json = Resources.Load<TextAsset>("DatabaseJsonFiles/CardDatabase");
             cardsJsonData = JsonMapper.ToObject(json.text);
+            _cardData = new Dictionary<string, JsonData>();
+            for (int i = 0; i < cardsJsonData.Count; i++)
+            {
+                _cardData.Add(cardsJsonData[i]["ID"].ToString(), cardsJsonData[i]);
+            }
         }
         /// <summary>
         /// 通过卡牌ID向收藏中添加卡牌时调用，添加成功返回true
@@ -113,6 +119,13 @@ namespace PlayerCollection
         {
             return cardsJsonData[num]["ID"].ToString();
 
+        }
+
+        public JsonData GetCardData(string cardId)
+        {
+            if (_cardData.ContainsKey(cardId))
+                return _cardData[cardId];
+            return null;
         }
         public void CardCollectBeZero()
         {
