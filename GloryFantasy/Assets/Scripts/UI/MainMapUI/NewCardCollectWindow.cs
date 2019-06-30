@@ -52,7 +52,7 @@ namespace GameGUI
             _pkgName = "mainMapCardBook";
             Init();
             
-            _book = (FairyBook)_cardCollectFrame.GetChild("Book");
+            _book = (FairyBook)_cardCollectFrame.GetChild("book");
             _book.SetSoftShadowResource("ui://" + _pkgName + "/shadow_soft");
             _book.pageRenderer = RenderPage;
             _book.pageCount = 100;
@@ -207,12 +207,14 @@ namespace GameGUI
                 while (count < 9 && CardCollection.mycollection.Count > pos)
                 {
                     GButton newItem = UIPackage.CreateObject("mainMapCardBook", "cardsSetsItem").asButton;
-                    newItem.icon = UIPackage.GetItemURL(_cardAssets, CardCollection.mycollection[pos]);
+                    newItem.icon = UIPackage.GetItemURL(_cardAssets, CardCollection.mycollection[pos].Split('_').First());
                     newItem.onClick.Add(() =>
                     {
                         _pos = pos;
                         _describePage.Refresh(CardCollection.mycollection[pos]);
                     });
+                    count++;
+                    pos++;
                 }
 
                 if (count < 9)
@@ -221,6 +223,7 @@ namespace GameGUI
                     {
                         GButton newItem = UIPackage.CreateObject("mainMapCardBook", "cardsSetsItem").asButton;
                         newItem.icon = UIPackage.GetItemURL(_cardAssets, "empty");
+                        count++;
                     }
                 }
 

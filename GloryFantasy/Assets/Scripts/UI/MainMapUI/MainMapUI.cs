@@ -102,8 +102,9 @@ namespace GameGUI
             UIPackage.AddPackage(CardCollectionPackage);
             UIPackage.AddPackage(LibraryPackage);
             UIPackage.AddPackage("BattleMapFGUIPkg/mainMapCardBook");
-            UIObjectFactory.SetPackageItemExtension("ui://mainCardBook/Book", typeof(FairyBook));
-            UIObjectFactory.SetPackageItemExtension("ui://mainCardBook/Page", typeof(CardCollectPage));
+            UIPackage.AddPackage(CardIconPackage);
+            UIObjectFactory.SetPackageItemExtension("ui://mainMapCardBook/Book", typeof(FairyBook));
+            UIObjectFactory.SetPackageItemExtension("ui://mainMapCardBook/Page", typeof(CardCollectPage));
             mainmapUI = UIPackage.CreateObject("MainMapUI", "MainUI").asCom;
             GRoot.inst.AddChild(mainmapUI);
             cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBook").asCom;
