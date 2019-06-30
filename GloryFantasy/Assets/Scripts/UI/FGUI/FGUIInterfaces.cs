@@ -9,6 +9,16 @@ using UnityEngine;
 
 namespace UI.FGUI
 {
+	/// <summary>
+	/// 组件模式接口
+	/// </summary>
+	public interface IComponent
+	{
+		void Operation();
+		void Add(IComponent component);
+		// void Remove(IComponent component);
+		IComponent GetChild(string comId);
+	}
 	public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver, IComponent
 	{
 
@@ -39,9 +49,10 @@ namespace UI.FGUI
 		private const string cooldowncardAssets = "fakeHandcard";
 		#endregion
 
+#if __CHEAT__
 		private GButton cardListCall;
 		private GButton apCall;
-
+#endif
 		private void Awake()
 		{
 			GRoot.inst.SetContentScaleFactor(1920, 1080);
@@ -70,15 +81,16 @@ namespace UI.FGUI
 			effect = _cardDescibeFrame.GetChild("effect").asTextField;
 			value = _cardDescibeFrame.GetChild("values").asTextField;
 
+#if __HAS_EXSKILL_
 			cardListCall = _mainUI.GetChild("n38").asButton;
 			cardListCall.onClick.Add(() =>
 			{
 				GetChild("cardListComponent").Operation();
 			});
-
 			apCall = _mainUI.GetChild("n40").asButton;
 			apCall.onClick.Add(() => { Player.Instance().AddAp(99); });
-			
+#endif
+
 			cardDescribeWindow.SetXY(1900f - cardDescribeWindow._width, 20);
 		
 			// 从游戏主场景获得各按钮的引用
@@ -103,13 +115,22 @@ namespace UI.FGUI
 			Add(new APDisplayerComponent(_mainUI.GetChild("APDisplayer").asCom));
 			// 添加回合信息展示组件
 			Add(new RoundInfoComponent(_mainUI.GetChild("roundText").asTextField));
+
+#if  __CHEAT__
 			
+
 			Add(new TEST_ONLY_winBattle(_mainUI.GetChild("n41").asButton));
 
 			Add(new TEST_ONLY_cardListComponent(pkgName, "cardListFrame"));
 			
 			Add(new TEST_ONLY_unitListComponent(pkgName, "unitListFrame", _mainUI.GetChild("unitListButton").asButton));
+#else
 			
+			_mainUI.GetChild("n41").asButton.Dispose();
+			_mainUI.GetChild("unitListButton").asButton.Dispose();
+			_mainUI.GetChild("n38").asButton.Dispose();
+			_mainUI.GetChild("n40").asButton.Dispose();
+#endif
 
 			List<GComponent> list = new List<GComponent>();
 			list.Add(_mainUI.GetChild("roundEventButton1").asCom);
