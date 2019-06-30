@@ -3,10 +3,6 @@
 		"akpb5t6g",
 		"/"
 	],
-	"active_doc": [
-		"akpb5t6g",
-		"lrtg22"
-	],
 	"docs": [
 		"jn70pguy",
 		"nsn80",
@@ -75,5 +71,9 @@
 		"akpb5t6g",
 		"lrtg22"
 	],
-	"hidden_packages": []
+	"hidden_packages": [],
+	"active_doc": [
+		"akpb5t6g",
+		"lv6g1r"
+	]
 }

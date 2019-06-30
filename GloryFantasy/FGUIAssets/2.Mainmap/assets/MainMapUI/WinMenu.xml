@@ -3,7 +3,7 @@
   <displayList>
     <image id="n2_lv6g" name="n2" src="lv6g16" fileName="Win.png" xy="56,22"/>
     <component id="n3_lv6g" name="continueButton" src="lv6g1p" fileName="ContinueButton.xml" xy="480,718"/>
-    <list id="n12_p62p" name="n12" xy="178,253" size="858,379" layout="row" colGap="52" defaultItem="ui://akpb5t6gsdan1y">
+    <list id="n12_p62p" name="victorylist" xy="183,256" size="858,379" layout="row" colGap="52" defaultItem="ui://akpb5t6gsdan1y">
       <item/>
       <item/>
       <item/>

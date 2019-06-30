@@ -6,6 +6,7 @@ using PlayerCollection;
 using GameGUI;
 using UnityEngine.UI;
 using System.Linq;
+using StoryDialog;
 
 //2019.6.25版
 namespace MainMap
@@ -23,7 +24,8 @@ namespace MainMap
     }
     public class Charactor : UnitySingleton<Charactor>
     {
-
+        private static bool firsthalf = true;
+        private static bool firstless = true;
         public Vector3 locate;
         /// <summary>开放给策划用于在Unity的Inspector里直接调整数值，代码内需要修改角色信息请修改CharacorData.
         /// 
@@ -116,6 +118,7 @@ namespace MainMap
             setaround(charactordata.underfeet);
             MainMapUI.Instance().UpdateGold(0);
             MainMapUI.Instance().UpDateSlider(0);
+            CardCollection.Instance().CardCollectBeZero();
             Debug.Log("角色初始化完成");
         }
         /// <summary>游戏运行开始时初始化battlemapdata
@@ -223,10 +226,21 @@ namespace MainMap
                 else if (charactordata.step >= iconlessstep)
                 {
                     MainMapUI.Instance().UpDateSlider(1);
+                    if(firsthalf)
+                    {
+                        firsthalf = !firsthalf;
+                        DialogManager.Instance().RequestDialog(this, "test");
+                    }
                 }
                 else
                 {
                     MainMapUI.Instance().UpDateSlider(2);
+                    if(firstless)
+                    {
+                        firstless = !firstless;
+                        DialogManager.Instance().RequestDialog(this, "test");
+
+                    }
                 }
                 if (charactordata.step < 0)
                 {
@@ -247,9 +261,14 @@ namespace MainMap
         /// </summary>
         public void HasDead()
         {
+            DialogManager.Instance().RequestDialog(this, "daysgone");
+            Debug.Log("角色死亡");
 
-            Debug.Log("步数为负，角色累死了，返回起点");
+        }
+        public void ProcessDead()
+        {
             CharactorInitalize();
+            CardCollection.Instance().CardCollectBeZero();
             Monster.UpDateAllMonsters(1);
         }
         public void Onclick()

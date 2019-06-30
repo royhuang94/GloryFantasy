@@ -25,7 +25,7 @@ namespace PlayerCollection
         /// 角色的卡牌收藏
         /// </summary>
         public static List<string> mycollection = new List<string>();
-       public Deck deck = new Deck(mycollection, "HElf_1");
+        public Deck deck = new Deck(mycollection, "HElf_1");
         /// <summary>
         /// 英雄单位的战技牌，规则为英雄字符串-卡牌字符串
         /// </summary>
@@ -34,10 +34,12 @@ namespace PlayerCollection
         /// 
         /// </summary>
         public string choosecardID;
-        /// <summary>
-        /// 图书馆展示的最大卡牌张数
-        /// </summary>
-        private static int librarylength = 3;
+        #region 弃用的变量
+        ///// <summary>
+        ///// 图书馆展示的最大卡牌张数
+        ///// </summary>
+        //private static int librarylength = 3;
+        #endregion
         public int choosecardindex;
         #endregion
         private void Awake()
@@ -81,6 +83,7 @@ namespace PlayerCollection
                 newID = choosecardID;
             }
             mycollection.Add(newID);
+            deck.FreshDeck(mycollection);
             Debug.Log("购买成功！");
             Debug.Log(choosecardID);
             Debug.Log(newID);
@@ -88,17 +91,19 @@ namespace PlayerCollection
             library.librarylist.Remove(choosecardID);
             return true;
         }
-        /// <summary>获取三张卡牌信息,并写入librarylist;
-        /// 
-        /// </summary>
-        public void GetCards(Library library)
-        {
-            int dataAmount = cardsJsonData.Count;
-            for(int i=0; i<librarylength;i++)
-            {
-                library.librarylist.Add(GetCardID(Random.Range(0, dataAmount)));
-            }
-        }
+# region 弃用的获取卡牌代码
+        ///// <summary>获取三张卡牌信息,并写入librarylist;
+        ///// 
+        ///// </summary>
+        //public void GetCards(Library library)
+        //{
+        //    int dataAmount = cardsJsonData.Count;
+        //    for(int i=0; i<librarylength;i++)
+        //    {
+        //        library.librarylist.Add(GetCardID(Random.Range(0, dataAmount)));
+        //    }
+        //}
+#endregion
         /// <summary>
         /// 根据传入的jsoncount得到卡牌id
         /// </summary>
@@ -106,9 +111,14 @@ namespace PlayerCollection
         /// <returns></returns>
         private string GetCardID(int num)
         {
-            //return cardsJsonData[num]["ID"].ToString().Split('_').First();
             return cardsJsonData[num]["ID"].ToString();
 
+        }
+        public void CardCollectBeZero()
+        {
+            mycollection.Clear();
+            mycollection.Add("HElf_1");
+            deck.FreshDeck(mycollection);
         }
     }
 }

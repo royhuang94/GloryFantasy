@@ -6,7 +6,7 @@ using FairyGUI;
 using GameCard;
 using UnityEngine.Serialization;
 using MainMap;
-
+using GameGUI;
 namespace StoryDialog
 {
 	public struct DialogMessage
@@ -95,6 +95,7 @@ namespace StoryDialog
 				_dialogWindowRight.Hide();
 				_dialogWindowLeft.Hide();
                 DialogOver(vistor, check);
+                BeZero();
 			}
 		}
         public bool RequestDialog(object o, string check)
@@ -103,29 +104,31 @@ namespace StoryDialog
             {
                 vistor = o;
                 this.check = check;
-                if (o is MainMapManager)
-                {
-                    ShowDialog(check);
-                    return true;
-                }
-                else if (o is Library)
-                {
-                    ShowDialog(check);
-                    return true;
-                }
-                else if (o is Monster)
-                {
-                    ShowDialog(check);
-                    return true;
-                }
-                else if (o is Charactor)
-                {
-                    return true;
-                }
-                else
-                {
-                    Debug.Log("无类型");
-                }
+                //if (o is MainMapManager)
+                //{
+                //    ShowDialog(check);
+                //    return true;
+                //}
+                //else if (o is Library)
+                //{
+                //    ShowDialog(check);
+                //    return true;
+                //}
+                //else if (o is Monster)
+                //{
+                //    ShowDialog(check);
+                //    return true;
+                //}
+                //else if (o is Charactor)
+                //{
+                //    ShowDialog(check);
+                //    return true;
+                //}
+                //else
+                //{
+                //    Debug.Log("无类型");
+                //}
+                ShowDialog(check);
             }
 
             return false;
@@ -137,7 +140,7 @@ namespace StoryDialog
                 if (o is MainMapManager)
                 {
                     MainMapManager master = (MainMapManager)o;
-                    BeZero();
+                    //BeZero();
                     return true;
                 }
                 else if (o is Monster)
@@ -145,15 +148,32 @@ namespace StoryDialog
                     Monster master = (Monster)o;
                     master.InToBattle();
                     Debug.Log("TryIntoBattle");
-                    BeZero();
+                    //BeZero();
                     return true;
                 }
                 else if (o is Charactor)
                 {
-                    BeZero();
+                    Charactor charactor = (Charactor)o;
+                    switch(check)
+                    {
+                        case "daysgone":
+                            charactor.ProcessDead();
+                            //BeZero();
+                            break;
+                        case "test":
+                            //BeZero();
+                            break;
+                        default:
+                            break;
+                    }
+
                     return true;
                 }
-                BeZero();
+                else if (o is MainMapUI)
+                {
+                    MainMapUI mainMapUI = (MainMapUI)o;
+                    return true;
+                }
             }
 
             return false;

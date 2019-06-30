@@ -63,6 +63,7 @@ namespace GameGUI
  //       private GList cardlist;
         private GList onsalelist;
         private GList transferlist;
+        private GList cardlist;
         private GTextField nametext;
         private GTextField typetext;
         private GTextField tagtext;
@@ -74,6 +75,7 @@ namespace GameGUI
         private GLoader picloader;
         #endregion
         private Library choosenlibrary;
+        List<string> cards;
         //URL
         private const string cardicons = "card628";
         private const string MapPackage = "MainMapUI";
@@ -87,6 +89,8 @@ namespace GameGUI
         private GProgressBar _blueSlider;
         private GProgressBar _yellowSlider;
         private GProgressBar _redSlider;
+        private string choosedcardid;
+        private int choosencardindex;
         /// <summary>初始化
         /// 
         /// </summary>
@@ -416,26 +420,53 @@ namespace GameGUI
         /// <param name="encounterID">遭遇ID</param>
         public void ShowVictory(string encounterID)
         {
-            Debug.Log("click first clue -- show victory");
-            _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
-            _winWindow.Show();
-        }
-        public void LoadVictory()
-        {
-            List<string> cards = CardManager.Instance().GetRandomCards(3);
-            List<GButton> gButtons = new List<GButton>();
-            for(int i=0;i<3;i++)
+            if(Monster.IsBoss(encounterID))
             {
-                GButton card = win_UI.GetChild("card" + i.ToString()).asButton;
-                card.icon = UIPackage.GetItemURL(cardicons, cards[i].Split('_').First());
-                gButtons.Add(card);
-                card.onClick.Add(GetWinCard);
+                DialogManager.Instance().RequestDialog(this, "test");
+                switch(encounterID.Split('_').First())
+                {
+                    case "":
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                Debug.Log("click first clue -- show victory");
+                _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
+                _winWindow.Show();
+                GButton continueButton = win_UI.GetChild("continueButton").asButton;
+                continueButton.onClick.Add(GetWinCard);
             }
 
         }
-        public void GetWinCard()
+        private void GetWinCard()
         {
+            if(choosedcardid!=null)
+            {
+                CardCollection.mycollection.Add(choosedcardid);
+            }
+        }
+        public void LoadVictory()
+        {
+            cards = CardManager.Instance().GetRandomCards(3);
+            cardlist = win_UI.GetChild("victorylist").asList;
+            cardlist.RemoveChildren();
+            foreach(string card in cards)
+            {
+                GObject item = UIPackage.CreateObject("MainMapUI", "CardSelected");
+                item.icon = UIPackage.GetItemURL(cardicons, card.Split('_').First());
+                cardlist.AddChild(item);
+            }
+            cardlist.onClickItem.Add(ChooseWinCard);
 
+
+        }
+        public void ChooseWinCard(EventContext context)
+        {
+            choosencardindex = cardlist.GetChildIndex(context.data as GObject);
+            choosedcardid = cards[choosencardindex];
         }
         
         /// <summary>
@@ -455,6 +486,7 @@ namespace GameGUI
         private void CloseLoseWindow()
         {
             lose_UI.Hide();
+            Charactor.Instance().HasDead();
         }
         
         public void ShowDialog()
