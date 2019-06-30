@@ -67,6 +67,7 @@ namespace MainMap
         public TextAsset textAsset;
         public AnimationClip gridclip;
         public AnimationClip stop;
+        public AudioSource Source ;
         #region 全部地格材质
 		public Sprite postsprite;
         public Sprite mountainsprite;
@@ -273,7 +274,8 @@ namespace MainMap
             Charactor.Instance().aroundlist.Add("1,-1", null);
             Charactor.Instance().CharactorInitalize();
             Charactor.Instance().InitalizeBattleMapData();
-            //对话可用DialogManager.Instance().RequestDialog(this, "test");
+            DialogManager.Instance().RequestDialog(this, "intomainmap");
+            Source.Play();
         }
 
     }
@@ -445,7 +447,7 @@ namespace MainMap
             if(isfirst)
             {
                 isfirst = false;
-                DialogManager.Instance().RequestDialog(this, "test");
+                DialogManager.Instance().RequestDialog(this, "intoshop");
             }
         }
         /// <summary>传送的具体实现

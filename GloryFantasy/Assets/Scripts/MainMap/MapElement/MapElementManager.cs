@@ -117,7 +117,22 @@ namespace MainMap
         {
             if(IsBoss(encounterid))
             {
-                DialogManager.Instance().RequestDialog(this, "test");
+                switch(encounterid.Split('_').First())
+                {
+                    case "Devil":
+                        DialogManager.Instance().RequestDialog(this, "fianl");
+                        break;
+                    case "sandworm":
+                        DialogManager.Instance().RequestDialog(this, "beforesandworm");
+                        break;
+                    case "chomper":
+                        DialogManager.Instance().RequestDialog(this, "beforechomper");
+                        break;
+                    default:
+                        break;
+
+
+                }
             }
             else
             {
@@ -136,6 +151,7 @@ namespace MainMap
         }
         public void InToBattle()
         {
+            MainMapManager.Instance().Source.Stop();
             SceneSwitchController.Instance().SetData(encounterid, null);
             SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
             SceneSwitchController.Instance().GetDeckFormMainMapK(CardCollection.Instance().deck);

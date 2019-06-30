@@ -229,7 +229,7 @@ namespace MainMap
                     if(firsthalf)
                     {
                         firsthalf = !firsthalf;
-                        DialogManager.Instance().RequestDialog(this, "test");
+                        DialogManager.Instance().RequestDialog(this, "pastonethrid");
                     }
                 }
                 else
@@ -238,7 +238,7 @@ namespace MainMap
                     if(firstless)
                     {
                         firstless = !firstless;
-                        DialogManager.Instance().RequestDialog(this, "test");
+                        DialogManager.Instance().RequestDialog(this, "pasttwothrid");
 
                     }
                 }

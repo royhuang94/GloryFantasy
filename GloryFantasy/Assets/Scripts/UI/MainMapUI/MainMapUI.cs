@@ -63,7 +63,7 @@ namespace GameGUI
  //       private GList cardlist;
         private GList onsalelist;
         private GList transferlist;
-        private GList cardlist;
+
         private GTextField nametext;
         private GTextField typetext;
         private GTextField tagtext;
@@ -75,7 +75,7 @@ namespace GameGUI
         private GLoader picloader;
         #endregion
         private Library choosenlibrary;
-        List<string> cards;
+
         //URL
         private const string cardicons = "card628";
         private const string MapPackage = "MainMapUI";
@@ -89,8 +89,7 @@ namespace GameGUI
         private GProgressBar _blueSlider;
         private GProgressBar _yellowSlider;
         private GProgressBar _redSlider;
-        private string choosedcardid;
-        private int choosencardindex;
+
         /// <summary>初始化
         /// 
         /// </summary>
@@ -99,7 +98,6 @@ namespace GameGUI
             GRoot.inst.SetContentScaleFactor(1920, 1080);
             UIPackage.AddPackage(MainMapUIPackage);
             UIPackage.AddPackage(CardCollectionPackage);
-            UIPackage.AddPackage(CardIconPackage);
             UIPackage.AddPackage(LibraryPackage);
             mainmapUI = UIPackage.CreateObject("MainMapUI", "MainUI").asCom;
             GRoot.inst.AddChild(mainmapUI);
@@ -420,13 +418,25 @@ namespace GameGUI
         /// <param name="encounterID">遭遇ID</param>
         public void ShowVictory(string encounterID)
         {
-            if(Monster.IsBoss(encounterID))
+            MainMapManager.Instance().Source.Play();
+            if (Monster.IsBoss(encounterID))
             {
                 DialogManager.Instance().RequestDialog(this, "test");
                 switch(encounterID.Split('_').First())
                 {
-                    case "":
+                    case "sandworm":
+                        CardCollection.mycollection.Add("HKnight");
+                        DialogManager.Instance().RequestDialog(this, "aftersandworm");
                         break;
+                    case "chomper":
+                        CardCollection.mycollection.Add("HLunamage");
+                        DialogManager.Instance().RequestDialog(this, "afterchomper");
+                        break;
+                    case "Devil":
+                        DialogManager.Instance().RequestDialog(this, "finalwin");
+                        break;
+
+
                     default:
                         break;
                 }
@@ -436,38 +446,12 @@ namespace GameGUI
                 Debug.Log("click first clue -- show victory");
                 _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
                 _winWindow.Show();
-                GButton continueButton = win_UI.GetChild("continueButton").asButton;
-                continueButton.onClick.Add(GetWinCard);
             }
 
         }
-        private void GetWinCard()
-        {
-            if(choosedcardid!=null)
-            {
-                CardCollection.mycollection.Add(choosedcardid);
-            }
-        }
-        public void LoadVictory()
-        {
-            cards = CardManager.Instance().GetRandomCards(3);
-            cardlist = win_UI.GetChild("victorylist").asList;
-            cardlist.RemoveChildren();
-            foreach(string card in cards)
-            {
-                GObject item = UIPackage.CreateObject("MainMapUI", "CardSelected");
-                item.icon = UIPackage.GetItemURL(cardicons, card.Split('_').First());
-                cardlist.AddChild(item);
-            }
-            cardlist.onClickItem.Add(ChooseWinCard);
 
 
-        }
-        public void ChooseWinCard(EventContext context)
-        {
-            choosencardindex = cardlist.GetChildIndex(context.data as GObject);
-            choosedcardid = cards[choosencardindex];
-        }
+
         
         /// <summary>
         /// 展示失败界面
@@ -475,6 +459,7 @@ namespace GameGUI
         /// <param name="encounterID">遭遇ID</param>
         public void ShowDefeat(string encounterID)
         {
+            MainMapManager.Instance().Source.Play();
             Debug.Log("click second clue -- show defeat");
             lose_UI.modal = true;
             UIConfig.modalLayerColor = Color.gray;
