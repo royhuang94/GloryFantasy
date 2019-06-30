@@ -437,7 +437,12 @@ namespace GameGUI
         {
 
         }
-        public void ShowDefeat()
+        
+        /// <summary>
+        /// 展示失败界面
+        /// </summary>
+        /// <param name="encounterID">遭遇ID</param>
+        public void ShowDefeat(string encounterID)
         {
             Debug.Log("click second clue -- show defeat");
             lose_UI.modal = true;

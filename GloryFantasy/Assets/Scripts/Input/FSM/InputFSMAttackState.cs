@@ -33,6 +33,8 @@ namespace GamePlay.FSM
                 unitAtk.Excute();
                 Attacker.canNotAttack = true; //单位横置不能攻击
                 Attacker.canNotMove = true;
+                // 攻击完单位变灰，静止状态
+                UnitManager.ColorUnitOnBlock(Attacker.mapBlockBelow.position, new Color(186 / 255f, 186 / 255f, 186 / 255f, 1f));
 
                 FSM.PushState(new InputFSMIdleState(FSM)); //状态机压入静止状态
             }

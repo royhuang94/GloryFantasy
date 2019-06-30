@@ -182,7 +182,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		if(_win)
 			MainMapUI.Instance().ShowVictory(_encounterID);				// 胜利展示胜利界面
 		else
-			MainMapUI.Instance().ShowDefeat();				// 失败展示失败界面
+			MainMapUI.Instance().ShowDefeat(_encounterID);				// 失败展示失败界面
 	}
 
 	
