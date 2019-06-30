@@ -185,7 +185,7 @@ namespace StoryDialog
                 vistor = null;
                 check = null;
             }
-            Debug.Log("Bezero");
+            //Debug.Log("Bezero");
         }
 		/// <summary>
 		/// 更新窗口，把当前窗口的图片和头像设为可见，上一个窗口设为不可见

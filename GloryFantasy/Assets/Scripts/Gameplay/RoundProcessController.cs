@@ -180,6 +180,7 @@ namespace GamePlay.Round
             _roundCounter += 1;
             // 发送更新资源点消息
             MsgDispatcher.SendMsg((int)MessageType.UpdateSource);
+            Debug.Log("恢复专注值阶段");
         }
 
         public override string ToString()
@@ -208,7 +209,7 @@ namespace GamePlay.Round
             roundProcessController.State = ExtractCardsPhase;
             //roundProcessController.roundInput = RoundInput.ExtractCardsPhase;
             roundProcessController.action(RoundInput.ExtractCardsPhase, 1.0f);
-            roundProcessController.State.Enter(roundProcessController);
+            //roundProcessController.State.Enter(roundProcessController);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
@@ -225,6 +226,7 @@ namespace GamePlay.Round
             Gameplay.Instance().eventScroll.CreateNewEventAssembly();
             Gameplay.Instance().eventScroll.ProcessFirstEventModule();
             MsgDispatcher.SendMsg((int)MessageType.BP);
+            Debug.Log("开始阶段");
         }
         public override string ToString()
         {
@@ -250,6 +252,7 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.DrawCard);
+            Debug.Log("抽牌阶段");
         }
 
         public override string ToString()
@@ -269,14 +272,14 @@ namespace GamePlay.Round
             roundProcessController.State = RoundState.mainPhase;
             //roundProcessController.roundInput = RoundInput.MainPhase;
             roundProcessController.action(RoundInput.MainPhase, 1.0f);
-            roundProcessController.State.Enter(roundProcessController);
+            //roundProcessController.State.Enter(roundProcessController);
         }
 
         public override void Enter(RoundProcessController roundProcessController)
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.Prepare);
-
+            Debug.Log("准备阶段");
             foreach (GameUnit.GameUnit unit in BattleMap.BattleMap.Instance().UnitsList)
             {
                 if (unit.owner == GameUnit.OwnerEnum.Player)
@@ -315,6 +318,7 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.MPBegin);
+            Debug.Log("进入状态时发送主要阶段开始消息");
         }
 
         /// <summary>
@@ -351,6 +355,7 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.Discard);
+            Debug.Log("弃牌阶段");
         }
 
         public override string ToString()
@@ -378,6 +383,7 @@ namespace GamePlay.Round
             base.Enter(roundProcessController);
             Gameplay.Instance().buffManager.SubtractBuffLife();
             MsgDispatcher.SendMsg((int)MessageType.EP);
+            Debug.Log("结束阶段");
         }
 
         public override string ToString()
@@ -400,6 +406,7 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.AI);
+            Debug.Log("AI阶段");
 
             Gameplay.Instance().singleBattle.battleState = AI.BattleState.Prepare;
             Gameplay.Instance().singleBattle.Run();
