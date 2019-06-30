@@ -38,6 +38,8 @@ public class DialogWindow : Window
 
 	protected override void OnInit()
 	{
+		if(_canUpdate)
+			return;
 		this.modal = true;
 		UIConfig.modalLayerColor = _bgColor;
 		this.contentPane = UIPackage.CreateObject(_pkgName, _resName).asCom;
@@ -58,6 +60,8 @@ public class DialogWindow : Window
 
 	public void SetDialogMessage(DialogMessage dialogMessage)
 	{
+		if(!_canUpdate)
+			OnInit();
 		_dialogNameText = dialogMessage.name;
 		_dialogTextText= dialogMessage.text;
 		_dialogPicPath = dialogMessage.pic;
@@ -66,6 +70,7 @@ public class DialogWindow : Window
 			_dialogName.text = _dialogNameText;
 			_dialogText.text = _dialogTextText;
 			// 设置对话人物图片
+			Debug.Log("pic path: " + _dialogPicPath);
 			_picLoader.icon = UIPackage.GetItemURL("MainMapUI", _dialogPicPath);
 		}
 	}
