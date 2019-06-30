@@ -124,7 +124,7 @@ namespace GameCard
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
                 (int) MessageType.Dead,
-                () => { return this.GetDead().abilities.Contains("QuickPlat"); },
+                () => { return this.GetDead().abilities.Contains("QuickPlat") || _unitIDWithQuickPlat.Contains(this.GetDead().id); },
                 () => { BattleMap.BattleMap.Instance()._quickplat.Add(this.GetDead().id); },
                 "QuickPlat trigger");
 #if __HAS_EXSKILL_
@@ -520,6 +520,7 @@ namespace GameCard
             _latestDeadUnit = this.GetDead();
             // 若包含即时战备字段，则不处理
             if (_latestDeadUnit.abilities.Contains("QuickPlat")) return false;
+            if (_unitIDWithQuickPlat.Contains(_latestDeadUnit.id)) return false;
             return _latestDeadUnit.owner == OwnerEnum.Player && _latestDeadUnit.HasCD;
         }
 
@@ -538,8 +539,8 @@ namespace GameCard
                 _cardOnMap.Remove(cardId);
             else
             {    
-                // 与现有记录不同步，抛出异常
-                throw new NotImplementedException();
+                // 与现有记录不同步，抛出异常, 
+                //throw new NotImplementedException();
             }
 
             // 调用接口进行冷却, 并调用方法计算冷却回合数
