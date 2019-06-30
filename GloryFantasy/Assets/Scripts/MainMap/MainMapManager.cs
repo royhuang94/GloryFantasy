@@ -418,8 +418,8 @@ namespace MainMap
          //   Debug.Log("图书馆初始化");
             MapUnitInstalize();
            // CardCollection.Instance().GetCards(this);
-            librarylist = CardManager.Instance().GetRandomCards(3);
-            //test
+           librarylist = CardCollection.Instance().GetRandomCards(3); //CardManager.Instance().GetRandomCards(3);
+           //test
         }
         /// <summary>点击图书馆格子后触发的事件
         /// 

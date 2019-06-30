@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="655,880">
+  <controller name="style" exported="true" pages="0,,2,,3," selected="0"/>
+  <controller name="side" exported="true" pages="0,left,1,right,2,first,3,last" selected="0"/>
+  <displayList>
+    <image id="n18_jva6" name="n18" src="efif3" fileName="纸.jpg" xy="0,0" size="655,880"/>
+    <list id="n40_89ru" name="cardList" xy="45,52" size="581,767" layout="flow_hz" overflow="hidden" lineGap="87" colGap="95" defaultItem="ui://y7kogi4uefif8">
+      <gearDisplay controller="style" pages="0"/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+    <loader id="n41_89ru" name="cardPic" xy="60,46" size="544,738" url="ui://y7kogi4uefifb" fill="scale">
+      <gearDisplay controller="style" pages="2"/>
+    </loader>
+    <image id="n44_89ru" name="Icon" src="efifc" fileName="Color.png" xy="235,678" size="172,171">
+      <gearDisplay controller="style" pages="2"/>
+    </image>
+    <component id="n45_89ru" name="upgradeButton" src="efifd" fileName="Upgrade.xml" xy="52,756" size="92,44">
+      <gearDisplay controller="style" pages="2"/>
+    </component>
+    <component id="n46_89ru" name="evolveButton" src="efifh" fileName="Evolve.xml" xy="489,762" size="91,43">
+      <gearDisplay controller="style" pages="2"/>
+    </component>
+    <text id="n47_89ru" name="name" xy="85,107" size="110,48" fontSize="56" color="#8f6353" vAlign="middle" leading="0" autoSize="none" bold="true" text="琳">
+      <gearDisplay controller="style" pages="2"/>
+    </text>
+    <text id="n48_89ru" name="type" xy="85,165" size="107,33" fontSize="30" color="#8f6353" vAlign="middle" leading="0" autoSize="none" text="Unit">
+      <gearDisplay controller="style" pages="2"/>
+    </text>
+    <text id="n49_89ru" name="tag" xy="195,166" size="157,32" fontSize="30" color="#8f6353" vAlign="middle" autoSize="none" text="叶族 / 弓手">
+      <gearDisplay controller="style" pages="2"/>
+    </text>
+    <text id="n50_89ru" name="effect" xy="86,376" size="269,62" fontSize="12" autoSize="none" text="">
+      <gearDisplay controller="style" pages="2"/>
+    </text>
+    <text id="n53_89ru" name="n53" xy="156,690" size="336,58" fontSize="12" autoSize="none" text="">
+      <gearDisplay controller="style" pages="2"/>
+    </text>
+    <text id="n24_jva6" name="pn" xy="30,850" size="22,18" fontSize="14" align="center" autoSize="none" text="0">
+      <gearXY controller="side" pages="0,1,2,3" values="30,850|615,850|409,559|0,559"/>
+    </text>
+    <image id="n54_89ru" name="skillPic" src="efifk" fileName="Skill.png" xy="549,362" size="52,169">
+      <gearDisplay controller="style" pages="2"/>
+    </image>
+    <image id="n42_89ru" name="backPic" src="efifl" fileName="Attribute_nocontent.png" xy="155,631" size="341,118">
+      <gearDisplay controller="style" pages="2"/>
+    </image>
+    <image id="n43_89ru" name="backPic2" src="efifm" fileName="Attribute_effect_nocontent.png" xy="157,689" size="334,60">
+      <gearDisplay controller="style" pages="2"/>
+    </image>
+    <text id="n51_89ru" name="describe" xy="86,205" size="268,163" fontSize="20" color="#8f6353" autoSize="none" bold="true" text="异能： 及时备战/迅捷&#xA;&#xA;以森林为家，喜爱自然，情感细腻，声音旋律优美，是天生的诗人和舞蹈家。学识广博，对魔法有高的天赋。">
+      <gearDisplay controller="style" pages="2"/>
+    </text>
+    <text id="n52_89ru" name="property" xy="154,633" size="340,115" fontSize="23" color="#8f6353" align="center" vAlign="middle" autoSize="none" bold="true" text="生命力： 12    攻击力：   4&#xA;攻击范围：3    冷却时间：3&#xA;移动范围：2    移动次数：1&#xA;专注力消耗：3  伤害优先级">
+      <gearDisplay controller="style" pages="2"/>
+    </text>
+    <image id="n17_jva6" name="n17" src="efifn" fileName="右.png" xy="0,0" size="44,880" locked="true" alpha="0.8" flip="hz">
+      <gearDisplay controller="side" pages="1,2"/>
+    </image>
+    <image id="n16_jva6" name="n16" src="efifo" fileName="左.png" xy="612,0" size="44,880" locked="true" alpha="0.8">
+      <gearDisplay controller="side" pages="0,3"/>
+    </image>
+    <component id="n55_hjcd" name="closeButton" src="efifq" fileName="Button4.xml" xy="596,0" size="55,63">
+      <gearDisplay controller="style" pages="2"/>
+    </component>
+  </displayList>
+</component>

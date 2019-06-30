@@ -20,8 +20,22 @@ namespace PlayerCollection
     {
         #region 一堆变量和引用
         TextAsset json;
-        JsonData cardsJsonData;
+        /// <summary>
+        /// 存储所有的卡牌Json数据
+        /// </summary>
+        private JsonData _cardsJsonData;
+        /// <summary>
+        /// 存储所有的单位Json数据
+        /// </summary>
+        private JsonData _unitsJsonData;
+        /// <summary>
+        /// 存有从卡牌ID到对应数据的字典
+        /// </summary>
         private Dictionary<string, JsonData> _cardData;
+        /// <summary>
+        /// 存有从单位ID到对应数据的字典
+        /// </summary>
+        private Dictionary<string, JsonData> _unitData;
         /// <summary>
         /// 角色的卡牌收藏
         /// </summary>
@@ -45,13 +59,61 @@ namespace PlayerCollection
         #endregion
         private void Awake()
         {
+            // 获取卡牌库和单位库数据
             json = Resources.Load<TextAsset>("DatabaseJsonFiles/CardDatabase");
-            cardsJsonData = JsonMapper.ToObject(json.text);
+            _cardsJsonData = JsonMapper.ToObject(json.text);
+            json = Resources.Load<TextAsset>("DatabaseJsonFiles/UnitDatabase");
+            _unitsJsonData = JsonMapper.ToObject(json.text);
+            
+            // 初始化卡牌库及单位库数据
             _cardData = new Dictionary<string, JsonData>();
-            for (int i = 0; i < cardsJsonData.Count; i++)
+            for (int i = 0; i < _cardsJsonData.Count; i++)
             {
-                _cardData.Add(cardsJsonData[i]["ID"].ToString(), cardsJsonData[i]);
+                _cardData.Add(_cardsJsonData[i]["ID"].ToString(), _cardsJsonData[i]);
             }
+
+            _unitData = new Dictionary<string, JsonData>();
+            for (int i = 0; i < _unitsJsonData.Count; i++)
+            {
+                _unitData.Add(_unitsJsonData[i]["ID"].ToString(), _unitsJsonData[i]);
+            }
+        }
+        
+        /// <summary>
+        /// 获得随机的指定张数的卡牌
+        /// </summary>
+        /// <param name="controlNum">控制需要的牌的张数，默认为3</param>
+        /// <returns>返回List</returns>
+        public List<string> GetRandomCards(int controlNum = 3)
+        {
+            List<string> randomlyPickedCards = new List<string>();
+
+            int count = 0;
+            do
+            {
+                // 随机生成数
+                int index = Random.Range(0, _cardsJsonData.Count);
+                bool isHeroUnit = false;
+                
+                // 确保不含有英雄字段
+                for (int i = 0; i < _cardsJsonData[index]["tag"].Count; i++)
+                {
+                    if (_cardsJsonData[index]["tag"][i].ToString().Equals("英雄"))
+                    {
+                        isHeroUnit = true;
+                        break;
+                    }
+                }
+                // 如果是蔻蔻这种英雄卡牌，不添加
+                if(isHeroUnit)
+                    continue;
+                
+                // 添加普通卡牌
+                randomlyPickedCards.Add(_cardsJsonData[index]["ID"].ToString());
+                count++;
+            } while (count < controlNum);
+
+            return randomlyPickedCards;
         }
         /// <summary>
         /// 通过卡牌ID向收藏中添加卡牌时调用，添加成功返回true
@@ -117,14 +179,31 @@ namespace PlayerCollection
         /// <returns></returns>
         private string GetCardID(int num)
         {
-            return cardsJsonData[num]["ID"].ToString();
+            return _cardsJsonData[num]["ID"].ToString();
 
         }
 
+        /// <summary>
+        /// 获取指定卡牌ID的卡牌数据，为JsonData格式
+        /// </summary>
+        /// <param name="cardId">想获取详细信息的卡牌ID</param>
+        /// <returns>若无记录，则返回null，否则返回对应的jsonData数据</returns>
         public JsonData GetCardData(string cardId)
         {
             if (_cardData.ContainsKey(cardId))
                 return _cardData[cardId];
+            return null;
+        }
+
+        /// <summary>
+        /// 获取指定id的单位数据，为JsonData格式
+        /// </summary>
+        /// <param name="id">想获取详细信息的单位ID</param>
+        /// <returns>若无记录，则返回NULL，否则返回对应的数据</returns>
+        public JsonData GetUnitData(string id)
+        {
+            if (_unitData.ContainsKey(id))
+                return _unitData[id];
             return null;
         }
         public void CardCollectBeZero()

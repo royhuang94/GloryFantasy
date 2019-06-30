@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1330,900">
+  <displayList>
+    <component id="n2_jva6" name="frontCover" src="efif1" fileName="FrontCover.xml" xy="0,0" controller="side,1"/>
+    <component id="n4_jva6" name="backCover" src="efif5" fileName="BackCover.xml" xy="665,0" controller="side,1"/>
+    <component id="n5_jva6" name="pages" src="efif6" fileName="Pages.xml" xy="10,11" size="1310,880"/>
+    <graph id="n6_jva6" name="hotspot_tl" xy="10,10" size="100,100" group="n10_jva6" type="rect" lineSize="0" fillColor="#00000000"/>
+    <graph id="n7_jva6" name="hotspot_bl" xy="10,790" size="100,100" group="n10_jva6" type="rect" lineSize="0" fillColor="#00000000"/>
+    <graph id="n8_jva6" name="hotspot_tr" xy="1200,10" size="100,100" group="n10_jva6" type="rect" lineSize="0" fillColor="#00000000"/>
+    <graph id="n9_jva6" name="hotspot_br" xy="1200,790" size="100,100" group="n10_jva6" type="rect" lineSize="0" fillColor="#00000000"/>
+    <group id="n10_jva6" name="n10" xy="10,10" size="1290,880" locked="true"/>
+  </displayList>
+</component>

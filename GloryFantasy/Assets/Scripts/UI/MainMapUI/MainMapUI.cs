@@ -29,6 +29,8 @@ namespace GameGUI
         private string CardCollectionPackage = "MainMapFairyGUIPackage/CardCollection";
         private string CardIconPackage = "BattleMapFGUIPkg/card628";
         private string LibraryPackage = "MainMapFairyGUIPackage/Library";
+        private const string path = "MainMapFairyGUIPackage/";
+        private const string cardLibraryPackge = "newCardsLibrary";
         #endregion
         #region 大地图的GCompoment 和window
         private GComponent mainmapUI;
@@ -80,7 +82,8 @@ namespace GameGUI
         private const string cardicons = "card628";
         private const string MapPackage = "MainMapUI";
 
-        private CardCollectWindow _cardCollectWindow;
+        //private CardCollectWindow _cardCollectWindow;
+        private NewCardCollectWindow _cardCollectWindow;
         private WinWindow _winWindow;
         private DialogWindow _dialogWindowLeft;
         private DialogWindow _dialogWindowRight;
@@ -99,6 +102,8 @@ namespace GameGUI
             UIPackage.AddPackage(MainMapUIPackage);
             UIPackage.AddPackage(CardCollectionPackage);
             UIPackage.AddPackage(LibraryPackage);
+            UIPackage.AddPackage(path + cardLibraryPackge);
+            UIPackage.AddPackage(CardIconPackage);
             mainmapUI = UIPackage.CreateObject("MainMapUI", "MainUI").asCom;
             GRoot.inst.AddChild(mainmapUI);
             cardcollectUI = UIPackage.CreateObject("CardCollection", "CardBook").asCom;
@@ -140,14 +145,14 @@ namespace GameGUI
             _tClueBtn.onClick.Add(() => { ShowClueLog(27);});
             
             ccbtn = mainmapUI.GetChild("CardBookButton").asButton;
-            
-            _cardCollectWindow = new CardCollectWindow(CardCollection.mycollection, Color.gray);
+            _cardCollectWindow = new NewCardCollectWindow(ccbtn);
+            //_cardCollectWindow = new CardCollectWindow(CardCollection.mycollection, Color.gray);
             _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
             _dialogWindowLeft = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_left");
             _dialogWindowRight = new DialogWindow(Color.gray, "MainMapUI", "DialogMessage_right");
             _libraryWindow = new LibraryWindow(Color.gray, "Shop", "ShopMain");
             
-            ccbtn.onClick.Add(OpenCardBook);
+            //ccbtn.onClick.Add(OpenCardBook);
  //           cardlist = cardcollectUI.GetChild("cardList").asList;
             onsalelist = libraryUI.GetChild("ShopCardList").asList;
 //            _cardDisplayer = cardcollectUI.GetChild("cardDisplayer").asCom;
@@ -379,11 +384,11 @@ namespace GameGUI
         }
         #endregion
         #region 卡牌书相关代码
-        private void OpenCardBook()
-        {
-            _cardCollectWindow.Show();
-            _cardCollectWindow.UpdateCardBook();
-        }
+//        private void OpenCardBook()
+//        {
+//            _cardCollectWindow.Show();
+//            _cardCollectWindow.UpdateCardBook();
+//        }
         # region 已弃用
         /// <summary>
         /// 响应卡牌书内卡牌点击事件

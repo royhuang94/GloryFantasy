@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1440,900" extention="Label" initName="frame">
+  <controller name="bookPos" pages="0,,1,,2," selected="0"/>
+  <displayList>
+    <component id="n0_h1kb" name="book" src="efif0" fileName="Book.xml" xy="63,2" size="1329,900">
+      <gearXY controller="bookPos" pages="0,1,2" values="63,2|-125,0|173,0" tween="true"/>
+      <relation target="" sidePair="width-width,height-height"/>
+    </component>
+    <component id="n1_h1kb" name="closeButton" src="efifq" fileName="Button4.xml" xy="1379,20" size="55,55">
+      <relation target="" sidePair="right-right"/>
+    </component>
+    <graph id="n2_h1kb" name="dragArea" xy="0,0" size="1375,20">
+      <relation target="" sidePair="width-width"/>
+    </graph>
+    <graph id="n3_h1kb" name="contentArea" xy="0,20" size="1441,883">
+      <relation target="" sidePair="width-width,height-height"/>
+    </graph>
+  </displayList>
+</component>

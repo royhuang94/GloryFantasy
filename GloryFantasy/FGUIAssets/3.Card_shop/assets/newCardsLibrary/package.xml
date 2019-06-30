@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="y7kogi4u" jpegQuality="80" compressPNG="true" hasFavorites="true">
+  <resources>
+    <component id="efif0" name="Book.xml" path="/" exported="true"/>
+    <component id="efif1" name="FrontCover.xml" path="/"/>
+    <image id="efif2" name="封面.jpg" path="/"/>
+    <image id="efif3" name="纸.jpg" path="/"/>
+    <image id="efif4" name="shadow_center.png" path="/"/>
+    <component id="efif5" name="BackCover.xml" path="/"/>
+    <component id="efif6" name="Pages.xml" path="/" exported="true"/>
+    <component id="efif7" name="Page.xml" path="/" exported="true"/>
+    <component id="efif8" name="cardsSetsItem.xml" path="/" exported="true" favorite="true"/>
+    <image id="efif9" name="06A.png" path="/"/>
+    <image id="efifa" name="06B.png" path="/"/>
+    <image id="efifb" name="Character.png" path="/"/>
+    <image id="efifc" name="Color.png" path="/"/>
+    <component id="efifd" name="Upgrade.xml" path="/"/>
+    <image id="efife" name="Upgrade.png" path="/"/>
+    <image id="efiff" name="Upgrade_clicked.png" path="/"/>
+    <image id="efifg" name="Upgrade_pointed.png" path="/"/>
+    <component id="efifh" name="Evolve.xml" path="/"/>
+    <image id="efifi" name="Evolve.png" path="/"/>
+    <image id="efifj" name="Evolve_clicked.png" path="/"/>
+    <image id="efifk" name="Skill.png" path="/"/>
+    <image id="efifl" name="Attribute_nocontent.png" path="/"/>
+    <image id="efifm" name="Attribute_effect_nocontent.png" path="/"/>
+    <image id="efifn" name="右.png" path="/"/>
+    <image id="efifo" name="左.png" path="/"/>
+    <component id="efifp" name="newCardBookFrame.xml" path="/" exported="true"/>
+    <component id="efifq" name="Button4.xml" path="/"/>
+    <image id="efifr" name="03C.png" path="/"/>
+    <image id="efifs" name="03D.png" path="/"/>
+    <component id="efift" name="Button8.xml" path="/"/>
+    <image id="efifu" name="06E.jpg" path="/"/>
+    <image id="efifv" name="11B.png" path="/"/>
+    <image id="efifw" name="11C.png" path="/"/>
+    <image id="efifx" name="06D.png" path="/"/>
+    <image id="efify" name="shadow_soft.png" path="/" exported="true"/>
+    <component id="efifz" name="CardSetItem.xml" path="/"/>
+    <image id="efif10" name="122.png" path="/"/>
+    <image id="efif11" name="CardSide2.png" path="/"/>
+    <component id="efif12" name="cardSetItem2.xml" path="/"/>
+    <image id="efif13" name="empty.png" path="/" exported="true"/>
+  </resources>
+  <publish name="newCardsLibrary"/>
+</packageDescription>

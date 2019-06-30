@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="303,430" extention="Button" designImage="ui://y7kogi4uefifx" designImageLayer="1">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n0_h0zf" name="n0" src="efifu" fileName="06E.jpg" xy="0,0" locked="true" hideByEditor="true" visible="false">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <loader id="n2_h0zf" name="cardPicLoader" xy="19,45" size="267,373" url="ui://y7kogi4uefifv" fill="scaleMatchHeight"/>
+    <text id="n4_ep22" name="abstractText" xy="55,87" size="106,67" font="FZGuLi-S12S" fontSize="14" color="#6f4536" leading="0" letterSpacing="-1" autoSize="none" bold="true" text="信息介绍&#xA;姓名XXXXX&#xA;年龄XXXXX&#xA;XXXXXXXX"/>
+    <text id="n5_ep22" name="storyText" xy="40,321" size="233,98" font="FZGuLi-S12S" fontSize="13" color="#6f4536" leading="2" letterSpacing="-1" autoSize="none" bold="true" text="    一般以森林为家（暗精灵是住在地下），喜爱自然，情感细腻，声音旋律优美，是天生的诗人和舞蹈家；在昏暗的条件下视野也是人的两倍，因此掌握了高超的箭术；学识广博，对魔法有很高的天赋。"/>
+    <loader id="n7_ep22" name="iconLoader" xy="106,3" size="125,47" url="ui://y7kogi4uefifw"/>
+  </displayList>
+  <Button/>
+</component>
