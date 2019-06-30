@@ -71,14 +71,14 @@ namespace GamePlay.Input
             if (_post)
             {
                 //Debug.Log(_battleMapBlock.units_on_me.ToString());
-                this.SetSummonUnit(new List<GameUnit.GameUnit> {this.GetGeneratingUnit()});
+                this.SetSummonUnit(new List<GameUnit.GameUnit> { this.GetGeneratingUnit() });
                 MsgDispatcher.SendMsg((int)MessageType.Summon);
             }
 
             //更新仇恨列表
-            if(_battleMapBlock.units_on_me[0].owner != OwnerEnum.Enemy)
+            if (_battleMapBlock.units_on_me[0].owner != OwnerEnum.Enemy)
                 Gameplay.Instance().autoController.UpdateAllHatredList(null, _battleMapBlock.units_on_me);
-            else 
+            else
                 Gameplay.Instance().autoController.AddAIController(_battleMapBlock.units_on_me[0]);
         }
 
@@ -309,11 +309,20 @@ namespace GamePlay.Input
                 //    DamageRequestList[i].Excute();
                 //    i++;
                 //}
-                while (DamageRequestList.Count > i && !JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG())) i++;
+                //while (DamageRequestList.Count > i)
+                //{
+                if (!JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG()))
+                {
+                    //i--;
+                    continue;
+                }
+                //    i++;
+                //}
+
                 List<GameUnit.GameUnit> attackers = new List<GameUnit.GameUnit> { DamageRequestList[i]._attacker };
                 List<GameUnit.GameUnit> attackedUnits = new List<GameUnit.GameUnit> { DamageRequestList[i]._attackedUnit };
                 List<Damage> damages = new List<Damage> { Damage.GetDamage(DamageRequestList[i]._attacker) };
-                for(; i + 1 < DamageRequestList.Count && (DamageRequestList[i].priority == DamageRequestList[i + 1].priority); i++)
+                for (; i + 1 < DamageRequestList.Count && (DamageRequestList[i].priority == DamageRequestList[i + 1].priority); i++)
                 {
                     if (JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG()))
                     {
