@@ -1,8 +1,4 @@
 {
-	"active_doc": [
-		"rtvmj58m",
-		"mkyt5"
-	],
 	"expanded_nodes": [
 		"rtvmj58m",
 		"/"
@@ -15,11 +11,13 @@
 		"rtvmj58m",
 		"mkyta",
 		"rtvmj58m",
-		"ikswb",
-		"rtvmj58m",
 		"nsfxe",
 		"rtvmj58m",
 		"mkyt5"
 	],
-	"hidden_packages": []
+	"hidden_packages": [],
+	"active_doc": [
+		"rtvmj58m",
+		"mkyt5"
+	]
 }
