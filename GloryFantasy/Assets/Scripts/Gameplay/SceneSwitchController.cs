@@ -180,7 +180,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		SwitchMMapCamera();
 		
 		if(_win)
-			MainMapUI.Instance().ShowVictory();				// 胜利展示胜利界面
+			MainMapUI.Instance().ShowVictory(_encounterID);				// 胜利展示胜利界面
 		else
 			MainMapUI.Instance().ShowDefeat();				// 失败展示失败界面
 	}

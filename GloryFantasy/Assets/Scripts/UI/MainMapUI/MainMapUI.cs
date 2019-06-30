@@ -410,7 +410,11 @@ namespace GameGUI
         #endregion
         #endregion
         
-        public void ShowVictory()
+        /// <summary>
+        /// 展示胜利界面
+        /// </summary>
+        /// <param name="encounterID">遭遇ID</param>
+        public void ShowVictory(string encounterID)
         {
             Debug.Log("click first clue -- show victory");
             _winWindow = new WinWindow(Color.gray, "MainMapUI", "WinMenu");
