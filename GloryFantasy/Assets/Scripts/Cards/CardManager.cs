@@ -28,7 +28,7 @@ namespace GameCard
         private List<cdObject> _cooldownCards;           // 临时存储冷却状态中卡牌
         private List<string> _garbageCards;            //弃牌堆
         private GameUnit.GameUnit _latestDeadUnit;      // 最近死掉的单位
-
+        private List<string> _unitIDWithQuickPlat;
         private bool _loadFromJson = false;
         
         public delegate void Callback();
@@ -426,7 +426,7 @@ namespace GameCard
         /// <summary>
         /// 用于设置卡牌堆内卡牌情况
         /// </summary>
-        public void LoadCardsIntoSets(Deck deck)
+        public void LoadCardsIntoSets(Deck deck, List<string> unitIDWithQuickPlat)
         {
             //// TODO: 根据策划案修改此函数，以下仅用于demo
             //Deck deck = SceneSwitchController.Instance().deck;
@@ -440,6 +440,7 @@ namespace GameCard
                     _cardsSets.Add(string.Copy(cardId));
                 }
             }
+            _unitIDWithQuickPlat = unitIDWithQuickPlat;
             //// 如果传递的牌库是空的，那就没得办法了，直接加全部牌
             //// 别加啊，可能有空牌库的啊。
             //if (_loadFromJson || deck._deck.Count == 0)
