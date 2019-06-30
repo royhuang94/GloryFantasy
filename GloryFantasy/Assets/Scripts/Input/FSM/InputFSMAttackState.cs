@@ -67,7 +67,7 @@ namespace GamePlay.FSM
                 FSM.PushState(new InputFSMIdleState(FSM)); //状态机压入静止状态
             }
             //再次显示攻击范围
-            if (eventData.button == PointerEventData.InputButton.Left && BattleMap.BattleMap.Instance().IsAtkColor == false)
+            else if (eventData.button == PointerEventData.InputButton.Left && BattleMap.BattleMap.Instance().IsAtkColor == false)
             {
                 GameUtility.UtilityHelper.Log("显示攻击范围", GameUtility.LogColor.RED);
                 Vector2 target = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);

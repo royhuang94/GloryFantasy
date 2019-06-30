@@ -78,8 +78,8 @@ public class WinWindow : Window
     }
     public void LoadVictory()
     {
+        //cards.Clear();
         cards = CardManager.Instance().GetRandomCards(3);
-        cards.Clear();
         choosedcardid = null;
         cardlist = contentPane.GetChild("victorylist").asList;
         cardlist.RemoveChildren();
