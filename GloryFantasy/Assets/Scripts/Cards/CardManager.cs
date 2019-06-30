@@ -435,6 +435,8 @@ namespace GameCard
                 // 将deck中所有卡牌加入牌堆中
                 foreach (string cardId in deck._deck)
                 {
+                    if(cardId.Contains("HElf"))
+                        continue;
                     _cardsSets.Add(string.Copy(cardId));
                 }
             }

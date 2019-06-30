@@ -25,7 +25,7 @@ namespace UI.FGUI
 		private GComponent _mainUI;
 		private GButton _endRoundButton;
 		private GButton _cardSetsButton;
-		public bool ShowSpecialKeys = true;
+		public bool ShowSpecialKeys = false;
 		/// <summary>
 		/// 存储所有component的字典
 		/// </summary>
@@ -72,6 +72,10 @@ namespace UI.FGUI
 		
 			// 添加主界面UI到游戏场景
 			GRoot.inst.AddChild(_mainUI);
+			
+			_mainUI.GetChild("n41").asButton.visible = ShowSpecialKeys;
+			_mainUI.GetChild("unitListButton").asButton.visible = ShowSpecialKeys;
+			_mainUI.GetChild("n38").asButton.visible = ShowSpecialKeys;
 
 			// 初始化卡牌内容描述窗口
 			cardDescribeWindow = new Window();
@@ -162,7 +166,7 @@ namespace UI.FGUI
 			_mainUI.GetChild("n41").asButton.visible = ShowSpecialKeys;
 			_mainUI.GetChild("unitListButton").asButton.visible = ShowSpecialKeys;
 			_mainUI.GetChild("n38").asButton.visible = ShowSpecialKeys;
-			_mainUI.GetChild("n40").asButton.visible = ShowSpecialKeys;
+			//_mainUI.GetChild("n40").asButton.visible = ShowSpecialKeys;
 		}
 
 		/// <summary>
