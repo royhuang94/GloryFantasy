@@ -48,10 +48,10 @@
     <image id="yed81z" name="126.png" path="/"/>
     <image id="lrtg21" name="aboutbox.png" path="/"/>
     <component id="lrtg22" name="AboutBox.xml" path="/" exported="true"/>
-    <image id="hbrv23" name="rabit.png" path="/"/>
-    <image id="hbrv25" name="elf.png" path="/"/>
-    <image id="hbrv26" name="knight.png" path="/"/>
-    <image id="mmu027" name="aidi.png" path="/"/>
+    <image id="hbrv23" name="rabit.png" path="/" exported="true"/>
+    <image id="hbrv25" name="elf.png" path="/" exported="true"/>
+    <image id="hbrv26" name="knight.png" path="/" exported="true"/>
+    <image id="mmu027" name="aidi.png" path="/" exported="true"/>
     <component id="uryk28" name="Close.xml" path="/"/>
     <image id="uryk29" name="03C.png" path="/"/>
     <image id="uryk2a" name="03D.png" path="/"/>
