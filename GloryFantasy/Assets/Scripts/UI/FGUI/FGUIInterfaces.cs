@@ -25,7 +25,7 @@ namespace UI.FGUI
 		private GComponent _mainUI;
 		private GButton _endRoundButton;
 		private GButton _cardSetsButton;
-
+		public bool ShowSpecialKeys = true;
 		/// <summary>
 		/// 存储所有component的字典
 		/// </summary>
@@ -49,10 +49,10 @@ namespace UI.FGUI
 		private const string cooldowncardAssets = "fakeHandcard";
 		#endregion
 
-#if __CHEAT__
+//#if __CHEAT__
 		private GButton cardListCall;
 		private GButton apCall;
-#endif
+//#endif
 		private void Awake()
 		{
 			GRoot.inst.SetContentScaleFactor(1920, 1080);
@@ -81,7 +81,7 @@ namespace UI.FGUI
 			effect = _cardDescibeFrame.GetChild("effect").asTextField;
 			value = _cardDescibeFrame.GetChild("values").asTextField;
 
-#if __HAS_EXSKILL_
+//#if __HAS_EXSKILL_
 			cardListCall = _mainUI.GetChild("n38").asButton;
 			cardListCall.onClick.Add(() =>
 			{
@@ -89,7 +89,7 @@ namespace UI.FGUI
 			});
 			apCall = _mainUI.GetChild("n40").asButton;
 			apCall.onClick.Add(() => { Player.Instance().AddAp(99); });
-#endif
+//#endif
 
 			cardDescribeWindow.SetXY(1900f - cardDescribeWindow._width, 20);
 		
@@ -116,7 +116,7 @@ namespace UI.FGUI
 			// 添加回合信息展示组件
 			Add(new RoundInfoComponent(_mainUI.GetChild("roundText").asTextField));
 
-#if  __CHEAT__
+//#if  __CHEAT__
 			
 
 			Add(new TEST_ONLY_winBattle(_mainUI.GetChild("n41").asButton));
@@ -124,13 +124,13 @@ namespace UI.FGUI
 			Add(new TEST_ONLY_cardListComponent(pkgName, "cardListFrame"));
 			
 			Add(new TEST_ONLY_unitListComponent(pkgName, "unitListFrame", _mainUI.GetChild("unitListButton").asButton));
-#else
-			
-			_mainUI.GetChild("n41").asButton.Dispose();
-			_mainUI.GetChild("unitListButton").asButton.Dispose();
-			_mainUI.GetChild("n38").asButton.Dispose();
-			_mainUI.GetChild("n40").asButton.Dispose();
-#endif
+//#else
+//			_mainUI.GetChild("n41").asButton.visible = false;
+//			//_mainUI.GetChild("n41").asButton.Dispose();
+//			_mainUI.GetChild("unitListButton").asButton.Dispose();
+//			_mainUI.GetChild("n38").asButton.Dispose();
+//			_mainUI.GetChild("n40").asButton.Dispose();
+//#endif
 
 			List<GComponent> list = new List<GComponent>();
 			list.Add(_mainUI.GetChild("roundEventButton1").asCom);
@@ -157,6 +157,13 @@ namespace UI.FGUI
 			GetChild("CardBookWindow").Operation();
 		}
 
+		private void LateUpdate()
+		{
+			_mainUI.GetChild("n41").asButton.visible = ShowSpecialKeys;
+			_mainUI.GetChild("unitListButton").asButton.visible = ShowSpecialKeys;
+			_mainUI.GetChild("n38").asButton.visible = ShowSpecialKeys;
+			_mainUI.GetChild("n40").asButton.visible = ShowSpecialKeys;
+		}
 
 		/// <summary>
 		/// 设置左上角卡牌描述框内容的接口，该窗口不会自动根据内容调整大小，自己注意文字长度
