@@ -16,6 +16,7 @@ namespace Ability
             selectionOver();
             AbilityStack.push(OnCast);
             MsgDispatcher.SendMsg((int)MessageType.CastCard);
+            AbilityStack.pump();
         }
     }
 }

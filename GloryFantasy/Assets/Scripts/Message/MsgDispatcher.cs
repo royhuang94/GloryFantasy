@@ -307,8 +307,6 @@ namespace IMessage
                     index--;
                 }
             }
-            if (AbilityStack.actions.Count > 0)
-                AbilityStack.pump();
         }
         
     }
