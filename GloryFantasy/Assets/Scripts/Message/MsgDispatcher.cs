@@ -107,14 +107,16 @@ namespace IMessage
             public Condition condition;
             public Action action;
             public bool DoOnce;
+            public bool stack;
 
-            public MsgHandler(MsgReceiver receiver, int msgName, Condition condition, Action action, bool doOnce)
+            public MsgHandler(MsgReceiver receiver, int msgName, Condition condition, Action action, bool doOnce, bool stack)
             {
                 this.receiver = receiver;
                 this.msgName = msgName;
                 this.condition = condition;
                 this.action = action;
                 this.DoOnce = doOnce;
+                this.stack = stack;
             }
 
             /// <summary>
@@ -124,7 +126,10 @@ namespace IMessage
             {
                 if (condition())
                 {
-                    action();
+                    if (stack)
+                        AbilityStack.push(action);
+                    else
+                        action();
                 }
 
                 //如果DoOnce标记为真，则接收者设为null，这样在下次执行该trigger时，会取消执行并将这个trigger清除
@@ -175,9 +180,9 @@ namespace IMessage
         /// <param name="action">执行函数</param>
         /// <param name="TriggerName">Debug消息使用的别名</param>
         /// <param name="DoOnce">该Trigger是否只执行一次，默认为false</param>
-        public static void RegisterMsg(int msgName, Condition condition, Action action, string TriggerName = "NoDefine", bool DoOnce = false)
+        public static void RegisterMsg(int msgName, Condition condition, Action action, string TriggerName = "NoDefine", bool DoOnce = false, bool stack = false)
         {
-            RegisterMsg(globalReceiver, msgName, condition, action, TriggerName, DoOnce);
+            RegisterMsg(globalReceiver, msgName, condition, action, TriggerName, DoOnce, stack);
         }
         /// <summary>
         /// 给msgReciver增加注册MSG的函数
@@ -187,7 +192,7 @@ namespace IMessage
         /// <param name="DoOnce">是否只执行一次</param>
         public static void RegisterMsg(Trigger trigger, string TriggerName = "NoDefine", bool DoOnce = false)
         {
-            RegisterMsg(trigger.register, trigger.msgName, trigger.condition, trigger.action, TriggerName, DoOnce);
+            RegisterMsg(trigger.register, trigger.msgName, trigger.condition, trigger.action, TriggerName, DoOnce, trigger.stack);
         }
         /// <summary>
         /// 给msgReciver增加注册MSG的函数
@@ -198,7 +203,7 @@ namespace IMessage
         /// <param name="action">执行函数</param>
         /// <param name="TriggerName">Debug消息使用的别名</param>
         /// <param name="DoOnce">该Trigger是否只执行一次，默认为false</param>
-        public static void RegisterMsg(this MsgReceiver self, int msgName, Condition condition, Action action, string TriggerName = "NoDefine", bool DoOnce = false)
+        public static void RegisterMsg(this MsgReceiver self, int msgName, Condition condition, Action action, string TriggerName = "NoDefine", bool DoOnce = false, bool stack = false)
         {
             if (msgName < 0)
             {
@@ -220,7 +225,7 @@ namespace IMessage
 
             var handlers = MsgHandlerDict[msgName];
 
-            handlers.Add(new MsgHandler(self, msgName, condition, action, DoOnce));
+            handlers.Add(new MsgHandler(self, msgName, condition, action, DoOnce, stack));
 
             Debug.Log("RegisterMsg: " + TriggerName + "successfully register");
 
@@ -303,8 +308,24 @@ namespace IMessage
                 }
             }
         }
+        
     }
+    static class AbilityStack
+    {
+        public static List<Action> actions;
+        public static void push(Action action)
+        {
+            actions.Add(action);
+        }
 
+        public static void pump()
+        {
+            while (actions.Count > 0)
+            {
+                actions[actions.Count - 1]();
+            }
+        }
+    }
     public class Trigger : GameplayTool
     {
         /// <summary>
@@ -323,5 +344,9 @@ namespace IMessage
         /// Trigger的执行函数
         /// </summary>
         public Action action;
+        /// <summary>
+        /// 是否会被堆叠延迟处理
+        /// </summary>
+        public bool stack = false;
     }
 }

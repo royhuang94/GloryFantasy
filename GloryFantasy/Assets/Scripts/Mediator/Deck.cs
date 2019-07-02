@@ -14,9 +14,9 @@ namespace Mediator
 
         public Deck(List<string> deck, string hero)
         {
+            _hero = hero;
             FreshDeck(deck);
             deck.Remove(hero);
-            _hero = hero;
             //deck.Add("")
         }
         public void FreshDeck(List<string> deck)
