@@ -172,10 +172,10 @@ namespace Ability
     /// </summary>
     public class AbilityFormat
     {
-        /// <summary>
-        /// 对象列表
-        /// </summary>
-        public List<AbilityTarget> AbilityTargetList;
+        ///// <summary>
+        ///// 对象列表
+        ///// </summary>
+        //public List<AbilityTarget> AbilityTargetList;
         /// <summary>
         /// 异能可用变量
         /// </summary>
@@ -207,7 +207,7 @@ namespace Ability
         public AbilityFormat(string _abilityID)
         {
             AbilityID = _abilityID;
-            AbilityTargetList = new List<AbilityTarget>();
+            //AbilityTargetList = new List<AbilityTarget>();
             AbilityVariable = new AbilityVariable();
         }
 
@@ -219,10 +219,10 @@ namespace Ability
         /// Ability自行规定的Condition条件函数
         /// </summary>
         public List<Func<object, bool>> MyTargetConstraintList = new List<Func<object, bool>>();
-        /// <summary>
-        /// 对象列表从表格获得的约束
-        /// </summary>
-        public List<AbilityTarget> AbilityTargetList;
+        ///// <summary>
+        ///// 对象列表从表格获得的约束
+        ///// </summary>
+        //public List<AbilityTarget> AbilityTargetList;
         /// <summary>
         /// 异能可用变量
         /// </summary>
@@ -262,7 +262,7 @@ namespace Ability
 
         void Awake()
         {
-            AbilityTargetList = new List<AbilityTarget>();
+            //AbilityTargetList = new List<AbilityTarget>();
             //TargetList = new List<Vector2>();
         }
 

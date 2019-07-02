@@ -1,4 +1,5 @@
-﻿using GamePlay;
+﻿using GameCard;
+using GamePlay;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,17 +29,15 @@ namespace Ability
     {
         public TargetType TargetType = TargetType.Empty;
         public bool IsSpeller = false;
-        public bool IsTarget = false;
 
         public List<string> color;
         public List<string> tag;
         public Func<object,bool> TargetConstrain;
         
-        public EffectTarget(TargetType _targetType, bool _isSpeller, bool _isTarget, Func<object, bool> _targetConstrain)
+        public EffectTarget(TargetType _targetType, bool _isSpeller, Func<object, bool> _targetConstrain)
         {
             this.TargetType = _targetType;
             this.IsSpeller = _isSpeller;
-            this.IsTarget = _isTarget;
             this.TargetConstrain = _targetConstrain;
         }
     }
@@ -49,8 +48,7 @@ namespace Ability
         public List<EffectTarget> abilityTargets;
         public EffectAction action;
         public delegate void SelectionOver();
-        SelectionOver selectionOver;
-        public bool isSpell;
+        public SelectionOver selectionOver;
 
         public void Excute()
         {
@@ -59,15 +57,33 @@ namespace Ability
             //Gameplay.Instance().gamePlayInput.OnEnterSelectState(this);
         }
 
-        public void Cast()
+        virtual public void Cast()
         {
             // 先执行选择完成的函数
             selectionOver();
             // 将效果句柄压入堆叠
             EffectStack.push(action);
-            // 如果这个效果来自于咒语，那么先发送施放咒语的信息
-            if (isSpell)
-                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
+            // 开始堆叠结算
+            EffectStack.turnsOn();
+        }
+    }
+
+    public class Spell : Effect
+    {
+        public AbilityVariable abilityVariable;
+        public GameUnit.GameUnit speller;
+        public override void Cast()
+        {
+            // 先执行选择完成的函数
+            selectionOver();
+            // 将效果句柄压入堆叠
+            EffectStack.push(action);
+            // 调度卡牌管理器对玩家专注和手牌信息进行操作
+            CardManager.Instance().OnTriggerCurrentCard();
+            // 发送施放卡牌的信息
+            Gameplay.Info.AbilitySpeller = speller;
+            Gameplay.Info.CastingCard = this.GetComponent<OrderCard>();
+            IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
             // 开始堆叠结算
             EffectStack.turnsOn();
         }

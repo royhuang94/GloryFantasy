@@ -340,28 +340,28 @@ namespace GameCard
 
             string userId = null;
             
-            // 调用接口实现查询Targetlist中是否存在使用者
-            if (AbilityDatabase.GetInstance().CheckIfAbilityHasUser(this.GetSpellingAbility().AbilityID))
-            {
-                // 调用接口获取技能发动者
-                GameUnit.GameUnit userUnit = this.GetAbilitySpeller();
-                // 如果获取到无问题的GameUnit脚本，得到使用者实例id
-                if (userUnit != null)
-                {
-                    userId = userUnit.gameObject.GetInstanceID().ToString();
-                }
-                else
-                {
-                    Debug.Log("无法获得使用者单位信息");
-                }
+            //// 调用接口实现查询Targetlist中是否存在使用者
+            //if (AbilityDatabase.GetInstance().CheckIfAbilityHasUser(this.GetSpellingAbility().AbilityID))
+            //{
+            //    // 调用接口获取技能发动者
+            //    GameUnit.GameUnit userUnit = this.GetAbilitySpeller();
+            //    // 如果获取到无问题的GameUnit脚本，得到使用者实例id
+            //    if (userUnit != null)
+            //    {
+            //        userId = userUnit.gameObject.GetInstanceID().ToString();
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("无法获得使用者单位信息");
+            //    }
                 
-            }
+            //}
             
             // 从卡牌中移除当前手牌
             RemoveCardToCd(_currentSelectingPos,userId:userId);
             
-            // 发送使用消息，会触发效果牌的trigger
-            MsgDispatcher.SendMsg((int)MessageType.CastCard);
+            //// 发送使用消息，会触发效果牌的trigger
+            //MsgDispatcher.SendMsg((int)MessageType.CastCard);
             
             _currentSelectingPos = -1;
             _currentSelectingCard = null;
