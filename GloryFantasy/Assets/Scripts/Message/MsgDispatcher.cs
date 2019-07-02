@@ -325,6 +325,7 @@ namespace IMessage
             while (actions.Count > 0)
             {
                 actions[actions.Count - 1]();
+                actions.RemoveAt(actions.Count - 1);
             }
         }
     }
