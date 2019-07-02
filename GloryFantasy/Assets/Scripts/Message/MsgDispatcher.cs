@@ -307,23 +307,34 @@ namespace IMessage
                     index--;
                 }
             }
+            if (AbilityStack.actions.Count > 0)
+                AbilityStack.turnsOn();
         }
         
     }
     static class AbilityStack
     {
         public static List<Action> actions;
+        private static bool _canPumpActions;
         public static void push(Action action)
         {
             actions.Add(action);
         }
 
-        public static void pump()
+        public static void turnsOff()
         {
+            _canPumpActions = false;
+        }
+
+        public static void turnsOn()
+        {
+            _canPumpActions = true;
             while (actions.Count > 0)
             {
                 actions[actions.Count - 1]();
                 actions.RemoveAt(actions.Count - 1);
+                if (!_canPumpActions)
+                    break;
             }
         }
     }

@@ -11,12 +11,11 @@ namespace Ability
         public IMessage.Action OnCast;
         public delegate void SelectionOver();
         public SelectionOver selectionOver;
-        public void Cast()
+        public void cast()
         {
             selectionOver();
             AbilityStack.push(OnCast);
             MsgDispatcher.SendMsg((int)MessageType.CastCard);
-            AbilityStack.pump();
         }
     }
 }
