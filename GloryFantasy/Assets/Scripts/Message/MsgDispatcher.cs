@@ -176,7 +176,7 @@ namespace IMessage
         /// <param name="action">执行函数</param>
         /// <param name="TriggerName">Debug消息使用的别名</param>
         /// <param name="DoOnce">该Trigger是否只执行一次，默认为false</param>
-        public static void RegisterMsg(int msgName, Condition condition, Action action, string TriggerName = "NoDefine", bool DoOnce = false, bool stack = false)
+        public static void RegisterMsg(int msgName, Condition condition, Action action, string TriggerName = "NoDefine", bool DoOnce = false)
         {
             RegisterMsg(globalReceiver, msgName, condition, action, TriggerName, DoOnce);
         }
