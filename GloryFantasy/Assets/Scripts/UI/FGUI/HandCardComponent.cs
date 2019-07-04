@@ -130,6 +130,7 @@ namespace UI.FGUI
 
         /// <summary>
         /// 响应手牌点击事件的函数
+        /// Updata: 这里只把点击的手牌设置好就可以返回交给CardManager了。
         /// </summary>
         public void OnClickHandCard(EventContext context)
         {

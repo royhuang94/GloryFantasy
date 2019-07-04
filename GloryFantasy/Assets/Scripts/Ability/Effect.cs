@@ -91,5 +91,12 @@ namespace Ability
             // 开始堆叠结算
             EffectStack.turnsOn();
         }
+
+        public override void cancel()
+        {
+            // 取消使用当前的卡牌。
+            CardManager.Instance().CancleUseCurrentCard();
+            base.cancel();
+        }
     }
 }

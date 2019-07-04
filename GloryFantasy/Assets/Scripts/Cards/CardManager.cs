@@ -280,6 +280,7 @@ namespace GameCard
         
         /// <summary>
         /// 外界接口，使用前需要设置当前选中的卡牌，用于使用当前选中的卡牌
+        /// Update: 这里把点击的手牌作为Object传入FSM就好，不对具体要做什么进行处理。
         /// </summary>
         public void OnUseCurrentCard()
         {
@@ -333,6 +334,7 @@ namespace GameCard
 
         /// <summary>
         /// 用于触发当前选择的效果牌的函数，会重置当前选择的卡牌
+        /// Update：卡牌的发动转移到Effect.Cast中进行了，这边负责卡牌方面的工作（删除手牌引用、重置当前选择的牌）即可。
         /// </summary>
         public void OnTriggerCurrentCard()
         {
