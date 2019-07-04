@@ -39,7 +39,7 @@ namespace IMessage
         public BattleMap.BattleAreaState exOwner; //发生变更的战区的上一任所有者
 
         #region ATK部分
-        public Ability.Ability SpellingAbility; //发动的异能
+        public Ability.Effect SelectingEffect; //正在为什么效果选取对象
         public GameUnit.GameUnit Attacker; //宣言攻击者
         public GameUnit.GameUnit AttackedUnit; //被攻击者
         public List<GameUnit.GameUnit> Injurer; //伤害者

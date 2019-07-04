@@ -13,9 +13,7 @@ namespace Ability
     /// </summary>
     public enum TargetType
     {
-        EnemyUnit,
-        FriendlyUnit,
-        NeutralUnit,
+        Unit,
         Block,
         Card,
         CDHero,
@@ -44,8 +42,8 @@ namespace Ability
 
     public class Effect : MonoBehaviour, GameplayTool
     {
-        
-        public List<EffectTarget> abilityTargets;
+        public bool allowCancel;
+        public List<EffectTarget> targets;
         public EffectAction action;
         public delegate void SelectionOver();
         public SelectionOver selectionOver;
@@ -64,6 +62,12 @@ namespace Ability
             // 将效果句柄压入堆叠
             EffectStack.push(action);
             // 开始堆叠结算
+            EffectStack.turnsOn();
+        }
+
+        // 取消施放时执行。
+        virtual public void cancel()
+        {
             EffectStack.turnsOn();
         }
     }

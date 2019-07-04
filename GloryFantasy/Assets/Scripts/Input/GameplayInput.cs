@@ -157,10 +157,10 @@ namespace GamePlay.Input
         }
 
         //取消可释放技能范围染色
-        public void HandleSkillCancel(Vector2 target,int range)
-        {
-            ShowRange.Instance().CancleSkillRangeMark(target, range);
-        }
+        //public void HandleSkillCancel(Vector2 target,int range)
+        //{
+        //    ShowRange.Instance().CancleSkillRangeMark(target, range);
+        //}
         
 
         /// <summary>

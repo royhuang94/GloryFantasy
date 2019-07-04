@@ -28,13 +28,13 @@ namespace GamePlay.FSM
             Debug.Log("*.*--Entering Selecting mod, " + FSM.ability.AbilityTargetList.Count + " target to choose");
         }
 
-        public override void OnRightPointerDown()
-        {
-            base.OnRightPointerDown();
+        //public override void OnRightPointerDown()
+        //{
+        //    base.OnRightPointerDown();
 
-            //取消掉选择状态
-            FSM.PushState(new InputFSMIdleState(FSM));
-        }
+        //    //取消掉选择状态
+        //    FSM.PushState(new InputFSMIdleState(FSM));
+        //}
 
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {

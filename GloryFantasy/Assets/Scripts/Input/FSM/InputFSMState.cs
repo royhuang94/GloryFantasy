@@ -27,14 +27,7 @@ namespace GamePlay.FSM
         {
             this.FSM = fsm;
         }
-
-        /// <summary>
-        /// 处理鼠标右键
-        /// </summary>
-        virtual public void OnRightPointerDown()
-        {
-
-        }
+        
         /// <summary>
         /// 处理地图方块的鼠标点击
         /// </summary>

@@ -23,7 +23,7 @@ namespace GamePlay.FSM
         /// <summary>
         /// 存储点击的对象坐标
         /// </summary>
-        public List<Vector2> TargetList = new List<Vector2>();
+        public List<object> TargetList = new List<object>();
         /// <summary>
         /// 存储点击的手牌
         /// </summary>
@@ -31,15 +31,15 @@ namespace GamePlay.FSM
         /// <summary>
         /// 存储发动的指令牌的异能
         /// </summary>
-        public Ability.Ability ability;
+        public Ability.Effect effect;
 
-        /// <summary>
-        /// 处理鼠标右键
-        /// </summary>
-        public void OnRightPointerDown()
-        {
-            StateStack.Peek().OnRightPointerDown();
-        }
+        ///// <summary>
+        ///// 处理鼠标右键
+        ///// </summary>
+        //public void OnRightPointerDown()
+        //{
+        //    StateStack.Peek().OnRightPointerDown();
+        //}
         /// <summary>
         /// 处理地图方块的鼠标点击
         /// </summary>
@@ -112,11 +112,11 @@ namespace GamePlay.FSM
         /// 处理指令牌的释放
         /// </summary>
         /// <param name="ability"></param>
-        public void OnCastCard(Ability.Ability ability)
+        public void OnCastCard(Ability.Effect effect)
         {
             if (StateStack.Peek() is InputFSMPlatState)
                 return;
-            this.ability = ability;
+            this.effect = effect;
             this.TargetList.Clear();
             this.PushState(new InputFSMCastState(this));
         }
@@ -126,9 +126,9 @@ namespace GamePlay.FSM
         /// 处理进入选择模式
         /// </summary>
         /// <param name="ability">需要选定的异能的引用，因为需要核对target是否符合</param>
-        public void OnSelectState(Ability.Ability ability)
+        public void OnSelectState(Ability.Effect effect)
         {
-            this.ability = ability;
+            this.effect = effect;
             TargetList.Clear();
             PushState(new InputFSMSelectState(this));
         }

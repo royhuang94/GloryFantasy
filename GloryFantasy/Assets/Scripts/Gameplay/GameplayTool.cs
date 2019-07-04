@@ -252,18 +252,18 @@ namespace GamePlay
         /// </summary>
         /// <param name="self"></param>
         /// <param name="ability"></param>
-        public static void SetSpellingAbility(this GameplayTool self, Ability.Ability ability)
+        public static void SetSpellingAbility(this GameplayTool self, Ability.Effect effect)
         {
-            Info.SpellingAbility = ability;
+            Info.SelectingEffect = effect;
         }
         /// <summary>
         /// 获得当前发动的技能
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static Ability.Ability GetSpellingAbility(this GameplayTool self)
+        public static Ability.Effect GetSpellingAbility(this GameplayTool self)
         {
-            return Info.SpellingAbility;
+            return Info.SelectingEffect;
         }
 
         #region ATK部分
