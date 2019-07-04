@@ -52,7 +52,7 @@ namespace Ability
         {
             //先关闭堆叠结算，等待选择结束。
             EffectStack.turnsOff();
-            //Gameplay.Instance().gamePlayInput.OnEnterSelectState(this);
+            Gameplay.Instance().gamePlayInput.OnEffectExcute(this);
         }
 
         virtual public void Cast()

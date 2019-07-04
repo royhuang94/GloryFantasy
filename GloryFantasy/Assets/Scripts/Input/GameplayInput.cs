@@ -113,9 +113,9 @@ namespace GamePlay.Input
         /// 设置要使用的效果牌
         /// </summary>
         /// <param name="ability"></param>
-        public void OnUseOrderCard(Ability.Ability ability)
+        public void OnEffectExcute(Ability.Effect effect)
         {
-            InputFSM.OnCastCard(ability);
+            InputFSM.OnEffectExcute(effect);
         }
 
         /// <summary>

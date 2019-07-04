@@ -112,10 +112,10 @@ namespace GamePlay.FSM
         /// 处理指令牌的释放
         /// </summary>
         /// <param name="ability"></param>
-        public void OnCastCard(Ability.Effect effect)
+        public void OnEffectExcute(Ability.Effect effect)
         {
-            if (StateStack.Peek() is InputFSMPlatState)
-                return;
+            //if (StateStack.Peek() is InputFSMPlatState)
+            //    return;
             this.effect = effect;
             this.TargetList.Clear();
             this.PushState(new InputFSMCastState(this));
