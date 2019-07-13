@@ -55,51 +55,22 @@ namespace GamePlay
         /// <param name="source">伤害来源单位。可以为空（eg 烧灼地形造成的伤害）。</param>
         /// <param name="taker">伤害承受者。</param>
         /// <param name="damage">伤害。</param>
-        public static void DealDamage(GameUnit.GameUnit source, GameUnit.GameUnit taker, Damage damage, bool post = true)
+        public static void DealDamage(GameUnit.GameUnit source, GameUnit.GameUnit taker, Damage damage)
         {
             Damage.TakeDamage(taker, damage);
-            if (post)
+            damage.SetInjurer(source);
+            damage.SetInjuredUnit(taker);
+            damage.SetDamage(damage);
+            if (source != null)
             {
-                damage.SetInjurer(new List<GameUnit.GameUnit> { source });
-                damage.SetInjuredUnit(new List<GameUnit.GameUnit> { taker });
-                if (source != null)
-                {
-                    MsgDispatcher.SendMsg((int)MessageType.Damage);
-                    Gameplay.Instance().autoController.RecordedHatred(source, taker);
-                }
-                MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
-                if (taker.IsDead())
-                {
-                    UnitManager.Kill(source, taker);
-                }
-            }
-        }
-
-        public static void DealDamages(List<GameUnit.GameUnit> sources, List<GameUnit.GameUnit> takers, List<Damage> damages)
-        {
-            if (damages.Count < 0)
-                return;
-            bool hasSource = false;
-            for (int i = 0; i < sources.Count; i++)
-            {
-                DealDamage(sources[i], takers[i], damages[i], false);
-                if (sources[i] != null)
-                    Gameplay.Instance().autoController.RecordedHatred(sources[i], takers[i]);
-                hasSource = true;
-            }
-            Damage damage = damages[0];
-            damage.SetInjurer(sources);
-            damage.SetInjuredUnit(takers);
-            if (hasSource)
                 MsgDispatcher.SendMsg((int)MessageType.Damage);
+                Gameplay.Instance().autoController.RecordedHatred(source, taker);
+            }
             MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
-            for(int i = 0; i < takers.Count; i++)
+            if (taker.IsDead())
             {
-                if (takers[i].IsDead())
-                {
-                    UnitManager.Kill(sources[i], takers[i]);
-                }
-            } 
+                UnitManager.Kill(source, taker);
+            }
         }
     }
 

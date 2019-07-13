@@ -26,16 +26,16 @@ namespace GamePlay.Input
             InputFSM = new InputFSM();
         }
 
-        /// <summary>
-        /// 每帧调用
-        /// </summary>
-        public void Update()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                OnRightPointerDown();
-            }
-        }
+        ///// <summary>
+        ///// 每帧调用
+        ///// </summary>
+        //public void Update()
+        //{
+        //    if (UnityEngine.Input.GetKeyDown(KeyCode.Mouse1))
+        //    {
+        //        OnRightPointerDown();
+        //    }
+        //}
 
         /// <summary>
         /// 标记是否已经选择了一张手牌,在召唤状态
@@ -55,25 +55,17 @@ namespace GamePlay.Input
         {
             get
             {
-                List<object> tmpList = new List<object>();
-                foreach (Vector2 pos in InputFSM.TargetList)
-                {
-                    if (BattleMap.BattleMap.Instance().CheckIfHasUnits(pos))
-                        tmpList.Add(BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos) as object);
-                    else
-                        tmpList.Add(BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos) as object);
-                }
-                return tmpList;
+                return InputFSM.TargetList;
             }
         }
 
         /// <summary>
         /// 处理鼠标的右键
         /// </summary>
-        public void OnRightPointerDown()
-        {
-            InputFSM.OnRightPointerDown();
-        }
+        //public void OnRightPointerDown()
+        //{
+        //    InputFSM.OnRightPointerDown();
+        //}
         /// <summary>
         /// 处理地图方块的鼠标点击
         /// </summary>
@@ -105,9 +97,9 @@ namespace GamePlay.Input
         /// 设置被选中的手牌槽
         /// </summary>
         /// <param name="currentItemUI"></param>
-        internal void OnPointerDownUnitCard(GameObject currentItemInstance)
+        internal void OnPointerDownCard(GameObject currentItemInstance)
         {
-            InputFSM.OnPointerDownUnitCard(currentItemInstance.GetComponent<BaseCard>());
+            InputFSM.OnPointerDownCard(currentItemInstance.GetComponent<BaseCard>(), null);
         }
         /// <summary>
         /// 设置要使用的效果牌
@@ -122,10 +114,10 @@ namespace GamePlay.Input
         /// 响应进入选择模式
         /// </summary>
         /// <param name="ability">需要选定的异能的引用，因为需要核对target是否符合</param>
-        public void OnEnterSelectState(Ability.Ability ability)
-        {
-            InputFSM.OnSelectState(ability);
-        }
+        //public void OnEnterSelectState(Ability.Ability ability)
+        //{
+        //    InputFSM.OnSelectState(ability);
+        //}
         public void OnEnterPlatState()
         {
             InputFSM.OnPlatState();

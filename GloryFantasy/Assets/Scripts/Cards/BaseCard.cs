@@ -99,9 +99,11 @@ namespace GameCard
         {
             get { return _id; }
         }
-        
+
+        public GameUnit.GameUnit carrier;
+
         #endregion
-        
+
         T IMessage.MsgReceiver.GetUnit<T>()
         {
             return this as T;

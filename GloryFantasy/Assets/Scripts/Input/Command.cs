@@ -287,37 +287,10 @@ namespace GamePlay.Input
 
             for (int i = 0; i < DamageRequestList.Count; i++)
             {
-                ////优先级相同并且两方互打的伤害请求作为同时处理
-                //if (i != DamageRequestList.Count - 1 && DamageRequestList[i].priority == DamageRequestList[i + 1].priority
-                //    && DamageRequestList[i]._attacker == DamageRequestList[i + 1]._attackedUnit
-                //    && DamageRequestList[i]._attackedUnit == DamageRequestList[i + 1]._attacker)
-                //{
-                //    //判断被攻击者的反击距离
-                //    if (JudgeStrikeBack())
-                //        //DamageRequestList[i].ExcuteSameTime();
-                //    else
-                //        DamageRequestList[i].Excute(); //距离不够，无法进行反击
-
-                //    i++;
-                //}
-                //else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead() && JudgeStrikeBack()) //符合反击要求
-                //{
-                //    DamageRequestList[i].Excute();
-                //}
-                //else if (!_AttackedUnit.IsDead() && !_Attacker.IsDead() && !JudgeStrikeBack()) //距离不够，无法进行反击
-                //{
-                //    DamageRequestList[i].Excute();
-                //    i++;
-                //}
-                //while (DamageRequestList.Count > i)
-                //{
                 if (!JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG()))
                 {
-                    //i--;
                     continue;
                 }
-                //    i++;
-                //}
 
                 List<GameUnit.GameUnit> attackers = new List<GameUnit.GameUnit> { DamageRequestList[i]._attacker };
                 List<GameUnit.GameUnit> attackedUnits = new List<GameUnit.GameUnit> { DamageRequestList[i]._attackedUnit };
@@ -325,13 +298,12 @@ namespace GamePlay.Input
                 for (; i + 1 < DamageRequestList.Count && (DamageRequestList[i].priority == DamageRequestList[i + 1].priority); i++)
                 {
                     if (JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG()))
-                    {
-                        attackers.Add(DamageRequestList[i]._attacker);
-                        attackedUnits.Add(DamageRequestList[i]._attackedUnit);
-                        damages.Add(Damage.GetDamage(DamageRequestList[i]._attacker));
-                    }
+                        Damage.DealDamage(DamageRequestList[i]._attacker, 
+                            DamageRequestList[i]._attackedUnit, 
+                            Damage.GetDamage(DamageRequestList[i]._attacker));
+                    
                 }
-                Damage.DealDamages(attackers, attackedUnits, damages);
+                
                 if (_Attacker.IsDead() || _AttackedUnit.IsDead())
                     break;
             }

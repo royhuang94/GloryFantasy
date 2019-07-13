@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Mediator
 {
-    
     public class Deck
     {
         public List<HeroData> _heros;

@@ -35,10 +35,10 @@ namespace GameCard
             foreach (string abilityName in ability_id)
             {
                 gameObject.AddComponent(System.Type.GetType("Ability." +abilityName.Split('_').First()));
-                Ability.Ability toInit = gameObject.GetComponent<Ability.Ability>();
+                Ability.Spell toInit = gameObject.GetComponent<Ability.Spell>();
                 try
                 {
-                    toInit.Init(abilityName);
+                    toInit.init(abilityName);
                 }
                 catch (NullReferenceException)
                 {

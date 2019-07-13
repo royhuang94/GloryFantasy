@@ -23,19 +23,19 @@ namespace GamePlay
     public static class GameplayToolExtend
     {
         private static Info Info = Gameplay.Info;
-        public static T AddBuff<T>(this GameObject gameObject, float life, AbilityVariable buffVariable = null) where T : Buff
+        public static T AddBuff<T>(this GameObject gameObject, float life, Variable buffVariable = null) where T : Buff
         {
             return addBuff<T>(gameObject, life, buffVariable);
         }
 
-        public static T AddBuff<T>(this Transform transform, float life, AbilityVariable buffVariable = null) where T : Buff
+        public static T AddBuff<T>(this Transform transform, float life, Variable buffVariable = null) where T : Buff
         {
             return addBuff<T>(transform.gameObject, life, buffVariable);
         }
         /// <summary>
         /// 添加buff。参数life不可缺省，buff的持续时间；参数buffVariable可缺省，同异能改变量。
         /// </summary>
-        private static T addBuff<T>(GameObject target, float life, AbilityVariable buffVariable = null) where T : Buff
+        private static T addBuff<T>(GameObject target, float life, Variable buffVariable = null) where T : Buff
         {
             if (target.GetComponent<T>() != null)
             {
@@ -272,16 +272,16 @@ namespace GamePlay
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <param name="unit">触发伤害者</param>
-        public static void SetInjurer(this GameplayTool self, List<GameUnit.GameUnit> units)
+        public static void SetInjurer(this GameplayTool self, GameUnit.GameUnit unit)
         {
-            Gameplay.Info.Injurer = units;
+            Gameplay.Info.Injurer = unit;
         }
         /// <summary>
         /// 获取伤害者
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <returns></returns>
-        public static List<GameUnit.GameUnit> GetInjurer(this GameplayTool self)
+        public static GameUnit.GameUnit GetInjurer(this GameplayTool self)
         {
             return Info.Injurer;
         }
@@ -290,16 +290,16 @@ namespace GamePlay
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <param name="unit">被触发伤害者</param>
-        public static void SetInjuredUnit(this GameplayTool self, List<GameUnit.GameUnit> units)
+        public static void SetInjuredUnit(this GameplayTool self, GameUnit.GameUnit unit)
         {
-            Gameplay.Info.InjuredUnit = units;
+            Gameplay.Info.InjuredUnit = unit;
         }
         /// <summary>
         /// 获取被伤害者
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <returns></returns>
-        public static List<GameUnit.GameUnit> GetInjuredUnit(this GameplayTool self)
+        public static GameUnit.GameUnit GetInjuredUnit(this GameplayTool self)
         {
             return Info.InjuredUnit;
         }
@@ -308,7 +308,7 @@ namespace GamePlay
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <param name="damage">当前伤害数值</param>
-        public static void SetDamage(this GameplayTool self, List<Damage> damage)
+        public static void SetDamage(this GameplayTool self, Damage damage)
         {
             Info.damage = damage;
         }
@@ -317,7 +317,7 @@ namespace GamePlay
         /// </summary>
         /// <param name="self">GameplayTool 自身或者子类</param>
         /// <returns></returns>
-        public static List<Damage> GetDamage(this GameplayTool self)
+        public static Damage GetDamage(this GameplayTool self)
         {
             return Info.damage;
         }
@@ -417,7 +417,7 @@ namespace GamePlay
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static List<object> GetSelectingUnits(this GameplayTool self)
+        public static List<object> GetSelecting(this GameplayTool self)
         {
 
             return Gameplay.Instance().gamePlayInput.SelectingList;

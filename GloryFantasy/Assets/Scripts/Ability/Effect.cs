@@ -74,7 +74,7 @@ namespace Ability
 
     public class Spell : Effect
     {
-        public AbilityVariable abilityVariable;
+        public Variable variable;
         public GameUnit.GameUnit speller;
         public override void Cast()
         {
@@ -97,6 +97,11 @@ namespace Ability
             // 取消使用当前的卡牌。
             CardManager.Instance().CancleUseCurrentCard();
             base.cancel();
+        }
+
+        public virtual void init(string spellID)
+        {
+
         }
     }
 }
