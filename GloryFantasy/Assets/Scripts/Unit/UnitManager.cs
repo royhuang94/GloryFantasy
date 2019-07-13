@@ -113,7 +113,7 @@ namespace GameUnit
         /// 初始战斗地图上的单位
         /// </summary>
         /// <param name="encounterID">遭遇id</param>
-        public static void InitAndInstantiateGameUnit(string encounterID, BattleMapBlock[,] _mapBlocks)
+        public static void InitAndInstantiateGameUnit(string encounterID)
         {
             Encounter encounter = null;
             EncouterData.Instance()._encounterData.TryGetValue(encounterID, out encounter);
@@ -143,12 +143,12 @@ namespace GameUnit
 
                 GameUnit unit = _object.GetComponent<GameUnit>();
                 //修改单位对象的父级为地图方块
-                Debug.Log(string.Format("Add Unit on Map:({0},{1})", x, y)); 
-                _mapBlocks[x, y].AddUnit(unit);
+                Debug.Log(string.Format("Add Unit on Map:({0},{1})", x, y));
+                BattleMap.BattleMap.Instance().GetSpecificMapBlock(x, y).AddUnit(unit);
 
                 List<GameUnit> _unitsList = BattleMap.BattleMap.Instance().UnitsList;
                 _unitsList.Add(unit);
-                unit.mapBlockBelow = _mapBlocks[x, y];
+                unit.mapBlockBelow = BattleMap.BattleMap.Instance().GetSpecificMapBlock(x, y);
 
                 AI.SingleController controller;
                 //初始化AI控制器与携带的仇恨列表

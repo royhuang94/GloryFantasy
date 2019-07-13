@@ -46,12 +46,28 @@ namespace GamePlay.FSM
             }
         }
 
-        public override void OnPointerDownUnitCard(BaseCard unitCard, PointerEventData eventData)
+        public override void OnPointerDownCard(BaseCard card, PointerEventData eventData)
         {
-            base.OnPointerDownUnitCard(unitCard, eventData);
-            
-            //进入召唤状态
-            FSM.PushState(new InputFSMSummonState(FSM));
+            base.OnPointerDownCard(card, eventData);
+            if(card is OrderCard)
+            {
+                if (!Player.Instance().CanConsumeAp(card.cost))
+                {
+                    // TODO : 并实现AP值震动效果
+                    Debug.Log("Ran out of AP, cant use this one");
+                    return;
+                }
+                Ability.Spell spell = card.gameObject.GetComponent<Ability.Spell>();
+                FSM.effect = spell;
+                FSM.TargetList.Clear();
+                FSM.PushState(new InputFSMCastState(this.FSM));
+            }
+            else if(card is UnitCard)
+            {
+                //进入召唤状态
+                FSM.selectedCard = card;
+                FSM.PushState(new InputFSMSummonState(FSM));
+            }
         }
     }
 }

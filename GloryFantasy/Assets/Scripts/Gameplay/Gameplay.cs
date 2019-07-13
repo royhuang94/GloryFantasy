@@ -12,6 +12,9 @@ using GameCard;
 using GamePlay.Input;
 using GamePlay.Round;
 using GamePlay.Event;
+using GamePlay.Encounter;
+using BattleMap;
+using GameUnit;
 
 namespace IMessage
 {
@@ -77,7 +80,7 @@ namespace IMessage
             other.Attacker = this.Attacker;
             other.AttackedUnit = this.AttackedUnit;
             other.AbilitySpeller = this.AbilitySpeller;
-            other.SpellingAbility = this.SpellingAbility;
+            other.SelectingEffect = this.SelectingEffect;
             other.Injurer = this.Injurer;
             other.InjuredUnit = this.InjuredUnit;
             other.damage = this.damage;
@@ -122,9 +125,11 @@ namespace GamePlay
         public GameplayInput gamePlayInput;
         public BMBColliderManager bmbColliderManager;
         public BuffManager buffManager;
-        public  AI.BattleField singleBattle;
+        public AI.BattleField singleBattle;
         public AI.AutoController autoController;
         public EventScroll eventScroll;
+        private string _encouterID;//该次遭遇的遭遇id;
+        public string EncouterID { get { return _encouterID; } }
 
         private void Update()
         {
@@ -148,6 +153,90 @@ namespace GamePlay
             roundProcessController.action = BackUpdateRound;
             //StartCoroutine(RoundUpdate());
             BackUpdateRound(RoundInput.RestoreApPhase);
+            InitMap(GetEncounterID(), GetDeck());
+        }
+
+        public void InitMap(string encouterId, Mediator.Deck deck)
+        {
+            if (deck == null)
+            {
+                deck = defaultDeck;
+            }
+            //下面的初始顺序不能变
+            this._encouterID = encouterId;
+            //_unitsList = new List<Unit>();//放在这里为了每次从遭遇选择器切换地图后，清空之前的
+            //_quickplat = new List<string>(deck._unitsWithQuickPlat);
+            CardManager.Instance().LoadCardsIntoSets(deck, deck._unitsWithQuickPlat);
+            //读取并存储遭遇
+            EncouterData.Instance().InitEncounter(encouterId);
+            //初始化地图
+            BattleMap.BattleMap.Instance().InitAndInstantiateMapBlocks(encouterId);
+            //初始战区事件
+            EncouterData.Instance().InitBattleFieldEvent(encouterId);
+            //初始战区状态，战区对象并添加事件模块进入仲裁器；
+            BattleMap.BattleMap.Instance().battleAreaData.InitBattleArea(encouterId);
+            //初始战斗地图上的单位 
+            UnitManager.InitAndInstantiateGameUnit(encouterId);
+            //该次遭遇中的一些临时数值
+            EncouterData.Instance().dataOfThisBattle.InitData(encouterId);
+            //设置回合为第一回合
+            GamePlay.Gameplay.Instance().roundProcessController.SetFristRound();
+            //一直显示战区所属
+            BattleMap.BattleMap.Instance().drawBattleArea.ShowAndUpdateBattleArea();
+
+            BattleMap.BattleMap.Instance().ScaleBattleMap();
+        }
+
+        private Mediator.Deck defaultDeck = new Mediator.Deck(new List<string>(), "HElf_1");
+
+        /// <summary>
+        /// 重新根据遭遇文件生成新的战斗地图
+        /// </summary>
+        /// <param name="encouterID"></param>
+        public void RestatInitMap(string encouterID, Mediator.Deck deck)
+        {
+            if (deck == null)
+            {
+                deck = defaultDeck;
+            }
+            GamePlay.Gameplay.Instance().eventScroll.Clear();
+            //初始一个遭遇id，供其他地方使用
+            _encouterID = encouterID;
+            //删除之前的地图
+            BattleMap.BattleMap.Instance().DestroyMap();
+            //重新生成
+            InitMap(encouterID, deck);
+        }
+
+        /// <summary>
+        /// 获取遭遇id
+        /// </summary>
+        /// <returns></returns>
+        private string GetEncounterID()
+        {
+            if (SceneSwitchController.Instance().encounterId == null)//如果直接从战斗场景运行，默认初始一场遭遇
+                return "planeshadow_1";
+            Debug.Log("front id: " + SceneSwitchController.Instance().encounterId);
+            string temp_id = SceneSwitchController.Instance().encounterId;
+            string temp_id_front = temp_id.Split('_')[0];
+            //if (temp_id_front == "sandworm")
+            //    return "sandworm_1";
+            //if (temp_id_front == "chomper")
+            //    return "chomper_1";
+            //if (temp_id_front == "Devil")
+            //    return "Devil_1";
+            if (temp_id == "hunter_3")
+                return "hunter_2";
+            if (temp_id == "dk_3")
+                return "dk_2";
+            return SceneSwitchController.Instance().encounterId;
+            //return "Plain_Shadow_1";
+        }
+
+
+        private Mediator.Deck GetDeck()
+        {
+            return SceneSwitchController.Instance().deck;
         }
         /// <summary>
         /// 提供给场景中阶段切换的按钮

@@ -32,17 +32,7 @@ namespace GamePlay.FSM
         /// 存储发动的指令牌的异能
         /// </summary>
         public Ability.Effect effect;
-
-        ///// <summary>
-        ///// 处理鼠标右键
-        ///// </summary>
-        //public void OnRightPointerDown()
-        //{
-        //    StateStack.Peek().OnRightPointerDown();
-        //}
-        /// <summary>
-        /// 处理地图方块的鼠标点击
-        /// </summary>
+        
         /// <param name="mapBlock"></param>
         /// <param name="eventData"></param>
         public void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
@@ -101,12 +91,13 @@ namespace GamePlay.FSM
         /// 处理单位牌的点击召唤
         /// </summary>
         /// <param name="unitCard"></param>
-        public void OnPointerDownUnitCard(BaseCard unitCard)
+        public void OnPointerDownCard(BaseCard card, PointerEventData eventData)
         {
-            if (StateStack.Peek() is InputFSMPlatState)
-                return;
-            selectedCard = unitCard;
-            this.PushState(new InputFSMSummonState(this));
+            StateStack.Peek().OnPointerDownCard(card, eventData);
+            //if (StateStack.Peek() is InputFSMPlatState)
+            //    return;
+            //selectedCard = card;
+            //this.PushState(new InputFSMSummonState(this));
         }
         /// <summary>
         /// 处理指令牌的释放
@@ -126,12 +117,12 @@ namespace GamePlay.FSM
         /// 处理进入选择模式
         /// </summary>
         /// <param name="ability">需要选定的异能的引用，因为需要核对target是否符合</param>
-        public void OnSelectState(Ability.Effect effect)
-        {
-            this.effect = effect;
-            TargetList.Clear();
-            PushState(new InputFSMSelectState(this));
-        }
+        //public void OnSelectState(Ability.Effect effect)
+        //{
+        //    this.effect = effect;
+        //    TargetList.Clear();
+        //    PushState(new InputFSMSelectState(this));
+        //}
 
         public void OnPlatState()
         {

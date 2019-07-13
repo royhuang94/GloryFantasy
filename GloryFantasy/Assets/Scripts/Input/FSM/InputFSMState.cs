@@ -22,6 +22,8 @@ namespace GamePlay.FSM
         /// </summary>
         protected InputFSM FSM;
 
+
+
         //构造函数,protected是不想被外部类new
         protected InputFSMState(InputFSM fsm)
         {
@@ -56,11 +58,11 @@ namespace GamePlay.FSM
 
         }
         /// <summary>
-        /// 处理单位卡的鼠标点击，召唤行为
+        /// 处理卡牌的鼠标点击
         /// </summary>
         /// <param name="unitCard"></param>
         /// <param name="eventData"></param>
-        virtual public void OnPointerDownUnitCard(BaseCard unitCard, PointerEventData eventData)
+        virtual public void OnPointerDownCard(BaseCard Card, PointerEventData eventData)
         {
 
         }

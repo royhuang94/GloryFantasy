@@ -190,5 +190,28 @@ namespace GamePlay.FSM
                     break;
             }
         }
+
+        public override void OnPointerDownCard(BaseCard card, PointerEventData eventData)
+        {
+            base.OnPointerDownCard(card, eventData);
+
+            // TODO: 终止合法对象渲染。
+
+            if (FSM.effect.targets[FSM.TargetList.Count].TargetType == TargetType.Card
+                && FSM.effect.targets[FSM.TargetList.Count].TargetConstrain(card))
+            {
+                FSM.TargetList.Add(card);
+            }
+            if (FSM.TargetList.Count == FSM.effect.targets.Count)
+            {
+                FSM.PushState(new InputFSMIdleState(FSM));
+                FSM.effect.Cast();
+                return;
+            }
+            else
+            {
+                // TODO: 更新合法对象重新渲染。
+            }
+        }
     }
 }
