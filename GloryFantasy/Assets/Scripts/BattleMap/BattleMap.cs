@@ -31,11 +31,17 @@ namespace BattleMap
             BattleMapBlock = new BattleMapBlock();
         }
 
-        private void Start()
+        /// <summary>
+        /// 再次包装一下，放到GampPlay里调用
+        /// </summary>
+        public void InitMap()
         {
+            if (GetEncounterID() == null)
+                InitMap("ant_1", GetDeck());
+            else
+                InitMap(GetEncounterID(), GetDeck());
             RegisterMSG();
         }
-
 
         /// <summary>
         /// 注册信息，以免第二次之后进来不注册
@@ -150,7 +156,60 @@ namespace BattleMap
             Debug.Log("win, ready to exit");
             SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
         }
-        
+
+        private void InitMap(string encouterId, Mediator.Deck deck)
+        {
+            if (deck == null)
+            {
+                deck = defaultDeck;
+            }
+            //下面的初始顺序不能变
+            this.init_encouterID = encouterId;
+            _unitsList = new List<Unit>();//放在这里为了每次从遭遇选择器切换地图后，清空之前的
+            _quickplat = new List<string>(deck._unitsWithQuickPlat);
+            CardManager.Instance().LoadCardsIntoSets(deck, deck._unitsWithQuickPlat);
+            //读取并存储遭遇
+            EncouterData.Instance().InitEncounter(encouterId);            
+            //初始化地图
+            InitAndInstantiateMapBlocks(encouterId);
+            //初始战区事件
+            EncouterData.Instance().InitBattleFieldEvent(encouterId);
+            //初始战区状态，战区对象并添加事件模块进入仲裁器；
+            battleAreaData.InitBattleArea(encouterId);           
+            //初始战斗地图上的单位 
+            UnitManager.InitAndInstantiateGameUnit(encouterId, _mapBlocks);
+            //该次遭遇中的一些临时数值
+            EncouterData.Instance().dataOfThisBattle.InitData(encouterId);
+            //设置回合为第一回合
+            GamePlay.Gameplay.Instance().roundProcessController.SetFristRound();
+            //一直显示战区所属
+            drawBattleArea.ShowAndUpdateBattleArea();
+            
+            ScaleBattleMap();
+        }
+
+        private Mediator.Deck defaultDeck = new Mediator.Deck(new List<string>(), "HElf_1");
+
+        /// <summary>
+        /// 重新根据遭遇文件生成新的战斗地图
+        /// </summary>
+        /// <param name="encouterID"></param>
+        public void RestatInitMap(string encouterID, Mediator.Deck deck)
+        {
+            if (deck == null)
+            {
+                deck = defaultDeck;
+            }
+            GamePlay.Gameplay.Instance().eventScroll.Clear();
+            //初始一个遭遇id，供其他地方使用
+            init_encouterID = encouterID;
+            //删除之前的地图
+            for (int i = 0; i < blocks.Count; i++)
+                Destroy(blocks[i]);
+            Destroy(BattleMapPanel);
+            //重新生成
+            InitMap(encouterID, deck);
+        }
 
         #region 变量
         // 获取战斗地图上的所有单位
@@ -171,6 +230,8 @@ namespace BattleMap
         public DebuffBattleMapBlock debuffBM;//异常地图快类
         public DrawBattleArea drawBattleArea;//画战区边框
         private string[][] nstrs;//存战斗地图的数组
+        private string init_encouterID;//该次遭遇的遭遇id;
+        public string EncouterID { get { return init_encouterID; } }
         public List<GameObject> blocks;//该次遭遇中的所有地图块实例
         GameObject BattleMapPanel;
         public List<string> _quickplat;
@@ -183,8 +244,39 @@ namespace BattleMap
         public Sprite viscous;//粘滞
         #endregion
 
+        /// <summary>
+        /// 获取遭遇id
+        /// </summary>
+        /// <returns></returns>
+        private string GetEncounterID()
+        {
+            if (SceneSwitchController.Instance().encounterId == null)//如果直接从战斗场景运行，默认初始一场遭遇
+                return "planeshadow_1";
+            Debug.Log("front id: " + SceneSwitchController.Instance().encounterId);
+            string temp_id = SceneSwitchController.Instance().encounterId;
+            string temp_id_front = temp_id.Split('_')[0];
+            //if (temp_id_front == "sandworm")
+            //    return "sandworm_1";
+            //if (temp_id_front == "chomper")
+            //    return "chomper_1";
+            //if (temp_id_front == "Devil")
+            //    return "Devil_1";
+            if (temp_id == "hunter_3")
+                return "hunter_2";
+            if (temp_id == "dk_3")
+                return "dk_2";
+            return SceneSwitchController.Instance().encounterId;
+            //return "Plain_Shadow_1";
+        }
+
+
+        private Mediator.Deck GetDeck()
+        {
+            return SceneSwitchController.Instance().deck;
+        }
+
         //初始战斗地图
-        public void InitAndInstantiateMapBlocks(string encouterId)
+        private void InitAndInstantiateMapBlocks(string encouterId)
         {
             BattleMapPanel = new GameObject("BattleMap");
             BattleMapPanel.transform.position = Vector3.zero;
@@ -242,15 +334,8 @@ namespace BattleMap
             }         
         }
 
-        public void DestroyMap()
-        {
-            for (int i = 0; i < blocks.Count; i++)
-                Destroy(blocks[i]);
-            Destroy(BattleMapPanel);
-        }
-
         //处理战斗地图缩放
-        public void ScaleBattleMap()
+        private void ScaleBattleMap()
         {
             //战斗地图总的长高，以6*10的大小为标准
             float block_size = flat.GetComponent<SpriteRenderer>().size.x; //单个地砖的边长（图片边长）
