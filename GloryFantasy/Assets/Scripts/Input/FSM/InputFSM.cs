@@ -21,7 +21,7 @@ namespace GamePlay.FSM
         }
 
         /// <summary>
-        /// 存储点击的对象坐标
+        /// 存储点击的对象
         /// </summary>
         public List<object> TargetList = new List<object>();
         /// <summary>

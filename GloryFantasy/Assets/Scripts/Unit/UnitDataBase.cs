@@ -126,8 +126,11 @@ namespace GameUnit
 
             unit.priSPD = 0;
             //unit.damaged = "" //不知道这什么玩意儿
-            unit.canNotAttack = true;
-            unit.canNotMove = true;
+            unit.canNotAttack = false;
+            unit.canNotMove = false;
+            unit.AT = 0;
+            unit.MT = 0;
+            unit.CT = 0;
             unit.armorRestore = 0;
             unit.armor = 0;
 

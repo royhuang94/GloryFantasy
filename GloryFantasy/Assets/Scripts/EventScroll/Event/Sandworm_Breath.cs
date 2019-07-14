@@ -48,7 +48,7 @@ namespace GamePlay.Event
                     Damage.TakeDamage(block.units_on_me[0], This_Damage);   //使得敌方单位收到Y点伤害
                 }
 
-                block.gameObject.AddBuff<Ability.Debuff.BFiring>(2f);   //使得此地图块儿 灼烧 ,2回合后 消解
+                //block.gameObject.AddBuff<Ability.Debuff.BFiring>(2f);   //使得此地图块儿 灼烧 ,2回合后 消解
             }
         }
     }

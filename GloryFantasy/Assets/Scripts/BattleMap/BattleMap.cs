@@ -177,7 +177,7 @@ namespace BattleMap
             //初始战区状态，战区对象并添加事件模块进入仲裁器；
             battleAreaData.InitBattleArea(encouterId);           
             //初始战斗地图上的单位 
-            UnitManager.InitAndInstantiateGameUnit(encouterId, _mapBlocks);
+            UnitManager.InitAndInstantiateGameUnit(encouterId);
             //该次遭遇中的一些临时数值
             EncouterData.Instance().dataOfThisBattle.InitData(encouterId);
             //设置回合为第一回合

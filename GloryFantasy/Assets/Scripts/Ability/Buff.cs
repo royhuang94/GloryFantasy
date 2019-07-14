@@ -57,17 +57,17 @@ namespace Ability.Buff
     public class Buff : MonoBehaviour, GameplayTool
     {
         //从异能获取到的变量集合
-        protected AbilityVariable _buffVariable = new AbilityVariable();
+        protected Variable _buffVariable = new Variable();
         /// <summary>
         /// 填充变量集合
         /// </summary>
         /// <param name="otherAbilityVariable"></param>
-        private void FillBuffVariable(AbilityVariable otherAbilityVariable)
+        private void FillBuffVariable(Variable otherAbilityVariable)
         {
             //用序列化拷贝AbilityVariable
             Stream stream = GameUtility.Serializer.InstanceDataToMemory(otherAbilityVariable);
             stream.Position = 0;
-            this._buffVariable = (AbilityVariable)GameUtility.Serializer.MemoryToInstanceData(stream);
+            this._buffVariable = (Variable)GameUtility.Serializer.MemoryToInstanceData(stream);
         }
 
 
@@ -133,7 +133,7 @@ namespace Ability.Buff
         /// <summary>
         /// 对于需要使用异能变量的buff重载这个方法来进行书写。参数AbilityVariable。
         /// </summary>
-        virtual public void setVariable(AbilityVariable variable)
+        virtual public void setVariable(Variable variable)
         {
             FillBuffVariable(variable);
             InitialBuff();

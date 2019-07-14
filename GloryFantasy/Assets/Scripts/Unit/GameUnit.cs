@@ -13,6 +13,14 @@ namespace GameUnit
         Enemy,
         Neutrality //中立
     }
+
+    public enum UnitState
+    {
+        None,
+        Move,
+        Attack
+    }
+
     public class GameUnit : MonoBehaviour, IMessage.MsgReceiver
     {
         //文件数量超过两位数的数据不要使用ScriptableObject实现
@@ -188,7 +196,7 @@ namespace GameUnit
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 单位的优先级
+        /// 单位的伤害请求优先级序列
         /// </summary>
         public List<int> priority { get; set; }
         /// <summary>
@@ -201,7 +209,7 @@ namespace GameUnit
         new public List<string> tag { get; set; }
 
         /// <summary>
-        /// 单位的SPD修正值，迅击和滞击
+        /// 单位的SPD修正值，适用到每次伤害请求
         /// </summary>
         public int priSPD { get; set; }
        
@@ -228,17 +236,39 @@ namespace GameUnit
             }
         }
 
-
+        public int AT { get; set; }
+        public int CT { get; set; }
+        public int MT { get; set; }
+        public UnitState lastAction;
         /// <summary>
         /// 为真单位不能攻击
         /// </summary>
-        //public bool disarm { get; set; }
         public bool canNotAttack { get; set; }
+        public bool canAttack()
+        {
+            return !canNotAttack && (AT > 0);
+        }
         /// <summary>
         /// 为真单位不能移动
         /// </summary>
         //public bool restrain { get; set; }
         public bool canNotMove { get; set; }
+        public bool canMove()
+        {
+            return !canNotMove && (MT > 0);
+        }
+        public UnitState nextAction()
+        {
+            if (canMove() && (lastAction == UnitState.None || 
+                lastAction == UnitState.Attack || 
+                (lastAction == UnitState.Move && !canAttack())))
+                return UnitState.Move;
+            if (canAttack() && ((lastAction == UnitState.None && !canMove()) ||
+                lastAction == UnitState.Move ||
+                (lastAction == UnitState.Attack && !canMove())))
+                return UnitState.Attack;
+            return UnitState.None;
+        }
         /// <summary>
         /// 单位的护甲回复值，每个回合开始给护甲值补回这个值
         /// </summary>

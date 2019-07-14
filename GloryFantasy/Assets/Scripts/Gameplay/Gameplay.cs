@@ -129,7 +129,7 @@ namespace GamePlay
 
         private void Update()
         {
-            gamePlayInput.Update();
+            //gamePlayInput.Update();
         }
 
         private void Start()

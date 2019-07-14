@@ -36,7 +36,7 @@ namespace GamePlay.Event
             List<GameUnit.GameUnit> Unit_in_Source_Area = GameplayToolExtend.getUnitsInRegion(this.Source as BattleMap.BattleArea);
             foreach (GameUnit.GameUnit unit in Unit_in_Source_Area)
             {
-                unit.gameObject.AddBuff<Ability.Buff.AttackUp1>(1f);   //使得此单位获得 攻击力+1 ,1回合后 消解
+                //unit.gameObject.AddBuff<Ability.Buff.AttackUp1>(1f);   //使得此单位获得 攻击力+1 ,1回合后 消解
             }
 
 

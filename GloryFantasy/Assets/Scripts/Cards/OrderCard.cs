@@ -57,7 +57,7 @@ namespace GameCard
         public override bool Use()
         {
             //进入指令卡选择目标状态
-            GamePlay.Gameplay.Instance().gamePlayInput.OnUseOrderCard(this.GetComponent<Ability.Ability>());
+            //GamePlay.Gameplay.Instance().gamePlayInput.OnUseOrderCard(this.GetComponent<Ability.Ability>());
             // 根据情况返回
             //删除这张指令牌
             //CardManager.GetInstance().RemoveCard(this.gameObject);

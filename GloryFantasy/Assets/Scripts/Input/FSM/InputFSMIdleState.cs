@@ -25,24 +25,40 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownFriendly(unit, eventData);
 
-            //如果单位可以移动
-            if (unit.canNotMove == false)
+            // 对不同按键事件进行不同的判断。
+            switch (eventData.button)
             {
-                //获得单位的位置
-                Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
-                GameUtility.UtilityHelper.Log("准备移动，再次点击角色取消移动进入攻击.Unit position is " + pos, GameUtility.LogColor.RED);
-                FSM.TargetList.Add(pos);
-                FSM.HandleMovConfirm(pos,BattleMap.BattleMap.Instance().GetUnitsOnMapBlock(pos));//移动范围显示
-                BattleMap.BattleMap.Instance().IsMoveColor = true;
-                FSM.PushState(new InputFSMMoveState(this.FSM));
-            }
-            //如果单位已经不能移动，但是可以攻击
-            else if (unit.canNotMove == true && unit.canNotAttack == false)
-            {
-                Vector2 pos = BattleMap.BattleMap.Instance().GetUnitCoordinate(unit);
-                GameUtility.UtilityHelper.Log("准备攻击，右键取消攻击.Unit position is " + pos, GameUtility.LogColor.RED);
-                FSM.TargetList.Add(pos);
-                FSM.PushState(new InputFSMAttackState(this.FSM));
+                // 中键（无效果）
+                case PointerEventData.InputButton.Middle:
+                    return;
+                // 右键（TODO: 显示单位详细信息）
+                case PointerEventData.InputButton.Right:
+                    
+                    break;
+                // 左键
+                case PointerEventData.InputButton.Left:
+                    // 如果单位的下一个行为为移动
+                    if (unit.nextAction() == UnitState.Move)
+                    {
+                        //获得单位的位置
+                        FSM.TargetList.Clear();
+                        GameUtility.UtilityHelper.Log("准备移动，再次点击角色取消移动进入攻击.Unit position is " + unit.CurPos, GameUtility.LogColor.RED);
+                        FSM.TargetList.Add(unit);
+                        FSM.HandleMovConfirm(unit.CurPos, unit);// 移动范围显示
+                        BattleMap.BattleMap.Instance().IsMoveColor = true;
+                        FSM.PushState(new InputFSMMoveState(this.FSM));
+                    }
+                    // 如果单位的下一个行为为攻击
+                    else if (unit.nextAction() == UnitState.Attack)
+                    {
+                        FSM.TargetList.Clear();
+                        GameUtility.UtilityHelper.Log("准备攻击，点击角色取消攻击.Unit position is " + unit.CurPos, GameUtility.LogColor.RED);
+                        FSM.TargetList.Add(unit);
+                        FSM.HandleAtkConfirm(unit.CurPos, unit);// 显示攻击范围
+                        BattleMap.BattleMap.Instance().IsAtkColor = true;
+                        FSM.PushState(new InputFSMAttackState(this.FSM));
+                    }
+                    break;
             }
         }
 

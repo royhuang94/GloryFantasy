@@ -284,37 +284,37 @@ namespace GameCard
         /// </summary>
         public void OnUseCurrentCard()
         {
-            if (_isSelectingMode)
-            {
-                Gameplay.Instance().gamePlayInput.InputFSM.selectedCard = _handcardsInstance[_currentSelectingPos].GetComponent<BaseCard>();
-                cb();
-                return;
-            }
+            //if (_isSelectingMode)
+            //{
+            //    Gameplay.Instance().gamePlayInput.InputFSM.selectedCard = _handcardsInstance[_currentSelectingPos].GetComponent<BaseCard>();
+            //    cb();
+            //    return;
+            //}
             
-            BaseCard baseCardReference = _handcardsInstance[_currentSelectingPos].GetComponent<BaseCard>();
-            if (!Player.Instance().CanConsumeAp(baseCardReference.cost))
-            {
-                // TODO : 并实现AP值震动效果
-                Debug.Log("Ran out of AP, cant use this one");
-                return;
-            }
+            //BaseCard baseCardReference = _handcardsInstance[_currentSelectingPos].GetComponent<BaseCard>();
+            //if (!Player.Instance().CanConsumeAp(baseCardReference.cost))
+            //{
+            //    // TODO : 并实现AP值震动效果
+            //    Debug.Log("Ran out of AP, cant use this one");
+            //    return;
+            //}
 
-            if (baseCardReference.type.Equals("Order"))
-            {
-                Ability.Ability ability = _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>();
-                if(ability.AbilityTargetList.Count > 0)
-                    OrderUX.Instance().ClickToHighLight(ability.AbilityTargetList[0], ability.AbilityVariable, 
-                        ability.AbilityName, Color.green, Vector2.zero);
-                Gameplay.Instance().gamePlayInput.OnUseOrderCard(
-                    _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>());
-                return;
-            }
+            //if (baseCardReference.type.Equals("Order"))
+            //{
+            //    Ability.Ability ability = _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>();
+            //    if(ability.AbilityTargetList.Count > 0)
+            //        OrderUX.Instance().ClickToHighLight(ability.AbilityTargetList[0], ability.AbilityVariable, 
+            //            ability.AbilityName, Color.green, Vector2.zero);
+            //    Gameplay.Instance().gamePlayInput.OnUseOrderCard(
+            //        _handcardsInstance[_currentSelectingPos].GetComponent<Ability.Ability>());
+            //    return;
+            //}
 
-            if (Gameplay.Instance().gamePlayInput.IsSelectingCard == false)
-            {
-                Gameplay.Instance().gamePlayInput.OnPointerDownUnitCard(_handcardsInstance[_currentSelectingPos]);
-                BattleMap.BattleMap.Instance().IsColor = true;
-            }
+            //if (Gameplay.Instance().gamePlayInput.IsSelectingCard == false)
+            //{
+            //    Gameplay.Instance().gamePlayInput.OnPointerDownUnitCard(_handcardsInstance[_currentSelectingPos]);
+            //    BattleMap.BattleMap.Instance().IsColor = true;
+            //}
             
         }
 
