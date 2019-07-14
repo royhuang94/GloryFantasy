@@ -31,7 +31,10 @@ namespace BattleMap
             BattleMapBlock = new BattleMapBlock();
         }
 
-        private void Start()
+        /// <summary>
+        /// 再次包装一下，放到GampPlay里调用
+        /// </summary>
+        public void InitMap()
         {
             if (GetEncounterID() == null)
                 InitMap("ant_1", GetDeck());
@@ -39,7 +42,6 @@ namespace BattleMap
                 InitMap(GetEncounterID(), GetDeck());
             RegisterMSG();
         }
-
 
         /// <summary>
         /// 注册信息，以免第二次之后进来不注册
@@ -155,7 +157,7 @@ namespace BattleMap
             SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
         }
 
-        public void InitMap(string encouterId, Mediator.Deck deck)
+        private void InitMap(string encouterId, Mediator.Deck deck)
         {
             if (deck == null)
             {

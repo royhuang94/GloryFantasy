@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
-using Ability;
 using Ability.Buff;
 using IMessage;
 using GamePlay;
@@ -92,7 +88,7 @@ namespace IMessage
 
 namespace GamePlay
 {
-    
+
 
     public class Gameplay : UnitySingleton<Gameplay>
     {
@@ -131,6 +127,17 @@ namespace GamePlay
             gamePlayInput.Update();
         }
 
+        private void Start()
+        {
+            //初始战斗地图
+            BattleMap.BattleMap.Instance().InitMap();
+
+            //启动回合自流动控制器
+            roundProcessController.action = BackUpdateRound;
+            //StartCoroutine(RoundUpdate());
+            BackUpdateRound(RoundInput.RestoreApPhase);
+        }
+
         /// <summary>
         /// 提供给场景中阶段切换的按钮
         /// </summary>
@@ -139,16 +146,9 @@ namespace GamePlay
             roundProcessController.StepIntoNextStateByButton();
         }
 
+
+
         #region 回合自流动
-        /// <summary>
-        /// 启动回合自流动控制器
-        /// </summary>
-        private void Start()
-        {
-            roundProcessController.action = BackUpdateRound;
-            //StartCoroutine(RoundUpdate());
-            BackUpdateRound(RoundInput.RestoreApPhase);
-        }
         /// <summary>
         /// 提供给场景中阶段切换的按钮
         /// </summary>
@@ -224,43 +224,5 @@ namespace GamePlay
 
         }
         #endregion
-
-        /// <summary>
-        /// 当单位移动范围显示的时候，点击卡牌，取消移动范围显示,防止被箭头覆盖
-        /// </summary>
-        public void CancleMoveRangeMark()
-        {
-            if (BattleMap.BattleMap.Instance().IsMoveColor == true)
-            {
-                GameGUI.ShowRange.Instance().CancleMoveRangeMark();
-                gamePlayInput.InputFSM.PushState(new FSM.InputFSMIdleState(gamePlayInput.InputFSM));
-            }
-
-            if(BattleMap.BattleMap.Instance().IsAtkColor == true)
-            {
-                GameGUI.ShowRange.Instance().CancleAttackRangeMark();
-                gamePlayInput.InputFSM.PushState(new FSM.InputFSMAttackState(gamePlayInput.InputFSM));
-            }
-        }
-
-        /// <summary>
-        /// 当单位移动范围显示的时候，点击卡牌，取消移动范围显示,防止被箭头覆盖
-        /// </summary>
-        public void CancleRangeMark()
-        {
-            if (BattleMap.BattleMap.Instance().IsMoveColor == true)
-            {
-                BattleMap.BattleMap.Instance().IsMoveColor = false;
-                GameGUI.ShowRange.Instance().CancleMoveRangeMark();
-                gamePlayInput.InputFSM.PushState(new FSM.InputFSMIdleState(gamePlayInput.InputFSM));
-            }
-
-            if (BattleMap.BattleMap.Instance().IsAtkColor == true)
-            {
-                BattleMap.BattleMap.Instance().IsAtkColor = false;
-                GameGUI.ShowRange.Instance().CancleAttackRangeMark();
-                gamePlayInput.InputFSM.PushState(new FSM.InputFSMIdleState(gamePlayInput.InputFSM));
-            }
-        }
     }
 }

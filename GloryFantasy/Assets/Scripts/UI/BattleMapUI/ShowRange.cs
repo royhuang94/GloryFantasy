@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Unit = GameUnit.GameUnit;
 
-using GameUnit;
-
 namespace GameGUI
 {
 
@@ -270,6 +268,44 @@ namespace GameGUI
         {
             BattleMap.BattleMap.Instance().ColorMapBlocks(
                 GetPositionsWithinCertainMd(target, range), Color.white);
+        }
+
+        /// <summary>
+        /// 当单位移动范围显示的时候，点击卡牌，取消移动范围显示,防止被箭头覆盖,并压入对应状态
+        /// </summary>
+        public void CancleMoveAndState()
+        {
+            if (BattleMap.BattleMap.Instance().IsMoveColor == true)
+            {
+                CancleMoveRangeMark();
+                GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.PushState(new GamePlay.FSM.InputFSMIdleState(GamePlay.Gameplay.Instance().gamePlayInput.InputFSM));
+            }
+
+            if (BattleMap.BattleMap.Instance().IsAtkColor == true)
+            {
+                CancleAttackRangeMark();
+                GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.PushState(new GamePlay.FSM.InputFSMAttackState(GamePlay.Gameplay.Instance().gamePlayInput.InputFSM));
+            }
+        }
+
+        /// <summary>
+        /// 当单位移动范围显示的时候，点击卡牌，取消移动范围显示,防止被箭头覆盖
+        /// </summary>
+        public void CancleRangeMark()
+        {
+            if (BattleMap.BattleMap.Instance().IsMoveColor == true)
+            {
+                BattleMap.BattleMap.Instance().IsMoveColor = false;
+                CancleMoveRangeMark();
+                GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.PushState(new GamePlay.FSM.InputFSMIdleState(GamePlay.Gameplay.Instance().gamePlayInput.InputFSM));
+            }
+
+            if (BattleMap.BattleMap.Instance().IsAtkColor == true)
+            {
+                BattleMap.BattleMap.Instance().IsAtkColor = false;
+                CancleAttackRangeMark();
+                GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.PushState(new GamePlay.FSM.InputFSMIdleState(GamePlay.Gameplay.Instance().gamePlayInput.InputFSM));
+            }
         }
     }
 }
