@@ -284,7 +284,9 @@ namespace GamePlay.Round
             {
                 if (unit.owner == GameUnit.OwnerEnum.Player)
                 {
-                    unit.canNotMove = false;
+                    unit.AT = 1;
+                    unit.MT = 1;
+                    unit.lastAction = GameUnit.UnitState.None;
                 }
             }
             Gameplay.Instance().gamePlayInput.OnEnterPlatState();

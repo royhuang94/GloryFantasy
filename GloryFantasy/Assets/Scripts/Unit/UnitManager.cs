@@ -41,7 +41,14 @@ namespace GameUnit
             _unitManager.SetKiller(killer);
             _unitManager.SetKilledAndDeadUnit(beKilled);
             //死亡单位回收到对象池
-            GameUnitPool.Instance().UnitBackPool(beKilled);
+            if (beKilled is UnitHero)
+            {
+
+            }
+            else
+            {
+                GameUnitPool.Instance().UnitBackPool(beKilled);
+            }
 
             //删除对应controller中的死亡单位
             Gameplay.Instance().autoController.UpdateAllHatredList();
@@ -56,13 +63,12 @@ namespace GameUnit
             if (killer != null)
                 MsgDispatcher.SendMsg((int)MessageType.Kill);
             MsgDispatcher.SendMsg((int)MessageType.Dead);
-            MsgDispatcher.SendMsg((int)MessageType.BattleSate);//单位死亡更新战区所属状态
         }
         //角色从卡牌初始化到地图上
-        public static void InstantiationUnit(string cardID, OwnerEnum owner, BattleMapBlock battleMapBlock)
+        public static void InstantiationUnit(string unitID, OwnerEnum owner, BattleMapBlock battleMapBlock)
         {
             //根据卡牌id生成单位
-            GameObject temp = GameUnitPool.Instance().GetInst(cardID, owner);
+            GameObject temp = GameUnitPool.Instance().GetInst(unitID, owner);
             Debug.Log("temp: " + temp);
             //获取GameUnit对象
             GameUnit gameUnit = temp.GetComponent<GameUnit>(); ;
@@ -88,7 +94,7 @@ namespace GameUnit
 
             //部署成功
             UpdateChessImg(gameUnit.name, gameUnit);
-            Gameplay.Instance().bmbColliderManager.Fresh();
+            //Gameplay.Instance().bmbColliderManager.Fresh();
             AddEventModule(gameUnit);
             //Debug.LogFormat("EventModuleListCount: {0}", Gameplay.Instance().eventScroll.EventModuleListCount);
 
@@ -217,7 +223,7 @@ namespace GameUnit
         /// <summary>
         /// 读取每个事件模块中的信息
         /// </summary>
-        private static void AddEventModule(GameUnit unit)
+        public static void AddEventModule(GameUnit unit)
         {
             if (unit.EventModule != null)
             {

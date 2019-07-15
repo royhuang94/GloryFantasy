@@ -68,8 +68,7 @@ namespace IMessage
         RoundsEnd,  //回合结束
 
         Encounter, // 遭遇战
-
-        BattleSate,//战区状态
+        
 
         DeathPageIncrease //死页增加
     };
@@ -134,6 +133,17 @@ namespace IMessage
             }
         }
 
+        public static void clearHandlers(MsgReceiver receiver)
+        {
+            if (!Receviers.ContainsKey(receiver))
+                return;
+            foreach(MsgHandler handler in Receviers[receiver])
+            {
+                handler.receiver = null;
+            }
+            Receviers[receiver].Clear();
+        }
+
         private static Dictionary<int, List<int>> Inverse(Dictionary<int, List<int>> keyValuePairs)
         {
             Dictionary<int, List<int>> res = new Dictionary<int, List<int>>();
@@ -157,7 +167,7 @@ namespace IMessage
                 {
                     (int)MessageType.Aftermove,
                     (int)MessageType.Dead,
-                    (int)MessageType.Summon,
+                    (int)MessageType.GenerateUnit,
                     (int)MessageType.Moved,
                 }
             }
@@ -165,6 +175,7 @@ namespace IMessage
         });
 
         static Dictionary<int, List<MsgHandler>> MsgHandlerDict = new Dictionary<int, List<MsgHandler>>();
+        static Dictionary<MsgReceiver, List<MsgHandler>> Receviers = new Dictionary<MsgReceiver, List<MsgHandler>>();
 
         static GlobalReceiver globalReceiver = new GlobalReceiver();
 
@@ -222,6 +233,12 @@ namespace IMessage
             var handlers = MsgHandlerDict[msgName];
 
             handlers.Add(new MsgHandler(self, msgName, condition, action, DoOnce));
+            
+            if (!Receviers.ContainsKey(self))
+            {
+                Receviers[self] = new List<MsgHandler>();
+            }
+            Receviers[self].Add(handlers[handlers.Count - 1]);
 
             Debug.Log("RegisterMsg: " + TriggerName + "successfully register");
 
