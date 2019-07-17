@@ -304,7 +304,7 @@ namespace GamePlay.Input
                     
                 }
                 
-                if (_Attacker.IsDead() || _AttackedUnit.IsDead())
+                if (_Attacker.IsDead || _AttackedUnit.IsDead)
                     break;
             }
         }

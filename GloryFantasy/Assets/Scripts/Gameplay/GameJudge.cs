@@ -184,7 +184,7 @@ namespace GamePlay
                 Gameplay.Instance().roundProcessController.Lose();
             }
 
-            if (battleMap.ProjectUnit(AreaID, player, enemy) == notUnit && player.IsDead())
+            if (battleMap.ProjectUnit(AreaID, player, enemy) == notUnit && player.IsDead)
             {
                 Gameplay.Instance().roundProcessController.Lose();
             }
@@ -218,7 +218,7 @@ namespace GamePlay
         {
             GameUnit.GameUnit BeKilledUnit = null;                   // 指定被击杀单位
             //TODO：获取指定的单位的引用，等待接口
-            if (BeKilledUnit.IsDead())
+            if (BeKilledUnit.IsDead)
             {
                 Gameplay.Instance().roundProcessController.Win();
             }

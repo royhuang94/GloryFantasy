@@ -329,10 +329,7 @@ namespace GameUnit
         /// 判断单位有无死亡
         /// </summary>
         /// <returns></returns>
-        public bool IsDead()
-        {
-            return !(hp > 0);
-        }
+        public bool IsDead { get; set; }
 
         /// <summary>
         /// 异能携带检测

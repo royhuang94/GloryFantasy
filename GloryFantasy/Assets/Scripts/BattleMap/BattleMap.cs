@@ -188,7 +188,7 @@ namespace BattleMap
             ScaleBattleMap();
         }
 
-        private Mediator.Deck defaultDeck = new Mediator.Deck(new List<string>(), "HElf_1");
+        //private Mediator.Deck defaultDeck = new Mediator.Deck(new List<string>(), "HElf_1");
 
         /// <summary>
         /// 重新根据遭遇文件生成新的战斗地图

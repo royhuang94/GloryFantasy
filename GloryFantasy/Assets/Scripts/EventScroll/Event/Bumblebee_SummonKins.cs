@@ -34,8 +34,7 @@ namespace GamePlay.Event
             this.strenth += delta_y_strenth;
             //升级来源单位同一战区的迅雷毒蜂
             GameUnit.GameUnit _Unit = this.Source as GameUnit.GameUnit;
-            int _RegionID = GameplayToolExtend.GetRegion(_Unit);
-            List<GameUnit.GameUnit> Unit_in_Source_Area = GameplayToolExtend.getUnitsInRegion(_RegionID);
+            List<GameUnit.GameUnit> Unit_in_Source_Area = GameplayToolExtend.getUnitsInRegion(GameplayToolExtend.GetRegion(_Unit));
             foreach (GameUnit.GameUnit unit in Unit_in_Source_Area)
             {
                 //升级明细：

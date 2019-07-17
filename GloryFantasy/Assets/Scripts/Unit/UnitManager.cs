@@ -43,13 +43,13 @@ namespace GameUnit
             //死亡单位回收到对象池
             if (beKilled is UnitHero)
             {
-
+                Gameplay.Instance().heroManager.sendHeroInCD(beKilled as UnitHero);
             }
             else
             {
                 GameUnitPool.Instance().UnitBackPool(beKilled);
             }
-
+            BattleMap.BattleMap.Instance().RemoveUnitOnBlock(beKilled);
             //删除对应controller中的死亡单位
             Gameplay.Instance().autoController.UpdateAllHatredList();
 
@@ -60,6 +60,7 @@ namespace GameUnit
                 beKilled.EventModule = null;
                 beKilled.eventsInfo.Clear();
             }
+            beKilled.IsDead = true;
             if (killer != null)
                 MsgDispatcher.SendMsg((int)MessageType.Kill);
             MsgDispatcher.SendMsg((int)MessageType.Dead);
@@ -109,6 +110,7 @@ namespace GameUnit
             //    controller.hatredRecorder.Reset(gameUnit);
             //    GamePlay.Gameplay.Instance().autoController.singleControllers.Add(controller);
             //}
+            gameUnit.IsDead = false;
             Gameplay.Info.GeneratingUnit = gameUnit;
             MsgDispatcher.SendMsg((int)MessageType.GenerateUnit);
 //            if (gameUnit.tag.Contains("英雄"))

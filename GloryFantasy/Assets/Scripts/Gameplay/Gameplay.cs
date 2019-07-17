@@ -105,6 +105,7 @@ namespace GamePlay
             autoController = new AI.AutoController();
             singleBattle = new AI.BattleField();
             eventScroll = new EventScroll();
+            heroManager = new HeroManager();
         }
         //private void Update()
         //{
@@ -124,6 +125,7 @@ namespace GamePlay
         public AI.BattleField singleBattle;
         public AI.AutoController autoController;
         public EventScroll eventScroll;
+        public HeroManager heroManager;
         private string _encouterID;//该次遭遇的遭遇id;
         public string EncouterID { get { return _encouterID; } }
 

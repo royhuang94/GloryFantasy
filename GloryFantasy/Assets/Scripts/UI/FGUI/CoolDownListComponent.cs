@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FairyGUI;
 using GameCard;
+using GameUnit;
 using IMessage;
 using LitJson;
 using UnityEngine;
@@ -12,10 +13,10 @@ namespace UI.FGUI
     {
         
         #region 变量
-        /// <summary>
-        /// 存储上一次点击的冷却卡牌
-        /// </summary>
-        private cdObject _lastClickedCoolDownCard;
+        ///// <summary>
+        ///// 存储上一次点击的冷却卡牌
+        ///// </summary>
+        //private cdObject _lastClickedCoolDownCard;
         /// <summary>
         /// 冷却池卡牌列表
         /// </summary>
@@ -24,7 +25,7 @@ namespace UI.FGUI
         /// <summary>
         /// 英雄管理器内冷却list的引用
         /// </summary>
-        private List<GameUnit.UnitHero> __cooldownList;
+        private List<GameUnit.HeroCD> __cooldownList;
         
         /// <summary>
         /// 冷却池用的卡牌素材资源定义
@@ -48,7 +49,7 @@ namespace UI.FGUI
             int index = _cooldownList.GetChildIndex(context.data as GObject);
 
             // 根据点击下标获取对应冷却牌
-            GameUnit.UnitHero CDHero = __cooldownList[index];
+            GameUnit.UnitHero CDHero = __cooldownList[index].hero;
 
             GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.OnPointerDownCDObject(CDHero, context);
         }
@@ -59,12 +60,12 @@ namespace UI.FGUI
         public void UpdateCooldownList()
         {
             _cooldownList.RemoveChildren(0, -1, true);
-            foreach (cdObject cooldownCard in __cooldownList)
+            foreach (HeroCD cooldownUnit in __cooldownList)
             {
                 GObject item = UIPackage.CreateObject(_pkgName, "cooldownItem");
-                item.icon = UIPackage.GetItemURL(_numsPkg, "cdNum" + cooldownCard.leftCd);
+                item.icon = UIPackage.GetItemURL(_numsPkg, "cdNum" + cooldownUnit.leftCD());
                 item.asCom.GetChild("n2").asLoader.url = UIPackage.GetItemURL(_cooldownCardAssets,
-                    cooldownCard.objectId.Split('_').First());
+                    cooldownUnit.hero.id.Split('_').First());
                 _cooldownList.AddChild(item);
             }
         }
@@ -74,13 +75,13 @@ namespace UI.FGUI
             _cooldownList = cooldownList;
             _pkgName = pkgName;
             
-            _lastClickedCoolDownCard = null;
-            
+            //_lastClickedCoolDownCard = null;
+
             // 获取引用
-            __cooldownList = CardManager.Instance().cooldownCards;
-            // 添加右键点击事件
-            //_cooldownList.onClickItem.Add(OnClickCoolDownCard);
-            _cooldownList.onRightClickItem.Add(OnClickCoolDownCard);
+            __cooldownList = GamePlay.Gameplay.Instance().heroManager.CDHeros;
+            // 添加点击事件
+            _cooldownList.onClickItem.Add(OnClickCoolDownCard);
+            //_cooldownList.onRightClickItem.Add(OnClickCoolDownCard);
             
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),

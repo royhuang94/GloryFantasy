@@ -1,5 +1,7 @@
 using BattleMap;
+using FairyGUI;
 using GameCard;
+using GameUnit;
 using IMessage;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,87 +13,74 @@ namespace GamePlay.FSM
     {
         public InputFSMPlatState(InputFSM fsm) : base(fsm)
         { }
-        List<BattleMapBlock> pos;
+        private UnitHero selectingHero;
 
-        private int judge()
+        public void CancelDispose()
         {
-            List<Vector2> res = new List<Vector2>();
-            foreach (GameObject instance in BattleMap.BattleMap.Instance().blocks)
+            if (selectingHero == null) // 未选择英雄的场合
             {
-                BattleMapBlock block;
-                if (instance.activeSelf == true)
-                    block = instance.GetComponent<BattleMapBlock>();
-                else
-                    continue;
-                if (BattleMap.BattleMap.Instance().WarZoneBelong(block.position) == BattleAreaState.Player)
-                    res.Add(block.position);
+                FSM.PushState(new InputFSMIdleState(FSM));
             }
-            return res.Count;
-            
+            else // 选择了英雄的场合
+            {
+                selectingHero = null;
+            }
         }
 
         public override void OnEnter()
         {
             base.OnEnter();
             
-            if (BattleMap.BattleMap.Instance()._quickplat.Count <= 0)
+            if (GamePlay.Gameplay.Instance().heroManager.done.Count == 0)
                 FSM.PushState(new InputFSMIdleState(FSM));
-            else if (judge() <= 0)
-            {
-                FSM.PushState(new InputFSMIdleState(FSM));
-            }
-            else { 
-                pos = new List<BattleMapBlock>();
-            }
-            
+            FSM.CancelList.Add(CancelDispose);
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            FSM.CancelList.Remove(CancelDispose);
         }
 
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             base.OnPointerDownBlock(mapBlock, eventData);
-
-            //如果不是左键直接跳出
-            if (eventData.button != PointerEventData.InputButton.Left)
-            {
+            if (selectingHero == null)
                 return;
-            }
-
-            //判断是是否符合Ability中的自制对象约束
-            if (BattleMap.BattleMap.Instance().WarZoneBelong(mapBlock.position) != BattleAreaState.Player)
-                return;
-
-            if (mapBlock.units_on_me.Count <= 0 && !pos.Contains(mapBlock))
-                pos.Add(mapBlock);
-            // 如果已经选够了目标就发送选择完毕消息
-            if (pos.Count == judge() || pos.Count == BattleMap.BattleMap.Instance()._quickplat.Count)
+            // 对不同按键事件进行不同的判断。
+            switch (eventData.button)
             {
-                List<GameUnit.OwnerEnum> owners = new List<GameUnit.OwnerEnum>();
-                List<string> units = new List<string>();
-                for (int i = 0; i < pos.Count; i++)
-                {
-                    owners.Add(GameUnit.OwnerEnum.Player);
-                    units.Add(BattleMap.BattleMap.Instance()._quickplat[i]);
-                }
-                Input.DispositionCommandList dispositionCommandList = new Input.DispositionCommandList(units, owners, pos);
-                dispositionCommandList.Excute();
-                FSM.PushState(new InputFSMIdleState(FSM));
-                for (int i = 0; i < pos.Count;i++)
-                {
-                    BattleMap.BattleMap.Instance()._quickplat.RemoveAt(0);
-                }
+                // 中键（无效果）
+                case PointerEventData.InputButton.Middle:
+                    return;
+                // 右键（撤回选取或取消选取）
+                case PointerEventData.InputButton.Right:
+
+                    break;
+                // 左键
+                case PointerEventData.InputButton.Left:
+
+                    // TODO: 终止合法对象渲染。
+
+                    if (GameplayToolExtend.GetRegion(mapBlock)._battleAreaSate != BattleAreaState.Player)
+                    {
+                        
+                    }
+                    else
+                    {
+                        selectingHero.dispose(mapBlock);
+                        selectingHero = null;
+                    }
+                    break;
             }
         }
 
-        override public void OnPointerDownFriendly(GameUnit.GameUnit unit, PointerEventData eventData)
+        public override void OnPointerDownCDObject(UnitHero hero, EventContext context)
         {
-        }
-        /// <summary>
-        /// 处理敌人单位的鼠标点击
-        /// </summary>
-        /// <param name="unit"></param>
-        /// <param name="eventData"></param>
-        override public void OnPointerDownEnemy(GameUnit.GameUnit unit, PointerEventData eventData)
-        {
+            base.OnPointerDownCDObject(hero, context);
+
+            if (hero.CDObject.currentRecovery >= hero.CDObject.maxRecovery)
+                selectingHero = hero;
         }
 
     }

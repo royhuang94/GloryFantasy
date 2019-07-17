@@ -48,8 +48,7 @@ namespace GameUnit
         {
             //回收单位
             GameUnitPool.Instance().PushUnit(deadUnit.gameObject);
-            //移除对应地图块儿下的死亡单位
-            BattleMap.BattleMap.Instance().RemoveUnitOnBlock(deadUnit);
+            
         }
         /// <summary>
         /// 实现返回GameObject的函数，GetInst(string id)
@@ -111,12 +110,12 @@ namespace GameUnit
         //    return true;
         //}
 
-        public bool CheckDeath(GameUnit unit)
-        {
-            if (unit != null && unit.gameObject.activeSelf)
-                return false;
-            return true;
-        }
+        //public bool CheckDeath(GameUnit unit)
+        //{
+        //    if (unit != null && unit.gameObject.activeSelf)
+        //        return false;
+        //    return true;
+        //}
     }
 
 }

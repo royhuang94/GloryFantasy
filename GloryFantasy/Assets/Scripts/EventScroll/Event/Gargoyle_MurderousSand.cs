@@ -35,8 +35,7 @@ namespace GamePlay.Event
 
             GameUnit.GameUnit _Unit = this.Source as GameUnit.GameUnit;
             int _hp = _Unit.hp;
-            int _RegionID = GameplayToolExtend.GetRegion(_Unit);
-            List<GameUnit.GameUnit> Unit_in_Source_Area = GameplayToolExtend.getUnitsInRegion(_RegionID);
+            List<GameUnit.GameUnit> Unit_in_Source_Area = GameplayToolExtend.getUnitsInRegion(GameplayToolExtend.GetRegion(_Unit));
             foreach (GameUnit.GameUnit unit in Unit_in_Source_Area)
             {
                 if(unit.owner != _Unit.owner)   //使得敌方单位 受到Y点伤害并获得滞击，2回合后消解。

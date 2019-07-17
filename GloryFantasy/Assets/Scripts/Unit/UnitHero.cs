@@ -14,12 +14,99 @@ namespace GameUnit
     {
         private List<UnitHero> unitHeroes;
         // TODO:英雄CD池
+        public List<HeroCD> CDHeros;
+        public List<UnitHero> done;
+
+        public void init(Mediator.Deck deck)
+        {
+            done = new List<HeroCD>();
+            unitHeroes = new List<UnitHero>();
+            CDHeros = new List<HeroCD>();
+            // 生成英雄实例并添加到unitHeros和CDHeros中，设置currentRecovery和maxRecovery为生命最大值，recoverRate为4。
+            // 调动卡牌库生成卡牌实例，为生成的卡牌添加对应的携带者
+            // 根据卡牌数据更新英雄的extraAbilities
+            // 刷新CD池
+        }
+
+        public void sendHeroInCD(UnitHero hero)
+        {
+            CDHeros.Add(new HeroCD(hero));
+        }
+
+        public void fresh()
+        {
+            foreach(HeroCD cd in CDHeros)
+            {
+                if (cd.currentRecovery < cd.maxRecovery)
+                    cd.currentRecovery += cd.recovorRate;
+                else if (!done.Contains(cd.hero))
+                {
+                    done.Add(cd.hero);
+                }
+            }
+            // 更新CD的UI显示
+        }
     }
+    public class HeroCD
+    {
+        /// <summary>
+        /// 当前恢复量
+        /// </summary>
+        public int currentRecovery;
+        /// <summary>
+        /// 重新部署所需的恢复量
+        /// </summary>
+        public int maxRecovery;
+        /// <summary>
+        /// 查询此单位剩余需要恢复多少回合
+        /// </summary>
+        /// <returns></returns>
+        public int leftCD()
+        {
+            return (currentRecovery + recovorRate - 1) / recovorRate;
+        }
+        /// <summary>
+        /// 保存的英雄实例
+        /// </summary>
+        public UnitHero hero;
+        /// <summary>
+        /// 每回合恢复率，默认为4
+        /// </summary>
+        public int recovorRate;
+
+        public HeroCD(UnitHero hero)
+        {
+            this.hero = hero;
+            this.currentRecovery = 0;
+            this.maxRecovery = hero.maxRecovery;
+            this.recovorRate = hero.recovorRate;
+            hero.CDObject = this;
+        }
+    }
+
     public class UnitHero: GameUnit
     {
-        int revorRate;
-        List<string> extraAbilities;
-
+        
+        /// <summary>
+        /// 单位数据库上未记载的额外异能
+        /// </summary>
+        public List<string> extraAbilities;
+        /// <summary>
+        /// 携带的CD状态
+        /// </summary>
+        public HeroCD CDObject;
+        /// <summary>
+        /// 每回合恢复率，默认为4
+        /// </summary>
+        public int recovorRate;
+        /// <summary>
+        /// 重新部署所需的恢复量
+        /// </summary>
+        public int maxRecovery;
+        /// <summary>
+        /// 英雄的部署方法
+        /// </summary>
+        /// <param name="mapBlock"></param>
         public void dispose(BattleMapBlock mapBlock)
         {
             // 清除triggers、Buff和异能。
@@ -75,14 +162,19 @@ namespace GameUnit
             this.nextPos = this.CurPos;
 
             //部署成功
+            this.IsDead = false;
             UnitManager.UpdateChessImg(this.name, this);
             UnitManager.AddEventModule(this);
+            // 清除CD
+            GamePlay.Gameplay.Instance().heroManager.CDHeros.Remove(this.CDObject);
+            this.CDObject = null;
             Gameplay.Info.GeneratingUnit = this;
             MsgDispatcher.SendMsg((int)MessageType.GenerateUnit);
             //更新仇恨列表
             Gameplay.Instance().autoController.UpdateAllHatredList(null, mapBlock.units_on_me);
             Gameplay.Info.SummonUnit = new List<GameUnit> { this };
             MsgDispatcher.SendMsg((int)MessageType.Summon);
+            // TODO: 更新CD池
         }
     }
 }

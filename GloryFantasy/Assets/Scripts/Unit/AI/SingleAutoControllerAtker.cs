@@ -40,7 +40,7 @@ namespace AI
             for (int i = 0; i < hatredRecorder.HatredCount; i++)
             {
                 hatredUnit = hatredRecorder.GetHatredByIndex(i, i == 0);
-                if (hatredUnit.IsDead())
+                if (hatredUnit.IsDead)
                 {
                     //已经排序过，且无法找到还能够行动的单位，就表示场上没有存活的敌方单位了
                     hatredUnit = null;

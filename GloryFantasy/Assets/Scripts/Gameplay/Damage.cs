@@ -67,7 +67,7 @@ namespace GamePlay
                 Gameplay.Instance().autoController.RecordedHatred(source, taker);
             }
             MsgDispatcher.SendMsg((int)MessageType.BeDamaged);
-            if (taker.IsDead())
+            if (taker.hp <= 0)
             {
                 UnitManager.Kill(source, taker);
             }

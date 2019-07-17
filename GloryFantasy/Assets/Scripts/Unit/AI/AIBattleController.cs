@@ -36,7 +36,7 @@ namespace AI
                 //只获取敌人
                 if (unit.owner != GameUnit.OwnerEnum.Enemy && GamePlay.Gameplay.Instance().singleBattle.battleState == BattleState.End)
                     break;
-                if (!unit.IsDead())
+                if (!unit.IsDead)
                 {
                     AI.SingleController controller = GamePlay.Gameplay.Instance().autoController.GetSingleControllerByID(unit.CurPos);
                     if (controller != null)

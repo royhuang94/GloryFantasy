@@ -626,10 +626,10 @@ namespace GamePlay
             }
             return res;
         }
-        public static bool checkDeath(GameUnit.GameUnit unit)
-        {
-            return GameUnit.GameUnitPool.Instance().CheckDeath(unit);
-        }
+        //public static bool checkDeath(GameUnit.GameUnit unit)
+        //{
+        //    return GameUnit.GameUnitPool.Instance().CheckDeath(unit);
+        //}
         /// <summary>
         /// 各等级的爆发区域。偏移量列表的列表。如Area[2]为2级爆发区域的偏移量列表。
         /// </summary>
@@ -778,29 +778,30 @@ namespace GamePlay
         /// </summary>
         /// <param name="pos">地格坐标</param>
         /// <returns></returns>
-        public static int GetRegion(Vector2 pos)
+        public static BattleMap.BattleArea GetRegion(Vector2 pos)
         {
             //获取战区id
             BattleMap.BattleMapBlock _mapBlock = BattleMap.BattleMap.Instance().GetSpecificMapBlock(pos);
-            return _mapBlock.area;
+            return GetRegion(_mapBlock);
         }
         /// <summary>
         /// 获取指定地格的所属战区。
         /// </summary>
         /// <param name="block">地格</param>
         /// <returns></returns>
-        public static int GetRegion(BattleMap.BattleMapBlock block)
+        public static BattleMap.BattleArea GetRegion(BattleMap.BattleMapBlock block)
         {
-            return block.area;
+            int temp = block.area;
+            return BattleMap.BattleMap.Instance().battleAreaData.GetBattleAreaByID(temp);
         }
         /// <summary>
         /// 获取指定单位的所属战区。
         /// </summary>
         /// <param name="unit">单位</param>
         /// <returns></returns>
-        public static int GetRegion(GameUnit.GameUnit unit)
+        public static BattleMap.BattleArea GetRegion(GameUnit.GameUnit unit)
         {
-            return unit.mapBlockBelow.area;
+            return GetRegion(unit.mapBlockBelow);
         }
         /// <summary>
         /// 获取战区内所有的地格
