@@ -17,6 +17,25 @@ namespace GamePlay.FSM
                 
         }
 
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            FSM.CancelList.Add(CancelMove);
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            FSM.CancelList.Remove(CancelMove);
+        }
+
+        public void CancelMove()
+        {
+            FSM.HandleMovCancel();
+            BattleMap.BattleMap.Instance().IsMoveColor = false;
+            FSM.PushState(new InputFSMIdleState(FSM));
+        }
+
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             base.OnPointerDownBlock(mapBlock, eventData);
@@ -27,9 +46,7 @@ namespace GamePlay.FSM
                     return;
                 // 右键（取消）
                 case PointerEventData.InputButton.Right:
-                    FSM.HandleMovCancel();
-                    BattleMap.BattleMap.Instance().IsMoveColor = false;
-                    FSM.PushState(new InputFSMIdleState(FSM));
+                    
                     break;
                 // 左键
                 case PointerEventData.InputButton.Left:
@@ -72,11 +89,8 @@ namespace GamePlay.FSM
                 // 中键（无效果）
                 case PointerEventData.InputButton.Middle:
                     return;
-                // 右键（取消）
+                // 右键（无效果）
                 case PointerEventData.InputButton.Right:
-                    FSM.HandleMovCancel();
-                    BattleMap.BattleMap.Instance().IsMoveColor = false;
-                    FSM.PushState(new InputFSMIdleState(FSM));
                     break;
                 // 左键（放弃移动）
                 case PointerEventData.InputButton.Left:
@@ -93,26 +107,6 @@ namespace GamePlay.FSM
                     {
                         //点到其他单位什么都不做
                     }
-                    break;
-            }
-        }
-        public override void OnPointerDownCard(BaseCard Card, PointerEventData eventData)
-        {
-            base.OnPointerDownCard(Card, eventData);
-            switch (eventData.button)
-            {
-                // 中键（无效果）
-                case PointerEventData.InputButton.Middle:
-                    return;
-                // 右键（取消）
-                case PointerEventData.InputButton.Right:
-                    FSM.HandleMovCancel();
-                    BattleMap.BattleMap.Instance().IsMoveColor = false;
-                    FSM.PushState(new InputFSMIdleState(FSM));
-                    break;
-                // 左键（无效果）
-                case PointerEventData.InputButton.Left:
-                    
                     break;
             }
         }

@@ -10,9 +10,25 @@ namespace GamePlay.FSM
 {
     public class InputFSMAttackState : InputFSMState
     {
-        public InputFSMAttackState(InputFSM fsm) : base(fsm)
-        {
+        public InputFSMAttackState(InputFSM fsm) : base(fsm) { }
 
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            FSM.CancelList.Add(CancelAttack);
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            FSM.CancelList.Remove(CancelAttack);
+        }
+
+        public void CancelAttack()
+        {
+            FSM.HandleAtkCancel();//攻击完工攻击范围隐藏
+            BattleMap.BattleMap.Instance().IsAtkColor = false;
+            FSM.PushState(new InputFSMIdleState(FSM));
         }
 
         public override void OnPointerDownEnemy(GameUnit.GameUnit unit, PointerEventData eventData)
@@ -23,11 +39,9 @@ namespace GamePlay.FSM
                 // 中键（无效果）
                 case PointerEventData.InputButton.Middle:
                     return;
-                // 右键（取消）
+                // 右键（无效果）
                 case PointerEventData.InputButton.Right:
-                    FSM.HandleAtkCancel();//攻击完工攻击范围隐藏
-                    BattleMap.BattleMap.Instance().IsAtkColor = false;
-                    FSM.PushState(new InputFSMIdleState(FSM));
+                    
                     break;
                 // 左键（攻击）
                 case PointerEventData.InputButton.Left:
@@ -47,7 +61,6 @@ namespace GamePlay.FSM
                         Attacker.lastAction = UnitState.Attack;
                         // 攻击完单位变灰，静止状态
                         //UnitManager.ColorUnitOnBlock(Attacker.mapBlockBelow.position, new Color(186 / 255f, 186 / 255f, 186 / 255f, 1f));
-
                         FSM.PushState(new InputFSMIdleState(FSM)); //状态机压入静止状态
                     }
                     else
@@ -67,11 +80,8 @@ namespace GamePlay.FSM
                 // 中键（无效果）
                 case PointerEventData.InputButton.Middle:
                     return;
-                // 右键（取消）
+                // 右键（无效果）
                 case PointerEventData.InputButton.Right:
-                    FSM.HandleAtkCancel();//攻击完工攻击范围隐藏
-                    BattleMap.BattleMap.Instance().IsAtkColor = false;
-                    FSM.PushState(new InputFSMIdleState(FSM));
                     break;
                 // 左键（如果是点击自己，则放弃攻击）
                 case PointerEventData.InputButton.Left:
@@ -89,27 +99,6 @@ namespace GamePlay.FSM
                     break;
             }
             
-        }
-
-        public override void OnPointerDownCard(BaseCard Card, PointerEventData eventData)
-        {
-            base.OnPointerDownCard(Card, eventData);
-            switch (eventData.button)
-            {
-                // 中键（无效果）
-                case PointerEventData.InputButton.Middle:
-                    return;
-                // 右键（取消）
-                case PointerEventData.InputButton.Right:
-                    FSM.HandleAtkCancel();//攻击完工攻击范围隐藏
-                    BattleMap.BattleMap.Instance().IsAtkColor = false;
-                    FSM.PushState(new InputFSMIdleState(FSM));
-                    break;
-                // 左键（无效果）
-                case PointerEventData.InputButton.Left:
-
-                    break;
-            }
         }
     }
 }

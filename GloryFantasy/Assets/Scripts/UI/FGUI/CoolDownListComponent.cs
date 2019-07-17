@@ -22,9 +22,9 @@ namespace UI.FGUI
         private GList _cooldownList;
 
         /// <summary>
-        /// 卡牌管理器内冷却卡牌list的引用
+        /// 英雄管理器内冷却list的引用
         /// </summary>
-        private List<cdObject> __cooldownList;
+        private List<GameUnit.UnitHero> __cooldownList;
         
         /// <summary>
         /// 冷却池用的卡牌素材资源定义
@@ -48,36 +48,9 @@ namespace UI.FGUI
             int index = _cooldownList.GetChildIndex(context.data as GObject);
 
             // 根据点击下标获取对应冷却牌
-            cdObject cooldownCard = __cooldownList[index];
-			
-            // 冷却牌ID
-            string cardID = cooldownCard.objectId;
+            GameUnit.UnitHero CDHero = __cooldownList[index];
 
-            if (cardID.Contains('#'))
-                cardID = cardID.Split('#').First();
-            
-
-            // 获取展示数据
-            JsonData data = CardManager.Instance().GetCardJsonData(cardID);
-		
-            // 现在用的展示界面和手牌及已部署单位是同一个界面。
-            // 不等于上一个点击的冷却牌，则窗口显示其他冷却牌信息
-            if(cooldownCard != _lastClickedCoolDownCard)
-            {
-                FGUIInterfaces.Instance().title.text = data["name"].ToString();
-                FGUIInterfaces.Instance().effect.text = data["effect"].ToString();
-                FGUIInterfaces.Instance().value.text = "总冷却：" + data["cd"] + "     剩余冷却：" + cooldownCard.leftCd;
-
-                _lastClickedCoolDownCard = cooldownCard; 		// 重置上一个点击的为当前点击冷却牌
-		
-                FGUIInterfaces.Instance().cardDescribeWindow.Show();
-            }
-            else
-            {
-                // 相等则关闭显示框
-                _lastClickedCoolDownCard = null;
-                FGUIInterfaces.Instance().cardDescribeWindow.Hide();
-            }
+            GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.OnPointerDownCDObject(CDHero, context);
         }
 
         /// <summary>

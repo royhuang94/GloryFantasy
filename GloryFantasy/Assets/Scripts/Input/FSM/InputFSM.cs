@@ -25,6 +25,14 @@ namespace GamePlay.FSM
         /// </summary>
         public List<object> TargetList = new List<object>();
         /// <summary>
+        /// 取消型委托
+        /// </summary>
+        public delegate void Cancel();
+        /// <summary>
+        /// 取消操作队列
+        /// </summary>
+        public List<Cancel> CancelList;
+        /// <summary>
         /// 存储点击的手牌
         /// </summary>
         public BaseCard selectedCard;
@@ -112,17 +120,10 @@ namespace GamePlay.FSM
             this.PushState(new InputFSMCastState(this));
         }
 
-
-        /// <summary>
-        /// 处理进入选择模式
-        /// </summary>
-        /// <param name="ability">需要选定的异能的引用，因为需要核对target是否符合</param>
-        //public void OnSelectState(Ability.Effect effect)
-        //{
-        //    this.effect = effect;
-        //    TargetList.Clear();
-        //    PushState(new InputFSMSelectState(this));
-        //}
+        public void OnPointerDownCDObject(GameUnit.UnitHero hero, FairyGUI.EventContext context)
+        {
+            StateStack.Peek().OnPointerDownCDObject(hero, context);
+        }
 
         public void OnPlatState()
         {

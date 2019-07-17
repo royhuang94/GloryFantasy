@@ -16,10 +16,28 @@ namespace GamePlay.FSM
         public InputFSMCastState(InputFSM fsm) : base(fsm)
         { }
         
+        public void CancelCast()
+        {
+            // 已经选取了目标，撤回
+            if (FSM.TargetList.Count > 0)
+            {
+                // TODO: 重新渲染合法范围
+                FSM.TargetList.RemoveAt(FSM.TargetList.Count - 1);
+            }
+            // 选取队列为空，根据效果的设定决定是否允许取消
+            else if (FSM.effect.allowCancel)
+            {
+                // TODO: 停止渲染合法范围
+                FSM.PushState(new InputFSMIdleState(FSM));
+                FSM.effect.cancel();
+            }
+        }
+
         public override void OnEnter()
         {
             base.OnEnter();
 
+            FSM.CancelList.Add(CancelCast);
             // 设置当前正在选取的效果
             this.SetSpellingAbility(FSM.effect);
             // 如果发动的指令牌不需要指定目标则直接发动
@@ -34,7 +52,14 @@ namespace GamePlay.FSM
                 // TODO：合法对象渲染
             }
         }
-        
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            FSM.CancelList.Remove(CancelCast);
+        }
+
         public override void OnPointerDownBlock(BattleMapBlock mapBlock, PointerEventData eventData)
         {
             base.OnPointerDownBlock(mapBlock, eventData);
@@ -47,18 +72,7 @@ namespace GamePlay.FSM
                     return;
                 // 右键（撤回选取或取消选取）
                 case PointerEventData.InputButton.Right:
-                    // 已经选取了目标，撤回
-                    if (FSM.TargetList.Count > 0)
-                        // TODO: 重新渲染合法范围
-                        FSM.TargetList.RemoveAt(FSM.TargetList.Count - 1);
-
-                    // 选取队列为空，根据效果的设定决定是否允许取消
-                    else if (FSM.effect.allowCancel)
-                    {
-                        // TODO: 停止渲染合法范围
-                        FSM.PushState(new InputFSMIdleState(FSM));
-                        FSM.effect.cancel();
-                    }
+                    
                     break;
                 // 左键
                 case PointerEventData.InputButton.Left:
@@ -96,20 +110,8 @@ namespace GamePlay.FSM
                 // 中键（无效果）
                 case PointerEventData.InputButton.Middle:
                     return;
-                // 右键（撤回选取或取消选取）
+                // 右键（无效果）
                 case PointerEventData.InputButton.Right:
-                    // 已经选取了目标，撤回
-                    if (FSM.TargetList.Count > 0)
-                        // TODO: 重新渲染合法范围
-                        FSM.TargetList.RemoveAt(FSM.TargetList.Count - 1);
-
-                    // 选取队列为空，根据效果的设定决定是否允许取消
-                    else if (FSM.effect.allowCancel)
-                    {
-                        // TODO: 停止渲染合法范围
-                        FSM.PushState(new InputFSMIdleState(FSM));
-                        FSM.effect.cancel();
-                    }
                     break;
                 // 左键
                 case PointerEventData.InputButton.Left:
@@ -149,20 +151,9 @@ namespace GamePlay.FSM
                 // 中键（无效果）
                 case PointerEventData.InputButton.Middle:
                     return;
-                // 右键（撤回选取或取消选取）
+                // 右键（无效果）
                 case PointerEventData.InputButton.Right:
-                    // 已经选取了目标，撤回
-                    if (FSM.TargetList.Count > 0)
-                        // TODO: 重新渲染合法范围
-                        FSM.TargetList.RemoveAt(FSM.TargetList.Count - 1);
-
-                    // 选取队列为空，根据效果的设定决定是否允许取消
-                    else if (FSM.effect.allowCancel)
-                    {
-                        // TODO: 停止渲染合法范围
-                        FSM.PushState(new InputFSMIdleState(FSM));
-                        FSM.effect.cancel();
-                    }
+                    
                     break;
                 // 左键
                 case PointerEventData.InputButton.Left:

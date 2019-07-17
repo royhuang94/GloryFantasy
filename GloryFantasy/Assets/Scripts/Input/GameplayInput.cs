@@ -26,16 +26,16 @@ namespace GamePlay.Input
             InputFSM = new InputFSM();
         }
 
-        ///// <summary>
-        ///// 每帧调用
-        ///// </summary>
-        //public void Update()
-        //{
-        //    if (UnityEngine.Input.GetKeyDown(KeyCode.Mouse1))
-        //    {
-        //        OnRightPointerDown();
-        //    }
-        //}
+        /// <summary>
+        /// 每帧调用
+        /// </summary>
+        public void Update()
+        {
+            if (InputFSM.CancelList.Count > 0 && UnityEngine.Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                InputFSM.CancelList[InputFSM.CancelList.Count - 1]();
+            }
+        }
 
         /// <summary>
         /// 标记是否已经选择了一张手牌,在召唤状态
@@ -141,6 +141,15 @@ namespace GamePlay.Input
             InputFSM.OnPointerExit(mapBlock, eventData);
         }
 
+        /// <summary>
+        /// 处理CD池物件的点击
+        /// </summary>
+        /// <param name="hero"></param>
+        /// <param name="eventData"></param>
+        public void OnPointerDownCDObject(UnitHero hero, FairyGUI.EventContext context)
+        {
+            InputFSM.OnPointerDownCDObject(hero, context);
+        }
 
         //技能可释放范围染色
         public void HandleSkillConfim(Vector2 target,int range)

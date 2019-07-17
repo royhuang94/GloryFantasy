@@ -9,6 +9,7 @@ using GameGUI;
 using GameUnit;
 using GameCard;
 using GameUtility;
+using FairyGUI;
 
 namespace GamePlay.FSM
 {
@@ -89,6 +90,11 @@ namespace GamePlay.FSM
             {
                 //BattleMap.BattleMap.Instance().HideBattleZooe(mapBlock.GetSelfPosition());
             }
+        }
+
+        virtual public void OnPointerDownCDObject(UnitHero hero, EventContext context)
+        {
+
         }
     }
 }

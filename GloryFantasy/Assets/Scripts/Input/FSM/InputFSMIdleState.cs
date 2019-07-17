@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FairyGUI;
 using GameCard;
 using GameUnit;
+using LitJson;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -31,9 +33,12 @@ namespace GamePlay.FSM
                 // 中键（无效果）
                 case PointerEventData.InputButton.Middle:
                     return;
-                // 右键（TODO: 显示单位详细信息）
+                // 右键（显示单位详细信息）
                 case PointerEventData.InputButton.Right:
-                    
+                    if (FSM.CancelList.Count == 0) // 取消操作队列为空才接收相应信息
+                    {
+                        // 显示单位详细信息
+                    }
                     break;
                 // 左键
                 case PointerEventData.InputButton.Left:
@@ -83,6 +88,29 @@ namespace GamePlay.FSM
                 //进入召唤状态
                 FSM.selectedCard = card;
                 FSM.PushState(new InputFSMSummonState(FSM));
+            }
+        }
+
+        public override void OnPointerDownCDObject(UnitHero hero, EventContext context)
+        {
+            base.OnPointerDownCDObject(hero, context);
+
+            switch (context.inputEvent.button)
+            {
+                case 0:// 左键点击
+                    //JsonData data = CardManager.Instance().GetCardJsonData(cardID);
+                    // 显示英雄信息，还是应该UI那边做个接口来做这件事。
+                    //FGUIInterfaces.Instance().title.text = data["name"].ToString();
+                    //FGUIInterfaces.Instance().effect.text = data["effect"].ToString();
+                    //FGUIInterfaces.Instance().value.text = "总冷却：" + data["cd"] + "     剩余冷却：" + cooldownCard.leftCd;
+                    //FGUIInterfaces.Instance().cardDescribeWindow.Show();
+                    break;
+                case 1:// 右键点击
+                    // TODO: 操作栈
+                    break;
+                default: // 其他情况
+                    break;
+
             }
         }
     }
