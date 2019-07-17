@@ -19,7 +19,7 @@ namespace GameUnit
 
         public void init(Mediator.Deck deck)
         {
-            done = new List<HeroCD>();
+            done = new List<UnitHero>();
             unitHeroes = new List<UnitHero>();
             CDHeros = new List<HeroCD>();
             // 生成英雄实例并添加到unitHeros和CDHeros中，设置currentRecovery和maxRecovery为生命最大值，recoverRate为4。
