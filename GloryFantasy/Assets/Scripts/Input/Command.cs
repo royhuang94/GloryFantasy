@@ -281,31 +281,25 @@ namespace GamePlay.Input
 
         public override void Excute()
         {
-            MsgDispatcher.SendMsg((int)MessageType.AnnounceAttack);
+
             //根据伤害优先级对伤害请求排序
-            DamageRequestList = DamageRequest.CaculateDamageRequestList(_Attacker, _AttackedUnit);
-
-            for (int i = 0; i < DamageRequestList.Count; i++)
+            GamePlay.Gameplay.Instance().damageManager.CaculateDamageRequestList(_Attacker, _AttackedUnit);
+            MsgDispatcher.SendMsg((int)MessageType.AnnounceAttack);
+            DamageRequestList = GamePlay.Gameplay.Instance().damageManager.damageRequestList;
+            for (i = 0; i < DamageRequestList.Count; i++)
             {
-                if (!JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG()))
-                {
-                    continue;
-                }
-
-                List<GameUnit.GameUnit> attackers = new List<GameUnit.GameUnit> { DamageRequestList[i]._attacker };
-                List<GameUnit.GameUnit> attackedUnits = new List<GameUnit.GameUnit> { DamageRequestList[i]._attackedUnit };
-                List<Damage> damages = new List<Damage> { Damage.GetDamage(DamageRequestList[i]._attacker) };
-                for (; i + 1 < DamageRequestList.Count && (DamageRequestList[i].priority == DamageRequestList[i + 1].priority); i++)
-                {
-                    if (JudgeStrikeBack(DamageRequestList[i]._attacker.getRNG()))
-                        Damage.DealDamage(DamageRequestList[i]._attacker, 
-                            DamageRequestList[i]._attackedUnit, 
-                            Damage.GetDamage(DamageRequestList[i]._attacker));
-                    
-                }
-                
+                Ability.EffectStack.push(excuteDamageAtSameTime);
+                Ability.EffectStack.turnsOn();
                 if (_Attacker.IsDead || _AttackedUnit.IsDead)
                     break;
+            }
+        }
+
+        public void excuteDamageAtSameTime()
+        {
+            for (; i + 1 < DamageRequestList.Count && (DamageRequestList[i].priority == DamageRequestList[i + 1].priority); i++)
+            {
+                DamageRequestList[i].Excute();
             }
         }
 
@@ -313,10 +307,11 @@ namespace GamePlay.Input
         //1. 通过变量_Attacker _AttackedUnit 保存宣言攻击者和被攻击者
         //2. 通过DamageRequestList  —> Damange类中
         //3. 通过Damage类与Command类来执行攻击环节，注意细节修改
-
-        private List<DamageRequest> DamageRequestList;
+        
         private GameUnit.GameUnit _Attacker; //宣言攻击者
         private GameUnit.GameUnit _AttackedUnit; //被攻击者
+        private List<DamageRequest> DamageRequestList;
+        private int i;
     }
 
     public class ReleaseSkillCommand : Command

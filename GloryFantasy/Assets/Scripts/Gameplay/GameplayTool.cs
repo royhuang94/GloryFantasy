@@ -431,7 +431,7 @@ namespace GamePlay
         /// <param name="damage">伤害。</param>
         public static void DealDamage(GameUnit.GameUnit source, GameUnit.GameUnit taker, Damage damage)
         {
-            Damage.DealDamage(source, taker, damage);
+            GamePlay.Gameplay.Instance().damageManager.DealDamage(source, taker, damage);
         }
 
         /// <summary>
