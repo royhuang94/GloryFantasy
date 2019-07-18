@@ -119,13 +119,40 @@ namespace GameUnit
         /// <param name="delta">增加量，负数时为减少。</param>
         public void changeRNG(int delta)
         {
-            rng += delta;
+            spd += delta;
         }
         /// <summary>
         /// 设置单位的攻击范围。
         /// </summary>
         /// <param name="newNum">新的攻击范围。</param>
         public void setRNG(int newNum)
+        {
+            spd = newNum;
+        }
+        /// <summary>
+        /// 获取单位的攻击范围。
+        /// </summary>
+        public int getSPD()
+        {
+            if (rng < -4)
+                return -4;
+            else if (rng > 5)
+                return 5;
+            return rng;
+        }
+        /// <summary>
+        /// 增减单位的攻击范围。
+        /// </summary>
+        /// <param name="delta">增加量，负数时为减少。</param>
+        public void changeSPD(int delta)
+        {
+            rng += delta;
+        }
+        /// <summary>
+        /// 设置单位的攻击范围。
+        /// </summary>
+        /// <param name="newNum">新的攻击范围。</param>
+        public void setSPD(int newNum)
         {
             rng = newNum;
         }
@@ -198,7 +225,7 @@ namespace GameUnit
         /// <summary>
         /// 单位的伤害请求优先级序列
         /// </summary>
-        public List<int> priority { get; set; }
+        //public List<int> priority { get; set; }
         /// <summary>
         /// 单位的射程
         /// </summary>
@@ -207,7 +234,10 @@ namespace GameUnit
         /// 单位的标签
         /// </summary>
         new public List<string> tag { get; set; }
-
+        /// <summary>
+        /// 单位的攻击速度
+        /// </summary>
+        private int spd { get; set; }
         /// <summary>
         /// 单位的SPD修正值，适用到每次伤害请求
         /// </summary>

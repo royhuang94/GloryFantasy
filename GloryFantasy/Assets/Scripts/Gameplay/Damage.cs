@@ -106,13 +106,19 @@ namespace GamePlay
             List<DamageRequest> damageRequestList = new List<DamageRequest>();
             //Debug.Log(Attacker.priority);
 
-            for (int i = 0; i < AttackedUnit.priority.Count; i++)
+            damageRequestList.Add(new DamageRequest(AttackedUnit, Attacker, AttackedUnit.getSPD()));
+            if (AttackedUnit.getSPD() >= 2)
             {
-                damageRequestList.Add(new DamageRequest(AttackedUnit, Attacker, AttackedUnit.priority[i]));
+                damageRequestList.Add(new DamageRequest(AttackedUnit, Attacker, AttackedUnit.getSPD() - 2));
+                if (AttackedUnit.getSPD() >= 5)
+                    damageRequestList.Add(new DamageRequest(AttackedUnit, Attacker, AttackedUnit.getSPD() - 5));
             }
-            for (int i = 0; i < Attacker.priority.Count; i++)
+            damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.getSPD() + 1));
+            if (AttackedUnit.getSPD() >= 2)
             {
-                damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.priority[i] + 1));
+                damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.getSPD() - 1));
+                if (AttackedUnit.getSPD() >= 5)
+                    damageRequestList.Add(new DamageRequest(Attacker, AttackedUnit, Attacker.getSPD() - 4));
             }
             damageRequestList.Sort((a, b) =>
             {

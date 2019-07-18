@@ -115,8 +115,8 @@ namespace GameUnit
             unit.id = data["ID"].ToString();
             unit.setMOV(int.Parse(data["Mov"].ToString()));
             unit.name = data["Name"].ToString();
-            unit.priority = new List<int>();
-            unit.priority.Add(int.Parse(data["Prt"].ToString()));
+            //unit.priority = new List<int>();
+            unit.setSPD(int.Parse(data["Spd"].ToString()));
             unit.setRNG(int.Parse(data["Rng"].ToString()));
             unit.tag = new List<string>();
             for (int i = 0; i < data["Tag"].Count; i++)
