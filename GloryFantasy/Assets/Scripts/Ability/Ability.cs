@@ -18,9 +18,20 @@ namespace Ability
     {
         public static List<EffectAction> actions;
         private static bool _canPumpActions;
+        private static bool _globalLocker;
         public static void push(EffectAction action)
         {
             actions.Add(action);
+        }
+        /// <summary>
+        /// 设置全局锁。用于发生复数部署或者复数伤害的时候锁上堆叠，等待所有部署和伤害结算后重新开启。
+        /// </summary>
+        /// <param name="c"></param>
+        public static void setLocker(bool c)
+        {
+            _globalLocker = c;
+            if (c)
+                turnsOn();
         }
 
         public static void turnsOff()
@@ -31,7 +42,7 @@ namespace Ability
         public static void turnsOn()
         {
             _canPumpActions = true;
-            while (actions.Count > 0)
+            while (actions.Count > 0 && _globalLocker)
             {
                 actions[actions.Count - 1]();
                 actions.RemoveAt(actions.Count - 1);

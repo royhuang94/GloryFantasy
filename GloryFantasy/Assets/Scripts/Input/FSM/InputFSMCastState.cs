@@ -105,6 +105,11 @@ namespace GamePlay.FSM
         {
             base.OnPointerDownFriendly(unit, eventData);
             // 对不同按键事件进行不同的判断。
+            if (FSM.effect.targets[FSM.TargetList.Count].TargetType == TargetType.Block)
+            {
+                OnPointerDownBlock(unit.mapBlockBelow, eventData);
+                return;
+            }
             switch (eventData.button)
             {
                 // 中键（无效果）
@@ -143,6 +148,11 @@ namespace GamePlay.FSM
         public override void OnPointerDownEnemy(GameUnit.GameUnit unit, PointerEventData eventData)
         {
             base.OnPointerDownEnemy(unit, eventData);
+            if (FSM.effect.targets[FSM.TargetList.Count].TargetType == TargetType.Block)
+            {
+                OnPointerDownBlock(unit.mapBlockBelow, eventData);
+                return;
+            }
 
             base.OnPointerDownFriendly(unit, eventData);
             // 对不同按键事件进行不同的判断。

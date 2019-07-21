@@ -242,6 +242,10 @@ namespace GameUnit
         /// 单位的SPD修正值，适用到每次伤害请求
         /// </summary>
         public int priSPD { get; set; }
+        /// <summary>
+        /// 将其创造出的卡牌实例
+        /// </summary>
+        public GameCard.BaseCard card { get; set; }
        
         /// <summary>
         /// 单位异能

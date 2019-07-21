@@ -41,20 +41,22 @@ namespace GamePlay.Input
 
     public class DispositionCommand : Command
     {
-        public DispositionCommand(string unitID, OwnerEnum owner, BattleMapBlock battleMapBlock, bool post = true)  //构造函数
+        public DispositionCommand(string unitID, OwnerEnum owner, BattleMapBlock battleMapBlock, GameCard.BaseCard card = null)  //构造函数
         {
             _unitID = unitID;
             _owner = owner;
             _battleMapBlock = battleMapBlock;
-            _post = post;
+            if (card != null)
+                _card = card as GameCard.UnitCard;
         }
 
-        public void set(string unitID, OwnerEnum owner, BattleMapBlock battleMapBlock, bool post = true)    //创建对象后通过此方法修改参数
+        public void set(string unitID, OwnerEnum owner, BattleMapBlock battleMapBlock, GameCard.BaseCard card = null)    //创建对象后通过此方法修改参数
         {
             _unitID = unitID;
             _owner = owner;
             _battleMapBlock = battleMapBlock;
-            _post = post;
+            if (card != null)
+                _card = card as GameCard.UnitCard;
         }
 
         public bool Judge()
@@ -68,72 +70,29 @@ namespace GamePlay.Input
         {
             //更新本此召唤的怪物（覆盖方式）
             UnitManager.InstantiationUnit(_unitID, _owner, _battleMapBlock);
-            if (_post)
+
+            //Debug.Log(_battleMapBlock.units_on_me.ToString());
+            GameUnit.GameUnit unit = this.GetGeneratingUnit();
+            this.SetSummonUnit(new List<GameUnit.GameUnit> { unit });
+            if (_card != null)
             {
-                //Debug.Log(_battleMapBlock.units_on_me.ToString());
-                this.SetSummonUnit(new List<GameUnit.GameUnit> { this.GetGeneratingUnit() });
-                MsgDispatcher.SendMsg((int)MessageType.Summon);
+                unit.card = _card;
+                _card.SetUnit(unit);
+                _card.cardArea = GameCard.CardArea.Field;
             }
+            MsgDispatcher.SendMsg((int)MessageType.Summon);
 
             //更新仇恨列表
-            if (_battleMapBlock.units_on_me[0].owner != OwnerEnum.Enemy)
-                Gameplay.Instance().autoController.UpdateAllHatredList(null, _battleMapBlock.units_on_me);
-            else
-                Gameplay.Instance().autoController.AddAIController(_battleMapBlock.units_on_me[0]);
+            if (!unit.IsDead && unit.owner != OwnerEnum.Enemy)
+                Gameplay.Instance().autoController.UpdateAllHatredList(null, new List<GameUnit.GameUnit> { unit });
+            else if (!unit.IsDead)
+                Gameplay.Instance().autoController.AddAIController(unit);
         }
 
         private string _unitID;
         private OwnerEnum _owner;
         private BattleMapBlock _battleMapBlock;
-        private bool _post;
-    }
-
-    /// <summary>
-    /// 部署指令列，用于一次性部署大量单位。
-    /// </summary>
-    /// <param name="unitID">要部署的单位的ID。</param>
-    /// <param name="owner">部属单位的操控者。</param>
-    /// <param name="battleMapBlock">部署在的地格。</param>
-    /// <param name="post">是否需要发送部署消息，可缺省，默认为是。请在特殊情况下才设置为否。</param>
-
-    public class DispositionCommandList : Command
-    {
-        public DispositionCommandList(List<string> unitIDs, List<OwnerEnum> owners, List<BattleMapBlock> battleMapBlocks)
-        {
-            _dispositionCommands = new List<DispositionCommand>();
-            _blocks = new List<BattleMapBlock>();
-            for (int i = 0; i < unitIDs.Count; i++)
-            {
-                _dispositionCommands.Add(new DispositionCommand(unitIDs[i], owners[i], battleMapBlocks[i], false));
-                _blocks.Add(battleMapBlocks[i]);
-            }
-        }
-
-        public bool Judge()
-        {
-            foreach (BattleMapBlock block in _blocks)
-            {
-                if (block.units_on_me.Count > 0)
-                    return false;
-            }
-            return true;
-        }
-
-        public override void Excute()
-        {
-            List<GameUnit.GameUnit> units = new List<GameUnit.GameUnit>();
-            //更新本此召唤的怪物（覆盖方式）
-            for (int i = 0; i < _dispositionCommands.Count; i++)
-            {
-                _dispositionCommands[i].Excute();
-                units.AddRange(_blocks[i].units_on_me);
-            }
-            this.SetSummonUnit(units);
-            //更新仇恨列表
-        }
-
-        private List<DispositionCommand> _dispositionCommands;
-        private List<BattleMapBlock> _blocks;
+        private GameCard.UnitCard _card;
     }
 
 

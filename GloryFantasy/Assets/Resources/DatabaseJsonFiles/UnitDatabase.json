@@ -17,5 +17,23 @@
       "传奇",
       "叶族"
     ]
+  },
+  {
+    "Ability": ["Haste"],
+    "Atk": 3,
+    "Color": [
+      "G"
+    ],
+    "Text": "迅捷",
+    "Event": {},
+    "Hp": 6,
+    "ID": "GWinterWolf_1",
+    "Mov": 2,
+    "Name": "霜狼",
+    "Spd": 0,
+    "Rng": 1,
+    "Tag": [
+      "野兽"
+    ]
   }
 ]

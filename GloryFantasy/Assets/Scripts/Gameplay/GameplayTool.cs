@@ -551,19 +551,97 @@ namespace GamePlay
         {
             return (Gameplay.Instance().eventScroll.nowBigestTurn - Gameplay.Instance().eventScroll.EventScrollCount + 1);//当前事件模块的最大触发回合数 - 事件队列个数 +1
         }
-        /// <summary>
-        /// 该指令作用：抽 amount 张卡
-        /// </summary>
-        /// <param name="amount">抽牌数量</param>
-        public static void drawCards(int amount)
-        {
-            int i = amount;
-            while (i >= 1)
-            {
-                IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.DrawCard);     //发送抽卡消息
-                i--;
-            }
+        ///// <summary>
+        ///// 该指令作用：抽 amount 张卡
+        ///// </summary>
+        ///// <param name="amount">抽牌数量</param>
+        //public static void drawCards(int amount)
+        //{
+        //    int i = amount;
+        //    while (i >= 1)
+        //    {
+        //        IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.DrawCard);     //发送抽卡消息
+        //        i--;
+        //    }
 
+        //}
+        
+        /// <summary>
+        /// 移动卡牌到指定区域
+        /// </summary>
+        /// <param name="card">要移动的卡牌</param>
+        /// <param name="cardArea">要移动到的区域</param>
+        public static void moveCard(BaseCard card, CardArea cardArea)
+        {
+            if (card.cardArea == cardArea || cardArea == CardArea.None || cardArea == CardArea.Field)
+                return;
+            if (card.cardArea == CardArea.Field)
+            {
+                GameUnit.GameUnit unit = (card as UnitCard).unit;
+                GameUnit.GameUnitPool.Instance().UnitBackPool(unit);
+                BattleMap.BattleMap.Instance().RemoveUnitOnBlock(unit);
+                //删除对应controller中的死亡单位
+                Gameplay.Instance().autoController.UpdateAllHatredList();
+
+                //删除对应的事件模型
+                if (unit.EventModule != null)
+                {
+                    unit.EventModule.DeleteThisModule();
+                    unit.EventModule = null;
+                    unit.eventsInfo.Clear();
+                }
+                unit.IsDead = true;
+            }
+            // 以下操作要同时发送复数信息，将堆叠锁住直到信息发送完毕。
+            HandCardManager.Instance().OperateCard(card, card.cardArea, false);
+            EffectStack.setLocker(false);
+            int message = 0;
+            switch (card.cardArea)
+            {
+                case CardArea.Deck:
+                    // TODO: 以后应该要给改个名，现在牌堆叫deck
+                    message = (int)MessageType.CardsetChange;
+                    break;
+                case CardArea.Hand:
+                    message = (int)MessageType.HandcardChange;
+                    break;
+                case CardArea.StandBy:
+                    // TODO: 添加新的卡牌变动信号
+                    //message = (int) MessageType.StandByChange;
+                    break;
+                case CardArea.Field:
+                    message = (int)MessageType.ColliderChange;
+                    break;
+            }
+            if (message != 0)
+                MsgDispatcher.SendMsg(message);
+            if (cardArea == CardArea.Hand && !HandCardManager.Instance().CanDraw())
+                cardArea = CardArea.StandBy;
+            card.cardArea = cardArea;
+            HandCardManager.Instance().OperateCard(card, cardArea);
+            switch (card.cardArea)
+            {
+                case CardArea.Deck:
+                    // TODO: 以后应该要给改个名，现在牌堆叫deck
+                    message = (int)MessageType.CardsetChange;
+                    break;
+                case CardArea.Hand:
+                    message = (int)MessageType.HandcardChange;
+                    break;
+                case CardArea.StandBy:
+                    // TODO: 添加新的卡牌变动信号
+                    //message = (int) MessageType.StandByChange;
+                    break;
+            }
+            MsgDispatcher.SendMsg(message);
+            EffectStack.setLocker(true);
+        }
+
+        public static void moveCard(GameUnit.GameUnit unit, CardArea cardArea)
+        {
+            if (unit.card == null)
+                return;
+            moveCard(unit.card, cardArea);
         }
         /// <summary>
         /// 指定中心块获得以其为中心的爆发区域。

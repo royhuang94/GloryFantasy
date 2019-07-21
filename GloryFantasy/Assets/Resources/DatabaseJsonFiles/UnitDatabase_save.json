@@ -1,14 +1,14 @@
 ﻿[
   {
-    "Ability": ["WolfCompanion"],
+    "Ability": ["WolfCompanion_1"],
     "Atk": 4,
     "Color": [
-      "U"
+      "G"
     ],
     "Text": "狼伴：琳攻击时，创建一张临时的一级霜狼置入你的手中。",
     "Event": {},
     "Hp": 14,
-    "ID": "单位ID",
+    "ID": "HRin",
     "Mov": 2,
     "Name": "琳",
     "Spd": 0,
@@ -16,6 +16,24 @@
     "Tag": [
       "传奇",
       "叶族"
+    ]
+  },
+  {
+    "Ability": ["Haste"],
+    "Atk": 3,
+    "Color": [
+      "G"
+    ],
+    "Text": "迅捷",
+    "Event": {},
+    "Hp": 6,
+    "ID": "GWinterWolf_1",
+    "Mov": 2,
+    "Name": "霜狼",
+    "Spd": 0,
+    "Rng": 1,
+    "Tag": [
+      "野兽"
     ]
   }
 ]

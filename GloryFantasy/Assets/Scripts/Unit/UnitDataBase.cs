@@ -133,6 +133,7 @@ namespace GameUnit
             unit.CT = 0;
             unit.armorRestore = 0;
             unit.armor = 0;
+            unit.card = null;
 
             //最后初始化新异能
             AddGameUnitAbility(unit, data);

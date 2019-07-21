@@ -84,15 +84,20 @@ namespace Ability
             EffectStack.push(action);
             // 调度卡牌管理器对玩家专注和手牌信息进行操作
             //CardManager.Instance().OnTriggerCurrentCard();
+            //HandCardManager.Instance().CurrentSelectingCard
+            BaseCard card = Gameplay.Instance().gamePlayInput.InputFSM.selectedCard;
             // 消耗AP值
-            Player.Instance().ConsumeAp(HandCardManager.Instance().CurrentSelectingCard.Cost);
-            //从手牌中移除触发的牌
-            HandCardManager.Instance().OperateCard(HandCardManager.Instance().CurrentSelectingCard, CardDesignation.HandCard, false);
+            Player.Instance().ConsumeAp(card.Cost);
+            // 将手牌中的此牌送入待命区
+            if (!card.WillDestroy)
+                GameplayToolExtend.moveCard(card, CardArea.StandBy);
+            else
+                HandCardManager.Instance().OperateCard(card, CardArea.Hand, false);
             // 重置当前选中的卡牌
             HandCardManager.Instance().SetSelectCard(-1);
             // 发送施放卡牌的信息
             Gameplay.Info.AbilitySpeller = speller;
-            Gameplay.Info.CastingCard = this.GetComponent<OrderCard>();
+            Gameplay.Info.CastingCard = card;
             IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
             // 开始堆叠结算
             EffectStack.turnsOn();

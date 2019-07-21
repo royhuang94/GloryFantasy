@@ -8,23 +8,46 @@ using UnityEngine;
 
 namespace GameCard
 {
-    /// <summary>
-    /// 用于指定操作的卡牌类型
-    /// </summary>
-    public enum CardDesignation
+    ///// <summary>
+    ///// 用于指定操作的卡牌类型
+    ///// </summary>
+    //public enum CardDesignation
+    //{
+    //    /// <summary>
+    //    /// 手牌内的牌
+    //    /// </summary>
+    //    HandCard,
+    //    /// <summary>
+    //    /// 牌堆内的牌
+    //    /// </summary>
+    //    DeckCard,
+    //    /// <summary>
+    //    /// 待命区的牌
+    //    /// </summary>
+    //    StandByCard
+    //}
+    public enum CardArea
     {
         /// <summary>
-        /// 手牌内的牌
+        /// 空位置，只存在于卡牌刚被创建出来的时候
         /// </summary>
-        HandCard,
+        None,
         /// <summary>
-        /// 牌堆内的牌
+        /// 手牌
         /// </summary>
-        DeckCard,
+        Hand,
         /// <summary>
-        /// 待命区的牌
+        /// 卡组
         /// </summary>
-        StandByCard
+        Deck,
+        /// <summary>
+        /// 待命区
+        /// </summary>
+        StandBy,
+        /// <summary>
+        /// 场上某个单位身上
+        /// </summary>
+        Field
     }
     public class HandCardManager : UnitySingleton<HandCardManager>
     {
@@ -178,7 +201,7 @@ namespace GameCard
         public void ExtractCards(int cardAmount = 1, bool cancelCheck = false)
         {
             // 若手牌数量大于或等于手牌上限，直接返回（取消检查的话则此判定永false）
-            if (_handCards.Count >= _cardsUpperLimit && !cancelCheck)
+            if (!CanDraw() && !cancelCheck)
             {
                 return;
             }
@@ -200,13 +223,16 @@ namespace GameCard
             for (int i = 0; i < extractAmount; i++)
             {
                 // 获得对应卡牌的id
-                BaseCard card= _deck._deck[i];
-                
+                //BaseCard card= _deck._deck[i];
+                BaseCard card = _deck._deck[0];
+
                 // 将其从卡牌堆中移除
                 _deck._deck.Remove(card);
                 
                 // 向手牌中插入卡牌操作
                 _handCards.Add(card);
+
+                card.cardArea = CardArea.Hand;
             }
             
             // 发送手牌变动消息
@@ -223,23 +249,23 @@ namespace GameCard
         /// <param name="cardDesignation">要获取的卡牌</param>
         /// <param name="container">用于容纳卡牌ID的容器，会被清空再装入新东西</param>
         /// <param name="removeUnderline">是否移除下划线</param>
-        public void GetCardImageIds(CardDesignation cardDesignation, List<string> container, bool removeUnderline = true)
+        public void GetCardImageIds(CardArea cardDesignation, List<string> container, bool removeUnderline = true)
         {
             List<BaseCard> targetCard = null;
 
             // 根据指定类型，获取指定的卡牌区
             switch (cardDesignation)
             {
-                case CardDesignation.DeckCard:    // 牌堆
+                case CardArea.Deck:    // 牌堆
                     targetCard = _deck._deck;
                     break;
-                case CardDesignation.HandCard:    // 手牌
+                case CardArea.Hand:    // 手牌
                     targetCard = _handCards;
                     break;
-                case CardDesignation.StandByCard:    // 待命区
+                case CardArea.StandBy:    // 待命区
                     targetCard = _standBy;
                     break;
-                default:    // dnmd遇到奇葩值直接结束
+                default:    // 直接结束
                     return;
             }
             
@@ -263,7 +289,7 @@ namespace GameCard
                 }
             }
 
-            if(cardDesignation.Equals(CardDesignation.DeckCard))
+            if(cardDesignation.Equals(CardArea.Deck))
             {
                 container.Sort();
             }
@@ -276,20 +302,20 @@ namespace GameCard
         /// <param name="cardObject">要操作的卡牌实例</param>
         /// <param name="cardDesignation">对应的卡牌区域</param>
         /// <param name="insert">true表示插入操作，false表示移除</param>
-        public void OperateCard(BaseCard cardObject, CardDesignation cardDesignation, bool insert = true)
+        public void OperateCard(BaseCard cardObject, CardArea cardDesignation, bool insert = true)
         {
             List<BaseCard> targetCardSets = null;
             
             // 根据指定类型，获取指定的卡牌区
             switch (cardDesignation)
             {
-                case CardDesignation.DeckCard:
+                case CardArea.Deck:
                     targetCardSets = _deck._deck;    // 牌堆
                     break;
-                case CardDesignation.HandCard:
+                case CardArea.Hand:
                     targetCardSets = _handCards;    // 手牌
                     break;
-                case CardDesignation.StandByCard:
+                case CardArea.StandBy:
                     targetCardSets = _standBy;        // 待命区
                     break;
                 default:
@@ -309,14 +335,14 @@ namespace GameCard
             // 根据选择的卡牌区，设置不同信号
             switch (cardDesignation)
             {
-                case CardDesignation.DeckCard:
+                case CardArea.Deck:
                     // TODO: 以后应该要给改个名，现在牌堆叫deck
                     message = (int) MessageType.CardsetChange;
                     break;
-                case CardDesignation.HandCard:
+                case CardArea.Hand:
                     message = (int) MessageType.HandcardChange;
                     break;
-                case CardDesignation.StandByCard:
+                case CardArea.StandBy:
                     // TODO: 添加新的卡牌变动信号
                     //message = (int) MessageType.StandByChange;
                     break;
@@ -340,11 +366,16 @@ namespace GameCard
             foreach (BaseCard newBaseCard in _standBy)
             {
                 _deck._deck.Add(newBaseCard);
+                newBaseCard.cardArea = CardArea.Deck;
             }
             
             // 清空待命区
             _standBy.Clear();
         }
         
+        public bool CanDraw()
+        {
+            return _handCards.Count < _cardsUpperLimit;
+        }
     }
 }

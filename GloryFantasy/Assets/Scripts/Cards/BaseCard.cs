@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace GameCard
 {
+    
     public class BaseCard : MonoBehaviour, MsgReceiver
     {
         #region 变量
@@ -40,6 +41,10 @@ namespace GameCard
         /// 关于卡牌是否在生效后被销毁
         /// </summary>
         private bool _willDestroy;
+        /// <summary>
+        /// 这张卡牌当前所在的位置
+        /// </summary>
+        public CardArea cardArea;
         /// <summary>
         /// 卡牌记录的使用者，实用性存疑
         /// </summary>
@@ -127,8 +132,18 @@ namespace GameCard
             get { return _cost; }
         }
 
+        public void setWillDestroy(bool c)
+        {
+            _willDestroy = c;
+        }
+
+        public void setCarrier(UnitHero hero)
+        {
+            _carrier = hero;
+        }
+
         #endregion
-        
+
         /// <summary>
         /// 依据给定的数据进行初始化，会对提供的ID和json数据进行检查
         /// </summary>
@@ -150,7 +165,8 @@ namespace GameCard
             _flavorText = cardData["Flavor"].ToString();
             _type = cardData["Type"].ToString();
             _cost = int.Parse(cardData["Cost"].ToString());
-
+            cardArea = CardArea.None;
+            _willDestroy = false;
             
             // 读入所有color及tag标签
             _color = new List<string>();

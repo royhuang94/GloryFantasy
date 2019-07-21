@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using LitJson;
+using GamePlay;
 
 namespace GameCard
 {
@@ -16,6 +17,10 @@ namespace GameCard
         /// 所召唤的单位除了数据库所记述的异能以外额外获得的异能的id
         /// </summary>
         private List<string> _abilitiesOnUnit;
+        /// <summary>
+        /// 他创造出来的单位
+        /// </summary>
+        private GameUnit.GameUnit _unit;
 
         #endregion
 
@@ -27,6 +32,13 @@ namespace GameCard
         public string UnitId
         {
             get { return _unitId; }
+        }
+        /// <summary>
+        /// 他创造出来的单位
+        /// </summary>
+        public GameUnit.GameUnit unit
+        {
+            get { return _unit; }
         }
         
         /// <summary>
@@ -44,6 +56,11 @@ namespace GameCard
             base.Init(cardId, cardData);
             // 因为基类已经做过检查，所以直接使用
             _unitId = cardData["Unit"].ToString();
+        }
+
+        public void SetUnit(GameUnit.GameUnit unit)
+        {
+            _unit = unit;
         }
     }
 }

@@ -81,7 +81,7 @@ namespace GamePlay.FSM
                 Ability.Spell spell = card.gameObject.GetComponent<Ability.Spell>();
                 FSM.effect = spell;
                 FSM.TargetList.Clear();
-                FSM.PushState(new InputFSMCastState(this.FSM));
+                FSM.PushState(new InputFSMCastState(FSM));
             }
             else if(card is UnitCard)
             {

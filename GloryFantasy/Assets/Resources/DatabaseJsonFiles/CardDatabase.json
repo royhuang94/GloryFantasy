@@ -8,11 +8,27 @@
         ],
         "Cost": 2,
         "Text": "选择四格内一处地格。消耗一次标准动作，施咒者来对以该地格为中心的中型区域内的敌人造成4点伤害。",
+        "Tag": [],
         "Flavor": "“一支箭解决不了敌人的话，就来一百支好了。”",
         "Name": "落矢之雨",
         "AbilityAttach": [
             "ArcherSoul_1"
         ],
         "Type": "Order"
+    },
+    {
+        "ID": "GWinterWolf_1",
+        "Spell":"",
+        "Unit":"GWinterWolf_1",
+        "Color": [
+            "G"
+        ],
+        "Cost": 2,
+        "Text": "迅捷",
+        "Tag": [],
+        "Flavor": "雪白的毛上附着一层薄霜。",
+        "Name": "落矢之雨",
+        "AbilityAttach": [],
+        "Type": "Unit"
     }
 ]

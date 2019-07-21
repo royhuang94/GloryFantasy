@@ -49,6 +49,10 @@ namespace GameUnit
             {
                 GameUnitPool.Instance().UnitBackPool(beKilled);
             }
+            if (!beKilled.card.WillDestroy)
+            {
+                GameplayToolExtend.moveCard(beKilled.card, CardArea.StandBy);
+            }
             BattleMap.BattleMap.Instance().RemoveUnitOnBlock(beKilled);
             //删除对应controller中的死亡单位
             Gameplay.Instance().autoController.UpdateAllHatredList();
