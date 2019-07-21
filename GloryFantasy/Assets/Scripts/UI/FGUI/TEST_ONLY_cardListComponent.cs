@@ -37,7 +37,8 @@ namespace UI.FGUI
             _cardListWindow.CenterOn(GRoot.inst, true);
             _clearAll.onClick.Add(() =>
             {
-                CardManager.Instance().SendAllHandcardToCd();
+                // 暂时关闭实现
+                //CardManager.Instance().SendAllHandcardToCd();
             });
             LoadCards();
         }
@@ -51,7 +52,7 @@ namespace UI.FGUI
                 
                 cardItem.onRollOver.Add(() =>
                 {
-                    JsonData data = CardManager.Instance().GetCardJsonData(cardId);
+                    JsonData data = CardDataBase.Instance().GetCardJsonData(cardId);
                     FGUIInterfaces.Instance().title.text = data["name"].ToString();
                     FGUIInterfaces.Instance().effect.text = data["effect"].ToString();
                     FGUIInterfaces.Instance().value.text = "冷却：" + data["cd"] + "    " + "专注值：" + data["cost"] + "\n" + data["type"];
@@ -65,7 +66,8 @@ namespace UI.FGUI
                 
                 cardItem.onClick.Add(() =>
                 {
-                    CardManager.Instance().InsertIntoHandCard(cardId);
+                    HandCardManager.Instance().OperateCard(CardDataBase.Instance().GetCardInstanceById(cardId), CardDesignation.HandCard, true);
+                    //CardManager.Instance().InsertIntoHandCard(cardId);
                 });
                 
                 _cardList.AddChild(cardItem);

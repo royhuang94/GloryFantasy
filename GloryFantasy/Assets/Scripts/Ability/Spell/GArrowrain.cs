@@ -16,7 +16,7 @@ namespace Ability
         public override void init(string spellID)
         {
             base.init(spellID);
-            carrier = this.GetComponent<BaseCard>().carrier;
+            carrier = this.GetComponent<BaseCard>().Carrier;
             variable.Range = 4;
             variable.Damage = 4;
             variable.Area = 3;

@@ -4,6 +4,7 @@ using BattleMap;
 using GameCard;
 using GamePlay.Input;
 using GameUnit;
+using UI.FGUI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -33,15 +34,16 @@ namespace GamePlay.FSM
             
             ArrowManager.Instance().HideArrow();        // 关闭箭头显示
             //把这张手牌从手牌里删掉
-            CardManager.Instance().RemoveCardToMapList(FSM.selectedCard.gameObject);
+            //CardManager.Instance().RemoveCardToMapList(FSM.selectedCard.gameObject);
+            HandCardManager.Instance().OperateCard(HandCardManager.Instance().CurrentSelectingCard, CardDesignation.HandCard, false);
             // 扣除消耗的Ap值
-            Player.Instance().ConsumeAp(FSM.selectedCard.GetComponent<BaseCard>().cost);
+            Player.Instance().ConsumeAp(FSM.selectedCard.GetComponent<BaseCard>().Cost);
             //关闭鼠标所在战区的高光显示
             BattleMap.BattleMap.Instance().IsColor = false;
             //状态机压入静止状态
             this.FSM.PushState(new InputFSMIdleState(FSM));
-            //执行部署指令在对应MapBlock生成单位
-            DispositionCommand unitDispose = new DispositionCommand(FSM.selectedCard.tokenID, OwnerEnum.Player, mapBlock);
+            //执行部署指令在对应MapBlock生成单位 TODO: 原来的TokenID
+            DispositionCommand unitDispose = new DispositionCommand(((UnitCard) FSM.selectedCard).UnitId, OwnerEnum.Player, mapBlock);
             unitDispose.Excute();
             //删掉对应手牌槽的引用
             FSM.selectedCard = null;

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cards;
 using GamePlay;
 using IMessage;
-using Mediator;
 using UnityEngine;
 
 namespace GameCard
@@ -47,23 +47,21 @@ namespace GameCard
         /// <summary>
         /// 手牌实例对象
         /// </summary>
-        private List<_NewBaseCard> _handCards;
+        private List<BaseCard> _handCards;
 
         /// <summary>
         /// 待命区
         /// </summary>
-        private List<_NewBaseCard> _standBy;
+        private List<BaseCard> _standBy;
         /// <summary>
         /// 每回合的卡牌堆对象引用
         /// </summary>
         private Deck _deck;
         
-        
-
         /// <summary>
         /// 当前选中的卡牌
         /// </summary>
-        private _NewBaseCard _currentSelectingCard;
+        private BaseCard _currentSelectingCard;
         /// <summary>
         /// 当前选中的卡牌的位置
         /// </summary>
@@ -77,7 +75,7 @@ namespace GameCard
         /// <summary>
         /// 当前选中的卡牌，若未选中则会返回空值
         /// </summary>
-        public _NewBaseCard CurrentSelectingCard
+        public BaseCard CurrentSelectingCard
         {
             get
             {
@@ -96,6 +94,23 @@ namespace GameCard
             set { _lockStatus = value; }
         }
 
+        /// <summary>
+        /// 获取最新的无重复，字典序的牌堆卡牌信息
+        /// </summary>
+        public List<string> Deck
+        {
+            get
+            {
+                List<String> deck = new List<string>();
+                foreach (BaseCard baseCard in _deck._deck)
+                {
+                    deck.Add(baseCard.Id);
+                }
+                deck.Sort();
+                return deck.Distinct().ToList();
+            }
+        }
+
         #endregion
 
         private void Start()
@@ -111,15 +126,16 @@ namespace GameCard
             // 从牌堆管理中请求牌堆
             _deck = DeckController.Instance().GetDeck();
             
-            _handCards = new List<_NewBaseCard>();
-            _standBy = new List<_NewBaseCard>();
+            _handCards = new List<BaseCard>();
+            _standBy = new List<BaseCard>();
+            ExtractCards(2, true);
         }
 
         /// <summary>
         /// 设置当前选中的卡牌
         /// </summary>
         /// <param name="selectPos"></param>
-        public void SetSelectCard(int selectPos)
+        public void SetSelectCard(int selectPos = -1)
         {
             // 当手牌数量大于selectPos时，可以正常设置卡牌位置，因为此时Count是上界，永远不等于手牌最大位置下标
             if (selectPos >= 0 && _handCards.Count > selectPos)
@@ -140,21 +156,18 @@ namespace GameCard
         /// 用于对接手牌点击到FSM的中间函数，仅在参数正确，且未锁定时会起到传递作用
         /// </summary>
         /// <param name="selectPos">点击的手牌下标，默认-1表示不做反应</param>
-        public void OnClickCard(int selectPos = -1)
+        public void OnClickCard()
         {
             // 如果处于锁定状态，直接返回
             if (_lockStatus)
                 return;
-            
-            // 调用函数完成_currentSelectingCard对象的设置及对应的检查
-            SetSelectCard(selectPos);
 
             // 传入的参数非法，那设置完之后_currentSelectingCard就会为null，一旦发生，直接返回
             if (_currentSelectingCard == null)
                 return;
 
             // 点击后动作交由FSM处理，TODO: 改成新的类型_NewBaseCard
-            //Gameplay.Instance().gamePlayInput.OnPointerDownCard(_currentSelectingCard);
+            Gameplay.Instance().gamePlayInput.OnPointerDownCard(_currentSelectingCard);
         }
 
         
@@ -187,7 +200,7 @@ namespace GameCard
             for (int i = 0; i < extractAmount; i++)
             {
                 // 获得对应卡牌的id
-                _NewBaseCard card= _deck._deck[i];
+                BaseCard card= _deck._deck[i];
                 
                 // 将其从卡牌堆中移除
                 _deck._deck.Remove(card);
@@ -209,9 +222,10 @@ namespace GameCard
         /// </summary>
         /// <param name="cardDesignation">要获取的卡牌</param>
         /// <param name="container">用于容纳卡牌ID的容器，会被清空再装入新东西</param>
-        public void GetCardImageIds(CardDesignation cardDesignation, List<string> container)
+        /// <param name="removeUnderline">是否移除下划线</param>
+        public void GetCardImageIds(CardDesignation cardDesignation, List<string> container, bool removeUnderline = true)
         {
-            List<_NewBaseCard> targetCard = null;
+            List<BaseCard> targetCard = null;
 
             // 根据指定类型，获取指定的卡牌区
             switch (cardDesignation)
@@ -231,13 +245,24 @@ namespace GameCard
             
             // 清空容器
             container.Clear();
-            
-            // 挨个解析对应去内的卡牌ID,基本就是去掉_以及其后的下标数字
-            foreach (_NewBaseCard newBaseCard in targetCard)
+
+            // 如果要移除下划线后的东西
+            if (removeUnderline)
             {
-                container.Add(newBaseCard.Id.Split('_').First());
+                // 挨个解析对应去内的卡牌ID,基本就是去掉_以及其后的下标数字
+                foreach (BaseCard newBaseCard in targetCard)
+                {
+                    container.Add(newBaseCard.Id.Split('_').First());
+                }
             }
-            
+            else // 如果不移出
+            {
+                foreach (BaseCard newBaseCard in targetCard)
+                {
+                    container.Add(newBaseCard.Id);
+                }
+            }
+
             if(cardDesignation.Equals(CardDesignation.DeckCard))
             {
                 container.Sort();
@@ -251,9 +276,9 @@ namespace GameCard
         /// <param name="cardObject">要操作的卡牌实例</param>
         /// <param name="cardDesignation">对应的卡牌区域</param>
         /// <param name="insert">true表示插入操作，false表示移除</param>
-        public void OperateCard(_NewBaseCard cardObject, CardDesignation cardDesignation, bool insert = true)
+        public void OperateCard(BaseCard cardObject, CardDesignation cardDesignation, bool insert = true)
         {
-            List<_NewBaseCard> targetCardSets = null;
+            List<BaseCard> targetCardSets = null;
             
             // 根据指定类型，获取指定的卡牌区
             switch (cardDesignation)
@@ -312,7 +337,7 @@ namespace GameCard
                 return;
 
             // 把每一张卡牌放入牌堆内
-            foreach (_NewBaseCard newBaseCard in _standBy)
+            foreach (BaseCard newBaseCard in _standBy)
             {
                 _deck._deck.Add(newBaseCard);
             }

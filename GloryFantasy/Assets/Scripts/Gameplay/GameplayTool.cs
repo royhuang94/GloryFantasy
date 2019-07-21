@@ -745,15 +745,16 @@ namespace GamePlay
                 }
             }
         }
-        /// <summary>
-        /// 依照unitid减少冷却中的牌的cd。
-        /// </summary>
-        /// <param name="unitId"></param>
-        /// <param name="amount"></param>
-        public static void ReduceSpecificCardCd(string unitId, int amount)
-        {
-            CardManager.Instance().HandleCooldownEvent(unitId, amount);
-        }
+        // 这个接口不再开放，或者以其他形式重构
+//        /// <summary>
+//        /// 依照unitid减少冷却中的牌的cd。
+//        /// </summary>
+//        /// <param name="unitId"></param>
+//        /// <param name="amount"></param>
+//        public static void ReduceSpecificCardCd(string unitId, int amount)
+//        {
+//            CardManager.Instance().HandleCooldownEvent(unitId, amount);
+//        }
 
         /// <summary>
         /// 获取指定中心和range的所有格子。返回偏移量列表。

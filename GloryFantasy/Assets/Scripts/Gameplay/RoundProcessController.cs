@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameCard;
 using GamePlay.Event;
 using IMessage;
+using UI.FGUI;
 using UnityEngine;
 
 namespace GamePlay.Round
@@ -251,7 +253,8 @@ namespace GamePlay.Round
         public override void Enter(RoundProcessController roundProcessController)
         {
             base.Enter(roundProcessController);
-            MsgDispatcher.SendMsg((int)MessageType.DrawCard);
+            // 调用接口进行抽牌工作，此函数内发送抽卡消息
+            HandCardManager.Instance().ExtractCards(2);
             Debug.Log("抽牌阶段");
         }
 

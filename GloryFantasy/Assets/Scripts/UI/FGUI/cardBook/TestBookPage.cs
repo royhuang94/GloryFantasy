@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using FairyGUI;
 using GameCard;
@@ -49,13 +50,13 @@ class TestBookPage : GComponent
 	public void render(int pageIndex)
 	{
 		_pageNumber.text = (pageIndex + 1).ToString();
-
+		List<string> deck = HandCardManager.Instance().Deck; 
 		_style.selectedIndex = 1; // 卡牌页
 		int pos = pageIndex * 4;
 		int count = 0;
-		while (count < 4 && CardManager.Instance().cardsSets.Count > pos)
+		while (count < 4 && deck.Count > pos)
 		{
-			string cardId = CardManager.Instance().cardsSets[pos];
+			string cardId = deck[pos];
 			GComponent item = null;
 
 			switch (count)
@@ -91,7 +92,7 @@ class TestBookPage : GComponent
 				Controller controller = item.GetController("controll");
 				if (controller.selectedIndex == 0)
 				{
-					JsonData data = CardManager.Instance().GetCardJsonData(cardId);
+					JsonData data = CardDataBase.Instance().GetCardJsonData(cardId);
 					item.GetChild("name").asTextField.text = data["name"].ToString();
 					item.GetChild("effect").asTextField.text = data["effect"].ToString();
 					item.GetChild("values").asTextField.text = "冷却：" + data["cd"] + "    " + "专注值：" + data["cost"] + "\n" + data["type"];

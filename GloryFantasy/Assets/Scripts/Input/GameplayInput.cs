@@ -97,9 +97,9 @@ namespace GamePlay.Input
         /// 设置被选中的手牌槽
         /// </summary>
         /// <param name="currentItemUI"></param>
-        internal void OnPointerDownCard(GameObject currentItemInstance)
+        internal void OnPointerDownCard(BaseCard card)
         {
-            InputFSM.OnPointerDownCard(currentItemInstance.GetComponent<BaseCard>(), null);
+            InputFSM.OnPointerDownCard(card, null);
         }
         /// <summary>
         /// 设置要使用的效果牌

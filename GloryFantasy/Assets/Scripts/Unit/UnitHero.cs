@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cards;
 using IMessage;
 using UnityEngine;
 using GamePlay;
@@ -17,7 +18,7 @@ namespace GameUnit
         public List<HeroCD> CDHeros;
         public List<UnitHero> done;
 
-        public void init(Mediator.Deck deck)
+        public void init(Deck deck)
         {
             done = new List<UnitHero>();
             unitHeroes = new List<UnitHero>();

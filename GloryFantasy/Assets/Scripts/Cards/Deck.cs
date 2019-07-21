@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using GameCard;
 using Random = UnityEngine.Random;
 
-namespace Mediator
+namespace Cards
 {
     public class HeroData
     {
@@ -27,10 +24,18 @@ namespace Mediator
         /// <summary>
         /// 卡牌对象引用
         /// </summary>
-        public List<_NewBaseCard> _deck;
+        public List<BaseCard> _deck;
+        
+        /// <summary>
+        /// 记录卡牌数量，维护展示列表的list
+        /// </summary>
+        private Dictionary<string, int> _deckRecorder;
+        
         Deck(List<HeroData> heroes)
         {
             _heroes = new Dictionary<string, HeroData>();
+            _deckRecorder = new Dictionary<string, int>();
+            _deck = new List<BaseCard>();
             foreach(HeroData heroData in heroes)
             {
                 _heroes.Add(heroData.id, heroData);
@@ -47,7 +52,7 @@ namespace Mediator
             for (int i = 0; i < size; i++)
             {
                 int pos = Random.Range(0, size);
-                _NewBaseCard temp = _deck[i];
+                BaseCard temp = _deck[i];
                 _deck[i] = _deck[pos];
                 _deck[pos] = temp;
             }

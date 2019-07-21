@@ -58,7 +58,7 @@ namespace GameCard
         /// <param name="cardId">要获取的卡牌实例的ID</param>
         /// <returns>返回对应的实例</returns>
         /// <exception cref="NotImplementedException">若卡牌ID不存在则抛出此异常</exception>
-        public _NewBaseCard GetCardInstanceById(string cardId)
+        public BaseCard GetCardInstanceById(string cardId)
         {
             JsonData jsonData = GetCardJsonData(cardId);
             
@@ -66,16 +66,16 @@ namespace GameCard
             if (jsonData == null)
                 throw new NotImplementedException();
 
-            _NewBaseCard newcard;
+            BaseCard newcard;
             
             // 根据卡牌类型创建新卡牌对象
             if (jsonData["Type"].ToString().Equals("Order"))
             {
-                newcard = new _NewOrderCard();
+                newcard = new OrderCard();
             }
             else if (jsonData["Type"].ToString().Equals("Unit"))
             {
-                newcard = new _NewUnitCard();
+                newcard = new UnitCard();
             }
             else
                 throw new NotImplementedException();

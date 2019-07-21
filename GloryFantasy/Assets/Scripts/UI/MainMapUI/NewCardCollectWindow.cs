@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FairyGUI;
+using GameCard;
 using LitJson;
 using MainMap;
 using PlayerCollection;
@@ -233,7 +234,7 @@ namespace GameGUI
         public void Refresh(string cardId)
         {
             
-            JsonData cardData = CardCollection.Instance().GetCardData(cardId);
+            JsonData cardData = CardDataBase.Instance().GetCardJsonData(cardId);
             _name.text = cardData["name"].ToString();
             _tag.text = "";
             for (int i = 0; i < cardData["tag"].Count; i++)

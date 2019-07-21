@@ -125,7 +125,7 @@ namespace UI.FGUI
             _cardBookWindow.CenterOn(GRoot.inst, true);
             
             // 获取卡牌引用
-            __cardSetsList = CardManager.Instance().cardsSets;
+            //__cardSetsList = CardManager.Instance().cardsSets;
 
             // 卡牌资源定义
             _cardSetsAssets = "fakeHandcard";
@@ -178,11 +178,11 @@ namespace UI.FGUI
             string cardId = __cardSetsList[index];
 		
             // 测试，直接把卡牌放入手牌中
-            CardManager.Instance().InsertIntoHandCard(cardId);
+            //.Instance().InsertIntoHandCard(cardId);
 		
 		
             // 向数据库查询展示数据
-            JsonData data = CardManager.Instance().GetCardJsonData(cardId);
+            JsonData data = CardDataBase.Instance().GetCardJsonData(cardId);
 
             _abstractText.text = "姓名：" + data["name"] + "\n" + "类型：" + data["type"];
 

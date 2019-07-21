@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Cards;
 using LitJson;
-using Mediator;
 using UnityEngine;
 
 namespace GameCard
@@ -13,29 +14,29 @@ namespace GameCard
         /// <summary>
         /// 所有卡牌的list
         /// </summary>
-        private List<_NewBaseCard> _allCards;
+        private List<BaseCard> _allCards;
         /// <summary>
         /// 单位牌的list
         /// </summary>
-        private List<_NewBaseCard> _unitCards;
+        private List<BaseCard> _unitCards;
         /// <summary>
         /// 效果牌的list
         /// </summary>
-        private List<_NewBaseCard> _orderCards;
+        private List<BaseCard> _orderCards;
         /// <summary>
         /// 存储战技映射关系的字典
         /// CardInstance(_NewBaseCard) --> List{ _NewOrderCard...}
         /// </summary>
-        private Dictionary<_NewBaseCard, List<_NewOrderCard>> _exskillRecorder;
+        private Dictionary<BaseCard, List<OrderCard>> _exskillRecorder;
         
         
         #endregion
         private void Start()
         {
-            _allCards = new List<_NewBaseCard>();
-            _unitCards = new List<_NewBaseCard>();
-            _orderCards = new List<_NewBaseCard>();
-            _exskillRecorder = new Dictionary<_NewBaseCard, List<_NewOrderCard>>();
+            _allCards = new List<BaseCard>();
+            _unitCards = new List<BaseCard>();
+            _orderCards = new List<BaseCard>();
+            _exskillRecorder = new Dictionary<BaseCard, List<OrderCard>>();
             
             
             // TODO: 添加初始手牌
@@ -50,16 +51,16 @@ namespace GameCard
         public void InsertCardById(string cardId)
         {
             // 调用函数创建卡牌实例
-            _NewBaseCard newCard = CardDataBase.Instance().GetCardInstanceById(cardId);
+            BaseCard card = CardDataBase.Instance().GetCardInstanceById(cardId);
             
             // 根据卡牌类型收纳
-            if(newCard.Type.Equals("Order"))
-                _orderCards.Add(newCard);
-            else if(newCard.Type.Equals("Unit"))
-                _unitCards.Add(newCard);
+            if(card.Type.Equals("Order"))
+                _orderCards.Add(card);
+            else if(card.Type.Equals("Unit"))
+                _unitCards.Add(card);
             
             // 不管什么类型都会添加到总list内
-            _allCards.Add(newCard);
+            _allCards.Add(card);
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace GameCard
         /// <param name="cardId"></param>
         public void RemoveCardById(string cardId)
         {
-            _NewBaseCard card = null;
+            BaseCard card = null;
             for (int i = 0; i < _allCards.Count; i++)
             {
                 if (_allCards[i].Id.Equals(cardId))
@@ -90,7 +91,7 @@ namespace GameCard
             else if (card.Type.Equals("Unit"))
                 _unitCards.Remove(card);
         }
-
+        
         /// <summary>
         /// 获取牌堆，从类内信息整理构造Deck类实例，目前没实现
         /// </summary>

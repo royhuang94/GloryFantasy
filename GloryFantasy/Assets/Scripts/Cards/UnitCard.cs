@@ -1,31 +1,49 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using LitJson;
-using UnityEngine;
 
 namespace GameCard
 {
-    /// <summary>
-    /// 单位卡牌类
-    /// </summary>
     public class UnitCard : BaseCard
     {
+        #region 变量
+
+        /// <summary>
+        /// 对应的UNIT的ID
+        /// </summary>
+        private string _unitId;
+        /// <summary>
+        /// 所召唤的单位除了数据库所记述的异能以外额外获得的异能的id
+        /// </summary>
+        private List<string> _abilitiesOnUnit;
+
+        #endregion
+
+        #region 变量可见性定义
         
-        public override void Init(string cardId, JsonData cardData)
+        /// <summary>
+        /// 对应的UNIT的ID
+        /// </summary>
+        public string UnitId
         {
-            base.Init(cardId, cardData);
-//            foreach (string abilityName in ability_id)
-//            {
-//                gameObject.AddComponent(System.Type.GetType("Ability." +abilityName));
-//                Debug.Log(abilityName);
-//            }
+            get { return _unitId; }
         }
         
         /// <summary>
-        /// 点击使用卡牌时调用的函数
+        /// 所召唤的单位除了数据库所记述的异能以外额外获得的异能的id
         /// </summary>
-        /// <returns>若成功使用则返回true，中途取消或其他情况返回false</returns>
-        public bool Use()
+        public ReadOnlyCollection<string> AbilitiesOnUnit
         {
-            return true;
+            get { return _abilitiesOnUnit.AsReadOnly(); }
+        }
+
+        #endregion
+
+        public override void Init(string cardId, JsonData cardData)
+        {
+            base.Init(cardId, cardData);
+            // 因为基类已经做过检查，所以直接使用
+            _unitId = cardData["Unit"].ToString();
         }
     }
 }

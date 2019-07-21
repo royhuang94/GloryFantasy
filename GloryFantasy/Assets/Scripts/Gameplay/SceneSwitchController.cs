@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Cards;
 using FairyGUI;
 using GameGUI;
 using UI.FGUI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Mediator;
 
 public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 

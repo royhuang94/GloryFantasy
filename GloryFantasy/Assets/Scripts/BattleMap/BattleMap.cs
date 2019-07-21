@@ -9,6 +9,7 @@ using IMessage;
 using UnityEngine.UI;
 using GameUnit;
 using System.Collections;
+using Cards;
 using GamePlay.Encounter;
 using UnityEngine.SceneManagement;
 using GameCard;
@@ -74,7 +75,7 @@ namespace BattleMap
                     // 胜利，场景切换控制器保存结果，用于大地图界面显示
                     SceneSwitchController.Instance().win = true;
                     // 随机三张卡牌给大地图胜利界面
-                    SceneSwitchController.Instance().cardId = CardManager.Instance().GetRandomCards(3);
+                    SceneSwitchController.Instance().cardId = CardDataBase.Instance().GetRandomCards(3);
                     exitBattleMap();
                 },
                 "Win to exit Trigger"
@@ -157,7 +158,7 @@ namespace BattleMap
             SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
         }
 
-        private void InitMap(string encouterId, Mediator.Deck deck)
+        private void InitMap(string encouterId, Deck deck)
         {
             if (deck == null)
             {
@@ -167,7 +168,8 @@ namespace BattleMap
             this.init_encouterID = encouterId;
             _unitsList = new List<Unit>();//放在这里为了每次从遭遇选择器切换地图后，清空之前的
             _quickplat = new List<string>(deck._unitsWithQuickPlat);
-            CardManager.Instance().LoadCardsIntoSets(deck, deck._unitsWithQuickPlat);
+            //现在已经不用主动传递Deck对象，新场景会自动请求Deck对象
+            //CardManager.Instance().LoadCardsIntoSets(deck, deck._unitsWithQuickPlat);
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter(encouterId);            
             //初始化地图
@@ -194,7 +196,7 @@ namespace BattleMap
         /// 重新根据遭遇文件生成新的战斗地图
         /// </summary>
         /// <param name="encouterID"></param>
-        public void RestatInitMap(string encouterID, Mediator.Deck deck)
+        public void RestatInitMap(string encouterID, Deck deck)
         {
             if (deck == null)
             {
@@ -270,7 +272,7 @@ namespace BattleMap
         }
 
 
-        private Mediator.Deck GetDeck()
+        private Deck GetDeck()
         {
             return SceneSwitchController.Instance().deck;
         }

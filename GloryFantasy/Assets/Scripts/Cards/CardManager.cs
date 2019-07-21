@@ -6,12 +6,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Ability;
+using Cards;
 using GameGUI;
 using GamePlay;
 using GamePlay.FSM;
 using GameUnit;
 using LitJson;
-using Mediator;
 using Random = UnityEngine.Random;
 namespace GameCard
 {
@@ -95,23 +95,23 @@ namespace GameCard
 
         private void Start()
         {
-            // 注册函数响应抽牌信息
-            MsgDispatcher.RegisterMsg(
-                this.GetMsgReceiver(),
-                (int)MessageType.DrawCard,
-                canDoExtractAction,
-                () => { ExtractCards(); },
-                "Extract cards Trigger"
-            );
+//            // 注册函数响应抽牌信息
+//            MsgDispatcher.RegisterMsg(
+//                this.GetMsgReceiver(),
+//                (int)MessageType.DrawCard,
+//                canDoExtractAction,
+//                () => { ExtractCards(); },
+//                "Extract cards Trigger"
+//            );
 
             // 注册函数响应回合结束信息
-            MsgDispatcher.RegisterMsg(
-                this.GetMsgReceiver(),
-                (int)MessageType.EP,
-                canDoCoolDownAction,
-                () => { HandleCooldownEvent(); },
-                "Cooldown cards Trigger"
-            );
+//            MsgDispatcher.RegisterMsg(
+//                this.GetMsgReceiver(),
+//                (int)MessageType.EP,
+//                canDoCoolDownAction,
+//                () => { HandleCooldownEvent(); },
+//                "Cooldown cards Trigger"
+//            );
             
             MsgDispatcher.RegisterMsg(
                 this.GetMsgReceiver(),
@@ -148,7 +148,7 @@ namespace GameCard
                 "ESS relation cleaner"
             );
 #endif
-            ExtractCards(2, true);
+            //ExtractCards(2, true);
         }
 
         /// <summary>

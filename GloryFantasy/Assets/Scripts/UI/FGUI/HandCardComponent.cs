@@ -60,8 +60,8 @@ namespace UI.FGUI
 	        _handCardList = handCardList;
 	        _pkgName = pkgName;
 	        _lastClicked = null;
-	        
-	        __handCardList = CardManager.Instance().cardsInHand;
+
+	        __handCardList = new List<string>();
 
 	        // 设置卡牌渲染模式， 此模式保证选择的卡牌在最上
 	        _handCardList.childrenRenderOrder = ChildrenRenderOrder.Arch;
@@ -86,27 +86,18 @@ namespace UI.FGUI
         public void UpdateHandCard()
         {
 	        _handCardList.RemoveChildren(0, -1, true);
+	        HandCardManager.Instance().GetCardImageIds(CardDesignation.HandCard, __handCardList);
 	        foreach (string cardId in __handCardList)
 	        {
 		        GObject item = UIPackage.CreateObject(_pkgName, "HandCard");
-		        String nid;
-		        if (cardId.Contains("#"))
-		        {
-			        nid = cardId.Substring(0, cardId.IndexOf('#'));
-		        }
-		        else
-		        {
-			        nid = cardId;
-		        }
 
-		        item.icon = UIPackage.GetItemURL(_handCardAssets, nid.Split('_').First());
+		        item.icon = UIPackage.GetItemURL(_handCardAssets, cardId.Split('_').First());
 		        item.SetPivot(0.5f, 1f);
 		        _handCardList.AddChild(item);
-		        string id = string.Copy(nid);
 		        item.onRollOver.Add(()=>
 		        {
 			        _handCardList.apexIndex = __handCardList.IndexOf(cardId);
-			        JsonData data = CardManager.Instance().GetCardJsonData(id);
+			        JsonData data = CardDataBase.Instance().GetCardJsonData(cardId);
 			        FGUIInterfaces.Instance().title.text = data["name"].ToString();
 			        FGUIInterfaces.Instance().effect.text = data["effect"].ToString();
 			        FGUIInterfaces.Instance().value.text = "冷却：" + data["cd"] + "    " + "专注值：" + data["cost"] + "\n" + data["type"];
@@ -143,43 +134,50 @@ namespace UI.FGUI
 
 	        GObject item = context.data as GObject;
 		
-	        _startPos = Input.mousePosition;
+	        // 设置当前点选的卡牌
+	        HandCardManager.Instance().SetSelectCard(_handCardList.GetChildIndex(item));
+	        
 	        // TODO: 直接释放技能不显示箭头
-	        // 是单位牌而且不在谋定而动阶段
-	        if(CardManager.Instance().handcardsInstance[_handCardList.GetChildIndex(item)].GetComponent<BaseCard>() is UnitCard 
-	           && !CardManager.Instance().selectingMode
-               && !(Gameplay.Instance().gamePlayInput.InputFSM.CurrentState is GamePlay.FSM.InputFSMPlatState))
-				ArrowManager.Instance().DrawArrow(_startPos, Input.mousePosition);		// 箭头二
-	        // 确认当前点击的卡牌和上次点击的不同，此时表明用户想使用这张卡牌
-	        if (item != _lastClicked)
+	        if (HandCardManager.Instance().CurrentSelectingCard is UnitCard
+	            && !HandCardManager.Instance().LockStatus)
 	        {
-		        // 改变记录
-		        _lastClicked = item;
-		        // 动效
-		        //DoSpecialEffect(item);
-		        // 设置当前选中的卡牌
-		        CardManager.Instance().SetSelectingCard(_handCardList.GetChildIndex(item));
+		        _startPos = Input.mousePosition;
+		        ArrowManager.Instance().DrawArrow(_startPos, Input.mousePosition);		// 箭头二
 	        }
-	        else // 此时用户点击的牌和上次相同，表示用户想取消使用
-	        {
-		        ArrowManager.Instance().HideArrow();
-		        // 恢复原大小
-		        foreach (GObject litem in _handCardList.GetChildren())
-		        {
-			        StartCoroutine(FancyHandCardEffect(litem, 1.0f));
-		        }
-			
-		        // 重置上次选择项
-		        _lastClicked = null;
-			
-		        // 调用取消使用方法
-		        CardManager.Instance().CancleUseCurrentCard();
-			
-		        // 结束函数执行，因为用户取消使用
-		        return;
-	        }
-		
-	        CardManager.Instance().OnUseCurrentCard();
+	        
+	        // 出现箭头后，再传递触发信息
+	        HandCardManager.Instance().OnClickCard();
+	        #region 原来的代码
+//	        if (item != _lastClicked)
+//	        {
+//		        // 改变记录
+//		        _lastClicked = item;
+//		        // 动效
+//		        //DoSpecialEffect(item);
+//		        // 设置当前选中的卡牌
+//		        HandCardManager.Instance().SetSelectCard(_handCardList.GetChildIndex(item));
+//	        }
+//	        else // 此时用户点击的牌和上次相同，表示用户想取消使用
+//	        {
+//		        ArrowManager.Instance().HideArrow();
+//		        // 恢复原大小
+//		        foreach (GObject litem in _handCardList.GetChildren())
+//		        {
+//			        StartCoroutine(FancyHandCardEffect(litem, 1.0f));
+//		        }
+//			
+//		        // 重置上次选择项
+//		        _lastClicked = null;
+//			
+//		        // 调用取消使用方法
+//		        CardManager.Instance().CancleUseCurrentCard();
+//			
+//		        // 结束函数执行，因为用户取消使用
+//		        return;
+//	        }
+//		
+//	        CardManager.Instance().OnUseCurrentCard();
+			#endregion
 		
         }
         

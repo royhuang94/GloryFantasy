@@ -42,7 +42,7 @@ namespace GamePlay.FSM
             this.SetSpellingAbility(FSM.effect);
             // 如果发动的指令牌不需要指定目标则直接发动
             // 并且状态机压入回正常状态
-            if (FSM.effect.targets.Count == 0)
+            if (FSM.effect.targets == null || FSM.effect.targets.Count == 0)
             {
                 FSM.PushState(new InputFSMIdleState(FSM));
                 FSM.effect.Cast();

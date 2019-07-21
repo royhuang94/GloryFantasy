@@ -101,7 +101,7 @@ public class CardCollectWindow : Window
         string cardId = _playerCardList[index];
 
         // 获取卡牌信息
-        JsonData data = CardManager.Instance().GetCardJsonData(cardId);
+        JsonData data = CardDataBase.Instance().GetCardJsonData(cardId);
 
         // TODO: 卡牌详细信息的显示及图片加载
         _name.text = data["name"].ToString();

@@ -72,7 +72,7 @@ namespace GamePlay.FSM
             base.OnPointerDownCard(card, eventData);
             if(card is OrderCard)
             {
-                if (!Player.Instance().CanConsumeAp(card.cost))
+                if (!Player.Instance().CanConsumeAp(card.Cost))
                 {
                     // TODO : 并实现AP值震动效果
                     Debug.Log("Ran out of AP, cant use this one");
