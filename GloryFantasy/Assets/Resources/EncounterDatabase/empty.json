@@ -1,0 +1,45 @@
+﻿[
+  {
+    "EncounterID": "empty",
+    "GlobalTrigger": [],
+    "DeathPage": -1,
+    "UnitMessage": [],
+    "BattlefieldMessage": [
+      {
+        "RegionID": 1,
+        "Owner": "Enemy",
+        "EventList": {
+          "Empty": 1,
+        },
+        "Buff": [],
+        "Trigger": [ "MainBF_Enemy" ],
+        "Delta_X": 0,
+        "Delta_Y": 2
+      },
+      {
+        "RegionID": 2,
+        "Owner": "Neutrality",
+        "EventList": {
+          "Empty": 1,
+        },
+        "Buff": [],
+        "Trigger": [],
+        "Delta_X": 0,
+        "Delta_Y": 2
+      },
+      {
+        "RegionID": 3,
+        "Owner": "Player",
+        "EventList": {
+          "Empty": 1
+        },
+        "Buff": [],
+        "Trigger": [ "MainBF_Friendly" ],
+        "Delta_X": 0,
+        "Delta_Y": 0
+      }
+    ],
+    "MapID": "Desert_1"
+  }
+
+]

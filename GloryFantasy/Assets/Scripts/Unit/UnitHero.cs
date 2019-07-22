@@ -8,6 +8,7 @@ using Cards;
 using IMessage;
 using UnityEngine;
 using GamePlay;
+using GameCard;
 
 namespace GameUnit
 {
@@ -23,10 +24,36 @@ namespace GameUnit
             done = new List<UnitHero>();
             unitHeroes = new List<UnitHero>();
             CDHeros = new List<HeroCD>();
-            // 生成英雄实例并添加到unitHeros和CDHeros中，设置currentRecovery和maxRecovery为生命最大值，recoverRate为4。
-            // 调动卡牌库生成卡牌实例，为生成的卡牌添加对应的携带者
-            // 根据卡牌数据更新英雄的extraAbilities
-            // 刷新CD池
+
+            foreach(string heroid in deck._heroes.Keys)
+            {
+                HeroData data = deck._heroes[heroid];
+                //根据卡牌id生成单位
+                GameObject temp = GameUnitFactory.Instance().GetGameUnit(OwnerEnum.Player);
+                Debug.Log("temp: " + temp);
+                //把FriendlyUnit掰了换成新的
+                if (temp.GetComponent<FriendlyUnit>() != null)
+                    GameObject.Destroy(temp.GetComponent<FriendlyUnit>());
+                UnitHero hero = temp.AddComponent<UnitHero>();
+                unitHeroes.Add(hero);
+                hero.isLeader = 0;
+                hero.id = data.id;
+                hero.owner = OwnerEnum.Player;
+                hero.recovorRate = 4;
+                hero.maxRecovery = 0;
+                CDHeros.Add(new HeroCD(hero));
+                hero.extraAbilities = data.additionalAbility;
+                hero.Arks = new List<BaseCard>();
+                foreach (string cardid in data.arks)
+                {
+                    BaseCard card = CardDataBase.Instance().GetCardInstanceById(cardid);
+                    card.setCarrier(hero);
+                    hero.Arks.Add(card);
+                    GameplayToolExtend.moveCard(card, CardArea.Deck);
+                    hero.extraAbilities.AddRange(card.abilityAttach);
+                }
+            }
+            // TODO: 刷新CD池
         }
 
         public void sendHeroInCD(UnitHero hero)
@@ -74,6 +101,7 @@ namespace GameUnit
         /// 每回合恢复率，默认为4
         /// </summary>
         public int recovorRate;
+        
 
         public HeroCD(UnitHero hero)
         {
@@ -85,7 +113,7 @@ namespace GameUnit
         }
     }
 
-    public class UnitHero: GameUnit
+    public class UnitHero: FriendlyUnit
     {
         
         /// <summary>
@@ -104,6 +132,10 @@ namespace GameUnit
         /// 重新部署所需的恢复量
         /// </summary>
         public int maxRecovery;
+        /// <summary>
+        /// 英雄携带的卡牌实例
+        /// </summary>
+        public List<BaseCard> Arks;
         /// <summary>
         /// 英雄的部署方法
         /// </summary>
@@ -143,7 +175,7 @@ namespace GameUnit
                         GameUtility.LogColor.RED);
                 }
             }
-
+            this.maxRecovery = this.getMHP();
             BattleMap.BattleMap.Instance().UnitsList.Add(this);
 
             Debug.Log("gameUnit " + this);

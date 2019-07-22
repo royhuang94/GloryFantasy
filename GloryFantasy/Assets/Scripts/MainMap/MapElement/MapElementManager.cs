@@ -154,7 +154,7 @@ namespace MainMap
             MainMapManager.Instance().Source.Stop();
             SceneSwitchController.Instance().SetData(encounterid, null);
             SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
-            SceneSwitchController.Instance().GetDeckFormMainMapK(CardCollection.Instance().deck);
+            //SceneSwitchController.Instance().GetDeckFormMainMapK(CardCollection.Instance().deck);
         }
         /// <summary>
         /// 设置怪物遭遇id和等级信息

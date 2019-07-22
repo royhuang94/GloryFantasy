@@ -32,7 +32,7 @@ namespace PlayerCollection
         /// 角色的卡牌收藏
         /// </summary>
         public static List<string> mycollection = new List<string>();
-        public Deck deck = new Deck(mycollection, "HElf_1");
+        //public Deck deck = new Deck(mycollection, "HElf_1");
         /// <summary>
         /// 英雄单位的战技牌，规则为英雄字符串-卡牌字符串
         /// </summary>
@@ -134,7 +134,7 @@ namespace PlayerCollection
         {
             mycollection.Clear();
             mycollection.Add("HElf_1");
-            deck.FreshDeck(mycollection);
+            //deck.FreshDeck(mycollection);
         }
     }
 }

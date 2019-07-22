@@ -41,7 +41,7 @@ namespace GamePlay.Event
                 if(unit.owner != _Unit.owner)   //使得敌方单位 受到Y点伤害并获得滞击，2回合后消解。
                 {
                     Damage This_Damage = new Damage(this.strenth);
-                    Damage.TakeDamage(unit, This_Damage);   //使得敌方单位收到Y点伤害
+                    //Damage.TakeDamage(unit, This_Damage);   //使得敌方单位收到Y点伤害
                    // unit.gameObject.AddBuff<Ability.Debuff.BDisarm>(2f);   //使得此单位获得 滞击 ,2回合后 消解
                 }
             }

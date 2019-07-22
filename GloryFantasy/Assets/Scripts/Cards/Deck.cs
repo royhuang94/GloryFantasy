@@ -7,15 +7,15 @@ namespace Cards
     public class HeroData
     {
         public string id { get; set; }
-        public List<string> additionalBuff;
+        public List<string> additionalAbility;
         public List<string> arks;
-        HeroData(string id, List<string> arks, List<string> additionalBuff = null)
+        HeroData(string id, List<string> arks, List<string> additionalAbility = null)
         {
             this.id = id;
             this.arks = arks;
-            this.additionalBuff = additionalBuff;
-            if (this.additionalBuff == null)
-                this.additionalBuff = new List<string>();
+            this.additionalAbility = additionalAbility;
+            if (this.additionalAbility == null)
+                this.additionalAbility = new List<string>();
         }
     }
     public class Deck

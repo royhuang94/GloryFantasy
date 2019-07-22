@@ -20,7 +20,7 @@ namespace GameUnit
         /// <param name="owner"></param>
         /// <param name="damage"></param>
         /// <returns></returns>
-        public GameObject GetGameUnit(string unitID, OwnerEnum owner,int isLeader, int damage = 0)
+        public GameObject GetGameUnit(OwnerEnum owner)
         {
             GameObject newUnit;
             //根据所有者选择不同的模板进行单位实例化
@@ -38,7 +38,7 @@ namespace GameUnit
             }
 
             //将生成的GameUnit传入数据库赋值初始化
-            UnitDataBase.Instance().InitGameUnit(newUnit.GetComponent<GameUnit>(), unitID, owner,isLeader,damage);
+            //UnitDataBase.Instance().InitGameUnit(newUnit.GetComponent<GameUnit>(), unitID, owner,isLeader,damage);
 
             return newUnit;
         }

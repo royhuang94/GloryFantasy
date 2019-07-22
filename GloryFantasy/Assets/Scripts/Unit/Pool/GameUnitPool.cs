@@ -77,14 +77,16 @@ namespace GameUnit
                         Destroy(_ability);
                     }
                     //从单位数据库将新单位初始化
-                    UnitDataBase.Instance().InitGameUnit(_unit, unitId, owner,isLeader, Damage);
+                    UnitDataBase.Instance().InitGameUnit(_unit.GetComponent<GameUnit>(), unitId, owner,isLeader, Damage);
                     return _unit;
                 }
             }
            
             //如果没有空余的对应类型的对象，就
             //从单位生成车间取得新单位实例
-            return GameUnitFactory.Instance().GetGameUnit(unitId, owner,isLeader,Damage);
+            GameObject unit = GameUnitFactory.Instance().GetGameUnit(owner);
+            UnitDataBase.Instance().InitGameUnit(unit.GetComponent<GameUnit>(), unitId, owner, isLeader, Damage);
+            return unit;
         }
 
         public void PushUnit(GameObject unit)

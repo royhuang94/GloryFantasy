@@ -57,6 +57,10 @@ namespace GameCard
         /// 使用卡牌需要消耗的AP值
         /// </summary>
         private int _cost;
+        /// <summary>
+        /// 提供给携带者的异能
+        /// </summary>
+        private List<string> _abilityAttach;
 
         #endregion
 
@@ -142,6 +146,11 @@ namespace GameCard
             _carrier = hero;
         }
 
+        public List<string> abilityAttach
+        {
+            get { return _abilityAttach; }
+        }
+
         #endregion
 
         /// <summary>
@@ -171,8 +180,10 @@ namespace GameCard
             // 读入所有color及tag标签
             _color = new List<string>();
             _tag = new List<string>();
+            _abilityAttach = new List<string>();
             JsonData colorArray = cardData["Color"];
             JsonData tagArray = cardData["Tag"];
+            JsonData abilityArray = cardData["AbilityAttach"];
             
             for (int i = 0; i < colorArray.Count; i++)
             {    
@@ -186,6 +197,12 @@ namespace GameCard
                 // 如果tag标签长度不为0， 则为合法color，复制后放入list
                 if(tagArray[i].ToString().Length > 0)
                     _tag.Add(tagArray[i].ToString());
+            }
+
+            for (int i = 0; i < abilityArray.Count; i++)
+            {
+                if (abilityArray[i].ToString().Length > 0)
+                    _abilityAttach.Add(abilityArray[i].ToString());
             }
         }
 

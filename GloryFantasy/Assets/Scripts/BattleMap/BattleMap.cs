@@ -38,7 +38,7 @@ namespace BattleMap
         public void InitMap()
         {
             if (GetEncounterID() == null)
-                InitMap("ant_1", GetDeck());
+                InitMap("empty", GetDeck());
             else
                 InitMap(GetEncounterID(), GetDeck());
             RegisterMSG();
@@ -162,12 +162,12 @@ namespace BattleMap
         {
             if (deck == null)
             {
-                deck = defaultDeck;
+                //deck = defaultDeck;
             }
             //下面的初始顺序不能变
             this.init_encouterID = encouterId;
             _unitsList = new List<Unit>();//放在这里为了每次从遭遇选择器切换地图后，清空之前的
-            _quickplat = new List<string>(deck._unitsWithQuickPlat);
+            //_quickplat = new List<string>(deck._unitsWithQuickPlat);
             //现在已经不用主动传递Deck对象，新场景会自动请求Deck对象
             //CardManager.Instance().LoadCardsIntoSets(deck, deck._unitsWithQuickPlat);
             //读取并存储遭遇
@@ -200,7 +200,7 @@ namespace BattleMap
         {
             if (deck == null)
             {
-                deck = defaultDeck;
+                //deck = defaultDeck;
             }
             GamePlay.Gameplay.Instance().eventScroll.Clear();
             //初始一个遭遇id，供其他地方使用

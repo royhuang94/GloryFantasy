@@ -432,17 +432,17 @@ namespace GameCard
         {
             //// TODO: 根据策划案修改此函数，以下仅用于demo
             //Deck deck = SceneSwitchController.Instance().deck;
-            if (deck != null)
-            {
-                // 将deck中所有卡牌加入牌堆中
-                foreach (string cardId in deck._deck)
-                {
-                    if(cardId.Contains("HElf"))
-                        continue;
-                    _cardsSets.Add(string.Copy(cardId));
-                }
-            }
-            _unitIDWithQuickPlat = unitIDWithQuickPlat;
+            //if (deck != null)
+            //{
+            //    // 将deck中所有卡牌加入牌堆中
+            //    foreach (string cardId in deck._deck)
+            //    {
+            //        if(cardId.Contains("HElf"))
+            //            continue;
+            //        _cardsSets.Add(string.Copy(cardId));
+            //    }
+            //}
+            //_unitIDWithQuickPlat = unitIDWithQuickPlat;
             //// 如果传递的牌库是空的，那就没得办法了，直接加全部牌
             //// 别加啊，可能有空牌库的啊。
             //if (_loadFromJson || deck._deck.Count == 0)
@@ -731,7 +731,7 @@ namespace GameCard
                 throw new NotImplementedException();
             }
 
-            string cardId = cardInstance.GetComponent<BaseCard>().id;
+            string cardId = cardInstance.GetComponent<BaseCard>().Id;
             
             // 从手牌列表中移除对应的卡牌
             _handcards.Remove(cardId);
