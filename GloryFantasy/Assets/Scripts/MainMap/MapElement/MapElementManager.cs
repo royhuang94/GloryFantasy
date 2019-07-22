@@ -152,7 +152,7 @@ namespace MainMap
         public void InToBattle()
         {
             MainMapManager.Instance().Source.Stop();
-            SceneSwitchController.Instance().SetData(encounterid, null);
+            SceneSwitchController.Instance().SetData(encounterid, null, null);
             SceneSwitchController.Instance().Switch(MainMapSceneName, BattleMapSceneName);
             //SceneSwitchController.Instance().GetDeckFormMainMapK(CardCollection.Instance().deck);
         }

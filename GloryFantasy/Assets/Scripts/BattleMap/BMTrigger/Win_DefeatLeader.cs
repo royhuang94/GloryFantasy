@@ -22,9 +22,8 @@ namespace BattleMap
 
         private bool Condition()
         {
-            //如果死掉的单位在地方指挥官列表中，即胜利
-            if (EncouterData.Instance().dataOfThisBattle.GetLeaders().Contains(this.GetDead()))
-                return true;
+            bool c = true;
+            //foreach(GameUnit.GameUnit unit in Player.Instance().leaders)
 
             return false;
         }
