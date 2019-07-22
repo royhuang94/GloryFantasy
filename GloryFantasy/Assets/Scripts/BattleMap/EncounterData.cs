@@ -73,7 +73,6 @@ namespace GamePlay.Encounter
         //public string EncounterPath = "/Scripts/BattleMap/BattleMapData/encounter.json";//遭遇事件文件路径
         public Dictionary<string, Encounter> _encounterData;//遭遇对象
         public Dictionary<int, List<EventModel>> battleAreaEventsDic;//遭遇中文件中战区事件
-        public DataOfThisBattle dataOfThisBattle = new DataOfThisBattle();
         
 
         /// <summary>

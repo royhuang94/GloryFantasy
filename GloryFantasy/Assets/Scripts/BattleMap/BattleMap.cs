@@ -37,139 +37,14 @@ namespace BattleMap
         /// </summary>
         public void InitMap()
         {
-            if (GetEncounterID() == null)
-                InitMap("empty", GetDeck());
-            else
-                InitMap(GetEncounterID(), GetDeck());
-            RegisterMSG();
+            InitMap(GetEncounterID());
         }
 
-        /// <summary>
-        /// 注册信息，以免第二次之后进来不注册
-        /// </summary>
-        public void RegisterMSG()
+        private void InitMap(string encouterId)
         {
-            MsgDispatcher.RegisterMsg(
-                this.GetMsgReceiver(),
-                (int)MessageType.MPBegin,
-                canDoMPAction,
-                MpBegin,
-                "Mp Begin Trigger"
-            );
-
-            MsgDispatcher.RegisterMsg(
-                this.GetMsgReceiver(),
-                (int)MessageType.MPEnd,
-                canDoMPEndAction,
-                MpEnd,
-                "Mp End Trigger"
-            );
-            
-            // 先默认为false，否则每次都会卸载该场景，等整合大地图需改成true
-            MsgDispatcher.RegisterMsg(
-                this.GetMsgReceiver(),
-                (int)MessageType.WIN,
-                canDoExitAction,
-                () =>
-                {
-                    // 胜利，场景切换控制器保存结果，用于大地图界面显示
-                    SceneSwitchController.Instance().win = true;
-                    // 随机三张卡牌给大地图胜利界面
-                    SceneSwitchController.Instance().cardId = CardDataBase.Instance().GetRandomCards(3);
-                    exitBattleMap();
-                },
-                "Win to exit Trigger"
-            );
-           
-            MsgDispatcher.RegisterMsg(
-                this.GetMsgReceiver(),
-                (int)MessageType.LOSE,
-                canDoExitAction,
-                () =>
-                {
-                    SceneSwitchController.Instance().win = false;
-                    exitBattleMap();
-                },
-                "Lose to exit Trigger"
-            );
-        }
-        
-        
-        /// <summary>
-        /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
-        /// </summary>
-        /// <returns>根据实际情况确定是否能进入主要阶段</returns>
-        public bool canDoMPAction()
-        {
-            return true;
-        }       
-        
-        /// <summary>
-        /// 检测是否能进行主要阶段，现在暂时设定为永true,是主要阶段的condition函数
-        /// </summary> 
-        /// <returns>根据实际情况确定是否能进入主要阶段</returns>
-        public bool canDoMPEndAction()
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// 判断是否可以退出战斗地图
-        /// 如果直接用战斗地图打开，则不能退出
-        /// 否则可以退回到大地图
-        /// </summary>
-        /// <returns></returns>
-        public bool canDoExitAction()
-        {
-            if (SceneManager.sceneCount == 1)
-                return false;
-            return true;
-        }
-        
-        /// <summary>
-        /// 主要阶段开始
-        /// </summary>
-        public void MpBegin()
-        {
-            // 回合开始地图上所有单位可以移动，因此变亮
-            // 这个是监听玩家回合还是整体回合，待验证，也不清楚是整体回合开始就亮还是怎么的
-            List<Unit> friendlyUnits = GetFriendlyUnitsList();
-            foreach (Unit unit in friendlyUnits)
-            {
-                UnitManager.ColorUnitOnBlock(unit.mapBlockBelow.position, Color.white);
-            }
-        }
-        
-        /// <summary>
-        /// 主要阶段结束
-        /// </summary>
-        public void MpEnd()
-        {
-
-        }
-
-        
-        /// <summary>
-        /// 退出战斗地图
-        /// </summary>
-        public void exitBattleMap()
-        {
-            Debug.Log("win, ready to exit");
-            SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
-        }
-
-        private void InitMap(string encouterId, Deck deck)
-        {
-            if (deck == null)
-            {
-                //deck = defaultDeck;
-            }
             //下面的初始顺序不能变
             this.init_encouterID = encouterId;
             _unitsList = new List<Unit>();//放在这里为了每次从遭遇选择器切换地图后，清空之前的
-            //_quickplat = new List<string>(deck._unitsWithQuickPlat);
-            //现在已经不用主动传递Deck对象，新场景会自动请求Deck对象
-            //CardManager.Instance().LoadCardsIntoSets(deck, deck._unitsWithQuickPlat);
             //读取并存储遭遇
             EncouterData.Instance().InitEncounter(encouterId);            
             //初始化地图
@@ -180,28 +55,18 @@ namespace BattleMap
             battleAreaData.InitBattleArea(encouterId);           
             //初始战斗地图上的单位 
             UnitManager.InitAndInstantiateGameUnit(encouterId);
-            //该次遭遇中的一些临时数值
-            EncouterData.Instance().dataOfThisBattle.InitData(encouterId);
-            //设置回合为第一回合
-            GamePlay.Gameplay.Instance().roundProcessController.SetFristRound();
             //一直显示战区所属
             drawBattleArea.ShowAndUpdateBattleArea();
             
             ScaleBattleMap();
         }
 
-        //private Mediator.Deck defaultDeck = new Mediator.Deck(new List<string>(), "HElf_1");
-
         /// <summary>
         /// 重新根据遭遇文件生成新的战斗地图
         /// </summary>
         /// <param name="encouterID"></param>
-        public void RestatInitMap(string encouterID, Deck deck)
+        public void RestatInitMap(string encouterID)
         {
-            if (deck == null)
-            {
-                //deck = defaultDeck;
-            }
             GamePlay.Gameplay.Instance().eventScroll.Clear();
             //初始一个遭遇id，供其他地方使用
             init_encouterID = encouterID;
@@ -210,7 +75,7 @@ namespace BattleMap
                 Destroy(blocks[i]);
             Destroy(BattleMapPanel);
             //重新生成
-            InitMap(encouterID, deck);
+            InitMap(encouterID);
         }
 
         #region 变量

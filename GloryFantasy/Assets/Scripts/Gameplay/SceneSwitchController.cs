@@ -23,6 +23,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	private string _battleMapSceneName = "BattleMapTest";
 	private string _encounterID;
 	private Deck _deck;
+    private GamePlay.Playerdata _playerdata;
 	private bool _win;			// 是否胜利
 	private List<string> _cardId;
 
@@ -38,13 +39,17 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		get { return _cardId; }
 		set { _cardId = value; }
 	}
-
-	/// <summary>
-	/// 获取遭遇ID
-	/// </summary>
-	public string encounterId
+    #region 获取战斗信息
+    /// <summary>
+    /// 获取遭遇ID
+    /// </summary>
+    public string encounterId
 	{
-		get { return _encounterID; }
+		get {
+            if (_encounterID == null)
+                return "empty";
+            return _encounterID;
+        }
 	}
 
 	/// <summary>
@@ -52,10 +57,32 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// </summary>
 	public Deck deck
 	{
-		get { return _deck; }
+		get {
+            if (_deck == null)
+            {
+                HeroData hero = new HeroData("HRin", new List<string>());
+                return new Deck(new List<HeroData> { hero });
+            }
+            return _deck;
+        }
 	}
 
-	void Start () 
+    /// <summary>
+    /// 获取玩家信息
+    /// </summary>
+    public GamePlay.Playerdata playerdata
+    {
+        get
+        {
+            if (_playerdata == null)
+            {
+                return new GamePlay.Playerdata();
+            }
+            return _playerdata;
+        }
+    }
+    #endregion
+    void Start () 
 	{
 		SceneManager.sceneLoaded += this.OnSceneLoader;
 		SceneManager.sceneUnloaded += this.OnSceneUnloader;
@@ -121,10 +148,13 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 	/// </summary>
 	/// <param name="encounterId">遭遇ID</param>
 	/// <param name="cardList">卡组list</param>
-	public void SetData(string encounterId, Deck cardList)
+	public void SetData(string encounterId, Deck cardList, GamePlay.Playerdata playerdata)
 	{
+        if (encounterId == null || cardList == null || playerdata == null)
+            return;
 		_encounterID = encounterId;
 		_deck = cardList;
+        _playerdata = playerdata;
 	}
 
 	

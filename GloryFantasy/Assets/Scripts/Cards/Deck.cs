@@ -9,7 +9,7 @@ namespace Cards
         public string id { get; set; }
         public List<string> additionalAbility;
         public List<string> arks;
-        HeroData(string id, List<string> arks, List<string> additionalAbility = null)
+        public HeroData(string id, List<string> arks, List<string> additionalAbility = null)
         {
             this.id = id;
             this.arks = arks;
@@ -31,7 +31,7 @@ namespace Cards
         /// </summary>
         private Dictionary<string, int> _deckRecorder;
         
-        Deck(List<HeroData> heroes)
+        public Deck(List<HeroData> heroes)
         {
             _heroes = new Dictionary<string, HeroData>();
             _deckRecorder = new Dictionary<string, int>();
@@ -51,7 +51,7 @@ namespace Cards
 
             for (int i = 0; i < size; i++)
             {
-                int pos = Random.Range(0, size);
+                int pos = Random.Range(i, size);
                 BaseCard temp = _deck[i];
                 _deck[i] = _deck[pos];
                 _deck[pos] = temp;

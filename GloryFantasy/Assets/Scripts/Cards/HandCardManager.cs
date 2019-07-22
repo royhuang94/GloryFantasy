@@ -145,13 +145,24 @@ namespace GameCard
             _extractCardSUpperLimit = 1;
             _currentSelectingPos = -1;
             _currentSelectingCard = null;
-            
+
             // 从牌堆管理中请求牌堆
-            _deck = DeckController.Instance().GetDeck();
-            
+            // _deck = DeckController.Instance().GetDeck();
+            // _deck = new Deck();
             _handCards = new List<BaseCard>();
             _standBy = new List<BaseCard>();
-            ExtractCards(2, true);
+            // ExtractCards(2, true);
+        }
+        /// <summary>
+        /// 依照
+        /// </summary>
+        /// <param name="deck"></param>
+        public void init()
+        {
+            _deck = SceneSwitchController.Instance().deck;
+            _deck._deck.Clear();
+            GamePlay.Gameplay.Instance().heroManager.init(_deck);
+            ExtractCards(SceneSwitchController.Instance().playerdata.startHand);
         }
 
         /// <summary>
@@ -234,13 +245,14 @@ namespace GameCard
 
                 card.cardArea = CardArea.Hand;
             }
-            
+            Ability.EffectStack.addLocker();
             // 发送手牌变动消息
             MsgDispatcher.SendMsg((int)MessageType.HandcardChange);
             // 发送牌堆变化消息
             MsgDispatcher.SendMsg((int)MessageType.CardsetChange);
             // 发送卡牌抽取消息
             MsgDispatcher.SendMsg((int)MessageType.DrawCard);
+            Ability.EffectStack.removeLocker();
         }
 
         /// <summary>

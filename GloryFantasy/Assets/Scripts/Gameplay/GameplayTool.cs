@@ -595,45 +595,12 @@ namespace GamePlay
             // 以下操作要同时发送复数信息，将堆叠锁住直到信息发送完毕。
             HandCardManager.Instance().OperateCard(card, card.cardArea, false);
             EffectStack.addLocker();
-            int message = 0;
-            switch (card.cardArea)
-            {
-                case CardArea.Deck:
-                    // TODO: 以后应该要给改个名，现在牌堆叫deck
-                    message = (int)MessageType.CardsetChange;
-                    break;
-                case CardArea.Hand:
-                    message = (int)MessageType.HandcardChange;
-                    break;
-                case CardArea.StandBy:
-                    // TODO: 添加新的卡牌变动信号
-                    //message = (int) MessageType.StandByChange;
-                    break;
-                case CardArea.Field:
-                    message = (int)MessageType.ColliderChange;
-                    break;
-            }
-            if (message != 0)
-                MsgDispatcher.SendMsg(message);
+            if (card.cardArea == CardArea.Field)
+                MsgDispatcher.SendMsg((int)MessageType.ColliderChange);
             if (cardArea == CardArea.Hand && !HandCardManager.Instance().CanDraw())
                 cardArea = CardArea.StandBy;
             card.cardArea = cardArea;
             HandCardManager.Instance().OperateCard(card, cardArea);
-            switch (card.cardArea)
-            {
-                case CardArea.Deck:
-                    // TODO: 以后应该要给改个名，现在牌堆叫deck
-                    message = (int)MessageType.CardsetChange;
-                    break;
-                case CardArea.Hand:
-                    message = (int)MessageType.HandcardChange;
-                    break;
-                case CardArea.StandBy:
-                    // TODO: 添加新的卡牌变动信号
-                    //message = (int) MessageType.StandByChange;
-                    break;
-            }
-            MsgDispatcher.SendMsg(message);
             EffectStack.removeLocker();
         }
 

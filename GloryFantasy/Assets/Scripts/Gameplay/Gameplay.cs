@@ -11,15 +11,10 @@ using GamePlay.Event;
 using GamePlay.Encounter;
 using BattleMap;
 using GameUnit;
+using UnityEngine.SceneManagement;
 
 namespace IMessage
 {
-    //TODO 关于Info的问题
-    //每次攻击都会更新他的ATK部分吗？
-    //会不会因为在同一回合中攻击太频繁导致出现BUG
-
-    //更啊，又不会同时发生攻击，怕什么bug
-
     public class Info
     {
         public PlayerEnum RoundOwned; //回合所属
@@ -108,15 +103,6 @@ namespace GamePlay
             heroManager = new HeroManager();
             damageManager = new DamageManager();
         }
-        //private void Update()
-        //{
-        //    if(roundProcessController.roundInput != RoundInput.None)
-        //    {
-        //        IEnumerator coroutine;
-        //        coroutine = WaitAndPrint(8.0f);
-        //        StartCoroutine(coroutine);
-        //    }
-        //}
 
         public static Info Info = new Info();
         public RoundProcessController roundProcessController; 
@@ -127,21 +113,25 @@ namespace GamePlay
         public AI.AutoController autoController;
         public EventScroll eventScroll;
         public HeroManager heroManager;
-        private string _encouterID;//该次遭遇的遭遇id;
-        public string EncouterID { get { return _encouterID; } }
+        //private string _encouterID;//该次遭遇的遭遇id;
+        //public string EncouterID { get { return _encouterID; } }
         public DamageManager damageManager;
 
         private void Update()
         {
-            //gamePlayInput.Update();
+            gamePlayInput.Update();
         }
 
         private void Start()
         {
-            //初始战斗地图
+            //初始化玩家和遭遇信息
+            Player.Instance().Init();
+            //初始战斗地图并放置单位
             BattleMap.BattleMap.Instance().InitMap();
-
-            //启动回合自流动控制器
+            //初始化牌库和手牌
+            HandCardManager.Instance().init();
+            //设置为第一回合并启动回合自流动控制器
+            roundProcessController.SetFristRound();
             roundProcessController.action = BackUpdateRound;
             //StartCoroutine(RoundUpdate());
             BackUpdateRound(RoundInput.RestoreApPhase);
@@ -154,8 +144,6 @@ namespace GamePlay
         {
             roundProcessController.StepIntoNextStateByButton();
         }
-
-
 
         #region 回合自流动
         /// <summary>

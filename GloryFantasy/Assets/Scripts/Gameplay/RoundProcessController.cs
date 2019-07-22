@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using GameCard;
 using GamePlay.Event;
+using GameUnit;
 using IMessage;
 using UI.FGUI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GamePlay.Round
 {
@@ -164,7 +166,7 @@ namespace GamePlay.Round
     }
 
     /// <summary>
-    /// 恢复费用阶段
+    /// 恢复费用阶段，重置所有单位至他们的初始状态，并且恢复玩家的专注。
     /// </summary>
     public class RestoreApPhase : RoundState
     {
@@ -180,8 +182,17 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             _roundCounter += 1;
-            // 发送更新资源点消息
-            MsgDispatcher.SendMsg((int)MessageType.UpdateSource);
+            // 重置单位
+            List<GameUnit.GameUnit> friendlyUnits = BattleMap.BattleMap.Instance().GetFriendlyUnitsList();
+            foreach (GameUnit.GameUnit unit in friendlyUnits)
+            {
+                unit.AT = 1;
+                unit.MT = 1;
+                unit.lastAction = GameUnit.UnitState.None;
+                UnitManager.ColorUnitOnBlock(unit.mapBlockBelow.position, Color.white);
+            }
+            // 恢复专注
+            Player.Instance().ReCalculateAp();
             Debug.Log("恢复专注值阶段");
         }
 
@@ -254,7 +265,7 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             // 调用接口进行抽牌工作，此函数内发送抽卡消息
-            HandCardManager.Instance().ExtractCards(2);
+            HandCardManager.Instance().ExtractCards(Player.Instance().drawsEachTurn);
             Debug.Log("抽牌阶段");
         }
 
@@ -265,7 +276,7 @@ namespace GamePlay.Round
     }
 
     /// <summary>
-    /// 准备阶段
+    /// 准备阶段，进行英雄的部署
     /// </summary>
     public class PreparePhase : RoundState
     {
@@ -283,15 +294,6 @@ namespace GamePlay.Round
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.Prepare);
             Debug.Log("准备阶段");
-            foreach (GameUnit.GameUnit unit in BattleMap.BattleMap.Instance().UnitsList)
-            {
-                if (unit.owner == GameUnit.OwnerEnum.Player)
-                {
-                    unit.AT = 1;
-                    unit.MT = 1;
-                    unit.lastAction = GameUnit.UnitState.None;
-                }
-            }
             Gameplay.Instance().gamePlayInput.OnEnterPlatState();
         }
 
@@ -438,6 +440,14 @@ namespace GamePlay.Round
         {
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.WIN);
+            if (SceneManager.sceneCount != 1)
+            {
+                // 胜利，场景切换控制器保存结果，用于大地图界面显示
+                SceneSwitchController.Instance().win = true;
+                // 随机三张卡牌给大地图胜利界面
+                SceneSwitchController.Instance().cardId = CardDataBase.Instance().GetRandomCards(3);
+                SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
+            }
         }
 
         public override string ToString()
@@ -451,7 +461,12 @@ namespace GamePlay.Round
         public override void Enter(RoundProcessController roundProcessController)
         {
             base.Enter(roundProcessController);
-            MsgDispatcher.SendMsg((int)MessageType.LOSE);
+            if (SceneManager.sceneCount != 1)
+            {
+                MsgDispatcher.SendMsg((int)MessageType.LOSE);
+                SceneSwitchController.Instance().win = false;
+                SceneSwitchController.Instance().Switch("BattleMapTest", "BattleMapTest");
+            }
         }
 
         public override string ToString()
@@ -459,5 +474,4 @@ namespace GamePlay.Round
             return "败北";
         }
     }
-
 }

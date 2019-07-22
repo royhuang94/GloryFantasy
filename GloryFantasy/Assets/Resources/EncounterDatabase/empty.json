@@ -9,7 +9,7 @@
         "RegionID": 1,
         "Owner": "Enemy",
         "EventList": {
-          "Empty": 1,
+          "Empty": 1
         },
         "Buff": [],
         "Trigger": [ "MainBF_Enemy" ],
@@ -20,7 +20,7 @@
         "RegionID": 2,
         "Owner": "Neutrality",
         "EventList": {
-          "Empty": 1,
+          "Empty": 1
         },
         "Buff": [],
         "Trigger": [],
