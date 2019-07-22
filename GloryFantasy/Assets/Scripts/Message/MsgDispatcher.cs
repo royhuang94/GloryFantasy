@@ -106,7 +106,6 @@ namespace IMessage
             public Condition condition;
             public Action action;
             public bool DoOnce;
-            public bool stack;
 
             public MsgHandler(MsgReceiver receiver, int msgName, Condition condition, Action action, bool doOnce)
             {

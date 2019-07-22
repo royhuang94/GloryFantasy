@@ -30,7 +30,7 @@ namespace GamePlay.FSM
         public override void OnEnter()
         {
             base.OnEnter();
-            
+            Debug.Log("PlatState");
             if (GamePlay.Gameplay.Instance().heroManager.done.Count == 0)
                 FSM.PushState(new InputFSMIdleState(FSM));
             FSM.CancelList.Add(CancelDispose);
@@ -39,6 +39,7 @@ namespace GamePlay.FSM
         public override void OnExit()
         {
             base.OnExit();
+            Debug.Log("Quit PlatState");
             FSM.CancelList.Remove(CancelDispose);
         }
 

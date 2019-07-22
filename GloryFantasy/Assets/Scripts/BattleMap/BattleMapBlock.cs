@@ -130,11 +130,11 @@ namespace BattleMap
         //处理地图块点击事件
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (!Input.GetMouseButtonDown(0))
-            {
-                GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.PushState(new GamePlay.FSM.InputFSMIdleState(GamePlay.Gameplay.Instance().gamePlayInput.InputFSM));
-                return;
-            }
+            //if (!Input.GetMouseButtonDown(0))
+            //{
+            //    GamePlay.Gameplay.Instance().gamePlayInput.InputFSM.PushState(new GamePlay.FSM.InputFSMIdleState(GamePlay.Gameplay.Instance().gamePlayInput.InputFSM));
+            //    return;
+            //}
  
 
             if(Gameplay.Instance().roundProcessController.IsPlayerRound())

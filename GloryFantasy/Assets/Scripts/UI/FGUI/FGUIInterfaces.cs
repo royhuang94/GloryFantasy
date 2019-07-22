@@ -22,7 +22,7 @@ namespace UI.FGUI
 	public class FGUIInterfaces : UnitySingleton<FGUIInterfaces>, MsgReceiver, IComponent
 	{
 
-		private GComponent _mainUI;
+        private GComponent _mainUI;
 		private GButton _endRoundButton;
 		private GButton _cardSetsButton;
 		public bool ShowSpecialKeys = false;
@@ -47,13 +47,13 @@ namespace UI.FGUI
 		private const string numsPkg = "newCdNums";
 		private const string handcardAssets = "card628";
 		private const string cooldowncardAssets = "fakeHandcard";
-		#endregion
+        #endregion
 
 #if __CHEAT__
-		private GButton cardListCall;
+        private GButton cardListCall;
 		private GButton apCall;
 #endif
-		private void Awake()
+        private void Awake()
 		{
 			GRoot.inst.SetContentScaleFactor(1920, 1080);
 			UIPackage.AddPackage(path + cardBook);

@@ -294,6 +294,7 @@ namespace GamePlay.Round
             base.Enter(roundProcessController);
             MsgDispatcher.SendMsg((int)MessageType.Prepare);
             Debug.Log("准备阶段");
+            GamePlay.Gameplay.Instance().heroManager.fresh();
             Gameplay.Instance().gamePlayInput.OnEnterPlatState();
         }
 

@@ -52,6 +52,7 @@ namespace GameUnit
                     GameplayToolExtend.moveCard(card, CardArea.Deck);
                     hero.extraAbilities.AddRange(card.abilityAttach);
                 }
+                hero.gameObject.SetActive(false);
             }
             // TODO: 刷新CD池
         }
@@ -59,6 +60,7 @@ namespace GameUnit
         public void sendHeroInCD(UnitHero hero)
         {
             CDHeros.Add(new HeroCD(hero));
+            hero.gameObject.SetActive(false);
         }
 
         public void fresh()
@@ -193,7 +195,7 @@ namespace GameUnit
 
             //单位部署相当于单位驻足地图块儿
             this.nextPos = this.CurPos;
-
+            this.gameObject.SetActive(true);
             //部署成功
             this.IsDead = false;
             UnitManager.UpdateChessImg(this.name, this);
