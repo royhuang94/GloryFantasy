@@ -51,7 +51,7 @@ namespace Ability
         public void Excute()
         {
             //先关闭堆叠结算，等待选择结束。
-            EffectStack.turnsOff();
+            EffectStack.addLocker();
             Gameplay.Instance().gamePlayInput.OnEffectExcute(this);
         }
 
@@ -62,13 +62,13 @@ namespace Ability
             // 将效果句柄压入堆叠
             EffectStack.push(action);
             // 开始堆叠结算
-            EffectStack.turnsOn();
+            EffectStack.removeLocker();
         }
 
         // 取消施放时执行。
         virtual public void cancel()
         {
-            EffectStack.turnsOn();
+            EffectStack.removeLocker();
         }
     }
 
@@ -100,7 +100,7 @@ namespace Ability
             Gameplay.Info.CastingCard = card;
             IMessage.MsgDispatcher.SendMsg((int)IMessage.MessageType.CastCard);
             // 开始堆叠结算
-            EffectStack.turnsOn();
+            EffectStack.removeLocker();
         }
 
         public override void cancel()

@@ -38,7 +38,7 @@ namespace GamePlay.Event
             GameplayToolExtend.MoveToTargetUnit(_Unit, targetUnit);
 
             Damage This_Damage = new Damage(7);
-            Damage.TakeDamage(targetUnit, This_Damage);   //使得敌方单位收到Y点伤害
+            //Damage.TakeDamage(targetUnit, This_Damage);   //使得敌方单位收到Y点伤害
             //targetUnit.gameObject.AddBuff<Ability.Debuff.BDizziness>(2f);   //使得此单位获得 眩晕 ,2回合后 消解
 
         }

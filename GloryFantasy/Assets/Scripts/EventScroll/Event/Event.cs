@@ -150,7 +150,7 @@ namespace GamePlay.Event
                 int pos = UnityEngine.Random.Range(0, blocks.Count - 1);//
                 BattleMap.BattleMapBlock battleMapBlock = blocks[pos];
                 //GameUnit.UnitManager.InstantiationUnit(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);    原来的召唤方法
-                GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock, true);
+                GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
                 //Command.set(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
                 Command.Excute();//执行
 
@@ -188,12 +188,12 @@ namespace GamePlay.Event
                 //召唤单位的所属为 源的所属
                 if (Unit.owner == GameUnit.OwnerEnum.Enemy)     
                 {
-                    GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock, true);
+                    GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Enemy, battleMapBlock);
                     Command.Excute();//执行
                 }
                 if (Unit.owner == GameUnit.OwnerEnum.Player)
                 {
-                    GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Player, battleMapBlock, true);
+                    GamePlay.Input.DispositionCommand Command = new Input.DispositionCommand(Unit_id, GameUnit.OwnerEnum.Player, battleMapBlock);
                     Command.Excute();//执行
                 }
 

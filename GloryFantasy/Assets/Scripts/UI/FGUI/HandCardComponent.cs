@@ -86,7 +86,7 @@ namespace UI.FGUI
         public void UpdateHandCard()
         {
 	        _handCardList.RemoveChildren(0, -1, true);
-	        HandCardManager.Instance().GetCardImageIds(CardDesignation.HandCard, __handCardList);
+	        HandCardManager.Instance().GetCardImageIds(CardArea.Hand, __handCardList);
 	        foreach (string cardId in __handCardList)
 	        {
 		        GObject item = UIPackage.CreateObject(_pkgName, "HandCard");

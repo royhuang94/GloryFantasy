@@ -66,7 +66,7 @@ namespace UI.FGUI
                 
                 cardItem.onClick.Add(() =>
                 {
-                    HandCardManager.Instance().OperateCard(CardDataBase.Instance().GetCardInstanceById(cardId), CardDesignation.HandCard, true);
+                    HandCardManager.Instance().OperateCard(CardDataBase.Instance().GetCardInstanceById(cardId), CardArea.Hand, true);
                     //CardManager.Instance().InsertIntoHandCard(cardId);
                 });
                 

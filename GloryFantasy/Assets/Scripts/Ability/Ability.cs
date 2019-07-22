@@ -17,37 +17,24 @@ namespace Ability
     static class EffectStack
     {
         public static List<EffectAction> actions;
-        private static bool _canPumpActions;
-        private static bool _globalLocker;
+        private static int Lockers = 0;
         public static void push(EffectAction action)
         {
             actions.Add(action);
         }
-        /// <summary>
-        /// 设置全局锁。用于发生复数部署或者复数伤害的时候锁上堆叠，等待所有部署和伤害结算后重新开启。
-        /// </summary>
-        /// <param name="c"></param>
-        public static void setLocker(bool c)
+
+        public static void addLocker()
         {
-            _globalLocker = c;
-            if (c)
-                turnsOn();
+            Lockers += 1;
         }
 
-        public static void turnsOff()
+        public static void removeLocker()
         {
-            _canPumpActions = false;
-        }
-
-        public static void turnsOn()
-        {
-            _canPumpActions = true;
-            while (actions.Count > 0 && _globalLocker)
+            Lockers -= 1;
+            while (Lockers == 0)
             {
                 actions[actions.Count - 1]();
                 actions.RemoveAt(actions.Count - 1);
-                if (!_canPumpActions)
-                    break;
             }
         }
     }
@@ -90,49 +77,49 @@ namespace Ability
     }
     /// <summary>
     /// 异能在数据库的存储格式
-    /// </summary>
-    public class AbilityFormat
-    {
-        ///// <summary>
-        ///// 对象列表
-        ///// </summary>
-        //public List<AbilityTarget> AbilityTargetList;
-        /// <summary>
-        /// 异能可用变量
-        /// </summary>
-        public Variable Variable;
+    ///// </summary>
+    //public class AbilityFormat
+    //{
+    //    ///// <summary>
+    //    ///// 对象列表
+    //    ///// </summary>
+    //    //public List<AbilityTarget> AbilityTargetList;
+    //    /// <summary>
+    //    /// 异能可用变量
+    //    /// </summary>
+    //    public Variable Variable;
 
-        /// <summary>
-        /// 异能ID
-        /// </summary>
-        public string AbilityID;
-        /// <summary>
-        /// 组号
-        /// </summary>
-        public int Group;
-        /// <summary>
-        /// 异能中文名
-        /// </summary>
-        /// <param name="_abilityID"></param>
-        public string AbilityName;
-        /// <summary>
-        /// 异能描述
-        /// </summary>
-        public string Description;
-        /// <summary>
-        /// 异能TriggerID
-        /// </summary>
-        /// <param name="_abilityID"></param>
-        public string TriggerID;
+    //    /// <summary>
+    //    /// 异能ID
+    //    /// </summary>
+    //    public string AbilityID;
+    //    /// <summary>
+    //    /// 组号
+    //    /// </summary>
+    //    public int Group;
+    //    /// <summary>
+    //    /// 异能中文名
+    //    /// </summary>
+    //    /// <param name="_abilityID"></param>
+    //    public string AbilityName;
+    //    /// <summary>
+    //    /// 异能描述
+    //    /// </summary>
+    //    public string Description;
+    //    /// <summary>
+    //    /// 异能TriggerID
+    //    /// </summary>
+    //    /// <param name="_abilityID"></param>
+    //    public string TriggerID;
 
-        public AbilityFormat(string _abilityID)
-        {
-            AbilityID = _abilityID;
-            //AbilityTargetList = new List<AbilityTarget>();
-            Variable = new Variable();
-        }
+    //    public AbilityFormat(string _abilityID)
+    //    {
+    //        AbilityID = _abilityID;
+    //        //AbilityTargetList = new List<AbilityTarget>();
+    //        Variable = new Variable();
+    //    }
 
-    }
+    //}
 
     public class Ability : MonoBehaviour, GameplayTool
     {
@@ -155,11 +142,9 @@ namespace Ability
         /// </summary>
         public string Description;
 
-        void Awake()
-        {
-            //AbilityTargetList = new List<AbilityTarget>();
-            //TargetList = new List<Vector2>();
-        }
+        //void Awake()
+        //{
+        //}
         
         /// <summary>
         /// 所有异能必须重写此方法，在此方法内实现初始化

@@ -97,7 +97,7 @@ namespace PlayerCollection
                 newID = choosecardID;
             }
             mycollection.Add(newID);
-            deck.FreshDeck(mycollection);
+            //deck.FreshDeck(mycollection);
             Debug.Log("购买成功！");
             Debug.Log(choosecardID);
             Debug.Log(newID);

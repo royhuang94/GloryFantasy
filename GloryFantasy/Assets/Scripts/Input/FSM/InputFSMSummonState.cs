@@ -38,7 +38,7 @@ namespace GamePlay.FSM
             ArrowManager.Instance().HideArrow();        // 关闭箭头显示
             mapBlock.GetComponent<SpriteRenderer>().color = Color.white;
             // 锁住堆叠直到全部信息发送完毕
-            EffectStack.setLocker(false);
+            EffectStack.addLocker();
             //状态机压入静止状态
             this.FSM.PushState(new InputFSMIdleState(FSM));
             BaseCard card = FSM.selectedCard;
@@ -51,7 +51,7 @@ namespace GamePlay.FSM
 
             //删掉对应手牌槽的引用
             FSM.selectedCard = null;
-            EffectStack.setLocker(true);
+            EffectStack.removeLocker();
         }
 
         public override void OnPointerEnter(BattleMapBlock mapBlock, PointerEventData eventData)

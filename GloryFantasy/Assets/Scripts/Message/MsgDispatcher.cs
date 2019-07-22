@@ -291,6 +291,7 @@ namespace IMessage
             }
             var handlerCount = handlers.Count;
 
+            Ability.EffectStack.addLocker();
             for (int index = 0; index < handlers.Count; index ++)
             {
                 var handler = handlers[index];
@@ -320,6 +321,7 @@ namespace IMessage
                     index--;
                 }
             }
+            Ability.EffectStack.removeLocker();
         }
         
     }

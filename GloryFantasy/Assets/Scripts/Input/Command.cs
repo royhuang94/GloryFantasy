@@ -247,18 +247,14 @@ namespace GamePlay.Input
             DamageRequestList = GamePlay.Gameplay.Instance().damageManager.damageRequestList;
             for (i = 0; i < DamageRequestList.Count; i++)
             {
-                Ability.EffectStack.push(excuteDamageAtSameTime);
-                Ability.EffectStack.turnsOn();
+                Ability.EffectStack.addLocker();
+                for (; i + 1 < DamageRequestList.Count && (DamageRequestList[i].priority == DamageRequestList[i + 1].priority); i++)
+                {
+                    DamageRequestList[i].Excute();
+                }
+                Ability.EffectStack.removeLocker();
                 if (_Attacker.IsDead || _AttackedUnit.IsDead)
                     break;
-            }
-        }
-
-        public void excuteDamageAtSameTime()
-        {
-            for (; i + 1 < DamageRequestList.Count && (DamageRequestList[i].priority == DamageRequestList[i + 1].priority); i++)
-            {
-                DamageRequestList[i].Excute();
             }
         }
 

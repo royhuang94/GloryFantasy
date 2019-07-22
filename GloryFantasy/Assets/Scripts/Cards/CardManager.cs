@@ -338,7 +338,7 @@ namespace GameCard
         /// </summary>
         public void OnTriggerCurrentCard()
         {
-            Player.Instance().ConsumeAp(_handcardsInstance[_currentSelectingPos].GetComponent<OrderCard>().cost);
+            Player.Instance().ConsumeAp(_handcardsInstance[_currentSelectingPos].GetComponent<OrderCard>().Cost);
 
             string userId = null;
             

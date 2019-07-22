@@ -594,7 +594,7 @@ namespace GamePlay
             }
             // 以下操作要同时发送复数信息，将堆叠锁住直到信息发送完毕。
             HandCardManager.Instance().OperateCard(card, card.cardArea, false);
-            EffectStack.setLocker(false);
+            EffectStack.addLocker();
             int message = 0;
             switch (card.cardArea)
             {
@@ -634,7 +634,7 @@ namespace GamePlay
                     break;
             }
             MsgDispatcher.SendMsg(message);
-            EffectStack.setLocker(true);
+            EffectStack.removeLocker();
         }
 
         public static void moveCard(GameUnit.GameUnit unit, CardArea cardArea)
