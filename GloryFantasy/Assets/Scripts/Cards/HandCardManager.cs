@@ -139,6 +139,14 @@ namespace GameCard
         private void Start()
         {
             // 默认锁定
+            
+        }
+        /// <summary>
+        /// 依照
+        /// </summary>
+        /// <param name="deck"></param>
+        public void init()
+        {
             _lockStatus = true;
 
             _cardsUpperLimit = 7;
@@ -152,13 +160,6 @@ namespace GameCard
             _handCards = new List<BaseCard>();
             _standBy = new List<BaseCard>();
             // ExtractCards(2, true);
-        }
-        /// <summary>
-        /// 依照
-        /// </summary>
-        /// <param name="deck"></param>
-        public void init()
-        {
             _deck = SceneSwitchController.Instance().deck;
             _deck._deck.Clear();
             GamePlay.Gameplay.Instance().heroManager.init(_deck);

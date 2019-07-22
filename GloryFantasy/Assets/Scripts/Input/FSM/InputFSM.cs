@@ -31,7 +31,7 @@ namespace GamePlay.FSM
         /// <summary>
         /// 取消操作队列
         /// </summary>
-        public List<Cancel> CancelList;
+        public List<Cancel> CancelList = new List<Cancel>();
         /// <summary>
         /// 存储点击的手牌
         /// </summary>

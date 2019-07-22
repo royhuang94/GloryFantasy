@@ -124,6 +124,8 @@ namespace GamePlay
 
         private void Start()
         {
+            //读取并存储遭遇
+            EncouterData.Instance().InitEncounter(SceneSwitchController.Instance().encounterId);
             //初始化玩家和遭遇信息
             Player.Instance().Init();
             //初始战斗地图并放置单位
@@ -131,6 +133,7 @@ namespace GamePlay
             //初始化牌库和手牌
             HandCardManager.Instance().init();
             //设置为第一回合并启动回合自流动控制器
+            roundProcessController.init();
             roundProcessController.SetFristRound();
             roundProcessController.action = BackUpdateRound;
             //StartCoroutine(RoundUpdate());

@@ -44,9 +44,7 @@ namespace BattleMap
         {
             //下面的初始顺序不能变
             this.init_encouterID = encouterId;
-            _unitsList = new List<Unit>();//放在这里为了每次从遭遇选择器切换地图后，清空之前的
-            //读取并存储遭遇
-            EncouterData.Instance().InitEncounter(encouterId);            
+            _unitsList = new List<Unit>();//放在这里为了每次从遭遇选择器切换地图后，清空之前的\
             //初始化地图
             InitAndInstantiateMapBlocks(encouterId);
             //初始战区事件

@@ -16,7 +16,7 @@ namespace Ability
     /// </summary>
     static class EffectStack
     {
-        public static List<EffectAction> actions;
+        public static List<EffectAction> actions = new List<EffectAction>();
         private static int Lockers = 0;
         public static void push(EffectAction action)
         {
@@ -31,7 +31,7 @@ namespace Ability
         public static void removeLocker()
         {
             Lockers -= 1;
-            while (Lockers == 0)
+            while (Lockers == 0 && actions.Count > 0)
             {
                 actions[actions.Count - 1]();
                 actions.RemoveAt(actions.Count - 1);

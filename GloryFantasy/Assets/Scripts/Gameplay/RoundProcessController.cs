@@ -30,7 +30,7 @@ namespace GamePlay.Round
     /// </summary>
     public class RoundProcessController
     {
-        public RoundProcessController()
+        public void init()
         {
             State = RoundState.RestoreApPhase;
             // 初始化状态后手动调用以进行当前状态的工作

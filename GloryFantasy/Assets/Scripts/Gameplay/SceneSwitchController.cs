@@ -9,9 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
-
     
-
     // Use this for initialization
     private string _currentScene;
 	private string _targetScene;
