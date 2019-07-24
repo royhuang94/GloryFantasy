@@ -54,7 +54,8 @@ namespace GameUnit
                 }
                 hero.gameObject.SetActive(false);
             }
-            // TODO: 刷新CD池
+
+            MsgDispatcher.SendMsg((int)MessageType.CooldownlistChange);
         }
 
         public void sendHeroInCD(UnitHero hero)
@@ -74,7 +75,8 @@ namespace GameUnit
                     done.Add(cd.hero);
                 }
             }
-            // 更新CD的UI显示
+
+            MsgDispatcher.SendMsg((int)MessageType.CooldownlistChange);
         }
     }
     public class HeroCD
@@ -186,8 +188,10 @@ namespace GameUnit
 
             //添加gameUnit到units_on_me上，且修改单位的父级对象
             mapBlock.AddUnit(this);
+
+            this.gameObject.SetActive(true);
             //修改单位的本地坐标系坐标
-            this.GetComponent<GameObject>().transform.localPosition = Vector3.zero;
+            this.gameObject.transform.localPosition = Vector3.zero;
             //修改单位卡图的射线拦截设置
 
             //TODO 暂时用Text标识血量，以后改为slider
@@ -195,13 +199,13 @@ namespace GameUnit
 
             //单位部署相当于单位驻足地图块儿
             this.nextPos = this.CurPos;
-            this.gameObject.SetActive(true);
             //部署成功
             this.IsDead = false;
             UnitManager.UpdateChessImg(this.name, this);
             UnitManager.AddEventModule(this);
             // 清除CD
             GamePlay.Gameplay.Instance().heroManager.CDHeros.Remove(this.CDObject);
+            MsgDispatcher.SendMsg((int)MessageType.CooldownlistChange);
             this.CDObject = null;
             Gameplay.Info.GeneratingUnit = this;
             MsgDispatcher.SendMsg((int)MessageType.GenerateUnit);

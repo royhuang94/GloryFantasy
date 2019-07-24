@@ -1,6 +1,6 @@
 ﻿[
   {
-    "Ability": ["WolfCompanion"],
+    "Ability": ["WolfCompanion_1"],
     "Atk": 4,
     "Color": [
       "G",
@@ -9,7 +9,7 @@
     "Text": "狼伴：琳攻击时，创建一张临时的一级霜狼置入你的手中。",
     "Event": {},
     "Hp": 14,
-    "ID": "HRin",
+    "ID": "HElf",
     "Mov": 2,
     "Name": "琳",
     "Spd": 0,

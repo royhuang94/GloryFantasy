@@ -43,7 +43,7 @@ namespace Ability
         public override void Init(string abilityId)
         {
             base.Init(abilityId);
-            level = Convert.ToInt32(abilityId.Split('_').Last());
+            level = int.Parse(abilityId.Split('_').Last());
             _unit = this.GetComponent<GameUnit.GameUnit>();
             EWolfCompanion eWolfCompanion = new EWolfCompanion(_unit, level);
             MsgDispatcher.RegisterMsg(

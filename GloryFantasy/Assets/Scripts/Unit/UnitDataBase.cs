@@ -107,10 +107,9 @@ namespace GameUnit
             unit.owner = owner;
             unit.isLeader = isLeader;
             unit.setATK(int.Parse(data["Atk"].ToString()));
-            unit.id = data["CardID"].ToString();
             unit.Color = data["Color"][0].ToString();
-            unit.Effort = data["Effort"].ToString();
-            unit.HasCD = int.Parse(data["HasCD"].ToString()) == 1;
+            unit.Effort = data["Text"].ToString();
+            //unit.HasCD = int.Parse(data["HasCD"].ToString()) == 1;
             unit.setMHP(int.Parse(data["Hp"].ToString())); unit.hp = unit.getMHP() - damage;
             unit.id = data["ID"].ToString();
             unit.setMOV(int.Parse(data["Mov"].ToString()));

@@ -58,7 +58,7 @@ public class SceneSwitchController : UnitySingleton<SceneSwitchController> {
 		get {
             if (_deck == null)
             {
-                HeroData hero = new HeroData("HRin", new List<string>());
+                HeroData hero = new HeroData("HElf", new List<string>());
                 return new Deck(new List<HeroData> { hero });
             }
             return _deck;
