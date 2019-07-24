@@ -37,7 +37,6 @@ namespace MainMap
                     Monster m = monster.AddComponent<Monster>();
                     m.SetID(elementdetail[2]);
                     m.SetTexture();
-
                     break;
                 case "randomevent":
                     //Debug.Log("生成随机事件");

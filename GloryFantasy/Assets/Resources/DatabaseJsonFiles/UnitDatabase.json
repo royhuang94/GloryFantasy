@@ -3,7 +3,8 @@
     "Ability": ["WolfCompanion"],
     "Atk": 4,
     "Color": [
-      "U"
+      "G",
+      "R"
     ],
     "Text": "狼伴：琳攻击时，创建一张临时的一级霜狼置入你的手中。",
     "Event": {},
@@ -34,6 +35,22 @@
     "Rng": 1,
     "Tag": [
       "野兽"
+    ]
+  },
+  {
+    "Ability": [],
+    "Atk": 4,
+    "Color": [],
+    "Text": "",
+    "Event": {},
+    "Hp": 4,
+    "ID": "EShadow_1",
+    "Mov": 2,
+    "Name": "邪恶之影",
+    "Spd": 0,
+    "Rng": 1,
+    "Tag": [
+      "影裔"
     ]
   }
 ]
